@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="en" data-palette="navy" data-mode="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Read &amp; Slide</title>
+<style>
+:root{
+  --paper:#F7F9FC;--panel:#FFFFFF;--line:#DCE3EC;--ink:#14202E;--ink-soft:#4A5A6E;
+  --accent:#1F3A5F;--accent-press:#16304F;--hl:#FBE3A0;--hl-ink:#3A2E05;--past:#93A2B3;
+  --good:#127A4B;--good-bg:#E7F4EE;--retry:#B45309;--retry-bg:#FBF0E3;--unsure:#475569;--unsure-bg:#EEF1F4;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+.wrap{max-width:780px;margin:0 auto;padding:20px 20px 72px}
+header.app{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:14px 20px;max-width:780px;margin:0 auto;flex-wrap:wrap}
+header.app .brand{display:flex;align-items:baseline;gap:10px}
+header.app h1{font-size:19px;margin:0;font-weight:650;letter-spacing:-.01em}
+header.app .tag{font-size:13px;color:var(--ink-soft)}
+.theming{display:flex;align-items:center;gap:8px}
+.swatches{display:flex;gap:6px}
+.sw{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}
+.sw.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--accent)}
+.mode-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:9px;padding:7px 11px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.mode-btn:hover{border-color:var(--accent)}
+h2{font-size:24px;margin:6px 0 4px;font-weight:650;letter-spacing:-.01em}
+p.lede{color:var(--ink-soft);margin:0 0 22px}
+.crumb{font-size:14px;color:var(--ink-soft);margin:0 0 8px}
+.crumb a{color:var(--accent);text-decoration:none;cursor:pointer}
+.crumb a:hover{text-decoration:underline}
+.btn{display:inline-block;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:550;cursor:pointer;padding:12px 18px;border-radius:10px;text-align:left}
+.btn:hover{border-color:var(--accent)}
+.btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:var(--accent-press)}
+.btn.block{display:block;width:100%;margin:0 0 10px}
+.btn .sub{display:block;font-weight:450;color:var(--ink-soft);font-size:14px;margin-top:3px}
+.btn.primary .sub{color:rgba(255,255,255,.82)}
+.btn[disabled]{opacity:.5;cursor:default}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.grid{grid-template-columns:1fr}}
+.screen{display:none}.screen.active{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px 22px;margin:0 0 16px}
+.progress-track{height:6px;background:var(--line);border-radius:999px;overflow:hidden;margin:0 0 18px}
+.progress-fill{height:100%;background:var(--accent);width:0;transition:width .3s}
+.step-eyebrow{font-size:14px;color:var(--ink-soft);margin:0 0 4px;font-weight:600}
+.pass-dots{display:flex;gap:6px;margin:0 0 14px}
+.pass-dots .pd{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.pass-dots .pd.on{background:var(--accent)}
+.word-chip{display:inline-flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 16px 10px 18px;margin:0 0 6px}
+.word-chip .w{font-size:28px;font-weight:700;letter-spacing:-.01em}
+.word-chip .hearw{border:1px solid var(--line);background:var(--paper);color:var(--accent);border-radius:10px;padding:9px 14px;font:inherit;font-weight:600;cursor:pointer}
+.word-chip .hearw:hover{border-color:var(--accent)}
+.mini-note{font-size:13px;color:var(--ink-soft);margin:4px 0 0}
+.sentence{font-size:28px;line-height:1.7;margin:14px 0 8px;-webkit-user-select:none;-moz-user-select:none;user-select:none}
+@media(max-width:520px){.sentence{font-size:23px}}
+.sentence .w-tok{cursor:pointer;padding:1px 2px;border-radius:6px;transition:background .12s,color .12s}
+.sentence .w-tok.wpast{color:var(--past)}
+.sentence .w-tok.wcur{background:var(--hl);color:var(--hl-ink)}
+.sentence .w-tok.wtarget{border-bottom:3px solid var(--accent);font-weight:650}
+.sentence .w-tok.wcur.wtarget{border-bottom-color:var(--hl-ink)}
+.pacer-wrap{margin:16px 0 4px}
+.pacer{position:relative;height:46px;background:var(--paper);border:1px solid var(--line);border-radius:999px;touch-action:none;cursor:pointer;overflow:hidden}
+.pacer .pfill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent);opacity:.14}
+.pacer .knob{position:absolute;top:50%;left:0;width:38px;height:38px;margin-left:-19px;transform:translateY(-50%);background:var(--accent);border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+.pacer .knob:after{content:"\261E";font-size:18px}
+.pacer-hint{font-size:13px;color:var(--ink-soft);margin:8px 0 0;text-align:center}
+.hear-line{display:flex;gap:10px;margin:14px 0 2px;flex-wrap:wrap}
+.rec-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.rec-btn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:14px 22px;font:inherit;font-weight:600;font-size:17px;cursor:pointer}
+.rec-btn:hover{background:var(--accent-press)}
+.rec-btn.rec{background:var(--retry)}
+.rec-dot{width:12px;height:12px;border-radius:50%;background:#fff;display:inline-block}
+.rec-btn.rec .rec-dot{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.play-btn{display:inline-flex;align-items:center;gap:9px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px 20px;font:inherit;font-weight:600;cursor:pointer}
+.play-btn:hover{border-color:var(--accent)}
+.play-btn[disabled]{opacity:.45;cursor:default}
+.state-line{font-size:14px;margin:14px 0 0;min-height:20px}
+.state-line.saved{color:var(--good)}.state-line.none{color:var(--ink-soft)}.state-line.err{color:var(--retry)}
+.miss-note{font-size:13px;color:var(--retry);margin:8px 0 0;min-height:16px}
+.canvas-steps{background:var(--good-bg);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:14px 0 0}
+.canvas-steps h4{margin:0 0 8px;font-size:15px;color:var(--good)}
+.canvas-steps ol{margin:0;padding-left:20px;font-size:14px}
+.canvas-steps li{margin:5px 0}
+.nav-row{display:flex;gap:10px;margin-top:6px}
+.nav-row .btn{flex:1;text-align:center}
+.list-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;margin:0 0 10px;background:var(--panel)}
+.list-item .lbl{font-weight:600}
+.list-item .lbl small{display:block;font-weight:450;color:var(--ink-soft);font-size:13px;margin-top:2px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:8px;vertical-align:middle}
+.dot.on{background:var(--good)}.dot.off{background:var(--line)}
+.item-actions{display:flex;gap:8px;flex-shrink:0}
+.mini-btn{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:8px 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;color:var(--ink)}
+.mini-btn:hover{border-color:var(--accent)}.mini-btn.play{color:var(--accent)}
+.trow{display:flex;align-items:center;gap:10px;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 10px}
+.trow .tl{font-weight:600}.trow .tl small{display:block;font-weight:450;color:var(--ink-soft);font-size:13px}
+.note-box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+.note-box h4{margin:0 0 6px;font-size:15px}
+.note-box ul{margin:6px 0 0;padding-left:20px;color:var(--ink-soft);font-size:14px}
+.note-box li{margin:5px 0}
+.status-tag{font-weight:700}.status-tag.w{color:var(--good)}.status-tag.p{color:var(--retry)}.status-tag.x{color:var(--unsure)}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 10px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:none;background:var(--panel);color:var(--ink);font:inherit;font-weight:600;padding:9px 14px;cursor:pointer}
+.seg button.on{background:var(--accent);color:#fff}
+footer.mini{max-width:780px;margin:24px auto 0;padding:0 20px;font-size:13px;color:var(--ink-soft)}
+footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none}
+footer.mini a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<header class="app">
+  <div class="brand"><h1>Read &amp; Slide</h1><span class="tag">Bridges Unit 1</span></div>
+  <div class="theming">
+    <div class="swatches" id="swatches"></div>
+    <button class="mode-btn" id="mode-btn" onclick="toggleMode()">Dark</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- HOME -->
+  <section id="s-home" class="screen active">
+    <h2>Read &amp; Slide</h2>
+    <p class="lede">Hear the word, then slide your finger across the sentence and read it out loud. Record your best read and turn it in.</p>
+    <div class="grid">
+      <button class="btn primary block" onclick="go('s-pick')">Student<span class="sub">Hear it, slide, read, record</span></button>
+      <button class="btn block" onclick="go('s-teach')">Teacher: record the models<span class="sub">Record each word and its sentence in your voice</span></button>
+    </div>
+    <button class="btn block" style="margin-top:10px" onclick="go('s-settings')">Settings<span class="sub">How many practice reads before recording</span></button>
+  </section>
+
+  <!-- STUDENT PICK -->
+  <section id="s-pick" class="screen">
+    <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Who&rsquo;s reading?</p>
+    <h2>Who&rsquo;s reading today?</h2>
+    <p class="lede">Pick your name. Your work saves under that name on this computer.</p>
+    <div class="grid" id="pick-list"></div>
+  </section>
+
+  <!-- STUDENT READ -->
+  <section id="s-read" class="screen">
+    <p class="crumb"><a onclick="go('s-pick')">Change reader</a> &nbsp;/&nbsp; <span id="read-who"></span></p>
+    <div class="progress-track"><div class="progress-fill" id="rprog"></div></div>
+    <div id="read-body"></div>
+  </section>
+
+  <!-- TEACHER -->
+  <section id="s-teach" class="screen">
+    <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Teacher</p>
+    <h2>Record the models</h2>
+    <p class="lede">For each word, record two things in your own voice: the <strong>word by itself</strong>, and the <strong>whole sentence</strong>. Tap Record, read it, tap Stop &mdash; each one saves by itself.</p>
+    <div class="card">
+      <p class="step-eyebrow" id="t-count"></p>
+      <div class="word-chip"><span class="w" id="t-word">&nbsp;</span></div>
+      <p class="sentence" id="t-sentence" style="font-size:22px">&nbsp;</p>
+
+      <div class="trow">
+        <div class="tl">The word alone<small id="t-word-state">Not recorded yet.</small></div>
+        <div class="item-actions">
+          <button class="rec-btn" id="tw-rec" style="padding:10px 16px;font-size:15px" onclick="tToggle('word')"><span class="rec-dot"></span><span id="tw-lbl">Record</span></button>
+          <button class="mini-btn play" id="tw-play" onclick="tPlayOne('word')" disabled>&#9654;</button>
+        </div>
+      </div>
+      <div class="trow">
+        <div class="tl">The whole sentence<small id="t-sent-state">Not recorded yet.</small></div>
+        <div class="item-actions">
+          <button class="rec-btn" id="ts-rec" style="padding:10px 16px;font-size:15px" onclick="tToggle('sent')"><span class="rec-dot"></span><span id="ts-lbl">Record</span></button>
+          <button class="mini-btn play" id="ts-play" onclick="tPlayOne('sent')" disabled>&#9654;</button>
+        </div>
+      </div>
+
+      <div class="nav-row" style="margin-top:16px">
+        <button class="btn" id="t-prev" onclick="tPrev()">&larr; Previous</button>
+        <button class="btn primary" id="t-next" onclick="tNext()">Next word &rarr;</button>
+      </div>
+    </div>
+
+    <div class="setting-row" style="margin-top:4px">
+      <div><strong>Your recordings</strong><br><span class="mini-note">Record once. <strong>Export</strong> the file to send to me to bake in for good, or <strong>Load</strong> it onto another computer so your voice is there too.</span></div>
+      <div class="item-actions">
+        <button class="mini-btn" onclick="tExport()">&#8681; Export</button>
+        <button class="mini-btn" onclick="document.getElementById('t-import').click()">&#8679; Load</button>
+      </div>
+    </div>
+    <input type="file" id="t-import" accept="application/json,.json" style="display:none" onchange="tImportPick(this)">
+    <p class="mini-note" id="t-backup-state" style="margin:-4px 0 14px;min-height:16px"></p>
+
+    <div class="note-box" id="t-alldone" style="display:none;border-color:var(--good);background:var(--good-bg)">
+      <h4 style="color:var(--good)">&#10003; All models recorded and saved</h4>
+      <ul style="color:var(--ink)"><li>Every word and every sentence is stored and ready for students.</li></ul>
+      <button class="btn" onclick="go('s-home')" style="margin-top:4px">Back to start</button>
+    </div>
+    <h2 style="font-size:18px">All words <span id="t-tally" style="font-weight:600;color:var(--ink-soft)"></span></h2>
+    <p class="lede" style="margin-bottom:12px">Green means both parts are recorded. Tap any one to jump to it.</p>
+    <div id="t-list"></div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="s-settings" class="screen">
+    <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Settings</p>
+    <h2>Settings</h2>
+    <div class="setting-row">
+      <div><strong>Practice reads before recording</strong><br><span class="mini-note">How many times the student slides and reads on their own before the read that records.</span></div>
+      <div class="seg" id="seg-reads">
+        <button data-n="1" onclick="setReads(1)">1</button>
+        <button data-n="2" onclick="setReads(2)">2</button>
+        <button data-n="3" onclick="setReads(3)">3</button>
+      </div>
+    </div>
+    <button class="btn" onclick="go('s-home')">Back to start</button>
+  </section>
+
+  <!-- STATUS -->
+  <section id="s-status" class="screen">
+    <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Status</p>
+    <h2>What&rsquo;s real right now</h2>
+    <div class="note-box">
+      <h4><span class="status-tag w">Working</span></h4>
+      <ul>
+        <li>Teacher records the word alone and the whole sentence, in your own voice, for all 27 words.</li>
+        <li>Student hears the word, hears the sentence, slides a finger pacer that lights the current word and dims the ones behind it, reads it out loud, and records a final read.</li>
+        <li>The final read saves as a file the student turns in through Canvas.</li>
+        <li>Colors and dark/light are student-selectable and remembered on the computer.</li>
+        <li>Teacher can Export all recordings to one file, and Load that file onto any other computer so your voice is there too.</li>
+        <li>No text-to-speech anywhere &mdash; the only voices are yours and the student&rsquo;s.</li>
+      </ul>
+    </div>
+    <div class="note-box">
+      <h4><span class="status-tag p">Partly working / honest limits</span></h4>
+      <ul>
+        <li>Tapping a single word replays the <em>whole sentence</em> so the student hears that word in context. Per-word audio for every word isn&rsquo;t recorded &mdash; the &ldquo;Hear the word&rdquo; button covers the target word only. True tap-any-word audio would mean recording every word separately; that&rsquo;s a later choice, not faked here.</li>
+        <li>The listen sweep moves evenly across the sentence for the length of your recording. It is a pacing guide, not exact word timing.</li>
+        <li>Microphone and file save need the page opened from a real web link (Canvas), not a file on the desktop.</li>
+      </ul>
+    </div>
+    <div class="note-box">
+      <h4><span class="status-tag x">Not built (on purpose)</span></h4>
+      <ul>
+        <li>Automatic pronunciation scoring &mdash; never faked. The student and teacher listen and judge.</li>
+      </ul>
+    </div>
+    <button class="btn" onclick="go('s-home')">Back to start</button>
+  </section>
+
+</div>
+
+<footer class="mini">
+  <a onclick="go('s-status')">Status &amp; notes</a> &middot; Read &amp; Slide &middot; <a onclick="go('s-settings')">Settings</a>
+</footer>
+
+<script>
+/* ============================================================
+   Read & Slide  (ES5 only. No arrow functions, no const/let. No TTS.)
+   Word first -> hear sentence -> finger pacer reads -> recorded read -> Canvas.
+   ============================================================ */
+
+var SENTENCES = [
+  {word:"anticipated", target:"anticipated", sentence:"Everyone had anticipated the game for weeks, so the gym was packed by the time it started."},
+  {word:"annoyed", target:"annoyed", sentence:"I was annoyed when my group kept talking and I couldn\u2019t finish my part of the project."},
+  {word:"astrologer", target:"astrologer", sentence:"The astrologer claimed she could predict your future by studying the stars and planets."},
+  {word:"antiquated", target:"antiquated", sentence:"The rules in that old handbook felt antiquated, like they were written for a completely different time."},
+  {word:"abbreviations", target:"abbreviations", sentence:"Texting is faster when you use abbreviations, but teachers still want full words on your essays."},
+  {word:"confident", target:"confident", sentence:"She walked into the interview confident and calm, because she had practiced her answers all week."},
+  {word:"compared to", target:"Compared to", sentence:"Compared to the book, the movie left out a lot of important details from the story."},
+  {word:"claim", target:"claim", sentence:"He made the bold claim that he could run a mile without stopping to catch his breath."},
+  {word:"chronological", target:"chronological", sentence:"We arranged the events in chronological order so the timeline made sense from beginning to end."},
+  {word:"charts", target:"charts", sentence:"The scientist used charts to show how the temperature changed over the past hundred years."},
+  {word:"decade", target:"decade", sentence:"A lot can change in a single decade, especially in the way people use technology."},
+  {word:"enrolled", target:"enrolled", sentence:"After she moved to a new city, she enrolled in a school where she didn\u2019t know a single person."},
+  {word:"entities", target:"entities", sentence:"The two companies are separate entities, even though they share the same downtown building."},
+  {word:"elements", target:"elements", sentence:"A good story has a few key elements: interesting characters, a real problem, and a satisfying ending."},
+  {word:"enhanced", target:"enhanced", sentence:"The team\u2019s new strategy enhanced their chances of making it all the way to the finals."},
+  {word:"incomplete", target:"incomplete", sentence:"The teacher marked my assignment incomplete because I forgot to answer the last two questions."},
+  {word:"gentle", target:"gentle", sentence:"Even though he was the biggest player on the field, he was surprisingly gentle with his little sister."},
+  {word:"narrative", target:"narrative", sentence:"The author\u2019s narrative pulled me in so quickly that I read the whole first chapter in one sitting."},
+  {word:"persevered", target:"persevered", sentence:"She persevered through months of hard training, and finally her effort paid off at the meet."},
+  {word:"respond to", target:"respond to", sentence:"It\u2019s polite to respond to a message within a day, even if you can only send a quick reply."},
+  {word:"route", target:"route", sentence:"We chose a different route home to avoid the traffic near the construction on Main Street."},
+  {word:"realization", target:"realization", sentence:"Halfway through the year, I had the realization that studying a little every day beats cramming."},
+  {word:"souvenirs", target:"souvenirs", sentence:"We brought back souvenirs from the trip so we would always remember the places we visited."},
+  {word:"sold out", target:"sold out", sentence:"By the time we got to the box office, the concert was completely sold out and no tickets were left."},
+  {word:"select", target:"select", sentence:"The coach will select the starting lineup based on who shows up and works hard at practice."},
+  {word:"unique", target:"unique", sentence:"Her art style is so unique that you can recognize her paintings the second you walk in the room."},
+  {word:"virtues", target:"virtues", sentence:"Patience and honesty are virtues that will help you far more than people sometimes expect."}
+];
+function sentId(word){ return "sent_" + word.replace(/ /g,"_"); }
+function wordId(word){ return "word_" + word.replace(/ /g,"_"); }
+function stripWord(t){ return t.replace(/[^A-Za-z\u00C0-\u024F']/g,"").toLowerCase(); }
+
+/* Build token model: which tokens belong to the target phrase */
+function tokenize(sentence, target){
+  var raw=sentence.split(" ");
+  var tgt=target.split(" "), tgtStrip=[], i;
+  for(i=0;i<tgt.length;i++){ tgtStrip.push(stripWord(tgt[i])); }
+  var toks=[]; for(i=0;i<raw.length;i++){ toks.push({text:raw[i], strip:stripWord(raw[i]), target:false}); }
+  /* find the target phrase start */
+  var start=-1, j, k, ok;
+  for(j=0;j<=toks.length-tgtStrip.length;j++){
+    ok=true;
+    for(k=0;k<tgtStrip.length;k++){ if(toks[j+k].strip!==tgtStrip[k]){ ok=false; break; } }
+    if(ok){ start=j; break; }
+  }
+  if(start>=0){ for(k=0;k<tgtStrip.length;k++){ toks[start+k].target=true; } }
+  return toks;
+}
+
+var ROSTER=[
+  {id:"stu_marco",name:"Marco"},{id:"stu_sofia",name:"Sof\u00EDa"},
+  {id:"stu_diego",name:"Diego"},{id:"stu_leila",name:"Leila"},{id:"stu_omar",name:"Omar"}
+];
+var READER=null;
+
+/* ---------- Settings (localStorage) ---------- */
+var Settings=(function(){
+  var KEY="slider_settings";
+  function load(){ try{ var r=window.localStorage.getItem(KEY); return r?JSON.parse(r):{}; }catch(e){ return {}; } }
+  function save(o){ try{ window.localStorage.setItem(KEY,JSON.stringify(o)); }catch(e){} }
+  var cur=load();
+  return {
+    reads:function(){ return cur.reads?cur.reads:2; },
+    setReads:function(n){ cur.reads=n; save(cur); },
+    palette:function(){ return cur.palette?cur.palette:"navy"; },
+    mode:function(){ return cur.mode?cur.mode:"light"; },
+    setPalette:function(p){ cur.palette=p; save(cur); },
+    setMode:function(m){ cur.mode=m; save(cur); }
+  };
+})();
+
+/* ---------- Palettes ---------- */
+var PALETTES={
+  navy:{name:"Navy", dotL:"#1F3A5F", dotD:"#4F7FB8",
+    light:{paper:"#F7F9FC",panel:"#FFFFFF",line:"#DCE3EC",ink:"#14202E",inkSoft:"#4A5A6E",accent:"#1F3A5F",accentPress:"#16304F",hl:"#FBE3A0",hlInk:"#3A2E05",past:"#93A2B3"},
+    dark:{paper:"#0C1420",panel:"#151F2C",line:"#28394D",ink:"#E9F1F9",inkSoft:"#9FB2C6",accent:"#4F7FB8",accentPress:"#416A9C",hl:"#E6C45E",hlInk:"#0C1420",past:"#5A6C80"}},
+  bluegray:{name:"Blue & Gray", dotL:"#3F72A6", dotD:"#5A8CC0",
+    light:{paper:"#F5F8FB",panel:"#FFFFFF",line:"#DBE2EA",ink:"#1B2A38",inkSoft:"#546578",accent:"#3F72A6",accentPress:"#345F8B",hl:"#FBE3A0",hlInk:"#3A2E05",past:"#93A2B3"},
+    dark:{paper:"#0E1720",panel:"#18232E",line:"#2B3B49",ink:"#E7EEF5",inkSoft:"#9DB0C1",accent:"#5A8CC0",accentPress:"#4A76A4",hl:"#E6C45E",hlInk:"#0E1720",past:"#5B6D7E"}},
+  aqua:{name:"Aqua", dotL:"#0E8A99", dotD:"#22B0C2",
+    light:{paper:"#F2FAFB",panel:"#FFFFFF",line:"#CFE7EA",ink:"#0F2A2E",inkSoft:"#3E6B70",accent:"#0E8A99",accentPress:"#0B717D",hl:"#FCE39A",hlInk:"#3A2E05",past:"#8FB6BA"},
+    dark:{paper:"#07171A",panel:"#0F2429",line:"#1E3E44",ink:"#E2F5F7",inkSoft:"#8FBEC4",accent:"#22B0C2",accentPress:"#1C93A2",hl:"#E9C765",hlInk:"#07171A",past:"#4E7278"}},
+  rose:{name:"Dusty Rose", dotL:"#A85C6E", dotD:"#C77E8E",
+    light:{paper:"#FBF6F7",panel:"#FFFFFF",line:"#EAD8DC",ink:"#2E1F24",inkSoft:"#6E5359",accent:"#A85C6E",accentPress:"#8E4A5B",hl:"#F6DCB0",hlInk:"#3A2605",past:"#C0A2A9"},
+    dark:{paper:"#1A1114",panel:"#251A1E",line:"#3E2C31",ink:"#F5E7EA",inkSoft:"#C4A2AA",accent:"#C77E8E",accentPress:"#AE6675",hl:"#E8C06B",hlInk:"#1A1114",past:"#6E545B"}},
+  gold:{name:"Black & Gold", dotL:"#9A7B1F", dotD:"#C9A227",
+    light:{paper:"#FAF7F0",panel:"#FFFFFF",line:"#E6DEC9",ink:"#201C10",inkSoft:"#615A44",accent:"#9A7B1F",accentPress:"#7E6416",hl:"#F3E4A8",hlInk:"#3A2E05",past:"#B6AC8E"},
+    dark:{paper:"#0A0A0A",panel:"#151310",line:"#33301F",ink:"#F5EFD8",inkSoft:"#B9AE86",accent:"#C9A227",accentPress:"#AA8A1E",hl:"#E6C45E",hlInk:"#0A0A0A",past:"#6A6350"}}
+};
+var PAL_ORDER=["navy","bluegray","aqua","rose","gold"];
+function applyTheme(){
+  var p=Settings.palette(), m=Settings.mode();
+  if(!PALETTES[p]){ p="navy"; }
+  var v=PALETTES[p][m==="dark"?"dark":"light"];
+  var r=document.documentElement;
+  r.style.setProperty("--paper",v.paper); r.style.setProperty("--panel",v.panel);
+  r.style.setProperty("--line",v.line); r.style.setProperty("--ink",v.ink);
+  r.style.setProperty("--ink-soft",v.inkSoft); r.style.setProperty("--accent",v.accent);
+  r.style.setProperty("--accent-press",v.accentPress); r.style.setProperty("--hl",v.hl);
+  r.style.setProperty("--hl-ink",v.hlInk); r.style.setProperty("--past",v.past);
+  r.setAttribute("data-palette",p); r.setAttribute("data-mode",m);
+  var mb=document.getElementById("mode-btn"); if(mb){ mb.textContent = (m==="dark") ? "Light" : "Dark"; }
+  paintSwatches();
+}
+function paintSwatches(){
+  var box=document.getElementById("swatches"); if(!box) return;
+  var m=Settings.mode(), cur=Settings.palette(), i; box.innerHTML="";
+  for(i=0;i<PAL_ORDER.length;i++){
+    (function(key){
+      var p=PALETTES[key];
+      var b=document.createElement("button");
+      b.className="sw"+(key===cur?" on":""); b.title=p.name;
+      b.style.background=(m==="dark")?p.dotD:p.dotL;
+      b.onclick=function(){ Settings.setPalette(key); applyTheme(); };
+      box.appendChild(b);
+    })(PAL_ORDER[i]);
+  }
+}
+function toggleMode(){ Settings.setMode(Settings.mode()==="dark"?"light":"dark"); applyTheme(); }
+function setReads(n){ Settings.setReads(n); paintReadsSeg(); }
+function paintReadsSeg(){
+  var seg=document.getElementById("seg-reads"); if(!seg) return;
+  var btns=seg.getElementsByTagName("button"), i, n=Settings.reads();
+  for(i=0;i<btns.length;i++){ btns[i].className=(parseInt(btns[i].getAttribute("data-n"),10)===n)?"on":""; }
+}
+
+/* ---------- Audio store (IndexedDB, this device) ---------- */
+var AudioStore=(function(){
+  var DB="sentence_slider_audio", ST="clips", dbP=null;
+  function open(){
+    if(dbP) return dbP;
+    dbP=new Promise(function(res,rej){
+      if(!window.indexedDB){ rej(new Error("no-idb")); return; }
+      var q=window.indexedDB.open(DB,1);
+      q.onupgradeneeded=function(){ var db=q.result; if(!db.objectStoreNames.contains(ST)){ db.createObjectStore(ST); } };
+      q.onsuccess=function(){ res(q.result); };
+      q.onerror=function(){ rej(q.error); };
+    });
+    return dbP;
+  }
+  function put(id,blob){ return open().then(function(db){ return new Promise(function(res,rej){ var tx=db.transaction(ST,"readwrite"); tx.objectStore(ST).put(blob,id); tx.oncomplete=function(){res(true);}; tx.onerror=function(){rej(tx.error);}; }); }); }
+  function get(id){ return open().then(function(db){ return new Promise(function(res){ var tx=db.transaction(ST,"readonly"); var r=tx.objectStore(ST).get(id); r.onsuccess=function(){res(r.result||null);}; r.onerror=function(){res(null);}; }); }, function(){ return null; }); }
+  function keys(){ return open().then(function(db){ return new Promise(function(res){ var tx=db.transaction(ST,"readonly"); var r=tx.objectStore(ST).getAllKeys(); r.onsuccess=function(){res(r.result||[]);}; r.onerror=function(){res([]);}; }); }, function(){ return []; }); }
+  return { put:put, get:get, keys:keys };
+})();
+
+/* ---------- Progress (localStorage) ---------- */
+var Progress=(function(){
+  var KEY="slider_progress";
+  function all(){ try{ var r=window.localStorage.getItem(KEY); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(KEY,JSON.stringify(l)); }catch(e){} }
+  return { record:function(rec){ var l=all(); rec.timestamp=new Date().toISOString(); l.push(rec); save(l); } };
+})();
+
+/* ---------- Playback ---------- */
+var currentAudio=null, sweepTimer=null;
+function stopSweep(){ if(sweepTimer){ clearInterval(sweepTimer); sweepTimer=null; } }
+function stopAllAudio(){ stopSweep(); if(currentAudio){ try{currentAudio.pause();}catch(e){} currentAudio=null; } }
+function playBlob(b){ stopAllAudio(); var u=URL.createObjectURL(b); currentAudio=new Audio(u); currentAudio.onended=function(){URL.revokeObjectURL(u);}; currentAudio.play(); return currentAudio; }
+function playId(id){ return AudioStore.get(id).then(function(b){ if(b){ playBlob(b); return true; } return false; }); }
+function getBlob(id){ return AudioStore.get(id); }
+
+/* ---------- Recording ---------- */
+var mediaStream=null, recorder=null, chunks=[], recording=false, activeCtx=null;
+function ensureMic(){
+  if(mediaStream) return Promise.resolve(mediaStream);
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ return Promise.reject(new Error("no-mic-api")); }
+  return navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){ mediaStream=s; return s; });
+}
+function startRec(onStop){
+  return ensureMic().then(function(stream){
+    chunks=[];
+    var mr; try{ mr=new MediaRecorder(stream); }catch(e){ mr=new MediaRecorder(stream,{mimeType:"audio/webm"}); }
+    recorder=mr;
+    mr.ondataavailable=function(e){ if(e.data&&e.data.size>0) chunks.push(e.data); };
+    mr.onstop=function(){ var t=(chunks[0]&&chunks[0].type)?chunks[0].type:"audio/webm"; onStop(new Blob(chunks,{type:t})); };
+    mr.start(); recording=true; return true;
+  });
+}
+function stopRec(){ if(recorder&&recording){ try{recorder.stop();}catch(e){} } recording=false; }
+function micErrorText(err){
+  if(err&&err.message==="no-mic-api") return "This browser can\u2019t reach a microphone. Open the page from the Canvas link, and use Chrome or Edge.";
+  if(err&&err.name==="NotAllowedError") return "Microphone is blocked. Allow it in the browser, then try again.";
+  if(err&&err.name==="NotFoundError") return "No microphone found on this device.";
+  return "Couldn\u2019t start recording. Check the microphone and try again.";
+}
+
+/* ---------- Routing ---------- */
+function go(id){
+  var s=document.getElementsByClassName("screen"), i;
+  for(i=0;i<s.length;i++){ s[i].className="screen"; }
+  document.getElementById(id).className="screen active";
+  window.scrollTo(0,0); stopAllAudio();
+  if(id==="s-pick"){ buildPick(); }
+  if(id==="s-teach"){ enterTeach(); }
+  if(id==="s-settings"){ paintReadsSeg(); }
+}
+
+/* ---------- Student pick ---------- */
+function buildPick(){
+  var box=document.getElementById("pick-list"); box.innerHTML="";
+  var i; for(i=0;i<ROSTER.length;i++){
+    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ READER=stu; rStart(); }; box.appendChild(b); })(ROSTER[i]);
+  }
+}
+
+/* ---------- Student read flow ---------- */
+var rIndex=0, rStage=0, rStages=[], rRecBlob=null, rStartAt=0, rRecorded={};
+var TOK=[], TN=0, curIdx=0;
+
+function rStart(){
+  rIndex=0; rRecorded={}; rStartAt=new Date().getTime();
+  document.getElementById("read-who").textContent=READER.name;
+  go("s-read"); rEnterSentence();
+}
+function buildStages(){
+  var reads=Settings.reads(), arr=["listen"], i;
+  for(i=0;i<reads;i++){ arr.push("read"); }
+  arr.push("record");
+  return arr;
+}
+function rEnterSentence(){
+  rStages=buildStages(); rStage=0; rRecBlob=null;
+  var s=SENTENCES[rIndex];
+  TOK=tokenize(s.sentence,s.target); TN=TOK.length; curIdx=0;
+  document.getElementById("rprog").style.width=Math.round((rIndex/(SENTENCES.length-1))*100)+"%";
+  rRenderStage();
+}
+function passDotsHTML(){
+  var html='<div class="pass-dots">', i;
+  for(i=0;i<rStages.length;i++){ html+='<div class="pd'+(i<=rStage?" on":"")+'"></div>'; }
+  return html+'</div>';
+}
+function sentenceHTML(){
+  var html="", i, t;
+  for(i=0;i<TOK.length;i++){
+    t=TOK[i];
+    var cls="w-tok";
+    if(i<curIdx) cls+=" wpast";
+    if(i===curIdx) cls+=" wcur";
+    if(t.target) cls+=" wtarget";
+    html+='<span class="'+cls+'" data-i="'+i+'" onclick="tapWord('+i+')">'+escapeHtml(t.text)+'</span>';
+    if(i<TOK.length-1) html+=" ";
+  }
+  return html;
+}
+function escapeHtml(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function updateWordClasses(){
+  var box=document.getElementById("sent-line"); if(!box) return;
+  var sp=box.getElementsByClassName("w-tok"), i;
+  for(i=0;i<sp.length;i++){
+    var cls="w-tok";
+    if(i<curIdx) cls+=" wpast";
+    if(i===curIdx) cls+=" wcur";
+    if(TOK[i].target) cls+=" wtarget";
+    sp[i].className=cls;
+  }
+  var pf=document.getElementById("pfill"), kn=document.getElementById("knob");
+  if(pf&&kn){ var ratio=(TN<=1)?1:(curIdx/(TN-1)); pf.style.width=(ratio*100)+"%"; positionKnob(ratio); }
+}
+function positionKnob(ratio){
+  var pac=document.getElementById("pacer"), kn=document.getElementById("knob"); if(!pac||!kn) return;
+  var w=pac.offsetWidth; kn.style.left=(ratio*w)+"px";
+}
+function setCurIdx(i){ if(i<0)i=0; if(i>TN-1)i=TN-1; curIdx=i; updateWordClasses(); }
+
+function rRenderStage(){
+  stopAllAudio(); rRecBlob=null;
+  var s=SENTENCES[rIndex];
+  var stage=rStages[rStage];
+  var head='<p class="step-eyebrow">Word '+(rIndex+1)+' of '+SENTENCES.length+'</p>'+passDotsHTML();
+  var chip='<div class="word-chip"><span class="w">'+escapeHtml(s.word)+'</span>'
+          +'<button class="hearw" onclick="hearWord()">&#9654;&nbsp; Hear the word</button></div>'
+          +'<p class="mini-note" id="word-miss"></p>';
+  var sent='<p class="sentence" id="sent-line">'+sentenceHTML()+'</p>';
+  var pacer='<div class="pacer-wrap"><div class="pacer" id="pacer"><div class="pfill" id="pfill"></div><div class="knob" id="knob"></div></div>'
+          +'<p class="pacer-hint" id="pacer-hint">Slide your finger across &mdash; the word you&rsquo;re on lights up.</p></div>';
+  var body="";
+
+  if(stage==="listen"){
+    body=head
+      +'<div class="card">'
+      +chip+sent+pacer
+      +'<div class="hear-line"><button class="play-btn" onclick="hearSentence()">&#9654;&nbsp; Hear the sentence</button></div>'
+      +'<p class="miss-note" id="sent-miss"></p>'
+      +'</div>'
+      +'<div class="nav-row">'
+      +(rIndex>0?'<button class="btn" onclick="rPrevSentence()">&larr; Previous word</button>':'')
+      +'<button class="btn primary" onclick="rAdvance()">I heard it &rarr;</button>'
+      +'</div>';
+  } else if(stage==="read"){
+    var readNo=rStage; /* listen is 0, so first read is stage 1 */
+    body=head
+      +'<div class="card">'
+      +chip+sent+pacer
+      +'<p class="mini-note">Read <strong>'+readNo+'</strong>: slide and read it out loud. Tap a word if you get stuck.</p>'
+      +'</div>'
+      +'<div class="nav-row">'
+      +'<button class="btn" onclick="hearSentence()">&#9654; Hear it again</button>'
+      +'<button class="btn primary" onclick="rAdvance()">I read it &rarr;</button>'
+      +'</div>';
+  } else { /* record */
+    body=head
+      +'<div class="card">'
+      +chip+sent+pacer
+      +'<p class="mini-note">Last read: slide, read it out loud, and record your best one.</p>'
+      +'<div class="rec-row">'
+      +'<button class="rec-btn" id="r-rec" onclick="rToggleRec()"><span class="rec-dot"></span><span id="r-rec-label">Read it &mdash; record</span></button>'
+      +'<button class="play-btn" id="r-play" onclick="rPlayMine()" disabled>&#9654;&nbsp; Play mine</button>'
+      +'</div>'
+      +'<p class="state-line none" id="r-state"></p>'
+      +'<div id="r-save"></div>'
+      +'</div>'
+      +'<div class="nav-row">'
+      +'<button class="btn" onclick="hearSentence()">&#9654; Hear it again</button>'
+      +(rIndex<SENTENCES.length-1?'<button class="btn primary" onclick="rNextSentence()">Next word &rarr;</button>':'<button class="btn primary" onclick="rDone()">Finish</button>')
+      +'</div>';
+  }
+  document.getElementById("read-body").innerHTML=body;
+  curIdx=0; updateWordClasses();
+  setupPacer();
+}
+function rAdvance(){ if(rStage<rStages.length-1){ rStage++; rRenderStage(); window.scrollTo(0,0); } }
+function rNextSentence(){ if(rIndex<SENTENCES.length-1){ rIndex++; rEnterSentence(); window.scrollTo(0,0); } }
+function rPrevSentence(){ if(rIndex>0){ rIndex--; rEnterSentence(); window.scrollTo(0,0); } }
+
+/* Hear the target word alone */
+function hearWord(){
+  var s=SENTENCES[rIndex];
+  playId(wordId(s.word)).then(function(ok){ var n=document.getElementById("word-miss"); if(n) n.textContent = ok ? "" : "This word isn\u2019t recorded yet \u2014 your teacher will add it."; });
+}
+/* Hear the whole sentence + sweep the highlight across evenly */
+function hearSentence(){
+  var s=SENTENCES[rIndex];
+  var miss=document.getElementById("sent-miss");
+  getBlob(sentId(s.word)).then(function(b){
+    if(!b){ if(miss) miss.textContent="This sentence isn\u2019t recorded yet \u2014 your teacher will add it."; return; }
+    if(miss) miss.textContent="";
+    stopAllAudio();
+    var u=URL.createObjectURL(b); currentAudio=new Audio(u);
+    currentAudio.onended=function(){ URL.revokeObjectURL(u); stopSweep(); setCurIdx(TN-1); };
+    currentAudio.onloadedmetadata=function(){
+      var dur=currentAudio.duration; if(!dur||dur===Infinity||isNaN(dur)) dur=Math.max(2, TN*0.5);
+      var step=Math.max(180,(dur*1000)/TN);
+      setCurIdx(0); var i=0;
+      stopSweep();
+      sweepTimer=setInterval(function(){ i++; if(i>TN-1){ setCurIdx(TN-1); stopSweep(); return; } setCurIdx(i); }, step);
+    };
+    currentAudio.play();
+  });
+}
+/* Tap a word: replay the whole sentence, hold that word lit (honest fallback) */
+function tapWord(i){
+  setCurIdx(i);
+  var s=SENTENCES[rIndex];
+  if(TOK[i].target){ hearWord(); }
+  else { playId(sentId(s.word)); }
+}
+
+/* Pacer drag (mouse + touch) */
+function setupPacer(){
+  var pac=document.getElementById("pacer"); if(!pac) return;
+  positionKnob(0);
+  var dragging=false;
+  function ratioFromEvent(clientX){
+    var rect=pac.getBoundingClientRect();
+    var x=clientX-rect.left; if(x<0)x=0; if(x>rect.width)x=rect.width;
+    return rect.width?(x/rect.width):0;
+  }
+  function toIdx(clientX){ var r=ratioFromEvent(clientX); setCurIdx(Math.round(r*(TN-1))); }
+  pac.addEventListener("mousedown",function(e){ dragging=true; toIdx(e.clientX); e.preventDefault(); });
+  document.addEventListener("mousemove",function(e){ if(dragging){ toIdx(e.clientX); } });
+  document.addEventListener("mouseup",function(){ dragging=false; });
+  pac.addEventListener("touchstart",function(e){ if(e.touches&&e.touches[0]){ toIdx(e.touches[0].clientX); } },{passive:true});
+  pac.addEventListener("touchmove",function(e){ if(e.touches&&e.touches[0]){ toIdx(e.touches[0].clientX); } },{passive:true});
+}
+
+/* Record the final read */
+function rToggleRec(){
+  var btn=document.getElementById("r-rec"), lbl=document.getElementById("r-rec-label"), st=document.getElementById("r-state");
+  if(recording&&activeCtx==="read"){ stopRec(); btn.className="rec-btn"; lbl.textContent="Read it \u2014 record"; return; }
+  activeCtx="read"; st.className="state-line none"; st.textContent="Recording\u2026";
+  startRec(function(blob){
+    rRecBlob=blob; rRecorded[rIndex]=true;
+    var pb=document.getElementById("r-play"); if(pb) pb.disabled=false;
+    st.className="state-line saved"; st.textContent="\u2713 Got it. Play it back, then save it to turn in.";
+    showSaveButton();
+  }).then(function(){ btn.className="rec-btn rec"; lbl.textContent="Stop"; })
+    .catch(function(err){ st.className="state-line err"; st.textContent=micErrorText(err); });
+}
+function rPlayMine(){ if(rRecBlob) playBlob(rRecBlob); }
+function showSaveButton(){
+  var host=document.getElementById("r-save"); if(!host) return;
+  host.innerHTML='<div class="hear-line" style="margin-top:16px"><button class="btn primary" onclick="rSaveForCanvas()">&#8681;&nbsp; Save my reading</button></div>'
+    +'<div class="canvas-steps"><h4>Turn it in on Canvas</h4><ol>'
+    +'<li>Tap <strong>Save my reading</strong> &mdash; a sound file downloads.</li>'
+    +'<li>Open today&rsquo;s assignment in Canvas.</li>'
+    +'<li>Choose <strong>Upload</strong> (not Record) and pick the file that just downloaded, then submit.</li>'
+    +'</ol></div>';
+}
+function rSaveForCanvas(){
+  if(!rRecBlob) return;
+  var s=SENTENCES[rIndex];
+  var safeName=(READER?READER.name:"student").replace(/[^A-Za-z0-9]/g,"");
+  var safeWord=s.word.replace(/[^A-Za-z0-9]/g,"_");
+  var ext=(rRecBlob.type&&rRecBlob.type.indexOf("ogg")>=0)?"ogg":"webm";
+  var fname=safeName+"_"+safeWord+"_reading."+ext;
+  var u=URL.createObjectURL(rRecBlob);
+  var a=document.createElement("a"); a.href=u; a.download=fname;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(u); },1500);
+}
+function rDone(){
+  var n=0,k; for(k in rRecorded){ if(rRecorded.hasOwnProperty(k)) n++; }
+  Progress.record({ studentId:READER.id, studentName:READER.name, activity:"read-and-slide", wordsRecorded:n, ofTotal:SENTENCES.length, timeSpentMs:(new Date().getTime()-rStartAt) });
+  stopAllAudio();
+  document.getElementById("rprog").style.width="100%";
+  document.getElementById("read-body").innerHTML=
+    '<p class="step-eyebrow">Done</p>'
+   +'<div class="card" style="text-align:center">'
+   +'<p class="sentence" style="font-size:22px">You recorded <strong>'+n+'</strong> of '+SENTENCES.length+' words.</p>'
+   +'<p class="mini-note">Saved under <strong>'+escapeHtml(READER.name)+'</strong> on this computer. Don\u2019t forget to turn in your files on Canvas.</p>'
+   +'<div class="nav-row" style="margin-top:12px">'
+   +'<button class="btn" onclick="go(\'s-pick\')">Another reader</button>'
+   +'<button class="btn primary" onclick="rStart()">Do it again</button>'
+   +'</div></div>';
+}
+
+/* ---------- Teacher: record models (word + sentence) ---------- */
+var tIndex=0, tBlobs={word:null,sent:null};
+function enterTeach(){ tIndex=0; loadTeach(); refreshList(); }
+function loadTeach(){
+  var s=SENTENCES[tIndex];
+  document.getElementById("t-count").innerHTML='Word '+(tIndex+1)+' of '+SENTENCES.length;
+  document.getElementById("t-word").textContent=s.word;
+  var toks=tokenize(s.sentence,s.target); TOK=toks; TN=toks.length; curIdx=-1;
+  var i,html=""; for(i=0;i<toks.length;i++){ html+='<span class="w-tok'+(toks[i].target?" wtarget":"")+'">'+escapeHtml(toks[i].text)+'</span>'+(i<toks.length-1?" ":""); }
+  document.getElementById("t-sentence").innerHTML=html;
+  tBlobs={word:null,sent:null};
+  document.getElementById("tw-play").disabled=true; document.getElementById("ts-play").disabled=true;
+  document.getElementById("t-prev").disabled=(tIndex===0);
+  document.getElementById("t-next").disabled=(tIndex===SENTENCES.length-1);
+  loadOne("word", wordId(s.word), "t-word-state", "tw-play");
+  loadOne("sent", sentId(s.word), "t-sent-state", "ts-play");
+}
+function loadOne(kind, id, stateId, playId2){
+  var st=document.getElementById(stateId);
+  AudioStore.get(id).then(function(b){
+    if(b){ tBlobs[kind]=b; document.getElementById(playId2).disabled=false; st.className=""; st.style.color="var(--good)"; st.textContent="\u2713 Recorded and saved."; }
+    else { st.className=""; st.style.color="var(--ink-soft)"; st.textContent="Not recorded yet."; }
+  });
+}
+function tNext(){ if(tIndex<SENTENCES.length-1){ tJump(tIndex+1); } }
+function tPrev(){ if(tIndex>0){ tJump(tIndex-1); } }
+function tJump(i){ tIndex=i; if(recording){ stopRec(); resetTeacherRecBtns(); } loadTeach(); window.scrollTo(0,0); }
+function resetTeacherRecBtns(){
+  document.getElementById("tw-rec").className="rec-btn"; document.getElementById("tw-lbl").textContent="Record";
+  document.getElementById("ts-rec").className="rec-btn"; document.getElementById("ts-lbl").textContent="Record";
+}
+function tToggle(kind){
+  var s=SENTENCES[tIndex];
+  var recBtn=document.getElementById(kind==="word"?"tw-rec":"ts-rec");
+  var lbl=document.getElementById(kind==="word"?"tw-lbl":"ts-lbl");
+  var stateId=(kind==="word")?"t-word-state":"t-sent-state";
+  var playBtnId=(kind==="word")?"tw-play":"ts-play";
+  var id=(kind==="word")?wordId(s.word):sentId(s.word);
+  var st=document.getElementById(stateId);
+  if(recording&&activeCtx==="teach-"+kind){ stopRec(); recBtn.className="rec-btn"; lbl.textContent="Record"; return; }
+  activeCtx="teach-"+kind; st.style.color="var(--ink-soft)"; st.textContent="Recording\u2026";
+  startRec(function(blob){
+    tBlobs[kind]=blob; document.getElementById(playBtnId).disabled=false;
+    AudioStore.put(id,blob).then(function(){ st.style.color="var(--good)"; st.textContent="\u2713 Saved."; refreshList(); })
+      .catch(function(){ st.style.color="var(--retry)"; st.textContent="Could not save on this device."; });
+  }).then(function(){ recBtn.className="rec-btn rec"; lbl.textContent="Stop"; })
+    .catch(function(err){ st.style.color="var(--retry)"; st.textContent=micErrorText(err); });
+}
+function tPlayOne(kind){ var b=tBlobs[kind]; if(b) playBlob(b); }
+function refreshList(){
+  AudioStore.keys().then(function(ks){
+    var have={}, i, both=0; for(i=0;i<ks.length;i++){ have[ks[i]]=true; }
+    var box=document.getElementById("t-list"); box.innerHTML="";
+    for(i=0;i<SENTENCES.length;i++){
+      (function(s,idx){
+        var hw=!!have[wordId(s.word)], hs=!!have[sentId(s.word)];
+        var on=hw&&hs; if(on) both++;
+        var sub = on?"word + sentence recorded":((hw?"word":"")+(hw&&!hs?" only":"")+(hs&&!hw?"sentence only":"")+(!hw&&!hs?"not yet":""));
+        var row=document.createElement("div"); row.className="list-item";
+        row.innerHTML='<div class="lbl"><span class="dot '+(on?"on":"off")+'"></span>'+escapeHtml(s.word)+'<small>'+sub+'</small></div>';
+        var acts=document.createElement("div"); acts.className="item-actions";
+        var g=document.createElement("button"); g.className="mini-btn"; g.textContent="Open"; g.onclick=function(){ tJump(idx); }; acts.appendChild(g);
+        row.appendChild(acts); box.appendChild(row);
+      })(SENTENCES[i],i);
+    }
+    var tally=document.getElementById("t-tally"); if(tally) tally.textContent="("+both+" of "+SENTENCES.length+" complete)";
+    var done=document.getElementById("t-alldone"); if(done) done.style.display=(both===SENTENCES.length)?"block":"none";
+  });
+}
+
+/* ---------- Backup: export / import teacher recordings ---------- */
+function downloadBlob(blob, fname){
+  var u=URL.createObjectURL(blob);
+  var a=document.createElement("a"); a.href=u; a.download=fname;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(u); },1500);
+}
+function dataURLtoBlob(durl){
+  var parts=durl.split(","), meta=parts[0], b64=parts[1]||"";
+  var mm=meta.match(/data:([^;]+)/), mime=mm?mm[1]:"audio/webm";
+  var bin=window.atob(b64), len=bin.length, arr=new Uint8Array(len), i;
+  for(i=0;i<len;i++){ arr[i]=bin.charCodeAt(i); }
+  return new Blob([arr],{type:mime});
+}
+function tExport(){
+  var st=document.getElementById("t-backup-state"); st.style.color="var(--ink-soft)"; st.textContent="Gathering your recordings\u2026";
+  AudioStore.keys().then(function(ks){
+    if(!ks.length){ st.style.color="var(--retry)"; st.textContent="Nothing recorded yet \u2014 record a word or two first."; return; }
+    var results={}, done=0, i;
+    function fin(){
+      done++;
+      if(done===ks.length){
+        var payload=JSON.stringify({app:"read-and-slide", version:1, savedAt:new Date().toISOString(), clips:results});
+        downloadBlob(new Blob([payload],{type:"application/json"}), "read-and-slide-recordings.json");
+        st.style.color="var(--good)"; st.textContent="\u2713 Exported "+ks.length+" recordings. Send that file to bake it in, or Load it on another computer.";
+      }
+    }
+    for(i=0;i<ks.length;i++){
+      (function(key){
+        AudioStore.get(key).then(function(b){
+          if(!b){ results[key]=null; fin(); return; }
+          var fr=new FileReader();
+          fr.onload=function(){ results[key]={type:(b.type||"audio/webm"), data:fr.result}; fin(); };
+          fr.onerror=function(){ results[key]=null; fin(); };
+          fr.readAsDataURL(b);
+        });
+      })(ks[i]);
+    }
+  });
+}
+function tImportPick(input){
+  var st=document.getElementById("t-backup-state");
+  if(!input.files||!input.files[0]){ return; }
+  var file=input.files[0]; input.value="";
+  st.style.color="var(--ink-soft)"; st.textContent="Loading recordings\u2026";
+  var fr=new FileReader();
+  fr.onload=function(){
+    var obj; try{ obj=JSON.parse(fr.result); }catch(e){ st.style.color="var(--retry)"; st.textContent="That file couldn\u2019t be read. Use a file the Export button made."; return; }
+    var clips=(obj&&obj.clips)?obj.clips:null;
+    if(!clips){ st.style.color="var(--retry)"; st.textContent="No recordings found in that file."; return; }
+    var keys=[], k; for(k in clips){ if(clips.hasOwnProperty(k)) keys.push(k); }
+    if(!keys.length){ st.style.color="var(--retry)"; st.textContent="That file has no recordings in it."; return; }
+    var done=0, ok=0, i;
+    function check(){ if(done===keys.length){ st.style.color="var(--good)"; st.textContent="\u2713 Loaded "+ok+" recordings onto this computer."; refreshList(); loadTeach(); } }
+    for(i=0;i<keys.length;i++){
+      (function(key){
+        var c=clips[key];
+        if(!c||!c.data){ done++; check(); return; }
+        var blob; try{ blob=dataURLtoBlob(c.data); }catch(e){ done++; check(); return; }
+        AudioStore.put(key,blob).then(function(){ ok++; done++; check(); }, function(){ done++; check(); });
+      })(keys[i]);
+    }
+  };
+  fr.onerror=function(){ st.style.color="var(--retry)"; st.textContent="Couldn\u2019t open that file."; };
+  fr.readAsText(file);
+}
+
+/* ---------- Boot ---------- */
+applyTheme();
+</script>
+</body>
+</html>
