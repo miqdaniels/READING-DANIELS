@@ -136,12 +136,20 @@ footer.mini a:hover{text-decoration:underline}
     
   </section>
 
-  <!-- STUDENT PICK -->
+  <!-- CLASS PICK -->
   <section id="s-pick" class="screen">
-    <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Who&rsquo;s reading?</p>
+    <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Which class?</p>
+    <h2>Which class are you in?</h2>
+    <p class="lede">Tap your class hour.</p>
+    <div class="grid" id="class-list"></div>
+  </section>
+
+  <!-- NAME PICK -->
+  <section id="s-roster" class="screen">
+    <p class="crumb"><a onclick="go('s-pick')">Change class</a> &nbsp;/&nbsp; <span id="roster-title"></span></p>
     <h2>Who&rsquo;s reading today?</h2>
-    <p class="lede">Pick your name. Your work saves under that name on this computer.</p>
-    <div class="grid" id="pick-list"></div>
+    <p class="lede">Tap your name.</p>
+    <div class="grid" id="roster-list"></div>
   </section>
 
   <!-- STUDENT READ -->
@@ -252,7 +260,7 @@ footer.mini a:hover{text-decoration:underline}
 </div>
 
 <footer class="mini">
-  <span id="foot-status" style="display:none"><a onclick="go('s-status')">Status &amp; notes</a> &middot; </span>Read &amp; Slide<span id="foot-settings" style="display:none"> &middot; <a onclick="go('s-settings')">Settings</a></span>
+  <span id="foot-links" style="display:none"><a onclick="go('s-status')">Status &amp; notes</a> &middot; <a onclick="go('s-settings')">Settings</a></span>
 </footer>
 
 <script>
@@ -311,10 +319,65 @@ function tokenize(sentence, target){
   return toks;
 }
 
-var ROSTER=[
-  {id:"stu_marco",name:"Marco"},{id:"stu_sofia",name:"Sof\u00EDa"},
-  {id:"stu_diego",name:"Diego"},{id:"stu_leila",name:"Leila"},{id:"stu_omar",name:"Omar"}
+var CLASSES=[
+  {id:"p1",label:"First hour",students:[
+    {id:"stu_gomezmiriam_p1",name:"Miriam Gomez"},
+    {id:"stu_guerrerooneiver_p1",name:"Oneiver Guerrero"},
+    {id:"stu_hashimotohiroyuki_p1",name:"Hiroyuki Hashimoto"},
+    {id:"stu_joachinkiara_p1",name:"Kiara Joachin"},
+    {id:"stu_kobayashiryugen_p1",name:"Ryugen Kobayashi"},
+    {id:"stu_mendozaalan_p1",name:"Alan Mendoza"},
+    {id:"stu_solisbelinda_p1",name:"Belinda Solis"},
+    {id:"stu_sugishitarico_p1",name:"Rico Sugishita"},
+    {id:"spare_p1_1",name:"Student 1"},
+    {id:"spare_p1_2",name:"Student 2"},
+    {id:"spare_p1_3",name:"Student 3"},
+  ]},
+  {id:"p3",label:"Third hour",students:[
+    {id:"stu_barrerayoselin_p3",name:"Yoselin Barrera"},
+    {id:"stu_castanedablancasabraham_p3",name:"Abraham Castaneda-Blancas"},
+    {id:"stu_castroyajaira_p3",name:"Yajaira Castro"},
+    {id:"stu_cruzchristian_p3",name:"Christian Cruz"},
+    {id:"stu_estradamarco_p3",name:"Marco Estrada"},
+    {id:"stu_floreshector_p3",name:"Hector Flores"},
+    {id:"stu_lopezjulieta_p3",name:"Julieta Lopez"},
+    {id:"stu_moralesallan_p3",name:"Allan Morales"},
+    {id:"stu_moralesvarelaangel_p3",name:"Angel Morales-Varela"},
+    {id:"stu_moyaalexa_p3",name:"Alexa Moya"},
+    {id:"stu_murilloabner_p3",name:"Abner Murillo"},
+    {id:"stu_ortegaashley_p3",name:"Ashley Ortega"},
+    {id:"stu_ramirezjose_p3",name:"Jose Ramirez"},
+    {id:"stu_rendonjesus_p3",name:"Jesus Rendon"},
+    {id:"stu_rodriguezgeorgia_p3",name:"Georgia Rodriguez"},
+    {id:"spare_p3_1",name:"Student 1"},
+    {id:"spare_p3_2",name:"Student 2"},
+    {id:"spare_p3_3",name:"Student 3"},
+  ]},
+  {id:"p7",label:"Seventh hour",students:[
+    {id:"stu_alvarezkeyla_p7",name:"Keyla Alvarez"},
+    {id:"stu_bravoorlando_p7",name:"Orlando Bravo"},
+    {id:"stu_burdettechestin_p7",name:"Chestin Burdette"},
+    {id:"stu_chaparrobrandon_p7",name:"Brandon Chaparro"},
+    {id:"stu_cheealyssa_p7",name:"Alyssa Chee"},
+    {id:"stu_diazbrandon_p7",name:"Brandon Diaz"},
+    {id:"stu_duquegilberto_p7",name:"Gilberto Duque"},
+    {id:"stu_espinalamerica_p7",name:"America Espinal"},
+    {id:"stu_gozosrich_p7",name:"Rich Gozos"},
+    {id:"stu_ibarrakendra_p7",name:"Kendra Ibarra"},
+    {id:"stu_maciasgael_p7",name:"Gael Macias"},
+    {id:"stu_martinmaria_p7",name:"Maria Martin"},
+    {id:"stu_mendozajamile_p7",name:"Jamile Mendoza"},
+    {id:"stu_sotosamuel_p7",name:"Samuel Soto"},
+    {id:"stu_urdanetaluis_p7",name:"Luis Urdaneta"},
+    {id:"stu_vegadaniel_p7",name:"Daniel Vega"},
+    {id:"stu_verdinadrian_p7",name:"Adrian Verdin"},
+    {id:"stu_zeferinokeyla_p7",name:"Keyla Zeferino"},
+    {id:"spare_p7_1",name:"Student 1"},
+    {id:"spare_p7_2",name:"Student 2"},
+    {id:"spare_p7_3",name:"Student 3"},
+  ]},
 ];
+var CURCLASS=null;
 var READER=null;
 
 /* ---------- Settings (localStorage) ---------- */
@@ -458,16 +521,26 @@ function go(id){
   for(i=0;i<s.length;i++){ s[i].className="screen"; }
   document.getElementById(id).className="screen active";
   window.scrollTo(0,0); stopAllAudio();
-  if(id==="s-pick"){ buildPick(); }
+  if(id==="s-pick"){ buildClasses(); }
+  if(id==="s-roster"){ buildRoster(); }
   if(id==="s-teach"){ enterTeach(); }
   if(id==="s-settings"){ paintReadsSeg(); }
 }
 
-/* ---------- Student pick ---------- */
-function buildPick(){
-  var box=document.getElementById("pick-list"); box.innerHTML="";
-  var i; for(i=0;i<ROSTER.length;i++){
-    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ READER=stu; rStart(); }; box.appendChild(b); })(ROSTER[i]);
+/* ---------- Class + student pick ---------- */
+function buildClasses(){
+  var box=document.getElementById("class-list"); box.innerHTML="";
+  var i; for(i=0;i<CLASSES.length;i++){
+    (function(cls){ var b=document.createElement("button"); b.className="btn block"; b.textContent=cls.label; b.onclick=function(){ CURCLASS=cls; go("s-roster"); }; box.appendChild(b); })(CLASSES[i]);
+  }
+}
+function buildRoster(){
+  var box=document.getElementById("roster-list"); box.innerHTML="";
+  if(!CURCLASS){ go("s-pick"); return; }
+  document.getElementById("roster-title").textContent=CURCLASS.label;
+  var list=CURCLASS.students, i;
+  for(i=0;i<list.length;i++){
+    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ READER=stu; rStart(); }; box.appendChild(b); })(list[i]);
   }
 }
 
@@ -837,8 +910,7 @@ function applyTeacherDoors(){
   var on = isTeacherMode() ? "block" : "none";
   var inl = isTeacherMode() ? "inline" : "none";
   var d=document.getElementById("teacher-doors"); if(d){ d.style.display = on; }
-  var fs=document.getElementById("foot-settings"); if(fs){ fs.style.display = inl; }
-  var st=document.getElementById("foot-status"); if(st){ st.style.display = inl; }
+  var fl=document.getElementById("foot-links"); if(fl){ fl.style.display = inl; }
 }
 applyTeacherDoors();
 </script>
