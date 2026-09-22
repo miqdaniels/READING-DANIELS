@@ -111,7 +111,31 @@ footer.mini a:hover{text-decoration:underline}
 .btn.locked{ opacity:.38; cursor:default; }
 .btn.locked:hover{ transform:none; }
 .grp-count{ opacity:.6; font-size:13px; margin-left:6px; }
-.f-sentence{ font-size:20px; line-height:1.65; margin:10px 0; }
+.f-sentence{ font-size:20px; line-height:1.95; margin:24px 0; }
+.f-chunk{ padding:2px 3px; border-radius:6px; transition:background .12s,color .12s; }
+.f-hl{ background:var(--hl); color:var(--hl-ink); }
+.pacer-class{ font-weight:700; margin:14px 0 6px; color:var(--ink-soft); font-size:13px; }
+.pacer-row{ display:flex; align-items:center; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--line); }
+.pacer-name{ font-size:15px; }
+.seg2 button{ min-width:52px; }
+.pts-badge{ display:inline-block; margin-left:8px; padding:3px 12px; border-radius:999px; background:var(--hl); color:var(--hl-ink); font-weight:800; position:relative; cursor:pointer; }
+.pts-float{ position:absolute; right:-4px; top:-14px; color:#16a34a; font-weight:900; animation:ptsup 1s ease-out forwards; pointer-events:none; }
+@keyframes ptsup{ from{opacity:1;transform:translateY(0);} to{opacity:0;transform:translateY(-22px);} }
+.score-big{ font-size:34px; font-weight:900; margin-bottom:6px; }
+.score-split{ margin:8px 0 14px; }
+.chip-green{ background:#dcfce7; color:#166534; padding:3px 12px; border-radius:999px; font-weight:700; }
+.chip-blue{ background:#dbeafe; color:#1e40af; padding:3px 12px; border-radius:999px; font-weight:700; margin-left:6px; }
+.goal-track{ height:14px; background:var(--line); border-radius:999px; overflow:hidden; }
+.goal-fill{ height:100%; background:#22c55e; transition:width .4s; }
+.score-earn{ margin-top:12px; font-weight:800; }
+.board-h{ margin:18px 0 8px; }
+.team-row{ display:flex; gap:10px; flex-wrap:wrap; }
+.team-card{ flex:1; min-width:90px; text-align:center; padding:14px 8px; border:1px solid var(--line); border-radius:14px; }
+.team-medal{ font-weight:800; color:var(--ink-soft); font-size:13px; }
+.team-name{ font-weight:800; margin:4px 0; }
+.team-pts{ font-size:24px; font-weight:900; }
+.board-line{ display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--line); }
+.tflag{ font-size:11px; background:var(--line); padding:1px 7px; border-radius:999px; margin-left:6px; }
 .f-num{ opacity:.5; margin-right:6px; }
 </style>
 </head>
@@ -135,7 +159,8 @@ footer.mini a:hover{text-decoration:underline}
       <button class="btn primary block" onclick="go('s-pick')">Student<span class="sub">Hear it, slide, read, record</span></button>
       <div id="teacher-doors" style="display:none">
       <button class="btn block" onclick="go('s-teach')">Teacher: record the models<span class="sub">Record each word and its sentence in your voice</span></button>
-      <button class="btn block" style="margin-top:10px" onclick="go('s-settings')">Settings<span class="sub">How many practice reads before recording</span></button>
+      <button class="btn block" style="margin-top:10px" onclick="go('s-board')">Scoreboard<span class="sub">Show today's team standings at the end of class</span></button>
+      <button class="btn block" style="margin-top:10px" onclick="go('s-settings')">Settings<span class="sub">Practice reads, pacer, and teams</span></button>
     </div>
     </div>
     
@@ -172,9 +197,9 @@ footer.mini a:hover{text-decoration:underline}
   <div class="wrap">
     <p class="step-eyebrow">Final read</p>
     <h2 class="scr-title" id="f-title"></h2>
-    <p class="mini-note">Read all of these out loud, one time, in one recording. This is the file you turn in.</p>
+    <p class="mini-note">Read all of these out loud, one time, in one recording. Follow the yellow phrase as you go. This is the file you turn in.</p>
     <div class="card" id="f-list"></div>
-    <div class="hear-line" style="margin-top:14px"><button class="btn primary" id="f-btn">&#9679;&nbsp; Start recording</button></div>
+    <div class="hear-line" id="f-controls" style="margin-top:14px"></div>
     <p class="state-line" id="f-state"></p>
     <div id="f-after"></div>
     <div class="nav-row" style="margin-top:14px">
@@ -183,10 +208,34 @@ footer.mini a:hover{text-decoration:underline}
   </div>
 </section>
 
+<section class="screen" id="s-score">
+  <div class="wrap">
+    <p class="crumb"><a onclick="go('s-groups')">My groups</a> &nbsp;/&nbsp; My points</p>
+    <h2 id="score-title">My points today</h2>
+    <div class="card" id="score-body"></div>
+    <div class="nav-row" style="margin-top:14px">
+      <button class="btn" onclick="go('s-groups')">&#8592; My groups</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="s-board">
+  <div class="wrap">
+    <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Scoreboard</p>
+    <h2>Today's scoreboard</h2>
+    <p class="mini-note">Team scores are the total points every teammate earned today. Green counts from school; blue home points count double.</p>
+    <div class="seg" id="board-class" style="margin:10px 0;flex-wrap:wrap"></div>
+    <div id="board-body"></div>
+    <div class="nav-row" style="margin-top:14px">
+      <button class="btn" onclick="go('s-home')">Back to start</button>
+    </div>
+  </div>
+</section>
+
 
   <!-- STUDENT READ -->
   <section id="s-read" class="screen">
-    <p class="crumb"><a onclick="go('s-pick')">Change reader</a> &nbsp;/&nbsp; <span id="read-who"></span></p>
+    <p class="crumb"><a onclick="go('s-pick')">Change reader</a> &nbsp;/&nbsp; <span id="read-who"></span> <span id="pts-badge" class="pts-badge" onclick="go('s-score')" title="My points today">&#9733; 0</span></p>
     <div class="progress-track"><div class="progress-fill" id="rprog"></div></div>
     <div id="read-body"></div>
   </section>
@@ -253,6 +302,14 @@ footer.mini a:hover{text-decoration:underline}
         <button data-n="2" onclick="setReads(2)">2</button>
         <button data-n="3" onclick="setReads(3)">3</button>
       </div>
+    </div>
+    <div class="setting-row" style="display:block">
+      <div style="margin-bottom:8px"><strong>Pacer on the final read</strong><br><span class="mini-note">Default is <strong>Tap</strong>: the student taps to move the yellow phrase along at their own speed. Switch a student to <strong>Pacer</strong> when they read accurately and are ready to build speed &mdash; the phrases advance on their own, and a Pause button lets them catch a breath.</span></div>
+      <div id="pacer-list"></div>
+    </div>
+    <div class="setting-row" style="display:block">
+      <div style="margin-bottom:8px"><strong>Teams (for the scoreboard)</strong><br><span class="mini-note">Put each student on a team. At the end of class, open the Scoreboard to show team standings. Use the dash to leave a student off a team.</span></div>
+      <div id="team-list"></div>
     </div>
     <button class="btn" onclick="go('s-home')">Back to start</button>
   </section>
@@ -479,7 +536,11 @@ var Settings=(function(){
     palette:function(){ return cur.palette?cur.palette:"navy"; },
     mode:function(){ return cur.mode?cur.mode:"light"; },
     setPalette:function(p){ cur.palette=p; save(cur); },
-    setMode:function(m){ cur.mode=m; save(cur); }
+    setMode:function(m){ cur.mode=m; save(cur); },
+    pacer:function(id){ return !!(cur.pacer && cur.pacer[id]); },
+    setPacer:function(id,on){ if(!cur.pacer){ cur.pacer={}; } if(on){ cur.pacer[id]=1; } else { if(cur.pacer[id]){ delete cur.pacer[id]; } } save(cur); },
+    team:function(id){ return (cur.teams && cur.teams[id]) || ""; },
+    setTeam:function(id,t){ if(!cur.teams){ cur.teams={}; } if(t){ cur.teams[id]=t; } else { if(cur.teams[id]){ delete cur.teams[id]; } } save(cur); }
   };
 })();
 
@@ -536,6 +597,24 @@ function paintReadsSeg(){
   var seg=document.getElementById("seg-reads"); if(!seg) return;
   var btns=seg.getElementsByTagName("button"), i, n=Settings.reads();
   for(i=0;i<btns.length;i++){ btns[i].className=(parseInt(btns[i].getAttribute("data-n"),10)===n)?"on":""; }
+}
+function setPacer(id,on){ Settings.setPacer(id,on); paintPacerList(); }
+function paintPacerList(){
+  var box=document.getElementById("pacer-list"); if(!box){ return; }
+  var html="", ci, si;
+  for(ci=0;ci<CLASSES.length;ci++){
+    var cls=CLASSES[ci];
+    html+='<div class="pacer-class">'+escapeHtml(cls.label)+'</div>';
+    for(si=0;si<cls.students.length;si++){
+      var stu=cls.students[si], on=Settings.pacer(stu.id);
+      html+='<div class="pacer-row"><span class="pacer-name">'+escapeHtml(stu.name)+'</span>'
+        +'<span class="seg seg2">'
+        +'<button onclick="setPacer(\''+stu.id+'\',false)" class="'+(on?"":"on")+'">Tap</button>'
+        +'<button onclick="setPacer(\''+stu.id+'\',true)" class="'+(on?"on":"")+'">Pacer</button>'
+        +'</span></div>';
+    }
+  }
+  box.innerHTML=html;
 }
 
 /* ---------- Audio store (IndexedDB, this device) ---------- */
@@ -648,23 +727,169 @@ function buildGroups(){
 
 /* ---------- Final read: whole group, one recording ---------- */
 var fRec=null, fChunks=[], fBlob=null, fStream=null;
+/* ---------- Points, Arizona clock, teams, scoreboard ---------- */
+var PTS = { word:1, sent:3, wordBlue:2, sentBlue:6, final:10, finalBlue:20 };
+var DAILY_GOAL = 40;
+var BOARDCLS = 0;
+function pad2(n){ return (n<10?"0":"")+n; }
+function azNow(){ var n=new Date(); var utc=n.getTime()+n.getTimezoneOffset()*60000; return new Date(utc - 7*3600000); }
+function azDateStr(){ var d=azNow(); return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate()); }
+function isBlue(){ return azNow().getHours() >= 16; }
+function pointsData(){ try{ return JSON.parse(localStorage.getItem("points_data")||"{}"); }catch(e){ return {}; } }
+function savePoints(o){ try{ localStorage.setItem("points_data", JSON.stringify(o)); }catch(e){} }
+function dayRec(data,id,date){
+  var rec=data[id]||(data[id]={});
+  var day=rec[date]||(rec[date]={green:0,blue:0,gEarned:{},bEarned:{},finals:{}});
+  return day;
+}
+function award(kind,wordkey,groupName){
+  if(!READER){ return 0; }
+  var id=READER.id, date=azDateStr(), blue=isBlue();
+  var data=pointsData(), day=dayRec(data,id,date);
+  var claims=blue?day.bEarned:day.gEarned, pts=0;
+  if(kind==="word"){
+    if(!claims[wordkey]){ claims[wordkey]={}; }
+    if(claims[wordkey].w){ return 0; }
+    claims[wordkey].w=1; pts=blue?PTS.wordBlue:PTS.word;
+  } else if(kind==="sentence"){
+    if(!claims[wordkey]){ claims[wordkey]={}; }
+    if(claims[wordkey].s){ return 0; }
+    claims[wordkey].s=1; pts=blue?PTS.sentBlue:PTS.sent;
+  } else if(kind==="final"){
+    if(day.finals[groupName]){ return 0; }
+    day.finals[groupName]=blue?"blue":"green"; pts=blue?PTS.finalBlue:PTS.final;
+  }
+  if(blue){ day.blue+=pts; } else { day.green+=pts; }
+  savePoints(data);
+  return pts;
+}
+function todayTotals(id){
+  var data=pointsData(), date=azDateStr(), rec=data[id]&&data[id][date];
+  if(!rec){ return {green:0,blue:0,total:0}; }
+  return {green:rec.green||0, blue:rec.blue||0, total:(rec.green||0)+(rec.blue||0)};
+}
+function refreshPtsBadge(){
+  var b=document.getElementById("pts-badge"); if(!b||!READER){ return; }
+  b.innerHTML="&#9733; "+todayTotals(READER.id).total;
+}
+function floatPts(n){
+  var host=document.getElementById("pts-badge"); if(!host||!n){ return; }
+  var f=document.createElement("span"); f.className="pts-float"; f.textContent="+"+n;
+  host.appendChild(f);
+  setTimeout(function(){ if(f.parentNode){ f.parentNode.removeChild(f); } },1100);
+}
+function gotPoints(kind,wordkey,groupName){
+  var n=award(kind,wordkey,groupName);
+  if(n>0){ floatPts(n); refreshPtsBadge(); }
+  return n;
+}
+function teamStandings(cls){
+  var totals={}, i, st, t;
+  for(i=0;i<cls.students.length;i++){
+    st=cls.students[i]; t=Settings.team(st.id); if(!t){ continue; }
+    totals[t]=(totals[t]||0)+todayTotals(st.id).total;
+  }
+  var arr=[], k; for(k in totals){ if(totals.hasOwnProperty(k)){ arr.push({team:k,pts:totals[k]}); } }
+  arr.sort(function(a,b){ return b.pts-a.pts; });
+  return arr;
+}
+function topStudents(cls,n){
+  var arr=[], i, st;
+  for(i=0;i<cls.students.length;i++){ st=cls.students[i]; arr.push({name:st.name, pts:todayTotals(st.id).total, team:Settings.team(st.id)}); }
+  arr.sort(function(a,b){ return b.pts-a.pts; });
+  return arr.slice(0,n||5);
+}
+function paintScore(){
+  var host=document.getElementById("score-body"); if(!host||!READER){ return; }
+  var t=todayTotals(READER.id);
+  var pct=Math.min(100, Math.round(t.total/DAILY_GOAL*100));
+  var met=t.total>=DAILY_GOAL;
+  host.innerHTML=
+     '<div class="score-big">&#9733; '+t.total+' points</div>'
+    +'<div class="score-split"><span class="chip-green">School: '+t.green+'</span><span class="chip-blue">Home: '+t.blue+'</span></div>'
+    +'<div class="goal-track"><div class="goal-fill" style="width:'+pct+'%"></div></div>'
+    +'<p class="mini-note">'+(met?"You hit today's goal. Nice work!":("Goal: "+DAILY_GOAL+" points. "+(DAILY_GOAL-t.total)+" to go."))+'</p>'
+    +'<p class="mini-note">Home points (blue) after 4:00 are worth double. Keep going tonight to move up.</p>';
+}
+function boardPick(i){ BOARDCLS=i; paintBoard(); }
+function paintBoard(){
+  var seg=document.getElementById("board-class"), ci;
+  if(seg){ var h=""; for(ci=0;ci<CLASSES.length;ci++){ h+='<button onclick="boardPick('+ci+')" class="'+(ci===BOARDCLS?"on":"")+'">'+escapeHtml(CLASSES[ci].label)+'</button>'; } seg.innerHTML=h; }
+  var cls=CLASSES[BOARDCLS], teams=teamStandings(cls), tops=topStudents(cls,5);
+  var host=document.getElementById("board-body"), html="", medals=["1st","2nd","3rd"], i;
+  if(teams.length){
+    html+='<h3 class="board-h">Teams</h3><div class="team-row">';
+    for(i=0;i<teams.length;i++){ html+='<div class="team-card"><div class="team-medal">'+(medals[i]||(i+1)+"th")+'</div><div class="team-name">Team '+escapeHtml(teams[i].team)+'</div><div class="team-pts">&#9733; '+teams[i].pts+'</div></div>'; }
+    html+='</div>';
+  } else {
+    html+='<p class="mini-note">No teams set for this class yet. Add them in Settings &rarr; Teams.</p>';
+  }
+  html+='<h3 class="board-h">Top readers</h3><div class="card">';
+  for(i=0;i<tops.length;i++){ html+='<div class="board-line"><span>'+(i+1)+'. '+escapeHtml(tops[i].name)+(tops[i].team?' <span class="tflag">'+escapeHtml(tops[i].team)+'</span>':'')+'</span><strong>&#9733; '+tops[i].pts+'</strong></div>'; }
+  html+='</div>';
+  host.innerHTML=html;
+}
+function setTeam(id,t){ Settings.setTeam(id,t); paintTeamList(); }
+function paintTeamList(){
+  var box=document.getElementById("team-list"); if(!box){ return; }
+  var teams=["A","B","C","D"], html="", ci, si, ti;
+  for(ci=0;ci<CLASSES.length;ci++){
+    var cls=CLASSES[ci];
+    html+='<div class="pacer-class">'+escapeHtml(cls.label)+'</div>';
+    for(si=0;si<cls.students.length;si++){
+      var stu=cls.students[si], curT=Settings.team(stu.id);
+      html+='<div class="pacer-row"><span class="pacer-name">'+escapeHtml(stu.name)+'</span><span class="seg seg2">';
+      html+='<button onclick="setTeam(\''+stu.id+'\',\'\')" class="'+(curT?"":"on")+'">&ndash;</button>';
+      for(ti=0;ti<teams.length;ti++){ html+='<button onclick="setTeam(\''+stu.id+'\',\''+teams[ti]+'\')" class="'+(curT===teams[ti]?"on":"")+'">'+teams[ti]+'</button>'; }
+      html+='</span></div>';
+    }
+  }
+  box.innerHTML=html;
+}
+
+window.FCHUNKS = {"imperative": ["It was imperative", "for me to make a good impression", "on my first day."], "horrendous": ["Because the uniform was horrendous,", "I begged my mom", "to let me wear something else."], "insecurity": ["My insecurity grew,", "but I still walked", "into the classroom", "with my head up."], "my jaw dropped to the floor": ["I walked into my new classroom", "and my jaw dropped to the floor", "because the teacher", "was standing on her desk."], "sporting": ["My teacher was sporting", "the exact same dress", "that I had picked out", "that morning."], "unscathed": ["Although the day started badly,", "I walked out unscathed", "and even made a new friend."], "dreading": ["I had been dreading the presentation", "for a week,", "so I practiced it", "every night."], "apprehension": ["My apprehension faded", "once the teacher smiled", "and told us", "to find our seats."], "genuine": ["Her smile was genuine,", "and it made the whole room", "feel a little safer."], "incident": ["The incident in the hallway", "was embarrassing,", "yet everyone had forgotten it", "by lunch."], "trivial": ["Looking back,", "the problem seems trivial,", "but at the time", "it felt enormous."], "grandstand": ["The crowd filled the grandstand", "and cheered loudly", "for every single player."], "claim": ["He made the bold claim", "that he could run a mile", "without stopping", "to catch his breath."], "evidence": ["Because she used evidence", "from the story,", "her argument convinced", "almost everyone in class."], "conclusion": ["In her conclusion,", "she explained", "what she had learned", "about herself that year."], "figurative language": ["Poets use figurative language", "to help readers", "picture feelings", "that are hard to explain."], "idiom": ["An idiom means something different", "from its words,", "so new speakers", "often get confused."], "narrative": ["The author's narrative", "pulled me in so quickly", "that I read the whole first chapter", "in one sitting."], "chronological": ["We arranged the events", "in chronological order", "so the timeline made sense", "from beginning to end."], "memories": ["Memories are the pictures and facts", "that your brain saves", "from your past."], "process": ["The brain must process", "new information", "before it can store", "that information for later."], "associate": ["When you associate two things,", "your brain links them together", "in your memory."], "vast": ["Something vast", "is so large", "that it is almost impossible", "to measure."], "cortex": ["The cortex", "is the wrinkled outer layer", "of the brain,", "and it handles most of our thinking,", "like reading, talking, and solving problems."], "prefrontal cortex": ["Because the prefrontal cortex", "is still growing,", "teenagers sometimes make", "quick, risky decisions."], "hippocampus": ["The hippocampus", "is the part of the brain", "that collects your new memories", "and saves them", "so you can remember them later."], "amygdala": ["The amygdala", "is a small part of the brain", "that controls fear", "and reacts fast,", "before you even have time to think."], "exponent": ["The exponent tells you", "how many times", "to multiply the base", "by itself."], "root": ["A root", "is the number multiplied", "to make a bigger number;", "for example,", "the root is three", "in three times three equals nine."], "power": ["In two to the third power,", "the base is two", "and the exponent is three,", "and the whole thing", "is called a power."], "base": ["The base", "is the number that gets multiplied,", "like the two", "in two to the third power,", "which means", "two times two times two."], "square root": ["The square root of nine", "is three,", "because three times three", "equals nine."], "radical": ["The radical sign", "looks like a check mark", "with a long line over the top,", "and it tells you", "to find a root,", "as in √9,", "which equals three."], "equivalent expressions": ["Equivalent expressions", "look different on paper,", "yet they always have", "the same value."], "materials": ["Artists choose their materials carefully,", "and those choices change", "how the finished piece feels."], "self-portrait": ["Because a self-portrait shows", "how you see yourself,", "no two of them", "look alike."], "selfie": ["A quick selfie", "and a painted portrait", "both tell a story", "about identity."], "symbol": ["Although a symbol", "is just a simple shape,", "it can carry", "an enormous meaning."], "virtual reality": ["Virtual reality", "lets you step inside a painting", "and walk around inside it."], "culturally": ["Something culturally important", "matters deeply", "to the people", "who share that way of life."], "iconic": ["Something iconic", "is so famous", "that people know it right away,", "like the Nike swoosh", "or the McDonald's arches."], "illusion": ["An illusion", "is something", "that tricks your eyes", "into seeing what is not real."], "landscape": ["The landscape stretched for miles,", "and not a single building", "blocked our view."], "national park": ["Although the national park", "was crowded,", "we still found", "a quiet trail to hike."], "park ranger": ["The park ranger", "answered our questions", "and showed us", "where the deer sleep."], "preserved": ["Land that is preserved", "is protected", "and kept exactly the way it is,", "so a national park", "will look the same", "for your grandchildren someday."], "anticipated": ["Everyone had anticipated the game", "for weeks,", "so the gym was packed", "by the time it started."], "annoyed": ["I was annoyed", "when my group kept talking", "and I couldn't finish", "my part of the project."], "astrologer": ["The astrologer claimed", "she could predict your future", "by studying", "the stars and planets."], "antiquated": ["The rules in that old handbook", "felt antiquated,", "like they were written", "for a completely different time."], "abbreviations": ["Texting is faster", "when you use abbreviations,", "but teachers still want", "full words on your essays."], "confident": ["She walked into the interview", "confident and calm,", "because she had practiced", "her answers all week."], "compared to": ["Compared to the book,", "the movie left out", "a lot of important details", "from the story."], "charts": ["The scientist used charts", "to show", "how the temperature changed", "over the past hundred years."], "decade": ["A lot can change", "in a single decade,", "especially in the way", "people use technology."], "enrolled": ["After she moved to a new city,", "she enrolled in a school", "where she didn't know", "a single person."], "entities": ["The two companies", "are separate entities,", "even though they share", "the same downtown building."], "elements": ["A good story has", "a few key elements:", "interesting characters,", "a real problem,", "and a satisfying ending."], "enhanced": ["The team's new strategy", "enhanced their chances", "of making it", "all the way to the finals."], "incomplete": ["The teacher marked my assignment incomplete", "because I forgot", "to answer the last two questions."], "gentle": ["Even though he was the biggest player", "on the field,", "he was surprisingly gentle", "with his little sister."], "persevered": ["She persevered", "through months of hard training,", "and finally her effort", "paid off at the meet."], "respond to": ["It's polite", "to respond to a message", "within a day,", "even if you can", "only send a quick reply."], "route": ["We chose a different route home", "to avoid the traffic", "near the construction", "on Main Street."], "realization": ["Halfway through the year,", "I had the realization", "that studying a little every day", "beats cramming."], "souvenirs": ["We brought back souvenirs", "from the trip", "so we would always remember", "the places we visited."], "sold out": ["By the time we got", "to the box office,", "the concert was completely sold out", "and no tickets were left."], "select": ["The coach will select", "the starting lineup", "based on who shows up", "and works hard at practice."], "unique": ["Her art style", "is so unique", "that you can recognize her paintings", "the second you walk in the room."], "virtues": ["Patience and honesty", "are virtues", "that will help you far more", "than people sometimes expect."]};
+/* ---------- Final read: chunked highlight, tap or pacer ---------- */
+var FSEQ=[], fp=-1, fPacerTimer=null, fPaused=false, fMode="tap";
+function fClearHL(){ var i,e; for(i=0;i<FSEQ.length;i++){ e=document.getElementById(FSEQ[i]); if(e){ e.className="f-chunk"; } } }
+function clearFPacer(){ if(fPacerTimer){ clearTimeout(fPacerTimer); fPacerTimer=null; } }
+function fScrollTo(el){ try{ el.scrollIntoView({block:"center"}); }catch(e){} }
 function fEnter(){
-  fBlob=null; fChunks=[];
+  fBlob=null; fChunks=[]; clearFPacer(); fp=-1; fPaused=false;
   var g=CURGROUP; if(!g){ go("s-groups"); return; }
   document.getElementById("f-title").textContent=g.name;
-  var idxs=groupWords(g.name), html="", i;
+  fMode = (READER && Settings.pacer(READER.id)) ? "pacer" : "tap";
+  var idxs=groupWords(g.name), html="", i, c;
+  FSEQ=[];
   for(i=0;i<idxs.length;i++){
-    html += '<p class="f-sentence"><span class="f-num">'+(i+1)+'.</span> '+escapeHtml(SENTENCES[idxs[i]].sentence)+'</p>';
+    var w=SENTENCES[idxs[i]].word;
+    var chunks=(window.FCHUNKS&&FCHUNKS[w])?FCHUNKS[w]:[SENTENCES[idxs[i]].sentence];
+    html+='<p class="f-sentence"><span class="f-num">'+(i+1)+'.</span> ';
+    for(c=0;c<chunks.length;c++){
+      var cid="fk_"+i+"_"+c;
+      html+='<span class="f-chunk" id="'+cid+'">'+escapeHtml(chunks[c])+'</span>'+(c<chunks.length-1?" ":"");
+      FSEQ.push(cid);
+    }
+    html+='</p>';
   }
   document.getElementById("f-list").innerHTML=html;
   var st=document.getElementById("f-state"); st.className="state-line"; st.textContent="";
   document.getElementById("f-after").innerHTML="";
-  setFBtn("idle");
+  fRenderControls("idle");
 }
-function setFBtn(mode){
-  var b=document.getElementById("f-btn");
-  if(mode==="idle"){ b.innerHTML="&#9679;&nbsp; Start recording"; b.className="btn primary"; b.onclick=fStart; }
-  if(mode==="rec"){ b.innerHTML="&#9632;&nbsp; Stop recording"; b.className="btn danger"; b.onclick=fStop; }
+function fRenderControls(state){
+  var box=document.getElementById("f-controls"); if(!box){ return; }
+  if(state==="idle"){
+    box.innerHTML='<button class="btn primary" onclick="fStart()">&#9679;&nbsp; Start recording</button>';
+    return;
+  }
+  var html="";
+  if(fMode==="tap"){
+    html+='<button class="btn primary" id="f-next" onclick="fAdvance()">Next phrase &#9654;</button>';
+  } else {
+    html+='<button class="btn" id="f-pause" onclick="fTogglePause()">&#10073;&#10073;&nbsp; Pause</button>';
+  }
+  html+='<button class="btn danger" onclick="fStop()">&#9632;&nbsp; Stop &amp; finish</button>';
+  box.innerHTML=html;
 }
 function fStart(){
   stopAllAudio();
@@ -675,17 +900,47 @@ function fStart(){
     fRec.onstop=function(){
       fBlob=new Blob(fChunks,{type:(fRec.mimeType||"audio/webm")});
       if(fStream){ var tr=fStream.getTracks(), k; for(k=0;k<tr.length;k++){ tr[k].stop(); } }
+      clearFPacer(); fClearHL();
       document.getElementById("f-state").textContent="Recording finished. Listen to it, then save it.";
-      fShowAfter(); setFBtn("idle");
+      fShowAfter(); fRenderControls("idle");
     };
     fRec.start();
-    document.getElementById("f-state").textContent="Recording. Read every sentence out loud, then press Stop.";
-    setFBtn("rec");
+    fp=-1; fPaused=false;
+    document.getElementById("f-state").textContent = (fMode==="pacer")
+      ? "Recording. Follow the yellow phrase and read it out loud."
+      : "Recording. Read the yellow phrase, then tap Next phrase.";
+    fRenderControls("rec");
+    fAdvance();
   }).catch(function(err){
     var st=document.getElementById("f-state"); st.className="state-line err"; st.textContent=micErrorText(err);
   });
 }
-function fStop(){ if(fRec&&fRec.state!=="inactive"){ fRec.stop(); } }
+function fAdvance(){
+  if(fp>=FSEQ.length-1){ fStop(); return; }
+  fClearHL();
+  fp++;
+  var el=document.getElementById(FSEQ[fp]);
+  if(el){ el.className="f-chunk f-hl"; fScrollTo(el); }
+  if(fMode==="tap" && fp===FSEQ.length-1){
+    var nx=document.getElementById("f-next"); if(nx){ nx.innerHTML="Done &#10003;"; }
+  }
+  if(fMode==="pacer" && !fPaused){ scheduleFPacer(); }
+}
+function scheduleFPacer(){
+  clearFPacer();
+  var el=document.getElementById(FSEQ[fp]);
+  var words = el ? el.textContent.replace(/^\s+|\s+$/g,"").split(/\s+/).length : 3;
+  var ms = 700 + 430*words;
+  fPacerTimer=setTimeout(fAdvance, ms);
+}
+function fTogglePause(){
+  fPaused=!fPaused;
+  var b=document.getElementById("f-pause");
+  if(fPaused){ clearFPacer(); if(b){ b.innerHTML="&#9654;&nbsp; Resume"; } }
+  else { if(b){ b.innerHTML="&#10073;&#10073;&nbsp; Pause"; } scheduleFPacer(); }
+}
+function fStop(){ clearFPacer(); if(fRec&&fRec.state!=="inactive"){ fRec.stop(); } }
+
 function fPlay(){ if(fBlob){ playBlob(fBlob); } }
 function fShowAfter(){
   document.getElementById("f-after").innerHTML=
@@ -711,7 +966,9 @@ function fSave(){
   document.body.appendChild(a); a.click();
   setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(u); },1500);
   gMarkDone(CURGROUP.name);
+  var fpPts=gotPoints("final", CURGROUP?CURGROUP.name:"");
   fCanvasSteps(fname);
+  if(fpPts>0){ var fa=document.getElementById("f-after"); if(fa){ fa.innerHTML += '<div class="score-earn">&#9733; +'+fpPts+' points for finishing! <button class="btn" onclick="go(\'s-score\')">See my points</button></div>'; } }
 }
 function fCanvasSteps(fname){
   document.getElementById("f-after").innerHTML=
@@ -736,8 +993,11 @@ function go(id){
   if(id==="s-roster"){ buildRoster(); }
   if(id==="s-groups"){ buildGroups(); }
   if(id==="s-final"){ fEnter(); }
+  if(id==="s-read"){ refreshPtsBadge(); }
+  if(id==="s-score"){ paintScore(); }
+  if(id==="s-board"){ paintBoard(); }
   if(id==="s-teach"){ enterTeach(); }
-  if(id==="s-settings"){ paintReadsSeg(); }
+  if(id==="s-settings"){ paintReadsSeg(); paintPacerList(); paintTeamList(); }
 }
 
 /* ---------- Class + student pick ---------- */
@@ -889,7 +1149,7 @@ function rPrevSentence(){ if(gPos>0){ gPos--; rIndex=GIDXS[gPos]; rEnterSentence
 /* Hear the target word alone */
 function hearWord(){
   var s=SENTENCES[rIndex];
-  playId(wordId(s.word)).then(function(ok){ var n=document.getElementById("word-miss"); if(n) n.textContent = ok ? "" : "This word isn\u2019t recorded yet \u2014 your teacher will add it."; });
+  playId(wordId(s.word)).then(function(ok){ var n=document.getElementById("word-miss"); if(n) n.textContent = ok ? "" : "This word isn\u2019t recorded yet \u2014 your teacher will add it."; if(ok){ gotPoints("word", s.word); } });
 }
 /* Hear the whole sentence + sweep the highlight across evenly */
 function hearSentence(){
@@ -898,6 +1158,7 @@ function hearSentence(){
   getBlob(sentId(s.word)).then(function(b){
     if(!b){ if(miss) miss.textContent="This sentence isn\u2019t recorded yet \u2014 your teacher will add it."; return; }
     if(miss) miss.textContent="";
+    gotPoints("sentence", s.word);
     stopAllAudio();
     sweepPaused=false;
     var edges=buildWeights();
