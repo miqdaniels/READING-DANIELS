@@ -108,6 +108,11 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 footer.mini{max-width:780px;margin:24px auto 0;padding:0 20px;font-size:13px;color:var(--ink-soft)}
 footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none}
 footer.mini a:hover{text-decoration:underline}
+.btn.locked{ opacity:.38; cursor:default; }
+.btn.locked:hover{ transform:none; }
+.grp-count{ opacity:.6; font-size:13px; margin-left:6px; }
+.f-sentence{ font-size:20px; line-height:1.65; margin:10px 0; }
+.f-num{ opacity:.5; margin-right:6px; }
 </style>
 </head>
 <body>
@@ -151,6 +156,33 @@ footer.mini a:hover{text-decoration:underline}
     <p class="lede">Tap your name.</p>
     <div class="grid" id="roster-list"></div>
   </section>
+<section class="screen" id="s-groups">
+  <div class="wrap">
+    <p class="step-eyebrow">Unit 1</p>
+    <h2 class="scr-title">Choose your group, <span id="group-who"></span></h2>
+    <p class="mini-note">Finish a group to open the next one.</p>
+    <div id="group-list" class="pick-list"></div>
+    <div class="nav-row" style="margin-top:14px">
+      <button class="btn" onclick="go('s-roster')">&#8592; Change reader</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="s-final">
+  <div class="wrap">
+    <p class="step-eyebrow">Final read</p>
+    <h2 class="scr-title" id="f-title"></h2>
+    <p class="mini-note">Read all of these out loud, one time, in one recording. This is the file you turn in.</p>
+    <div class="card" id="f-list"></div>
+    <div class="hear-line" style="margin-top:14px"><button class="btn primary" id="f-btn">&#9679;&nbsp; Start recording</button></div>
+    <p class="state-line" id="f-state"></p>
+    <div id="f-after"></div>
+    <div class="nav-row" style="margin-top:14px">
+      <button class="btn" onclick="go('s-groups')">&#8592; My groups</button>
+    </div>
+  </div>
+</section>
+
 
   <!-- STUDENT READ -->
   <section id="s-read" class="screen">
@@ -270,33 +302,88 @@ footer.mini a:hover{text-decoration:underline}
    ============================================================ */
 
 var SENTENCES = [
-  {word:"anticipated", target:"anticipated", sentence:"Everyone had anticipated the game for weeks, so the gym was packed by the time it started."},
-  {word:"annoyed", target:"annoyed", sentence:"I was annoyed when my group kept talking and I couldn\u2019t finish my part of the project."},
-  {word:"astrologer", target:"astrologer", sentence:"The astrologer claimed she could predict your future by studying the stars and planets."},
-  {word:"antiquated", target:"antiquated", sentence:"The rules in that old handbook felt antiquated, like they were written for a completely different time."},
-  {word:"abbreviations", target:"abbreviations", sentence:"Texting is faster when you use abbreviations, but teachers still want full words on your essays."},
-  {word:"confident", target:"confident", sentence:"She walked into the interview confident and calm, because she had practiced her answers all week."},
-  {word:"compared to", target:"Compared to", sentence:"Compared to the book, the movie left out a lot of important details from the story."},
-  {word:"claim", target:"claim", sentence:"He made the bold claim that he could run a mile without stopping to catch his breath."},
-  {word:"chronological", target:"chronological", sentence:"We arranged the events in chronological order so the timeline made sense from beginning to end."},
-  {word:"charts", target:"charts", sentence:"The scientist used charts to show how the temperature changed over the past hundred years."},
-  {word:"decade", target:"decade", sentence:"A lot can change in a single decade, especially in the way people use technology."},
-  {word:"enrolled", target:"enrolled", sentence:"After she moved to a new city, she enrolled in a school where she didn\u2019t know a single person."},
-  {word:"entities", target:"entities", sentence:"The two companies are separate entities, even though they share the same downtown building."},
-  {word:"elements", target:"elements", sentence:"A good story has a few key elements: interesting characters, a real problem, and a satisfying ending."},
-  {word:"enhanced", target:"enhanced", sentence:"The team\u2019s new strategy enhanced their chances of making it all the way to the finals."},
-  {word:"incomplete", target:"incomplete", sentence:"The teacher marked my assignment incomplete because I forgot to answer the last two questions."},
-  {word:"gentle", target:"gentle", sentence:"Even though he was the biggest player on the field, he was surprisingly gentle with his little sister."},
-  {word:"narrative", target:"narrative", sentence:"The author\u2019s narrative pulled me in so quickly that I read the whole first chapter in one sitting."},
-  {word:"persevered", target:"persevered", sentence:"She persevered through months of hard training, and finally her effort paid off at the meet."},
-  {word:"respond to", target:"respond to", sentence:"It\u2019s polite to respond to a message within a day, even if you can only send a quick reply."},
-  {word:"route", target:"route", sentence:"We chose a different route home to avoid the traffic near the construction on Main Street."},
-  {word:"realization", target:"realization", sentence:"Halfway through the year, I had the realization that studying a little every day beats cramming."},
-  {word:"souvenirs", target:"souvenirs", sentence:"We brought back souvenirs from the trip so we would always remember the places we visited."},
-  {word:"sold out", target:"sold out", sentence:"By the time we got to the box office, the concert was completely sold out and no tickets were left."},
-  {word:"select", target:"select", sentence:"The coach will select the starting lineup based on who shows up and works hard at practice."},
-  {word:"unique", target:"unique", sentence:"Her art style is so unique that you can recognize her paintings the second you walk in the room."},
-  {word:"virtues", target:"virtues", sentence:"Patience and honesty are virtues that will help you far more than people sometimes expect."}
+  {word:"imperative", target:"imperative", sentence:"It was imperative for me to make a good impression on my first day.", grp:"Personal Narrative 1"},
+  {word:"horrendous", target:"horrendous", sentence:"Because the uniform was horrendous, I begged my mom to let me wear something else.", grp:"Personal Narrative 1"},
+  {word:"insecurity", target:"insecurity", sentence:"My insecurity grew, but I still walked into the classroom with my head up.", grp:"Personal Narrative 1"},
+  {word:"my jaw dropped to the floor", target:"my jaw dropped to the floor", sentence:"When I turned the corner into my first class, my jaw dropped to the floor.", grp:"Personal Narrative 1"},
+  {word:"sporting", target:"sporting", sentence:"My teacher was sporting the exact same dress that I had picked out that morning.", grp:"Personal Narrative 1"},
+  {word:"unscathed", target:"unscathed", sentence:"Although the day started badly, I walked out unscathed and even made a new friend.", grp:"Personal Narrative 2"},
+  {word:"dreading", target:"dreading", sentence:"I had been dreading the presentation for a week, so I practiced it every night.", grp:"Personal Narrative 2"},
+  {word:"apprehension", target:"apprehension", sentence:"My apprehension faded once the teacher smiled and told us to find our seats.", grp:"Personal Narrative 2"},
+  {word:"genuine", target:"genuine", sentence:"Her smile was genuine, and it made the whole room feel a little safer.", grp:"Personal Narrative 2"},
+  {word:"incident", target:"incident", sentence:"The incident in the hallway was embarrassing, yet everyone had forgotten it by lunch.", grp:"Personal Narrative 2"},
+  {word:"trivial", target:"trivial", sentence:"Looking back, the problem seems trivial, but at the time it felt enormous.", grp:"Personal Narrative 2"},
+  {word:"grandstand", target:"grandstand", sentence:"The crowd filled the grandstand and cheered loudly for every single player.", grp:"Personal Narrative 2"},
+  {word:"claim", target:"claim", sentence:"He made the bold claim that he could run a mile without stopping to catch his breath.", grp:"Language Arts"},
+  {word:"evidence", target:"evidence", sentence:"Because she used evidence from the story, her argument convinced almost everyone in class.", grp:"Language Arts"},
+  {word:"conclusion", target:"conclusion", sentence:"In her conclusion, she explained what she had learned about herself that year.", grp:"Language Arts"},
+  {word:"figurative language", target:"figurative language", sentence:"Poets use figurative language to help readers picture feelings that are hard to explain.", grp:"Language Arts"},
+  {word:"idiom", target:"idiom", sentence:"An idiom means something different from its words, so new speakers often get confused.", grp:"Language Arts"},
+  {word:"narrative", target:"narrative", sentence:"The author\\u2019s narrative pulled me in so quickly that I read the whole first chapter in one sitting.", grp:"Language Arts"},
+  {word:"chronological", target:"chronological", sentence:"We arranged the events in chronological order so the timeline made sense from beginning to end.", grp:"Language Arts"},
+  {word:"memories", target:"memories", sentence:"Memories are the pictures and facts that your brain saves from your past.", grp:"Science"},
+  {word:"process", target:"process", sentence:"The brain must process new information before it can store that information for later.", grp:"Science"},
+  {word:"associate", target:"associate", sentence:"When you associate two things, your brain links them together in your memory.", grp:"Science"},
+  {word:"vast", target:"vast", sentence:"Something vast is so large that it is almost impossible to measure.", grp:"Science"},
+  {word:"cortex", target:"cortex", sentence:"The cortex is the wrinkled outer layer, and it handles most of our thinking.", grp:"Science"},
+  {word:"prefrontal cortex", target:"prefrontal cortex", sentence:"Because the prefrontal cortex is still growing, teenagers sometimes make quick, risky decisions.", grp:"Science"},
+  {word:"hippocampus", target:"hippocampus", sentence:"The hippocampus collects new memories and sends them along for permanent storage.", grp:"Science"},
+  {word:"amygdala", target:"amygdala", sentence:"Although it is small, the amygdala controls fear and reacts before you can think.", grp:"Science"},
+  {word:"exponent", target:"exponent", sentence:"The exponent tells you how many times to multiply the base by itself.", grp:"Math"},
+  {word:"root", target:"root", sentence:"A root is the number that was multiplied to make a bigger number.", grp:"Math"},
+  {word:"power", target:"power", sentence:"A power tells you how many times a number is multiplied by itself.", grp:"Math"},
+  {word:"base", target:"base", sentence:"The base is the number being multiplied, and the exponent counts the multiplications.", grp:"Math"},
+  {word:"square root", target:"square root", sentence:"The square root of nine is three, because three times three equals nine.", grp:"Math"},
+  {word:"radical", target:"radical", sentence:"The radical symbol is the check mark shape that tells you to find a root.", grp:"Math"},
+  {word:"equivalent expressions", target:"equivalent expressions", sentence:"Equivalent expressions look different on paper, yet they always have the same value.", grp:"Math"},
+  {word:"materials", target:"materials", sentence:"Artists choose their materials carefully, and those choices change how the finished piece feels.", grp:"Art"},
+  {word:"self-portrait", target:"self-portrait", sentence:"Because a self-portrait shows how you see yourself, no two of them look alike.", grp:"Art"},
+  {word:"selfie", target:"selfie", sentence:"A quick selfie and a painted portrait both tell a story about identity.", grp:"Art"},
+  {word:"symbol", target:"symbol", sentence:"Although a symbol is just a simple shape, it can carry an enormous meaning.", grp:"Art"},
+  {word:"virtual reality", target:"virtual reality", sentence:"Virtual reality lets you step inside a painting and walk around inside it.", grp:"Art"},
+  {word:"culturally", target:"culturally", sentence:"Something culturally important matters deeply to the people who share that way of life.", grp:"Media"},
+  {word:"iconic", target:"iconic", sentence:"Something iconic is so famous that people recognize it instantly, even years later.", grp:"Media"},
+  {word:"illusion", target:"illusion", sentence:"An illusion is something that tricks your eyes into seeing what is not real.", grp:"Media"},
+  {word:"landscape", target:"landscape", sentence:"The landscape stretched for miles, and not a single building blocked our view.", grp:"Media"},
+  {word:"national park", target:"national park", sentence:"Although the national park was crowded, we still found a quiet trail to hike.", grp:"Media"},
+  {word:"park ranger", target:"park ranger", sentence:"The park ranger answered our questions and showed us where the deer sleep.", grp:"Media"},
+  {word:"preserved", target:"preserved", sentence:"Land that is preserved is protected, so that it stays exactly the way it is.", grp:"Media"},
+  {word:"anticipated", target:"anticipated", sentence:"Everyone had anticipated the game for weeks, so the gym was packed by the time it started.", grp:"Unit 1 Core 1"},
+  {word:"annoyed", target:"annoyed", sentence:"I was annoyed when my group kept talking and I couldn\\u2019t finish my part of the project.", grp:"Unit 1 Core 1"},
+  {word:"astrologer", target:"astrologer", sentence:"The astrologer claimed she could predict your future by studying the stars and planets.", grp:"Unit 1 Core 1"},
+  {word:"antiquated", target:"antiquated", sentence:"The rules in that old handbook felt antiquated, like they were written for a completely different time.", grp:"Unit 1 Core 1"},
+  {word:"abbreviations", target:"abbreviations", sentence:"Texting is faster when you use abbreviations, but teachers still want full words on your essays.", grp:"Unit 1 Core 1"},
+  {word:"confident", target:"confident", sentence:"She walked into the interview confident and calm, because she had practiced her answers all week.", grp:"Unit 1 Core 1"},
+  {word:"compared to", target:"compared to", sentence:"Compared to the book, the movie left out a lot of important details from the story.", grp:"Unit 1 Core 1"},
+  {word:"charts", target:"charts", sentence:"The scientist used charts to show how the temperature changed over the past hundred years.", grp:"Unit 1 Core 1"},
+  {word:"decade", target:"decade", sentence:"A lot can change in a single decade, especially in the way people use technology.", grp:"Unit 1 Core 2"},
+  {word:"enrolled", target:"enrolled", sentence:"After she moved to a new city, she enrolled in a school where she didn\\u2019t know a single person.", grp:"Unit 1 Core 2"},
+  {word:"entities", target:"entities", sentence:"The two companies are separate entities, even though they share the same downtown building.", grp:"Unit 1 Core 2"},
+  {word:"elements", target:"elements", sentence:"A good story has a few key elements: interesting characters, a real problem, and a satisfying ending.", grp:"Unit 1 Core 2"},
+  {word:"enhanced", target:"enhanced", sentence:"The team\\u2019s new strategy enhanced their chances of making it all the way to the finals.", grp:"Unit 1 Core 2"},
+  {word:"incomplete", target:"incomplete", sentence:"The teacher marked my assignment incomplete because I forgot to answer the last two questions.", grp:"Unit 1 Core 2"},
+  {word:"gentle", target:"gentle", sentence:"Even though he was the biggest player on the field, he was surprisingly gentle with his little sister.", grp:"Unit 1 Core 2"},
+  {word:"persevered", target:"persevered", sentence:"She persevered through months of hard training, and finally her effort paid off at the meet.", grp:"Unit 1 Core 2"},
+  {word:"respond to", target:"respond to", sentence:"It\\u2019s polite to respond to a message within a day, even if you can only send a quick reply.", grp:"Unit 1 Core 3"},
+  {word:"route", target:"route", sentence:"We chose a different route home to avoid the traffic near the construction on Main Street.", grp:"Unit 1 Core 3"},
+  {word:"realization", target:"realization", sentence:"Halfway through the year, I had the realization that studying a little every day beats cramming.", grp:"Unit 1 Core 3"},
+  {word:"souvenirs", target:"souvenirs", sentence:"We brought back souvenirs from the trip so we would always remember the places we visited.", grp:"Unit 1 Core 3"},
+  {word:"sold out", target:"sold out", sentence:"By the time we got to the box office, the concert was completely sold out and no tickets were left.", grp:"Unit 1 Core 3"},
+  {word:"select", target:"select", sentence:"The coach will select the starting lineup based on who shows up and works hard at practice.", grp:"Unit 1 Core 3"},
+  {word:"unique", target:"unique", sentence:"Her art style is so unique that you can recognize her paintings the second you walk in the room.", grp:"Unit 1 Core 3"},
+  {word:"virtues", target:"virtues", sentence:"Patience and honesty are virtues that will help you far more than people sometimes expect.", grp:"Unit 1 Core 3"},
+];
+var GROUPS = [
+  {name:"Personal Narrative 1", words:["imperative","horrendous","insecurity","my jaw dropped to the floor","sporting"]},
+  {name:"Personal Narrative 2", words:["unscathed","dreading","apprehension","genuine","incident","trivial","grandstand"]},
+  {name:"Language Arts", words:["claim","evidence","conclusion","figurative language","idiom","narrative","chronological"]},
+  {name:"Science", words:["memories","process","associate","vast","cortex","prefrontal cortex","hippocampus","amygdala"]},
+  {name:"Math", words:["exponent","root","power","base","square root","radical","equivalent expressions"]},
+  {name:"Art", words:["materials","self-portrait","selfie","symbol","virtual reality"]},
+  {name:"Media", words:["culturally","iconic","illusion","landscape","national park","park ranger","preserved"]},
+  {name:"Unit 1 Core 1", words:["anticipated","annoyed","astrologer","antiquated","abbreviations","confident","compared to","charts"]},
+  {name:"Unit 1 Core 2", words:["decade","enrolled","entities","elements","enhanced","incomplete","gentle","persevered"]},
+  {name:"Unit 1 Core 3", words:["respond to","route","realization","souvenirs","sold out","select","unique","virtues"]},
 ];
 function sentId(word){ return "sent_" + word.replace(/ /g,"_"); }
 function wordId(word){ return "word_" + word.replace(/ /g,"_"); }
@@ -533,6 +620,112 @@ function micErrorText(err){
   return "Couldn\u2019t start recording. Check the microphone and try again.";
 }
 
+
+/* ---------- Group state ---------- */
+var CURGROUP=null, GIDX=0;
+function gKey(){ return "rf_groups_"+(READER?READER.id:"anon"); }
+function gDone(){ try{ var v=localStorage.getItem(gKey()); return v?JSON.parse(v):{}; }catch(e){ return {}; } }
+function gMarkDone(name){ try{ var o=gDone(); o[name]=1; localStorage.setItem(gKey(), JSON.stringify(o)); }catch(e){} }
+function gUnlocked(idx){ if(idx===0){ return true; } var o=gDone(); return !!o[GROUPS[idx-1].name]; }
+function groupWords(name){ var out=[], i; for(i=0;i<SENTENCES.length;i++){ if(SENTENCES[i].grp===name){ out.push(i); } } return out; }
+function buildGroups(){
+  var box=document.getElementById("group-list"); if(!box){ return; }
+  box.innerHTML="";
+  var wh=document.getElementById("group-who"); if(wh&&READER){ wh.textContent=READER.name; }
+  var i;
+  for(i=0;i<GROUPS.length;i++){
+    (function(g,idx){
+      var open=gUnlocked(idx), done=!!gDone()[g.name];
+      var b=document.createElement("button");
+      b.className="btn block"+(open?"":" locked");
+      b.innerHTML=(done?"&#10003;&nbsp; ":"")+escapeHtml(g.name)+' <span class="grp-count">'+g.words.length+' words</span>';
+      if(!open){ b.disabled=true; }
+      else { b.onclick=function(){ CURGROUP=g; GIDX=idx; rStart(); }; }
+      box.appendChild(b);
+    })(GROUPS[i], i);
+  }
+}
+
+/* ---------- Final read: whole group, one recording ---------- */
+var fRec=null, fChunks=[], fBlob=null, fStream=null;
+function fEnter(){
+  fBlob=null; fChunks=[];
+  var g=CURGROUP; if(!g){ go("s-groups"); return; }
+  document.getElementById("f-title").textContent=g.name;
+  var idxs=groupWords(g.name), html="", i;
+  for(i=0;i<idxs.length;i++){
+    html += '<p class="f-sentence"><span class="f-num">'+(i+1)+'.</span> '+escapeHtml(SENTENCES[idxs[i]].sentence)+'</p>';
+  }
+  document.getElementById("f-list").innerHTML=html;
+  var st=document.getElementById("f-state"); st.className="state-line"; st.textContent="";
+  document.getElementById("f-after").innerHTML="";
+  setFBtn("idle");
+}
+function setFBtn(mode){
+  var b=document.getElementById("f-btn");
+  if(mode==="idle"){ b.innerHTML="&#9679;&nbsp; Start recording"; b.className="btn primary"; b.onclick=fStart; }
+  if(mode==="rec"){ b.innerHTML="&#9632;&nbsp; Stop recording"; b.className="btn danger"; b.onclick=fStop; }
+}
+function fStart(){
+  stopAllAudio();
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    fStream=stream; fChunks=[];
+    fRec=new MediaRecorder(stream);
+    fRec.ondataavailable=function(e){ if(e.data&&e.data.size>0){ fChunks.push(e.data); } };
+    fRec.onstop=function(){
+      fBlob=new Blob(fChunks,{type:(fRec.mimeType||"audio/webm")});
+      if(fStream){ var tr=fStream.getTracks(), k; for(k=0;k<tr.length;k++){ tr[k].stop(); } }
+      document.getElementById("f-state").textContent="Recording finished. Listen to it, then save it.";
+      fShowAfter(); setFBtn("idle");
+    };
+    fRec.start();
+    document.getElementById("f-state").textContent="Recording. Read every sentence out loud, then press Stop.";
+    setFBtn("rec");
+  }).catch(function(err){
+    var st=document.getElementById("f-state"); st.className="state-line err"; st.textContent=micErrorText(err);
+  });
+}
+function fStop(){ if(fRec&&fRec.state!=="inactive"){ fRec.stop(); } }
+function fPlay(){ if(fBlob){ playBlob(fBlob); } }
+function fShowAfter(){
+  document.getElementById("f-after").innerHTML=
+     '<div class="hear-line" style="margin-top:14px">'
+    +'<button class="btn" onclick="fPlay()">&#9654;&nbsp; Listen to my reading</button>'
+    +'<button class="btn" onclick="fStart()">&#8635;&nbsp; Record it again</button>'
+    +'</div>'
+    +'<div class="hear-line" style="margin-top:10px">'
+    +'<button class="btn primary" onclick="fSave()">&#8681;&nbsp; Save my file</button>'
+    +'</div>';
+}
+function fFileBase(){
+  var nm=(READER?READER.name:"student").replace(/[^A-Za-z0-9]/g,"");
+  var gp=CURGROUP.name.replace(/[^A-Za-z0-9]/g,"_");
+  return nm+"_"+gp;
+}
+function fSave(){
+  if(!fBlob){ return; }
+  var ext=(fBlob.type&&fBlob.type.indexOf("ogg")>=0)?"ogg":"webm";
+  var fname=fFileBase()+"."+ext;
+  var u=URL.createObjectURL(fBlob);
+  var a=document.createElement("a"); a.href=u; a.download=fname;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(u); },1500);
+  gMarkDone(CURGROUP.name);
+  fCanvasSteps(fname);
+}
+function fCanvasSteps(fname){
+  document.getElementById("f-after").innerHTML=
+     '<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
+    +'<li>Your file downloaded. It is called <strong>'+escapeHtml(fname)+'</strong>.</li>'
+    +'<li>Open today&rsquo;s assignment in Canvas.</li>'
+    +'<li>Choose <strong>Upload</strong> &mdash; not Record &mdash; and pick that file.</li>'
+    +'<li>Press <strong>Submit</strong>.</li>'
+    +'</ol></div>'
+    +'<div class="nav-row" style="margin-top:14px">'
+    +'<button class="btn primary" onclick="go(\'s-groups\')">Back to my groups &#8594;</button>'
+    +'</div>';
+}
+
 /* ---------- Routing ---------- */
 function go(id){
   var s=document.getElementsByClassName("screen"), i;
@@ -541,6 +734,8 @@ function go(id){
   window.scrollTo(0,0); stopAllAudio();
   if(id==="s-pick"){ buildClasses(); }
   if(id==="s-roster"){ buildRoster(); }
+  if(id==="s-groups"){ buildGroups(); }
+  if(id==="s-final"){ fEnter(); }
   if(id==="s-teach"){ enterTeach(); }
   if(id==="s-settings"){ paintReadsSeg(); }
 }
@@ -558,7 +753,7 @@ function buildRoster(){
   document.getElementById("roster-title").textContent=CURCLASS.label;
   var list=CURCLASS.students, i;
   for(i=0;i<list.length;i++){
-    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ READER=stu; rStart(); }; box.appendChild(b); })(list[i]);
+    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ READER=stu; go("s-groups"); }; box.appendChild(b); })(list[i]);
   }
 }
 
@@ -566,8 +761,11 @@ function buildRoster(){
 var rIndex=0, rStage=0, rStages=[], rRecBlob=null, rStartAt=0, rRecorded={};
 var TOK=[], TN=0, curIdx=0;
 
+var GIDXS=[], gPos=0;
 function rStart(){
-  rIndex=0; rRecorded={}; rStartAt=new Date().getTime();
+  GIDXS = CURGROUP ? groupWords(CURGROUP.name) : [];
+  if(!GIDXS.length){ go("s-groups"); return; }
+  gPos=0; rIndex=GIDXS[0]; rRecorded={}; rStartAt=new Date().getTime();
   document.getElementById("read-who").textContent=READER.name;
   go("s-read"); rEnterSentence();
 }
@@ -581,7 +779,7 @@ function rEnterSentence(){
   rStages=buildStages(); rStage=0; rRecBlob=null;
   var s=SENTENCES[rIndex];
   TOK=tokenize(s.sentence,s.target); TN=TOK.length; curIdx=0;
-  document.getElementById("rprog").style.width=Math.round((rIndex/(SENTENCES.length-1))*100)+"%";
+  document.getElementById("rprog").style.width=Math.round((gPos/Math.max(1,(GIDXS.length-1)))*100)+"%";
   rRenderStage();
 }
 function passDotsHTML(){
@@ -626,7 +824,7 @@ function rRenderStage(){
   stopAllAudio(); rRecBlob=null;
   var s=SENTENCES[rIndex];
   var stage=rStages[rStage];
-  var head='<p class="step-eyebrow">Word '+(rIndex+1)+' of '+SENTENCES.length+'</p>'+passDotsHTML();
+  var head='<p class="step-eyebrow">Word '+(gPos+1)+' of '+GIDXS.length+'</p>'+passDotsHTML();
   var chip='<div class="word-chip"><span class="w">'+escapeHtml(s.word)+'</span>'
           +'<button class="hearw" onclick="hearWord()">&#9654;&nbsp; Hear the word</button></div>'
           +'<p class="mini-note" id="word-miss"></p>';
@@ -643,7 +841,7 @@ function rRenderStage(){
       +'<p class="miss-note" id="sent-miss"></p>'
       +'</div>'
       +'<div class="nav-row">'
-      +(rIndex>0?'<button class="btn" onclick="rPrevSentence()">&larr; Previous word</button>':'')
+      +(gPos>0?'<button class="btn" onclick="rPrevSentence()">&larr; Previous word</button>':'')
       +'<button class="btn primary" onclick="rAdvance()">I heard it &rarr;</button>'
       +'</div>';
   } else if(stage==="read"){
@@ -671,7 +869,7 @@ function rRenderStage(){
       +'</div>'
       +'<div class="nav-row">'
       +'<button class="btn" onclick="hearSentence()">&#9654; Hear it again</button><button class="btn" id="pause-btn" onclick="togglePause()">&#10073;&#10073;&nbsp; Pause</button>'
-      +(rIndex<SENTENCES.length-1?'<button class="btn primary" onclick="rNextSentence()">Next word &rarr;</button>':'<button class="btn primary" onclick="rDone()">Finish</button>')
+      +(gPos<GIDXS.length-1?'<button class="btn primary" onclick="rNextSentence()">Next word &rarr;</button>':'<button class="btn primary" onclick="rToFinal()">Final read &rarr;</button>')
       +'</div>';
   }
   document.getElementById("read-body").innerHTML=body;
@@ -679,8 +877,14 @@ function rRenderStage(){
   setupPacer();
 }
 function rAdvance(){ if(rStage<rStages.length-1){ rStage++; rRenderStage(); window.scrollTo(0,0); } }
-function rNextSentence(){ if(rIndex<SENTENCES.length-1){ rIndex++; rEnterSentence(); window.scrollTo(0,0); } }
-function rPrevSentence(){ if(rIndex>0){ rIndex--; rEnterSentence(); window.scrollTo(0,0); } }
+function rToFinal(){
+  var n=0,k; for(k in rRecorded){ if(rRecorded.hasOwnProperty(k)){ n++; } }
+  Progress.record({ studentId:READER.id, studentName:READER.name, activity:"read-and-slide", wordsRecorded:n, ofTotal:GIDXS.length, timeSpentMs:(new Date().getTime()-rStartAt) });
+  stopAllAudio();
+  go("s-final");
+}
+function rNextSentence(){ if(gPos<GIDXS.length-1){ gPos++; rIndex=GIDXS[gPos]; rEnterSentence(); window.scrollTo(0,0); } }
+function rPrevSentence(){ if(gPos>0){ gPos--; rIndex=GIDXS[gPos]; rEnterSentence(); window.scrollTo(0,0); } }
 
 /* Hear the target word alone */
 function hearWord(){
@@ -703,7 +907,9 @@ function hearSentence(){
     /* highlight follows the real audio position, so it can never run ahead */
     currentAudio.ontimeupdate=function(){
       var dur=currentAudio.duration; if(!dur||dur===Infinity||isNaN(dur)) return;
-      var f=currentAudio.currentTime/dur; if(f<0)f=0; if(f>1)f=1;
+      var LAG=0.18; /* seconds the highlight sits behind the voice */
+      var ct=currentAudio.currentTime-LAG; if(ct<0){ ct=0; }
+      var f=ct/dur; if(f<0)f=0; if(f>1)f=1;
       var i, idx=0;
       for(i=0;i<TN;i++){ if(f>=edges[i]) idx=i; else break; }
       setCurIdx(idx);
