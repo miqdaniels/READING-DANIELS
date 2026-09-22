@@ -483,8 +483,26 @@ var Progress=(function(){
 })();
 
 /* ---------- Playback ---------- */
-var currentAudio=null, sweepTimer=null;
+var currentAudio=null, sweepTimer=null, sweepBounds=null, sweepPaused=false;
 function stopSweep(){ if(sweepTimer){ clearInterval(sweepTimer); sweepTimer=null; } }
+/* rough syllable count for pacing weight (ES5) */
+function sylCount(w){
+  if(!w) return 1;
+  w=w.toLowerCase().replace(/[^a-z]/g,"");
+  if(w.length<=3) return 1;
+  w=w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,"");
+  w=w.replace(/^y/,"");
+  var m=w.match(/[aeiouy]{1,2}/g);
+  var n=m?m.length:1; return n<1?1:n;
+}
+/* map each token to a start/end fraction of the audio, weighted by syllables */
+function buildWeights(){
+  var wts=[], i, tot=0;
+  for(i=0;i<TN;i++){ var wv=sylCount(TOK[i].strip); wts.push(wv); tot+=wv; }
+  var edges=[0], run=0;
+  for(i=0;i<TN;i++){ run+=wts[i]; edges.push(run/tot); }
+  return edges; /* length TN+1, edges[i]..edges[i+1] is token i window */
+}
 function stopAllAudio(){ stopSweep(); if(currentAudio){ try{currentAudio.pause();}catch(e){} currentAudio=null; } }
 function playBlob(b){ stopAllAudio(); var u=URL.createObjectURL(b); currentAudio=new Audio(u); currentAudio.onended=function(){URL.revokeObjectURL(u);}; currentAudio.play(); return currentAudio; }
 function playId(id){ return AudioStore.get(id).then(function(b){ if(b){ playBlob(b); return true; } return false; }); }
@@ -621,7 +639,7 @@ function rRenderStage(){
     body=head
       +'<div class="card">'
       +chip+sent+pacer
-      +'<div class="hear-line"><button class="play-btn" onclick="hearSentence()">&#9654;&nbsp; Hear the sentence</button></div>'
+      +'<div class="hear-line"><button class="play-btn" onclick="hearSentence()">&#9654;&nbsp; Hear the sentence</button>&nbsp;<button class="btn" id="pause-btn" onclick="togglePause()">&#10073;&#10073;&nbsp; Pause</button></div>'
       +'<p class="miss-note" id="sent-miss"></p>'
       +'</div>'
       +'<div class="nav-row">'
@@ -636,7 +654,7 @@ function rRenderStage(){
       +'<p class="mini-note">Read <strong>'+readNo+'</strong>: slide and read it out loud. Tap a word if you get stuck.</p>'
       +'</div>'
       +'<div class="nav-row">'
-      +'<button class="btn" onclick="hearSentence()">&#9654; Hear it again</button>'
+      +'<button class="btn" onclick="hearSentence()">&#9654; Hear it again</button><button class="btn" id="pause-btn" onclick="togglePause()">&#10073;&#10073;&nbsp; Pause</button>'
       +'<button class="btn primary" onclick="rAdvance()">I read it &rarr;</button>'
       +'</div>';
   } else { /* record */
@@ -652,7 +670,7 @@ function rRenderStage(){
       +'<div id="r-save"></div>'
       +'</div>'
       +'<div class="nav-row">'
-      +'<button class="btn" onclick="hearSentence()">&#9654; Hear it again</button>'
+      +'<button class="btn" onclick="hearSentence()">&#9654; Hear it again</button><button class="btn" id="pause-btn" onclick="togglePause()">&#10073;&#10073;&nbsp; Pause</button>'
       +(rIndex<SENTENCES.length-1?'<button class="btn primary" onclick="rNextSentence()">Next word &rarr;</button>':'<button class="btn primary" onclick="rDone()">Finish</button>')
       +'</div>';
   }
@@ -677,17 +695,32 @@ function hearSentence(){
     if(!b){ if(miss) miss.textContent="This sentence isn\u2019t recorded yet \u2014 your teacher will add it."; return; }
     if(miss) miss.textContent="";
     stopAllAudio();
+    sweepPaused=false;
+    var edges=buildWeights();
     var u=URL.createObjectURL(b); currentAudio=new Audio(u);
-    currentAudio.onended=function(){ URL.revokeObjectURL(u); stopSweep(); setCurIdx(TN-1); };
-    currentAudio.onloadedmetadata=function(){
-      var dur=currentAudio.duration; if(!dur||dur===Infinity||isNaN(dur)) dur=Math.max(2, TN*0.5);
-      var step=Math.max(180,(dur*1000)/TN);
-      setCurIdx(0); var i=0;
-      stopSweep();
-      sweepTimer=setInterval(function(){ i++; if(i>TN-1){ setCurIdx(TN-1); stopSweep(); return; } setCurIdx(i); }, step);
+    currentAudio.onended=function(){ URL.revokeObjectURL(u); stopSweep(); setCurIdx(TN-1); setPauseLabel(false); };
+    setCurIdx(0);
+    /* highlight follows the real audio position, so it can never run ahead */
+    currentAudio.ontimeupdate=function(){
+      var dur=currentAudio.duration; if(!dur||dur===Infinity||isNaN(dur)) return;
+      var f=currentAudio.currentTime/dur; if(f<0)f=0; if(f>1)f=1;
+      var i, idx=0;
+      for(i=0;i<TN;i++){ if(f>=edges[i]) idx=i; else break; }
+      setCurIdx(idx);
     };
+    setPauseLabel(false);
     currentAudio.play();
   });
+}
+/* Pause / resume the sentence audio (highlight freezes because it follows the audio) */
+function togglePause(){
+  if(!currentAudio){ return; }
+  if(currentAudio.paused){ currentAudio.play(); sweepPaused=false; setPauseLabel(false); }
+  else { currentAudio.pause(); sweepPaused=true; setPauseLabel(true); }
+}
+function setPauseLabel(paused){
+  var b=document.getElementById("pause-btn"); if(!b) return;
+  b.innerHTML = paused ? "&#9654;&nbsp; Resume" : "&#10073;&#10073;&nbsp; Pause";
 }
 /* Tap a word: replay the whole sentence, hold that word lit (honest fallback) */
 function tapWord(i){
