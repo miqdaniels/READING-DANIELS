@@ -101,6 +101,7 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .note-box ul{margin:6px 0 0;padding-left:20px;color:var(--ink-soft);font-size:14px}
 .note-box li{margin:5px 0}
 .status-tag{font-weight:700}.status-tag.w{color:var(--good)}.status-tag.p{color:var(--retry)}.status-tag.x{color:var(--unsure)}
+.code-input{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);width:8em;text-transform:uppercase}
 .setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 10px}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .seg button{border:none;background:var(--panel);color:var(--ink);font:inherit;font-weight:600;padding:9px 14px;cursor:pointer}
@@ -179,6 +180,10 @@ footer.mini a:hover{text-decoration:underline}
     <p class="crumb"><a onclick="go('s-pick')">Change class</a> &nbsp;/&nbsp; <span id="roster-title"></span></p>
     <h2>Who&rsquo;s reading today?</h2>
     <p class="lede">Tap your name.</p>
+    <div class="setting-row" id="code-box" style="display:none;flex-wrap:wrap">
+      <div><strong>Class code</strong><br><span class="mini-note">Your teacher gives you this. It saves your points and groups so they follow you to any computer.</span></div>
+      <div><input id="code-input" class="code-input" placeholder="Code" autocomplete="off"> <button class="btn" onclick="rosterSaveCode()">Save</button><div class="mini-note" id="code-msg"></div></div>
+    </div>
     <div class="grid" id="roster-list"></div>
   </section>
 <section class="screen" id="s-groups">
@@ -186,6 +191,7 @@ footer.mini a:hover{text-decoration:underline}
     <p class="step-eyebrow">Unit 1</p>
     <h2 class="scr-title">Choose your group, <span id="group-who"></span></h2>
     <p class="mini-note">Finish a group to open the next one.</p>
+    <p class="mini-note" id="sync-note" style="display:none"></p>
     <div id="group-list" class="pick-list"></div>
     <div class="nav-row" style="margin-top:14px">
       <button class="btn" onclick="go('s-roster')">&#8592; Change reader</button>
@@ -225,6 +231,7 @@ footer.mini a:hover{text-decoration:underline}
     <h2>Today's scoreboard</h2>
     <p class="mini-note">Team scores are the total points every teammate earned today. Green counts from school; blue home points count double.</p>
     <div class="seg" id="board-class" style="margin:10px 0;flex-wrap:wrap"></div>
+    <p class="mini-note" id="board-sync"></p>
     <div id="board-body"></div>
     <div class="nav-row" style="margin-top:14px">
       <button class="btn" onclick="go('s-home')">Back to start</button>
@@ -310,6 +317,10 @@ footer.mini a:hover{text-decoration:underline}
     <div class="setting-row" style="display:block">
       <div style="margin-bottom:8px"><strong>Teams (for the scoreboard)</strong><br><span class="mini-note">Put each student on a team. At the end of class, open the Scoreboard to show team standings. Use the dash to leave a student off a team.</span></div>
       <div id="team-list"></div>
+    </div>
+    <div class="setting-row" style="display:block">
+      <div style="margin-bottom:8px"><strong>Class codes (save across devices)</strong><br><span class="mini-note">Enter each class&rsquo;s code once on this computer so the Scoreboard counts every student&rsquo;s device. Give students their class link with the code in it (<code>?c=CODE</code>) in Canvas, so they never have to type it.</span></div>
+      <div id="code-list"></div>
     </div>
     <button class="btn" onclick="go('s-home')">Back to start</button>
   </section>
@@ -704,7 +715,7 @@ function micErrorText(err){
 var CURGROUP=null, GIDX=0;
 function gKey(){ return "rf_groups_"+(READER?READER.id:"anon"); }
 function gDone(){ try{ var v=localStorage.getItem(gKey()); return v?JSON.parse(v):{}; }catch(e){ return {}; } }
-function gMarkDone(name){ try{ var o=gDone(); o[name]=1; localStorage.setItem(gKey(), JSON.stringify(o)); }catch(e){} }
+function gMarkDone(name){ try{ var o=gDone(); o[name]=1; localStorage.setItem(gKey(), JSON.stringify(o)); }catch(e){} Sync.dirty(); }
 function gUnlocked(idx){ if(idx===0){ return true; } var o=gDone(); return !!o[GROUPS[idx-1].name]; }
 function groupWords(name){ var out=[], i; for(i=0;i<SENTENCES.length;i++){ if(SENTENCES[i].grp===name){ out.push(i); } } return out; }
 function buildGroups(){
@@ -736,7 +747,7 @@ function azNow(){ var n=new Date(); var utc=n.getTime()+n.getTimezoneOffset()*60
 function azDateStr(){ var d=azNow(); return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate()); }
 function isBlue(){ return azNow().getHours() >= 16; }
 function pointsData(){ try{ return JSON.parse(localStorage.getItem("points_data")||"{}"); }catch(e){ return {}; } }
-function savePoints(o){ try{ localStorage.setItem("points_data", JSON.stringify(o)); }catch(e){} }
+function savePoints(o){ try{ localStorage.setItem("points_data", JSON.stringify(o)); }catch(e){} Sync.dirty(); }
 function dayRec(data,id,date){
   var rec=data[id]||(data[id]={});
   var day=rec[date]||(rec[date]={green:0,blue:0,gEarned:{},bEarned:{},finals:{}});
@@ -783,6 +794,189 @@ function gotPoints(kind,wordkey,groupName){
   if(n>0){ floatPts(n); refreshPtsBadge(); }
   return n;
 }
+/* ---------- Cloud sync (Vercel /api/sync): progress + points follow the student ---------- */
+/* localStorage stays the instant local save; this mirrors each student's points + finished groups
+   to the class account. No login: identity = tapped name + the class code (from the Canvas link ?c=CODE). */
+var Sync=(function(){
+  var CODES_KEY="rf_sync_codes", API="/api/sync";
+  var hydrated={}, pending={}, timer=null, state="idle";
+  function enabled(){
+    try{
+      var l=window.location;
+      if(l.protocol!=="http:" && l.protocol!=="https:"){ return false; }
+      return !/github\.io$/i.test(l.hostname);
+    }catch(e){ return false; }
+  }
+  function codes(){ try{ return JSON.parse(localStorage.getItem(CODES_KEY)||"{}"); }catch(e){ return {}; } }
+  function setCode(cls,code){ try{ var o=codes(); if(code){ o[cls]=code; } else { delete o[cls]; } localStorage.setItem(CODES_KEY,JSON.stringify(o)); }catch(e){} }
+  function clsOf(id){ var ci,si; for(ci=0;ci<CLASSES.length;ci++){ for(si=0;si<CLASSES[ci].students.length;si++){ if(CLASSES[ci].students[si].id===id){ return CLASSES[ci].id; } } } return null; }
+  function codeFor(id){ var c=clsOf(id); return c ? (codes()[c]||"") : ""; }
+  function xhr(method,url,body,cb){
+    try{
+      var r=new XMLHttpRequest();
+      r.open(method,url,true);
+      r.timeout=10000;
+      if(body){ r.setRequestHeader("Content-Type","application/json"); }
+      r.onreadystatechange=function(){
+        if(r.readyState!==4){ return; }
+        var j=null; try{ j=JSON.parse(r.responseText); }catch(e){}
+        cb(r.status, j);
+      };
+      r.ontimeout=function(){ cb(0,null); };
+      r.send(body?JSON.stringify(body):null);
+    }catch(e){ cb(0,null); }
+  }
+  /* ---- merge: union of claims, totals recomputed so nothing is ever lost or double-paid ---- */
+  function unionClaims(out,src){ var k; if(!src){ return; } for(k in src){ if(src.hasOwnProperty(k)){ if(!out[k]){ out[k]={}; } if(src[k].w){ out[k].w=1; } if(src[k].s){ out[k].s=1; } } } }
+  function sumClaims(cl,wp,sp){ var t=0,k; for(k in cl){ if(cl.hasOwnProperty(k)){ if(cl[k].w){ t+=wp; } if(cl[k].s){ t+=sp; } } } return t; }
+  function mergeDay(a,b){
+    a=a||{}; b=b||{};
+    var out={green:0,blue:0,gEarned:{},bEarned:{},finals:{}}, k;
+    unionClaims(out.gEarned,a.gEarned); unionClaims(out.gEarned,b.gEarned);
+    unionClaims(out.bEarned,a.bEarned); unionClaims(out.bEarned,b.bEarned);
+    for(k in (a.finals||{})){ if(a.finals.hasOwnProperty(k)){ out.finals[k]=a.finals[k]; } }
+    for(k in (b.finals||{})){ if(b.finals.hasOwnProperty(k) && !out.finals[k]){ out.finals[k]=b.finals[k]; } }
+    var g=sumClaims(out.gEarned,PTS.word,PTS.sent), bl=sumClaims(out.bEarned,PTS.wordBlue,PTS.sentBlue);
+    for(k in out.finals){ if(out.finals.hasOwnProperty(k)){ if(out.finals[k]==="blue"){ bl+=PTS.finalBlue; } else { g+=PTS.final; } } }
+    out.green=Math.max(g, a.green||0, b.green||0);
+    out.blue=Math.max(bl, a.blue||0, b.blue||0);
+    return out;
+  }
+  function mergePoints(a,b){ var out={},d; a=a||{}; b=b||{}; for(d in a){ if(a.hasOwnProperty(d)){ out[d]=mergeDay(a[d],b[d]); } } for(d in b){ if(b.hasOwnProperty(d)&&!out[d]){ out[d]=mergeDay(null,b[d]); } } return out; }
+  function groupsOf(id){ try{ return JSON.parse(localStorage.getItem("rf_groups_"+id)||"{}"); }catch(e){ return {}; } }
+  function applyRemote(id,remote){
+    if(!remote){ return; }
+    try{
+      var data=pointsData();
+      data[id]=mergePoints(data[id],remote.points);
+      localStorage.setItem("points_data",JSON.stringify(data));
+      var g=groupsOf(id), k, rg=remote.groups||{};
+      for(k in rg){ if(rg.hasOwnProperty(k)&&rg[k]){ g[k]=1; } }
+      localStorage.setItem("rf_groups_"+id,JSON.stringify(g));
+    }catch(e){}
+  }
+  /* what goes up: today's full claim ledger (anti-spam needs it); older days as totals only, to stay small */
+  function localBlob(id){
+    var p=pointsData()[id]||{}, today=azDateStr(), out={}, d;
+    for(d in p){ if(p.hasOwnProperty(d)){ out[d] = (d===today) ? p[d] : {green:p[d].green||0, blue:p[d].blue||0, finals:p[d].finals||{}}; } }
+    return {points:out, groups:groupsOf(id)};
+  }
+  function setState(s){ state=s; paintNote(); }
+  function push(id,cb){
+    var code=codeFor(id); if(!code){ if(cb){ cb(false); } return; }
+    setState("saving");
+    xhr("POST",API,{code:code,id:id,data:localBlob(id)},function(st,j){
+      var ok=(st===200 && j && j.ok);
+      if(ok){ delete pending[id]; } else { pending[id]=1; }
+      setState(ok?"ok":"offline");
+      if(cb){ cb(ok); }
+    });
+  }
+  function pull(id,cb){
+    var code=codeFor(id); if(!enabled()||!code){ setState("idle"); if(cb){ cb(false); } return; }
+    setState("saving");
+    xhr("GET",API+"?code="+encodeURIComponent(code)+"&id="+encodeURIComponent(id),null,function(st,j){
+      if(st===200 && j && j.ok){
+        applyRemote(id,j.data); hydrated[id]=true;
+        if(READER && READER.id===id){ refreshAfterPull(); }
+        push(id,cb);
+      } else {
+        pending[id]=1; setState("offline"); if(cb){ cb(false); }
+      }
+    });
+  }
+  function refreshAfterPull(){
+    var a=document.getElementById("s-groups"); if(a && a.className.indexOf("active")>-1){ buildGroups(); }
+    refreshPtsBadge();
+  }
+  /* called after every local save; debounced so a burst of taps is one request */
+  function dirty(){
+    if(!enabled()||!READER||!codeFor(READER.id)){ return; }
+    var id=READER.id; pending[id]=1;
+    if(timer){ clearTimeout(timer); }
+    timer=setTimeout(function(){ timer=null; retryPending(); },1200);
+  }
+  function retryPending(){ var id; for(id in pending){ if(pending.hasOwnProperty(id)){ if(hydrated[id]){ push(id); } else { pull(id); } } } }
+  function pullClass(cls,cb){
+    var code=enabled()?(codes()[cls.id]||""):""; if(!code){ if(cb){ cb(false); } return; }
+    xhr("GET",API+"?code="+encodeURIComponent(code)+"&all=1",null,function(st,j){
+      if(st===200 && j && j.ok && j.students){ var id; for(id in j.students){ if(j.students.hasOwnProperty(id)){ applyRemote(id,j.students[id]); } } if(cb){ cb(true); } }
+      else if(cb){ cb(false); }
+    });
+  }
+  function verify(code,cb){
+    code=(code||"").replace(/\s+/g,"").toUpperCase();
+    if(!code){ cb(null,"empty"); return; }
+    xhr("GET",API+"?code="+encodeURIComponent(code),null,function(st,j){
+      if(st===200 && j && j.ok && j.cls){ setCode(j.cls,code); cb(j.cls,null); }
+      else { cb(null, st===403 ? "bad" : "offline"); }
+    });
+  }
+  function paintNote(){
+    var n=document.getElementById("sync-note"); if(!n){ return; }
+    if(!enabled()){ n.style.display="none"; return; }
+    n.style.display="block";
+    if(!READER || !codeFor(READER.id)){ n.textContent="Progress is saving on this computer only. Open the app from your class link in Canvas to save it everywhere."; return; }
+    if(state==="offline"){ n.textContent="Can’t reach your class account right now. Progress is safe on this computer and will catch up."; return; }
+    if(state==="saving"){ n.textContent="Saving to your class account…"; return; }
+    n.textContent="✓ Progress saved to your class account — it follows you to any computer.";
+  }
+  function boot(){
+    if(!enabled()){ return; }
+    var m=/[?&]c=([^&#]+)/i.exec(window.location.search||"");
+    if(m){
+      verify(decodeURIComponent(m[1]),function(cls){
+        var i; if(cls){ for(i=0;i<CLASSES.length;i++){ if(CLASSES[i].id===cls){ CURCLASS=CLASSES[i]; } } }
+      });
+    }
+    try{ window.addEventListener("online",retryPending); }catch(e){}
+  }
+  return { enabled:enabled, codes:codes, setCode:setCode, codeFor:codeFor, pull:pull, dirty:dirty, pullClass:pullClass,
+           verify:verify, paintNote:paintNote, boot:boot, mergePoints:mergePoints };
+})();
+
+/* class code entry: roster (student, only when missing) and Settings (teacher, all classes) */
+function paintCodeBox(){
+  var box=document.getElementById("code-box"); if(!box){ return; }
+  box.style.display=(Sync.enabled() && CURCLASS && !Sync.codes()[CURCLASS.id]) ? "flex" : "none";
+  var m=document.getElementById("code-msg"); if(m){ m.textContent=""; }
+}
+function saveCode(inputId,msgId,expectCls,done){
+  var inp=document.getElementById(inputId), msg=document.getElementById(msgId);
+  if(msg){ msg.style.color="var(--ink-soft)"; msg.textContent="Checking…"; }
+  Sync.verify(inp?inp.value:"",function(cls,err){
+    if(cls && expectCls && cls!==expectCls){ Sync.setCode(cls,""); cls=null; err="other"; }
+    if(!msg){ return; }
+    if(cls){ msg.style.color="var(--good)"; msg.textContent="✓ Saved."; if(done){ done(); } return; }
+    msg.style.color="var(--retry)";
+    msg.textContent = err==="other" ? "That code is for a different class." : (err==="offline" ? "Can’t reach the class account. Try again in a minute." : "That code didn’t work. Check it and try again.");
+  });
+}
+function rosterSaveCode(){ saveCode("code-input","code-msg",CURCLASS?CURCLASS.id:null,function(){ setTimeout(paintCodeBox,900); }); }
+function paintCodeList(){
+  var box=document.getElementById("code-list"); if(!box){ return; }
+  var cur=Sync.codes(), html="", ci;
+  if(!Sync.enabled()){ box.innerHTML='<p class="mini-note">Class codes work on the Vercel site. This copy saves on this computer only.</p>'; return; }
+  for(ci=0;ci<CLASSES.length;ci++){
+    var c=CLASSES[ci];
+    html+='<div class="pacer-row"><span class="pacer-name">'+escapeHtml(c.label)+'</span><span>'
+      +'<input id="code-'+c.id+'" class="code-input" value="'+escapeHtml(cur[c.id]||"")+'" placeholder="Code" autocomplete="off"> '
+      +'<button class="btn" onclick="saveCode(\'code-'+c.id+'\',\'codemsg-'+c.id+'\',\''+c.id+'\')">Save</button> '
+      +'<span class="mini-note" id="codemsg-'+c.id+'">'+(cur[c.id]?"✓":"")+'</span></span></div>';
+  }
+  box.innerHTML=html;
+}
+function boardSync(){
+  var cls=CLASSES[BOARDCLS], n=document.getElementById("board-sync");
+  if(!Sync.enabled()){ if(n){ n.textContent=""; } return; }
+  if(!Sync.codes()[cls.id]){ if(n){ n.textContent="Showing this computer only. Add this class’s code in Settings to include every device."; } return; }
+  if(n){ n.textContent="Updating from the class account…"; }
+  Sync.pullClass(cls,function(ok){
+    if(n){ n.textContent = ok ? "✓ Includes every device." : "Couldn’t reach the class account — showing this computer only."; }
+    if(ok && CLASSES[BOARDCLS]===cls){ paintBoard(); }
+  });
+}
+
 function teamStandings(cls){
   var totals={}, i, st, t;
   for(i=0;i<cls.students.length;i++){
@@ -811,7 +1005,7 @@ function paintScore(){
     +'<p class="mini-note">'+(met?"You hit today's goal. Nice work!":("Goal: "+DAILY_GOAL+" points. "+(DAILY_GOAL-t.total)+" to go."))+'</p>'
     +'<p class="mini-note">Home points (blue) after 4:00 are worth double. Keep going tonight to move up.</p>';
 }
-function boardPick(i){ BOARDCLS=i; paintBoard(); }
+function boardPick(i){ BOARDCLS=i; paintBoard(); boardSync(); }
 function paintBoard(){
   var seg=document.getElementById("board-class"), ci;
   if(seg){ var h=""; for(ci=0;ci<CLASSES.length;ci++){ h+='<button onclick="boardPick('+ci+')" class="'+(ci===BOARDCLS?"on":"")+'">'+escapeHtml(CLASSES[ci].label)+'</button>'; } seg.innerHTML=h; }
@@ -990,14 +1184,14 @@ function go(id){
   document.getElementById(id).className="screen active";
   window.scrollTo(0,0); stopAllAudio();
   if(id==="s-pick"){ buildClasses(); }
-  if(id==="s-roster"){ buildRoster(); }
-  if(id==="s-groups"){ buildGroups(); }
+  if(id==="s-roster"){ buildRoster(); paintCodeBox(); }
+  if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
   if(id==="s-final"){ fEnter(); }
   if(id==="s-read"){ refreshPtsBadge(); }
   if(id==="s-score"){ paintScore(); }
-  if(id==="s-board"){ paintBoard(); }
+  if(id==="s-board"){ paintBoard(); boardSync(); }
   if(id==="s-teach"){ enterTeach(); }
-  if(id==="s-settings"){ paintReadsSeg(); paintPacerList(); paintTeamList(); }
+  if(id==="s-settings"){ paintReadsSeg(); paintPacerList(); paintTeamList(); paintCodeList(); }
 }
 
 /* ---------- Class + student pick ---------- */
@@ -1013,7 +1207,7 @@ function buildRoster(){
   document.getElementById("roster-title").textContent=CURCLASS.label;
   var list=CURCLASS.students, i;
   for(i=0;i<list.length;i++){
-    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ READER=stu; go("s-groups"); }; box.appendChild(b); })(list[i]);
+    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ READER=stu; Sync.pull(stu.id); go("s-groups"); }; box.appendChild(b); })(list[i]);
   }
 }
 
@@ -1413,6 +1607,7 @@ function applyTeacherDoors(){
   var fl=document.getElementById("foot-links"); if(fl){ fl.style.display = inl; }
 }
 applyTeacherDoors();
+Sync.boot();
 </script>
 </body>
 </html>

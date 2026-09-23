@@ -50,7 +50,7 @@ Single `index.html`, ~15 MB. It's large because **all 140 audio clips (70 words 
 - **Teacher recorder** (`s-teach` / `enterTeach`): walks all 70 words, records the word and the sentence separately, shows a green dot per recorded row, has a jump list. Recordings save to the browser's IndexedDB on that machine, then get **exported as JSON**.
 - **Audio baking:** the exported JSON is merged into `window.BAKED_CLIPS` near the top of the script. Keys are `word_<slug>` and `sent_<slug>`; values are full `data:audio/webm;base64,...` strings. Newer clips overwrite older ones by key, so the newest export always wins. **All 70 words are currently baked (140 clips).**
 - **Gamification** (fully built and tested):
-  - `PTS = { word:1, sent:3, slide:2, final:10 }` — hear a word $1, hear the sentence $3, slide/read $2, finish a group's final read $10.
+  - `PTS = { word:1, sent:3, wordBlue:2, sentBlue:6, final:10, finalBlue:20 }` — hear a word 1, hear the sentence 3, finish a group's final read 10 (Home/blue = double). No points for sliding.
   - **Anti-spam:** each event pays **once per word per day** (`award()` checks a per-day claim ledger). Mashing a button earns nothing extra. Resets at Arizona midnight (AZ = no DST, fixed -7).
   - **School vs Home:** points earned after 4 PM AZ ("Home"/blue) are worth **double**. Before 4 PM ("School"/green) are normal.
   - Star badge on the reading screen shows today's total; tapping it opens `s-score` (daily goal = 40, progress bar, School/Home split).
@@ -63,7 +63,16 @@ Single `index.html`, ~15 MB. It's large because **all 140 audio clips (70 words 
 - `slider_settings` — the Settings object (reads count, palette, mode, `pacer{id}`, `team{id}`).
 - `rf_groups_<readerId>` — which groups each student has finished.
 - `points_data` — gamification totals + daily claim ledger, per student, per date.
+- `rf_sync_codes` — class codes this device knows, `{p1:"K7P2"}` (cloud sync, below).
 - Fresh teacher recordings live in **IndexedDB** on that machine until exported/baked.
+
+### Cloud sync (built — needs Vercel setup to go live)
+- `api/sync.js` = Vercel serverless function. Stores one Redis hash per class (`rf:<classId>` → `{studentId: json}`) in **Upstash Redis** over its REST API (env `KV_REST_API_URL` / `KV_REST_API_TOKEN`, set automatically when Upstash is added from the Vercel Storage tab).
+- Class codes live **only** in the Vercel env var `CLASS_CODES="p1=XXXX,p3=YYYY,p7=ZZZZ"`, never in the page. A code only unlocks its own class's student ids.
+- Client `Sync` module in index.html: localStorage stays the instant save; on tapping a name it pulls + merges (union of claims, totals recomputed — never double-pays, never loses points), then every `savePoints`/`gMarkDone` pushes (debounced). Today's claim ledger goes up in full; older days as totals only.
+- Students get the code from the Canvas link `https://<app>.vercel.app/?c=CODE` (remembered per device), or type it in the box on the roster. Teacher enters all codes once in Settings → Class codes; the Scoreboard then pulls every student's device.
+- Sync is **off on github.io** (no API there) — that copy behaves exactly as before.
+- Still local-only: teacher Settings (reads count, Tap/Pacer, teams). Pacer set on the teacher's machine does not reach a student's Chromebook yet.
 
 ---
 
@@ -79,7 +88,10 @@ Single `index.html`, ~15 MB. It's large because **all 140 audio clips (70 words 
 
 ## Testing
 
-Tests are jsdom click-simulation in Node. Give jsdom a real `url:` (e.g. the Pages URL) or `localStorage` silently no-ops and points/progress tests will look broken when they aren't. Recent test files (in the working area): `test-final.js` (chunked final read: tap, pacer, pause), `test-points.js` (earning, anti-spam, badge, earnings screen, leaderboard). Both currently pass.
+Tests are jsdom click-simulation in Node, in `tests/`. Run all with `npm install` then `npm test` from the repo root. Give jsdom a real `url:` (e.g. the Pages URL) or `localStorage` silently no-ops and points/progress tests will look broken when they aren't.
+- `tests/test-final.js` — chunked final read: tap, pacer, pause.
+- `tests/test-points.js` — earning, anti-spam, badge, earnings screen, leaderboard.
+- `tests/test-sync.js` — end-to-end cloud sync: real index.html ↔ real `api/sync.js` ↔ in-memory fake Redis; two devices, teacher scoreboard, offline catch-up, github.io stays off.
 
 Static checks before shipping: file ends with `</script></body></html>`, no `=>`, no real `const`/`let` in code (the words may legitimately appear inside a sentence), and the audio clip count is intact (140).
 
@@ -95,7 +107,7 @@ Static checks before shipping: file ends with `</script></body></html>`, no `=>`
 
 ## Pending / next builds (rough priority)
 
-1. **Server-backed student saves via Vercel** (see the storage section below) — this is the chosen direction. Build a sync layer so progress + points follow a kid across devices. **Build it with no student login** (details in the storage section).
+1. **Server-backed student saves via Vercel** — CODE BUILT (see Cloud sync above); remaining: Vercel project + Upstash + `CLASS_CODES`, then test on school Wi-Fi. Build a sync layer so progress + points follow a kid across devices. **Build it with no student login** (details in the storage section).
 2. **Words-correct-per-minute scoring tool** (teacher-facing, build separately): the teacher plays back a student's recorded read and taps each error one at a time; the tool times the read and computes words-correct-per-minute. A real fluency measure the teacher drives by hand — NOT automated pronunciation scoring, which we never fake.
 3. "Test Student" slot on each roster (visible, no PIN) so Mick can demo without using a real kid.
 3. Syllable-split slide for the longest words (syllables, not phonemes); start with *anticipated, abbreviations, chronological, realization*. Needs chunk recordings.
