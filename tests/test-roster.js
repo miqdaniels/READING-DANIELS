@@ -28,7 +28,8 @@ setTimeout(function () {
   // tap it: no PIN, straight to groups
   classBtns[0].onclick();
   [...d.querySelectorAll("#roster-list button")].find(b => b.textContent === "Test Student").onclick();
-  ck(activeId() === "s-groups", "tapping Test Student goes straight to groups (no PIN)");
+  ck(activeId() === "s-menu", "tapping Test Student goes straight to the menu (no PIN)");
+  w.go("s-groups");
   ck(d.getElementById("group-who").textContent === "Test Student", "groups screen greets Test Student");
   const pts = w.gotPoints("word", "imperative");
   ck(pts > 0, "Test Student can earn points for the demo (" + pts + ")");

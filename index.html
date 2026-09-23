@@ -35,6 +35,7 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 .btn.primary:hover{background:var(--accent-press)}
 .btn.block{display:block;width:100%;margin:0 0 10px}
+.btn.menu-btn{font-size:24px;font-weight:650;padding:26px 22px;margin:0 0 16px;text-align:center;border-width:2px}
 .btn .sub{display:block;font-weight:450;color:var(--ink-soft);font-size:14px;margin-top:3px}
 .btn.primary .sub{color:rgba(255,255,255,.82)}
 .btn[disabled]{opacity:.5;cursor:default}
@@ -186,6 +187,33 @@ footer.mini a:hover{text-decoration:underline}
     </div>
     <div class="grid" id="roster-list"></div>
   </section>
+
+  <!-- STUDENT MENU -->
+  <section id="s-menu" class="screen">
+    <p class="crumb"><a onclick="go('s-roster')">Change reader</a> &nbsp;/&nbsp; <span id="menu-who"></span></p>
+    <h2>What are you working on today?</h2>
+    <div class="grid menu-grid">
+      <button class="btn block menu-btn" id="menu-fluency" onclick="go('s-fluency')">Fluency</button>
+      <button class="btn block menu-btn" id="menu-vocab" onclick="go('s-groups')">Vocabulary</button>
+      <button class="btn block menu-btn" id="menu-comp" onclick="go('s-comp')">Reading Comprehension</button>
+    </div>
+  </section>
+
+  <!-- FLUENCY (placeholder) -->
+  <section id="s-fluency" class="screen">
+    <p class="crumb"><a onclick="go('s-menu')">Menu</a> &nbsp;/&nbsp; Fluency</p>
+    <h2>Fluency</h2>
+    <p class="lede">Fluency passages coming soon.</p>
+    <button class="btn" onclick="go('s-menu')">&#8592; Back to menu</button>
+  </section>
+
+  <!-- READING COMPREHENSION (placeholder) -->
+  <section id="s-comp" class="screen">
+    <p class="crumb"><a onclick="go('s-menu')">Menu</a> &nbsp;/&nbsp; Reading Comprehension</p>
+    <h2>Reading Comprehension</h2>
+    <p class="lede">Reading Comprehension coming soon.</p>
+    <button class="btn" onclick="go('s-menu')">&#8592; Back to menu</button>
+  </section>
 <section class="screen" id="s-groups">
   <div class="wrap">
     <p class="step-eyebrow">Unit 1</p>
@@ -194,7 +222,7 @@ footer.mini a:hover{text-decoration:underline}
     <p class="mini-note" id="sync-note" style="display:none"></p>
     <div id="group-list" class="pick-list"></div>
     <div class="nav-row" style="margin-top:14px">
-      <button class="btn" onclick="go('s-roster')">&#8592; Change reader</button>
+      <button class="btn" onclick="go('s-menu')">&#8592; Menu</button>
     </div>
   </div>
 </section>
@@ -1186,6 +1214,7 @@ function go(id){
   window.scrollTo(0,0); stopAllAudio();
   if(id==="s-pick"){ buildClasses(); }
   if(id==="s-roster"){ buildRoster(); paintCodeBox(); }
+  if(id==="s-menu"){ if(!READER){ go("s-roster"); return; } document.getElementById("menu-who").textContent=READER.name; }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
   if(id==="s-final"){ fEnter(); }
   if(id==="s-read"){ refreshPtsBadge(); }
@@ -1208,7 +1237,7 @@ function buildRoster(){
   document.getElementById("roster-title").textContent=CURCLASS.label;
   var list=CURCLASS.students, i;
   for(i=0;i<list.length;i++){
-    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ READER=stu; Sync.pull(stu.id); go("s-groups"); }; box.appendChild(b); })(list[i]);
+    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ READER=stu; Sync.pull(stu.id); go("s-menu"); }; box.appendChild(b); })(list[i]);
   }
 }
 

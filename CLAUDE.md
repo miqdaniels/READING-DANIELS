@@ -41,7 +41,7 @@ Mick's working style: verdict/grade first, skip preamble, execution over explana
 Single `index.html`, ~15 MB. It's large because **all 140 audio clips (70 words × word + sentence) are baked directly into the file** as base64 data URLs. This makes it work on any device with nothing to load from a server — the trade-off is a big file and a slow first load.
 
 **Screens (string IDs):**
-`s-home`, `s-pick` (choose reader), `s-groups`, `s-read` (the practice slide/read), `s-final` (final read), `s-score` (student earnings), `s-board` (teacher leaderboard), `s-roster`, `s-teach` (teacher recorder), `s-settings`, `s-status`. Navigation is `go("s-id")`; each screen has a paint/enter hook inside `go()`.
+`s-home`, `s-pick` (choose class), `s-roster` (tap your name), `s-menu` (student menu: Fluency / Vocabulary / Reading Comprehension), `s-fluency` and `s-comp` (placeholders — "coming soon"), `s-groups` (Vocabulary = the Unit 1 groups), `s-read` (the practice slide/read), `s-final` (final read), `s-score` (student earnings), `s-board` (teacher leaderboard), `s-teach` (teacher recorder), `s-settings`, `s-status`. Navigation is `go("s-id")`; each screen has a paint/enter hook inside `go()`.
 
 **The 70 words** are in 10 groups: Personal Narrative 1 & 2, Language Arts, Science, Math, Art, Media, and Unit 1 Core 1/2/3. Groups unlock in order — finishing one grays it out and opens the next.
 
@@ -91,6 +91,8 @@ Single `index.html`, ~15 MB. It's large because **all 140 audio clips (70 words 
 Tests are jsdom click-simulation in Node, in `tests/`. Run all with `npm install` then `npm test` from the repo root. Give jsdom a real `url:` (e.g. the Pages URL) or `localStorage` silently no-ops and points/progress tests will look broken when they aren't.
 - `tests/test-final.js` — chunked final read: tap, pacer, pause.
 - `tests/test-points.js` — earning, anti-spam, badge, earnings screen, leaderboard.
+- `tests/test-roster.js` — first-hour Test Student (no PIN, off the scoreboard).
+- `tests/test-menu.js` — name tap → `s-menu`; each menu button opens the right screen; back buttons.
 - `tests/test-sync.js` — end-to-end cloud sync: real index.html ↔ real `api/sync.js` ↔ in-memory fake Redis; two devices, teacher scoreboard, offline catch-up, github.io stays off.
 
 Static checks before shipping: file ends with `</script></body></html>`, no `=>`, no real `const`/`let` in code (the words may legitimately appear inside a sentence), and the audio clip count is intact (140).
