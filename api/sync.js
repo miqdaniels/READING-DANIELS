@@ -48,11 +48,11 @@ function classForCode(code) {
   return null;
 }
 
-/* A student id must belong to the class the code unlocks (ids end in _p1 etc.). */
+/* A student id must belong to the class the code unlocks (stu_x_p1, spare_p1_1, test_p1). */
 function idInClass(id, cls) {
   if (typeof id !== "string" || id.length > 80) { return false; }
   var c = cls.replace(/[^a-z0-9]/gi, "");
-  return new RegExp("^(stu_[a-z0-9]+_" + c + "|spare_" + c + "_[0-9]+)$").test(id);
+  return new RegExp("^(stu_[a-z0-9]+_" + c + "|spare_" + c + "_[0-9]+|test_" + c + ")$").test(id);
 }
 
 function send(res, status, body) {

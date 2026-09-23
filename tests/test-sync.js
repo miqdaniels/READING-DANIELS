@@ -80,6 +80,8 @@ function today(w, id) { return w.todayTotals(id).total; }
   ok((await callApi("GET", "/api/sync?code=K7P2&id=stu_barrerayoselin_p3")).status === 403, "a p1 code cannot read a p3 student");
   ok((await callApi("POST", "/api/sync", { code: "K7P2", id: "stu_x_p3", data: {} })).status === 403, "a p1 code cannot write a p3 student");
   ok((await callApi("POST", "/api/sync", { code: "K7P2", id: "spare_p1_1", data: { points: {}, groups: { a: 1 } } })).status === 200, "spare slot can save");
+  ok((await callApi("POST", "/api/sync", { code: "K7P2", id: "test_p1", data: { points: {}, groups: {} } })).status === 200, "Test Student can save");
+  ok((await callApi("POST", "/api/sync", { code: "K7P2", id: "test_p3", data: { points: {}, groups: {} } })).status === 403, "p1 code cannot write p3's Test Student");
 
   console.log("Device A: opens class link ?c=K7P2");
   const A = device("https://reading-foundations.vercel.app/?c=K7P2");

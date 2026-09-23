@@ -487,6 +487,7 @@ var CLASSES=[
     {id:"spare_p1_1",name:"Student 1"},
     {id:"spare_p1_2",name:"Student 2"},
     {id:"spare_p1_3",name:"Student 3"},
+    {id:"test_p1",name:"Test Student",demo:true},
   ]},
   {id:"p3",label:"Third hour",students:[
     {id:"stu_barrerayoselin_p3",name:"Yoselin Barrera"},
@@ -980,7 +981,7 @@ function boardSync(){
 function teamStandings(cls){
   var totals={}, i, st, t;
   for(i=0;i<cls.students.length;i++){
-    st=cls.students[i]; t=Settings.team(st.id); if(!t){ continue; }
+    st=cls.students[i]; if(st.demo){ continue; } t=Settings.team(st.id); if(!t){ continue; }
     totals[t]=(totals[t]||0)+todayTotals(st.id).total;
   }
   var arr=[], k; for(k in totals){ if(totals.hasOwnProperty(k)){ arr.push({team:k,pts:totals[k]}); } }
@@ -989,7 +990,7 @@ function teamStandings(cls){
 }
 function topStudents(cls,n){
   var arr=[], i, st;
-  for(i=0;i<cls.students.length;i++){ st=cls.students[i]; arr.push({name:st.name, pts:todayTotals(st.id).total, team:Settings.team(st.id)}); }
+  for(i=0;i<cls.students.length;i++){ st=cls.students[i]; if(st.demo){ continue; } arr.push({name:st.name, pts:todayTotals(st.id).total, team:Settings.team(st.id)}); }
   arr.sort(function(a,b){ return b.pts-a.pts; });
   return arr.slice(0,n||5);
 }
