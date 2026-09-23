@@ -16,9 +16,27 @@ The whole thing is built around one idea from the research: teaching older strug
 
 ## Live links
 
+Live site = **GitHub Pages, deployed from the `main` branch** (confirmed: the "pages build and deployment" workflow runs on every push to `main`). Changes pushed to any other branch are **not live** until they are merged into `main`. Pages usually takes 1–2 minutes to update after a push to `main`; then hard-refresh (Ctrl+Shift+R).
+
 - **Repo:** https://github.com/miqdaniels/READING-DANIELS
-- **Student app:** https://miqdaniels.github.io/READING-DANIELS
+- **Student app:** https://miqdaniels.github.io/READING-DANIELS/
 - **Teacher view:** https://miqdaniels.github.io/READING-DANIELS/?teacher
+- **Fluency Tap (teacher WCPM scoring):** https://miqdaniels.github.io/READING-DANIELS/teacher-tap.html
+- **Vercel:** not set up yet (no Vercel project/URL exists). When it is, Mick will say "update the live link in CLAUDE.md" — replace the links above with the `*.vercel.app` ones.
+
+---
+
+## Permanent rule: end every task with this summary
+
+At the end of every task, always tell Mick:
+
+1. **Done:** one or two plain sentences on what changed.
+2. **Tested:** whether the jsdom tests passed.
+3. **Pushed:** whether it's pushed to GitHub (which branch), and the commit message.
+4. **Test it here:** the full, clickable live link to the exact page to open (student app, `teacher-tap.html`, or `?teacher`, from Live links above). If the live site takes a minute to update after a push, say so.
+5. **What to check:** one line on what to click to see the change.
+
+If something isn't live yet or didn't push (e.g. it's on a branch that isn't merged into `main`), say that plainly instead of giving a link. Never end a task without this summary.
 
 ---
 
@@ -59,11 +77,22 @@ Single `index.html`, ~15 MB. It's large because **all 140 audio clips (70 words 
   - **Two modes, teacher-chosen per student in Settings:** **Tap** (default — student taps "Next phrase" at their own speed) and **Pacer** (phrases auto-advance on a timer `700 + 430×wordcount` ms, with a **Pause** button to breathe). Tap is for beginners who need control; Pacer is an earned upgrade for kids ready to build speed.
 - **Settings** (`s-settings`): practice-reads count (1–3), per-student Tap/Pacer toggle, per-student team assignment.
 
+### Fluency Tap — `teacher-tap.html` (separate teacher-only page)
+Teacher-driven words-correct-per-minute scoring. Not linked from `index.html`; `noindex`. Students never see it.
+- Teacher picks class → student → word group, opens the student's final-read `.webm` (downloaded from Canvas; stays on the device, nothing uploads), sets start/stop times with **Set to now** while playing, and **taps each error** on the group's passage (tap again = undo). **Tap = last word read** caps the words read if the student stopped early.
+- The app only does arithmetic: `WCPM = (words read − errors) ÷ minutes`, plus accuracy %. It never listens to or scores audio.
+- File name (`MiriamGomez_Personal_Narrative_1.webm`) pre-fills group and, only if exactly one student matches, the student — flagged "check before saving".
+- **Privacy:** names are first name + last initial only (`Miriam G.`). Student key = `<classId>-<djb2 hash of the index.html student id, base36>`, so no full name is stored, exported, or in any URL.
+- `PASSAGES` and `ROSTER` are **copied** from `index.html` `SENTENCES`/`GROUPS`/`CLASSES`. If sentence text or the roster changes in `index.html`, update `teacher-tap.html` too — `tests/test-tap.js` fails until they match.
+- **Storage:** all reads/writes go through `ScoreStore` (list/save/remove/merge, callback style) — localStorage key `rf_wcpm_scores`. Nothing else touches storage, so the cloud version (Vercel + database) replaces only `ScoreStore`'s insides.
+- **Export backup (.json)**, **Export for a spreadsheet (.csv)**, **Restore from a backup** (merges by score id; never duplicates). Export file names contain only the date.
+
 ### Storage keys (localStorage, per device)
 - `slider_settings` — the Settings object (reads count, palette, mode, `pacer{id}`, `team{id}`).
 - `rf_groups_<readerId>` — which groups each student has finished.
 - `points_data` — gamification totals + daily claim ledger, per student, per date.
 - `rf_sync_codes` — class codes this device knows, `{p1:"K7P2"}` (cloud sync, below).
+- `rf_wcpm_scores` — Fluency Tap saved scores (teacher-tap.html only), array of score records.
 - Fresh teacher recordings live in **IndexedDB** on that machine until exported/baked.
 
 ### Cloud sync (built — needs Vercel setup to go live)
@@ -91,6 +120,7 @@ Single `index.html`, ~15 MB. It's large because **all 140 audio clips (70 words 
 Tests are jsdom click-simulation in Node, in `tests/`. Run all with `npm install` then `npm test` from the repo root. Give jsdom a real `url:` (e.g. the Pages URL) or `localStorage` silently no-ops and points/progress tests will look broken when they aren't.
 - `tests/test-final.js` — chunked final read: tap, pacer, pause.
 - `tests/test-points.js` — earning, anti-spam, badge, earnings screen, leaderboard.
+- `tests/test-tap.js` — Fluency Tap: static ES5/ending checks, passage + roster match index.html, no full names in the page, tapping/WCPM math, last-word cap, save/history/delete, file-name prefill, JSON/CSV export, restore.
 - `tests/test-sync.js` — end-to-end cloud sync: real index.html ↔ real `api/sync.js` ↔ in-memory fake Redis; two devices, teacher scoreboard, offline catch-up, github.io stays off.
 
 Static checks before shipping: file ends with `</script></body></html>`, no `=>`, no real `const`/`let` in code (the words may legitimately appear inside a sentence), and the audio clip count is intact (140).
@@ -104,11 +134,12 @@ Static checks before shipping: file ends with `</script></body></html>`, no `=>`
 - Gamification: earning, anti-spam, School/Home double, daily goal, student earnings screen, teacher team leaderboard — built and tested.
 - Chunked final read with Tap/Pacer + Pause + roomier spacing — built and tested.
 - Canvas `.webm` upload path confirmed.
+- Fluency Tap (`teacher-tap.html`): teacher-driven WCPM scoring with on-device saves + export — built and tested.
 
 ## Pending / next builds (rough priority)
 
 1. **Server-backed student saves via Vercel** — CODE BUILT (see Cloud sync above); remaining: Vercel project + Upstash + `CLASS_CODES`, then test on school Wi-Fi. Build a sync layer so progress + points follow a kid across devices. **Build it with no student login** (details in the storage section).
-2. **Words-correct-per-minute scoring tool** (teacher-facing, build separately): the teacher plays back a student's recorded read and taps each error one at a time; the tool times the read and computes words-correct-per-minute. A real fluency measure the teacher drives by hand — NOT automated pronunciation scoring, which we never fake.
+2. **Words-correct-per-minute scoring tool** — BUILT as `teacher-tap.html` (see Fluency Tap above), scores saved on the device with JSON/CSV export. Next: cloud sync of scores (Vercel + Vercel Storage or Supabase) by swapping `ScoreStore` — not built yet. Scoring stays teacher-driven; never automated pronunciation scoring.
 3. "Test Student" slot on each roster (visible, no PIN) so Mick can demo without using a real kid.
 3. Syllable-split slide for the longest words (syllables, not phonemes); start with *anticipated, abbreviations, chronological, realization*. Needs chunk recordings.
 4. Per-word audio for the non-target words in a sentence (right now it replays the whole sentence — honest fallback, disclosed on the Status page).

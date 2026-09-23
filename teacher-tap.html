@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Fluency Tap</title>
+<style>
+:root{
+  --paper:#F7F9FC;--panel:#FFFFFF;--line:#DCE3EC;--ink:#14202E;--ink-soft:#4A5A6E;
+  --accent:#1F3A5F;--accent-press:#16304F;--past:#93A2B3;
+  --good:#127A4B;--good-bg:#E7F4EE;--retry:#B45309;--retry-bg:#FBF0E3;
+  --err:#B42318;--err-bg:#FDECEA;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:17px;line-height:1.5}
+.wrap{max-width:860px;margin:0 auto;padding:18px 16px 72px}
+header{border-bottom:1px solid var(--line);padding:14px 16px;max-width:860px;margin:0 auto;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+header h1{font-size:19px;margin:0;font-weight:650}
+header .tag{font-size:13px;color:var(--ink-soft)}
+h2{font-size:18px;margin:0 0 10px;font-weight:650}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin:0 0 16px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:4px;min-width:150px;flex:1}
+.field label{font-size:13px;color:var(--ink-soft);font-weight:600}
+select,input[type=number],input[type=date]{font:inherit;font-size:16px;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink);width:100%}
+.btn{display:inline-block;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:15px;font-weight:600;cursor:pointer;padding:10px 14px;border-radius:10px}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:var(--accent-press)}
+.btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn[disabled]{opacity:.5;cursor:default}
+.btn.small{padding:6px 10px;font-size:13px}
+.note{font-size:14px;color:var(--ink-soft);margin:8px 0 0}
+.note.warn{color:var(--retry)}
+.note.ok{color:var(--good)}
+audio{width:100%;margin:10px 0 4px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.passage p{margin:0 0 12px;line-height:2.3}
+.num{color:var(--ink-soft);font-size:14px;margin-right:4px}
+.w{font:inherit;font-size:19px;border:1px solid transparent;background:none;color:var(--ink);padding:1px 4px;margin:0 1px;border-radius:6px;cursor:pointer}
+.w:hover{border-color:var(--line)}
+.w.err{background:var(--err-bg);color:var(--err);border-color:var(--err);text-decoration:line-through}
+.w.last{box-shadow:inset 0 -3px 0 var(--accent)}
+.w.after{color:var(--past)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:0 0 12px}
+.stat{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.stat .k{font-size:12px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em}
+.stat .v{font-size:24px;font-weight:700}
+.stat.big .v{color:var(--accent)}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{color:var(--ink-soft);font-weight:600}
+.hidden-input{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+</style>
+</head>
+<body>
+<header><h1>Fluency Tap</h1><span class="tag">Teacher only &middot; words correct per minute, scored by hand</span></header>
+<div class="wrap">
+
+  <section class="card">
+    <h2>1. Who and what</h2>
+    <div class="row">
+      <div class="field"><label for="sel-class">Class</label><select id="sel-class" onchange="pickClass()"></select></div>
+      <div class="field"><label for="sel-stu">Student</label><select id="sel-stu" onchange="paintResult()"></select></div>
+      <div class="field"><label for="sel-grp">Word group</label><select id="sel-grp" onchange="pickGroup()"></select></div>
+      <div class="field"><label for="in-date">Date of the read</label><input type="date" id="in-date"></div>
+    </div>
+    <p class="note" id="pick-note"></p>
+  </section>
+
+  <section class="card">
+    <h2>2. The student&rsquo;s recording</h2>
+    <label class="btn primary" for="in-file">Open the .webm from Canvas</label>
+    <input type="file" id="in-file" class="hidden-input" accept="audio/*,video/webm,.webm,.ogg" onchange="openFile(this)">
+    <audio id="player" controls></audio>
+    <p class="note" id="file-note">No file open. The file stays on this computer &mdash; nothing is uploaded.</p>
+    <div class="row" style="margin-top:10px">
+      <div class="field"><label for="in-start">Student starts reading (seconds)</label><input type="number" id="in-start" min="0" step="0.1" value="0" oninput="paintResult()"></div>
+      <button class="btn" onclick="markTime('start')">Set to now</button>
+      <div class="field"><label for="in-end">Student stops reading (seconds)</label><input type="number" id="in-end" min="0" step="0.1" value="" oninput="paintResult()"></div>
+      <button class="btn" onclick="markTime('end')">Set to now</button>
+    </div>
+    <p class="note">Pause the player at the first word and press the first <strong>Set to now</strong>. Pause again at the last word and press the second one. The time is the gap between the two.</p>
+  </section>
+
+  <section class="card">
+    <h2>3. Tap the errors</h2>
+    <div class="seg">
+      <button class="btn on" id="mode-err" onclick="setTapMode('err')">Tap = error</button>
+      <button class="btn" id="mode-last" onclick="setTapMode('last')">Tap = last word read</button>
+      <button class="btn" onclick="clearMarks()">Clear marks</button>
+    </div>
+    <p class="note" style="margin:0 0 12px">Tap a word the student misreads, skips, or needs you to supply. Tap it again to undo. Self-corrections count as correct. If the student stops early, switch to <strong>Tap = last word read</strong> and tap the last word they reached. Words after it are not counted.</p>
+    <div class="passage" id="passage"></div>
+  </section>
+
+  <section class="card">
+    <h2>4. Score</h2>
+    <div class="stats" id="stats"></div>
+    <button class="btn primary" id="btn-save" onclick="saveScore()">Save score</button>
+    <p class="note" id="save-note"></p>
+  </section>
+
+  <section class="card">
+    <h2>Saved scores</h2>
+    <div class="row" style="margin-bottom:10px">
+      <div class="field" style="max-width:260px"><label for="sel-hist">Show</label><select id="sel-hist" onchange="paintHistory()"></select></div>
+    </div>
+    <div class="tbl-wrap" id="history"></div>
+    <div class="seg" style="margin-top:14px">
+      <button class="btn" onclick="exportBackup()">Export backup (.json)</button>
+      <button class="btn" onclick="exportCSV()">Export for a spreadsheet (.csv)</button>
+      <label class="btn" for="in-restore">Restore from a backup</label>
+      <input type="file" id="in-restore" class="hidden-input" accept=".json,application/json" onchange="restorePick(this)">
+    </div>
+    <p class="note" id="io-note">Scores are saved on this computer only. Export a backup now and then.</p>
+  </section>
+
+</div>
+<script>
+/* Fluency Tap: teacher-driven words-correct-per-minute scoring.
+   The teacher marks every error and the start/end times by hand.
+   The app only does the arithmetic: (words read - errors) / minutes. It never scores audio. */
+
+/* ---------- Passage + roster (copied from index.html; tests/test-tap.js checks they still match) ----------
+   Student names are first name + last initial only. k = class id + short hash of the index.html student id,
+   so no full name is stored or exported. */
+var PASSAGES=[
+  {grp:"Personal Narrative 1", sentences:[
+    "It was imperative for me to make a good impression on my first day.",
+    "Because the uniform was horrendous, I begged my mom to let me wear something else.",
+    "My insecurity grew, but I still walked into the classroom with my head up.",
+    "I walked into my new classroom and my jaw dropped to the floor because the teacher was standing on her desk.",
+    "My teacher was sporting the exact same dress that I had picked out that morning."
+  ]},
+  {grp:"Personal Narrative 2", sentences:[
+    "Although the day started badly, I walked out unscathed and even made a new friend.",
+    "I had been dreading the presentation for a week, so I practiced it every night.",
+    "My apprehension faded once the teacher smiled and told us to find our seats.",
+    "Her smile was genuine, and it made the whole room feel a little safer.",
+    "The incident in the hallway was embarrassing, yet everyone had forgotten it by lunch.",
+    "Looking back, the problem seems trivial, but at the time it felt enormous.",
+    "The crowd filled the grandstand and cheered loudly for every single player."
+  ]},
+  {grp:"Language Arts", sentences:[
+    "He made the bold claim that he could run a mile without stopping to catch his breath.",
+    "Because she used evidence from the story, her argument convinced almost everyone in class.",
+    "In her conclusion, she explained what she had learned about herself that year.",
+    "Poets use figurative language to help readers picture feelings that are hard to explain.",
+    "An idiom means something different from its words, so new speakers often get confused.",
+    "The author's narrative pulled me in so quickly that I read the whole first chapter in one sitting.",
+    "We arranged the events in chronological order so the timeline made sense from beginning to end."
+  ]},
+  {grp:"Science", sentences:[
+    "Memories are the pictures and facts that your brain saves from your past.",
+    "The brain must process new information before it can store that information for later.",
+    "When you associate two things, your brain links them together in your memory.",
+    "Something vast is so large that it is almost impossible to measure.",
+    "The cortex is the wrinkled outer layer of the brain, and it handles most of our thinking, like reading, talking, and solving problems.",
+    "Because the prefrontal cortex is still growing, teenagers sometimes make quick, risky decisions.",
+    "The hippocampus is the part of the brain that collects your new memories and saves them so you can remember them later.",
+    "The amygdala is a small part of the brain that controls fear and reacts fast, before you even have time to think."
+  ]},
+  {grp:"Math", sentences:[
+    "The exponent tells you how many times to multiply the base by itself.",
+    "A root is the number multiplied to make a bigger number; for example, the root is three in three times three equals nine.",
+    "In two to the third power, the base is two and the exponent is three, and the whole thing is called a power.",
+    "The base is the number that gets multiplied, like the two in two to the third power, which means two times two times two.",
+    "The square root of nine is three, because three times three equals nine.",
+    "The radical sign looks like a check mark with a long line over the top, and it tells you to find a root, as in √9, which equals three.",
+    "Equivalent expressions look different on paper, yet they always have the same value."
+  ]},
+  {grp:"Art", sentences:[
+    "Artists choose their materials carefully, and those choices change how the finished piece feels.",
+    "Because a self-portrait shows how you see yourself, no two of them look alike.",
+    "A quick selfie and a painted portrait both tell a story about identity.",
+    "Although a symbol is just a simple shape, it can carry an enormous meaning.",
+    "Virtual reality lets you step inside a painting and walk around inside it."
+  ]},
+  {grp:"Media", sentences:[
+    "Something culturally important matters deeply to the people who share that way of life.",
+    "Something iconic is so famous that people know it right away, like the Nike swoosh or the McDonald's arches.",
+    "An illusion is something that tricks your eyes into seeing what is not real.",
+    "The landscape stretched for miles, and not a single building blocked our view.",
+    "Although the national park was crowded, we still found a quiet trail to hike.",
+    "The park ranger answered our questions and showed us where the deer sleep.",
+    "Land that is preserved is protected and kept exactly the way it is, so a national park will look the same for your grandchildren someday."
+  ]},
+  {grp:"Unit 1 Core 1", sentences:[
+    "Everyone had anticipated the game for weeks, so the gym was packed by the time it started.",
+    "I was annoyed when my group kept talking and I couldn't finish my part of the project.",
+    "The astrologer claimed she could predict your future by studying the stars and planets.",
+    "The rules in that old handbook felt antiquated, like they were written for a completely different time.",
+    "Texting is faster when you use abbreviations, but teachers still want full words on your essays.",
+    "She walked into the interview confident and calm, because she had practiced her answers all week.",
+    "Compared to the book, the movie left out a lot of important details from the story.",
+    "The scientist used charts to show how the temperature changed over the past hundred years."
+  ]},
+  {grp:"Unit 1 Core 2", sentences:[
+    "A lot can change in a single decade, especially in the way people use technology.",
+    "After she moved to a new city, she enrolled in a school where she didn't know a single person.",
+    "The two companies are separate entities, even though they share the same downtown building.",
+    "A good story has a few key elements: interesting characters, a real problem, and a satisfying ending.",
+    "The team's new strategy enhanced their chances of making it all the way to the finals.",
+    "The teacher marked my assignment incomplete because I forgot to answer the last two questions.",
+    "Even though he was the biggest player on the field, he was surprisingly gentle with his little sister.",
+    "She persevered through months of hard training, and finally her effort paid off at the meet."
+  ]},
+  {grp:"Unit 1 Core 3", sentences:[
+    "It's polite to respond to a message within a day, even if you can only send a quick reply.",
+    "We chose a different route home to avoid the traffic near the construction on Main Street.",
+    "Halfway through the year, I had the realization that studying a little every day beats cramming.",
+    "We brought back souvenirs from the trip so we would always remember the places we visited.",
+    "By the time we got to the box office, the concert was completely sold out and no tickets were left.",
+    "The coach will select the starting lineup based on who shows up and works hard at practice.",
+    "Her art style is so unique that you can recognize her paintings the second you walk in the room.",
+    "Patience and honesty are virtues that will help you far more than people sometimes expect."
+  ]},
+];
+var ROSTER=[
+  {id:"p1",label:"First hour",students:[
+    {k:"p1-1mzsgvz",n:"Miriam G."},
+    {k:"p1-1hxwnh1",n:"Oneiver G."},
+    {k:"p1-1wtvtqe",n:"Hiroyuki H."},
+    {k:"p1-cpymwe",n:"Kiara J."},
+    {k:"p1-18vtyx5",n:"Ryugen K."},
+    {k:"p1-1em4orm",n:"Alan M."},
+    {k:"p1-ubtk2d",n:"Belinda S."},
+    {k:"p1-1nds8j2",n:"Rico S."},
+    {k:"p1-1inqbnk",n:"Student 1"},
+    {k:"p1-1inqbnn",n:"Student 2"},
+    {k:"p1-1inqbnm",n:"Student 3"},
+  ]},
+  {id:"p3",label:"Third hour",students:[
+    {k:"p3-x44ll6",n:"Yoselin B."},
+    {k:"p3-nrat3u",n:"Abraham C."},
+    {k:"p3-l1mzfp",n:"Yajaira C."},
+    {k:"p3-1dpb3az",n:"Christian C."},
+    {k:"p3-z3raky",n:"Marco E."},
+    {k:"p3-4aw1f6",n:"Hector F."},
+    {k:"p3-bv5rsi",n:"Julieta L."},
+    {k:"p3-w2p5wx",n:"Allan M."},
+    {k:"p3-1qc0p8z",n:"Angel M."},
+    {k:"p3-9507zz",n:"Alexa M."},
+    {k:"p3-1c3ht6q",n:"Abner M."},
+    {k:"p3-6qqvlg",n:"Ashley O."},
+    {k:"p3-19yuxq5",n:"Jose R."},
+    {k:"p3-dy242",n:"Jesus R."},
+    {k:"p3-1id637v",n:"Georgia R."},
+    {k:"p3-1inqdc2",n:"Student 1"},
+    {k:"p3-1inqdc1",n:"Student 2"},
+    {k:"p3-1inqdc0",n:"Student 3"},
+  ]},
+  {id:"p7",label:"Seventh hour",students:[
+    {k:"p7-45f0v1",n:"Keyla A."},
+    {k:"p7-1ws1qp9",n:"Orlando B."},
+    {k:"p7-gw1ekf",n:"Chestin B."},
+    {k:"p7-1o383fi",n:"Brandon C."},
+    {k:"p7-153ivim",n:"Alyssa C."},
+    {k:"p7-s1gmcc",n:"Brandon D."},
+    {k:"p7-hp5lu4",n:"Gilberto D."},
+    {k:"p7-19x0zd8",n:"America E."},
+    {k:"p7-1q2kpri",n:"Rich G."},
+    {k:"p7-uks9e4",n:"Kendra I."},
+    {k:"p7-1653tij",n:"Gael M."},
+    {k:"p7-1hyf4jv",n:"Maria M."},
+    {k:"p7-a12ce8",n:"Jamile M."},
+    {k:"p7-1mye4z8",n:"Samuel S."},
+    {k:"p7-1xfxc7j",n:"Luis U."},
+    {k:"p7-175t2ni",n:"Daniel V."},
+    {k:"p7-1jtam3n",n:"Adrian V."},
+    {k:"p7-1d3t23w",n:"Keyla Z."},
+    {k:"p7-1inqa6e",n:"Student 1"},
+    {k:"p7-1inqa6d",n:"Student 2"},
+    {k:"p7-1inqa6c",n:"Student 3"},
+  ]},
+];
+
+/* ---------- ScoreStore: the ONLY place that reads or writes saved scores ----------
+   Today it is localStorage on this device. To move to the cloud later (Vercel + a database),
+   replace the insides of these four functions and keep the callback shape. Nothing else touches storage. */
+var ScoreStore=(function(){
+  var KEY="rf_wcpm_scores";
+  function readAll(){ try{ var v=JSON.parse(localStorage.getItem(KEY)||"[]"); return (v&&v.length!==undefined)?v:[]; }catch(e){ return []; } }
+  function writeAll(list){ try{ localStorage.setItem(KEY, JSON.stringify(list)); return true; }catch(e){ return false; } }
+  function list(cb){ cb(null, readAll()); }
+  function save(rec, cb){
+    var all=readAll(), i, done=false;
+    for(i=0;i<all.length;i++){ if(all[i].id===rec.id){ all[i]=rec; done=true; break; } }
+    if(!done){ all.push(rec); }
+    cb(writeAll(all)?null:"Could not save on this computer.", rec);
+  }
+  function remove(id, cb){
+    var all=readAll(), out=[], i;
+    for(i=0;i<all.length;i++){ if(all[i].id!==id){ out.push(all[i]); } }
+    cb(writeAll(out)?null:"Could not delete.");
+  }
+  function merge(recs, cb){
+    var all=readAll(), byId={}, i, added=0;
+    for(i=0;i<all.length;i++){ byId[all[i].id]=i; }
+    for(i=0;i<recs.length;i++){
+      if(!recs[i]||!recs[i].id){ continue; }
+      if(byId.hasOwnProperty(recs[i].id)){ all[byId[recs[i].id]]=recs[i]; }
+      else { byId[recs[i].id]=all.length; all.push(recs[i]); added++; }
+    }
+    cb(writeAll(all)?null:"Could not save on this computer.", added);
+  }
+  return {list:list, save:save, remove:remove, merge:merge};
+})();
+
+/* ---------- Helpers ---------- */
+function $(id){ return document.getElementById(id); }
+function escapeHtml(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function pad2(n){ return (n<10?"0":"")+n; }
+function azNow(){ var n=new Date(); var utc=n.getTime()+n.getTimezoneOffset()*60000; return new Date(utc - 7*3600000); }
+function azDateStr(){ var d=azNow(); return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate()); }
+function fmtTime(s){ if(!(s>0)){ return "—"; } var m=Math.floor(s/60), r=Math.round(s-m*60); if(r===60){ m++; r=0; } return m+":"+pad2(r); }
+function newId(){ return "s"+(new Date().getTime()).toString(36)+Math.floor(Math.random()*1e6).toString(36); }
+function findClass(id){ var i; for(i=0;i<ROSTER.length;i++){ if(ROSTER[i].id===id){ return ROSTER[i]; } } return null; }
+function findStudent(k){ var i,j; for(i=0;i<ROSTER.length;i++){ for(j=0;j<ROSTER[i].students.length;j++){ if(ROSTER[i].students[j].k===k){ return ROSTER[i].students[j]; } } } return null; }
+function findPassage(g){ var i; for(i=0;i<PASSAGES.length;i++){ if(PASSAGES[i].grp===g){ return PASSAGES[i]; } } return null; }
+function downloadText(text, fname, type){
+  var blob=new Blob([text],{type:type});
+  var u=URL.createObjectURL(blob);
+  var a=document.createElement("a"); a.href=u; a.download=fname;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(u); },1500);
+}
+
+/* ---------- State ---------- */
+var WORDS=[];        /* flat list of passage words: {t:text, s:sentence number} */
+var ERR={};          /* word index -> true when the teacher marked an error */
+var LAST=-1;         /* index of the last word read; -1 = whole passage */
+var TAPMODE="err";
+var fileUrl=null;
+
+/* ---------- Pickers ---------- */
+function buildPickers(){
+  var i, h="";
+  for(i=0;i<ROSTER.length;i++){ h+='<option value="'+ROSTER[i].id+'">'+escapeHtml(ROSTER[i].label)+'</option>'; }
+  $("sel-class").innerHTML=h;
+  h=""; for(i=0;i<PASSAGES.length;i++){ h+='<option value="'+escapeHtml(PASSAGES[i].grp)+'">'+escapeHtml(PASSAGES[i].grp)+'</option>'; }
+  $("sel-grp").innerHTML=h;
+  $("in-date").value=azDateStr();
+  pickClass();
+  pickGroup();
+}
+function pickClass(){
+  var c=findClass($("sel-class").value), h='<option value="">Choose a student</option>', i;
+  for(i=0;i<c.students.length;i++){ h+='<option value="'+c.students[i].k+'">'+escapeHtml(c.students[i].n)+'</option>'; }
+  $("sel-stu").innerHTML=h;
+  paintHistoryPicker();
+  paintResult();
+}
+function pickGroup(){
+  var p=findPassage($("sel-grp").value), i, j, parts, h="";
+  WORDS=[]; ERR={}; LAST=-1;
+  for(i=0;i<p.sentences.length;i++){
+    parts=p.sentences[i].split(" ");
+    h+='<p><span class="num">'+(i+1)+'.</span> ';
+    for(j=0;j<parts.length;j++){
+      if(!parts[j]){ continue; }
+      h+='<button class="w" id="w'+WORDS.length+'" onclick="tapWord('+WORDS.length+')">'+escapeHtml(parts[j])+'</button> ';
+      WORDS.push({t:parts[j], s:i+1});
+    }
+    h+='</p>';
+  }
+  $("passage").innerHTML=h;
+  paintWords();
+  paintResult();
+}
+
+/* ---------- The recording ---------- */
+function openFile(input){
+  var f=input.files&&input.files[0]; if(!f){ return; }
+  var a=$("player");
+  if(fileUrl){ try{ URL.revokeObjectURL(fileUrl); }catch(e){} }
+  fileUrl=URL.createObjectURL(f);
+  a.src=fileUrl;
+  $("in-start").value="0"; $("in-end").value="";
+  $("file-note").className="note";
+  $("file-note").textContent="Opened. Finding the length…";
+  fillFromFileName(f.name||"");
+  findDuration(a, function(sec){
+    if(sec>0){
+      $("in-end").value=(Math.round(sec*10)/10).toString();
+      $("file-note").textContent="Recording is "+fmtTime(sec)+" long. Trim the start and stop times to the reading itself.";
+    } else {
+      $("file-note").textContent="Couldn’t read the length. Play it and use Set to now for the start and stop.";
+    }
+    paintResult();
+  });
+  paintResult();
+}
+/* Browser-recorded .webm files often report no length until the end is reached.
+   Seeking far past the end makes the browser work it out. */
+function findDuration(a, cb){
+  var fired=false;
+  function done(v){ if(fired){ return; } fired=true; a.removeEventListener("timeupdate", onTime); cb(v); }
+  function onTime(){ if(isFinite(a.duration)&&a.duration>0){ a.currentTime=0; done(a.duration); } }
+  a.onloadedmetadata=function(){
+    if(isFinite(a.duration)&&a.duration>0){ done(a.duration); return; }
+    a.addEventListener("timeupdate", onTime);
+    try{ a.currentTime=1e7; }catch(e){ done(0); }
+  };
+  a.onerror=function(){ $("file-note").className="note warn"; $("file-note").textContent="This file won’t play here. Check it is the student’s .webm."; done(0); };
+}
+/* The student app names files like MiriamGomez_Personal_Narrative_1.webm (Canvas may add a prefix).
+   Pre-fill the group, and the student only when exactly one matches. The teacher checks both. */
+function normName(s){ return String(s).replace(/[^A-Za-z0-9]/g,"").toLowerCase(); }
+function fillFromFileName(fname){
+  var base=fname.replace(/\.[A-Za-z0-9]+$/,"").replace(/\s*\(\d+\)$/,"").replace(/-\d+$/,"");
+  var nb=normName(base), i, j, gHit=null, sHits=[], said=[];
+  for(i=0;i<PASSAGES.length;i++){
+    var ng=normName(PASSAGES[i].grp);
+    if(nb.length>=ng.length && nb.substr(nb.length-ng.length)===ng && (!gHit||ng.length>normName(gHit).length)){ gHit=PASSAGES[i].grp; }
+  }
+  if(gHit){ $("sel-grp").value=gHit; pickGroup(); said.push("group"); }
+  for(i=0;i<ROSTER.length;i++){
+    for(j=0;j<ROSTER[i].students.length;j++){
+      var n=ROSTER[i].students[j].n, key=normName(n);
+      if(/^Student /.test(n)){ continue; }
+      if(key && nb.indexOf(key)>=0){ sHits.push({c:ROSTER[i].id, k:ROSTER[i].students[j].k}); }
+    }
+  }
+  if(sHits.length===1){ $("sel-class").value=sHits[0].c; pickClass(); $("sel-stu").value=sHits[0].k; said.push("student"); }
+  $("pick-note").className=said.length?"note warn":"note";
+  $("pick-note").textContent=said.length?("Filled in the "+said.join(" and ")+" from the file name. Check before saving."):"";
+  paintResult();
+}
+function markTime(which){
+  var t=$("player").currentTime||0;
+  $(which==="start"?"in-start":"in-end").value=(Math.round(t*10)/10).toString();
+  paintResult();
+}
+
+/* ---------- Tapping ---------- */
+function setTapMode(m){
+  TAPMODE=m;
+  $("mode-err").className="btn"+(m==="err"?" on":"");
+  $("mode-last").className="btn"+(m==="last"?" on":"");
+}
+function tapWord(i){
+  if(TAPMODE==="last"){
+    LAST=(LAST===i)?-1:i;
+    var k; for(k in ERR){ if(ERR.hasOwnProperty(k) && +k>lastIdx()){ delete ERR[k]; } }
+  } else {
+    if(i>lastIdx()){ return; }
+    if(ERR[i]){ delete ERR[i]; } else { ERR[i]=true; }
+  }
+  paintWords(); paintResult();
+}
+function clearMarks(){ ERR={}; LAST=-1; paintWords(); paintResult(); }
+function lastIdx(){ return LAST<0?WORDS.length-1:LAST; }
+function paintWords(){
+  var i, e, L=lastIdx();
+  for(i=0;i<WORDS.length;i++){
+    e=$("w"+i); if(!e){ continue; }
+    e.className="w"+(ERR[i]?" err":"")+(LAST===i?" last":"")+(i>L?" after":"");
+  }
+}
+
+/* ---------- The arithmetic (the only "scoring" the app does) ---------- */
+function compute(){
+  var start=parseFloat($("in-start").value), end=parseFloat($("in-end").value);
+  var secs=(isFinite(start)&&isFinite(end))?Math.round((end-start)*10)/10:0;
+  var read=lastIdx()+1, errs=0, errWords=[], i;
+  for(i=0;i<read;i++){ if(ERR[i]){ errs++; errWords.push(WORDS[i].t.replace(/[^A-Za-z0-9'À-ɏ-]/g,"")); } }
+  var correct=read-errs;
+  var wcpm=secs>0?Math.round(correct/(secs/60)):null;
+  var acc=read>0?Math.round(correct*1000/read)/10:null;
+  return {secs:secs, total:WORDS.length, read:read, errors:errs, correct:correct, wcpm:wcpm, acc:acc, errWords:errWords};
+}
+function stat(k,v,big){ return '<div class="stat'+(big?" big":"")+'"><div class="k">'+k+'</div><div class="v">'+v+'</div></div>'; }
+function paintResult(){
+  var r=compute();
+  $("stats").innerHTML=
+     stat("Words correct / min", r.wcpm===null?"—":r.wcpm, true)
+    +stat("Accuracy", r.acc===null?"—":r.acc+"%")
+    +stat("Reading time", fmtTime(r.secs))
+    +stat("Words read", r.read+(r.read<r.total?" of "+r.total:""))
+    +stat("Errors", r.errors)
+    +stat("Words correct", r.correct);
+  var why=saveBlocker(r);
+  $("btn-save").disabled=!!why;
+  $("save-note").className="note"; $("save-note").textContent=why;
+}
+function saveBlocker(r){
+  if(!$("sel-stu").value){ return "Choose the student to save."; }
+  if(!(r.secs>0)){ return "Set a stop time after the start time to get words per minute."; }
+  if(!$("in-date").value){ return "Set the date of the read."; }
+  return "";
+}
+function saveScore(){
+  var r=compute(); if(saveBlocker(r)){ paintResult(); return; }
+  var cls=findClass($("sel-class").value), stu=findStudent($("sel-stu").value);
+  var rec={
+    id:newId(), date:$("in-date").value, cls:cls.id, clsLabel:cls.label, stu:stu.k, name:stu.n,
+    grp:$("sel-grp").value, secs:r.secs, total:r.total, read:r.read, errors:r.errors, correct:r.correct,
+    wcpm:r.wcpm, acc:r.acc, errWords:r.errWords, savedAt:new Date().toISOString()
+  };
+  ScoreStore.save(rec, function(err){
+    var n=$("save-note");
+    if(err){ n.className="note warn"; n.textContent=err; return; }
+    clearForNext(); paintResult(); paintHistory();
+    n.className="note ok";
+    n.textContent="Saved: "+rec.name+", "+rec.grp+", "+rec.wcpm+" words correct per minute.";
+  });
+}
+function clearForNext(){
+  var a=$("player"); try{ a.pause(); }catch(e){}
+  a.removeAttribute("src");
+  if(fileUrl){ try{ URL.revokeObjectURL(fileUrl); }catch(e){} fileUrl=null; }
+  $("in-file").value=""; $("in-start").value="0"; $("in-end").value="";
+  $("sel-stu").value=""; $("pick-note").textContent="";
+  $("file-note").className="note"; $("file-note").textContent="No file open. The file stays on this computer — nothing is uploaded.";
+  setTapMode("err"); ERR={}; LAST=-1; paintWords();
+}
+
+/* ---------- Saved scores ---------- */
+function paintHistoryPicker(){
+  var s=$("sel-hist"), keep=s.value, h='<option value="all">All classes</option>', i;
+  for(i=0;i<ROSTER.length;i++){ h+='<option value="'+ROSTER[i].id+'">'+escapeHtml(ROSTER[i].label)+'</option>'; }
+  s.innerHTML=h; s.value=keep||"all";
+}
+function paintHistory(){
+  ScoreStore.list(function(err, all){
+    var f=$("sel-hist").value||"all", rows=[], i, h;
+    for(i=0;i<all.length;i++){ if(f==="all"||all[i].cls===f){ rows.push(all[i]); } }
+    rows.sort(function(a,b){ return a.date<b.date?1:a.date>b.date?-1:(a.savedAt<b.savedAt?1:-1); });
+    if(!rows.length){ $("history").innerHTML='<p class="note">No saved scores yet.</p>'; return; }
+    h='<table><thead><tr><th>Date</th><th>Student</th><th>Class</th><th>Group</th><th>WCPM</th><th>Accuracy</th><th>Errors</th><th>Time</th><th></th></tr></thead><tbody>';
+    for(i=0;i<rows.length;i++){
+      var r=rows[i];
+      h+='<tr><td>'+escapeHtml(r.date)+'</td><td>'+escapeHtml(r.name)+'</td><td>'+escapeHtml(r.clsLabel||r.cls)+'</td><td>'+escapeHtml(r.grp)+'</td>'
+        +'<td><strong>'+escapeHtml(r.wcpm)+'</strong></td><td>'+escapeHtml(r.acc)+'%</td><td>'+escapeHtml(r.errors)+'</td><td>'+fmtTime(r.secs)+'</td>'
+        +'<td><button class="btn small" onclick="deleteScore(\''+escapeHtml(r.id)+'\')">Delete</button></td></tr>';
+    }
+    $("history").innerHTML=h+'</tbody></table>';
+  });
+}
+function deleteScore(id){
+  if(!window.confirm("Delete this score? This can’t be undone unless you have a backup.")){ return; }
+  ScoreStore.remove(id, function(){ paintHistory(); });
+}
+
+/* ---------- Export / restore ---------- */
+function backupText(all){ return JSON.stringify({app:"fluency-tap", version:1, exported:new Date().toISOString(), scores:all}, null, 2); }
+function csvCell(v){ v=(v===null||v===undefined)?"":String(v); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }
+function csvText(all){
+  var cols=["date","class","student","group","seconds","words_read","errors","words_correct","wcpm","accuracy_pct","error_words"];
+  var out=[cols.join(",")], i, r;
+  var rows=all.slice(0).sort(function(a,b){ return a.date<b.date?-1:a.date>b.date?1:0; });
+  for(i=0;i<rows.length;i++){
+    r=rows[i];
+    out.push([r.date, r.clsLabel||r.cls, r.name, r.grp, r.secs, r.read, r.errors, r.correct, r.wcpm, r.acc, (r.errWords||[]).join(" | ")].map(csvCell).join(","));
+  }
+  return out.join("\r\n")+"\r\n";
+}
+function exportBackup(){ ScoreStore.list(function(err, all){ downloadText(backupText(all), "fluency-scores-"+azDateStr()+".json", "application/json"); ioNote("Backup downloaded ("+all.length+" scores).", "ok"); }); }
+function exportCSV(){ ScoreStore.list(function(err, all){ downloadText(csvText(all), "fluency-scores-"+azDateStr()+".csv", "text/csv"); ioNote("Spreadsheet file downloaded ("+all.length+" scores).", "ok"); }); }
+function ioNote(t, cls){ $("io-note").className="note "+(cls||""); $("io-note").textContent=t; }
+function restorePick(input){
+  var f=input.files&&input.files[0]; if(!f){ return; }
+  var fr=new FileReader();
+  fr.onload=function(){
+    var data=null;
+    try{ data=JSON.parse(fr.result); }catch(e){}
+    var list=data&&data.scores;
+    if(!list||list.length===undefined){ ioNote("That file isn’t a Fluency Tap backup.", "warn"); input.value=""; return; }
+    ScoreStore.merge(list, function(err, added){
+      if(err){ ioNote(err, "warn"); } else { ioNote("Restored. "+added+" new score"+(added===1?"":"s")+" added; the rest were already here.", "ok"); }
+      input.value=""; paintHistory();
+    });
+  };
+  fr.onerror=function(){ ioNote("Couldn’t open that file.", "warn"); };
+  fr.readAsText(f);
+}
+
+/* ---------- Boot ---------- */
+buildPickers();
+paintHistory();
+</script>
+</body>
+</html>
