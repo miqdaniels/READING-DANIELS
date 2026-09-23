@@ -2,7 +2,7 @@
   "name": "reading-foundations",
   "private": true,
   "scripts": {
-    "test": "node tests/test-final.js && node tests/test-points.js && node tests/test-sync.js"
+    "test": "node tests/test-final.js && node tests/test-points.js && node tests/test-sync.js && node tests/test-tap.js"
   },
   "devDependencies": {
     "jsdom": "^26.1.0"
