@@ -94,7 +94,33 @@ module.exports = async function handler(req, res) {
       if (!idInClass(body.id, cls)) { return send(res, 403, { ok: false, error: "wrong-class" }); }
       var d = body.data;
       if (!d || typeof d !== "object") { return send(res, 400, { ok: false, error: "no-data" }); }
-      var json = JSON.stringify({ points: d.points || {}, groups: d.groups || {}, saved: new Date().toISOString() });
+
+      /* placement/pacer/team are teacher-only fields: a student's routine
+         push never includes them (see index.html Sync.dirty/push, which
+         only ever sends points/groups). Gate them by TEACHER_PIN once that
+         env var is set on Vercel; until then this is a no-op, same as the
+         rest of this sync layer before Vercel exists. */
+      var touchesTeacherFields = d.placement !== undefined || d.pacer !== undefined || d.team !== undefined;
+      var pin = process.env.TEACHER_PIN;
+      if (touchesTeacherFields && pin && body.pin !== pin) {
+        return send(res, 403, { ok: false, error: "teacher-pin" });
+      }
+
+      /* merge onto whatever is already stored, field by field, so one call
+         (a student's points/groups, or a teacher's placement/pacer/team)
+         never erases fields it didn't mention */
+      var existing = {};
+      var existingRaw = await redis(["HGET", "rf:" + cls, body.id]);
+      if (existingRaw) { try { existing = JSON.parse(existingRaw) || {}; } catch (e) {} }
+      var merged = {
+        points: d.points !== undefined ? d.points : (existing.points || {}),
+        groups: d.groups !== undefined ? d.groups : (existing.groups || {}),
+        placement: d.placement !== undefined ? d.placement : existing.placement,
+        pacer: d.pacer !== undefined ? d.pacer : existing.pacer,
+        team: d.team !== undefined ? d.team : existing.team,
+        saved: new Date().toISOString()
+      };
+      var json = JSON.stringify(merged);
       if (json.length > MAX_BYTES) { return send(res, 413, { ok: false, error: "too-big" }); }
       await redis(["HSET", "rf:" + cls, body.id, json]);
       return send(res, 200, { ok: true });

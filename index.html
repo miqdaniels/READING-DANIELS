@@ -423,6 +423,7 @@ footer.mini a:hover{text-decoration:underline}
     <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Fluency review</p>
     <h2>Fluency &amp; retell review</h2>
     <p class="lede">Pick a class, then a student, to review fluency attempts and record your decision.</p>
+    <p class="mini-note" id="flut-sync-note" style="display:none"></p>
     <div class="seg" id="flut-class" style="margin:10px 0;flex-wrap:wrap"></div>
     <div class="grid" id="flut-roster" style="margin-bottom:14px"></div>
     <div id="flut-body"></div>
@@ -681,7 +682,7 @@ function paintReadsSeg(){
   var btns=seg.getElementsByTagName("button"), i, n=Settings.reads();
   for(i=0;i<btns.length;i++){ btns[i].className=(parseInt(btns[i].getAttribute("data-n"),10)===n)?"on":""; }
 }
-function setPacer(id,on){ Settings.setPacer(id,on); paintPacerList(); }
+function setPacer(id,on){ Settings.setPacer(id,on); paintPacerList(); Sync.pushPacer(id,on); }
 function paintPacerList(){
   var box=document.getElementById("pacer-list"); if(!box){ return; }
   var html="", ci, si;
@@ -925,6 +926,13 @@ var Sync=(function(){
       var g=groupsOf(id), k, rg=remote.groups||{};
       for(k in rg){ if(rg.hasOwnProperty(k)&&rg[k]){ g[k]=1; } }
       localStorage.setItem("rf_groups_"+id,JSON.stringify(g));
+      /* Teacher-only fields: the server keeps these separate from a
+         student's own points/groups push (see pushTeacherField below), so
+         adopting them here whenever present is safe -- only a teacher
+         screen ever writes them. */
+      if(remote.placement && remote.placement.level){ FluPlace.set(id, remote.placement.level, remote.placement.sub||0); }
+      if(remote.pacer!==undefined){ Settings.setPacer(id, !!remote.pacer); }
+      if(remote.team!==undefined){ Settings.setTeam(id, remote.team||""); }
     }catch(e){}
   }
   /* what goes up: today's full claim ledger (anti-spam needs it); older days as totals only, to stay small */
@@ -944,6 +952,30 @@ var Sync=(function(){
       if(cb){ cb(ok); }
     });
   }
+  /* ---- Teacher-only fields (placement, pacer, team) ----
+     Pushed separately from a student's own points/groups (never through
+     dirty()/push() above), so a student's device can never send these even
+     by accident. The server merges by field and keeps whatever it already
+     had for fields this call doesn't mention. Gated server-side by
+     TEACHER_PIN once that env var is set on Vercel; until then it is a
+     no-op gate, same as the rest of this sync layer before Vercel exists. */
+  var teacherPin=null;
+  function pushTeacherField(id,field,value,cb){
+    var code=codeFor(id); if(!enabled()||!code){ if(cb){ cb(false); } return; }
+    var data={}; data[field]=value;
+    var body={code:code,id:id,data:data}; if(teacherPin){ body.pin=teacherPin; }
+    xhr("POST",API,body,function(st,j){
+      if(st===403 && j && j.error==="teacher-pin"){
+        var p=null; try{ p=window.prompt("Enter the teacher PIN to save this change:"); }catch(e){}
+        if(p){ teacherPin=p; pushTeacherField(id,field,value,cb); return; }
+      }
+      if(cb){ cb(st===200 && j && j.ok); }
+    });
+  }
+  function pushPlacement(id,level,sub,cb){ pushTeacherField(id,"placement",{level:level,sub:sub},cb); }
+  function pushPacer(id,on,cb){ pushTeacherField(id,"pacer",!!on,cb); }
+  function pushTeam(id,team,cb){ pushTeacherField(id,"team",team||"",cb); }
+
   function pull(id,cb){
     var code=codeFor(id); if(!enabled()||!code){ setState("idle"); if(cb){ cb(false); } return; }
     setState("saving");
@@ -1004,7 +1036,8 @@ var Sync=(function(){
     try{ window.addEventListener("online",retryPending); }catch(e){}
   }
   return { enabled:enabled, codes:codes, setCode:setCode, codeFor:codeFor, pull:pull, dirty:dirty, pullClass:pullClass,
-           verify:verify, paintNote:paintNote, boot:boot, mergePoints:mergePoints };
+           verify:verify, paintNote:paintNote, boot:boot, mergePoints:mergePoints,
+           pushPlacement:pushPlacement, pushPacer:pushPacer, pushTeam:pushTeam };
 })();
 
 /* class code entry: roster (student, only when missing) and Settings (teacher, all classes) */
@@ -1095,7 +1128,7 @@ function paintBoard(){
   html+='</div>';
   host.innerHTML=html;
 }
-function setTeam(id,t){ Settings.setTeam(id,t); paintTeamList(); }
+function setTeam(id,t){ Settings.setTeam(id,t); paintTeamList(); Sync.pushTeam(id,t); }
 function paintTeamList(){
   var box=document.getElementById("team-list"); if(!box){ return; }
   var teams=["A","B","C","D"], html="", ci, si, ti;
@@ -1890,7 +1923,15 @@ function retSubmit(){
 
 /* ---------- Fluency: teacher review ---------- */
 var FLUTCLS=0, FLUTSTU=null;
-function flutEnter(){ FLUTCLS=0; FLUTSTU=null; flutPaintClasses(); flutPaintRoster(); var b=document.getElementById("flut-body"); if(b){ b.innerHTML=""; } }
+function flutEnter(){
+  FLUTCLS=0; FLUTSTU=null; flutPaintClasses(); flutPaintRoster();
+  var b=document.getElementById("flut-body"); if(b){ b.innerHTML=""; }
+  var n=document.getElementById("flut-sync-note");
+  if(n){
+    if(Sync.enabled()){ n.style.display="none"; }
+    else { n.style.display="block"; n.textContent="Levels save on this device until online sync is turned on."; }
+  }
+}
 function flutPaintClasses(){
   var seg=document.getElementById("flut-class"); if(!seg){ return; }
   var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="flutPick('+i+')" class="'+(i===FLUTCLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
@@ -1942,6 +1983,7 @@ function flutMove(id,dir){
     newSub = ps.length ? ps[nextIdx].sub : 0;
   }
   FluPlace.set(a.studentId,newLevel,newSub);
+  Sync.pushPlacement(a.studentId,newLevel,newSub);
   FluAttempts.update(id,{decision:dir});
   flutPaintAttempts();
 }

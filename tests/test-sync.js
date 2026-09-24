@@ -36,13 +36,14 @@ async function callApi(method, url, body) {
   return { status: code, body: out };
 }
 
-let network = true, xhrCount = 0;
+let network = true, xhrCount = 0, lastPostBody = null;
 function fakeXHRClass() {
   return class {
     open(m, u) { this.m = m; this.u = u; this.readyState = 0; }
     setRequestHeader() {}
     send(body) {
       xhrCount++;
+      if (this.m === "POST" && body) { lastPostBody = JSON.parse(body); }
       const done = (status, text) => { this.status = status; this.responseText = text; this.readyState = 4; this.onreadystatechange && this.onreadystatechange(); };
       if (!network) { setTimeout(() => done(0, ""), 5); return; }
       callApi(this.m, this.u, body ? JSON.parse(body) : undefined)
@@ -155,6 +156,32 @@ function today(w, id) { return w.todayTotals(id).total; }
     { "2026-09-01": { green: 3, blue: 0, gEarned: { b: { s: 1 } }, bEarned: {}, finals: {} }, "2026-08-01": { green: 50, blue: 4 } });
   ok(m["2026-09-01"].green === 4, "two devices' claims on one day add up, not overwrite");
   ok(m["2026-08-01"].green === 50 && m["2026-08-01"].blue === 4, "old compact days keep their totals");
+
+  console.log("Placement (teacher-only fields)");
+  const placedOk = await new Promise(r => T.Sync.pushPlacement(MIRIAM, "K", 2, ok2 => r(ok2)));
+  ok(placedOk, "teacher device can push a placement");
+  const S = device("https://reading-foundations.vercel.app/?c=K7P2"); await wait(60);
+  S.CURCLASS = S.CLASSES[0]; S.go("s-roster"); clickName(S, "Miriam Gomez"); await wait(80);
+  const placedOnStudent = S.FluPlace.get(MIRIAM);
+  ok(placedOnStudent.level === "K" && placedOnStudent.sub === 2, "a teacher-set placement reaches the student's own device via Sync");
+  lastPostBody = null;
+  S.gotPoints("word", "unique"); await wait(1400);
+  const storedAfterStudentPush = JSON.parse(db.get("rf:p1").get(MIRIAM));
+  ok(storedAfterStudentPush.placement && storedAfterStudentPush.placement.level === "K", "a student's own points push does not erase the teacher-set placement (field-level merge)");
+  ok(lastPostBody && lastPostBody.data && !("placement" in lastPostBody.data), "a student's own push never sends a placement field");
+
+  console.log("TEACHER_PIN gating (once the env var is set on Vercel)");
+  process.env.TEACHER_PIN = "4477";
+  S.prompt = () => null;
+  const badPin = await new Promise(r => S.Sync.pushPlacement(MIRIAM, "1", 0, ok2 => r(ok2)));
+  ok(badPin === false, "a student device without the PIN cannot push a placement once TEACHER_PIN is set");
+  let promptedWith = null;
+  T.prompt = () => { promptedWith = "typed-not-stored"; return "4477"; };
+  const goodPin = await new Promise(r => T.Sync.pushPlacement(MIRIAM, "1", 0, ok2 => r(ok2)));
+  ok(goodPin === true, "the teacher's push succeeds once the correct PIN is supplied");
+  ok(promptedWith === "typed-not-stored", "the PIN is prompted for interactively, never read from storage or the URL");
+  ok(JSON.stringify(T.localStorage).indexOf("4477") === -1, "the PIN is never written to localStorage");
+  delete process.env.TEACHER_PIN;
 
   console.log("GitHub Pages copy");
   const before = xhrCount;
