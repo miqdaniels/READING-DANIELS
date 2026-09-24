@@ -6,6 +6,24 @@
 
 ---
 
+## WHERE WE LEFT OFF (2026-09-24)
+
+**Finished and live on `main`:**
+- Fluency + Retell (a passage screen + a retell screen), reached through a new student menu (Fluency / Word Practice / Reading Comprehension-coming-soon) that now opens when a student taps their name.
+- A teacher "Fluency review" screen (behind `?teacher`) with playback, teacher-entered Words read/Errors, computed WCPM/Accuracy, a recommendation, and Move up/Repeat/Move down buttons that set a student's fluency placement (`PK 0.0`–`PK 0.4` only; more levels are just data, not built yet).
+- That placement (plus Settings' Pacer/Team assignments) is now **sync-ready**: `Sync.pushPlacement/pushPacer/pushTeam` push them separately from a student's own points/groups, `api/sync.js` merges fields instead of overwriting, and it's gated by an optional `TEACHER_PIN` env var (see "next step" below). A plain note on the Fluency review screen says "Levels save on this device until online sync is turned on" whenever sync is off.
+
+**Half-done / explicitly NOT built:** the bigger "Daniels Assessment" redesign (word-list placement screener, `PK/K/1–8` levels with Cold Read + Repeat Read passages twice per level-passage, one-per-day locking) was scoped out and never started — there wasn't time in the session that reached sync-readiness. The current Fluency tab is still the earlier PK-0.0-through-0.4 design, not that one. If you want the Daniels Assessment version, that's a full rebuild of the Fluency tab's screens and data, not a small patch.
+
+**Exact next step — turning sync on:**
+1. In the Vercel dashboard: **New Project** → import this GitHub repo (`miqdaniels/READING-DANIELS`) → deploy. This gives you the `*.vercel.app` URL (update it into "Live links" below once you have it).
+2. In that Vercel project → **Storage** tab → **Add** → pick **Upstash** (Redis) → connect it. This automatically sets `KV_REST_API_URL` and `KV_REST_API_TOKEN` as env vars — `api/sync.js` already reads those, nothing else to do.
+3. In the project's **Settings → Environment Variables**, add `CLASS_CODES` (e.g. `p1=K7P2,p3=M4Q8,p7=T9W3` — pick your own codes) so students can link their device to their class.
+4. Optional but recommended before real use: also add a `TEACHER_PIN` env var (any short string only you know). Once that's set, the server will require it on any placement/pacer/team change — the app already prompts for it in memory (never saved to disk) and retries. Skip this step and it just stays open, same as today.
+5. Re-test on the school Wi-Fi during school hours (a known open item even before this session).
+
+---
+
 ## What this is
 
 A reading-intervention web app for junior-high English learners who cannot yet read. One self-contained `index.html`. A student hears a word in the teacher's own recorded voice, hears it used in a sentence, slides a finger-pacer that lights each word, reads it aloud, does a set number of practice reads, then records one **final read** of the whole group and turns that file in through Canvas.
