@@ -101,7 +101,7 @@ function runMain(){
   function ck(c,m){ if(c){pass++;} else {fail++; console.log("FAIL:",m);} }
 
   /* ---- every existing screen still opens ---- */
-  var existingScreens=["s-home","s-pick","s-roster","s-groups","s-final","s-score","s-board","s-teach","s-settings","s-status"];
+  var existingScreens=["s-home","s-pick","s-roster","studentMenu","s-groups","s-final","s-score","s-board","s-teach","s-settings","s-status"];
   w.CURCLASS=w.CLASSES[0]; w.READER=w.CLASSES[0].students[0]; w.CURGROUP=w.GROUPS[0];
   var i;
   for(i=0;i<existingScreens.length;i++){
@@ -120,12 +120,12 @@ function runMain(){
 
   /* ---- fluOpen defaults a fresh student to PK 0.0 ---- */
   w.READER=w.CLASSES[0].students[1];
-  w.go("s-groups");
-  var fluBtn=null, btns=d.querySelectorAll("#s-groups .nav-row .btn");
-  for(i=0;i<btns.length;i++){ if(/Fluency practice/.test(btns[i].textContent)) fluBtn=btns[i]; }
-  ck(!!fluBtn,"Fluency practice button present on s-groups");
+  w.go("studentMenu");
+  var fluBtn=null, btns=d.querySelectorAll("#studentMenu .btn");
+  for(i=0;i<btns.length;i++){ if(/^Fluency/.test(btns[i].textContent)) fluBtn=btns[i]; }
+  ck(!!fluBtn,"Fluency button present on studentMenu");
   click(fluBtn);
-  ck(activeId()==="fluencyPassage","Fluency practice opens fluencyPassage");
+  ck(activeId()==="fluencyPassage","Fluency opens fluencyPassage");
   ck(d.getElementById("flu-level").textContent==="PK 0.0","fresh student placed at PK 0.0");
   ck(d.getElementById("flu-title").textContent==="Phones at School","passage title shown");
   ck(/My phone is in my bag/.test(d.getElementById("flu-text").textContent),"passage text shown");
@@ -170,7 +170,7 @@ function runMain(){
         w.retSubmit();
 
         setTimeout(function(){
-          ck(activeId()==="s-groups","retell submit returns to student's menu (s-groups)");
+          ck(activeId()==="studentMenu","retell submit returns to student's menu (studentMenu)");
           var savedAttempt=w.FluAttempts.get(attemptId);
           ck(savedAttempt.retellSaved===true,"retell save flag persisted");
 

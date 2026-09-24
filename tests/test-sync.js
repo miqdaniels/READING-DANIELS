@@ -114,6 +114,7 @@ function today(w, id) { return w.todayTotals(id).total; }
   await wait(80);
   ok(today(B, MIRIAM) === earnedA, "points followed Miriam to device B");
   ok(B.gUnlocked(1), "group 2 is unlocked on device B");
+  B.go("s-groups"); // Word Practice, from the student menu
   ok(B.document.querySelectorAll("#group-list button")[0].innerHTML.indexOf("&#10003;") > -1 || B.document.querySelectorAll("#group-list button")[0].innerHTML.indexOf("✓") > -1, "groups screen repainted with the check mark");
   ok(B.gotPoints("word", "annoyed") === 0, "anti-spam holds across devices (same word, same day pays nothing)");
   const more = B.gotPoints("word", "claim");

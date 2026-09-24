@@ -191,6 +191,22 @@ footer.mini a:hover{text-decoration:underline}
     </div>
     <div class="grid" id="roster-list"></div>
   </section>
+
+  <!-- STUDENT MENU -->
+  <section class="screen" id="studentMenu">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-roster')">Change reader</a></p>
+      <h2 class="scr-title" id="sm-who"></h2>
+      <p class="lede">What do you want to do?</p>
+      <button class="btn primary block" onclick="fluOpen()">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
+      <button class="btn primary block" style="margin-top:10px" onclick="go('s-groups')">Word Practice<span class="sub">Hear it, slide, read, record</span></button>
+      <button class="btn block locked" style="margin-top:10px" disabled>Reading Comprehension<span class="sub">Coming soon</span></button>
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('s-roster')">&#8592; Back</button>
+      </div>
+    </div>
+  </section>
+
 <section class="screen" id="s-groups">
   <div class="wrap">
     <p class="step-eyebrow">Unit 1</p>
@@ -200,7 +216,6 @@ footer.mini a:hover{text-decoration:underline}
     <div id="group-list" class="pick-list"></div>
     <div class="nav-row" style="margin-top:14px">
       <button class="btn" onclick="go('s-roster')">&#8592; Change reader</button>
-      <button class="btn primary" onclick="fluOpen()">Fluency practice &#8594;</button>
     </div>
   </div>
 </section>
@@ -365,7 +380,7 @@ footer.mini a:hover{text-decoration:underline}
 
   <!-- FLUENCY: read the passage -->
   <section id="fluencyPassage" class="screen">
-    <p class="crumb"><a onclick="go('s-groups')">My groups</a> &nbsp;/&nbsp; Fluency</p>
+    <p class="crumb"><a onclick="go('studentMenu')">Menu</a> &nbsp;/&nbsp; Fluency</p>
     <p class="step-eyebrow" id="flu-level"></p>
     <h2 class="scr-title" id="flu-title"></h2>
     <div class="flu-passage" id="flu-text"></div>
@@ -1230,7 +1245,7 @@ function fCanvasSteps(fname){
     +'<li>Press <strong>Submit</strong>.</li>'
     +'</ol></div>'
     +'<div class="nav-row" style="margin-top:14px">'
-    +'<button class="btn primary" onclick="go(\'s-groups\')">Back to my groups &#8594;</button>'
+    +'<button class="btn primary" onclick="go(\'studentMenu\')">Back to my menu &#8594;</button>'
     +'</div>';
 }
 
@@ -1242,6 +1257,7 @@ function go(id){
   window.scrollTo(0,0); stopAllAudio();
   if(id==="s-pick"){ buildClasses(); }
   if(id==="s-roster"){ buildRoster(); paintCodeBox(); }
+  if(id==="studentMenu"){ smEnter(); }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
   if(id==="s-final"){ fEnter(); }
   if(id==="s-read"){ refreshPtsBadge(); }
@@ -1252,6 +1268,11 @@ function go(id){
   if(id==="fluencyPassage"){ fluEnter(); }
   if(id==="fluencyRetell"){ retEnter(); }
   if(id==="s-fluteach"){ flutEnter(); }
+}
+
+/* ---------- Student menu (Fluency / Word Practice / Reading Comprehension) ---------- */
+function smEnter(){
+  var who=document.getElementById("sm-who"); if(who && READER){ who.textContent=READER.name; }
 }
 
 /* ---------- Class + student pick ---------- */
@@ -1267,7 +1288,7 @@ function buildRoster(){
   document.getElementById("roster-title").textContent=CURCLASS.label;
   var list=CURCLASS.students, i;
   for(i=0;i<list.length;i++){
-    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ READER=stu; Sync.pull(stu.id); go("s-groups"); }; box.appendChild(b); })(list[i]);
+    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ READER=stu; Sync.pull(stu.id); go("studentMenu"); }; box.appendChild(b); })(list[i]);
   }
 }
 
@@ -1819,7 +1840,7 @@ var retBlob=null, retTimerHandle=null, retAutoStop=null;
 function retClearTimer(){ if(retTimerHandle){ clearInterval(retTimerHandle); retTimerHandle=null; } }
 function retEnter(){
   retBlob=null; retClearTimer(); if(retAutoStop){ clearTimeout(retAutoStop); retAutoStop=null; }
-  var p=fluPassage; if(!p){ go("s-groups"); return; }
+  var p=fluPassage; if(!p){ go("studentMenu"); return; }
   document.getElementById("ret-level").textContent=p.label+" - Retell";
   document.getElementById("ret-prompt").textContent="Tell about "+p.title+". You have 1 minute.";
   var html="", i; for(i=0;i<p.frames.length;i++){ html+="<li>"+escapeHtml(p.frames[i])+"</li>"; }
@@ -1860,7 +1881,7 @@ function retSubmit(){
   FluencyStore.put(id+"_retell", blob).then(function(){
     FluAttempts.update(id, {retellSaved:true});
     fluAttemptId=null; fluPassage=null; fluBlob=null; retBlob=null;
-    go("s-groups");
+    go("studentMenu");
   }).catch(function(){
     var st=document.getElementById("ret-state");
     if(st){ st.className="state-line err"; st.textContent="Could not save on this device. Try again."; }
