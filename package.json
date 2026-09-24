@@ -2,9 +2,10 @@
   "name": "reading-foundations",
   "private": true,
   "scripts": {
-    "test": "node tests/test-final.js && node tests/test-points.js && node tests/test-sync.js && node tests/test-tap.js"
+    "test": "node tests/test-final.js && node tests/test-points.js && node tests/test-sync.js && node tests/test-tap.js && node tests/test-fluency.js"
   },
   "devDependencies": {
+    "acorn": "^8.18.0",
     "jsdom": "^26.1.0"
   }
 }

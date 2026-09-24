@@ -138,6 +138,10 @@ footer.mini a:hover{text-decoration:underline}
 .board-line{ display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--line); }
 .tflag{ font-size:11px; background:var(--line); padding:1px 7px; border-radius:999px; margin-left:6px; }
 .f-num{ opacity:.5; margin-right:6px; }
+.flu-passage{ font-size:1.3rem; line-height:1.7; max-width:40em; margin:16px 0; }
+.flu-passage p{ margin:0 0 14px; }
+.flu-timer-row{ display:flex; align-items:center; gap:12px; margin:10px 0; }
+.flu-timer{ font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; }
 </style>
 </head>
 <body>
@@ -161,6 +165,7 @@ footer.mini a:hover{text-decoration:underline}
       <div id="teacher-doors" style="display:none">
       <button class="btn block" onclick="go('s-teach')">Teacher: record the models<span class="sub">Record each word and its sentence in your voice</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-board')">Scoreboard<span class="sub">Show today's team standings at the end of class</span></button>
+      <button class="btn block" style="margin-top:10px" onclick="go('s-fluteach')">Fluency review<span class="sub">Listen to fluency &amp; retell attempts, score WCPM, approve moves</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-settings')">Settings<span class="sub">Practice reads, pacer, and teams</span></button>
     </div>
     </div>
@@ -195,6 +200,7 @@ footer.mini a:hover{text-decoration:underline}
     <div id="group-list" class="pick-list"></div>
     <div class="nav-row" style="margin-top:14px">
       <button class="btn" onclick="go('s-roster')">&#8592; Change reader</button>
+      <button class="btn primary" onclick="fluOpen()">Fluency practice &#8594;</button>
     </div>
   </div>
 </section>
@@ -355,6 +361,57 @@ footer.mini a:hover{text-decoration:underline}
       </ul>
     </div>
     <button class="btn" onclick="go('s-home')">Back to start</button>
+  </section>
+
+  <!-- FLUENCY: read the passage -->
+  <section id="fluencyPassage" class="screen">
+    <p class="crumb"><a onclick="go('s-groups')">My groups</a> &nbsp;/&nbsp; Fluency</p>
+    <p class="step-eyebrow" id="flu-level"></p>
+    <h2 class="scr-title" id="flu-title"></h2>
+    <div class="flu-passage" id="flu-text"></div>
+    <div class="flu-timer-row">
+      <span class="flu-timer" id="flu-timer">1:00</span>
+      <button class="btn" id="flu-timer-btn" onclick="fluTimerStart()">Start</button>
+    </div>
+    <div class="rec-row">
+      <button class="rec-btn" id="flu-rec" onclick="fluToggleRec()"><span class="rec-dot"></span><span id="flu-rec-lbl">Record</span></button>
+      <button class="play-btn" id="flu-play" onclick="fluPlayMine()" disabled>&#9654;&nbsp; Play mine</button>
+    </div>
+    <p class="state-line none" id="flu-state"></p>
+    <div class="nav-row" style="margin-top:14px">
+      <button class="btn primary" onclick="fluSubmit()">Submit &#8594;</button>
+    </div>
+  </section>
+
+  <!-- FLUENCY: retell -->
+  <section id="fluencyRetell" class="screen">
+    <p class="step-eyebrow" id="ret-level"></p>
+    <h2 class="scr-title">Tell What You Read</h2>
+    <p class="lede" id="ret-prompt"></p>
+    <div class="note-box">
+      <h4>You can use these:</h4>
+      <ul id="ret-frames"></ul>
+    </div>
+    <div class="flu-timer-row"><span class="flu-timer" id="ret-timer">1:00</span></div>
+    <div class="rec-row">
+      <button class="rec-btn" id="ret-rec" onclick="retToggleRec()"><span class="rec-dot"></span><span id="ret-rec-lbl">Record</span></button>
+      <button class="play-btn" id="ret-play" onclick="retPlayMine()" disabled>&#9654;&nbsp; Play mine</button>
+    </div>
+    <p class="state-line none" id="ret-state"></p>
+    <div class="nav-row" style="margin-top:14px">
+      <button class="btn primary" id="ret-submit" onclick="retSubmit()" disabled>Submit &#8594;</button>
+    </div>
+  </section>
+
+  <!-- FLUENCY: teacher review -->
+  <section id="s-fluteach" class="screen">
+    <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Fluency review</p>
+    <h2>Fluency &amp; retell review</h2>
+    <p class="lede">Pick a class, then a student, to review fluency attempts and record your decision.</p>
+    <div class="seg" id="flut-class" style="margin:10px 0;flex-wrap:wrap"></div>
+    <div class="grid" id="flut-roster" style="margin-bottom:14px"></div>
+    <div id="flut-body"></div>
+    <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
   </section>
 
 </div>
@@ -1192,6 +1249,9 @@ function go(id){
   if(id==="s-board"){ paintBoard(); boardSync(); }
   if(id==="s-teach"){ enterTeach(); }
   if(id==="s-settings"){ paintReadsSeg(); paintPacerList(); paintTeamList(); paintCodeList(); }
+  if(id==="fluencyPassage"){ fluEnter(); }
+  if(id==="fluencyRetell"){ retEnter(); }
+  if(id==="s-fluteach"){ flutEnter(); }
 }
 
 /* ---------- Class + student pick ---------- */
@@ -1595,6 +1655,318 @@ function tImportPick(input){
   };
   fr.onerror=function(){ st.style.color="var(--retry)"; st.textContent="Couldn\u2019t open that file."; };
   fr.readAsText(file);
+}
+
+/* ============================================================
+   Fluency + Retell
+   Levels are grade words in ALL CAPS. Placement always lands a
+   student on the .0 passage of their level. Add a level by adding
+   passages here only -- no other code changes needed.
+   ============================================================ */
+var LEVELS=["PK","K","FIRST","SECOND","THIRD","FOURTH","FIFTH","SIXTH","SEVENTH","EIGHTH"];
+function fluSplitSentences(text){
+  var m=text.match(/[^.!?]+[.!?]+/g);
+  return m || [text];
+}
+function buildPassage(level,sub,title,rawText,frames){
+  var paras=rawText.split(" | "), full=paras.join(" ");
+  var sents=fluSplitSentences(full), i, cum=0, rows=[];
+  for(i=0;i<sents.length;i++){
+    var t=sents[i].replace(/^\s+|\s+$/g,"");
+    var wc=t?t.split(/\s+/).length:0;
+    cum+=wc;
+    rows.push({text:t, words:wc, cum:cum});
+  }
+  return { level:level, sub:sub, id:level+"_"+sub, label:level+" 0."+sub, title:title,
+           paragraphs:paras, frames:frames, sentenceCounts:rows, totalWords:cum };
+}
+var PASSAGES=[
+  buildPassage("PK",0,"Phones at School",
+    "My phone is in my bag. It is on. It buzzes. Who sent a text? My phone is black and red. I like it a lot. I can play a game on it. I can call my mom on it. I can see my friends on it. | But at school, my phone has to stay in my bag. That is the rule. Many schools have a rule like this now. | Some kids do not like the rule. They want to get the phone out. They want to see who sent a text. Some kids like the rule. They say it is good to look up and talk. They say it is good to look at the teacher. A phone can help you. A phone can get in the way, too. | So what do you think? Must a phone stay in the bag all day? Can it come out at lunch? I think it can come out at lunch. You can think what you want. What would you do?",
+    ["This is about ___.", "Some kids say ___.", "I think phones can / can not come out at lunch because ___."]),
+  buildPassage("PK",1,"The Big Dance",
+    "It is the night of the big dance. The gym is dark. The lights go red and blue and green. The music is so loud. I can feel it in my feet. | My friends and I go in. We all have on our best look. Ana has a new top. Luis has on a new hat. I have on my new shoes. | At first, no one will dance. We all stand by the wall. We look at the floor. We look at the snack table. Then one kid gets up. Then two kids get up. Then we all get up and dance. | A school dance has rules. You have to stay in the gym. A teacher stands at the door. The dance ends at nine. My mom will be out front at nine. It was so much fun. I want to go to the next one.",
+    ["This story is about ___.", "First, ___.", "Then, ___.", "At the end, ___."]),
+  buildPassage("PK",2,"Dress Out for PE",
+    "In PE, you have to dress out. That means you put on a gym shirt and gym shorts. You put on shoes you can run in. | Some kids do not like to dress out. It takes time. The locker room is loud. It can be hard to get it all on fast. | Some kids like to dress out. They do not want to be hot and wet all day. Gym shorts let you move. You can run and jump in them. You can play ball in them. | Why do schools want kids to dress out? One big thing is to keep you safe. Jeans can make it hard to run. Bad shoes can make you fall. | So what do you think? Is it a good rule? Or is it too much? Are you in or out?",
+    ["This is about ___.", "Some kids say ___.", "I am in / out on dress out because ___."]),
+  buildPassage("PK",3,"Can I Drive at 16?",
+    "My big bro is 16. He can drive a car now. First, he had to get a permit. Then he had to drive with my dad in the car. He had to go to a class. He had to pass a test. | Now he can drive to school. He can drive to work. He can drive me to the store. I want to drive, too. But I have to wait. | Is 16 too young to drive? Some people say yes. They say a new driver can mess up a lot. They say a car is big and fast, and it can hurt people. Some people say no. They say a kid who is 16 can have a job. So a kid who is 16 can drive, too. | What do you think is the best age to drive? Is it 16? Is it 18? You pick!",
+    ["This is about ___.", "Some people say ___.", "I think the best age to drive is ___ because ___."]),
+  buildPassage("PK",4,"The Check at the Door",
+    "At some schools, there is a check at the door. You walk in a line. You put your bag down. A man or a lady looks in the bag. Then you walk past a big gray box. | The box can tell if you have metal on you. If it beeps, you have to stop. Then they check you one more time. | Why do some schools do this? They want to keep all the kids safe. They do not want kids to bring in stuff that can hurt people. | Some kids say the check makes them feel safe. Some kids say it takes too long. They have to get up at six. They have to wait in line out in the hot sun. | So what do you think? Is a check at the door a good thing? Do you want one at your school? Tell me why or why not.",
+    ["This is about ___.", "Some kids say ___.", "I think a check at the door is good / bad because ___."])
+];
+function passagesForLevel(level){ var out=[],i; for(i=0;i<PASSAGES.length;i++){ if(PASSAGES[i].level===level){ out.push(PASSAGES[i]); } } out.sort(function(a,b){ return a.sub-b.sub; }); return out; }
+function findPassage(level,sub){ var i; for(i=0;i<PASSAGES.length;i++){ if(PASSAGES[i].level===level && PASSAGES[i].sub===sub){ return PASSAGES[i]; } } return null; }
+
+/* ---------- Placement: which passage a student is on (no login; per student id) ---------- */
+var FluPlace=(function(){
+  var KEY="rf_fluency_place";
+  function all(){ try{ var r=window.localStorage.getItem(KEY); return r?JSON.parse(r):{}; }catch(e){ return {}; } }
+  function save(o){ try{ window.localStorage.setItem(KEY,JSON.stringify(o)); }catch(e){} }
+  function get(id){ var o=all(); return o[id] || {level:LEVELS[0], sub:0}; }
+  function set(id,level,sub){ var o=all(); o[id]={level:level, sub:sub}; save(o); }
+  return { get:get, set:set };
+})();
+
+/* ---------- Fluency + retell recordings (IndexedDB, this device) ---------- */
+var FluencyStore=(function(){
+  var DB="fluency_audio", ST="clips", dbP=null;
+  function open(){
+    if(dbP) return dbP;
+    dbP=new Promise(function(res,rej){
+      if(!window.indexedDB){ rej(new Error("no-idb")); return; }
+      var q=window.indexedDB.open(DB,1);
+      q.onupgradeneeded=function(){ var db=q.result; if(!db.objectStoreNames.contains(ST)){ db.createObjectStore(ST); } };
+      q.onsuccess=function(){ res(q.result); };
+      q.onerror=function(){ rej(q.error); };
+    });
+    return dbP;
+  }
+  function put(id,blob){ return open().then(function(db){ return new Promise(function(res,rej){ var tx=db.transaction(ST,"readwrite"); tx.objectStore(ST).put(blob,id); tx.oncomplete=function(){res(true);}; tx.onerror=function(){rej(tx.error);}; }); }); }
+  function get(id){ return open().then(function(db){ return new Promise(function(res){ var tx=db.transaction(ST,"readonly"); var r=tx.objectStore(ST).get(id); r.onsuccess=function(){ res(r.result||null); }; r.onerror=function(){ res(null); }; }); }, function(){ return null; }); }
+  return { put:put, get:get };
+})();
+
+/* ---------- Fluency attempts (localStorage): metadata + teacher-entered scores ---------- */
+var FluAttempts=(function(){
+  var KEY="rf_fluency_attempts";
+  function all(){ try{ var r=window.localStorage.getItem(KEY); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(KEY,JSON.stringify(l)); }catch(e){} }
+  function add(rec){ var l=all(); l.push(rec); save(l); return rec; }
+  function update(id,patch){ var l=all(), i, k; for(i=0;i<l.length;i++){ if(l[i].id===id){ for(k in patch){ if(patch.hasOwnProperty(k)){ l[i][k]=patch[k]; } } break; } } save(l); }
+  function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
+  function forStudent(sid){ var l=all(), out=[], i; for(i=0;i<l.length;i++){ if(l[i].studentId===sid){ out.push(l[i]); } } out.sort(function(a,b){ return a.date<b.date?1:(a.date>b.date?-1:0); }); return out; }
+  return { all:all, add:add, update:update, get:get, forStudent:forStudent };
+})();
+function fluUid(){ return "flu"+new Date().getTime()+"_"+Math.floor(Math.random()*100000); }
+function fluFmtTime(s){ var m=Math.floor(s/60), sec=s%60; return m+":"+(sec<10?"0":"")+sec; }
+
+/* ---------- Fluency: read the passage ---------- */
+var fluPassage=null, fluBlob=null, fluAttemptId=null, fluTimerLeft=60, fluTimerHandle=null, fluPendingSubmit=false;
+function fluClearTimer(){ if(fluTimerHandle){ clearInterval(fluTimerHandle); fluTimerHandle=null; } }
+function fluOpen(){
+  if(!READER){ go("s-pick"); return; }
+  var pl=FluPlace.get(READER.id);
+  var p=findPassage(pl.level,pl.sub);
+  if(!p){ p=findPassage(LEVELS[0],0); FluPlace.set(READER.id,LEVELS[0],0); }
+  fluPassage=p;
+  go("fluencyPassage");
+}
+function fluEnter(){
+  if(!fluPassage){ fluPassage=findPassage(LEVELS[0],0); }
+  fluBlob=null; fluClearTimer(); fluTimerLeft=60; fluPendingSubmit=false;
+  var p=fluPassage, i;
+  document.getElementById("flu-level").textContent=p.label;
+  document.getElementById("flu-title").textContent=p.title;
+  var html=""; for(i=0;i<p.paragraphs.length;i++){ html+="<p>"+escapeHtml(p.paragraphs[i].replace(/^\s+|\s+$/g,""))+"</p>"; }
+  document.getElementById("flu-text").innerHTML=html;
+  document.getElementById("flu-timer").textContent=fluFmtTime(60);
+  var tb=document.getElementById("flu-timer-btn"); if(tb){ tb.disabled=false; tb.textContent="Start"; }
+  var rb=document.getElementById("flu-rec"); if(rb){ rb.className="rec-btn"; }
+  var lbl=document.getElementById("flu-rec-lbl"); if(lbl){ lbl.textContent="Record"; }
+  var pb=document.getElementById("flu-play"); if(pb){ pb.disabled=true; }
+  var st=document.getElementById("flu-state"); if(st){ st.className="state-line none"; st.textContent=""; }
+}
+function fluTimerStart(){
+  var tb=document.getElementById("flu-timer-btn"); if(tb){ tb.disabled=true; }
+  fluTimerLeft=60;
+  document.getElementById("flu-timer").textContent=fluFmtTime(fluTimerLeft);
+  fluClearTimer();
+  fluTimerHandle=setInterval(function(){
+    fluTimerLeft--;
+    if(fluTimerLeft<0){ fluClearTimer(); return; }
+    document.getElementById("flu-timer").textContent=fluFmtTime(fluTimerLeft);
+  },1000);
+}
+function fluToggleRec(){
+  var btn=document.getElementById("flu-rec"), lbl=document.getElementById("flu-rec-lbl"), st=document.getElementById("flu-state");
+  if(recording&&activeCtx==="flu"){ stopRec(); return; }
+  activeCtx="flu"; st.className="state-line none"; st.textContent="Recording…";
+  startRec(function(blob){
+    fluBlob=blob;
+    var pb=document.getElementById("flu-play"); if(pb){ pb.disabled=false; }
+    st.className="state-line saved"; st.textContent="✓ Got it. Play it back, or Submit when ready.";
+    if(fluPendingSubmit){ fluPendingSubmit=false; fluFinishSubmit(); }
+  }).then(function(){ btn.className="rec-btn rec"; lbl.textContent="Stop"; })
+    .catch(function(err){ st.className="state-line err"; st.textContent=micErrorText(err); });
+}
+function fluPlayMine(){ if(fluBlob){ playBlob(fluBlob); } }
+function fluSubmit(){
+  var st=document.getElementById("flu-state");
+  if(recording&&activeCtx==="flu"){ fluPendingSubmit=true; stopRec(); return; }
+  if(!fluBlob){ if(st){ st.className="state-line err"; st.textContent="Record your reading first."; } return; }
+  fluFinishSubmit();
+}
+function fluFinishSubmit(){
+  fluClearTimer();
+  var id=fluUid(), p=fluPassage, blob=fluBlob;
+  FluencyStore.put(id+"_passage", blob).then(function(){
+    fluAttemptId=id;
+    FluAttempts.add({ id:id, studentId:READER.id, studentName:READER.name,
+      level:p.level, sub:p.sub, passageId:p.id, title:p.title, date:azDateStr(),
+      wordsRead:null, errors:null, retellWords:null, decision:null, retellSaved:false });
+    go("fluencyRetell");
+  }).catch(function(){
+    var st=document.getElementById("flu-state");
+    if(st){ st.className="state-line err"; st.textContent="Could not save on this device. Try again."; }
+  });
+}
+
+/* ---------- Fluency: retell ---------- */
+var retBlob=null, retTimerHandle=null, retAutoStop=null;
+function retClearTimer(){ if(retTimerHandle){ clearInterval(retTimerHandle); retTimerHandle=null; } }
+function retEnter(){
+  retBlob=null; retClearTimer(); if(retAutoStop){ clearTimeout(retAutoStop); retAutoStop=null; }
+  var p=fluPassage; if(!p){ go("s-groups"); return; }
+  document.getElementById("ret-level").textContent=p.label+" - Retell";
+  document.getElementById("ret-prompt").textContent="Tell about "+p.title+". You have 1 minute.";
+  var html="", i; for(i=0;i<p.frames.length;i++){ html+="<li>"+escapeHtml(p.frames[i])+"</li>"; }
+  document.getElementById("ret-frames").innerHTML=html;
+  document.getElementById("ret-timer").textContent=fluFmtTime(60);
+  var rb=document.getElementById("ret-rec"); if(rb){ rb.className="rec-btn"; }
+  var lbl=document.getElementById("ret-rec-lbl"); if(lbl){ lbl.textContent="Record"; }
+  var pb=document.getElementById("ret-play"); if(pb){ pb.disabled=true; }
+  var sub=document.getElementById("ret-submit"); if(sub){ sub.disabled=true; }
+  var st=document.getElementById("ret-state"); if(st){ st.className="state-line none"; st.textContent=""; }
+}
+function retToggleRec(){
+  var btn=document.getElementById("ret-rec"), lbl=document.getElementById("ret-rec-lbl"), st=document.getElementById("ret-state");
+  if(recording&&activeCtx==="retell"){ stopRec(); return; }
+  activeCtx="retell"; st.className="state-line none"; st.textContent="Recording…";
+  var left=60;
+  document.getElementById("ret-timer").textContent=fluFmtTime(left);
+  retClearTimer();
+  retTimerHandle=setInterval(function(){
+    left--;
+    if(left<0){ retClearTimer(); return; }
+    document.getElementById("ret-timer").textContent=fluFmtTime(left);
+  },1000);
+  retAutoStop=setTimeout(function(){ if(recording&&activeCtx==="retell"){ stopRec(); } },60000);
+  startRec(function(blob){
+    retClearTimer(); if(retAutoStop){ clearTimeout(retAutoStop); retAutoStop=null; }
+    retBlob=blob;
+    var pb=document.getElementById("ret-play"); if(pb){ pb.disabled=false; }
+    var sb=document.getElementById("ret-submit"); if(sb){ sb.disabled=false; }
+    st.className="state-line saved"; st.textContent="✓ Got it. Play it back, then Submit.";
+  }).then(function(){ btn.className="rec-btn rec"; lbl.textContent="Stop"; })
+    .catch(function(err){ retClearTimer(); if(retAutoStop){ clearTimeout(retAutoStop); retAutoStop=null; } st.className="state-line err"; st.textContent=micErrorText(err); });
+}
+function retPlayMine(){ if(retBlob){ playBlob(retBlob); } }
+function retSubmit(){
+  if(!retBlob||!fluAttemptId){ return; }
+  var id=fluAttemptId, blob=retBlob;
+  FluencyStore.put(id+"_retell", blob).then(function(){
+    FluAttempts.update(id, {retellSaved:true});
+    fluAttemptId=null; fluPassage=null; fluBlob=null; retBlob=null;
+    go("s-groups");
+  }).catch(function(){
+    var st=document.getElementById("ret-state");
+    if(st){ st.className="state-line err"; st.textContent="Could not save on this device. Try again."; }
+  });
+}
+
+/* ---------- Fluency: teacher review ---------- */
+var FLUTCLS=0, FLUTSTU=null;
+function flutEnter(){ FLUTCLS=0; FLUTSTU=null; flutPaintClasses(); flutPaintRoster(); var b=document.getElementById("flut-body"); if(b){ b.innerHTML=""; } }
+function flutPaintClasses(){
+  var seg=document.getElementById("flut-class"); if(!seg){ return; }
+  var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="flutPick('+i+')" class="'+(i===FLUTCLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function flutPick(i){ FLUTCLS=i; FLUTSTU=null; flutPaintClasses(); flutPaintRoster(); var b=document.getElementById("flut-body"); if(b){ b.innerHTML=""; } }
+function flutPaintRoster(){
+  var box=document.getElementById("flut-roster"); if(!box){ return; }
+  box.innerHTML="";
+  var cls=CLASSES[FLUTCLS], i;
+  for(i=0;i<cls.students.length;i++){
+    (function(stu){
+      var n=FluAttempts.forStudent(stu.id).length;
+      var b=document.createElement("button");
+      b.className="btn block"; b.textContent=stu.name+(n?" ("+n+")":"");
+      b.onclick=function(){ FLUTSTU=stu.id; flutPaintAttempts(); };
+      box.appendChild(b);
+    })(cls.students[i]);
+  }
+}
+function flutRecommend(acc){
+  if(acc===null){ return ""; }
+  if(acc>=95){ return "Ready to move up"; }
+  if(acc>=90){ return "Repeat level"; }
+  return "Too hard";
+}
+function flutCompute(a){
+  var wcpm=null, acc=null;
+  if(a.wordsRead!=null && a.errors!=null){
+    wcpm=a.wordsRead-a.errors;
+    acc=a.wordsRead>0 ? Math.round((wcpm/a.wordsRead)*1000)/10 : null;
+  }
+  return { wcpm:wcpm, acc:acc };
+}
+function flutSetField(id,field,val){
+  var patch={}; patch[field]=(val==="")?null:parseInt(val,10);
+  FluAttempts.update(id,patch);
+  flutPaintAttempts();
+}
+function flutMove(id,dir){
+  var a=FluAttempts.get(id); if(!a){ return; }
+  var idx=LEVELS.indexOf(a.level), newLevel=a.level, newSub=0;
+  if(dir==="up" && idx<LEVELS.length-1){ newLevel=LEVELS[idx+1]; newSub=0; }
+  else if(dir==="down" && idx>0){ newLevel=LEVELS[idx-1]; newSub=0; }
+  else if(dir==="repeat"){
+    var ps=passagesForLevel(a.level), pos=0, i;
+    for(i=0;i<ps.length;i++){ if(ps[i].sub===a.sub){ pos=i; break; } }
+    var nextIdx=(pos+1)%Math.max(1,ps.length);
+    newSub = ps.length ? ps[nextIdx].sub : 0;
+  }
+  FluPlace.set(a.studentId,newLevel,newSub);
+  FluAttempts.update(id,{decision:dir});
+  flutPaintAttempts();
+}
+function flutSentenceTable(p){
+  if(!p){ return ""; }
+  var html='<table style="width:100%;border-collapse:collapse">', i;
+  for(i=0;i<p.sentenceCounts.length;i++){
+    var sc=p.sentenceCounts[i];
+    html+='<tr><td style="padding:2px 6px 2px 0">'+escapeHtml(sc.text)+'</td><td style="padding:2px;text-align:right">'+sc.words+'</td><td style="padding:2px;text-align:right;font-weight:700">'+sc.cum+"</td></tr>";
+  }
+  html+="</table>";
+  return html;
+}
+function flutPlay(id,kind){ FluencyStore.get(id+"_"+kind).then(function(b){ if(b){ playBlob(b); } }); }
+function flutPaintAttempts(){
+  var host=document.getElementById("flut-body"); if(!host){ return; }
+  if(!FLUTSTU){ host.innerHTML=""; return; }
+  var list=FluAttempts.forStudent(FLUTSTU);
+  if(!list.length){ host.innerHTML='<p class="mini-note">No fluency attempts yet.</p>'; return; }
+  var html="", i;
+  for(i=0;i<list.length;i++){
+    (function(a){
+      var comp=flutCompute(a), rec=flutRecommend(comp.acc), p=findPassage(a.level,a.sub);
+      html+='<div class="card">'
+        +'<p class="step-eyebrow">'+escapeHtml(a.level+" 0."+a.sub)+" &mdash; "+escapeHtml(a.title)+' <span class="mini-note">'+escapeHtml(a.date)+"</span></p>"
+        +'<div class="hear-line">'
+        +'<button class="btn" onclick="flutPlay(\''+a.id+"','passage')\">&#9654;&nbsp; Fluency recording</button>"
+        +'<button class="btn" onclick="flutPlay(\''+a.id+"','retell')\" "+(a.retellSaved?"":"disabled")+">&#9654;&nbsp; Retell recording</button>"
+        +"</div>"
+        +'<div class="setting-row" style="margin-top:10px;flex-wrap:wrap">'
+        +'<label>Words read <input type="number" min="0" style="width:5em" value="'+(a.wordsRead==null?"":a.wordsRead)+'" onchange="flutSetField(\''+a.id+"','wordsRead',this.value)\"></label>"
+        +'<label>Errors <input type="number" min="0" style="width:5em" value="'+(a.errors==null?"":a.errors)+'" onchange="flutSetField(\''+a.id+"','errors',this.value)\"></label>"
+        +'<label>Retell words (1 min) <input type="number" min="0" style="width:5em" value="'+(a.retellWords==null?"":a.retellWords)+'" onchange="flutSetField(\''+a.id+"','retellWords',this.value)\"></label>"
+        +"</div>"
+        +'<p class="mini-note">WCPM: <strong>'+(comp.wcpm==null?"—":comp.wcpm)+"</strong> &nbsp; Accuracy: <strong>"+(comp.acc==null?"—":comp.acc+"%")+"</strong> &nbsp; Recommendation: <strong>"+(rec||"—")+"</strong></p>"
+        +'<div class="hear-line">'
+        +'<button class="btn" onclick="flutMove(\''+a.id+"','up')\">Move up a level</button>"
+        +'<button class="btn" onclick="flutMove(\''+a.id+"','repeat')\">Repeat &mdash; next passage</button>"
+        +'<button class="btn" onclick="flutMove(\''+a.id+"','down')\">Move down a level</button>"
+        +"</div>"
+        +(a.decision?'<p class="mini-note">Last decision: '+escapeHtml(a.decision)+"</p>":"")
+        +'<details style="margin-top:8px"><summary class="mini-note">Sentence word counts (for scoring)</summary>'+flutSentenceTable(p)+"</details>"
+        +"</div>";
+    })(list[i]);
+  }
+  host.innerHTML=html;
 }
 
 /* ---------- Boot ---------- */
