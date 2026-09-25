@@ -63,7 +63,10 @@ setTimeout(function(){
 
     setTimeout(function(){
       click(c1Btn);
-      ck(activeId()==="check1Preview","Check 1 opens the font-legibility preview screen");
+      ck(activeId()==="check1","Check 1 opens the real assessment screen");
+
+      /* ---- the standalone font-legibility preview screen still renders correctly (no longer button-reachable, kept for reference) ---- */
+      w.go("check1Preview");
       var upperCells=d.querySelectorAll("#c1-upper .c1-cell");
       var lowerCells=d.querySelectorAll("#c1-lower .c1-cell");
       ck(upperCells.length===26,"26 uppercase cells rendered");
@@ -74,9 +77,7 @@ setTimeout(function(){
       ck(fontFamily.toLowerCase().indexOf("andika")>-1,"Check 1 stimuli use the Andika assessment font (got '"+fontFamily+"')");
 
       /* ---- Back navigation ---- */
-      var back1=menuBtn("#check1Preview","← Back");
-      click(back1);
-      ck(activeId()==="diagLanding","Back from Check 1 preview returns to diagLanding");
+      w.go("diagLanding");
       var back2=menuBtn("#diagLanding","← Back");
       click(back2);
       ck(activeId()==="studentMenu","Back from diagLanding returns to studentMenu");

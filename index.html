@@ -142,6 +142,10 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .c1-letter{ font-family:'Andika',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; font-size:9rem; font-weight:700; text-align:center; line-height:1; margin:24px 0; }
 .c1-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(70px,1fr)); gap:10px; margin:16px 0; }
 .c1-grid .c1-cell{ font-family:'Andika',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; font-size:2.6rem; font-weight:700; text-align:center; border:1px solid var(--line); border-radius:10px; padding:10px 4px; background:var(--panel); }
+.c1t-cell{ cursor:pointer; touch-action:manipulation; }
+.c1t-cell.err{ background:var(--retry-bg); border-color:var(--retry); color:var(--retry); }
+.c1t-cell.sc{ background:var(--good-bg); border-color:var(--good); color:var(--good); }
+.c1t-cell.skip{ background:var(--unsure-bg); border-color:var(--unsure); color:var(--unsure); }
 /* Hover effects only for a real mouse/trackpad. On a touch screen, a
    :hover rule with no such guard can make the FIRST tap only simulate
    hovering (some touch browsers use tap-to-hover for elements that look
@@ -180,6 +184,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <div id="teacher-doors" style="display:none">
       <button class="btn block" onclick="go('s-teach')">Teacher: record the models<span class="sub">Record each word and its sentence in your voice</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-board')">Scoreboard<span class="sub">Show today's team standings at the end of class</span></button>
+      <button class="btn block" style="margin-top:10px" onclick="go('check1Teach')">Check 1 review<span class="sub">Score letter identification recordings</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-fluteach')">Fluency review<span class="sub">Listen to fluency &amp; retell attempts, score WCPM, approve moves</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-settings')">Settings<span class="sub">Practice reads, pacer, and teams</span></button>
     </div>
@@ -230,7 +235,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <h2 class="scr-title">Reading Checks</h2>
       <p class="lede">Pick a check.</p>
       <div class="diag-list">
-        <button class="btn block" onclick="if(navGuard()){go('check1Preview');}">Check 1: Letter Identification<span class="sub">Say the name of each letter</span></button>
+        <button class="btn block" onclick="if(navGuard()){go('check1');}">Check 1: Letter Identification<span class="sub">Say the name of each letter</span></button>
         <button class="btn block locked" disabled>Check 2: Letter-Sound Knowledge<span class="sub">Coming soon</span></button>
         <button class="btn block locked" disabled>Check 3: Phonemic Awareness<span class="sub">Coming soon</span></button>
         <button class="btn block locked" disabled>Check 4: Decoding<span class="sub">Coming soon</span></button>
@@ -262,6 +267,44 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <div class="nav-row" style="margin-top:14px">
         <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
       </div>
+    </div>
+  </section>
+
+  <!-- CHECK 1: real student assessment -- one continuous audio recording,
+       one letter at a time, no model audio, ends with a single Canvas
+       upload file (per spec). -->
+  <section class="screen" id="check1">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('diagLanding')">Diagnostic Tools</a> &nbsp;/&nbsp; Check 1</p>
+      <p class="step-eyebrow">Check 1: Letter Identification</p>
+      <h2 class="scr-title">Say the name of each letter</h2>
+      <p class="lede" id="c1-intro">Tap Start. Say the name of each letter out loud, then tap Next letter.</p>
+      <div class="c1-letter" id="c1-current" style="display:none">&nbsp;</div>
+      <p class="mini-note" id="c1-progress"></p>
+      <div class="rec-row">
+        <button class="rec-btn" id="c1-start" onclick="c1Start()"><span class="rec-dot"></span><span id="c1-start-lbl">Start</span></button>
+        <button class="btn primary" id="c1-next" onclick="c1Next()" style="display:none">Next letter &#8594;</button>
+      </div>
+      <p class="state-line none" id="c1-state"></p>
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECK 1: teacher scoring. Follows the same pattern as teacher-tap.html
+       (and this app's existing s-fluteach): teacher opens the student's
+       downloaded recording file locally -- nothing is assumed to persist
+       on a server. -->
+  <section class="screen" id="check1Teach">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Check 1 review</p>
+      <h2>Check 1 &mdash; Letter Identification review</h2>
+      <p class="lede">Pick a class, then a student. Open the student&rsquo;s downloaded recording, then tap each letter to score it.</p>
+      <div class="seg" id="c1t-class" style="margin:10px 0;flex-wrap:wrap"></div>
+      <div class="grid" id="c1t-roster" style="margin-bottom:14px"></div>
+      <div id="c1t-body"></div>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
 
@@ -1365,6 +1408,8 @@ function go(id){
   if(id==="s-roster"){ buildRoster(); paintCodeBox(); }
   if(id==="studentMenu"){ smEnter(); }
   if(id==="check1Preview"){ check1PreviewEnter(); }
+  if(id==="check1"){ c1Enter(); }
+  if(id==="check1Teach"){ check1TeachEnter(); }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
   if(id==="s-final"){ fEnter(); }
   if(id==="s-read"){ refreshPtsBadge(); }
@@ -2124,11 +2169,13 @@ function flutPaintAttempts(){
 
 /* ============================================================
    Diagnostic Tools -- Check 1: Letter Identification
-   Font-preview stage only (see MASTER_SPEC.md). Fixed mixed-order
-   sequences per spec, each letter exactly once.
+   Fixed mixed-order sequences per MASTER_SPEC.md, each letter exactly
+   once. check1PreviewEnter (font/legibility check) stays as built;
+   check1/check1Teach below are the real assessment + scoring.
    ============================================================ */
 var C1_UPPER=["M","T","A","S","P","R","F","B","L","C","H","N","D","G","W","E","K","J","U","V","Y","I","Q","O","X","Z"];
 var C1_LOWER=["s","m","a","t","r","p","c","f","n","h","b","l","d","e","g","i","w","k","u","y","j","v","o","q","x","z"];
+var C1_ALL=C1_UPPER.concat(C1_LOWER);
 function c1PaintGrid(id,letters){
   var box=document.getElementById(id); if(!box){ return; }
   var html="", i; for(i=0;i<letters.length;i++){ html+='<div class="c1-cell">'+escapeHtml(letters[i])+'</div>'; }
@@ -2137,6 +2184,227 @@ function c1PaintGrid(id,letters){
 function check1PreviewEnter(){
   c1PaintGrid("c1-upper",C1_UPPER);
   c1PaintGrid("c1-lower",C1_LOWER);
+}
+
+/* generic helpers (not fluency-specific despite where similar ones live) */
+function rfUid(){ return "id"+new Date().getTime()+"_"+Math.floor(Math.random()*100000); }
+function rfFirstName(){ return (READER&&READER.name?READER.name.split(" ")[0]:"Student").replace(/[^A-Za-z0-9]/g,""); }
+function rfOrdinalHour(){
+  var num=CURCLASS?parseInt((CURCLASS.id||"").replace(/[^0-9]/g,""),10):0;
+  if(!num){ return "Hour"; }
+  var suf="th", v=num%100;
+  if(v<11||v>13){ if(num%10===1){ suf="st"; } else if(num%10===2){ suf="nd"; } else if(num%10===3){ suf="rd"; } }
+  return num+suf+"Hour";
+}
+
+/* ---------- Check 1 attempts (localStorage): one row per completed recording ---------- */
+var C1Attempts=(function(){
+  var KEY="rf_check1_attempts";
+  function all(){ try{ var r=window.localStorage.getItem(KEY); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(KEY,JSON.stringify(l)); }catch(e){} }
+  function add(rec){ var l=all(); l.push(rec); save(l); return rec; }
+  function update(id,patch){ var l=all(), i, k; for(i=0;i<l.length;i++){ if(l[i].id===id){ for(k in patch){ if(patch.hasOwnProperty(k)){ l[i][k]=patch[k]; } } break; } } save(l); }
+  function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
+  function forStudent(sid){ var l=all(), out=[], i; for(i=0;i<l.length;i++){ if(l[i].studentId===sid){ out.push(l[i]); } } out.sort(function(a,b){ return a.date<b.date?1:(a.date>b.date?-1:0); }); return out; }
+  return { all:all, add:add, update:update, get:get, forStudent:forStudent };
+})();
+
+/* ---------- Check 1: student flow -- ONE continuous recording, one letter
+   at a time, no model audio. Ends with a single downloaded file for
+   Canvas (nothing is assumed to persist on a server -- the teacher opens
+   that same file later, same as the existing Fluency Tap pattern). ---------- */
+var c1Idx=-1, c1Blob=null;
+function c1Enter(){
+  c1Idx=-1; c1Blob=null;
+  document.getElementById("c1-intro").style.display="block";
+  var cur=document.getElementById("c1-current"); cur.style.display="none"; cur.textContent="";
+  document.getElementById("c1-progress").textContent="";
+  var sb=document.getElementById("c1-start"); sb.style.display="inline-flex"; sb.disabled=false;
+  document.getElementById("c1-start-lbl").textContent="Start";
+  document.getElementById("c1-next").style.display="none";
+  var st=document.getElementById("c1-state"); st.className="state-line none"; st.textContent="";
+}
+function c1PaintLetter(){
+  document.getElementById("c1-intro").style.display="none";
+  var cur=document.getElementById("c1-current");
+  cur.style.display="block"; cur.textContent=C1_ALL[c1Idx];
+  document.getElementById("c1-progress").textContent="Letter "+(c1Idx+1)+" of "+C1_ALL.length;
+  var nb=document.getElementById("c1-next");
+  nb.textContent = (c1Idx===C1_ALL.length-1) ? "Finish →" : "Next letter →";
+}
+function c1Start(){
+  var sb=document.getElementById("c1-start"), st=document.getElementById("c1-state");
+  activeCtx="check1"; st.className="state-line none"; st.textContent="Starting the microphone…";
+  startRec(function(blob){
+    /* the whole 52-letter recording just ended */
+    c1Blob=blob;
+    c1Finish();
+  },function(){
+    /* mic actually started -- begin the walk */
+    c1Idx=0; c1PaintLetter();
+    sb.style.display="none";
+    document.getElementById("c1-next").style.display="inline-block";
+    st.className="state-line none"; st.textContent="Recording. Say each letter, then tap Next letter.";
+  }).catch(function(err){
+    st.className="state-line err"; st.textContent=micErrorText(err);
+  });
+}
+function c1Next(){
+  if(c1Idx<C1_ALL.length-1){ c1Idx++; c1PaintLetter(); }
+  else { stopRec(); }
+}
+function c1Finish(){
+  var fname=rfFirstName()+"_"+rfOrdinalHour()+"_Check1_"+azDateStr()+".webm";
+  downloadBlob(c1Blob,fname);
+  C1Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
+    scores:null, uppercaseCorrect:null, lowercaseCorrect:null, missedUpper:null, missedLower:null, selfCorrections:null, targets:null });
+  document.getElementById("c1-current").style.display="none";
+  document.getElementById("c1-progress").textContent="";
+  document.getElementById("c1-next").style.display="none";
+  var st=document.getElementById("c1-state");
+  st.className="state-line saved";
+  st.innerHTML="Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
+    +'<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
+    +"<li>Open today’s Check 1 assignment in Canvas.</li>"
+    +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
+    +"<li>Press <strong>Submit</strong>.</li></ol></div>"
+    +'<div class="nav-row" style="margin-top:14px"><button class="btn primary" onclick="go(\'diagLanding\')">Back to Diagnostic Tools →</button></div>';
+}
+
+/* ---------- Check 1: teacher scoring ----------
+   Correct / Incorrect / Skip-No Response / Self-Corrected, cycled by
+   tapping each letter. Reports uppercase/lowercase/overall separately
+   and never collapses to one number, per spec. */
+var C1T_CLS=0, C1T_STU=null, C1T_ATTEMPT=null, c1tFileUrl=null, c1tScores=[];
+var C1T_ORDER=["","err","sc","skip"];
+var C1T_LABELS={"":"Correct","err":"Incorrect","sc":"Self-corrected","skip":"Skip / No response"};
+function check1TeachEnter(){
+  C1T_CLS=0; C1T_STU=null; C1T_ATTEMPT=null;
+  c1tPaintClasses(); c1tPaintRoster();
+  var b=document.getElementById("c1t-body"); if(b){ b.innerHTML=""; }
+}
+function c1tPaintClasses(){
+  var seg=document.getElementById("c1t-class"); if(!seg){ return; }
+  var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="c1tPick('+i+')" class="'+(i===C1T_CLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function c1tPick(i){
+  C1T_CLS=i; C1T_STU=null; C1T_ATTEMPT=null;
+  c1tPaintClasses(); c1tPaintRoster();
+  var b=document.getElementById("c1t-body"); if(b){ b.innerHTML=""; }
+}
+function c1tPaintRoster(){
+  var box=document.getElementById("c1t-roster"); if(!box){ return; }
+  box.innerHTML="";
+  var cls=CLASSES[C1T_CLS], i;
+  for(i=0;i<cls.students.length;i++){
+    (function(stu){
+      var n=C1Attempts.forStudent(stu.id).length;
+      var b=document.createElement("button");
+      b.className="btn block"; b.textContent=stu.name+(n?" ("+n+")":"");
+      b.onclick=function(){ C1T_STU=stu.id; C1T_ATTEMPT=null; c1tPaintAttemptList(); };
+      box.appendChild(b);
+    })(cls.students[i]);
+  }
+}
+function c1tPaintAttemptList(){
+  var host=document.getElementById("c1t-body"); if(!host){ return; }
+  var list=C1Attempts.forStudent(C1T_STU);
+  if(!list.length){ host.innerHTML='<p class="mini-note">No Check 1 attempts yet.</p>'; return; }
+  var html="", i;
+  for(i=0;i<list.length;i++){
+    (function(a){
+      var scored=a.scores?" — scored ("+(a.uppercaseCorrect+a.lowercaseCorrect)+"/52)":" — not scored yet";
+      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small>'+scored+'</small></div>'
+        +'<button class="mini-btn" onclick="c1tOpenAttempt(\''+a.id+'\')">Open</button></div>';
+    })(list[i]);
+  }
+  host.innerHTML=html;
+}
+function c1tOpenAttempt(id){
+  C1T_ATTEMPT=id;
+  var a=C1Attempts.get(id);
+  c1tScores = (a.scores && a.scores.length===52) ? a.scores.slice(0) : [];
+  if(!c1tScores.length){ var i; for(i=0;i<52;i++){ c1tScores.push(""); } }
+  var host=document.getElementById("c1t-body"); if(!host){ return; }
+  host.innerHTML =
+     '<div class="card">'
+    +'<p class="step-eyebrow">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+"</p>"
+    +'<label class="btn" for="c1t-file">Open the recording from Canvas</label>'
+    +'<input type="file" id="c1t-file" style="display:none" accept="audio/*,video/webm,.webm,.ogg" onchange="c1tOpenFile(this)">'
+    +'<audio id="c1t-player" controls style="width:100%;margin:10px 0"></audio>'
+    +'<p class="mini-note" id="c1t-file-note">No file open. The file stays on this computer.</p>'
+    +'<p class="step-eyebrow" style="margin-top:14px">Uppercase</p>'
+    +'<div class="c1-grid" id="c1t-upper-grid"></div>'
+    +'<p class="step-eyebrow">Lowercase</p>'
+    +'<div class="c1-grid" id="c1t-lower-grid"></div>'
+    +'<p class="mini-note">Tap a letter to cycle: Correct &rarr; Incorrect &rarr; Self-corrected &rarr; Skip &rarr; Correct.</p>'
+    +'<div class="card" id="c1t-results" style="margin-top:14px"></div>'
+    +'<button class="btn primary" onclick="c1tSave()" style="margin-top:10px">Save scores</button>'
+    +'<p class="mini-note" id="c1t-save-note"></p>'
+    +"</div>"
+    +'<div class="nav-row" style="margin-top:14px"><button class="btn" onclick="c1tPaintAttemptList()">&#8592; Back to attempts</button></div>';
+  c1tPaintGrid("c1t-upper-grid",0,26);
+  c1tPaintGrid("c1t-lower-grid",26,26);
+  c1tPaintResults();
+}
+function c1tOpenFile(input){
+  var f=input.files&&input.files[0]; if(!f){ return; }
+  var a=document.getElementById("c1t-player");
+  if(c1tFileUrl){ try{ URL.revokeObjectURL(c1tFileUrl); }catch(e){} }
+  c1tFileUrl=URL.createObjectURL(f);
+  a.src=c1tFileUrl;
+  document.getElementById("c1t-file-note").textContent="Opened: "+f.name;
+}
+function c1tPaintGrid(hostId,start,count){
+  var box=document.getElementById(hostId); if(!box){ return; }
+  var html="", i;
+  for(i=start;i<start+count;i++){
+    var st=c1tScores[i]||"";
+    html+='<button class="c1-cell c1t-cell'+(st?" "+st:"")+'" onclick="c1tTap('+i+')" title="'+C1T_LABELS[st]+'">'+escapeHtml(C1_ALL[i])+"</button>";
+  }
+  box.innerHTML=html;
+}
+function c1tTap(i){
+  var idx=C1T_ORDER.indexOf(c1tScores[i]);
+  c1tScores[i]=C1T_ORDER[(idx+1)%C1T_ORDER.length];
+  c1tPaintGrid("c1t-upper-grid",0,26);
+  c1tPaintGrid("c1t-lower-grid",26,26);
+  c1tPaintResults();
+}
+function c1tCompute(){
+  /* a self-correction counts as correct (the student caught and fixed
+     it), but is still tracked and reported as its own behavior --
+     only Incorrect and Skip count as missed. */
+  var i, upCorrect=0, lowCorrect=0, missedUpper=[], missedLower=[], selfCorr=0, st;
+  for(i=0;i<26;i++){
+    st=c1tScores[i];
+    if(st==="sc"){ selfCorr++; }
+    if(st===""||st==="sc"){ upCorrect++; } else { missedUpper.push(C1_ALL[i]); }
+  }
+  for(i=26;i<52;i++){
+    st=c1tScores[i];
+    if(st==="sc"){ selfCorr++; }
+    if(st===""||st==="sc"){ lowCorrect++; } else { missedLower.push(C1_ALL[i]); }
+  }
+  return { upCorrect:upCorrect, lowCorrect:lowCorrect, missedUpper:missedUpper, missedLower:missedLower, selfCorr:selfCorr };
+}
+function c1tPaintResults(){
+  var host=document.getElementById("c1t-results"); if(!host){ return; }
+  var r=c1tCompute();
+  host.innerHTML =
+     "<p><strong>Uppercase:</strong> "+r.upCorrect+" / 26 &nbsp; <strong>Lowercase:</strong> "+r.lowCorrect+" / 26 &nbsp; <strong>Overall:</strong> "+(r.upCorrect+r.lowCorrect)+" / 52</p>"
+    +'<p class="mini-note">Missed uppercase: '+(r.missedUpper.length?escapeHtml(r.missedUpper.join(" ")):"none")+"</p>"
+    +'<p class="mini-note">Missed lowercase: '+(r.missedLower.length?escapeHtml(r.missedLower.join(" ")):"none")+"</p>"
+    +'<p class="mini-note">Self-corrections: '+r.selfCorr+"</p>";
+}
+function c1tSave(){
+  if(!C1T_ATTEMPT){ return; }
+  var r=c1tCompute();
+  C1Attempts.update(C1T_ATTEMPT,{ scores:c1tScores.slice(0), uppercaseCorrect:r.upCorrect, lowercaseCorrect:r.lowCorrect,
+    missedUpper:r.missedUpper, missedLower:r.missedLower, selfCorrections:r.selfCorr, targets:r.missedUpper.concat(r.missedLower) });
+  var n=document.getElementById("c1t-save-note");
+  if(n){ n.className="mini-note"; n.style.color="var(--good)"; n.textContent="✓ Saved."; }
 }
 
 /* ---------- Boot ---------- */
