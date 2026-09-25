@@ -170,6 +170,25 @@ function today(w, id) { return w.todayTotals(id).total; }
   ok(storedAfterStudentPush.placement && storedAfterStudentPush.placement.level === "K", "a student's own points push does not erase the teacher-set placement (field-level merge)");
   ok(lastPostBody && lastPostBody.data && !("placement" in lastPostBody.data), "a student's own push never sends a placement field");
 
+  console.log("Diagnostic results (teacher-only field, same Sync module as placement)");
+  T.DiagResults.setCheck(MIRIAM, "check1", { check: "check1", upperCorrect: 24, upperTotal: 26, upperMissed: ["Q", "X"], lowerCorrect: 26, lowerTotal: 26, lowerMissed: [], totalCorrect: 50, totalItems: 52, selfCorrections: 1, completionSeconds: 240 });
+  lastPostBody = null;
+  const diagOk = await new Promise(r => T.Sync.pushDiag(MIRIAM, ok2 => r(ok2)));
+  ok(diagOk, "teacher device can push a diagnostic result");
+  ok(lastPostBody && lastPostBody.data && lastPostBody.data.diag && lastPostBody.data.diag.check1.upperCorrect === 24, "the pushed payload carries the Check 1 summary, not raw audio");
+  const storedAfterDiag = JSON.parse(db.get("rf:p1").get(MIRIAM));
+  ok(storedAfterDiag.diag && storedAfterDiag.diag.check1.upperMissed.indexOf("Q") > -1, "diagnostic result reached the server");
+  ok(storedAfterDiag.placement && storedAfterDiag.placement.level === "K", "pushing a diagnostic result does not erase the earlier placement (field-level merge)");
+  const D = device("https://reading-foundations.vercel.app/?c=K7P2"); await wait(60);
+  D.CURCLASS = D.CLASSES[0]; D.go("s-roster"); clickName(D, "Miriam Gomez"); await wait(80);
+  const diagOnStudent = D.DiagResults.get(MIRIAM);
+  ok(diagOnStudent.check1 && diagOnStudent.check1.totalCorrect === 50, "a teacher-scored diagnostic result reaches the student's own device via Sync");
+  lastPostBody = null;
+  D.gotPoints("word", "diag-check"); await wait(1400);
+  const storedAfterStudentDiagPush = JSON.parse(db.get("rf:p1").get(MIRIAM));
+  ok(storedAfterStudentDiagPush.diag && storedAfterStudentDiagPush.diag.check1.totalCorrect === 50, "a student's own points push does not erase the teacher-set diagnostic result");
+  ok(lastPostBody && lastPostBody.data && !("diag" in lastPostBody.data), "a student's own push never sends a diag field");
+
   console.log("TEACHER_PIN gating (once the env var is set on Vercel)");
   process.env.TEACHER_PIN = "4477";
   S.prompt = () => null;

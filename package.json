@@ -2,7 +2,7 @@
   "name": "reading-foundations",
   "private": true,
   "scripts": {
-    "test": "node tests/test-final.js && node tests/test-points.js && node tests/test-sync.js && node tests/test-tap.js && node tests/test-fluency.js && node tests/test-studentmenu.js"
+    "test": "node tests/test-final.js && node tests/test-points.js && node tests/test-sync.js && node tests/test-tap.js && node tests/test-fluency.js && node tests/test-studentmenu.js && node tests/test-diag.js"
   },
   "devDependencies": {
     "acorn": "^8.18.0",

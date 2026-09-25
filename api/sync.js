@@ -95,12 +95,12 @@ module.exports = async function handler(req, res) {
       var d = body.data;
       if (!d || typeof d !== "object") { return send(res, 400, { ok: false, error: "no-data" }); }
 
-      /* placement/pacer/team are teacher-only fields: a student's routine
+      /* placement/pacer/team/diag are teacher-only fields: a student's routine
          push never includes them (see index.html Sync.dirty/push, which
          only ever sends points/groups). Gate them by TEACHER_PIN once that
          env var is set on Vercel; until then this is a no-op, same as the
          rest of this sync layer before Vercel exists. */
-      var touchesTeacherFields = d.placement !== undefined || d.pacer !== undefined || d.team !== undefined;
+      var touchesTeacherFields = d.placement !== undefined || d.pacer !== undefined || d.team !== undefined || d.diag !== undefined;
       var pin = process.env.TEACHER_PIN;
       if (touchesTeacherFields && pin && body.pin !== pin) {
         return send(res, 403, { ok: false, error: "teacher-pin" });
@@ -118,6 +118,7 @@ module.exports = async function handler(req, res) {
         placement: d.placement !== undefined ? d.placement : existing.placement,
         pacer: d.pacer !== undefined ? d.pacer : existing.pacer,
         team: d.team !== undefined ? d.team : existing.team,
+        diag: d.diag !== undefined ? d.diag : existing.diag,
         saved: new Date().toISOString()
       };
       var json = JSON.stringify(merged);

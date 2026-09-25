@@ -6,20 +6,30 @@
 
 ---
 
-## WHERE WE LEFT OFF (2026-09-24)
+## WHERE WE LEFT OFF (2026-09-25)
 
 **Finished and live on `main`:**
-- Fluency + Retell (a passage screen + a retell screen), reached through a new student menu (Fluency / Word Practice / Reading Comprehension-coming-soon) that now opens when a student taps their name.
-- A teacher "Fluency review" screen (behind `?teacher`) with playback, teacher-entered Words read/Errors, computed WCPM/Accuracy, a recommendation, and Move up/Repeat/Move down buttons that set a student's fluency placement (`PK 0.0`–`PK 0.4` only; more levels are just data, not built yet).
-- That placement (plus Settings' Pacer/Team assignments) is now **sync-ready**: `Sync.pushPlacement/pushPacer/pushTeam` push them separately from a student's own points/groups, `api/sync.js` merges fields instead of overwriting, and it's gated by an optional `TEACHER_PIN` env var (see "next step" below). A plain note on the Fluency review screen says "Levels save on this device until online sync is turned on" whenever sync is off.
+- **Diagnostic Tools has entered the app.** The student menu now has a fourth, first-listed button, "Diagnostic Tools," opening a hub screen (`s-diag`) that lists **Check 1: Letter Names** (working) and Checks 2–7 as plainly labeled, disabled **"Not built yet"** buttons — nothing is faked as available.
+- **Check 1 (Letter Identification) is fully built end to end**, per the Daniels Checks spec: student sees the fixed mixed-order sequence (uppercase `M T A S P R F B L C H N D G W E K J U V Y I Q O X Z`, then lowercase `s m a t r p c f n h b l d e g i w k u y j v o q x z`) one letter at a time, no model audio, one continuous recording for all 52 letters, then the same Save/Download → Canvas **Upload** (never Record) instructions the final read already uses.
+- A new teacher screen, **"Diagnostic Tools"** (`s-diagteach`, behind `?teacher`, next to Fluency review on the home screen), scores it: class/student picker → list of recordings → playback (pulled automatically from this device if the student recorded there, or from a file you pick if you downloaded it from Canvas on a different device) → a 52-letter tap grid. Tapping a letter cycles blank → Correct → Incorrect → Self-corrected → Skip → blank. Saving computes uppercase/lowercase/total correct, the exact missed letters (not just a percent), and self-correction count — all teacher-judged, no automatic speech scoring anywhere.
+- A first, minimal **"What to teach next"** panel: missed letters are listed plainly, and a ready-to-paste AI lesson prompt is auto-built from them (so you never retype letters into ChatGPT/Claude/Gemini yourself). It explicitly tells whatever AI tool reads it not to diagnose a disability. The richer buttons from the full spec (Flashcards/Slides/Game/Practice Sheet/Home Practice/Family Communication/Recheck) are not built yet — this is just the prompt generator.
+- Diagnostic results ride the **same Sync module** as placement/pacer/team: `Sync.pushDiag` sends only the teacher-scored summary (never raw audio) as a new `diag` field, gated by `TEACHER_PIN` the same way, merged server-side in `api/sync.js` without erasing points/groups/placement/pacer/team. A raw recording itself never leaves the device it was recorded on (or the device it's later opened on from a Canvas download) — only the scored summary syncs.
 
-**Half-done / explicitly NOT built:** the bigger "Daniels Assessment" redesign (word-list placement screener, `PK/K/1–8` levels with Cold Read + Repeat Read passages twice per level-passage, one-per-day locking) was scoped out and never started — there wasn't time in the session that reached sync-readiness. The current Fluency tab is still the earlier PK-0.0-through-0.4 design, not that one. If you want the Daniels Assessment version, that's a full rebuild of the Fluency tab's screens and data, not a small patch.
+**Half-done / explicitly NOT built yet** (all clearly labeled as such in the app, not silently missing):
+- **Checks 2–7** (Letter-Sound Knowledge, Phonemic Awareness, Decoding, Automatic Word Recognition, Morphological Awareness, Multisyllabic Word Analysis) — scoped in the master spec, not started. Checks 2 and 3 will need **video** recording, which nothing in this app does yet (everything so far, including Check 1, is audio-only).
+- No growth dashboards, no CSV/JSON export of diagnostic data, no baseline/progress-monitoring/benchmark data model, no dosage tracking, no five-day instructional cycle, no teacher observational reading-conference log, no home-support cards.
+- The **Daniels Assessment** word-reading placement screener referenced in the spec is still unbuilt (confirmed nothing of it exists in the code) — separate from Check 1, which is new.
+- The "What to teach next" panel only has the AI prompt generator; Flashcards/Slides/Game/Practice Sheet/Home Practice/Family Communication/Recheck are not built.
 
-**Exact next step — turning sync on:**
+**Recordings needed from you:** none for this build. Check 1 uses no model audio at all, per the spec — the student sees only the printed letter.
+
+**Exact next step:** either (a) pilot Check 1 in a real class and see how the recording/scoring flow holds up on a Chromebook before building more, or (b) build Check 2 (Letter-Sound Knowledge) next, which is the first check needing video recording — a genuinely new capability (camera permission, video `MediaRecorder`, larger files) rather than a copy of the Check 1 pattern. Sync still isn't turned on (Vercel/Upstash/`CLASS_CODES` — see the original next-step list below), so diagnostic results, like placement, currently save per-device only until that's done.
+
+**Turning sync on (unchanged from before, still not done):**
 1. In the Vercel dashboard: **New Project** → import this GitHub repo (`miqdaniels/READING-DANIELS`) → deploy. This gives you the `*.vercel.app` URL (update it into "Live links" below once you have it).
 2. In that Vercel project → **Storage** tab → **Add** → pick **Upstash** (Redis) → connect it. This automatically sets `KV_REST_API_URL` and `KV_REST_API_TOKEN` as env vars — `api/sync.js` already reads those, nothing else to do.
 3. In the project's **Settings → Environment Variables**, add `CLASS_CODES` (e.g. `p1=K7P2,p3=M4Q8,p7=T9W3` — pick your own codes) so students can link their device to their class.
-4. Optional but recommended before real use: also add a `TEACHER_PIN` env var (any short string only you know). Once that's set, the server will require it on any placement/pacer/team change — the app already prompts for it in memory (never saved to disk) and retries. Skip this step and it just stays open, same as today.
+4. Optional but recommended before real use: also add a `TEACHER_PIN` env var (any short string only you know). Once that's set, the server will require it on any placement/pacer/team/diagnostic change — the app already prompts for it in memory (never saved to disk) and retries. Skip this step and it just stays open, same as today.
 5. Re-test on the school Wi-Fi during school hours (a known open item even before this session).
 
 ---

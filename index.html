@@ -142,6 +142,20 @@ footer.mini a:hover{text-decoration:underline}
 .flu-passage p{ margin:0 0 14px; }
 .flu-timer-row{ display:flex; align-items:center; gap:12px; margin:10px 0; }
 .flu-timer{ font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; }
+.diag-grid{ display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 4px; }
+.diag-letter{ width:44px; height:44px; border-radius:10px; border:1px solid var(--line); background:var(--panel); color:var(--ink); font:inherit; font-weight:700; font-size:18px; cursor:pointer; }
+.diag-letter:hover{ border-color:var(--accent); }
+.diag-letter.correct{ background:var(--good-bg); border-color:var(--good); color:var(--good); }
+.diag-letter.incorrect{ background:var(--retry-bg); border-color:var(--retry); color:var(--retry); }
+.diag-letter.self{ background:var(--hl); border-color:var(--hl-ink); color:var(--hl-ink); }
+.diag-letter.skip{ background:var(--unsure-bg); border-color:var(--unsure); color:var(--unsure); }
+.diag-key{ display:flex; flex-wrap:wrap; gap:14px; font-size:13px; color:var(--ink-soft); margin:8px 0 4px; }
+.diag-key span{ display:inline-flex; align-items:center; gap:6px; }
+.diag-key i{ width:12px; height:12px; border-radius:4px; display:inline-block; border:1px solid var(--line); }
+.diag-key i.correct{ background:var(--good-bg); border-color:var(--good); }
+.diag-key i.incorrect{ background:var(--retry-bg); border-color:var(--retry); }
+.diag-key i.self{ background:var(--hl); border-color:var(--hl-ink); }
+.diag-key i.skip{ background:var(--unsure-bg); border-color:var(--unsure); }
 </style>
 </head>
 <body>
@@ -166,6 +180,7 @@ footer.mini a:hover{text-decoration:underline}
       <button class="btn block" onclick="go('s-teach')">Teacher: record the models<span class="sub">Record each word and its sentence in your voice</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-board')">Scoreboard<span class="sub">Show today's team standings at the end of class</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-fluteach')">Fluency review<span class="sub">Listen to fluency &amp; retell attempts, score WCPM, approve moves</span></button>
+      <button class="btn block" style="margin-top:10px" onclick="go('s-diagteach')">Diagnostic Tools<span class="sub">Score Check 1 recordings, see instructional targets</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-settings')">Settings<span class="sub">Practice reads, pacer, and teams</span></button>
     </div>
     </div>
@@ -198,12 +213,66 @@ footer.mini a:hover{text-decoration:underline}
       <p class="crumb"><a onclick="go('s-roster')">Change reader</a></p>
       <h2 class="scr-title" id="sm-who"></h2>
       <p class="lede">What do you want to do?</p>
-      <button class="btn primary block" onclick="fluOpen()">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
+      <button class="btn primary block" onclick="go('s-diag')">Diagnostic Tools<span class="sub">Reading checks with your teacher</span></button>
+      <button class="btn primary block" style="margin-top:10px" onclick="fluOpen()">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
       <button class="btn primary block" style="margin-top:10px" onclick="go('s-groups')">Word Practice<span class="sub">Hear it, slide, read, record</span></button>
       <button class="btn block locked" style="margin-top:10px" disabled>Reading Comprehension<span class="sub">Coming soon</span></button>
       <div class="nav-row" style="margin-top:14px">
         <button class="btn" onclick="go('s-roster')">&#8592; Back</button>
       </div>
+    </div>
+  </section>
+
+  <!-- DIAGNOSTIC TOOLS: hub -->
+  <section class="screen" id="s-diag">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('studentMenu')">Menu</a></p>
+      <h2 class="scr-title">Diagnostic Tools</h2>
+      <p class="lede">Your teacher will tell you which check to do today.</p>
+      <button class="btn primary block" onclick="go('s-diag1')">Check 1: Letter Names<span class="sub">Say the name of each letter</span></button>
+      <button class="btn block locked" disabled>Check 2: Letter Sounds<span class="sub">Not built yet</span></button>
+      <button class="btn block locked" disabled>Check 3: Hearing Sounds in Words<span class="sub">Not built yet</span></button>
+      <button class="btn block locked" disabled>Check 4: Decoding<span class="sub">Not built yet</span></button>
+      <button class="btn block locked" disabled>Check 5: Word Recognition<span class="sub">Not built yet</span></button>
+      <button class="btn block locked" disabled>Check 6: Word Parts<span class="sub">Not built yet</span></button>
+      <button class="btn block locked" disabled>Check 7: Long Words<span class="sub">Not built yet</span></button>
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('studentMenu')">&#8592; Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIAGNOSTIC TOOLS: Check 1, Letter Identification -->
+  <section class="screen" id="s-diag1">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-diag')">Diagnostic Tools</a></p>
+      <h2 class="scr-title">Check 1: Letter Names</h2>
+      <p class="lede" id="diag1-intro">Say the name of each letter you see. Your teacher is recording. There is no time limit &mdash; just do your best.</p>
+      <div id="diag1-start">
+        <button class="btn primary block" onclick="diag1Start()">Start</button>
+      </div>
+      <div id="diag1-body" style="display:none">
+        <p class="step-eyebrow" id="diag1-progress"></p>
+        <div class="word-chip"><span class="w" id="diag1-letter" style="font-size:64px"></span></div>
+        <div class="nav-row" style="margin-top:14px">
+          <button class="btn primary" id="diag1-next" onclick="diag1Next()">Next letter &#8594;</button>
+        </div>
+      </div>
+      <div id="diag1-after"></div>
+    </div>
+  </section>
+
+  <!-- DIAGNOSTIC TOOLS: teacher scoring -->
+  <section class="screen" id="s-diagteach">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Diagnostic Tools</p>
+      <h2>Diagnostic Tools &mdash; scoring</h2>
+      <p class="lede">Pick a class, then a student, to score a check and see instructional targets.</p>
+      <p class="mini-note" id="diagt-sync-note" style="display:none"></p>
+      <div class="seg" id="diagt-class" style="margin:10px 0;flex-wrap:wrap"></div>
+      <div class="grid" id="diagt-roster" style="margin-bottom:14px"></div>
+      <div id="diagt-body"></div>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
 
@@ -528,6 +597,11 @@ var GROUPS = [
 ];
 function sentId(word){ return "sent_" + word.replace(/ /g,"_"); }
 function wordId(word){ return "word_" + word.replace(/ /g,"_"); }
+
+/* ---------- Diagnostic Tools: Check 1 (Letter Identification) fixed mixed-order sequence ---------- */
+var DIAG1_UPPER = ["M","T","A","S","P","R","F","B","L","C","H","N","D","G","W","E","K","J","U","V","Y","I","Q","O","X","Z"];
+var DIAG1_LOWER = ["s","m","a","t","r","p","c","f","n","h","b","l","d","e","g","i","w","k","u","y","j","v","o","q","x","z"];
+var DIAG1_SEQ = DIAG1_UPPER.concat(DIAG1_LOWER);
 function stripWord(t){ return t.replace(/[^A-Za-z\u00C0-\u024F']/g,"").toLowerCase(); }
 
 /* Build token model: which tokens belong to the target phrase */
@@ -933,6 +1007,7 @@ var Sync=(function(){
       if(remote.placement && remote.placement.level){ FluPlace.set(id, remote.placement.level, remote.placement.sub||0); }
       if(remote.pacer!==undefined){ Settings.setPacer(id, !!remote.pacer); }
       if(remote.team!==undefined){ Settings.setTeam(id, remote.team||""); }
+      if(remote.diag!==undefined){ DiagResults.setAll(id, remote.diag); }
     }catch(e){}
   }
   /* what goes up: today's full claim ledger (anti-spam needs it); older days as totals only, to stay small */
@@ -975,6 +1050,7 @@ var Sync=(function(){
   function pushPlacement(id,level,sub,cb){ pushTeacherField(id,"placement",{level:level,sub:sub},cb); }
   function pushPacer(id,on,cb){ pushTeacherField(id,"pacer",!!on,cb); }
   function pushTeam(id,team,cb){ pushTeacherField(id,"team",team||"",cb); }
+  function pushDiag(id,cb){ pushTeacherField(id,"diag",DiagResults.get(id),cb); }
 
   function pull(id,cb){
     var code=codeFor(id); if(!enabled()||!code){ setState("idle"); if(cb){ cb(false); } return; }
@@ -1037,7 +1113,7 @@ var Sync=(function(){
   }
   return { enabled:enabled, codes:codes, setCode:setCode, codeFor:codeFor, pull:pull, dirty:dirty, pullClass:pullClass,
            verify:verify, paintNote:paintNote, boot:boot, mergePoints:mergePoints,
-           pushPlacement:pushPlacement, pushPacer:pushPacer, pushTeam:pushTeam };
+           pushPlacement:pushPlacement, pushPacer:pushPacer, pushTeam:pushTeam, pushDiag:pushDiag };
 })();
 
 /* class code entry: roster (student, only when missing) and Settings (teacher, all classes) */
@@ -1301,6 +1377,8 @@ function go(id){
   if(id==="fluencyPassage"){ fluEnter(); }
   if(id==="fluencyRetell"){ retEnter(); }
   if(id==="s-fluteach"){ flutEnter(); }
+  if(id==="s-diag1"){ diag1Enter(); }
+  if(id==="s-diagteach"){ diagteachEnter(); }
 }
 
 /* ---------- Student menu (Fluency / Word Practice / Reading Comprehension) ---------- */
@@ -1796,6 +1874,277 @@ var FluAttempts=(function(){
 })();
 function fluUid(){ return "flu"+new Date().getTime()+"_"+Math.floor(Math.random()*100000); }
 function fluFmtTime(s){ var m=Math.floor(s/60), sec=s%60; return m+":"+(sec<10?"0":"")+sec; }
+
+/* ---------- Diagnostic Tools: recordings (IndexedDB, this device only) ----------
+   Same shape as FluencyStore. Never synced -- only the teacher-scored summary
+   (see DiagResults below) travels through Sync, never raw audio. */
+var DiagStore=(function(){
+  var DB="diag_audio", ST="clips", dbP=null;
+  function open(){
+    if(dbP) return dbP;
+    dbP=new Promise(function(res,rej){
+      if(!window.indexedDB){ rej(new Error("no-idb")); return; }
+      var q=window.indexedDB.open(DB,1);
+      q.onupgradeneeded=function(){ var db=q.result; if(!db.objectStoreNames.contains(ST)){ db.createObjectStore(ST); } };
+      q.onsuccess=function(){ res(q.result); };
+      q.onerror=function(){ rej(q.error); };
+    });
+    return dbP;
+  }
+  function put(id,blob){ return open().then(function(db){ return new Promise(function(res,rej){ var tx=db.transaction(ST,"readwrite"); tx.objectStore(ST).put(blob,id); tx.oncomplete=function(){res(true);}; tx.onerror=function(){rej(tx.error);}; }); }); }
+  function get(id){ return open().then(function(db){ return new Promise(function(res){ var tx=db.transaction(ST,"readonly"); var r=tx.objectStore(ST).get(id); r.onsuccess=function(){ res(r.result||null); }; r.onerror=function(){ res(null); }; }); }, function(){ return null; }); }
+  return { put:put, get:get };
+})();
+
+/* ---------- Diagnostic Tools: attempts (localStorage) -- one recording's metadata + raw taps ---------- */
+var DiagAttempts=(function(){
+  var KEY="rf_diag_attempts";
+  function all(){ try{ var r=window.localStorage.getItem(KEY); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(KEY,JSON.stringify(l)); }catch(e){} }
+  function add(rec){ var l=all(); l.push(rec); save(l); return rec; }
+  function update(id,patch){ var l=all(), i, k; for(i=0;i<l.length;i++){ if(l[i].id===id){ for(k in patch){ if(patch.hasOwnProperty(k)){ l[i][k]=patch[k]; } } break; } } save(l); }
+  function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
+  function forStudent(sid){ var l=all(), out=[], i; for(i=0;i<l.length;i++){ if(l[i].studentId===sid){ out.push(l[i]); } } out.sort(function(a,b){ return a.date<b.date?1:(a.date>b.date?-1:0); }); return out; }
+  return { all:all, add:add, update:update, get:get, forStudent:forStudent };
+})();
+function diagUid(){ return "diag"+new Date().getTime()+"_"+Math.floor(Math.random()*100000); }
+
+/* ---------- Diagnostic Tools: scored results by student (localStorage) -- the summary that syncs ---------- */
+var DiagResults=(function(){
+  var KEY="rf_diag_results";
+  function all(){ try{ var r=window.localStorage.getItem(KEY); return r?JSON.parse(r):{}; }catch(e){ return {}; } }
+  function save(o){ try{ window.localStorage.setItem(KEY,JSON.stringify(o)); }catch(e){} }
+  function get(id){ var o=all(); return o[id]||{}; }
+  function setCheck(id,checkKey,summary){ var o=all(); if(!o[id]){ o[id]={}; } o[id][checkKey]=summary; save(o); return o[id]; }
+  function setAll(id,obj){ var o=all(); o[id]=obj||{}; save(o); }
+  return { get:get, setCheck:setCheck, setAll:setAll };
+})();
+
+/* ---------- Diagnostic Tools: Check 1 student flow (one continuous recording, no model audio) ---------- */
+var diag1Idx=0, diag1Blob=null, diag1AttemptId=null, diag1StartMs=0;
+function diag1Enter(){
+  if(!READER){ go("s-pick"); return; }
+  diag1Idx=0; diag1Blob=null; diag1AttemptId=null;
+  document.getElementById("diag1-start").style.display="block";
+  document.getElementById("diag1-body").style.display="none";
+  document.getElementById("diag1-after").innerHTML="";
+}
+function diag1Start(){
+  startRec(function(blob){ diag1Blob=blob; diag1AfterStop(); });
+  diag1StartMs=new Date().getTime();
+  diag1Idx=0;
+  document.getElementById("diag1-start").style.display="none";
+  document.getElementById("diag1-body").style.display="block";
+  document.getElementById("diag1-after").innerHTML="";
+  diag1PaintLetter();
+}
+function diag1PaintLetter(){
+  var host=document.getElementById("diag1-letter");
+  if(host && diag1Idx<DIAG1_SEQ.length){ host.textContent=DIAG1_SEQ[diag1Idx]; }
+  var btn=document.getElementById("diag1-next");
+  if(btn){ btn.textContent = (diag1Idx>=DIAG1_SEQ.length-1) ? "Finish" : "Next letter →"; }
+  var prog=document.getElementById("diag1-progress");
+  if(prog){ prog.textContent=(diag1Idx+1)+" of "+DIAG1_SEQ.length; }
+}
+function diag1Next(){
+  if(diag1Idx>=DIAG1_SEQ.length-1){ diag1Finish(); return; }
+  diag1Idx++; diag1PaintLetter();
+}
+function diag1Finish(){
+  document.getElementById("diag1-body").style.display="none";
+  if(recorder){ recorder.stop(); }
+}
+function diag1AfterStop(){
+  if(mediaStream){ try{ var tr=mediaStream.getTracks(), i; for(i=0;i<tr.length;i++){ tr[i].stop(); } }catch(e){} mediaStream=null; }
+  var durSec=Math.max(1,Math.round((new Date().getTime()-diag1StartMs)/1000));
+  diag1AttemptId=diagUid();
+  DiagStore.put(diag1AttemptId,diag1Blob);
+  DiagAttempts.add({ id:diag1AttemptId, studentId:READER.id, studentName:READER.name, check:"check1", date:azDateStr(), durationSec:durSec, status:"recorded" });
+  diag1CanvasSteps();
+}
+function diag1CanvasSteps(){
+  var ext=(diag1Blob && diag1Blob.type && diag1Blob.type.indexOf("ogg")>=0) ? "ogg" : "webm";
+  var fname=(READER.name||"student").replace(/[^A-Za-z0-9]/g,"")+"_DiagCheck1."+ext;
+  var u=URL.createObjectURL(diag1Blob);
+  var a=document.createElement("a"); a.href=u; a.download=fname;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(u); },1500);
+  document.getElementById("diag1-after").innerHTML=
+     '<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
+    +'<li>Your file downloaded. It is called <strong>'+escapeHtml(fname)+'</strong>.</li>'
+    +'<li>Open today&rsquo;s assignment in Canvas.</li>'
+    +'<li>Choose <strong>Upload</strong> &mdash; not Record &mdash; and pick that file.</li>'
+    +'<li>Press <strong>Submit</strong>.</li>'
+    +'</ol></div>'
+    +'<div class="nav-row" style="margin-top:14px">'
+    +'<button class="btn primary" onclick="go(\'s-diag\')">Back to Diagnostic Tools &#8594;</button>'
+    +'</div>';
+}
+
+/* ---------- Diagnostic Tools: teacher scoring (Check 1) ---------- */
+var DIAGTCLS=0, DIAGTSTU=null, DIAGTEACH_ATTEMPT=null, DIAGTEACH_SCORES={};
+var DIAGTEACH_CYCLE=[null,"correct","incorrect","self","skip"];
+function diagteachEnter(){
+  DIAGTCLS=0; DIAGTSTU=null; diagteachPaintClasses(); diagteachPaintRoster();
+  var b=document.getElementById("diagt-body"); if(b){ b.innerHTML=""; }
+  var n=document.getElementById("diagt-sync-note");
+  if(n){
+    if(Sync.enabled()){ n.style.display="none"; }
+    else { n.style.display="block"; n.textContent="Results save on this device until online sync is turned on."; }
+  }
+}
+function diagteachPaintClasses(){
+  var seg=document.getElementById("diagt-class"); if(!seg){ return; }
+  var html="",i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="diagteachPick('+i+')" class="'+(i===DIAGTCLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function diagteachPick(i){ DIAGTCLS=i; DIAGTSTU=null; diagteachPaintClasses(); diagteachPaintRoster(); var b=document.getElementById("diagt-body"); if(b){ b.innerHTML=""; } }
+function diagteachPaintRoster(){
+  var box=document.getElementById("diagt-roster"); if(!box){ return; }
+  box.innerHTML="";
+  var cls=CLASSES[DIAGTCLS], i;
+  for(i=0;i<cls.students.length;i++){
+    (function(stu){
+      var n=DiagAttempts.forStudent(stu.id).length;
+      var b=document.createElement("button");
+      b.className="btn block"; b.textContent=stu.name+(n?" ("+n+")":"");
+      b.onclick=function(){ DIAGTSTU=stu.id; diagteachPaintAttempts(); };
+      box.appendChild(b);
+    })(cls.students[i]);
+  }
+}
+function diagteachPaintAttempts(){
+  var host=document.getElementById("diagt-body"); if(!host){ return; }
+  var list=DiagAttempts.forStudent(DIAGTSTU), html="", i;
+  if(!list.length){ host.innerHTML='<p class="mini-note">No diagnostic recordings for this student yet.</p>'; return; }
+  html+='<div id="diagt-attempt-list">';
+  for(i=0;i<list.length;i++){
+    html+='<div class="trow"><div class="tl">Check 1: Letter Names<small>'+escapeHtml(list[i].date)+' &middot; '+(list[i].status==="scored"?"Scored":"Not yet scored")+'</small></div><div class="item-actions"><button class="mini-btn" onclick="diagteachOpenAttempt(\''+list[i].id+'\')">Open</button></div></div>';
+  }
+  html+='</div><div id="diagteach-panel"></div>';
+  host.innerHTML=html;
+}
+function diagteachOpenAttempt(attemptId){
+  DIAGTEACH_ATTEMPT=DiagAttempts.get(attemptId); if(!DIAGTEACH_ATTEMPT){ return; }
+  DIAGTEACH_SCORES = DIAGTEACH_ATTEMPT.scores ? JSON.parse(JSON.stringify(DIAGTEACH_ATTEMPT.scores)) : {};
+  var panel=document.getElementById("diagteach-panel"); if(!panel){ return; }
+  panel.innerHTML=
+     '<div class="card">'
+    +'<h3>Check 1: Letter Names &mdash; '+escapeHtml(DIAGTEACH_ATTEMPT.studentName)+'</h3>'
+    +'<p class="mini-note">Recorded '+escapeHtml(DIAGTEACH_ATTEMPT.date)+(DIAGTEACH_ATTEMPT.durationSec?(' &middot; '+DIAGTEACH_ATTEMPT.durationSec+'s'):'')+'</p>'
+    +'<p class="mini-note" id="diagteach-nolocal" style="display:none">Recording not saved on this device. Open the file downloaded from Canvas below to score it.</p>'
+    +'<audio id="diagteach-audio" controls style="display:none;width:100%"></audio>'
+    +'<div class="setting-row"><div><strong>Open the recording from Canvas</strong><br><span class="mini-note">If it isn&rsquo;t already playable above.</span></div><input type="file" id="diagteach-file" accept="audio/*" onchange="diagteachFileChosen(event)"></div>'
+    +'<div class="diag-key">'
+    +'<span><i class="correct"></i>Correct</span><span><i class="incorrect"></i>Incorrect</span>'
+    +'<span><i class="self"></i>Self-corrected</span><span><i class="skip"></i>Skip / no response</span>'
+    +'</div>'
+    +'<p class="step-eyebrow" style="margin-top:16px">Uppercase</p>'
+    +'<div class="diag-grid" id="diagteach-grid-upper"></div>'
+    +'<p class="step-eyebrow" style="margin-top:16px">Lowercase</p>'
+    +'<div class="diag-grid" id="diagteach-grid-lower"></div>'
+    +'<p class="mini-note" style="margin-top:10px">Tap a letter to cycle: blank &rarr; correct &rarr; incorrect &rarr; self-corrected &rarr; skip.</p>'
+    +'<div id="diagteach-totals" style="margin-top:10px"></div>'
+    +'<div class="nav-row" style="margin-top:14px"><button class="btn primary" onclick="diagteachSave()">Save results</button></div>'
+    +'<div class="mini-note" id="diagteach-saved-note"></div>'
+    +'<div id="diagteach-targets" style="margin-top:14px"></div>'
+    +'</div>';
+  diagteachLoadLocal(attemptId);
+  diagteachPaintGrid();
+  if(DIAGTEACH_ATTEMPT.summary){ diagteachPaintTargets(DIAGTEACH_ATTEMPT.summary); }
+}
+function diagteachLoadLocal(attemptId){
+  DiagStore.get(attemptId).then(function(b){
+    var au=document.getElementById("diagteach-audio"), no=document.getElementById("diagteach-nolocal");
+    if(b){ var u=URL.createObjectURL(b); if(au){ au.src=u; au.style.display="block"; } }
+    else if(no){ no.style.display="block"; }
+  });
+}
+function diagteachFileChosen(ev){
+  var f=ev.target.files && ev.target.files[0]; if(!f){ return; }
+  var u=URL.createObjectURL(f);
+  var au=document.getElementById("diagteach-audio");
+  if(au){ au.src=u; au.style.display="block"; }
+}
+function diagteachPaintGridPart(hostId,start,count){
+  var host=document.getElementById(hostId); if(!host){ return; }
+  var html="",i,cls;
+  for(i=start;i<start+count;i++){
+    cls="diag-letter"+(DIAGTEACH_SCORES[i]?(" "+DIAGTEACH_SCORES[i]):"");
+    html+='<button type="button" class="'+cls+'" onclick="diagteachTap('+i+')">'+escapeHtml(DIAG1_SEQ[i])+'</button>';
+  }
+  host.innerHTML=html;
+}
+function diagteachPaintGrid(){
+  diagteachPaintGridPart("diagteach-grid-upper",0,26);
+  diagteachPaintGridPart("diagteach-grid-lower",26,26);
+  diagteachPaintTotals();
+}
+function diagteachTap(i){
+  var cur=DIAGTEACH_SCORES[i]||null;
+  var idx=DIAGTEACH_CYCLE.indexOf(cur);
+  var next=DIAGTEACH_CYCLE[(idx+1)%DIAGTEACH_CYCLE.length];
+  if(next===null){ delete DIAGTEACH_SCORES[i]; } else { DIAGTEACH_SCORES[i]=next; }
+  diagteachPaintGrid();
+}
+function diagteachTally(start,count){
+  var i,st,correct=0,missed=[],selfCorr=0;
+  for(i=start;i<start+count;i++){
+    st=DIAGTEACH_SCORES[i];
+    if(st==="correct"){ correct++; }
+    else if(st==="self"){ correct++; selfCorr++; }
+    else if(st==="incorrect"||st==="skip"){ missed.push(DIAG1_SEQ[i]); }
+  }
+  return { correct:correct, missed:missed, selfCorr:selfCorr };
+}
+function diagteachPaintTotals(){
+  var host=document.getElementById("diagteach-totals"); if(!host){ return; }
+  var up=diagteachTally(0,26), low=diagteachTally(26,26);
+  host.innerHTML=
+     '<div class="card"><strong>Uppercase:</strong> '+up.correct+' / 26'
+    +' &nbsp; <strong>Lowercase:</strong> '+low.correct+' / 26'
+    +' &nbsp; <strong>Total:</strong> '+(up.correct+low.correct)+' / 52'
+    +'<div class="mini-note">Self-corrections: '+(up.selfCorr+low.selfCorr)+'</div>'
+    +'</div>';
+}
+function diagteachSave(){
+  if(!DIAGTEACH_ATTEMPT){ return; }
+  var up=diagteachTally(0,26), low=diagteachTally(26,26);
+  var summary={
+    check:"check1", date:DIAGTEACH_ATTEMPT.date,
+    upperCorrect:up.correct, upperTotal:26, upperMissed:up.missed,
+    lowerCorrect:low.correct, lowerTotal:26, lowerMissed:low.missed,
+    totalCorrect:up.correct+low.correct, totalItems:52,
+    selfCorrections:up.selfCorr+low.selfCorr,
+    completionSeconds:DIAGTEACH_ATTEMPT.durationSec||null
+  };
+  DiagAttempts.update(DIAGTEACH_ATTEMPT.id,{ status:"scored", scores:DIAGTEACH_SCORES, summary:summary });
+  DIAGTEACH_ATTEMPT=DiagAttempts.get(DIAGTEACH_ATTEMPT.id);
+  DiagResults.setCheck(DIAGTEACH_ATTEMPT.studentId,"check1",summary);
+  Sync.pushDiag(DIAGTEACH_ATTEMPT.studentId,function(){});
+  var note=document.getElementById("diagteach-saved-note"); if(note){ note.textContent="Saved."; }
+  diagteachPaintTargets(summary);
+}
+function diagteachPaintTargets(summary){
+  var host=document.getElementById("diagteach-targets"); if(!host){ return; }
+  var missed=(summary.upperMissed||[]).concat(summary.lowerMissed||[]);
+  if(!missed.length){
+    host.innerHTML='<div class="canvas-steps"><h4>What to teach next</h4><p class="mini-note">All 52 letters were named correctly. No letter-identification targets from this check.</p></div>';
+    return;
+  }
+  var prompt="Create a 15-minute age-respectful reading intervention lesson for a student age 10-14 who needs practice naming these letters: "+missed.join(", ")+". Include explicit instruction, guided practice, reading, and a short exit check. Do not use babyish content. Do not diagnose a disability.";
+  host.innerHTML=
+     '<div class="canvas-steps"><h4>What to teach next</h4>'
+    +'<p class="mini-note">Letters needing instruction: <strong>'+escapeHtml(missed.join(", "))+'</strong></p>'
+    +'<textarea id="diagteach-prompt" readonly style="width:100%;min-height:90px;font:inherit;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)">'+escapeHtml(prompt)+'</textarea>'
+    +'<div class="nav-row" style="margin-top:10px"><button class="btn" onclick="diagteachCopyPrompt()">Copy AI lesson prompt</button></div>'
+    +'</div>';
+}
+function diagteachCopyPrompt(){
+  var ta=document.getElementById("diagteach-prompt"); if(!ta){ return; }
+  ta.select();
+  try{ document.execCommand("copy"); }catch(e){}
+}
 
 /* ---------- Fluency: read the passage ---------- */
 var fluPassage=null, fluBlob=null, fluAttemptId=null, fluTimerLeft=60, fluTimerHandle=null, fluPendingSubmit=false;
