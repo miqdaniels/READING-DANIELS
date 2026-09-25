@@ -31,8 +31,10 @@ A later, explicit round of instructions ("READING FOUNDATIONS — FINAL CONTENT 
 - CHECK 1 — APPROVED FOR BUILD, pending normal technical/visual QA (including the screenshot-of-all-52-letters gate below).
 - CHECK 2 — APPROVED FOR BUILD, with the required teacher sound-answer key.
 - CHECK 3 — APPROVED FOR BUILD, using the corrected unique-item bank and completed segmentation section below.
-- CHECK 4 — DO NOT FINALIZE CONTENT YET. Architecture/placeholders may be built; wait for Miq's final approved original 142-item decoding bank before populating it.
-- CHECK 5 — DO NOT FINALIZE CONTENT YET. Architecture/placeholders may be built; wait for Miq's final approved original 120-item automatic-word-recognition bank before populating it.
+- CHECK 4 — APPROVED FOR BUILD. Full 142-item decoding bank received and verified (see "CHECKS 4–7 FINAL CONTENT" section below).
+- CHECK 5 — APPROVED FOR BUILD. Full 120-item automatic-word-recognition bank received and verified.
+- CHECK 6 — Set 4 and Set 5 of 6A corrected (see below) to remove duplicates; 6B/6C unchanged (already designed).
+- CHECK 7 — Sections 7A–7E locked/verified; 7F (12 controlled pseudowords) remains an explicit placeholder pending final original QC.
 
 ### Global rules for Checks 1–3 (final)
 - **Preserve, don't redesign:** keep the existing student flow, teacher scoring system, recording/download system, class-hour selection, student-name selection, and teacher-side architecture. Modify/extend only as necessary.
@@ -135,6 +137,66 @@ Do not re-administer the full original assessment every ~2 weeks just to get ano
 - **Check 1:** 26 unique uppercase + 26 unique lowercase letters; font distinction confirmed; Lenovo-screen rendering confirmed; audio recording; teacher scoring; target propagation.
 - **Check 2:** 21 consonants + 5 vowels; one continuous video; teacher answer key; alternate-sound handling; letter-name substitution; teacher override; target propagation.
 - **Check 3:** four unscored practice items; exactly 20 scored items, five per domain; no duplicate scored target words; all required Miq recordings identified; one continuous video; domain-level scoring; target propagation.
+
+---
+
+## ✅ CHECKS 4–7: FINAL CONTENT (received and verified)
+
+Received as "READING FOUNDATIONS — CHECKS 4–7 Claude Code Content Specification." All counts and uniqueness claims below were checked programmatically.
+
+### CHECK 4 — DECODING INVENTORY (142 items, verified)
+No model audio; one continuous AUDIO recording for the administered portion; teacher controls entry/stop; score Correct/Incorrect/Skip/Self-Corrected by band.
+
+- 4A Short-vowel VC/CVC (10): at, in, up, map, red, sit, hot, cup, hen, fox
+- 4B Digraphs (12): ship, shop, fish, chat, much, thin, this, whip, when, duck, back, ring
+- 4C Blends (12): stop, flag, trip, clap, frog, drum, plan, skip, best, milk, hand, jump
+- 4D Complex closed syllables (10): stamp, crust, blend, plant, trust, spent, grand, twist, sprint, clamp
+- 4E VCe/silent-e (12): make, these, time, home, cute, game, theme, slide, stone, cube, brave, complete
+- 4F Open syllables (10): me, go, hi, no, he, she, robot, music, hotel, tulip
+- 4G Vowel teams (14): rain, team, seed, boat, road, play, day, night, pie, snow, blue, fruit, coin, boy
+- 4H R-controlled (12): car, star, her, term, bird, first, fork, storm, turn, hurt, market, corner
+- 4I Complex vowels (14): book, moon, look, food, house, cloud, brown, town, oil, join, boy, toy, saw, draw
+- 4J Inflectional endings + consonant-le (12): jumps, wishes, jumped, landed, running, helping, little, candle, purple, table, simple, bottle
+- 4K Two-syllable decoding (12): sunset, rabbit, napkin, helmet, basket, picnic, winter, problem, contest, number, paper, open
+- 4L Multisyllabic/morphemic decoding (12): unhappy, replay, helpful, careless, unfinished, prediction, important, remember, information, community, transportation, organization
+
+**QC:** total = 142 ✅ (matches spec), each band's count matches its stated size ✅. **One cross-band note:** "boy" appears in both 4G (Vowel Teams) and 4I (Complex Vowels) — plausible by design (oy is both a vowel team and a diphthong), not a blocking duplicate like Check 3's rule, but flagged here in case that wasn't intentional.
+
+### CHECK 5 — AUTOMATIC WORD RECOGNITION (120 items, verified unique)
+Printed word only, no picture/context/model audio; one continuous AUDIO recording; teacher scoring A/D/I/SC; no rigid seconds threshold during pilot.
+
+- 5A Essential Automatic (20): the, a, I, you, he, she, we, they, is, are, was, were, to, of, and, in, it, that, for, on
+- 5B Common Function (20): with, as, at, be, this, have, from, or, one, had, by, but, not, what, all, when, can, there, an, your
+- 5C Expanding Common (20): said, each, which, do, how, their, if, will, up, other, about, out, many, then, them, these, so, some, her, would
+- 5D Connected-Text Utility (20): make, like, him, into, time, has, look, two, more, write, go, see, number, no, way, could, people, my, than, first
+- 5E Extended High-Utility (20): water, been, call, who, oil, its, now, find, long, down, day, did, get, come, made, may, part, over, new, sound
+- 5F Adolescent/Academic Utility (20): because, before, after, between, different, important, example, information, question, answer, problem, reason, change, school, student, learn, understand, compare, explain, describe
+
+**QC:** total = 120 ✅, all 120 verified unique across all six sets ✅ (no duplicates, confirmed by script).
+
+### CHECK 6A — CORRECTED Sets 4 & 5 (50 words total, verified unique)
+Sets 1–3 unchanged from the earlier draft. Sets 4 and 5 replaced to remove exact duplicate target words.
+
+- Set 1 Inflectional endings (10): jumps, wishes, jumped, landed, running, helping, faster, tallest, dogs, boxes
+- Set 2 Common prefixes (10): unhappy, unsafe, reread, replay, dislike, disagree, incorrect, impossible, preview, nonstop
+- Set 3 Common suffixes (10): helpful, careless, kindness, payment, washable, teacher, slowly, action, friendship, darkness
+- Set 4 Base + multiple morphemes (10) — **corrected**: unhelpful, rereading, disagreement, carefully, unfinished, hopelessness, incorrectly, carelessness, unfairness, reusable
+- Set 5 Academic morphology (10) — **corrected**: prediction, transportation, development, misunderstanding, information, preparation, movement, improvement, educational, organization
+
+**QC:** total = 50 ✅, all 50 verified unique across all five sets ✅. 6B (24 selected-response items) and 6C (12 selected-response items) unchanged — preserve as already designed.
+
+### CHECK 7 — Sections A–E locked (78 items, verified), 7F still a placeholder
+- 7A Two-syllable words (20): sunset, picnic, rabbit, napkin, helmet, basket, music, hotel, robot, tiger, paper, open, cactus, seven, winter, market, problem, contest, number, hundred
+- 7B Compound words (10): sunlight, football, weekend, bedroom, backpack, outside, upstairs, downtown, something, everyone
+- 7C Syllable-pattern application (18): rabbit, basket, contest, robot, music, hotel, complete, mistake, inside, raincoat, daydream, season, market, perfect, corner, little, purple, candle — *intentionally reuses 7A words, sorted by pattern; the student never has to name the pattern*
+- 7D Three-syllable words (15): animal, banana, computer, remember, important, another, tomorrow, fantastic, discover, September, attention, different, energy, family, exercise
+- 7E Four-plus syllable/academic words (15): information, education, community, independent, opportunity, organization, communication, population, environmental, mathematical, investigation, transportation, relationship, responsibility, electricity
+- **7F Controlled unfamiliar words (12) — NOT YET WRITTEN.** Explicit placeholder only: 12 original pseudowords sampling closed/open/VCe/vowel-team/r-controlled/consonant-le/mixed multisyllabic patterns, needing a separate QC pass (real words, names, brands, offensive meanings, home-language collisions) before commercial release. Do not invent these to fill the gap.
+
+**QC:** 7A–7E band counts all match spec (20/10/18/15/15 = 78) ✅. 7F remains a marked gap, per instruction, not filled.
+
+### Global build rules for Checks 4–7
+No AI/TTS voices; no automatic speech scoring; Miq records any needed directions/prompts; one consolidated recording file per oral check/section; teacher scoring is authoritative, app only counts/organizes; first name + last initial only; age-respectful, no humiliating grade labels; missed patterns/words/morphemes auto-populate What to Teach Next + targeted recheck; preserve raw item-level + subskill data; use parallel/new items for later progress monitoring; never diagnose a disability; never copy proprietary assessment content.
 
 ---
 
