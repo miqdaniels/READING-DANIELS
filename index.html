@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Reading Foundations</title>
 <!-- Andika: used ONLY for Check 1 letter stimuli (see spec's font requirement --
      clear I vs l, single-story a/g). Nowhere else in the app changes fonts. -->
@@ -166,7 +169,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 <body>
 
 <header class="app">
-  <div class="brand"><h1>Reading Foundations</h1><span class="tag">Bridges Unit 1</span></div>
+  <div class="brand"><h1>Reading Foundations</h1></div>
   <div class="theming">
     <div class="swatches" id="swatches"></div>
     <button class="mode-btn" id="mode-btn" onclick="toggleMode()">Dark</button>
@@ -175,26 +178,21 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 
 <div class="wrap">
 
-  <!-- HOME -->
-  <section id="s-home" class="screen active">
-    <h2>Read &amp; Slide</h2>
-    <p class="lede">Hear the word, then slide your finger across the sentence and read it out loud. Record your best read and turn it in.</p>
-    <div class="grid">
-      <button class="btn primary block" onclick="go('s-pick')">Student<span class="sub">Hear it, slide, read, record</span></button>
-      <div id="teacher-doors" style="display:none">
+  <!-- HOME (teacher hub only -- students go straight to s-pick, see Boot) -->
+  <section id="s-home" class="screen">
+    <div id="teacher-doors" style="display:none">
+      <h2>Teacher</h2>
       <button class="btn block" onclick="go('s-teach')">Teacher: record the models<span class="sub">Record each word and its sentence in your voice</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-board')">Scoreboard<span class="sub">Show today's team standings at the end of class</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('check1Teach')">Check 1 review<span class="sub">Score letter identification recordings</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-fluteach')">Fluency review<span class="sub">Listen to fluency &amp; retell attempts, score WCPM, approve moves</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-settings')">Settings<span class="sub">Practice reads, pacer, and teams</span></button>
+      <button class="btn block" style="margin-top:10px" onclick="go('s-pick')">Go to student view<span class="sub">See what a student sees</span></button>
     </div>
-    </div>
-    
   </section>
 
   <!-- CLASS PICK -->
-  <section id="s-pick" class="screen">
-    <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Which class?</p>
+  <section id="s-pick" class="screen active">
     <h2>Which class are you in?</h2>
     <p class="lede">Tap your class hour.</p>
     <div class="grid" id="class-list"></div>
@@ -310,7 +308,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 
 <section class="screen" id="s-groups">
   <div class="wrap">
-    <p class="step-eyebrow">Unit 1</p>
+    <p class="step-eyebrow">Bridges Unit 1</p>
     <h2 class="scr-title">Choose your group, <span id="group-who"></span></h2>
     <p class="mini-note">Finish a group to open the next one.</p>
     <p class="mini-note" id="sync-note" style="display:none"></p>
@@ -2460,6 +2458,7 @@ function applyTeacherDoors(){
   var fl=document.getElementById("foot-links"); if(fl){ fl.style.display = inl; }
 }
 applyTeacherDoors();
+go(isTeacherMode() ? "s-home" : "s-pick");
 Sync.boot();
 </script>
 </body>
