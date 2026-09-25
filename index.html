@@ -20,20 +20,16 @@ header.app h1{font-size:19px;margin:0;font-weight:650;letter-spacing:-.01em}
 header.app .tag{font-size:13px;color:var(--ink-soft)}
 .theming{display:flex;align-items:center;gap:8px}
 .swatches{display:flex;gap:6px}
-.sw{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}
+.sw{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0;touch-action:manipulation}
 .sw.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--accent)}
-.mode-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:9px;padding:7px 11px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
-.mode-btn:hover{border-color:var(--accent)}
+.mode-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:9px;padding:7px 11px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;touch-action:manipulation}
 h2{font-size:24px;margin:6px 0 4px;font-weight:650;letter-spacing:-.01em}
 p.lede{color:var(--ink-soft);margin:0 0 22px}
 .crumb{font-size:14px;color:var(--ink-soft);margin:0 0 8px}
-.crumb a{color:var(--accent);text-decoration:none;cursor:pointer}
-.crumb a:hover{text-decoration:underline}
-.btn{display:inline-block;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:550;cursor:pointer;padding:12px 18px;border-radius:10px;text-align:left}
-.btn:hover{border-color:var(--accent)}
+.crumb a{color:var(--accent);text-decoration:none;cursor:pointer;touch-action:manipulation}
+.btn{display:inline-block;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:550;cursor:pointer;padding:12px 18px;border-radius:10px;text-align:left;touch-action:manipulation}
 .btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn.primary:hover{background:var(--accent-press)}
 .btn.block{display:block;width:100%;margin:0 0 10px}
 .btn .sub{display:block;font-weight:450;color:var(--ink-soft);font-size:14px;margin-top:3px}
 .btn.primary .sub{color:rgba(255,255,255,.82)}
@@ -50,8 +46,7 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .pass-dots .pd.on{background:var(--accent)}
 .word-chip{display:inline-flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 16px 10px 18px;margin:0 0 6px}
 .word-chip .w{font-size:28px;font-weight:700;letter-spacing:-.01em}
-.word-chip .hearw{border:1px solid var(--line);background:var(--paper);color:var(--accent);border-radius:10px;padding:9px 14px;font:inherit;font-weight:600;cursor:pointer}
-.word-chip .hearw:hover{border-color:var(--accent)}
+.word-chip .hearw{border:1px solid var(--line);background:var(--paper);color:var(--accent);border-radius:10px;padding:9px 14px;font:inherit;font-weight:600;cursor:pointer;touch-action:manipulation}
 .mini-note{font-size:13px;color:var(--ink-soft);margin:4px 0 0}
 .sentence{font-size:28px;line-height:1.7;margin:14px 0 8px;-webkit-user-select:none;-moz-user-select:none;user-select:none}
 @media(max-width:520px){.sentence{font-size:23px}}
@@ -68,14 +63,12 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .pacer-hint{font-size:13px;color:var(--ink-soft);margin:8px 0 0;text-align:center}
 .hear-line{display:flex;gap:10px;margin:14px 0 2px;flex-wrap:wrap}
 .rec-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-.rec-btn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:14px 22px;font:inherit;font-weight:600;font-size:17px;cursor:pointer}
-.rec-btn:hover{background:var(--accent-press)}
+.rec-btn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:14px 22px;font:inherit;font-weight:600;font-size:17px;cursor:pointer;touch-action:manipulation}
 .rec-btn.rec{background:var(--retry)}
 .rec-dot{width:12px;height:12px;border-radius:50%;background:#fff;display:inline-block}
 .rec-btn.rec .rec-dot{animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-.play-btn{display:inline-flex;align-items:center;gap:9px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px 20px;font:inherit;font-weight:600;cursor:pointer}
-.play-btn:hover{border-color:var(--accent)}
+.play-btn{display:inline-flex;align-items:center;gap:9px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px 20px;font:inherit;font-weight:600;cursor:pointer;touch-action:manipulation}
 .play-btn[disabled]{opacity:.45;cursor:default}
 .state-line{font-size:14px;margin:14px 0 0;min-height:20px}
 .state-line.saved{color:var(--good)}.state-line.none{color:var(--ink-soft)}.state-line.err{color:var(--retry)}
@@ -92,8 +85,8 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:8px;vertical-align:middle}
 .dot.on{background:var(--good)}.dot.off{background:var(--line)}
 .item-actions{display:flex;gap:8px;flex-shrink:0}
-.mini-btn{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:8px 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;color:var(--ink)}
-.mini-btn:hover{border-color:var(--accent)}.mini-btn.play{color:var(--accent)}
+.mini-btn{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:8px 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;color:var(--ink);touch-action:manipulation}
+.mini-btn.play{color:var(--accent)}
 .trow{display:flex;align-items:center;gap:10px;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 10px}
 .trow .tl{font-weight:600}.trow .tl small{display:block;font-weight:450;color:var(--ink-soft);font-size:13px}
 .note-box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
@@ -104,13 +97,11 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .code-input{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);width:8em;text-transform:uppercase}
 .setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 10px}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.seg button{border:none;background:var(--panel);color:var(--ink);font:inherit;font-weight:600;padding:9px 14px;cursor:pointer}
+.seg button{border:none;background:var(--panel);color:var(--ink);font:inherit;font-weight:600;padding:9px 14px;cursor:pointer;touch-action:manipulation}
 .seg button.on{background:var(--accent);color:#fff}
 footer.mini{max-width:780px;margin:24px auto 0;padding:0 20px;font-size:13px;color:var(--ink-soft)}
-footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none}
-footer.mini a:hover{text-decoration:underline}
+footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-action:manipulation}
 .btn.locked{ opacity:.38; cursor:default; }
-.btn.locked:hover{ transform:none; }
 .grp-count{ opacity:.6; font-size:13px; margin-left:6px; }
 .f-sentence{ font-size:20px; line-height:1.95; margin:24px 0; }
 .f-chunk{ padding:2px 3px; border-radius:6px; transition:background .12s,color .12s; }
@@ -142,6 +133,21 @@ footer.mini a:hover{text-decoration:underline}
 .flu-passage p{ margin:0 0 14px; }
 .flu-timer-row{ display:flex; align-items:center; gap:12px; margin:10px 0; }
 .flu-timer{ font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; }
+/* Hover effects only for a real mouse/trackpad. On a touch screen, a
+   :hover rule with no such guard can make the FIRST tap only simulate
+   hovering (some touch browsers use tap-to-hover for elements that look
+   hoverable) -- the real click/tap doesn't fire until a second tap. */
+@media (hover:hover) and (pointer:fine){
+  .mode-btn:hover{border-color:var(--accent)}
+  .crumb a:hover{text-decoration:underline}
+  .btn:hover{border-color:var(--accent)}
+  .btn.primary:hover{background:var(--accent-press)}
+  .word-chip .hearw:hover{border-color:var(--accent)}
+  .rec-btn:hover{background:var(--accent-press)}
+  .play-btn:hover{border-color:var(--accent)}
+  .mini-btn:hover{border-color:var(--accent)}
+  footer.mini a:hover{text-decoration:underline}
+}
 </style>
 </head>
 <body>
