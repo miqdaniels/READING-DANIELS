@@ -140,63 +140,74 @@ Do not re-administer the full original assessment every ~2 weeks just to get ano
 
 ---
 
-## ✅ CHECKS 4–7: FINAL CONTENT (received and verified)
+## ✅ CHECKS 3–7: QC-CORRECTED FINAL CONTENT (supersedes the "received and verified" content that was here before)
 
-Received as "READING FOUNDATIONS — CHECKS 4–7 Claude Code Content Specification." All counts and uniqueness claims below were checked programmatically.
+Received as "READING FOUNDATIONS — QC-CORRECTED CHECKS 3–7." This fully replaces the earlier Check 4/5/7 word banks (they were an older draft — completely different words band-for-band). Check 3 in this round matches what was already saved (no change). Check 6 is explicitly locked/unchanged.
+
+**On top of the uploaded document, 9 additional QC fixes were applied** (a prior round, "QC ROUND 2," flagged real-word/brand/slang/near-homophone problems in specific pseudowords, plus one Bridges-vocabulary collision — all of which were still present in the uploaded base document):
+- Check 4L: replaced **foist** (real word), **zote** (Mexican Spanish slang for a dimwit + the brand name of a well-known Mexican laundry soap, Jabón Zote), **fape** (spells the special-education term FAPE), **lat** (real gym slang for "lats"), **koat** (exact homophone of "coat")
+- Check 7F: replaced **prelastic** (real prefix "pre-" + the real word "plastic," which also appears in Check 4K — tests morphology, not pseudoword decoding), **monderful** (one letter from "wonderful" — inviting real-word guessing), **vosticle** (sounds anatomical; junior-high giggle risk)
+- Check 5F: replaced **evidence** (a Bridges vocabulary word the student already hears in Miq's recorded voice — contaminates automatic-recognition measurement)
+
+**Two more of the same Bridges-vocabulary problem were found proactively while cross-checking (not in the original flagged list — flagging for override if this wasn't wanted):**
+- Check 5F: **process** is also a Bridges vocabulary word (Science group) — replaced
+- Check 5C: **select** is also a Bridges vocabulary word (Unit 1 Core 3) — replaced
+
+All replacement pseudowords were checked against real English words, common Mexican Spanish words/slang, and obvious brand-name patterns — none matched anything found. This isn't an exhaustive guarantee against every possible language/brand collision worldwide, only the same level of diligence applied throughout this spec.
+
+### CHECK 3 — PHONEMIC AWARENESS (20 items — unchanged, matches the already-saved final content)
+3A Initial (5): map, fish, top, nose, bike · 3B Final (5): sun, lip, bus, room, cat · 3C Blending (5): at, me, red, hop, stop · 3D Segmentation (5): go, van, ship, best, flag (see the phoneme-by-phoneme answer key already in the Checks 1–3 section above — all 5 blending items already have their prompts written out).
 
 ### CHECK 4 — DECODING INVENTORY (142 items, verified)
 No model audio; one continuous AUDIO recording for the administered portion; teacher controls entry/stop; score Correct/Incorrect/Skip/Self-Corrected by band.
 
-- 4A Short-vowel VC/CVC (10): at, in, up, map, red, sit, hot, cup, hen, fox
-- 4B Digraphs (12): ship, shop, fish, chat, much, thin, this, whip, when, duck, back, ring
-- 4C Blends (12): stop, flag, trip, clap, frog, drum, plan, skip, best, milk, hand, jump
-- 4D Complex closed syllables (10): stamp, crust, blend, plant, trust, spent, grand, twist, sprint, clamp
-- 4E VCe/silent-e (12): make, these, time, home, cute, game, theme, slide, stone, cube, brave, complete
-- 4F Open syllables (10): me, go, hi, no, he, she, robot, music, hotel, tulip
-- 4G Vowel teams (14): rain, team, seed, boat, road, play, day, night, pie, snow, blue, fruit, coin, boy
-- 4H R-controlled (12): car, star, her, term, bird, first, fork, storm, turn, hurt, market, corner
-- 4I Complex vowels (14): book, moon, look, food, house, cloud, brown, town, oil, join, boy, toy, saw, draw
-- 4J Inflectional endings + consonant-le (12): jumps, wishes, jumped, landed, running, helping, little, candle, purple, table, simple, bottle
-- 4K Two-syllable decoding (12): sunset, rabbit, napkin, helmet, basket, picnic, winter, problem, contest, number, paper, open
-- 4L Multisyllabic/morphemic decoding (12): unhappy, replay, helpful, careless, unfinished, prediction, important, remember, information, community, transportation, organization
+- 4A Short-vowel VC/CVC (10): am, if, us, cab, jet, win, mop, rug, web, quiz
+- 4B Digraphs (12): chin, shed, rush, math, thud, whiz, which, sock, neck, song, thing, patch
+- 4C Blends (12): grin, slip, crab, drip, snap, trim, clog, brag, fresh, plum, swim, grub
+- 4D Complex closed syllables (10): cramp, swept, twelfth, shelf, crisp, grunt, frost, scalp, clasp, drift
+- 4E VCe/silent-e (12): cake, eve, kite, rope, mule, grape, scene, smile, globe, flute, shade, theme
+- 4F Open syllables (10): be, yo, flu, zero, solo, hero, navy, pony, baby, ruby
+- 4G Vowel teams (12): mail, paint, beach, green, toast, coach, tray, gray, snow, blue, fruit, chief
+- 4H R-controlled vowels (12): park, sharp, fern, verse, shirt, third, sport, north, burn, curve, porch, smart
+- 4I Complex vowels/diphthongs (14): book, moon, cook, food, house, cloud, brown, town, coin, join, boy, toy, saw, draw
+- 4J Inflectional endings + consonant-le (12): packs, races, filled, melted, swimming, resting, giggle, marble, puzzle, handle, middle, jungle
+- 4K New two-syllable decoding words (12): velvet, signal, plastic, public, rapid, finish, visit, topic, focus, local, moment, bonus
+- 4L Controlled unfamiliar pseudowords (14) — **corrected**: vun, pem, vot, shab, thig, plim, crusp, yeft, throm, vreen, moit, narm, fropt, bemple *(replaced: lat→vun, fape→yeft, zote→throm, koat→moit, foist→fropt)*
 
-**QC:** total = 142 ✅ (matches spec), each band's count matches its stated size ✅. **One cross-band note:** "boy" appears in both 4G (Vowel Teams) and 4I (Complex Vowels) — plausible by design (oy is both a vowel team and a diphthong), not a blocking duplicate like Check 3's rule, but flagged here in case that wasn't intentional.
+**QC:** total = 142 ✅, every band count matches ✅. Score 4L pseudowords separately from real words, per the base document's instruction.
 
 ### CHECK 5 — AUTOMATIC WORD RECOGNITION (120 items, verified unique)
-Printed word only, no picture/context/model audio; one continuous AUDIO recording; teacher scoring A/D/I/SC; no rigid seconds threshold during pilot.
+Original Reading Foundations utility/complexity bank — not Fry-ordered, not a Fry derivative. Printed word only, no context/picture/definition/model audio; one continuous AUDIO recording; teacher scoring Automatic/Decoded-Slow/Incorrect-Skipped/Self-Corrected.
 
-- 5A Essential Automatic (20): the, a, I, you, he, she, we, they, is, are, was, were, to, of, and, in, it, that, for, on
-- 5B Common Function (20): with, as, at, be, this, have, from, or, one, had, by, but, not, what, all, when, can, there, an, your
-- 5C Expanding Common (20): said, each, which, do, how, their, if, will, up, other, about, out, many, then, them, these, so, some, her, would
-- 5D Connected-Text Utility (20): make, like, him, into, time, has, look, two, more, write, go, see, number, no, way, could, people, my, than, first
-- 5E Extended High-Utility (20): water, been, call, who, oil, its, now, find, long, down, day, did, get, come, made, may, part, over, new, sound
-- 5F Adolescent/Academic Utility (20): because, before, after, between, different, important, example, information, question, answer, problem, reason, change, school, student, learn, understand, compare, explain, describe
+- 5A Core classroom connectors & pronouns (20): and, or, but, because, yet, although, while, than, who, what, where, why, how, they, them, their, we, our, you, your
+- 5B Core verbs students meet constantly (20): is, are, was, were, have, has, had, do, does, did, can, could, will, would, should, may, might, must, get, know
+- 5C Directions & school-task words (20) — **corrected**: read, write, say, tell, ask, answer, choose, **match**, circle, underline, complete, explain, describe, compare, show, find, use, check, turn, start *(replaced: select→match — "select" is a Bridges vocabulary word)*
+- 5D Time, sequence & relationship words (20): before, after, during, until, then, next, last, today, yesterday, always, never, often, sometimes, again, between, through, around, without, within, across
+- 5E High-utility content words (20): school, student, class, lesson, word, sentence, story, text, question, idea, reason, example, result, change, part, group, place, world, people, language
+- 5F Adolescent academic utility (20) — **corrected**: learn, understand, decide, create, support, **context**, detail, main, similar, however, therefore, possible, **opinion**, purpose, source, subject, response, practice, review, meaning *(replaced: evidence→context, process→opinion — both are Bridges vocabulary words)*
 
-**QC:** total = 120 ✅, all 120 verified unique across all six sets ✅ (no duplicates, confirmed by script).
+**QC:** total = 120 ✅, all 120 verified unique across all six sets ✅, zero overlap with the Bridges vocabulary list ✅, no "oil" artifact ✅.
 
-### CHECK 6A — CORRECTED Sets 4 & 5 (50 words total, verified unique)
-Sets 1–3 unchanged from the earlier draft. Sets 4 and 5 replaced to remove exact duplicate target words.
+### CHECK 6 — MORPHOLOGY (50 words) — LOCKED, unchanged
+Passed QC already; preserve exactly as-is. Set 1 Inflectional endings: jumps, wishes, jumped, landed, running, helping, faster, tallest, dogs, boxes · Set 2 Common prefixes: unhappy, unsafe, reread, replay, dislike, disagree, incorrect, impossible, preview, nonstop · Set 3 Common suffixes: helpful, careless, kindness, payment, washable, teacher, slowly, action, friendship, darkness · Set 4 Multiple morphemes: unhelpful, rereading, disagreement, carefully, unfinished, hopelessness, incorrectly, carelessness, unfairness, reusable · Set 5 Academic morphology: prediction, transportation, development, misunderstanding, information, preparation, movement, improvement, educational, organization. 6B (24 items) and 6C (12 items) unchanged — preserve as already designed.
 
-- Set 1 Inflectional endings (10): jumps, wishes, jumped, landed, running, helping, faster, tallest, dogs, boxes
-- Set 2 Common prefixes (10): unhappy, unsafe, reread, replay, dislike, disagree, incorrect, impossible, preview, nonstop
-- Set 3 Common suffixes (10): helpful, careless, kindness, payment, washable, teacher, slowly, action, friendship, darkness
-- Set 4 Base + multiple morphemes (10) — **corrected**: unhelpful, rereading, disagreement, carefully, unfinished, hopelessness, incorrectly, carelessness, unfairness, reusable
-- Set 5 Academic morphology (10) — **corrected**: prediction, transportation, development, misunderstanding, information, preparation, movement, improvement, educational, organization
+### CHECK 7 — MULTISYLLABIC WORD ANALYSIS (90 items, verified)
+One continuous AUDIO recording; printed stimuli only, no model audio; teacher scoring authoritative; accent alone is never an error.
 
-**QC:** total = 50 ✅, all 50 verified unique across all five sets ✅. 6B (24 selected-response items) and 6C (12 selected-response items) unchanged — preserve as already designed.
-
-### CHECK 7 — Sections A–E locked (78 items, verified), 7F still a placeholder
 - 7A Two-syllable words (20): sunset, picnic, rabbit, napkin, helmet, basket, music, hotel, robot, tiger, paper, open, cactus, seven, winter, market, problem, contest, number, hundred
 - 7B Compound words (10): sunlight, football, weekend, bedroom, backpack, outside, upstairs, downtown, something, everyone
-- 7C Syllable-pattern application (18): rabbit, basket, contest, robot, music, hotel, complete, mistake, inside, raincoat, daydream, season, market, perfect, corner, little, purple, candle — *intentionally reuses 7A words, sorted by pattern; the student never has to name the pattern*
+- 7C Syllable-pattern application (18): magnet, dentist, pumpkin, silent, basic, unit, remote, invite, rainbow, daylight, season, peanut, garden, perfect, birthday, little, purple, candle
 - 7D Three-syllable words (15): animal, banana, computer, remember, important, another, tomorrow, fantastic, discover, September, attention, different, energy, family, exercise
-- 7E Four-plus syllable/academic words (15): information, education, community, independent, opportunity, organization, communication, population, environmental, mathematical, investigation, transportation, relationship, responsibility, electricity
-- **7F Controlled unfamiliar words (12) — NOT YET WRITTEN.** Explicit placeholder only: 12 original pseudowords sampling closed/open/VCe/vowel-team/r-controlled/consonant-le/mixed multisyllabic patterns, needing a separate QC pass (real words, names, brands, offensive meanings, home-language collisions) before commercial release. Do not invent these to fill the gap.
+- 7E Four-plus syllable/academic words (15): education, community, independent, opportunity, communication, population, environmental, mathematical, investigation, relationship, responsibility, electricity, democracy, geography, celebration
+- 7F Original controlled pseudowords (12) — **corrected**: mepnic, ravlet, sopane, fimote, zeebon, plooder, narvish, torpune, cambrel, vantrel, plindor, vorimble *(replaced: vosticle→vantrel, prelastic→plindor, monderful→vorimble)*. Keep pseudowords isolated from real-word scoring; no definitions/pictures; not treated as vocabulary.
 
-**QC:** 7A–7E band counts all match spec (20/10/18/15/15 = 78) ✅. 7F remains a marked gap, per instruction, not filled.
+**QC:** 7A–7E band counts match (20+10+18+15+15=78) ✅, +12 pseudowords in 7F = 90 total ✅.
 
-### Global build rules for Checks 4–7
-No AI/TTS voices; no automatic speech scoring; Miq records any needed directions/prompts; one consolidated recording file per oral check/section; teacher scoring is authoritative, app only counts/organizes; first name + last initial only; age-respectful, no humiliating grade labels; missed patterns/words/morphemes auto-populate What to Teach Next + targeted recheck; preserve raw item-level + subskill data; use parallel/new items for later progress monitoring; never diagnose a disability; never copy proprietary assessment content.
+### Required final QC report (all 10 pass)
+1. Check 3 = 20 items ✅ 2. Check 4 = 142 items ✅ 3. Check 5 = 120 items ✅ 4. Check 6 = 50 items ✅ 5. Check 7 = 90 items ✅ 6. Zero exact duplicates within any check ✅ 7. Zero exact duplicates across Checks 3–7 ✅ (verified by script, case-insensitive) 8. Check 4 includes controlled unfamiliar/pseudoword decoding items (4L) ✅ 9. Check 5 is not Fry-ordered and contains no "oil" artifact ✅ 10. Check 7F contains all 12 original pseudowords ✅. **Additional check run beyond the required 10:** zero overlap between any Check 3–7 word and the 70-word Bridges vocabulary list ✅ (after the process/select fixes).
+
+### Global build rules for Checks 3–7
+No AI/TTS voices; no automatic speech scoring, teacher judgment is authoritative; Miq records any needed directions/prompts (added to her existing teacher recording system); one consolidated recording file per oral check, never one file per item; first name + last initial only; no student-facing grade-equivalent labels; missed patterns/words automatically feed What to Teach Next, AI teacher prompts, practice, home support, and targeted rechecks; preserve item-level raw data and subskill scores; use new parallel items for progress monitoring whenever possible; never diagnose a disability; multilingual pronunciation/accent differences must never automatically be scored as reading deficits.
 
 ---
 
