@@ -90,6 +90,7 @@ function today(w, id) { return w.todayTotals(id).total; }
   ok(A.CURCLASS && A.CURCLASS.id === "p1", "link preselects the class");
   A.go("s-roster");
   ok(A.document.getElementById("code-box").style.display === "none", "no code box when the code is already known");
+  await wait(460); // navGuard() ignores a click within 400ms of that go()
   clickName(A, "Miriam Gomez");
   await wait(60);
   const MIRIAM = "stu_gomezmiriam_p1";
@@ -111,6 +112,7 @@ function today(w, id) { return w.todayTotals(id).total; }
   ok(!B.Sync.codes().p7, "rejected code is not kept");
   B.document.getElementById("code-input").value = "k7p2"; B.rosterSaveCode(); await wait(60);
   ok(B.Sync.codes().p1 === "K7P2", "right code is saved");
+  await wait(460); // navGuard() ignores a click within 400ms of that go()
   clickName(B, "Miriam Gomez");
   await wait(80);
   ok(today(B, MIRIAM) === earnedA, "points followed Miriam to device B");
@@ -123,7 +125,7 @@ function today(w, id) { return w.todayTotals(id).total; }
   await wait(1400);
 
   console.log("Device A again: sees what B earned");
-  A.go("s-roster"); clickName(A, "Miriam Gomez"); await wait(80);
+  A.go("s-roster"); await wait(460); clickName(A, "Miriam Gomez"); await wait(80);
   ok(today(A, MIRIAM) === earnedA + more, "device A total includes device B's points");
 
   console.log("Teacher device: scoreboard pulls the whole class");
@@ -142,7 +144,7 @@ function today(w, id) { return w.todayTotals(id).total; }
   const O = device("https://reading-foundations.vercel.app/?c=K7P2"); await wait(60);
   ok(!O.Sync.codes().p1, "offline link can't verify the code (nothing stored)");
   O.localStorage.setItem("rf_sync_codes", JSON.stringify({ p1: "K7P2" }));
-  O.CURCLASS = O.CLASSES[0]; O.go("s-roster"); clickName(O, "Alan Mendoza"); await wait(60);
+  O.CURCLASS = O.CLASSES[0]; O.go("s-roster"); await wait(460); clickName(O, "Alan Mendoza"); await wait(60);
   ok(O.gotPoints("word", "route") > 0, "points still work offline");
   await wait(1400);
   ok(/Can’t reach/.test(O.document.getElementById("sync-note").textContent), "student sees an honest offline note");
@@ -161,7 +163,7 @@ function today(w, id) { return w.todayTotals(id).total; }
   const placedOk = await new Promise(r => T.Sync.pushPlacement(MIRIAM, "K", 2, ok2 => r(ok2)));
   ok(placedOk, "teacher device can push a placement");
   const S = device("https://reading-foundations.vercel.app/?c=K7P2"); await wait(60);
-  S.CURCLASS = S.CLASSES[0]; S.go("s-roster"); clickName(S, "Miriam Gomez"); await wait(80);
+  S.CURCLASS = S.CLASSES[0]; S.go("s-roster"); await wait(460); clickName(S, "Miriam Gomez"); await wait(80);
   const placedOnStudent = S.FluPlace.get(MIRIAM);
   ok(placedOnStudent.level === "K" && placedOnStudent.sub === 2, "a teacher-set placement reaches the student's own device via Sync");
   lastPostBody = null;
@@ -187,7 +189,7 @@ function today(w, id) { return w.todayTotals(id).total; }
   const before = xhrCount;
   const G = device("https://miqdaniels.github.io/READING-DANIELS/?c=K7P2"); await wait(40);
   ok(!G.Sync.enabled(), "sync is off on github.io");
-  G.CURCLASS = G.CLASSES[0]; G.go("s-roster"); clickName(G, "Miriam Gomez"); G.gotPoints("word", "unique"); await wait(1400);
+  G.CURCLASS = G.CLASSES[0]; G.go("s-roster"); await wait(460); clickName(G, "Miriam Gomez"); G.gotPoints("word", "unique"); await wait(1400);
   ok(xhrCount === before, "no network calls from github.io");
   ok(G.document.getElementById("sync-note").style.display === "none", "no sync note on github.io");
   ok(G.document.getElementById("code-box").style.display !== "flex", "no code box on github.io");

@@ -8,7 +8,7 @@ const dom=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/",ru
     w.scrollTo=function(){};
     class FakeRec{
       constructor(s){this.state="inactive";this.mimeType="audio/webm";this._s=s;}
-      start(){this.state="recording"; if(this.ondataavailable) this.ondataavailable({data:{size:10,type:"audio/webm"}});}
+      start(){this.state="recording"; if(this.onstart) this.onstart(); if(this.ondataavailable) this.ondataavailable({data:{size:10,type:"audio/webm"}});}
       stop(){this.state="inactive"; if(this.onstop) this.onstop();}
     }
     w.MediaRecorder=FakeRec;
@@ -121,6 +121,11 @@ function runMain(){
   /* ---- fluOpen defaults a fresh student to PK 0.0 ---- */
   w.READER=w.CLASSES[0].students[1];
   w.go("studentMenu");
+
+  /* navGuard() ignores a click within 400ms of that go() (a real fix for
+     rapid mistaken taps drilling through screens) -- wait past it, same as
+     a real person would, before tapping the menu's Fluency button. */
+  setTimeout(function(){
   var fluBtn=null, btns=d.querySelectorAll("#studentMenu .btn");
   for(i=0;i<btns.length;i++){ if(/^Fluency/.test(btns[i].textContent)) fluBtn=btns[i]; }
   ck(!!fluBtn,"Fluency button present on studentMenu");
@@ -216,4 +221,5 @@ function runMain(){
       },60);
     },60);
   },60);
+  },460);
 }

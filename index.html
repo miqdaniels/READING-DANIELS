@@ -198,8 +198,8 @@ footer.mini a:hover{text-decoration:underline}
       <p class="crumb"><a onclick="go('s-roster')">Change reader</a></p>
       <h2 class="scr-title" id="sm-who"></h2>
       <p class="lede">What do you want to do?</p>
-      <button class="btn primary block" onclick="fluOpen()">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
-      <button class="btn primary block" style="margin-top:10px" onclick="go('s-groups')">Word Practice<span class="sub">Hear it, slide, read, record</span></button>
+      <button class="btn primary block" onclick="if(navGuard()){fluOpen();}">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
+      <button class="btn primary block" style="margin-top:10px" onclick="if(navGuard()){go('s-groups');}">Word Practice<span class="sub">Hear it, slide, read, record</span></button>
       <button class="btn block locked" style="margin-top:10px" disabled>Reading Comprehension<span class="sub">Coming soon</span></button>
       <div class="nav-row" style="margin-top:14px">
         <button class="btn" onclick="go('s-roster')">&#8592; Back</button>
@@ -386,7 +386,6 @@ footer.mini a:hover{text-decoration:underline}
     <div class="flu-passage" id="flu-text"></div>
     <div class="flu-timer-row">
       <span class="flu-timer" id="flu-timer">1:00</span>
-      <button class="btn" id="flu-timer-btn" onclick="fluTimerStart()">Start</button>
     </div>
     <div class="rec-row">
       <button class="rec-btn" id="flu-rec" onclick="fluToggleRec()"><span class="rec-dot"></span><span id="flu-rec-lbl">Record</span></button>
@@ -765,13 +764,14 @@ function ensureMic(){
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ return Promise.reject(new Error("no-mic-api")); }
   return navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){ mediaStream=s; return s; });
 }
-function startRec(onStop){
+function startRec(onStop,onStart){
   return ensureMic().then(function(stream){
     chunks=[];
     var mr; try{ mr=new MediaRecorder(stream); }catch(e){ mr=new MediaRecorder(stream,{mimeType:"audio/webm"}); }
     recorder=mr;
     mr.ondataavailable=function(e){ if(e.data&&e.data.size>0) chunks.push(e.data); };
     mr.onstop=function(){ var t=(chunks[0]&&chunks[0].type)?chunks[0].type:"audio/webm"; onStop(new Blob(chunks,{type:t})); };
+    if(onStart){ mr.onstart=onStart; }
     mr.start(); recording=true; return true;
   });
 }
@@ -1283,6 +1283,21 @@ function fCanvasSteps(fname){
 }
 
 /* ---------- Routing ---------- */
+/* A few specific drill-down buttons (pick a class -> pick a name -> pick an
+   activity) call navGuard() before acting: it both checks and, if the check
+   passes, immediately arms a brief cooldown. So a genuine double-click/tap
+   lands its first click normally, but the second one -- which would land on
+   whatever button the screen freshly re-rendered at that same spot -- gets
+   ignored instead of cascading straight through to a further screen. Only
+   these specific handlers touch it; an unrelated go() (a crumb link, a Back
+   button, a test calling go() directly) never arms or trips it. */
+var navReadyAt=0;
+function navGuard(){
+  var now=new Date().getTime();
+  if(now<navReadyAt){ return false; }
+  navReadyAt=now+400;
+  return true;
+}
 function go(id){
   var s=document.getElementsByClassName("screen"), i;
   for(i=0;i<s.length;i++){ s[i].className="screen"; }
@@ -1312,7 +1327,7 @@ function smEnter(){
 function buildClasses(){
   var box=document.getElementById("class-list"); box.innerHTML="";
   var i; for(i=0;i<CLASSES.length;i++){
-    (function(cls){ var b=document.createElement("button"); b.className="btn block"; b.textContent=cls.label; b.onclick=function(){ CURCLASS=cls; go("s-roster"); }; box.appendChild(b); })(CLASSES[i]);
+    (function(cls){ var b=document.createElement("button"); b.className="btn block"; b.textContent=cls.label; b.onclick=function(){ if(!navGuard()){ return; } CURCLASS=cls; go("s-roster"); }; box.appendChild(b); })(CLASSES[i]);
   }
 }
 function buildRoster(){
@@ -1321,7 +1336,7 @@ function buildRoster(){
   document.getElementById("roster-title").textContent=CURCLASS.label;
   var list=CURCLASS.students, i;
   for(i=0;i<list.length;i++){
-    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ READER=stu; Sync.pull(stu.id); go("studentMenu"); }; box.appendChild(b); })(list[i]);
+    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ if(!navGuard()){ return; } READER=stu; Sync.pull(stu.id); go("studentMenu"); }; box.appendChild(b); })(list[i]);
   }
 }
 
@@ -1817,34 +1832,50 @@ function fluEnter(){
   var html=""; for(i=0;i<p.paragraphs.length;i++){ html+="<p>"+escapeHtml(p.paragraphs[i].replace(/^\s+|\s+$/g,""))+"</p>"; }
   document.getElementById("flu-text").innerHTML=html;
   document.getElementById("flu-timer").textContent=fluFmtTime(60);
-  var tb=document.getElementById("flu-timer-btn"); if(tb){ tb.disabled=false; tb.textContent="Start"; }
-  var rb=document.getElementById("flu-rec"); if(rb){ rb.className="rec-btn"; }
+  var rb=document.getElementById("flu-rec"); if(rb){ rb.className="rec-btn"; rb.disabled=false; }
   var lbl=document.getElementById("flu-rec-lbl"); if(lbl){ lbl.textContent="Record"; }
   var pb=document.getElementById("flu-play"); if(pb){ pb.disabled=true; }
   var st=document.getElementById("flu-state"); if(st){ st.className="state-line none"; st.textContent=""; }
 }
-function fluTimerStart(){
-  var tb=document.getElementById("flu-timer-btn"); if(tb){ tb.disabled=true; }
-  fluTimerLeft=60;
-  document.getElementById("flu-timer").textContent=fluFmtTime(fluTimerLeft);
-  fluClearTimer();
-  fluTimerHandle=setInterval(function(){
-    fluTimerLeft--;
-    if(fluTimerLeft<0){ fluClearTimer(); return; }
-    document.getElementById("flu-timer").textContent=fluFmtTime(fluTimerLeft);
-  },1000);
-}
+/* One button: tap to Record, which starts the mic AND the 1:00 timer
+   together (the timer starts on MediaRecorder's own onstart, not the tap,
+   so a slow mic never eats the first second). Tap again to Stop early, or
+   let the timer run out -- either way the recording ends and the button
+   locks so it can't be tapped again. A mic error never locks the button. */
 function fluToggleRec(){
   var btn=document.getElementById("flu-rec"), lbl=document.getElementById("flu-rec-lbl"), st=document.getElementById("flu-state");
   if(recording&&activeCtx==="flu"){ stopRec(); return; }
-  activeCtx="flu"; st.className="state-line none"; st.textContent="Recording…";
+  activeCtx="flu"; st.className="state-line none"; st.textContent="Starting the microphone…";
   startRec(function(blob){
+    /* recording ended -- by the timer or an early Stop tap */
+    fluClearTimer();
     fluBlob=blob;
     var pb=document.getElementById("flu-play"); if(pb){ pb.disabled=false; }
-    st.className="state-line saved"; st.textContent="✓ Got it. Play it back, or Submit when ready.";
+    btn.className="rec-btn"; btn.disabled=true; lbl.textContent="Recorded";
+    st.className="state-line saved"; st.textContent="✓ Got it. Play it back, then Submit.";
     if(fluPendingSubmit){ fluPendingSubmit=false; fluFinishSubmit(); }
-  }).then(function(){ btn.className="rec-btn rec"; lbl.textContent="Stop"; })
-    .catch(function(err){ st.className="state-line err"; st.textContent=micErrorText(err); });
+  },function(){
+    /* the mic actually started -- now start the 1:00 countdown */
+    fluTimerLeft=60;
+    document.getElementById("flu-timer").textContent=fluFmtTime(fluTimerLeft);
+    fluClearTimer();
+    fluTimerHandle=setInterval(function(){
+      fluTimerLeft--;
+      if(fluTimerLeft<=0){
+        document.getElementById("flu-timer").textContent="0:00";
+        fluClearTimer();
+        if(recording&&activeCtx==="flu"){ stopRec(); }
+        return;
+      }
+      document.getElementById("flu-timer").textContent=fluFmtTime(fluTimerLeft);
+    },1000);
+    btn.className="rec-btn rec"; lbl.textContent="Stop";
+    st.className="state-line none"; st.textContent="Recording. Read the passage out loud.";
+  }).catch(function(err){
+    fluClearTimer();
+    btn.className="rec-btn"; btn.disabled=false; lbl.textContent="Record";
+    st.className="state-line err"; st.textContent=micErrorText(err);
+  });
 }
 function fluPlayMine(){ if(fluBlob){ playBlob(fluBlob); } }
 function fluSubmit(){
