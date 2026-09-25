@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Read &amp; Slide</title>
+<!-- Andika: used ONLY for Check 1 letter stimuli (see spec's font requirement --
+     clear I vs l, single-story a/g). Nowhere else in the app changes fonts. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#F7F9FC;--panel:#FFFFFF;--line:#DCE3EC;--ink:#14202E;--ink-soft:#4A5A6E;
@@ -133,6 +138,10 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .flu-passage p{ margin:0 0 14px; }
 .flu-timer-row{ display:flex; align-items:center; gap:12px; margin:10px 0; }
 .flu-timer{ font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; }
+.diag-list .btn{ margin:0 0 10px; }
+.c1-letter{ font-family:'Andika',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; font-size:9rem; font-weight:700; text-align:center; line-height:1; margin:24px 0; }
+.c1-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(70px,1fr)); gap:10px; margin:16px 0; }
+.c1-grid .c1-cell{ font-family:'Andika',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; font-size:2.6rem; font-weight:700; text-align:center; border:1px solid var(--line); border-radius:10px; padding:10px 4px; background:var(--panel); }
 /* Hover effects only for a real mouse/trackpad. On a touch screen, a
    :hover rule with no such guard can make the FIRST tap only simulate
    hovering (some touch browsers use tap-to-hover for elements that look
@@ -204,11 +213,54 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <p class="crumb"><a onclick="go('s-roster')">Change reader</a></p>
       <h2 class="scr-title" id="sm-who"></h2>
       <p class="lede">What do you want to do?</p>
-      <button class="btn primary block" onclick="if(navGuard()){fluOpen();}">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
+      <button class="btn primary block" onclick="if(navGuard()){go('diagLanding');}">Diagnostic Tools<span class="sub">Reading checks</span></button>
+      <button class="btn primary block" style="margin-top:10px" onclick="if(navGuard()){fluOpen();}">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
       <button class="btn primary block" style="margin-top:10px" onclick="if(navGuard()){go('s-groups');}">Word Practice<span class="sub">Hear it, slide, read, record</span></button>
       <button class="btn block locked" style="margin-top:10px" disabled>Reading Comprehension<span class="sub">Coming soon</span></button>
       <div class="nav-row" style="margin-top:14px">
         <button class="btn" onclick="go('s-roster')">&#8592; Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIAGNOSTIC TOOLS: landing list of Checks 1-7 -->
+  <section class="screen" id="diagLanding">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('studentMenu')">Menu</a> &nbsp;/&nbsp; Diagnostic Tools</p>
+      <h2 class="scr-title">Reading Checks</h2>
+      <p class="lede">Pick a check.</p>
+      <div class="diag-list">
+        <button class="btn block" onclick="if(navGuard()){go('check1Preview');}">Check 1: Letter Identification<span class="sub">Say the name of each letter</span></button>
+        <button class="btn block locked" disabled>Check 2: Letter-Sound Knowledge<span class="sub">Coming soon</span></button>
+        <button class="btn block locked" disabled>Check 3: Phonemic Awareness<span class="sub">Coming soon</span></button>
+        <button class="btn block locked" disabled>Check 4: Decoding<span class="sub">Coming soon</span></button>
+        <button class="btn block locked" disabled>Check 5: Automatic Word Recognition<span class="sub">Coming soon</span></button>
+        <button class="btn block locked" disabled>Check 6: Morphological Awareness &amp; Word Analysis<span class="sub">Coming soon</span></button>
+        <button class="btn block locked" disabled>Check 7: Multisyllabic Word Analysis<span class="sub">Coming soon</span></button>
+      </div>
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('studentMenu')">&#8592; Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECK 1 font/legibility preview -- NOT the real assessment flow yet.
+       Exists only to satisfy the spec's gate: show all 52 letter stimuli in
+       the chosen font, at assessment size, for approval before the real
+       one-letter-at-a-time recording flow is built. -->
+  <section class="screen" id="check1Preview">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('diagLanding')">Diagnostic Tools</a> &nbsp;/&nbsp; Check 1 font preview</p>
+      <h2 class="scr-title">Check 1 &mdash; Letter Preview (not the real assessment yet)</h2>
+      <p class="lede">All 52 letter stimuli in the proposed assessment font, at roughly the size students will see one at a time. This screen is for font approval only -- recording and scoring are not built yet.</p>
+      <p class="step-eyebrow">Uppercase (fixed order)</p>
+      <div class="c1-grid" id="c1-upper"></div>
+      <p class="step-eyebrow">Lowercase (fixed order)</p>
+      <div class="c1-grid" id="c1-lower"></div>
+      <p class="mini-note">Large single-letter view (uppercase I, lowercase l and i, lowercase a, lowercase g):</p>
+      <div class="c1-letter" id="c1-big">I l i a g</div>
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
       </div>
     </div>
   </section>
@@ -1312,6 +1364,7 @@ function go(id){
   if(id==="s-pick"){ buildClasses(); }
   if(id==="s-roster"){ buildRoster(); paintCodeBox(); }
   if(id==="studentMenu"){ smEnter(); }
+  if(id==="check1Preview"){ check1PreviewEnter(); }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
   if(id==="s-final"){ fEnter(); }
   if(id==="s-read"){ refreshPtsBadge(); }
@@ -2067,6 +2120,23 @@ function flutPaintAttempts(){
     })(list[i]);
   }
   host.innerHTML=html;
+}
+
+/* ============================================================
+   Diagnostic Tools -- Check 1: Letter Identification
+   Font-preview stage only (see MASTER_SPEC.md). Fixed mixed-order
+   sequences per spec, each letter exactly once.
+   ============================================================ */
+var C1_UPPER=["M","T","A","S","P","R","F","B","L","C","H","N","D","G","W","E","K","J","U","V","Y","I","Q","O","X","Z"];
+var C1_LOWER=["s","m","a","t","r","p","c","f","n","h","b","l","d","e","g","i","w","k","u","y","j","v","o","q","x","z"];
+function c1PaintGrid(id,letters){
+  var box=document.getElementById(id); if(!box){ return; }
+  var html="", i; for(i=0;i<letters.length;i++){ html+='<div class="c1-cell">'+escapeHtml(letters[i])+'</div>'; }
+  box.innerHTML=html;
+}
+function check1PreviewEnter(){
+  c1PaintGrid("c1-upper",C1_UPPER);
+  c1PaintGrid("c1-lower",C1_LOWER);
 }
 
 /* ---------- Boot ---------- */
