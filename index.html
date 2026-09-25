@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Read &amp; Slide</title>
+<title>Reading Foundations</title>
 <!-- Andika: used ONLY for Check 1 letter stimuli (see spec's font requirement --
      clear I vs l, single-story a/g). Nowhere else in the app changes fonts. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -166,7 +166,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 <body>
 
 <header class="app">
-  <div class="brand"><h1>Read &amp; Slide</h1><span class="tag">Bridges Unit 1</span></div>
+  <div class="brand"><h1>Reading Foundations</h1><span class="tag">Bridges Unit 1</span></div>
   <div class="theming">
     <div class="swatches" id="swatches"></div>
     <button class="mode-btn" id="mode-btn" onclick="toggleMode()">Dark</button>
@@ -1915,6 +1915,13 @@ var FluAttempts=(function(){
 })();
 function fluUid(){ return "flu"+new Date().getTime()+"_"+Math.floor(Math.random()*100000); }
 function fluFmtTime(s){ var m=Math.floor(s/60), sec=s%60; return m+":"+(sec<10?"0":"")+sec; }
+/* student_HourHour_PassageLABEL_Kind_date.webm -- reuses the same
+   first-name + ordinal-class-hour + date convention as Check 1's file name */
+function fluFileName(kind){
+  var p=fluPassage;
+  var passageTag="Passage"+(p?p.label.replace(/\s+/g,""):"");
+  return rfFirstName()+"_"+rfOrdinalHour()+"_"+passageTag+"_"+kind+"_"+azDateStr();
+}
 
 /* ---------- Fluency: read the passage ---------- */
 var fluPassage=null, fluBlob=null, fluAttemptId=null, fluTimerLeft=60, fluTimerHandle=null, fluPendingSubmit=false;
@@ -1991,11 +1998,13 @@ function fluSubmit(){
 function fluFinishSubmit(){
   fluClearTimer();
   var id=fluUid(), p=fluPassage, blob=fluBlob;
+  var fname=fluFileName("ColdRead")+".webm";
   FluencyStore.put(id+"_passage", blob).then(function(){
     fluAttemptId=id;
     FluAttempts.add({ id:id, studentId:READER.id, studentName:READER.name,
       level:p.level, sub:p.sub, passageId:p.id, title:p.title, date:azDateStr(),
       wordsRead:null, errors:null, retellWords:null, decision:null, retellSaved:false });
+    downloadBlob(blob,fname);
     go("fluencyRetell");
   }).catch(function(){
     var st=document.getElementById("flu-state");
@@ -2004,21 +2013,34 @@ function fluFinishSubmit(){
 }
 
 /* ---------- Fluency: retell ---------- */
-var retBlob=null, retTimerHandle=null, retAutoStop=null;
+var retBlob=null, retTimerHandle=null, retAutoStop=null, retSaved=false, retUnsavedWarnHandler=null;
 function retClearTimer(){ if(retTimerHandle){ clearInterval(retTimerHandle); retTimerHandle=null; } }
+/* warn (browser-level) if the student tries to leave with a recording
+   that hasn't been saved yet -- there's no in-app way off this screen
+   besides Submit, so this covers reload/close-tab */
+function retSetUnsavedWarn(on){
+  if(on){
+    retUnsavedWarnHandler=function(e){ e.preventDefault(); e.returnValue="Your retell hasn't been saved yet."; return e.returnValue; };
+    window.onbeforeunload=retUnsavedWarnHandler;
+  } else {
+    if(window.onbeforeunload===retUnsavedWarnHandler){ window.onbeforeunload=null; }
+    retUnsavedWarnHandler=null;
+  }
+}
 function retEnter(){
-  retBlob=null; retClearTimer(); if(retAutoStop){ clearTimeout(retAutoStop); retAutoStop=null; }
+  retBlob=null; retSaved=false; retClearTimer(); if(retAutoStop){ clearTimeout(retAutoStop); retAutoStop=null; }
+  retSetUnsavedWarn(false);
   var p=fluPassage; if(!p){ go("studentMenu"); return; }
   document.getElementById("ret-level").textContent=p.label+" - Retell";
   document.getElementById("ret-prompt").textContent="Tell about "+p.title+". You have 1 minute.";
   var html="", i; for(i=0;i<p.frames.length;i++){ html+="<li>"+escapeHtml(p.frames[i])+"</li>"; }
   document.getElementById("ret-frames").innerHTML=html;
   document.getElementById("ret-timer").textContent=fluFmtTime(60);
-  var rb=document.getElementById("ret-rec"); if(rb){ rb.className="rec-btn"; }
+  var rb=document.getElementById("ret-rec"); if(rb){ rb.className="rec-btn"; rb.style.display="inline-flex"; }
   var lbl=document.getElementById("ret-rec-lbl"); if(lbl){ lbl.textContent="Record"; }
-  var pb=document.getElementById("ret-play"); if(pb){ pb.disabled=true; }
-  var sub=document.getElementById("ret-submit"); if(sub){ sub.disabled=true; }
-  var st=document.getElementById("ret-state"); if(st){ st.className="state-line none"; st.textContent=""; }
+  var pb=document.getElementById("ret-play"); if(pb){ pb.disabled=true; pb.style.display="inline-flex"; }
+  var sub=document.getElementById("ret-submit"); if(sub){ sub.disabled=true; sub.style.display="inline-block"; }
+  var st=document.getElementById("ret-state"); if(st){ st.className="state-line none"; st.innerHTML=""; }
 }
 function retToggleRec(){
   var btn=document.getElementById("ret-rec"), lbl=document.getElementById("ret-rec-lbl"), st=document.getElementById("ret-state");
@@ -2036,6 +2058,7 @@ function retToggleRec(){
   startRec(function(blob){
     retClearTimer(); if(retAutoStop){ clearTimeout(retAutoStop); retAutoStop=null; }
     retBlob=blob;
+    retSetUnsavedWarn(true);
     var pb=document.getElementById("ret-play"); if(pb){ pb.disabled=false; }
     var sb=document.getElementById("ret-submit"); if(sb){ sb.disabled=false; }
     st.className="state-line saved"; st.textContent="✓ Got it. Play it back, then Submit.";
@@ -2046,14 +2069,34 @@ function retPlayMine(){ if(retBlob){ playBlob(retBlob); } }
 function retSubmit(){
   if(!retBlob||!fluAttemptId){ return; }
   var id=fluAttemptId, blob=retBlob;
+  var fname=fluFileName("Retell")+".webm";
   FluencyStore.put(id+"_retell", blob).then(function(){
     FluAttempts.update(id, {retellSaved:true});
-    fluAttemptId=null; fluPassage=null; fluBlob=null; retBlob=null;
-    go("studentMenu");
+    downloadBlob(blob,fname);
+    retSaved=true; retSetUnsavedWarn(false);
+    retShowSaved(fname);
   }).catch(function(){
     var st=document.getElementById("ret-state");
     if(st){ st.className="state-line err"; st.textContent="Could not save on this device. Try again."; }
   });
+}
+function retShowSaved(fname){
+  var rb=document.getElementById("ret-rec"); if(rb){ rb.style.display="none"; }
+  var pb=document.getElementById("ret-play"); if(pb){ pb.style.display="none"; }
+  var sub=document.getElementById("ret-submit"); if(sub){ sub.style.display="none"; }
+  var st=document.getElementById("ret-state");
+  st.className="state-line saved";
+  st.innerHTML="Your retell is saved! Now upload it to Canvas."
+    +'<div class="canvas-steps"><h4>Turn it in on Canvas</h4><ol>'
+    +"<li>Your file downloaded. It is called <strong>"+escapeHtml(fname)+"</strong>.</li>"
+    +"<li>Open today’s assignment in Canvas.</li>"
+    +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
+    +"<li>Press <strong>Submit</strong>.</li></ol></div>"
+    +'<div class="nav-row" style="margin-top:14px"><button class="btn primary" onclick="retFinishToMenu()">Back to my menu →</button></div>';
+}
+function retFinishToMenu(){
+  fluAttemptId=null; fluPassage=null; fluBlob=null; retBlob=null; retSaved=false;
+  go("studentMenu");
 }
 
 /* ---------- Fluency: teacher review ---------- */

@@ -159,7 +159,9 @@ setTimeout(function(){
               w.retToggleRec(); // stop
               w.retSubmit();
               setTimeout(function(){
-                ck(activeId()==="studentMenu","after the retell Submit, the student menu shows again");
+                ck(activeId()==="fluencyRetell","retell submit shows a confirmation first");
+                w.retFinishToMenu();
+                ck(activeId()==="studentMenu","after Back to my menu, the student menu shows again");
                 ck(d.getElementById("sm-who").textContent===w.READER.name,"menu still shows the right student's name");
 
                 /* ---- finishing word practice (final read save) also returns to the menu ---- */

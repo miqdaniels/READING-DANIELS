@@ -175,9 +175,12 @@ function runMain(){
         w.retSubmit();
 
         setTimeout(function(){
-          ck(activeId()==="studentMenu","retell submit returns to student's menu (studentMenu)");
+          ck(activeId()==="fluencyRetell","retell submit shows a confirmation before leaving the screen");
+          ck(/Your retell is saved! Now upload it to Canvas\./.test(d.getElementById("ret-state").textContent),"confirmation message shown");
           var savedAttempt=w.FluAttempts.get(attemptId);
           ck(savedAttempt.retellSaved===true,"retell save flag persisted");
+          w.retFinishToMenu();
+          ck(activeId()==="studentMenu","Back to my menu returns to student's menu (studentMenu)");
 
           setTimeout(function(){
             /* ---- teacher review screen ---- */
