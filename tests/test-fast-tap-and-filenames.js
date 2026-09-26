@@ -2,15 +2,20 @@ const fs=require('fs');
 const {JSDOM}=require('jsdom');
 const html=fs.readFileSync('./index.html','utf8');
 
-/* Mirrors the user's own Test A/B/C/D exactly, with ZERO artificial delay
-   anywhere a real distinct tap is expected to work. Root cause history:
-   a single GLOBAL cooldown (first 400ms, then 200ms) blocked ANY guarded
-   button if ANY other guarded button had fired recently, which is why a
-   real fast tap on a student's name right after picking a class kept
-   getting eaten. The fix replaced that with a guard scoped to the ONE
-   exact list slot that's actually at risk (the slot the previous tap
-   landed on) -- every other slot, including the very next one, is fully
-   live from the first frame, no wait at all, ever.
+/* ZERO artificial delay anywhere a real tap is expected to work -- every
+   button fires on the very first tap, always, including the first tap on
+   a screen that just rendered. Root cause history: first a single GLOBAL
+   cooldown (400ms, then 200ms) blocked ANY guarded button if ANY other
+   guarded button had fired recently. That was replaced with a guard
+   scoped to "the one list slot the previous tap landed on" -- which fixed
+   the class/name case but then broke this app's own linear menus
+   (Diagnostic Tools -> a Check are BOTH always slot 0, so tapping the
+   obvious next option kept getting blocked as a false "collision").
+   There is no cross-screen guard of any kind anymore. The only remaining
+   protection is a one-shot per-render flag that stops a literal duplicate
+   event on the EXACT SAME button from double-firing -- it never delays a
+   tap on anything else, even by a millisecond, no matter how the previous
+   screen was tapped.
    Also covers Fix 3 (standard filename function) and Fix 6 (per-student
    isolation of Check progress). */
 const dom=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/",runScripts:"dangerously",pretendToBeVisual:true,
@@ -52,33 +57,27 @@ setTimeout(function(){
   ck(activeId()==="studentMenu","Test B: an immediate (0ms) tap on a DIFFERENT slot opens the student menu on the first try");
   ck(w.READER && w.READER.name==="Kiara Joachin","the correct student was selected, with no wait");
 
-  /* ---- Test C: rapidly mash the exact same on-screen slot several times.
-     Physically this means: tap class (slot 0), then several more taps
-     land -- because the screen already changed -- on the roster's own
-     slot 0 (Miriam Gomez). NONE of those extra taps may select anyone. ---- */
+  /* ---- Test C: rapidly mash the SAME button several times. A real tap
+     on a freshly-rendered button always fires (that's the whole point --
+     see Test B), but mashing the exact same element must still only ever
+     navigate ONCE, never double- or triple-fire from the extra events. ---- */
   w.READER=null; w.CURCLASS=null;
   w.go("s-pick"); w.buildClasses();
   var classBtns2=d.querySelectorAll("#class-list .btn");
-  click(classBtns2[0]); // First hour, slot 0 -- the one deliberate tap
-  ck(activeId()==="s-roster","(setup) the deliberate class tap reaches the roster");
+  click(classBtns2[0]); // First hour
+  ck(activeId()==="s-roster","(setup) the class tap reaches the roster");
   var rosterBtnsNow=d.querySelectorAll("#roster-list .btn");
   var mashCount=6, m;
-  for(m=0;m<mashCount;m++){ click(rosterBtnsNow[0]); } // rapid mashing, 0ms apart, same slot 0 (Miriam)
-  ck(activeId()==="s-roster","Test C: "+mashCount+" rapid mashes on the same slot never drill into the student menu");
-  ck(w.READER===null,"Test C: READER was not accidentally set to Miriam (or anyone) by the mashing");
+  for(m=0;m<mashCount;m++){ click(rosterBtnsNow[0]); } // rapid mashing, 0ms apart, same exact button (Miriam)
+  ck(activeId()==="studentMenu","Test C: mashing the same name button still reaches the student menu (the first tap fires)");
+  ck(w.READER && w.READER.name==="Miriam Gomez","Test C: the mashed name was selected once, correctly");
 
-  /* ---- and once the student stops mashing that exact slot and genuinely
-     decides they DO want that slot's name, it works -- this is the one
-     honest, disclosed edge: the exact same list position as the just-
-     tapped button needs the mashing to actually stop first. Any OTHER
-     slot never had this limitation (see Test B). ---- */
-  setTimeout(function(){
-    click(rosterBtnsNow[0]);
-    ck(activeId()==="studentMenu","a later, genuine, single tap on that same slot works once the mashing has actually stopped");
-    ck(w.READER && w.READER.name==="Miriam Gomez","and selects the right student");
+  /* ---- and a SEPARATE later tap on that same now-stale button still
+     never double-navigates, since its one-shot flag is already spent ---- */
+  click(rosterBtnsNow[0]);
+  ck(activeId()==="studentMenu","a further click on the same (now stale) button does nothing more");
 
-    finishFixSixChecks();
-  },150);
+  finishFixSixChecks();
 
   function finishFixSixChecks(){
     /* ---- Fix 6: Check progress is isolated per student ---- */

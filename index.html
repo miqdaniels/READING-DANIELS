@@ -221,9 +221,9 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <p class="crumb"><a onclick="go('s-roster')">Change reader</a></p>
       <h2 class="scr-title" id="sm-who"></h2>
       <p class="lede">What do you want to do?</p>
-      <button class="btn primary block" onclick="smTap(0,function(){go('diagLanding');})">Diagnostic Tools<span class="sub">Reading checks</span></button>
-      <button class="btn primary block" style="margin-top:10px" onclick="smTap(1,fluOpen)">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
-      <button class="btn primary block" style="margin-top:10px" onclick="smTap(2,function(){go('s-groups');})">Word Practice<span class="sub">Hear it, slide, read, record</span></button>
+      <button class="btn primary block" onclick="smTap(function(){go('diagLanding');})">Diagnostic Tools<span class="sub">Reading checks</span></button>
+      <button class="btn primary block" style="margin-top:10px" onclick="smTap(fluOpen)">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
+      <button class="btn primary block" style="margin-top:10px" onclick="smTap(function(){go('s-groups');})">Word Practice<span class="sub">Hear it, slide, read, record</span></button>
       <button class="btn block locked" style="margin-top:10px" disabled>Reading Comprehension<span class="sub">Coming soon</span></button>
       <div class="nav-row" style="margin-top:14px">
         <button class="btn" onclick="go('s-roster')">&#8592; Back</button>
@@ -1060,15 +1060,15 @@ function paintDiagLanding(){
       } else if(isDone){
         b.className="btn block done";
         b.innerHTML="&#10003;&nbsp; "+def.label+" — Completed"+'<span class="sub">'+def.sub+'</span>';
-        b.onclick=function(){ if(used||tapGuardBlocks(idx)){ return; } used=true; armTapGuard(idx); go(def.screen); };
+        b.onclick=function(){ if(used){ return; } used=true; go(def.screen); };
       } else if(!def.built){
         b.className="btn block";
         b.innerHTML=def.label+'<span class="sub">'+def.sub+'</span>';
-        b.onclick=function(){ if(used||tapGuardBlocks(idx)){ return; } used=true; armTapGuard(idx); var n=document.getElementById("diag-comingsoon-note"); if(n){ n.textContent="Coming soon!"; } };
+        b.onclick=function(){ if(used){ return; } used=true; var n=document.getElementById("diag-comingsoon-note"); if(n){ n.textContent="Coming soon!"; } };
       } else {
         b.className="btn block";
         b.innerHTML=def.label+'<span class="sub">'+def.sub+'</span>';
-        b.onclick=function(){ if(used||tapGuardBlocks(idx)){ return; } used=true; armTapGuard(idx); go(def.screen); };
+        b.onclick=function(){ if(used){ return; } used=true; go(def.screen); };
       }
       box.appendChild(b);
     })(CHECK_DEFS[i], i);
@@ -1553,36 +1553,6 @@ function fCanvasSteps(fname){
 }
 
 /* ---------- Routing ---------- */
-/* Tap-collision guard (replaces an earlier global cooldown, which blocked
-   a real fast tap on ANY button just because some OTHER button had
-   recently been tapped -- that was the actual bug: tap a class, then tap
-   your name right away, and the name tap got eaten because it landed
-   inside a timer that had nothing to do with that button).
-
-   The real, narrower problem: a screen change is instant, so if a student
-   taps the same SCREEN POSITION again right after (because they think
-   nothing happened, or they're mashing), that second physical tap lands on
-   whatever the NEW screen just rendered in that exact list slot -- e.g.
-   tapping "1st Hour" (slot 0) and then, milliseconds later, an extra tap
-   at that same spot lands on the roster's slot-0 name instead. There is no
-   way to tell that apart from a deliberate tap on slot 0 using events
-   alone -- both are "a click on slot 0, right after a nav." So this guards
-   ONLY that one exact slot, for a brief moment, and nothing else: any
-   button in a DIFFERENT slot -- which covers the vast majority of real
-   taps, including tapping a student's name immediately after picking a
-   class -- fires the instant it's tapped, every time, with no wait at all.
-   Repeated mashing on the same slot keeps re-arming the guard for that
-   slot only; stopping (or tapping elsewhere) lets it go again right away. */
-var tapGuardSlot=-1, tapGuardUntil=0;
-var TAP_GUARD_MS=120;
-function armTapGuard(slot){ tapGuardSlot=slot; tapGuardUntil=new Date().getTime()+TAP_GUARD_MS; }
-function tapGuardBlocks(slot){
-  if(slot!==tapGuardSlot){ return false; }
-  var now=new Date().getTime();
-  if(now>=tapGuardUntil){ return false; }
-  tapGuardUntil=now+TAP_GUARD_MS; // still being mashed at this exact slot -- keep blocking just this slot
-  return true;
-}
 function go(id){
   var s=document.getElementsByClassName("screen"), i, wasActive=null;
   for(i=0;i<s.length;i++){ if(/active/.test(s[i].className)){ wasActive=s[i].id; } s[i].className="screen"; }
@@ -1617,26 +1587,28 @@ function smEnter(){
   smUsed=false;
   var who=document.getElementById("sm-who"); if(who && READER){ who.textContent=READER.name; }
 }
-/* slot 0/1/2 = Diagnostic Tools/Fluency/Word Practice, in that fixed order.
-   smUsed is a one-shot per visit (blocks a second tap on ANY of these three
-   once one has fired); tapGuardBlocks additionally covers the one slot
-   that risks colliding with whatever screen was just left. */
-function smTap(slot,fn){ if(smUsed||tapGuardBlocks(slot)){ return; } smUsed=true; armTapGuard(slot); fn(); }
+/* One-shot per menu visit: blocks a second event on this exact set of
+   buttons (a literal duplicate touch/click for one physical tap), never a
+   real subsequent tap elsewhere -- and never delays the first tap even a
+   millisecond. (An earlier round tried also guarding "the same list slot
+   across screens" to stop a stray tap landing on a freshly-rendered
+   button -- that broke the completely normal fast path through this app's
+   own linear menus, since "tap the first/obvious option" on one screen
+   and then the first option on the NEXT screen is the expected way
+   through Diagnostic Tools -> a Check, and both are always slot 0. That
+   cross-screen guard is gone for good.) */
+function smTap(fn){ if(smUsed){ return; } smUsed=true; fn(); }
 
 /* ---------- Class + student pick ---------- */
-/* Each render also gets its OWN "used" flag, shared only by the buttons
-   THAT render creates (a closure variable, not a global), which blocks a
-   second event on that exact same button no matter how much time passes.
-   tapGuardBlocks(idx)/armTapGuard(idx) (defined above, under Routing) cover
-   the one narrower case that flag can't: a stray tap landing on a
-   DIFFERENT, freshly-rendered button that happens to sit in the same list
-   slot as whatever was just tapped. Every other slot is fully live from
-   the first frame -- no wait, no cooldown. */
+/* Each render gets its OWN one-shot "used" flag (a closure variable, not
+   a global), so a second event on THAT render's buttons never double-fires
+   no matter how much time passes -- but a tap on a freshly-rendered NEXT
+   screen, even the very next instant, always fires immediately. */
 function buildClasses(){
   var box=document.getElementById("class-list"); box.innerHTML="";
   var used=false;
   var i; for(i=0;i<CLASSES.length;i++){
-    (function(cls,idx){ var b=document.createElement("button"); b.className="btn block"; b.textContent=cls.label; b.onclick=function(){ if(used||tapGuardBlocks(idx)){ return; } used=true; armTapGuard(idx); CURCLASS=cls; go("s-roster"); }; box.appendChild(b); })(CLASSES[i], i);
+    (function(cls){ var b=document.createElement("button"); b.className="btn block"; b.textContent=cls.label; b.onclick=function(){ if(used){ return; } used=true; CURCLASS=cls; go("s-roster"); }; box.appendChild(b); })(CLASSES[i]);
   }
 }
 function buildRoster(){
@@ -1645,7 +1617,7 @@ function buildRoster(){
   document.getElementById("roster-title").textContent=CURCLASS.label;
   var list=CURCLASS.students, i, used=false;
   for(i=0;i<list.length;i++){
-    (function(stu,idx){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ if(used||tapGuardBlocks(idx)){ return; } used=true; armTapGuard(idx); READER=stu; Sync.pull(stu.id); go("studentMenu"); }; box.appendChild(b); })(list[i], i);
+    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ if(used){ return; } used=true; READER=stu; Sync.pull(stu.id); go("studentMenu"); }; box.appendChild(b); })(list[i]);
   }
 }
 

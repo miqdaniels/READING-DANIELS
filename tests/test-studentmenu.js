@@ -64,10 +64,10 @@ function menuBtn(label){
   for(i=0;i<btns.length;i++){ if(btns[i].textContent.indexOf(label)===0) return btns[i]; }
   return null;
 }
-/* navGuard() ignores a click that lands within 400ms of the last screen
-   change (see index.html) -- a real fix for rapid mistaken taps drilling
-   through several screens. Steps that click a guarded button right after a
-   go() must wait past that window, same as a real person would. */
+/* No timed guard exists anymore -- every tap fires the instant it lands,
+   on the very first try, even the first tap on a screen that just
+   rendered. These waits are just realistic pacing between test steps, not
+   clearing any cooldown. */
 var GUARD_CLEAR=460;
 
 setTimeout(function(){
@@ -83,20 +83,34 @@ setTimeout(function(){
     ck(activeId()===existingScreens[i], "existing screen still opens: "+existingScreens[i]);
   }
 
-  /* ---- regression: rapid multi-tap must not cascade through screens ----
-     Reported glitch: tapping "First Hour" more than once (e.g. because
-     the screen felt slow to respond) landed a stray extra tap on whatever
-     freshly-rendered button now sits in that same spot, drilling straight
-     into a student's fluency passage without ever choosing a name. */
+  /* ---- an immediate second tap, on a DIFFERENT freshly-rendered button,
+     always fires -- this app's own menus are linear (Diagnostic Tools ->
+     a Check, both always "the first option"), and a cross-screen "same
+     slot" guard used to mistake that completely normal fast path for an
+     accidental collision, adding real, reported delay. There is no
+     cross-screen guard anymore: only a literal duplicate event on the
+     EXACT SAME button is ever blocked (see the "double-fire" test below),
+     never a genuine tap on the next screen. */
   w.READER=null;
   w.go("s-pick"); w.buildClasses();
   var classBtns=d.querySelectorAll("#class-list .btn");
-  click(classBtns[0]); // "First hour" -- the deliberate tap
-  ck(activeId()==="s-roster","rapid-tap regression: the deliberate tap reaches s-roster");
+  click(classBtns[0]); // "First hour"
+  ck(activeId()==="s-roster","the class tap reaches s-roster");
   var rosterBtnsNow=d.querySelectorAll("#roster-list .btn");
-  click(rosterBtnsNow[0]); // an immediate stray tap landing on the freshly-rendered first name
-  ck(activeId()==="s-roster","a stray tap immediately after the class pick is ignored, not drilled into studentMenu");
-  ck(w.READER===null,"READER was not accidentally set by the stray tap");
+  click(rosterBtnsNow[0]); // immediately tapping the roster's first name (Miriam Gomez)
+  ck(activeId()==="studentMenu","an immediate tap on the freshly-rendered roster fires right away, no wait");
+  ck(w.READER && w.READER.name==="Miriam Gomez","and selects the right student");
+
+  /* ---- but a literal duplicate event for the SAME tap on the SAME
+     button never double-fires, no matter how much time passes ---- */
+  w.READER=null;
+  w.go("s-pick"); w.buildClasses();
+  var classBtns2=d.querySelectorAll("#class-list .btn");
+  click(classBtns2[0]);
+  var rosterBtnsNow2=d.querySelectorAll("#roster-list .btn");
+  click(rosterBtnsNow2[0]); click(rosterBtnsNow2[0]); click(rosterBtnsNow2[0]);
+  ck(activeId()==="studentMenu","three clicks on the exact same name button still only navigate once");
+  ck(w.READER && w.READER.name==="Miriam Gomez","READER is set correctly, not corrupted by the extra duplicate events");
 
   /* ---- tapping a student's name (for real, past the guard window) opens studentMenu, not straight into an activity ---- */
   w.READER=null;
