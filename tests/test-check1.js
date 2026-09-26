@@ -60,27 +60,27 @@ setTimeout(function(){
     for(i=0;i<51;i++){ w.c1Next(); }
     ck(d.getElementById("c1-progress").textContent==="Letter 52 of 52","reached the 52nd and last letter");
     ck(d.getElementById("c1-current").textContent===w.C1_ALL[51],"last letter shown is "+w.C1_ALL[51]);
-    ck(d.getElementById("c1-next").textContent.indexOf("Finish")===0,"button reads Finish on the last letter");
+    ck(d.getElementById("c1-next-lbl").textContent==="Finish","button reads Finish on the last letter");
 
     w.c1Next(); // taps Finish -> stops the ONE continuous recording
     ck(w.recording===false,"recording has stopped after Finish");
 
     /* ---- review step: nothing is downloaded/saved until Submit ---- */
     ck(w.__downloads.length===0,"nothing downloads yet -- the student reviews first (got "+w.__downloads.length+")");
-    ck(d.getElementById("c1-review").innerHTML.indexOf("Listen to Recording")>-1,"a Listen control is offered before saving");
-    ck(d.getElementById("c1-review").innerHTML.indexOf("Record Again")>-1,"a Record Again control is offered before saving");
-    ck(d.getElementById("c1-review").innerHTML.indexOf("Submit Recording")>-1,"a Submit Recording control is offered");
+    ck(d.getElementById("c1-review").innerHTML.indexOf("Play back")>-1,"a Play back (Listen) control is offered before saving");
+    ck(d.getElementById("c1-review").innerHTML.indexOf("Redo")>-1,"a Redo (Record Again) control is offered before saving");
+    ck(d.getElementById("c1-review").innerHTML.indexOf("Save")>-1,"a Save (Submit) control is offered");
     ck(w.C1Attempts.forStudent(w.READER.id).length===0,"no attempt is saved yet, before Submit is tapped");
 
     /* ---- Fix 4: a Stop control appears during playback and works ---- */
     var listenBtn=d.getElementById("c1-listen-btn");
-    ck(/Listen to Recording/.test(listenBtn.textContent),"starts out as Listen to Recording");
-    w.c1ToggleListen(); // tap Listen
+    ck(/Play back/.test(listenBtn.textContent),"starts out as Play back");
+    w.c1ToggleListen(); // tap Play back
     ck(w.c1Playing===true,"playback is considered active");
     ck(/Stop/.test(d.getElementById("c1-listen-btn").textContent),"button now offers Stop");
     w.c1ToggleListen(); // tap Stop, part-way through -- doesn't need to hear the whole thing
     ck(w.c1Playing===false,"playback stopped");
-    ck(/Listen to Recording/.test(d.getElementById("c1-listen-btn").textContent),"button returns to Listen to Recording, ready to play again");
+    ck(/Play back/.test(d.getElementById("c1-listen-btn").textContent),"button returns to Play back, ready to play again");
     ck(activeId()==="check1","stopping playback does not navigate away -- still reviewing");
 
     w.c1Finish(); // taps "Submit Recording"

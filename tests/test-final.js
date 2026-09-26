@@ -62,7 +62,7 @@ setTimeout(function(){
     // one more advance finishes
     w.fAdvance();
     var after=d.getElementById("f-after").innerHTML;
-    ck(/Save my file/.test(after),"reached save panel after finishing tap read");
+    ck(/Save/.test(after),"reached save panel after finishing tap read");
 
     // PACER MODE: flip student to pacer, re-enter
     w.setPacer(w.READER.id,true);

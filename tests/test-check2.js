@@ -196,14 +196,14 @@ setTimeout(function(){
 
   function finishReviewFlow(){
     /* ---- review: Watch/Stop + Record Again + Submit; never marks complete on empty blob ---- */
-    ck(d.getElementById("c2-review").innerHTML.indexOf("Watch Recording")>-1,"a Watch Recording control is offered");
-    ck(d.getElementById("c2-review").innerHTML.indexOf("Record Again")>-1,"a Record Again control is offered");
-    ck(d.getElementById("c2-review").innerHTML.indexOf("Submit Recording")>-1,"a Submit Recording control is offered");
+    ck(d.getElementById("c2-review").innerHTML.indexOf("Play back")>-1,"a Play back (Watch Recording) control is offered");
+    ck(d.getElementById("c2-review").innerHTML.indexOf("Redo")>-1,"a Redo (Record Again) control is offered");
+    ck(d.getElementById("c2-review").innerHTML.indexOf("Save")>-1,"a Save (Submit) control is offered");
 
     w.c2ToggleListen();
     ck(/Stop/.test(d.getElementById("c2-listen-btn").textContent),"Stop control appears once playback starts");
     w.c2ToggleListen();
-    ck(/Watch Recording/.test(d.getElementById("c2-listen-btn").textContent),"Stop returns to Watch Recording, ready to play again");
+    ck(/Play back/.test(d.getElementById("c2-listen-btn").textContent),"Stop returns to Play back, ready to play again");
 
     /* ---- guard: an empty/failed blob must never be submittable ---- */
     var realBlob=w.c2Blob;

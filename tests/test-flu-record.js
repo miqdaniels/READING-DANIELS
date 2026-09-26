@@ -60,16 +60,17 @@ setTimeout(function(){
   w.fluToggleRec();
   setTimeout(function(){
     ck(w.recording===true,"recording is active after tapping Record");
-    ck(d.getElementById("flu-rec-lbl").textContent==="Stop","button now says Stop");
-    ck(d.getElementById("flu-rec").className.indexOf("rec")>-1,"button shows the recording style");
+    ck(d.getElementById("flu-done").style.display!=="none","Done button appears once recording starts (no Pause here)");
+    ck(d.getElementById("flu-rec").className.indexOf("rec")>-1,"button shows the pulsing recording style");
+    ck(d.getElementById("flu-rec").disabled===true,"Record itself is disabled while active -- Done is the only tap target");
     ck(/^\d:\d\d$/.test(d.getElementById("flu-timer").textContent),"timer is counting down once recording actually started (got "+d.getElementById("flu-timer").textContent+")");
 
-    /* ---- early Stop: tapping again ends it before 60s ---- */
+    /* ---- early Done: tapping again ends it before 60s ---- */
     w.fluToggleRec();
-    ck(w.recording===false,"an early Stop tap ends the recording");
+    ck(w.recording===false,"an early Done tap ends the recording");
     ck(w.fluBlob!==null,"a blob was captured from the early stop");
-    ck(d.getElementById("flu-rec").disabled===true,"button is disabled once the recording has ended (early stop)");
-    ck(d.getElementById("flu-rec-lbl").textContent==="Recorded","label reflects the locked state");
+    ck(d.getElementById("flu-rec").disabled===true,"Record button is disabled once the recording has ended (early stop)");
+    ck(d.getElementById("flu-done").style.display==="none","Done is hidden again once the recording has ended");
 
     /* ---- fresh attempt: let the timer run all the way to auto-stop ---- */
     w.fluOpen();
@@ -77,13 +78,13 @@ setTimeout(function(){
     w.fluToggleRec();
     setTimeout(function(){
       ck(w.recording===true,"recording started for the auto-stop scenario");
-      /* let the fast-forwarded timer run out on its own -- no manual Stop tap */
+      /* let the fast-forwarded timer run out on its own -- no manual Done tap */
       setTimeout(function(){
         ck(w.recording===false,"recording stopped on its own once the timer reached 0:00 -- no tap needed");
         ck(w.fluBlob!==null,"a blob was captured from the automatic stop");
         ck(d.getElementById("flu-timer").textContent==="0:00","timer display reached 0:00");
         ck(d.getElementById("flu-rec").disabled===true,"button is disabled after the automatic stop");
-        ck(d.getElementById("flu-rec-lbl").textContent==="Recorded","label reflects the locked state after auto-stop");
+        ck(d.getElementById("flu-done").style.display==="none","Done is hidden after the automatic stop too");
 
         /* ---- mic blocked: friendly message, button stays usable ---- */
         const dom2=makeDom(true);

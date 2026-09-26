@@ -99,6 +99,30 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .dir-listen-btn.playing{border-color:var(--accent);background:var(--good-bg)}
 .dir-listen-btn.playing .dir-listen-icon{animation:pulse 1s infinite}
 .dir-listen-btn.playing .dir-listen-label{color:var(--good)}
+/* Big icon+word student buttons (Record/Next/Play back/Save/Redo/Done).
+   Separate from .rec-btn/.play-btn on purpose -- those classes are still
+   used by the teacher recorder screens (s-teach/s-teachC2/s-teachDir),
+   which this update does not touch. */
+.icon-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:flex-start}
+.icon-btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px;min-width:84px;border:none;border-radius:16px;font:inherit;font-weight:700;color:#fff;cursor:pointer;touch-action:manipulation;padding:10px 16px}
+.icon-btn .icon-glyph{font-size:26px;line-height:1}
+.icon-btn .icon-label{font-size:13px}
+.icon-btn[disabled]{opacity:.45;cursor:default}
+.icon-btn-record{background:var(--retry);min-height:90px;min-width:90px}
+.icon-btn-record .icon-glyph{font-size:36px}
+.icon-btn-record.rec{animation:recGlow 1.5s ease-in-out infinite}
+@keyframes recGlow{0%,100%{box-shadow:0 0 0 0 rgba(180,83,9,.45)}50%{box-shadow:0 0 0 10px rgba(180,83,9,0)}}
+.icon-btn-next{background:var(--good)}
+.icon-btn-listen{background:var(--accent)}
+.icon-btn-save{background:var(--good)}
+.icon-btn-redo{background:var(--ink-soft)}
+.icon-btn-done{background:var(--good)}
+.icon-btn-pause{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+.rec-status{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--retry);margin:0 0 8px;min-height:20px}
+.rec-status .rec-status-dot{width:10px;height:10px;border-radius:50%;background:var(--retry);display:inline-block;animation:pulse 1s infinite}
+.rec-status.paused{color:var(--ink-soft)}
+.rec-status.paused .rec-status-dot{background:var(--ink-soft);animation:none}
+.rec-status:empty{display:none}
 .state-line{font-size:14px;margin:14px 0 0;min-height:20px}
 .state-line.saved{color:var(--good)}.state-line.none{color:var(--ink-soft)}.state-line.err{color:var(--retry)}
 .miss-note{font-size:13px;color:var(--retry);margin:8px 0 0;min-height:16px}
@@ -333,9 +357,10 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <p class="mini-note" id="c1-mic-note">Your browser will ask for permission to use the microphone. Tap Allow so your reading can be recorded.</p>
       <div class="c1-letter" id="c1-current" style="display:none">&nbsp;</div>
       <p class="mini-note" id="c1-progress"></p>
-      <div class="rec-row">
-        <button class="rec-btn" id="c1-start" onclick="c1Start()"><span class="rec-dot"></span><span id="c1-start-lbl">&#127908; Start Recording</span></button>
-        <button class="btn primary" id="c1-next" onclick="c1Next()" style="display:none">Next letter &#8594;</button>
+      <p class="rec-status" id="c1-rec-status"></p>
+      <div class="icon-row">
+        <button class="icon-btn icon-btn-record" id="c1-start" onclick="c1Start()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="c1-start-lbl">Record</span></button>
+        <button class="icon-btn icon-btn-next" id="c1-next" onclick="c1Next()" style="display:none"><span class="icon-glyph">&#8594;</span><span class="icon-label" id="c1-next-lbl">Next</span></button>
       </div>
       <p class="state-line none" id="c1-state"></p>
       <div id="c1-review"></div>
@@ -390,7 +415,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
         <video id="c2-preview" muted autoplay playsinline style="width:100%;max-width:360px;border-radius:12px;background:#000;display:none"></video>
         <div class="rec-row" style="margin-top:14px">
           <button class="rec-btn" id="c2-setup-btn" onclick="c2SetupMedia()"><span class="rec-dot"></span><span id="c2-setup-lbl">Turn on camera</span></button>
-          <button class="btn primary" id="c2-start-real" onclick="c2StartCheck()" style="display:none">Start Check 2</button>
+          <button class="icon-btn icon-btn-record" id="c2-start-real" onclick="c2StartCheck()" style="display:none"><span class="icon-glyph">&#127908;</span><span class="icon-label">Record</span></button>
         </div>
         <p class="state-line none" id="c2-setup-state"></p>
       </div>
@@ -398,14 +423,15 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <div id="c2-assess" style="display:none">
         <div class="flu-timer-row"><span class="flu-timer" id="c2-timer">5:00</span></div>
         <p class="mini-note" id="c2-warn" style="display:none;color:var(--retry)">30 seconds remaining. Keep going.</p>
+        <p class="rec-status" id="c2-rec-status"><span class="rec-status-dot"></span>Recording</p>
         <p class="step-eyebrow" id="c2-section-label"></p>
         <div class="c1-letter" id="c2-current">&nbsp;</div>
         <p class="mini-note" id="c2-progress"></p>
         <div class="rec-row" id="c2-prompt-row" style="display:none">
           <button class="play-btn" onclick="c2ReplayPrompt()">&#9654;&nbsp; Hear it again</button>
         </div>
-        <div class="rec-row">
-          <button class="btn primary" id="c2-next" onclick="c2NextTap()">Next &#8594;</button>
+        <div class="icon-row">
+          <button class="icon-btn icon-btn-next" id="c2-next" onclick="c2NextTap()"><span class="icon-glyph">&#8594;</span><span class="icon-label">Next</span></button>
         </div>
         <p class="state-line none" id="c2-state"></p>
       </div>
@@ -415,6 +441,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
            new section is never painted (so its prompt never plays) until
            "I'm Ready" is tapped. -->
       <div id="c2-transition" style="display:none">
+        <p class="rec-status"><span class="rec-status-dot"></span>Recording (still going)</p>
         <div class="lede" id="c2-trans-text" style="white-space:pre-line"></div>
         <div class="dir-listen-wrap" id="dl-dir_check2_before2b" style="display:none">
           <button class="dir-listen-btn" id="dl-dir_check2_before2b-btn" onclick="dirToggle('dir_check2_before2b')">
@@ -520,6 +547,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     <h2 class="scr-title" id="f-title"></h2>
     <p class="mini-note">Read all of these out loud, one time, in one recording. Follow the yellow phrase as you go. This is the file you turn in.</p>
     <div class="card" id="f-list"></div>
+    <p class="rec-status" id="f-rec-status"></p>
     <div class="hear-line" id="f-controls" style="margin-top:14px"></div>
     <p class="state-line" id="f-state"></p>
     <div id="f-after"></div>
@@ -688,13 +716,15 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     <div class="flu-timer-row">
       <span class="flu-timer" id="flu-timer">1:00</span>
     </div>
-    <div class="rec-row">
-      <button class="rec-btn" id="flu-rec" onclick="fluToggleRec()"><span class="rec-dot"></span><span id="flu-rec-lbl">Record</span></button>
-      <button class="play-btn" id="flu-play" onclick="fluPlayMine()" disabled>&#9654;&nbsp; Play mine</button>
+    <p class="rec-status" id="flu-rec-status"></p>
+    <div class="icon-row">
+      <button class="icon-btn icon-btn-record" id="flu-rec" onclick="fluToggleRec()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="flu-rec-lbl">Record</span></button>
+      <button class="icon-btn icon-btn-done" id="flu-done" onclick="fluToggleRec()" style="display:none"><span class="icon-glyph">&#9989;</span><span class="icon-label">Done</span></button>
+      <button class="icon-btn icon-btn-listen" id="flu-play" onclick="fluPlayMine()" disabled><span class="icon-glyph">&#9654;</span><span class="icon-label">Play back</span></button>
     </div>
     <p class="state-line none" id="flu-state"></p>
-    <div class="nav-row" style="margin-top:14px">
-      <button class="btn primary" onclick="fluSubmit()">Submit &#8594;</button>
+    <div class="icon-row" style="margin-top:14px">
+      <button class="icon-btn icon-btn-save" onclick="fluSubmit()"><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>
     </div>
   </section>
 
@@ -713,13 +743,15 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <ul id="ret-frames"></ul>
     </div>
     <div class="flu-timer-row"><span class="flu-timer" id="ret-timer">1:00</span></div>
-    <div class="rec-row">
-      <button class="rec-btn" id="ret-rec" onclick="retToggleRec()"><span class="rec-dot"></span><span id="ret-rec-lbl">Record</span></button>
-      <button class="play-btn" id="ret-play" onclick="retPlayMine()" disabled>&#9654;&nbsp; Play mine</button>
+    <p class="rec-status" id="ret-rec-status"></p>
+    <div class="icon-row">
+      <button class="icon-btn icon-btn-record" id="ret-rec" onclick="retToggleRec()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="ret-rec-lbl">Record</span></button>
+      <button class="icon-btn icon-btn-done" id="ret-done" onclick="retToggleRec()" style="display:none"><span class="icon-glyph">&#9989;</span><span class="icon-label">Done</span></button>
+      <button class="icon-btn icon-btn-listen" id="ret-play" onclick="retPlayMine()" disabled><span class="icon-glyph">&#9654;</span><span class="icon-label">Play back</span></button>
     </div>
     <p class="state-line none" id="ret-state"></p>
-    <div class="nav-row" style="margin-top:14px">
-      <button class="btn primary" id="ret-submit" onclick="retSubmit()" disabled>Submit &#8594;</button>
+    <div class="icon-row" style="margin-top:14px">
+      <button class="icon-btn icon-btn-save" id="ret-submit" onclick="retSubmit()" disabled><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>
     </div>
   </section>
 
@@ -1709,17 +1741,24 @@ function fEnter(){
 }
 function fRenderControls(state){
   var box=document.getElementById("f-controls"); if(!box){ return; }
+  var rs=document.getElementById("f-rec-status");
   if(state==="idle"){
-    box.innerHTML='<button class="btn primary" onclick="fStart()">&#9679;&nbsp; Start recording</button>';
+    if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
+    box.innerHTML='<div class="icon-row"><button class="icon-btn icon-btn-record" onclick="fStart()"><span class="icon-glyph">&#127908;</span><span class="icon-label">Record</span></button></div>';
     return;
   }
-  var html="";
+  if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
+  var html='<div class="icon-row">';
   if(fMode==="tap"){
-    html+='<button class="btn primary" id="f-next" onclick="fAdvance()">Next phrase &#9654;</button>';
+    html+='<button class="icon-btn icon-btn-next" id="f-next" onclick="fAdvance()"><span class="icon-glyph">&#8594;</span><span class="icon-label" id="f-next-lbl">Next</span></button>';
   } else {
-    html+='<button class="btn" id="f-pause" onclick="fTogglePause()">&#10073;&#10073;&nbsp; Pause</button>';
+    /* This Pause only pauses the phrase pacer, not the recording -- the
+       mic keeps running either way, so it stays (Word Practice tools may
+       pause), just re-skinned to match the new icon buttons. */
+    html+='<button class="icon-btn icon-btn-pause" id="f-pause" onclick="fTogglePause()"><span class="icon-glyph" id="f-pause-glyph">&#10073;&#10073;</span><span class="icon-label" id="f-pause-lbl">Pause</span></button>';
   }
-  html+='<button class="btn danger" onclick="fStop()">&#9632;&nbsp; Stop &amp; finish</button>';
+  html+='<button class="icon-btn icon-btn-done" onclick="fStop()"><span class="icon-glyph">&#9989;</span><span class="icon-label">Done</span></button>';
+  html+='</div>';
   box.innerHTML=html;
 }
 function fStart(){
@@ -1753,7 +1792,8 @@ function fAdvance(){
   var el=document.getElementById(FSEQ[fp]);
   if(el){ el.className="f-chunk f-hl"; fScrollTo(el); }
   if(fMode==="tap" && fp===FSEQ.length-1){
-    var nx=document.getElementById("f-next"); if(nx){ nx.innerHTML="Done &#10003;"; }
+    var nx=document.getElementById("f-next");
+    if(nx){ nx.className="icon-btn icon-btn-done"; nx.innerHTML='<span class="icon-glyph">&#9989;</span><span class="icon-label">Done</span>'; }
   }
   if(fMode==="pacer" && !fPaused){ scheduleFPacer(); }
 }
@@ -1766,21 +1806,21 @@ function scheduleFPacer(){
 }
 function fTogglePause(){
   fPaused=!fPaused;
-  var b=document.getElementById("f-pause");
-  if(fPaused){ clearFPacer(); if(b){ b.innerHTML="&#9654;&nbsp; Resume"; } }
-  else { if(b){ b.innerHTML="&#10073;&#10073;&nbsp; Pause"; } scheduleFPacer(); }
+  var glyph=document.getElementById("f-pause-glyph"), lbl=document.getElementById("f-pause-lbl");
+  if(fPaused){ clearFPacer(); if(glyph){ glyph.innerHTML="&#9654;"; } if(lbl){ lbl.textContent="Resume"; } }
+  else { if(glyph){ glyph.innerHTML="&#10073;&#10073;"; } if(lbl){ lbl.textContent="Pause"; } scheduleFPacer(); }
 }
 function fStop(){ clearFPacer(); if(fRec&&fRec.state!=="inactive"){ fRec.stop(); } }
 
 function fPlay(){ if(fBlob){ playBlob(fBlob); } }
 function fShowAfter(){
   document.getElementById("f-after").innerHTML=
-     '<div class="hear-line" style="margin-top:14px">'
-    +'<button class="btn" onclick="fPlay()">&#9654;&nbsp; Listen to my reading</button>'
-    +'<button class="btn" onclick="fStart()">&#8635;&nbsp; Record it again</button>'
+     '<div class="icon-row" style="margin-top:14px">'
+    +'<button class="icon-btn icon-btn-listen" onclick="fPlay()"><span class="icon-glyph">&#9654;</span><span class="icon-label">Play back</span></button>'
+    +'<button class="icon-btn icon-btn-redo" onclick="fStart()"><span class="icon-glyph">&#128260;</span><span class="icon-label">Redo</span></button>'
     +'</div>'
-    +'<div class="hear-line" style="margin-top:10px">'
-    +'<button class="btn primary" onclick="fSave()">&#8681;&nbsp; Save my file</button>'
+    +'<div class="icon-row" style="margin-top:10px">'
+    +'<button class="icon-btn icon-btn-save" onclick="fSave()"><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>'
     +'</div>';
 }
 function fFileBase(){
@@ -2006,9 +2046,11 @@ function rRenderStage(){
       +'<div class="card">'
       +chip+sent+pacer
       +'<p class="mini-note">Last read: slide, read it out loud, and record your best one.</p>'
-      +'<div class="rec-row">'
-      +'<button class="rec-btn" id="r-rec" onclick="rToggleRec()"><span class="rec-dot"></span><span id="r-rec-label">Read it &mdash; record</span></button>'
-      +'<button class="play-btn" id="r-play" onclick="rPlayMine()" disabled>&#9654;&nbsp; Play mine</button>'
+      +'<p class="rec-status" id="r-rec-status"></p>'
+      +'<div class="icon-row">'
+      +'<button class="icon-btn icon-btn-record" id="r-rec" onclick="rToggleRec()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="r-rec-label">Record</span></button>'
+      +'<button class="icon-btn icon-btn-done" id="r-done" onclick="rToggleRec()" style="display:none"><span class="icon-glyph">&#9989;</span><span class="icon-label">Done</span></button>'
+      +'<button class="icon-btn icon-btn-listen" id="r-play" onclick="rPlayMine()" disabled><span class="icon-glyph">&#9654;</span><span class="icon-label">Play back</span></button>'
       +'</div>'
       +'<p class="state-line none" id="r-state"></p>'
       +'<div id="r-save"></div>'
@@ -2102,24 +2144,33 @@ function setupPacer(){
 }
 
 /* Record the final read */
+/* No Pause here either -- Record starts, Done (shown only while recording)
+   ends it early, or it just keeps going until Done is tapped. */
 function rToggleRec(){
-  var btn=document.getElementById("r-rec"), lbl=document.getElementById("r-rec-label"), st=document.getElementById("r-state");
-  if(recording&&activeCtx==="read"){ stopRec(); btn.className="rec-btn"; lbl.textContent="Read it \u2014 record"; return; }
+  var btn=document.getElementById("r-rec"), st=document.getElementById("r-state");
+  var doneBtn=document.getElementById("r-done"), rs=document.getElementById("r-rec-status");
+  if(recording&&activeCtx==="read"){ stopRec(); return; }
   activeCtx="read"; st.className="state-line none"; st.textContent="Recording\u2026";
   startRec(function(blob){
     rRecBlob=blob; rRecorded[rIndex]=true;
     var pb=document.getElementById("r-play"); if(pb) pb.disabled=false;
+    btn.className="icon-btn icon-btn-record"; btn.disabled=true; btn.style.display="none";
+    var db=document.getElementById("r-done"); if(db){ db.style.display="none"; }
+    var rs2=document.getElementById("r-rec-status"); if(rs2){ rs2.className="rec-status"; rs2.innerHTML=""; }
     st.className="state-line saved"; st.textContent="\u2713 Got it. Play it back, then save it to turn in.";
     showSaveButton();
-  }).then(function(){ btn.className="rec-btn rec"; lbl.textContent="Stop"; })
-    .catch(function(err){ st.className="state-line err"; st.textContent=micErrorText(err); });
+  }).then(function(){
+    btn.className="icon-btn icon-btn-record rec"; btn.disabled=true;
+    if(doneBtn){ doneBtn.style.display="inline-flex"; }
+    if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
+  }).catch(function(err){ st.className="state-line err"; st.textContent=micErrorText(err); });
 }
 function rPlayMine(){ if(rRecBlob) playBlob(rRecBlob); }
 function showSaveButton(){
   var host=document.getElementById("r-save"); if(!host) return;
-  host.innerHTML='<div class="hear-line" style="margin-top:16px"><button class="btn primary" onclick="rSaveForCanvas()">&#8681;&nbsp; Save my reading</button></div>'
+  host.innerHTML='<div class="icon-row" style="margin-top:16px"><button class="icon-btn icon-btn-save" onclick="rSaveForCanvas()"><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button></div>'
     +'<div class="canvas-steps"><h4>Turn it in on Canvas</h4><ol>'
-    +'<li>Tap <strong>Save my reading</strong> &mdash; a sound file downloads.</li>'
+    +'<li>Tap <strong>Save</strong> &mdash; a sound file downloads.</li>'
     +'<li>Open today&rsquo;s assignment in Canvas.</li>'
     +'<li>Choose <strong>Upload</strong> (not Record) and pick the file that just downloaded, then submit.</li>'
     +'</ol></div>';
@@ -2402,28 +2453,33 @@ function fluEnter(){
   var html=""; for(i=0;i<p.paragraphs.length;i++){ html+="<p>"+escapeHtml(p.paragraphs[i].replace(/^\s+|\s+$/g,""))+"</p>"; }
   document.getElementById("flu-text").innerHTML=html;
   document.getElementById("flu-timer").textContent=fluFmtTime(60);
-  var rb=document.getElementById("flu-rec"); if(rb){ rb.className="rec-btn"; rb.disabled=false; }
+  var rb=document.getElementById("flu-rec"); if(rb){ rb.className="icon-btn icon-btn-record"; rb.disabled=false; rb.style.display="inline-flex"; }
   var lbl=document.getElementById("flu-rec-lbl"); if(lbl){ lbl.textContent="Record"; }
+  var db=document.getElementById("flu-done"); if(db){ db.style.display="none"; }
   var pb=document.getElementById("flu-play"); if(pb){ pb.disabled=true; }
+  var rs=document.getElementById("flu-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("flu-state"); if(st){ st.className="state-line none"; st.textContent=""; }
   dirPaintButton("dir_fluency");
 }
-/* One button: tap to Record, which starts the mic AND the 1:00 timer
-   together (the timer starts on MediaRecorder's own onstart, not the tap,
-   so a slow mic never eats the first second). Tap again to Stop early, or
-   let the timer run out -- either way the recording ends and the button
-   locks so it can't be tapped again. A mic error never locks the button. */
+/* Record starts the mic AND the 1:00 timer together (the timer starts on
+   MediaRecorder's own onstart, not the tap, so a slow mic never eats the
+   first second); while recording, Record is replaced by Done -- tapping
+   Done ends the take early, or the timer runs out on its own. No Pause
+   anywhere here: once started, it runs straight through to Done or the
+   timer, same as a Reading Check. A mic error never locks the button. */
 function fluToggleRec(){
   var btn=document.getElementById("flu-rec"), lbl=document.getElementById("flu-rec-lbl"), st=document.getElementById("flu-state");
   if(recording&&activeCtx==="flu"){ stopRec(); return; }
   activeCtx="flu"; st.className="state-line none"; st.textContent="Starting the microphone…";
   startRec(function(blob){
-    /* recording ended -- by the timer or an early Stop tap */
+    /* recording ended -- by the timer or a Done tap */
     fluClearTimer();
     fluBlob=blob;
     var pb=document.getElementById("flu-play"); if(pb){ pb.disabled=false; }
-    btn.className="rec-btn"; btn.disabled=true; lbl.textContent="Recorded";
-    st.className="state-line saved"; st.textContent="✓ Got it. Play it back, then Submit.";
+    btn.className="icon-btn icon-btn-record"; btn.disabled=true; btn.style.display="none";
+    var db=document.getElementById("flu-done"); if(db){ db.style.display="none"; }
+    var rs=document.getElementById("flu-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
+    st.className="state-line saved"; st.textContent="✓ Got it. Play it back, then Save.";
     if(fluPendingSubmit){ fluPendingSubmit=false; fluFinishSubmit(); }
   },function(){
     /* the mic actually started -- now start the 1:00 countdown */
@@ -2440,8 +2496,10 @@ function fluToggleRec(){
       }
       document.getElementById("flu-timer").textContent=fluFmtTime(fluTimerLeft);
     },1000);
-    btn.className="rec-btn rec"; lbl.textContent="Stop";
-    st.className="state-line none"; st.textContent="🔴 Recording. Read the passage out loud.";
+    btn.className="icon-btn icon-btn-record rec"; btn.disabled=true;
+    var db2=document.getElementById("flu-done"); if(db2){ db2.style.display="inline-flex"; }
+    var rs2=document.getElementById("flu-rec-status"); if(rs2){ rs2.className="rec-status"; rs2.innerHTML='<span class="rec-status-dot"></span>Recording'; }
+    st.className="state-line none"; st.textContent="Read the passage out loud.";
   }).catch(function(err){
     fluClearTimer();
     btn.className="rec-btn"; btn.disabled=false; lbl.textContent="Record";
@@ -2504,13 +2562,18 @@ function retEnter(){
   var html="", i; for(i=0;i<p.frames.length;i++){ html+="<li>"+escapeHtml(p.frames[i])+"</li>"; }
   document.getElementById("ret-frames").innerHTML=html;
   document.getElementById("ret-timer").textContent=fluFmtTime(60);
-  var rb=document.getElementById("ret-rec"); if(rb){ rb.className="rec-btn"; rb.style.display="inline-flex"; }
+  var rb=document.getElementById("ret-rec"); if(rb){ rb.className="icon-btn icon-btn-record"; rb.disabled=false; rb.style.display="inline-flex"; }
   var lbl=document.getElementById("ret-rec-lbl"); if(lbl){ lbl.textContent="Record"; }
+  var db=document.getElementById("ret-done"); if(db){ db.style.display="none"; }
   var pb=document.getElementById("ret-play"); if(pb){ pb.disabled=true; pb.style.display="inline-flex"; }
-  var sub=document.getElementById("ret-submit"); if(sub){ sub.disabled=true; sub.style.display="inline-block"; }
+  var sub=document.getElementById("ret-submit"); if(sub){ sub.disabled=true; sub.style.display="inline-flex"; }
+  var rs=document.getElementById("ret-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("ret-state"); if(st){ st.className="state-line none"; st.innerHTML=""; }
   dirPaintButton("dir_retell");
 }
+/* Same no-Pause rule as the passage screen: Record starts the mic and the
+   1:00 timer together; while recording, Record is replaced by Done, which
+   ends the take early (or the timer ends it on its own). */
 function retToggleRec(){
   var btn=document.getElementById("ret-rec"), lbl=document.getElementById("ret-rec-lbl"), st=document.getElementById("ret-state");
   if(recording&&activeCtx==="retell"){ stopRec(); return; }
@@ -2521,7 +2584,10 @@ function retToggleRec(){
     retSetUnsavedWarn(true);
     var pb=document.getElementById("ret-play"); if(pb){ pb.disabled=false; }
     var sb=document.getElementById("ret-submit"); if(sb){ sb.disabled=false; }
-    st.className="state-line saved"; st.textContent="✓ Got it. Play it back, then Submit.";
+    btn.className="icon-btn icon-btn-record"; btn.disabled=true; btn.style.display="none";
+    var db=document.getElementById("ret-done"); if(db){ db.style.display="none"; }
+    var rs=document.getElementById("ret-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
+    st.className="state-line saved"; st.textContent="✓ Got it. Play it back, then Save.";
   },function(){
     /* the mic actually started -- only now start the timer and show the
        pulsing recording state, same rule as the passage screen */
@@ -2534,8 +2600,10 @@ function retToggleRec(){
       document.getElementById("ret-timer").textContent=fluFmtTime(left);
     },1000);
     retAutoStop=setTimeout(function(){ if(recording&&activeCtx==="retell"){ stopRec(); } },60000);
-    btn.className="rec-btn rec"; lbl.textContent="Stop";
-    st.className="state-line none"; st.textContent="🔴 Recording…";
+    btn.className="icon-btn icon-btn-record rec"; btn.disabled=true;
+    var db2=document.getElementById("ret-done"); if(db2){ db2.style.display="inline-flex"; }
+    var rs2=document.getElementById("ret-rec-status"); if(rs2){ rs2.className="rec-status"; rs2.innerHTML='<span class="rec-status-dot"></span>Recording'; }
+    st.className="state-line none"; st.textContent="Recording…";
   }).catch(function(err){ st.className="state-line err"; st.textContent=micErrorText(err); });
 }
 function retPlayMine(){ if(retBlob){ playBlob(retBlob); } }
@@ -2559,7 +2627,7 @@ function retShowSaved(fname){
   var sub=document.getElementById("ret-submit"); if(sub){ sub.style.display="none"; }
   var st=document.getElementById("ret-state");
   st.className="state-line saved";
-  st.innerHTML="Your retell is saved! Now upload it to Canvas."
+  st.innerHTML="&#9989; All done! Your retell is saved! Now upload it to Canvas."
     +'<div class="canvas-steps"><h4>Turn it in on Canvas</h4><ol>'
     +"<li>Your file downloaded. It is called <strong>"+escapeHtml(fname)+"</strong>.</li>"
     +"<li>Open today’s assignment in Canvas.</li>"
@@ -2807,9 +2875,10 @@ function c1Enter(){
   document.getElementById("c1-mic-note").style.display="block";
   var cur=document.getElementById("c1-current"); cur.style.display="none"; cur.textContent="";
   document.getElementById("c1-progress").textContent="";
-  var sb=document.getElementById("c1-start"); sb.style.display="inline-flex"; sb.disabled=false; sb.className="rec-btn";
-  document.getElementById("c1-start-lbl").textContent="🎤 Start Recording";
+  var sb=document.getElementById("c1-start"); sb.style.display="inline-flex"; sb.disabled=false; sb.className="icon-btn icon-btn-record";
+  document.getElementById("c1-start-lbl").textContent="Record";
   document.getElementById("c1-next").style.display="none";
+  var rs=document.getElementById("c1-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("c1-state"); st.className="state-line none"; st.textContent="";
   var rv=document.getElementById("c1-review"); if(rv){ rv.innerHTML=""; }
   dirPaintButton("dir_check1");
@@ -2821,8 +2890,8 @@ function c1PaintLetter(){
   var cur=document.getElementById("c1-current");
   cur.style.display="block"; cur.textContent=C1_ALL[c1Idx];
   document.getElementById("c1-progress").textContent="Letter "+(c1Idx+1)+" of "+C1_ALL.length;
-  var nb=document.getElementById("c1-next");
-  nb.textContent = (c1Idx===C1_ALL.length-1) ? "Finish →" : "Next letter →";
+  var nlbl=document.getElementById("c1-next-lbl");
+  nlbl.textContent = (c1Idx===C1_ALL.length-1) ? "Finish" : "Next";
 }
 function c1Start(){
   var sb=document.getElementById("c1-start"), st=document.getElementById("c1-state");
@@ -2833,13 +2902,14 @@ function c1Start(){
     c1Review();
   },function(){
     /* mic actually started (the browser confirmed it, not just the tap) --
-       keep the Start button visible so its red dot keeps pulsing, but
-       disable it and relabel it, and begin the letter walk */
+       keep the Record button visible so it keeps pulsing, but disable it
+       (Check 1 has no manual stop -- it ends via the last letter) and
+       begin the letter walk */
     c1Idx=0; c1PaintLetter();
-    sb.disabled=true; sb.className="rec-btn rec";
-    document.getElementById("c1-start-lbl").textContent="🔴 Recording... Read Aloud";
-    document.getElementById("c1-next").style.display="inline-block";
-    st.className="state-line none"; st.textContent="Recording. Say each letter, then tap Next letter.";
+    sb.disabled=true; sb.className="icon-btn icon-btn-record rec";
+    var rs=document.getElementById("c1-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
+    document.getElementById("c1-next").style.display="inline-flex";
+    st.className="state-line none"; st.textContent="Recording. Say each letter, then tap Next.";
   }).catch(function(err){
     st.className="state-line err"; st.textContent=micErrorText(err);
   });
@@ -2857,14 +2927,15 @@ function c1Review(){
   document.getElementById("c1-current").style.display="none";
   document.getElementById("c1-progress").textContent="";
   document.getElementById("c1-next").style.display="none";
+  var rs=document.getElementById("c1-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("c1-state");
   st.className="state-line saved";
   st.textContent="Recording complete.";
   var rv=document.getElementById("c1-review");
-  rv.innerHTML='<div class="rec-row">'
-    +'<button class="play-btn" id="c1-listen-btn" onclick="c1ToggleListen()">▶ Listen to Recording</button>'
-    +'<button class="btn" onclick="c1RecordAgain()">🔄 Record Again</button>'
-    +'<button class="btn primary" onclick="c1Finish()">✅ Submit Recording</button>'
+  rv.innerHTML='<div class="icon-row">'
+    +'<button class="icon-btn icon-btn-listen" id="c1-listen-btn" onclick="c1ToggleListen()"><span class="icon-glyph">&#9654;</span><span class="icon-label" id="c1-listen-lbl">Play back</span></button>'
+    +'<button class="icon-btn icon-btn-redo" onclick="c1RecordAgain()"><span class="icon-glyph">&#128260;</span><span class="icon-label">Redo</span></button>'
+    +'<button class="icon-btn icon-btn-save" onclick="c1Finish()"><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>'
     +"</div>";
 }
 /* Listening is just a quality check ("can I hear myself?"), not a
@@ -2876,15 +2947,15 @@ function c1ToggleListen(){
   if(c1Playing){
     stopAllAudio();
     c1Playing=false;
-    btn.innerHTML="▶ Listen to Recording";
+    btn.innerHTML='<span class="icon-glyph">&#9654;</span><span class="icon-label" id="c1-listen-lbl">Play back</span>';
     return;
   }
   var a=playBlob(c1Blob);
   c1Playing=true;
-  btn.innerHTML="⏹ Stop";
+  btn.innerHTML='<span class="icon-glyph">&#9209;</span><span class="icon-label" id="c1-listen-lbl">Stop</span>';
   if(a){
     var origOnEnded=a.onended;
-    a.onended=function(){ if(origOnEnded){ origOnEnded(); } c1Playing=false; var b=document.getElementById("c1-listen-btn"); if(b){ b.innerHTML="▶ Listen to Recording"; } };
+    a.onended=function(){ if(origOnEnded){ origOnEnded(); } c1Playing=false; var b=document.getElementById("c1-listen-btn"); if(b){ b.innerHTML='<span class="icon-glyph">&#9654;</span><span class="icon-label" id="c1-listen-lbl">Play back</span>'; } };
   }
 }
 function c1RecordAgain(){
@@ -2902,7 +2973,7 @@ function c1Finish(){
   document.getElementById("c1-review").innerHTML="";
   var st=document.getElementById("c1-state");
   st.className="state-line saved";
-  st.innerHTML="Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
+  st.innerHTML="&#9989; All done! Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
     +'<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
     +"<li>Open today’s Check 1 assignment in Canvas.</li>"
     +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
@@ -2978,7 +3049,7 @@ function c2SetupMedia(){
     var v=document.getElementById("c2-preview");
     if(v){ try{ v.srcObject=stream; }catch(e){} v.style.display="block"; try{ if(v.play){ v.play().catch(function(){}); } }catch(e){} }
     var fn=document.getElementById("c2-face-note"); if(fn){ fn.style.display="block"; }
-    st.className="state-line saved"; st.textContent="✓ Camera ready. Make sure your face and mouth are visible, then tap Start Check 2.";
+    st.className="state-line saved"; st.textContent="✓ Camera ready. Make sure your face and mouth are visible, then tap Record.";
     btn.style.display="none";
     var startBtn=document.getElementById("c2-start-real"); if(startBtn){ startBtn.style.display="inline-flex"; }
   }).catch(function(err){
@@ -3151,22 +3222,22 @@ function c2Review(){
   c2ReviewUrl=URL.createObjectURL(c2Blob);
   rv.innerHTML='<p class="state-line saved">Recording complete.</p>'
     +'<video id="c2-play" style="width:100%;max-width:360px;border-radius:12px;background:#000" src="'+c2ReviewUrl+'"></video>'
-    +'<div class="rec-row" style="margin-top:10px">'
-    +'<button class="play-btn" id="c2-listen-btn" onclick="c2ToggleListen()">▶ Watch Recording</button>'
-    +'<button class="btn" onclick="c2RecordAgain()">🔄 Record Again</button>'
-    +'<button class="btn primary" onclick="c2Finish()">✅ Submit Recording</button>'
+    +'<div class="icon-row" style="margin-top:10px">'
+    +'<button class="icon-btn icon-btn-listen" id="c2-listen-btn" onclick="c2ToggleListen()"><span class="icon-glyph">&#9654;</span><span class="icon-label" id="c2-listen-lbl">Play back</span></button>'
+    +'<button class="icon-btn icon-btn-redo" onclick="c2RecordAgain()"><span class="icon-glyph">&#128260;</span><span class="icon-label">Redo</span></button>'
+    +'<button class="icon-btn icon-btn-save" onclick="c2Finish()"><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>'
     +"</div>";
 }
 function c2ToggleListen(){
   var v=document.getElementById("c2-play"), btn=document.getElementById("c2-listen-btn"); if(!v||!btn){ return; }
   if(c2Playing){
     try{ v.pause(); }catch(e){}
-    c2Playing=false; btn.innerHTML="▶ Watch Recording";
+    c2Playing=false; btn.innerHTML='<span class="icon-glyph">&#9654;</span><span class="icon-label" id="c2-listen-lbl">Play back</span>';
     return;
   }
   try{ v.currentTime=0; v.play(); }catch(e){}
-  c2Playing=true; btn.innerHTML="⏹ Stop";
-  v.onended=function(){ c2Playing=false; var b=document.getElementById("c2-listen-btn"); if(b){ b.innerHTML="▶ Watch Recording"; } };
+  c2Playing=true; btn.innerHTML='<span class="icon-glyph">&#9209;</span><span class="icon-label" id="c2-listen-lbl">Stop</span>';
+  v.onended=function(){ c2Playing=false; var b=document.getElementById("c2-listen-btn"); if(b){ b.innerHTML='<span class="icon-glyph">&#9654;</span><span class="icon-label" id="c2-listen-lbl">Play back</span>'; } };
 }
 function c2RecordAgain(){
   try{ var v=document.getElementById("c2-play"); if(v){ v.pause(); } }catch(e){}
@@ -3176,7 +3247,7 @@ function c2RecordAgain(){
   var setup=document.getElementById("c2-setup"); if(setup){ setup.style.display="block"; }
   if(c2Stream){
     var startBtn=document.getElementById("c2-start-real"); if(startBtn){ startBtn.style.display="inline-flex"; }
-    var ss=document.getElementById("c2-setup-state"); if(ss){ ss.className="state-line saved"; ss.textContent="✓ Camera still ready. Tap Start Check 2 to record again."; }
+    var ss=document.getElementById("c2-setup-state"); if(ss){ ss.className="state-line saved"; ss.textContent="✓ Camera still ready. Tap Record to record again."; }
   } else {
     var sb=document.getElementById("c2-setup-btn"); if(sb){ sb.style.display="inline-flex"; sb.disabled=false; }
   }
@@ -3190,7 +3261,7 @@ function c2Finish(){
     totalTimeMs:(new Date().getTime()-c2StartAt), reachedCount:reached,
     scores:null, observed:null, c2aCorrect:null, c2bCorrect:null, c2cCorrect:null, targets:null });
   var rv=document.getElementById("c2-review"); if(!rv){ return; }
-  rv.innerHTML="Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
+  rv.innerHTML="&#9989; All done! Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
     +'<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
     +"<li>Open today’s Check 2 assignment in Canvas.</li>"
     +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
