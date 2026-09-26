@@ -78,6 +78,13 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 .play-btn{display:inline-flex;align-items:center;gap:9px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px 20px;font:inherit;font-weight:600;cursor:pointer;touch-action:manipulation}
 .play-btn[disabled]{opacity:.45;cursor:default}
+.dir-listen-wrap{margin:12px 0}
+.dir-listen-btn{display:inline-flex;flex-direction:column;align-items:center;gap:4px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:12px 22px;font:inherit;cursor:pointer;touch-action:manipulation}
+.dir-listen-btn .dir-listen-icon{font-size:30px;line-height:1}
+.dir-listen-btn .dir-listen-label{font-size:13px;font-weight:700;color:var(--ink-soft)}
+.dir-listen-btn.playing{border-color:var(--accent);background:var(--good-bg)}
+.dir-listen-btn.playing .dir-listen-icon{animation:pulse 1s infinite}
+.dir-listen-btn.playing .dir-listen-label{color:var(--good)}
 .state-line{font-size:14px;margin:14px 0 0;min-height:20px}
 .state-line.saved{color:var(--good)}.state-line.none{color:var(--ink-soft)}.state-line.err{color:var(--retry)}
 .miss-note{font-size:13px;color:var(--retry);margin:8px 0 0;min-height:16px}
@@ -190,6 +197,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <button class="btn block" style="margin-top:10px" onclick="go('check1Teach')">Check 1 review<span class="sub">Score letter identification recordings</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-teachC2')">Check 2 prompts<span class="sub">Record the 10 vowel-keyword prompts</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('check2Teach')">Check 2 review<span class="sub">Score letter-sound videos</span></button>
+      <button class="btn block" style="margin-top:10px" onclick="go('s-teachDir')">Directions recordings<span class="sub">Record the Listen-button voice-overs</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-fluteach')">Fluency review<span class="sub">Listen to fluency &amp; retell attempts, score WCPM, approve moves</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-settings')">Settings<span class="sub">Practice reads, pacer, and teams</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-pick')">Go to student view<span class="sub">See what a student sees</span></button>
@@ -289,6 +297,11 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
           <li>Submit your recording when you are satisfied with it.</li>
         </ol>
       </div>
+      <div class="dir-listen-wrap" id="dl-dir_check1" style="display:none">
+        <button class="dir-listen-btn" id="dl-dir_check1-btn" onclick="dirToggle('dir_check1')">
+          <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+        </button>
+      </div>
       <p class="mini-note" id="c1-mic-note">Your browser will ask for permission to use the microphone. Tap Allow so your reading can be recorded.</p>
       <div class="c1-letter" id="c1-current" style="display:none">&nbsp;</div>
       <p class="mini-note" id="c1-progress"></p>
@@ -339,6 +352,11 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
             <li>Work carefully, but keep moving.</li>
           </ol>
         </div>
+        <div class="dir-listen-wrap" id="dl-dir_check2_open" style="display:none">
+          <button class="dir-listen-btn" id="dl-dir_check2_open-btn" onclick="dirToggle('dir_check2_open')">
+            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+          </button>
+        </div>
         <p class="mini-note">Your browser will ask for permission to use the camera and microphone. Tap Allow so your check can be recorded.</p>
         <p class="mini-note" id="c2-face-note" style="display:none">Make sure your face and mouth are visible.</p>
         <video id="c2-preview" muted autoplay playsinline style="width:100%;max-width:360px;border-radius:12px;background:#000;display:none"></video>
@@ -362,6 +380,27 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
           <button class="btn primary" id="c2-next" onclick="c2NextTap()">Next &#8594;</button>
         </div>
         <p class="state-line none" id="c2-state"></p>
+      </div>
+
+      <!-- Shown between 2A->2B and 2B->2C. The video keeps recording the
+           whole time; only the 5:00 ceiling pauses. The first item of the
+           new section is never painted (so its prompt never plays) until
+           "I'm Ready" is tapped. -->
+      <div id="c2-transition" style="display:none">
+        <div class="lede" id="c2-trans-text" style="white-space:pre-line"></div>
+        <div class="dir-listen-wrap" id="dl-dir_check2_before2b" style="display:none">
+          <button class="dir-listen-btn" id="dl-dir_check2_before2b-btn" onclick="dirToggle('dir_check2_before2b')">
+            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+          </button>
+        </div>
+        <div class="dir-listen-wrap" id="dl-dir_check2_before2c" style="display:none">
+          <button class="dir-listen-btn" id="dl-dir_check2_before2c-btn" onclick="dirToggle('dir_check2_before2c')">
+            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+          </button>
+        </div>
+        <div class="nav-row" style="margin-top:14px">
+          <button class="btn primary" id="c2-ready-btn" onclick="c2ReadyTap()">I'm Ready</button>
+        </div>
       </div>
 
       <div id="c2-review"></div>
@@ -394,6 +433,28 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     </div>
   </section>
 
+  <!-- STUDENT DIRECTIONS: the one Listen-button voice-over per directions
+       screen (never assessment items). Separate from every other teacher
+       recorder; does not touch them. -->
+  <section class="screen" id="s-teachDir">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Directions recordings</p>
+      <h2>Record the student directions</h2>
+      <p class="lede">Read each script exactly as written, in your own voice. These are directions only -- never read aloud on an assessment-item screen, so they can never give away an answer. Until you record one, students just see the text.</p>
+      <div id="dirt-list"></div>
+      <div class="setting-row" style="margin-top:4px">
+        <div><strong>Your recordings</strong><br><span class="mini-note">Export the file to send to me to bake in for good, or Load it onto another computer.</span></div>
+        <div class="item-actions">
+          <button class="mini-btn" onclick="dirtExport()">&#8681; Export</button>
+          <button class="mini-btn" onclick="document.getElementById('dirt-import').click()">&#8679; Load</button>
+        </div>
+      </div>
+      <input type="file" id="dirt-import" accept="application/json,.json" style="display:none" onchange="dirtImportPick(this)">
+      <p class="mini-note" id="dirt-backup-state" style="margin:-4px 0 14px;min-height:16px"></p>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
   <!-- CHECK 2: teacher scoring -- same local-file pattern as check1Teach -->
   <section class="screen" id="check2Teach">
     <div class="wrap">
@@ -412,6 +473,11 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     <p class="step-eyebrow">Bridges Unit 1</p>
     <h2 class="scr-title">Choose your group, <span id="group-who"></span></h2>
     <p class="mini-note">Finish a group to open the next one.</p>
+    <div class="dir-listen-wrap" id="dl-dir_vocab" style="display:none">
+      <button class="dir-listen-btn" id="dl-dir_vocab-btn" onclick="dirToggle('dir_vocab')">
+        <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+      </button>
+    </div>
     <p class="mini-note" id="sync-note" style="display:none"></p>
     <div id="group-list" class="pick-list"></div>
     <div class="nav-row" style="margin-top:14px">
@@ -583,6 +649,12 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     <p class="crumb"><a onclick="go('studentMenu')">Menu</a> &nbsp;/&nbsp; Fluency</p>
     <p class="step-eyebrow" id="flu-level"></p>
     <h2 class="scr-title" id="flu-title"></h2>
+    <p class="mini-note">Read the passage out loud, at your normal reading speed. When you finish, tap Submit.</p>
+    <div class="dir-listen-wrap" id="dl-dir_fluency" style="display:none">
+      <button class="dir-listen-btn" id="dl-dir_fluency-btn" onclick="dirToggle('dir_fluency')">
+        <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+      </button>
+    </div>
     <div class="flu-passage" id="flu-text"></div>
     <p class="mini-note">Your browser will ask for permission to use the microphone. Tap Allow so your reading can be recorded.</p>
     <div class="flu-timer-row">
@@ -603,6 +675,11 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     <p class="step-eyebrow" id="ret-level"></p>
     <h2 class="scr-title">Tell What You Read</h2>
     <p class="lede" id="ret-prompt"></p>
+    <div class="dir-listen-wrap" id="dl-dir_retell" style="display:none">
+      <button class="dir-listen-btn" id="dl-dir_retell-btn" onclick="dirToggle('dir_retell')">
+        <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+      </button>
+    </div>
     <div class="note-box">
       <h4>You can use these:</h4>
       <ul id="ret-frames"></ul>
@@ -953,10 +1030,166 @@ function buildWeights(){
   for(i=0;i<TN;i++){ run+=wts[i]; edges.push(run/tot); }
   return edges; /* length TN+1, edges[i]..edges[i+1] is token i window */
 }
-function stopAllAudio(){ stopSweep(); if(currentAudio){ try{currentAudio.pause();}catch(e){} currentAudio=null; } }
+function stopAllAudio(){ stopSweep(); if(currentAudio){ try{currentAudio.pause();}catch(e){} currentAudio=null; } if(dirPlayingKey){ dirSetPlayingState(dirPlayingKey,false); dirPlayingKey=null; } }
 function playBlob(b){ stopAllAudio(); var u=URL.createObjectURL(b); currentAudio=new Audio(u); currentAudio.onended=function(){URL.revokeObjectURL(u);}; currentAudio.play(); return currentAudio; }
 function playId(id){ return AudioStore.get(id).then(function(b){ if(b){ playBlob(b); return true; } return false; }); }
 function getBlob(id){ return AudioStore.get(id); }
+
+/* ---------- Student directions: Listen button + teacher voice-over ----------
+   ONE reusable system for every set of student DIRECTIONS in the app (never
+   assessment items). Each directions screen has its own AudioStore key
+   (see DIRECTIONS_DEFS) and a matching <div class="dir-listen-wrap"
+   id="dl-<key>"> wrapper already in that screen's HTML, hidden until a
+   recording actually exists (never a broken/dead button). Reuses the same
+   AudioStore/Export/Load pipeline as every other recording in the app. */
+var DIRECTIONS_DEFS=[
+  {key:"dir_check1", label:"Check 1 directions", script:"Ready to Read? Tap Start Recording. When you see that recording has started, say each letter out loud, then tap Next letter after each one. After the last letter, the recording stops by itself. Listen to your recording to make sure you can hear yourself clearly. Record again if needed. Submit your recording when you are satisfied with it."},
+  {key:"dir_check2_open", label:"Check 2 -- opening directions", script:"You will see one letter at a time. For consonants, say the sound the letter makes, not the letter name. For vowels, listen carefully to the word and tell what sound the vowel makes in that word. Your camera will make one video for the entire check. Work carefully, but keep moving."},
+  {key:"dir_check2_before2b", label:"Check 2 -- before 2B (short vowels)", script:"Great job! Next: short vowel sounds. Now you will HEAR a word. Listen carefully. Tell what sound the vowel makes in that word. Tap I'm Ready when you're ready."},
+  {key:"dir_check2_before2c", label:"Check 2 -- before 2C (long vowels)", script:"Nice work! Last part: long vowel sounds. You will hear a word again. Listen carefully. Tell what sound the vowel makes in that word. Tap I'm Ready when you're ready."},
+  {key:"dir_fluency", label:"Fluency directions", script:"Read the passage out loud, at your normal reading speed. When you finish, tap Submit."},
+  {key:"dir_retell", label:"Retell directions", script:"Tell what you read, in your own words. You have one minute. Use the sentence starters below if they help."},
+  {key:"dir_vocab", label:"Vocabulary (Word Practice) directions", script:"Pick a group. Hear each word, hear it used in a sentence, slide your finger and read it, then record your best read for the group."}
+];
+var dirPlayingKey=null;
+function dirHasRecording(key,cb){ AudioStore.get(key).then(function(b){ cb(!!b); }, function(){ cb(false); }); }
+function dirSetPlayingState(key,playing){
+  var btn=document.getElementById("dl-"+key+"-btn"); if(!btn){ return; }
+  btn.className="dir-listen-btn"+(playing?" playing":"");
+  var lbl=btn.querySelector(".dir-listen-label"); if(lbl){ lbl.textContent=playing?"Playing…":"Listen"; }
+}
+function dirPaintButton(key){
+  var wrap=document.getElementById("dl-"+key); if(!wrap){ return; }
+  dirHasRecording(key,function(has){ wrap.style.display=has?"inline-flex":"none"; });
+}
+function dirPlay(key){
+  stopAllAudio();
+  AudioStore.get(key).then(function(b){
+    if(!b){ return; }
+    var a=playBlob(b); /* playBlob() calls stopAllAudio() itself -- set our playing state AFTER, or this call wipes it right back out */
+    dirPlayingKey=key;
+    dirSetPlayingState(key,true);
+    if(a){
+      var orig=a.onended;
+      a.onended=function(){ if(orig){ orig(); } if(dirPlayingKey===key){ dirPlayingKey=null; dirSetPlayingState(key,false); } };
+    }
+  });
+}
+/* tap to play; tap again (while it's the one playing) to replay from the start */
+function dirToggle(key){
+  if(dirPlayingKey===key){ stopAllAudio(); return; }
+  dirPlay(key);
+}
+function dirAutoPlayOnce(key){ dirHasRecording(key,function(has){ if(has){ dirPlay(key); } }); }
+
+/* ---------- Teacher: record the 7 directions clips (s-teachDir) ----------
+   Same record/stop/play/Export/Load pattern as the Check 2 prompt
+   recorder (s-teachC2) -- reuses AudioStore, so these travel through the
+   existing Export/Load/bake pipeline automatically. */
+var dirtBlobs={};
+function dirtEnter(){ dirtPaintList(); }
+function dirtPaintList(){
+  var box=document.getElementById("dirt-list"); if(!box){ return; }
+  box.innerHTML="";
+  var i;
+  for(i=0;i<DIRECTIONS_DEFS.length;i++){
+    (function(def){
+      var row=document.createElement("div"); row.className="card";
+      row.innerHTML =
+         '<p class="step-eyebrow">'+escapeHtml(def.label)+'</p>'
+        +'<p class="sentence" style="font-size:18px">“'+escapeHtml(def.script)+'”</p>'
+        +'<div class="trow">'
+        +'<div class="tl">Recording<small id="dirt-state-'+def.key+'">Not recorded yet.</small></div>'
+        +'<div class="item-actions">'
+        +'<button class="rec-btn" id="dirt-rec-'+def.key+'" onclick="dirtToggle(\''+def.key+'\')"><span class="rec-dot"></span><span id="dirt-lbl-'+def.key+'">Record</span></button>'
+        +'<button class="mini-btn play" id="dirt-play-'+def.key+'" onclick="dirtPlayOne(\''+def.key+'\')" disabled>&#9654;</button>'
+        +"</div></div>";
+      box.appendChild(row);
+    })(DIRECTIONS_DEFS[i]);
+  }
+  dirtRefreshDots();
+}
+function dirtRefreshDots(){
+  AudioStore.keys().then(function(ks){
+    var have={}, i; for(i=0;i<ks.length;i++){ have[ks[i]]=true; }
+    for(i=0;i<DIRECTIONS_DEFS.length;i++){
+      var key=DIRECTIONS_DEFS[i].key;
+      var st=document.getElementById("dirt-state-"+key);
+      var pb=document.getElementById("dirt-play-"+key);
+      if(st){ st.textContent = have[key] ? "✓ Saved." : "Not recorded yet."; }
+      if(pb){ pb.disabled = !have[key]; }
+    }
+  });
+}
+function dirtToggle(key){
+  var recBtn=document.getElementById("dirt-rec-"+key), lbl=document.getElementById("dirt-lbl-"+key), st=document.getElementById("dirt-state-"+key);
+  if(recording&&activeCtx==="dirteach-"+key){ stopRec(); recBtn.className="rec-btn"; lbl.textContent="Record"; return; }
+  activeCtx="dirteach-"+key; st.textContent="Recording…";
+  startRec(function(blob){
+    dirtBlobs[key]=blob;
+    var pb=document.getElementById("dirt-play-"+key); if(pb){ pb.disabled=false; }
+    AudioStore.put(key,blob).then(function(){ st.textContent="✓ Saved."; dirtRefreshDots(); })
+      .catch(function(){ st.textContent="Could not save on this device."; });
+  }).then(function(){ recBtn.className="rec-btn rec"; lbl.textContent="Stop"; })
+    .catch(function(err){ st.textContent=micErrorText(err); });
+}
+function dirtPlayOne(key){
+  var b=dirtBlobs[key];
+  if(b){ playBlob(b); return; }
+  playId(key);
+}
+function dirtExport(){
+  var st=document.getElementById("dirt-backup-state"); st.style.color="var(--ink-soft)"; st.textContent="Gathering your recordings…";
+  AudioStore.keys().then(function(ks){
+    if(!ks.length){ st.style.color="var(--retry)"; st.textContent="Nothing recorded yet — record a directions clip or two first."; return; }
+    var results={}, done=0, i;
+    function fin(){
+      done++;
+      if(done===ks.length){
+        var payload=JSON.stringify({app:"read-and-slide", version:1, savedAt:new Date().toISOString(), clips:results});
+        downloadBlob(new Blob([payload],{type:"application/json"}), "read-and-slide-recordings.json");
+        st.style.color="var(--good)"; st.textContent="✓ Exported "+ks.length+" recordings. Send that file to bake it in, or Load it on another computer.";
+      }
+    }
+    for(i=0;i<ks.length;i++){
+      (function(key){
+        AudioStore.get(key).then(function(b){
+          if(!b){ results[key]=null; fin(); return; }
+          var fr=new FileReader();
+          fr.onload=function(){ results[key]={type:(b.type||"audio/webm"), data:fr.result}; fin(); };
+          fr.onerror=function(){ results[key]=null; fin(); };
+          fr.readAsDataURL(b);
+        });
+      })(ks[i]);
+    }
+  });
+}
+function dirtImportPick(input){
+  var st=document.getElementById("dirt-backup-state");
+  if(!input.files||!input.files[0]){ return; }
+  var file=input.files[0]; input.value="";
+  st.style.color="var(--ink-soft)"; st.textContent="Loading recordings…";
+  var fr=new FileReader();
+  fr.onload=function(){
+    var obj; try{ obj=JSON.parse(fr.result); }catch(e){ st.style.color="var(--retry)"; st.textContent="That file couldn’t be read. Use a file the Export button made."; return; }
+    var clips=(obj&&obj.clips)?obj.clips:null;
+    if(!clips){ st.style.color="var(--retry)"; st.textContent="No recordings found in that file."; return; }
+    var keys=[], k; for(k in clips){ if(clips.hasOwnProperty(k)) keys.push(k); }
+    if(!keys.length){ st.style.color="var(--retry)"; st.textContent="That file has no recordings in it."; return; }
+    var done=0, ok=0, i;
+    function check(){ if(done===keys.length){ st.style.color="var(--good)"; st.textContent="✓ Loaded "+ok+" recordings onto this computer."; dirtRefreshDots(); } }
+    for(i=0;i<keys.length;i++){
+      (function(key){
+        var c=clips[key];
+        if(!c||!c.data){ done++; check(); return; }
+        var blob; try{ blob=dataURLtoBlob(c.data); }catch(e){ done++; check(); return; }
+        AudioStore.put(key,blob).then(function(){ ok++; done++; check(); }, function(){ done++; check(); });
+      })(keys[i]);
+    }
+  };
+  fr.onerror=function(){ st.style.color="var(--retry)"; st.textContent="Couldn’t open that file."; };
+  fr.readAsText(file);
+}
 
 /* ---------- Recording ---------- */
 var mediaStream=null, recorder=null, chunks=[], recording=false, activeCtx=null;
@@ -996,6 +1229,7 @@ function buildGroups(){
   var box=document.getElementById("group-list"); if(!box){ return; }
   box.innerHTML="";
   var wh=document.getElementById("group-who"); if(wh&&READER){ wh.textContent=READER.name; }
+  dirPaintButton("dir_vocab");
   var i;
   for(i=0;i<GROUPS.length;i++){
     (function(g,idx){
@@ -1569,6 +1803,7 @@ function go(id){
   if(id==="check2"){ c2Enter(); }
   if(id==="s-teachC2"){ c2tPromptsEnter(); }
   if(id==="check2Teach"){ check2TeachEnter(); }
+  if(id==="s-teachDir"){ dirtEnter(); }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
   if(id==="s-final"){ fEnter(); }
   if(id==="s-read"){ refreshPtsBadge(); }
@@ -2124,6 +2359,7 @@ function fluEnter(){
   var lbl=document.getElementById("flu-rec-lbl"); if(lbl){ lbl.textContent="Record"; }
   var pb=document.getElementById("flu-play"); if(pb){ pb.disabled=true; }
   var st=document.getElementById("flu-state"); if(st){ st.className="state-line none"; st.textContent=""; }
+  dirPaintButton("dir_fluency");
 }
 /* One button: tap to Record, which starts the mic AND the 1:00 timer
    together (the timer starts on MediaRecorder's own onstart, not the tap,
@@ -2226,6 +2462,7 @@ function retEnter(){
   var pb=document.getElementById("ret-play"); if(pb){ pb.disabled=true; pb.style.display="inline-flex"; }
   var sub=document.getElementById("ret-submit"); if(sub){ sub.disabled=true; sub.style.display="inline-block"; }
   var st=document.getElementById("ret-state"); if(st){ st.className="state-line none"; st.innerHTML=""; }
+  dirPaintButton("dir_retell");
 }
 function retToggleRec(){
   var btn=document.getElementById("ret-rec"), lbl=document.getElementById("ret-rec-lbl"), st=document.getElementById("ret-state");
@@ -2528,10 +2765,12 @@ function c1Enter(){
   document.getElementById("c1-next").style.display="none";
   var st=document.getElementById("c1-state"); st.className="state-line none"; st.textContent="";
   var rv=document.getElementById("c1-review"); if(rv){ rv.innerHTML=""; }
+  dirPaintButton("dir_check1");
 }
 function c1PaintLetter(){
   document.getElementById("c1-intro").style.display="none";
   document.getElementById("c1-mic-note").style.display="none";
+  var dl=document.getElementById("dl-dir_check1"); if(dl){ dl.style.display="none"; }
   var cur=document.getElementById("c1-current");
   cur.style.display="block"; cur.textContent=C1_ALL[c1Idx];
   document.getElementById("c1-progress").textContent="Letter "+(c1Idx+1)+" of "+C1_ALL.length;
@@ -2651,12 +2890,12 @@ var C2Attempts=(function(){
    begun, on the first scored item -- never during setup/preview/permission. */
 var c2Stream=null, c2Recorder=null, c2Chunks=[], c2MimeType="video/webm";
 var c2Idx=-1, c2Blob=null, c2ReviewUrl=null;
-var c2TimerHandle=null, c2StartAt=0, c2WarnShown=false, c2HardStopped=false, c2NotReachedFrom=-1;
+var c2TimerHandle=null, c2StartAt=0, c2PausedAt=0, c2WarnShown=false, c2HardStopped=false, c2NotReachedFrom=-1;
 var c2NextLock=false, c2Playing=false, c2YesUsed=false;
 var C2_TIME_LIMIT_MS=300000, C2_WARN_AT_MS=270000;
 
 function c2Enter(){
-  c2Idx=-1; c2Blob=null; c2Chunks=[]; c2NotReachedFrom=-1; c2WarnShown=false; c2HardStopped=false; c2YesUsed=false; c2Playing=false; c2NextLock=false;
+  c2Idx=-1; c2Blob=null; c2Chunks=[]; c2NotReachedFrom=-1; c2WarnShown=false; c2HardStopped=false; c2YesUsed=false; c2Playing=false; c2NextLock=false; c2ReadyUsed=false; c2PausedAt=0;
   var setup=document.getElementById("c2-setup"); if(setup){ setup.style.display="block"; }
   var assess=document.getElementById("c2-assess"); if(assess){ assess.style.display="none"; }
   var rv=document.getElementById("c2-review"); if(rv){ rv.innerHTML=""; }
@@ -2668,6 +2907,9 @@ function c2Enter(){
   var ss=document.getElementById("c2-setup-state"); if(ss){ ss.className="state-line none"; ss.textContent=""; }
   var startBtn=document.getElementById("c2-start-real"); if(startBtn){ startBtn.style.display="none"; }
   var tm=document.getElementById("c2-timer"); if(tm){ tm.textContent=c2FmtTime(C2_TIME_LIMIT_MS); }
+  var trans=document.getElementById("c2-transition"); if(trans){ trans.style.display="none"; }
+  dirPaintButton("dir_check2_open");
+  dirAutoPlayOnce("dir_check2_open");
 }
 function c2MediaErrorText(err){
   if(err&&err.message==="no-media-api"){ return "This browser can’t reach a camera. Open the page from the Canvas link, and use Chrome."; }
@@ -2763,10 +3005,58 @@ function c2PlayPrompt(key){
   });
 }
 function c2ReplayPrompt(){ var item=C2_ITEMS[c2Idx]; if(item && item.promptKey){ c2PlayPrompt(item.promptKey); } }
+/* 2A -> 2B and 2B -> 2C each get a short transition screen first (video
+   keeps recording; only the 5:00 ceiling pauses). c2Idx is NOT advanced
+   into the new section until "I'm Ready" is tapped, so the new section's
+   first item -- and its prompt audio -- never appears/plays on its own. */
+var C2_TRANS_TEXT={
+  "2B":"Great job! Next: short vowel sounds.\nNow you will HEAR a word. Listen carefully.\nTell what sound the vowel makes in that word.\nTap “I’m Ready” when you’re ready.",
+  "2C":"Nice work! Last part: long vowel sounds.\nYou will hear a word again. Listen carefully.\nTell what sound the vowel makes in that word.\nTap “I’m Ready” when you’re ready."
+};
+var c2ReadyUsed=false;
+function c2PauseTimer(){
+  if(c2TimerHandle){ clearInterval(c2TimerHandle); c2TimerHandle=null; }
+  c2PausedAt=new Date().getTime();
+}
+function c2ResumeTimer(){
+  if(c2PausedAt){ c2StartAt += (new Date().getTime()-c2PausedAt); c2PausedAt=0; }
+  c2TimerHandle=setInterval(c2TickTimer,500);
+}
+function c2ShowTransition(section){
+  c2PauseTimer();
+  c2ReadyUsed=false;
+  var assess=document.getElementById("c2-assess"); if(assess){ assess.style.display="none"; }
+  var trans=document.getElementById("c2-transition"); if(trans){ trans.style.display="block"; }
+  var txt=document.getElementById("c2-trans-text"); if(txt){ txt.textContent=C2_TRANS_TEXT[section]; }
+  var key = section==="2B" ? "dir_check2_before2b" : "dir_check2_before2c";
+  var otherKey = section==="2B" ? "dir_check2_before2c" : "dir_check2_before2b";
+  var otherWrap=document.getElementById("dl-"+otherKey); if(otherWrap){ otherWrap.style.display="none"; }
+  dirPaintButton(key);
+  dirAutoPlayOnce(key);
+}
+/* one-shot: a single tap dismisses the transition AND reveals the new
+   section's first item -- a duplicate event for that same tap must not
+   also skip past that first item. */
+function c2ReadyTap(){
+  if(c2ReadyUsed){ return; }
+  c2ReadyUsed=true;
+  stopAllAudio();
+  var trans=document.getElementById("c2-transition"); if(trans){ trans.style.display="none"; }
+  var assess=document.getElementById("c2-assess"); if(assess){ assess.style.display="block"; }
+  c2ResumeTimer();
+  c2Idx++;
+  c2PaintItem();
+}
 function c2DoAdvance(){
   if(c2HardStopped){ return; }
-  if(c2Idx<C2_ITEMS.length-1){ c2Idx++; c2PaintItem(); }
-  else { c2FinishRecording(); }
+  if(c2Idx>=C2_ITEMS.length-1){ c2FinishRecording(); return; }
+  var prevSection = c2Idx>=0 ? C2_ITEMS[c2Idx].section : null;
+  var nextSection = C2_ITEMS[c2Idx+1].section;
+  if(nextSection!==prevSection && (nextSection==="2B"||nextSection==="2C")){
+    c2ShowTransition(nextSection);
+    return;
+  }
+  c2Idx++; c2PaintItem();
 }
 /* Rapid-tap protection scoped to THIS one repeatedly-tapped button: a
    frame-paced lock (not a millisecond cooldown) absorbs a duplicate event

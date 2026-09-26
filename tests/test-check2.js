@@ -147,9 +147,23 @@ setTimeout(function(){
           w.c2DoAdvance();
           ck(d.getElementById("c2-progress").textContent==="Item 21 of 31","reached the last 2A item (21st)");
           ck(d.getElementById("c2-section-label").textContent.indexOf("2A")>-1,"still labeled 2A on item 21");
+
+          /* ---- Job 1: the before-2B transition screen, not the item itself ---- */
           w.c2DoAdvance();
+          ck(d.getElementById("c2-transition").style.display==="block","the before-2B transition screen shows instead of jumping straight to item 22");
+          ck(d.getElementById("c2-assess").style.display==="none","the item-walk screen is hidden while the transition shows");
+          ck(w.c2Idx===20,"c2Idx has NOT advanced yet -- the new section's first item hasn't appeared");
+          ck(w.c2TimerHandle===null,"the 5:00 timer is paused (no running interval) while the transition shows");
+          ck(/short vowel sounds/.test(d.getElementById("c2-trans-text").textContent),"before-2B directions text shows");
+          ck(d.getElementById("dl-dir_check2_before2b").style.display==="none","no Listen button yet -- that clip isn't recorded/baked");
+
+          /* a duplicate tap on "I'm Ready" must not ALSO skip the first item */
+          w.c2ReadyTap(); w.c2ReadyTap(); w.c2ReadyTap();
+          ck(d.getElementById("c2-transition").style.display==="none","tapping I'm Ready dismisses the transition");
+          ck(d.getElementById("c2-assess").style.display==="block","...and shows the item-walk screen again");
+          ck(w.c2TimerHandle!==null,"the timer resumes after I'm Ready");
           setTimeout(function(){
-            ck(d.getElementById("c2-progress").textContent==="Item 22 of 31","advanced into 2B");
+            ck(d.getElementById("c2-progress").textContent==="Item 22 of 31","exactly one item advanced -- the repeated Ready taps didn't skip further");
             ck(d.getElementById("c2-section-label").textContent.indexOf("2B")>-1,"section label switched to 2B");
             ck(d.getElementById("c2-current").textContent==="a","first 2B item shows the bare vowel letter (no keyword text shown on screen)");
             ck(d.getElementById("c2-prompt-row").style.display==="block","a prompt/replay control shows for vowel items");
@@ -287,9 +301,62 @@ setTimeout(function(){
     ck(saved.targets.indexOf("t")>-1 && saved.targets.indexOf("f")>-1,"missed/needs-instruction targets saved (incorrect, letter-name-sub, skip) -- not the self-corrected or acceptable-alternate ones");
     ck(saved.targets.indexOf("s")===-1 && saved.targets.indexOf("p")===-1,"self-corrected and acceptable-alternate items are NOT treated as needing instruction");
 
+    /* ---- Job 3: Listen button hidden when nothing is recorded, on every
+       directions screen; never present on an assessment-item screen ---- */
+    w.READER=w.CLASSES[0].students[2]; w.CURCLASS=w.CLASSES[0];
+    w.go("check1");
+    ck(d.getElementById("dl-dir_check1").style.display==="none","Check 1: no Listen button until a directions clip is recorded");
+    w.go("check2");
+    ck(d.getElementById("dl-dir_check2_open").style.display==="none","Check 2 opening: no Listen button until recorded");
+    w.CURGROUP=w.GROUPS[0];
+    w.go("s-groups");
+    ck(d.getElementById("dl-dir_vocab").style.display==="none","Vocabulary: no Listen button until recorded");
+    w.fluPassage=w.findPassage(w.LEVELS[0],0);
+    w.go("fluencyPassage");
+    ck(d.getElementById("dl-dir_fluency").style.display==="none","Fluency: no Listen button until recorded");
+    w.go("fluencyRetell");
+    ck(d.getElementById("dl-dir_retell").style.display==="none","Retell: no Listen button until recorded");
+    ck(d.querySelectorAll("#c1-current .dir-listen-wrap, #c2-current .dir-listen-wrap").length===0,"the speaker never appears attached to the letter/item display itself");
+
+    /* ---- now fake a recorded clip (a real recording would come from
+       Miq's teacher recorder + bake, same as every other clip) and prove
+       it appears, plays, and Job 2's auto-play fires on the 3 Check 2
+       directions screens ---- */
+    w.window.BAKED_CLIPS=w.window.BAKED_CLIPS||{};
+    w.window.BAKED_CLIPS["dir_fluency"]="data:audio/webm;base64,AAAA";
+    w.window.BAKED_CLIPS["dir_check2_open"]="data:audio/webm;base64,AAAA";
+    w.go("fluencyPassage");
+    setTimeout(function(){
+      ck(d.getElementById("dl-dir_fluency").style.display==="inline-flex","Fluency: Listen button appears once a recording exists");
+      ck(d.getElementById("dl-dir_fluency-btn").className.indexOf("playing")===-1,"Fluency has no auto-play (only the 3 Check 2 directions screens do) -- not shown as playing on open");
+
+      w.go("check2");
+      setTimeout(function(){
+        ck(d.getElementById("dl-dir_check2_open").style.display==="inline-flex","Check 2 opening: Listen button appears once recorded");
+        ck(d.getElementById("dl-dir_check2_open-btn").className.indexOf("playing")>-1,"Job 2: the opening directions recording auto-plays once when the screen opens");
+        ck(w.currentAudio!==null,"an Audio element is actually playing");
+
+        /* tap to stop, tap again to replay from the start. Stopping is
+           synchronous (stopAllAudio() runs immediately); starting is not --
+           dirPlay() has to look the recording up via AudioStore first --
+           so the replay check needs the same short wait the initial
+           auto-play check above already uses. */
+        click(d.getElementById("dl-dir_check2_open-btn"));
+        ck(d.getElementById("dl-dir_check2_open-btn").className.indexOf("playing")===-1,"tapping while playing stops it");
+        click(d.getElementById("dl-dir_check2_open-btn"));
+        setTimeout(function(){
+          ck(d.getElementById("dl-dir_check2_open-btn").className.indexOf("playing")>-1,"tapping again plays it (from the start)");
+
+          directionsRegressionScreens();
+        },30);
+      },30);
+    },30);
+  }
+
+  function directionsRegressionScreens(){
     /* ---- every existing screen still opens (regression protection) ---- */
     w.CURGROUP=w.GROUPS[0];
-    var existingScreens=["s-home","s-pick","s-roster","studentMenu","diagLanding","check1","check1Preview","check1Teach","check2","s-teachC2","check2Teach","s-groups","s-final","s-score","s-board","s-teach","s-settings","s-status","fluencyPassage","fluencyRetell","s-fluteach"];
+    var existingScreens=["s-home","s-pick","s-roster","studentMenu","diagLanding","check1","check1Preview","check1Teach","check2","s-teachC2","check2Teach","s-teachDir","s-groups","s-final","s-score","s-board","s-teach","s-settings","s-status","fluencyPassage","fluencyRetell","s-fluteach"];
     var allOk=true, m;
     for(m=0;m<existingScreens.length;m++){
       w.go(existingScreens[m]);
