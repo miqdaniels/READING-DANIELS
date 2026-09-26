@@ -2,7 +2,7 @@
   "name": "reading-foundations",
   "private": true,
   "scripts": {
-    "test": "node tests/test-final.js && node tests/test-points.js && node tests/test-sync.js && node tests/test-tap.js && node tests/test-fluency.js && node tests/test-studentmenu.js && node tests/test-flu-record.js && node tests/test-tap-reliability.js && node tests/test-diagnostic.js && node tests/test-check1.js && node tests/test-retell-save.js && node tests/test-title.js && node tests/test-nostudent-onehit.js && node tests/test-fast-tap-and-filenames.js"
+    "test": "node tests/test-final.js && node tests/test-points.js && node tests/test-sync.js && node tests/test-tap.js && node tests/test-fluency.js && node tests/test-studentmenu.js && node tests/test-flu-record.js && node tests/test-tap-reliability.js && node tests/test-diagnostic.js && node tests/test-check1.js && node tests/test-retell-save.js && node tests/test-title.js && node tests/test-nostudent-onehit.js && node tests/test-fast-tap-and-filenames.js && node tests/test-check2.js"
   },
   "devDependencies": {
     "acorn": "^8.18.0",

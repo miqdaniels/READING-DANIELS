@@ -49,15 +49,22 @@ setTimeout(function(){
     click(diagBtn);
     ck(activeId()==="diagLanding","Diagnostic Tools opens diagLanding");
 
+    /* locked buttons now carry a leading lock icon (see paintDiagLanding),
+       so these look for the label anywhere in the text, not just a prefix */
+    function anyBtn(scope,label){
+      var btns=d.querySelectorAll(scope+" .btn"), i;
+      for(i=0;i<btns.length;i++){ if(btns[i].textContent.indexOf(label)>-1) return btns[i]; }
+      return null;
+    }
     var c1Btn=menuBtn("#diagLanding","Check 1");
     ck(!!c1Btn,"Check 1 button present on diagLanding");
     ck(c1Btn.disabled!==true,"Check 1 is enabled (approved for build)");
-    var c2Btn=menuBtn("#diagLanding","Check 2");
-    ck(!!c2Btn && c2Btn.disabled===true,"Check 2 is disabled (content not finalized yet)");
-    var c3Btn=menuBtn("#diagLanding","Check 3");
+    var c2Btn=anyBtn("#diagLanding","Check 2");
+    ck(!!c2Btn && c2Btn.disabled===true,"Check 2 is locked until Check 1 is completed (it is built, just not yet unlocked)");
+    var c3Btn=anyBtn("#diagLanding","Check 3");
     ck(!!c3Btn && c3Btn.disabled===true,"Check 3 is disabled (content not finalized yet)");
     ['Check 4','Check 5','Check 6','Check 7'].forEach(function(label){
-      var b=menuBtn("#diagLanding",label);
+      var b=anyBtn("#diagLanding",label);
       ck(!!b && b.disabled===true,label+" is disabled (architecture only, not finalized)");
     });
 

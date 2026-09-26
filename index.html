@@ -150,6 +150,8 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .c1t-cell.err{ background:var(--retry-bg); border-color:var(--retry); color:var(--retry); }
 .c1t-cell.sc{ background:var(--good-bg); border-color:var(--good); color:var(--good); }
 .c1t-cell.skip{ background:var(--unsure-bg); border-color:var(--unsure); color:var(--unsure); }
+.c2-obs{ display:block; font-size:11px; opacity:.3; margin-top:2px; }
+.c2-obs.on{ opacity:1; color:var(--accent); font-weight:700; }
 /* Hover effects only for a real mouse/trackpad. On a touch screen, a
    :hover rule with no such guard can make the FIRST tap only simulate
    hovering (some touch browsers use tap-to-hover for elements that look
@@ -186,6 +188,8 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <button class="btn block" onclick="go('s-teach')">Teacher: record the models<span class="sub">Record each word and its sentence in your voice</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-board')">Scoreboard<span class="sub">Show today's team standings at the end of class</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('check1Teach')">Check 1 review<span class="sub">Score letter identification recordings</span></button>
+      <button class="btn block" style="margin-top:10px" onclick="go('s-teachC2')">Check 2 prompts<span class="sub">Record the 10 vowel-keyword prompts</span></button>
+      <button class="btn block" style="margin-top:10px" onclick="go('check2Teach')">Check 2 review<span class="sub">Score letter-sound videos</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-fluteach')">Fluency review<span class="sub">Listen to fluency &amp; retell attempts, score WCPM, approve moves</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-settings')">Settings<span class="sub">Practice reads, pacer, and teams</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-pick')">Go to student view<span class="sub">See what a student sees</span></button>
@@ -237,6 +241,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
         <h4 style="color:var(--good)">Great work! You completed all of your Reading Checks.</h4>
       </div>
       <div class="diag-list" id="diag-list"></div>
+      <p class="mini-note" id="diag-comingsoon-note"></p>
       <div class="nav-row" style="margin-top:14px">
         <button class="btn" onclick="go('studentMenu')">&#8592; Back</button>
       </div>
@@ -311,6 +316,87 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <div class="seg" id="c1t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c1t-roster" style="margin-bottom:14px"></div>
       <div id="c1t-body"></div>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <!-- CHECK 2: student assessment -- ONE continuous camera+mic video across
+       2A (21 consonants) + 2B (5 short vowels) + 2C (5 long vowels) = 31 items -->
+  <section class="screen" id="check2">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('diagLanding')">Diagnostic Tools</a> &nbsp;/&nbsp; Check 2</p>
+      <p class="step-eyebrow">Check 2: Letter-Sound Knowledge</p>
+      <h2 class="scr-title">Letter sounds</h2>
+
+      <div id="c2-setup">
+        <div class="lede">
+          <strong>Ready to Read?</strong>
+          <ol style="margin:8px 0 0 20px;padding:0">
+            <li>You will see one letter at a time.</li>
+            <li>For consonants, say the sound the letter makes, not the letter name.</li>
+            <li>For vowels, listen carefully to the word and tell what sound the vowel makes in that word.</li>
+            <li>Your camera will make one video for the entire check.</li>
+            <li>Work carefully, but keep moving.</li>
+          </ol>
+        </div>
+        <p class="mini-note">Your browser will ask for permission to use the camera and microphone. Tap Allow so your check can be recorded.</p>
+        <p class="mini-note" id="c2-face-note" style="display:none">Make sure your face and mouth are visible.</p>
+        <video id="c2-preview" muted autoplay playsinline style="width:100%;max-width:360px;border-radius:12px;background:#000;display:none"></video>
+        <div class="rec-row" style="margin-top:14px">
+          <button class="rec-btn" id="c2-setup-btn" onclick="c2SetupMedia()"><span class="rec-dot"></span><span id="c2-setup-lbl">Turn on camera</span></button>
+          <button class="btn primary" id="c2-start-real" onclick="c2StartCheck()" style="display:none">Start Check 2</button>
+        </div>
+        <p class="state-line none" id="c2-setup-state"></p>
+      </div>
+
+      <div id="c2-assess" style="display:none">
+        <div class="flu-timer-row"><span class="flu-timer" id="c2-timer">5:00</span></div>
+        <p class="mini-note" id="c2-warn" style="display:none;color:var(--retry)">30 seconds remaining. Keep going.</p>
+        <p class="step-eyebrow" id="c2-section-label"></p>
+        <div class="c1-letter" id="c2-current">&nbsp;</div>
+        <p class="mini-note" id="c2-progress"></p>
+        <div class="rec-row" id="c2-prompt-row" style="display:none">
+          <button class="play-btn" onclick="c2ReplayPrompt()">&#9654;&nbsp; Hear it again</button>
+        </div>
+        <div class="rec-row">
+          <button class="btn primary" id="c2-next" onclick="c2NextTap()">Next &#8594;</button>
+        </div>
+        <p class="state-line none" id="c2-state"></p>
+      </div>
+
+      <div id="c2-review"></div>
+
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECK 2: teacher prompt recorder -- the 10 vowel-keyword clips this
+       Check needs (2B short-vowel + 2C long-vowel). Separate from the
+       existing 70-word teacher recorder (s-teach); does not touch it. -->
+  <section class="screen" id="s-teachC2">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Check 2 prompts</p>
+      <h2>Record the Check 2 vowel prompts</h2>
+      <p class="lede">Read each script exactly as written, in your own voice. These play to the student before they answer -- never say the target sound itself, only the keyword question.</p>
+      <div id="c2t-prompt-list"></div>
+      <div class="setting-row" style="margin-top:4px">
+        <div><strong>Your recordings</strong><br><span class="mini-note">Uses the same Export/Load system as your other recordings, so these travel with the rest.</span></div>
+      </div>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <!-- CHECK 2: teacher scoring -- same local-file pattern as check1Teach -->
+  <section class="screen" id="check2Teach">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Check 2 review</p>
+      <h2>Check 2 &mdash; Letter-Sound Knowledge review</h2>
+      <p class="lede">Pick a class, then a student. Open the student&rsquo;s downloaded video, then tap each letter to score it.</p>
+      <div class="seg" id="c2t-class" style="margin:10px 0;flex-wrap:wrap"></div>
+      <div class="grid" id="c2t-roster" style="margin-bottom:14px"></div>
+      <div id="c2t-body"></div>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -931,7 +1017,7 @@ function buildGroups(){
    lock/available/completed system -- no other plumbing to touch. */
 var CHECK_DEFS=[
   {id:"check1", label:"Check 1: Letter Identification", sub:"Say the name of each letter", built:true, screen:"check1"},
-  {id:"check2", label:"Check 2: Letter-Sound Knowledge", sub:"Coming soon", built:false},
+  {id:"check2", label:"Check 2: Letter-Sound Knowledge", sub:"Consonant and vowel sounds (one video)", built:true, screen:"check2"},
   {id:"check3", label:"Check 3: Phonemic Awareness", sub:"Coming soon", built:false},
   {id:"check4", label:"Check 4: Decoding", sub:"Coming soon", built:false},
   {id:"check5", label:"Check 5: Automatic Word Recognition", sub:"Coming soon", built:false},
@@ -941,14 +1027,20 @@ var CHECK_DEFS=[
 function ckKey(){ return "rf_checks_"+(READER?READER.id:"anon"); }
 function ckDone(){ try{ var v=localStorage.getItem(ckKey()); return v?JSON.parse(v):{}; }catch(e){ return {}; } }
 function ckMarkDone(id){ try{ var o=ckDone(); o[id]=1; localStorage.setItem(ckKey(), JSON.stringify(o)); }catch(e){} }
+/* Unlocking depends ONLY on the previous check being done -- never on
+   whether THIS check happens to be built yet. That way a not-yet-built
+   check can become "logically available" while still having no real
+   screen: it shows in its normal, non-gray available style (not locked),
+   and a tap shows "Coming soon!" instead of navigating anywhere. Nothing
+   ever sends a student into an empty/broken screen. */
 function ckUnlocked(idx){
-  if(!CHECK_DEFS[idx].built){ return false; }
   if(idx===0){ return true; }
   return !!ckDone()[CHECK_DEFS[idx-1].id];
 }
 function paintDiagLanding(){
   var box=document.getElementById("diag-list"); if(!box){ return; }
   box.innerHTML="";
+  var note=document.getElementById("diag-comingsoon-note"); if(note){ note.textContent=""; }
   var done=ckDone(), i, completedCount=0, used=false;
   for(i=0;i<CHECK_DEFS.length;i++){
     (function(def,idx){
@@ -956,16 +1048,17 @@ function paintDiagLanding(){
       if(isDone){ completedCount++; }
       var open=ckUnlocked(idx);
       var b=document.createElement("button");
-      if(!def.built){
-        b.className="btn block locked"; b.disabled=true;
-        b.innerHTML=def.label+'<span class="sub">Coming soon</span>';
-      } else if(!open){
+      if(!open){
         b.className="btn block locked"; b.disabled=true;
         b.innerHTML="&#128274; "+def.label+'<span class="sub">Locked until you finish the check before it</span>';
       } else if(isDone){
         b.className="btn block done";
         b.innerHTML="&#10003;&nbsp; "+def.label+" — Completed"+'<span class="sub">'+def.sub+'</span>';
         b.onclick=function(){ if(used||tapGuardBlocks(idx)){ return; } used=true; armTapGuard(idx); go(def.screen); };
+      } else if(!def.built){
+        b.className="btn block";
+        b.innerHTML=def.label+'<span class="sub">'+def.sub+'</span>';
+        b.onclick=function(){ if(used||tapGuardBlocks(idx)){ return; } used=true; armTapGuard(idx); var n=document.getElementById("diag-comingsoon-note"); if(n){ n.textContent="Coming soon!"; } };
       } else {
         b.className="btn block";
         b.innerHTML=def.label+'<span class="sub">'+def.sub+'</span>';
@@ -1485,8 +1578,9 @@ function tapGuardBlocks(slot){
   return true;
 }
 function go(id){
-  var s=document.getElementsByClassName("screen"), i;
-  for(i=0;i<s.length;i++){ s[i].className="screen"; }
+  var s=document.getElementsByClassName("screen"), i, wasActive=null;
+  for(i=0;i<s.length;i++){ if(/active/.test(s[i].className)){ wasActive=s[i].id; } s[i].className="screen"; }
+  if(wasActive==="check2" && id!=="check2"){ c2StopMedia(); }
   document.getElementById(id).className="screen active";
   window.scrollTo(0,0); stopAllAudio();
   if(id==="s-pick"){ buildClasses(); }
@@ -1496,6 +1590,9 @@ function go(id){
   if(id==="check1Preview"){ check1PreviewEnter(); }
   if(id==="check1"){ c1Enter(); }
   if(id==="check1Teach"){ check1TeachEnter(); }
+  if(id==="check2"){ c2Enter(); }
+  if(id==="s-teachC2"){ c2tPromptsEnter(); }
+  if(id==="check2Teach"){ check2TeachEnter(); }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
   if(id==="s-final"){ fEnter(); }
   if(id==="s-read"){ refreshPtsBadge(); }
@@ -2333,6 +2430,48 @@ function flutPaintAttempts(){
 var C1_UPPER=["M","T","A","S","P","R","F","B","L","C","H","N","D","G","W","E","K","J","U","V","Y","I","Q","O","X","Z"];
 var C1_LOWER=["s","m","a","t","r","p","c","f","n","h","b","l","d","e","g","i","w","k","u","y","j","v","o","q","x","z"];
 var C1_ALL=C1_UPPER.concat(C1_LOWER);
+
+/* ---------- Check 2 data: 2A consonant retrieval (21) + 2B short-vowel
+   keyword identification (5) + 2C long-vowel keyword identification (5)
+   = 31 scored targets. See MASTER_SPEC.md's 2026-09-26 Check 2 revision. */
+var C2_CONSONANTS=["m","s","t","p","f","n","r","b","c","h","d","g","l","w","j","k","v","y","z","q","x"];
+var C2_SHORT_VOWELS=[
+  {letter:"a", keyword:"apple", promptKey:"c2_short_a", label:"Short A — apple", script:"Listen: apple. What sound does A make in apple?"},
+  {letter:"e", keyword:"edge", promptKey:"c2_short_e", label:"Short E — edge", script:"Listen: edge. What sound does E make in edge?"},
+  {letter:"i", keyword:"itch", promptKey:"c2_short_i", label:"Short I — itch", script:"Listen: itch. What sound does I make in itch?"},
+  {letter:"o", keyword:"octopus", promptKey:"c2_short_o", label:"Short O — octopus", script:"Listen: octopus. What sound does O make in octopus?"},
+  {letter:"u", keyword:"up", promptKey:"c2_short_u", label:"Short U — up", script:"Listen: up. What sound does U make in up?"}
+];
+var C2_LONG_VOWELS=[
+  {letter:"a", keyword:"apron", promptKey:"c2_long_a", label:"Long A — apron", script:"Listen: apron. What sound does A make in apron?"},
+  {letter:"e", keyword:"eagle", promptKey:"c2_long_e", label:"Long E — eagle", script:"Listen: eagle. What sound does E make in eagle?"},
+  {letter:"i", keyword:"ice", promptKey:"c2_long_i", label:"Long I — ice", script:"Listen: ice. What sound does I make in ice?"},
+  {letter:"o", keyword:"open", promptKey:"c2_long_o", label:"Long O — open", script:"Listen: open. What sound does O make in open?"},
+  {letter:"u", keyword:"unicorn", promptKey:"c2_long_u", label:"Long U — unicorn", script:"Listen: unicorn. What sound does U make in unicorn?"}
+];
+/* the flat walk order the student actually sees -- one entry per scored target, 31 total */
+var C2_ITEMS=(function(){
+  var out=[], i;
+  for(i=0;i<C2_CONSONANTS.length;i++){ out.push({section:"2A", letter:C2_CONSONANTS[i]}); }
+  for(i=0;i<C2_SHORT_VOWELS.length;i++){ out.push({section:"2B", letter:C2_SHORT_VOWELS[i].letter, keyword:C2_SHORT_VOWELS[i].keyword, promptKey:C2_SHORT_VOWELS[i].promptKey}); }
+  for(i=0;i<C2_LONG_VOWELS.length;i++){ out.push({section:"2C", letter:C2_LONG_VOWELS[i].letter, keyword:C2_LONG_VOWELS[i].keyword, promptKey:C2_LONG_VOWELS[i].promptKey}); }
+  return out;
+})();
+/* teacher-side scoring reference only -- never shown to the student, never played before a response */
+var C2_ANSWER_KEY={
+  "2A":{
+    m:"/m/", s:"target /s/ (legitimate /z/ may be an acceptable alternate)", t:"/t/", p:"/p/", f:"/f/", n:"/n/", r:"/r/", b:"/b/",
+    c:"target /k/ (acceptable alternate /s/)", h:"/h/", d:"/d/",
+    g:"target hard g as in ‘go’ (acceptable alternate soft g as in ‘giant’)",
+    l:"/l/", w:"/w/", j:"sound as in ‘jump’", k:"/k/", v:"/v/",
+    y:"target consonant sound as in ‘yes’", z:"/z/", q:"target /kw/", x:"target /ks/"
+  },
+  "2B":{a:"short a (apple)", e:"short e (edge)", i:"short i (itch)", o:"short o (octopus)", u:"short u (up)"},
+  "2C":{a:"long a (apron)", e:"long e (eagle)", i:"long i (ice)", o:"long o (open)", u:"long u (unicorn)"}
+};
+/* the 10 teacher-recorded prompt clips Check 2 needs (see s-teachC2) */
+var C2_PROMPT_DEFS=C2_SHORT_VOWELS.concat(C2_LONG_VOWELS);
+
 function c1PaintGrid(id,letters){
   var box=document.getElementById(id); if(!box){ return; }
   var html="", i; for(i=0;i<letters.length;i++){ html+='<div class="c1-cell">'+escapeHtml(letters[i])+'</div>'; }
@@ -2515,6 +2654,316 @@ function c1ConfirmSubmitted(){
   go("diagLanding");
 }
 
+/* ---------- Check 2 attempts (localStorage): one row per completed recording ---------- */
+var C2Attempts=(function(){
+  var KEY="rf_check2_attempts";
+  function all(){ try{ var r=window.localStorage.getItem(KEY); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(KEY,JSON.stringify(l)); }catch(e){} }
+  function add(rec){ var l=all(); l.push(rec); save(l); return rec; }
+  function update(id,patch){ var l=all(), i, k; for(i=0;i<l.length;i++){ if(l[i].id===id){ for(k in patch){ if(patch.hasOwnProperty(k)){ l[i][k]=patch[k]; } } break; } } save(l); }
+  function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
+  function forStudent(sid){ var l=all(), out=[], i; for(i=0;i<l.length;i++){ if(l[i].studentId===sid){ out.push(l[i]); } } out.sort(function(a,b){ return a.date<b.date?1:(a.date>b.date?-1:0); }); return out; }
+  return { all:all, add:add, update:update, get:get, forStudent:forStudent };
+})();
+
+/* ---------- Check 2: student flow -- ONE continuous camera+mic video
+   across 2A (21 consonants) + 2B (5 short vowels) + 2C (5 long vowels).
+   Camera/mic permission and preview happen BEFORE the timer starts; the
+   5:00 ceiling starts only once the browser confirms recording has truly
+   begun, on the first scored item -- never during setup/preview/permission. */
+var c2Stream=null, c2Recorder=null, c2Chunks=[], c2MimeType="video/webm";
+var c2Idx=-1, c2Blob=null, c2ReviewUrl=null;
+var c2TimerHandle=null, c2StartAt=0, c2WarnShown=false, c2HardStopped=false, c2NotReachedFrom=-1;
+var c2NextLock=false, c2Playing=false, c2YesUsed=false;
+var C2_TIME_LIMIT_MS=300000, C2_WARN_AT_MS=270000;
+
+function c2Enter(){
+  c2Idx=-1; c2Blob=null; c2Chunks=[]; c2NotReachedFrom=-1; c2WarnShown=false; c2HardStopped=false; c2YesUsed=false; c2Playing=false; c2NextLock=false;
+  var setup=document.getElementById("c2-setup"); if(setup){ setup.style.display="block"; }
+  var assess=document.getElementById("c2-assess"); if(assess){ assess.style.display="none"; }
+  var rv=document.getElementById("c2-review"); if(rv){ rv.innerHTML=""; }
+  var v=document.getElementById("c2-preview"); if(v){ v.style.display="none"; }
+  var fn=document.getElementById("c2-face-note"); if(fn){ fn.style.display="none"; }
+  var wn=document.getElementById("c2-warn"); if(wn){ wn.style.display="none"; }
+  var sb=document.getElementById("c2-setup-btn"); if(sb){ sb.style.display="inline-flex"; sb.disabled=false; }
+  var sl=document.getElementById("c2-setup-lbl"); if(sl){ sl.textContent="Turn on camera"; }
+  var ss=document.getElementById("c2-setup-state"); if(ss){ ss.className="state-line none"; ss.textContent=""; }
+  var startBtn=document.getElementById("c2-start-real"); if(startBtn){ startBtn.style.display="none"; }
+  var tm=document.getElementById("c2-timer"); if(tm){ tm.textContent=c2FmtTime(C2_TIME_LIMIT_MS); }
+}
+function c2MediaErrorText(err){
+  if(err&&err.message==="no-media-api"){ return "This browser can’t reach a camera. Open the page from the Canvas link, and use Chrome."; }
+  if(err&&err.name==="NotAllowedError"){ return "Camera or microphone is blocked. Allow both in the browser, then try again."; }
+  if(err&&err.name==="NotFoundError"){ return "No camera or microphone found on this device."; }
+  return "Couldn’t turn on the camera. Check the camera and microphone, then try again.";
+}
+function c2SetupMedia(){
+  var st=document.getElementById("c2-setup-state"), btn=document.getElementById("c2-setup-btn");
+  st.className="state-line none"; st.textContent="Turning on your camera and microphone…";
+  btn.disabled=true;
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    st.className="state-line err"; st.textContent=c2MediaErrorText({message:"no-media-api"});
+    btn.disabled=false;
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({video:{width:{ideal:640},height:{ideal:480}}, audio:true}).then(function(stream){
+    c2Stream=stream;
+    var v=document.getElementById("c2-preview");
+    if(v){ try{ v.srcObject=stream; }catch(e){} v.style.display="block"; try{ if(v.play){ v.play().catch(function(){}); } }catch(e){} }
+    var fn=document.getElementById("c2-face-note"); if(fn){ fn.style.display="block"; }
+    st.className="state-line saved"; st.textContent="✓ Camera ready. Make sure your face and mouth are visible, then tap Start Check 2.";
+    btn.style.display="none";
+    var startBtn=document.getElementById("c2-start-real"); if(startBtn){ startBtn.style.display="inline-flex"; }
+  }).catch(function(err){
+    btn.disabled=false;
+    st.className="state-line err"; st.textContent=c2MediaErrorText(err);
+  });
+}
+function c2PickMimeType(){
+  var candidates=["video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm","video/mp4"], i;
+  if(typeof window.MediaRecorder==="undefined" || typeof MediaRecorder.isTypeSupported!=="function"){ return ""; }
+  for(i=0;i<candidates.length;i++){ try{ if(MediaRecorder.isTypeSupported(candidates[i])){ return candidates[i]; } }catch(e){} }
+  return "";
+}
+function c2StartCheck(){
+  var st=document.getElementById("c2-setup-state");
+  if(!c2Stream){ return; }
+  if(typeof window.MediaRecorder==="undefined"){
+    st.className="state-line err"; st.textContent="This browser can’t record video. Use Chrome.";
+    return;
+  }
+  var mt=c2PickMimeType();
+  c2Chunks=[];
+  var mr;
+  try{ mr = mt ? new MediaRecorder(c2Stream,{mimeType:mt}) : new MediaRecorder(c2Stream); }
+  catch(e){ try{ mr=new MediaRecorder(c2Stream); }catch(e2){ st.className="state-line err"; st.textContent="Couldn’t start recording on this device."; return; } }
+  c2Recorder=mr;
+  c2MimeType = mt || (mr.mimeType||"video/webm");
+  mr.ondataavailable=function(e){ if(e.data && e.data.size>0){ c2Chunks.push(e.data); } };
+  mr.onstop=function(){ c2OnRecordingStopped(); };
+  mr.onstart=function(){ c2BeginWalk(); };
+  st.className="state-line none"; st.textContent="Starting the camera and microphone…";
+  try{ mr.start(); }catch(e){ st.className="state-line err"; st.textContent="Couldn’t start recording on this device."; }
+}
+function c2BeginWalk(){
+  var setup=document.getElementById("c2-setup"); if(setup){ setup.style.display="none"; }
+  var assess=document.getElementById("c2-assess"); if(assess){ assess.style.display="block"; }
+  c2Idx=-1; c2WarnShown=false; c2HardStopped=false; c2NotReachedFrom=-1;
+  c2StartAt=new Date().getTime();
+  if(c2TimerHandle){ clearInterval(c2TimerHandle); }
+  c2TimerHandle=setInterval(c2TickTimer,500);
+  c2DoAdvance();
+}
+function c2FmtTime(ms){ var s=Math.max(0,Math.ceil(ms/1000)), m=Math.floor(s/60); s=s%60; return m+":"+(s<10?"0":"")+s; }
+function c2TickTimer(){
+  var elapsed=new Date().getTime()-c2StartAt, remain=C2_TIME_LIMIT_MS-elapsed;
+  if(remain<=0){ c2HardStop(); return; }
+  var tm=document.getElementById("c2-timer"); if(tm){ tm.textContent=c2FmtTime(remain); }
+  if(remain<=(C2_TIME_LIMIT_MS-C2_WARN_AT_MS) && !c2WarnShown){
+    c2WarnShown=true;
+    var w=document.getElementById("c2-warn"); if(w){ w.style.display="block"; }
+  }
+}
+function c2PaintItem(){
+  var item=C2_ITEMS[c2Idx];
+  var cur=document.getElementById("c2-current"); if(cur){ cur.textContent=item.letter; }
+  var pg=document.getElementById("c2-progress"); if(pg){ pg.textContent="Item "+(c2Idx+1)+" of "+C2_ITEMS.length; }
+  var secLabel = item.section==="2A" ? "2A: Consonant Sounds" : (item.section==="2B" ? "2B: Short Vowel Sounds" : "2C: Long Vowel Sounds");
+  var sl=document.getElementById("c2-section-label"); if(sl){ sl.textContent=secLabel; }
+  var nb=document.getElementById("c2-next"); if(nb){ nb.textContent = (c2Idx===C2_ITEMS.length-1) ? "Finish →" : "Next →"; }
+  var pr=document.getElementById("c2-prompt-row");
+  if(item.promptKey){
+    if(pr){ pr.style.display="block"; }
+    c2PlayPrompt(item.promptKey);
+  } else if(pr){ pr.style.display="none"; }
+}
+function c2PlayPrompt(key){
+  var st=document.getElementById("c2-state"); if(!st){ return; }
+  playId(key).then(function(ok){
+    if(!ok){ st.className="state-line none"; st.textContent="(This prompt hasn’t been recorded yet — ask your teacher.)"; }
+    else { st.className="state-line none"; st.textContent=""; }
+  });
+}
+function c2ReplayPrompt(){ var item=C2_ITEMS[c2Idx]; if(item && item.promptKey){ c2PlayPrompt(item.promptKey); } }
+function c2DoAdvance(){
+  if(c2HardStopped){ return; }
+  if(c2Idx<C2_ITEMS.length-1){ c2Idx++; c2PaintItem(); }
+  else { c2FinishRecording(); }
+}
+/* Rapid-tap protection scoped to THIS one repeatedly-tapped button: a
+   frame-paced lock (not a millisecond cooldown) absorbs a duplicate event
+   for the same physical tap without ever delaying a real next tap by any
+   perceptible amount. */
+function c2NextTap(){
+  if(c2NextLock||c2HardStopped){ return; }
+  c2NextLock=true;
+  if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c2NextLock=false; }); }
+  else { setTimeout(function(){ c2NextLock=false; },16); }
+  c2DoAdvance();
+}
+function c2FinishRecording(){
+  if(c2TimerHandle){ clearInterval(c2TimerHandle); c2TimerHandle=null; }
+  c2NotReachedFrom=-1;
+  c2StopRecorderOnly();
+}
+function c2HardStop(){
+  if(c2HardStopped){ return; }
+  c2HardStopped=true;
+  if(c2TimerHandle){ clearInterval(c2TimerHandle); c2TimerHandle=null; }
+  c2NotReachedFrom=c2Idx+1;
+  var tm=document.getElementById("c2-timer"); if(tm){ tm.textContent="0:00"; }
+  c2StopRecorderOnly();
+}
+function c2StopRecorderOnly(){ if(c2Recorder && c2Recorder.state!=="inactive"){ try{ c2Recorder.stop(); }catch(e){} } }
+function c2OnRecordingStopped(){
+  var blob=new Blob(c2Chunks, {type:c2MimeType||"video/webm"});
+  c2Chunks=[];
+  if(!blob || blob.size===0){
+    var assess=document.getElementById("c2-assess"); if(assess){ assess.style.display="none"; }
+    var setup=document.getElementById("c2-setup"); if(setup){ setup.style.display="block"; }
+    var ss=document.getElementById("c2-setup-state");
+    if(ss){ ss.className="state-line err"; ss.textContent="The recording didn’t save properly. Please try Check 2 again."; }
+    return;
+  }
+  c2Blob=blob;
+  c2Review();
+}
+function c2Review(){
+  c2Playing=false;
+  var assess=document.getElementById("c2-assess"); if(assess){ assess.style.display="none"; }
+  var rv=document.getElementById("c2-review"); if(!rv){ return; }
+  if(c2ReviewUrl){ try{ URL.revokeObjectURL(c2ReviewUrl); }catch(e){} }
+  c2ReviewUrl=URL.createObjectURL(c2Blob);
+  rv.innerHTML='<p class="state-line saved">Recording complete.</p>'
+    +'<video id="c2-play" style="width:100%;max-width:360px;border-radius:12px;background:#000" src="'+c2ReviewUrl+'"></video>'
+    +'<div class="rec-row" style="margin-top:10px">'
+    +'<button class="play-btn" id="c2-listen-btn" onclick="c2ToggleListen()">▶ Watch Recording</button>'
+    +'<button class="btn" onclick="c2RecordAgain()">🔄 Record Again</button>'
+    +'<button class="btn primary" onclick="c2Finish()">✅ Submit Recording</button>'
+    +"</div>";
+}
+function c2ToggleListen(){
+  var v=document.getElementById("c2-play"), btn=document.getElementById("c2-listen-btn"); if(!v||!btn){ return; }
+  if(c2Playing){
+    try{ v.pause(); }catch(e){}
+    c2Playing=false; btn.innerHTML="▶ Watch Recording";
+    return;
+  }
+  try{ v.currentTime=0; v.play(); }catch(e){}
+  c2Playing=true; btn.innerHTML="⏹ Stop";
+  v.onended=function(){ c2Playing=false; var b=document.getElementById("c2-listen-btn"); if(b){ b.innerHTML="▶ Watch Recording"; } };
+}
+function c2RecordAgain(){
+  try{ var v=document.getElementById("c2-play"); if(v){ v.pause(); } }catch(e){}
+  if(c2ReviewUrl){ try{ URL.revokeObjectURL(c2ReviewUrl); }catch(e){} c2ReviewUrl=null; }
+  c2Playing=false; c2Blob=null;
+  var rv=document.getElementById("c2-review"); if(rv){ rv.innerHTML=""; }
+  var setup=document.getElementById("c2-setup"); if(setup){ setup.style.display="block"; }
+  if(c2Stream){
+    var startBtn=document.getElementById("c2-start-real"); if(startBtn){ startBtn.style.display="inline-flex"; }
+    var ss=document.getElementById("c2-setup-state"); if(ss){ ss.className="state-line saved"; ss.textContent="✓ Camera still ready. Tap Start Check 2 to record again."; }
+  } else {
+    var sb=document.getElementById("c2-setup-btn"); if(sb){ sb.style.display="inline-flex"; sb.disabled=false; }
+  }
+}
+function c2Finish(){
+  if(!c2Blob||c2Blob.size===0){ return; } // never mark complete on a failed/empty recording
+  var fname=rfStandardFileName("CHECK_2");
+  downloadBlob(c2Blob,fname);
+  var reached = (c2NotReachedFrom===-1) ? C2_ITEMS.length : c2NotReachedFrom;
+  C2Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
+    totalTimeMs:(new Date().getTime()-c2StartAt), reachedCount:reached,
+    scores:null, observed:null, c2aCorrect:null, c2bCorrect:null, c2cCorrect:null, targets:null });
+  var rv=document.getElementById("c2-review"); if(!rv){ return; }
+  rv.innerHTML="Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
+    +'<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
+    +"<li>Open today’s Check 2 assignment in Canvas.</li>"
+    +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
+    +"<li>Press <strong>Submit</strong>.</li></ol></div>"
+    +'<div class="note-box" style="margin-top:14px"><h4>Did you submit your video file?</h4>'
+    +'<button class="btn primary block" id="c2-yes-btn" style="font-size:19px;padding:16px" onclick="c2ConfirmSubmitted()">YES</button></div>';
+}
+function c2ConfirmSubmitted(){
+  if(c2YesUsed){ return; }
+  c2YesUsed=true;
+  var b=document.getElementById("c2-yes-btn"); if(b){ b.disabled=true; b.textContent="Saved ✓"; }
+  ckMarkDone("check2");
+  go("diagLanding");
+}
+/* Called whenever the student leaves the check2 screen by any path (Back
+   button, or the normal finish-and-return-to-diagLanding flow) -- releases
+   the camera/mic and revokes the temporary preview URL either way. */
+function c2StopMedia(){
+  if(c2TimerHandle){ clearInterval(c2TimerHandle); c2TimerHandle=null; }
+  if(c2Recorder && c2Recorder.state!=="inactive"){ try{ c2Recorder.stop(); }catch(e){} }
+  c2Recorder=null;
+  if(c2Stream){
+    var tracks = c2Stream.getTracks ? c2Stream.getTracks() : [];
+    var i; for(i=0;i<tracks.length;i++){ try{ tracks[i].stop(); }catch(e){} }
+    c2Stream=null;
+  }
+  if(c2ReviewUrl){ try{ URL.revokeObjectURL(c2ReviewUrl); }catch(e){} c2ReviewUrl=null; }
+  var v=document.getElementById("c2-preview"); if(v){ try{ v.srcObject=null; }catch(e){} }
+}
+
+/* ---------- Check 2: teacher prompt recorder (the 10 vowel-keyword clips) ----------
+   Separate small screen from the existing 70-word teacher recorder
+   (s-teach) -- reuses the same startRec/stopRec/AudioStore/playBlob/playId
+   machinery, so these clips travel through the existing Export/Load/bake
+   workflow automatically, with no changes to s-teach itself. */
+var c2tBlobs={};
+function c2tPromptsEnter(){ c2tPaintPromptList(); }
+function c2tPaintPromptList(){
+  var box=document.getElementById("c2t-prompt-list"); if(!box){ return; }
+  box.innerHTML="";
+  var i;
+  for(i=0;i<C2_PROMPT_DEFS.length;i++){
+    (function(def){
+      var row=document.createElement("div"); row.className="card";
+      row.innerHTML =
+         '<p class="step-eyebrow">'+escapeHtml(def.label)+'</p>'
+        +'<p class="sentence" style="font-size:19px">“'+escapeHtml(def.script)+'”</p>'
+        +'<div class="trow">'
+        +'<div class="tl">Recording<small id="c2t-state-'+def.promptKey+'">Not recorded yet.</small></div>'
+        +'<div class="item-actions">'
+        +'<button class="rec-btn" id="c2t-rec-'+def.promptKey+'" onclick="c2tToggle(\''+def.promptKey+'\')"><span class="rec-dot"></span><span id="c2t-lbl-'+def.promptKey+'">Record</span></button>'
+        +'<button class="mini-btn play" id="c2t-play-'+def.promptKey+'" onclick="c2tPlayOne(\''+def.promptKey+'\')" disabled>&#9654;</button>'
+        +"</div></div>";
+      box.appendChild(row);
+    })(C2_PROMPT_DEFS[i]);
+  }
+  c2tRefreshDots();
+}
+function c2tRefreshDots(){
+  AudioStore.keys().then(function(ks){
+    var have={}, i; for(i=0;i<ks.length;i++){ have[ks[i]]=true; }
+    for(i=0;i<C2_PROMPT_DEFS.length;i++){
+      var key=C2_PROMPT_DEFS[i].promptKey;
+      var st=document.getElementById("c2t-state-"+key);
+      var pb=document.getElementById("c2t-play-"+key);
+      if(st){ st.textContent = have[key] ? "✓ Saved." : "Not recorded yet."; }
+      if(pb){ pb.disabled = !have[key]; }
+    }
+  });
+}
+function c2tToggle(key){
+  var recBtn=document.getElementById("c2t-rec-"+key), lbl=document.getElementById("c2t-lbl-"+key), st=document.getElementById("c2t-state-"+key);
+  if(recording&&activeCtx==="c2teach-"+key){ stopRec(); recBtn.className="rec-btn"; lbl.textContent="Record"; return; }
+  activeCtx="c2teach-"+key; st.textContent="Recording…";
+  startRec(function(blob){
+    c2tBlobs[key]=blob;
+    var pb=document.getElementById("c2t-play-"+key); if(pb){ pb.disabled=false; }
+    AudioStore.put(key,blob).then(function(){ st.textContent="✓ Saved."; c2tRefreshDots(); })
+      .catch(function(){ st.textContent="Could not save on this device."; });
+  }).then(function(){ recBtn.className="rec-btn rec"; lbl.textContent="Stop"; })
+    .catch(function(err){ st.textContent=micErrorText(err); });
+}
+function c2tPlayOne(key){
+  var b=c2tBlobs[key];
+  if(b){ playBlob(b); return; }
+  playId(key);
+}
+
 /* ---------- Check 1: teacher scoring ----------
    Correct / Incorrect / Skip-No Response / Self-Corrected, cycled by
    tapping each letter. Reports uppercase/lowercase/overall separately
@@ -2648,6 +3097,196 @@ function c1tSave(){
   C1Attempts.update(C1T_ATTEMPT,{ scores:c1tScores.slice(0), uppercaseCorrect:r.upCorrect, lowercaseCorrect:r.lowCorrect,
     missedUpper:r.missedUpper, missedLower:r.missedLower, selfCorrections:r.selfCorr, targets:r.missedUpper.concat(r.missedLower) });
   var n=document.getElementById("c1t-save-note");
+  if(n){ n.className="mini-note"; n.style.color="var(--good)"; n.textContent="✓ Saved."; }
+}
+
+/* ---------- Check 2: teacher scoring ----------
+   Same local-file pattern as Check 1's teacher scoring (teacher opens the
+   student's downloaded video, nothing assumed to persist on a server).
+   7 tap-cycled correctness states (Not Reached items pre-filled from where
+   the student's attempt actually stopped) plus an INDEPENDENT sound-
+   production-observation toggle per item, since the spec requires those to
+   never automatically merge (an otherwise-correct item that also has an
+   observation note must not become an instructional target). */
+var C2T_CLS=0, C2T_STU=null, C2T_ATTEMPT=null, c2tFileUrl=null, c2tScores=[], c2tObserved=[];
+var C2T_ORDER=["","err","sc","lns","alt","skip","nr"];
+var C2T_LABELS={"":"Correct","err":"Incorrect","sc":"Self-corrected","lns":"Letter-name substitution","alt":"Acceptable alternate sound","skip":"Skip / No response","nr":"Not Reached"};
+var C2T_CSS_CLASS={"":"","err":"err","lns":"err","sc":"sc","alt":"sc","skip":"skip","nr":"skip"};
+function check2TeachEnter(){
+  C2T_CLS=0; C2T_STU=null; C2T_ATTEMPT=null;
+  c2tPaintClasses(); c2tPaintRoster();
+  var b=document.getElementById("c2t-body"); if(b){ b.innerHTML=""; }
+}
+function c2tPaintClasses(){
+  var seg=document.getElementById("c2t-class"); if(!seg){ return; }
+  var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="c2tPick('+i+')" class="'+(i===C2T_CLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function c2tPick(i){
+  C2T_CLS=i; C2T_STU=null; C2T_ATTEMPT=null;
+  c2tPaintClasses(); c2tPaintRoster();
+  var b=document.getElementById("c2t-body"); if(b){ b.innerHTML=""; }
+}
+function c2tPaintRoster(){
+  var box=document.getElementById("c2t-roster"); if(!box){ return; }
+  box.innerHTML="";
+  var cls=CLASSES[C2T_CLS], i;
+  for(i=0;i<cls.students.length;i++){
+    (function(stu){
+      var n=C2Attempts.forStudent(stu.id).length;
+      var b=document.createElement("button");
+      b.className="btn block"; b.textContent=stu.name+(n?" ("+n+")":"");
+      b.onclick=function(){ C2T_STU=stu.id; C2T_ATTEMPT=null; c2tPaintAttemptList(); };
+      box.appendChild(b);
+    })(cls.students[i]);
+  }
+}
+function c2tPaintAttemptList(){
+  var host=document.getElementById("c2t-body"); if(!host){ return; }
+  var list=C2Attempts.forStudent(C2T_STU);
+  if(!list.length){ host.innerHTML='<p class="mini-note">No Check 2 attempts yet.</p>'; return; }
+  var html="", i;
+  for(i=0;i<list.length;i++){
+    (function(a){
+      var scored=(a.c2aCorrect!==null && a.c2aCorrect!==undefined) ? " — scored ("+(a.c2aCorrect+a.c2bCorrect+a.c2cCorrect)+"/31)" : " — not scored yet";
+      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small>'+scored+'</small></div>'
+        +'<button class="mini-btn" onclick="c2tOpenAttempt(\''+a.id+'\')">Open</button></div>';
+    })(list[i]);
+  }
+  host.innerHTML=html;
+}
+function c2tAnswerKeyText(section){
+  var key=C2_ANSWER_KEY[section], k, out=[];
+  for(k in key){ if(key.hasOwnProperty(k)){ out.push(k+" = "+key[k]); } }
+  return escapeHtml(out.join("; "));
+}
+function c2tOpenAttempt(id){
+  C2T_ATTEMPT=id;
+  var a=C2Attempts.get(id);
+  var n=C2_ITEMS.length, i;
+  c2tScores = (a.scores && a.scores.length===n) ? a.scores.slice(0) : [];
+  if(!c2tScores.length){ for(i=0;i<n;i++){ c2tScores.push(i>=a.reachedCount ? "nr" : ""); } }
+  c2tObserved = (a.observed && a.observed.length===n) ? a.observed.slice(0) : [];
+  if(!c2tObserved.length){ for(i=0;i<n;i++){ c2tObserved.push(false); } }
+  var host=document.getElementById("c2t-body"); if(!host){ return; }
+  var ms=a.totalTimeMs||0, mins=Math.floor(ms/60000), secs=Math.floor((ms%60000)/1000);
+  host.innerHTML =
+     '<div class="card">'
+    +'<p class="step-eyebrow">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+"</p>"
+    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+" &nbsp; Reached "+a.reachedCount+" of "+n+" items</p>"
+    +'<label class="btn" for="c2t-file">Open the video from Canvas</label>'
+    +'<input type="file" id="c2t-file" style="display:none" accept="video/*,.webm,.mp4" onchange="c2tOpenFile(this)">'
+    +'<video id="c2t-player" controls style="width:100%;max-width:420px;margin:10px 0;background:#000"></video>'
+    +'<p class="mini-note" id="c2t-file-note">No file open. The file stays on this computer.</p>'
+    +'<div class="note-box"><h4>Answer key reference</h4>'
+    +'<p class="mini-note">2A: '+c2tAnswerKeyText("2A")+'</p>'
+    +'<p class="mini-note">2B: '+c2tAnswerKeyText("2B")+'</p>'
+    +'<p class="mini-note">2C: '+c2tAnswerKeyText("2C")+'</p>'
+    +"</div>"
+    +'<p class="step-eyebrow" style="margin-top:14px">2A &mdash; Consonant Sound Retrieval (21)</p>'
+    +'<div class="c1-grid" id="c2t-2a-grid"></div>'
+    +'<p class="step-eyebrow">2B &mdash; Short-Vowel Sound Knowledge in Keyword Context (5)</p>'
+    +'<div class="c1-grid" id="c2t-2b-grid"></div>'
+    +'<p class="step-eyebrow">2C &mdash; Long-Vowel Sound Knowledge in Keyword Context (5)</p>'
+    +'<div class="c1-grid" id="c2t-2c-grid"></div>'
+    +'<p class="mini-note">Tap a letter to cycle: Correct &rarr; Incorrect &rarr; Self-corrected &rarr; Letter-name substitution &rarr; Acceptable alternate &rarr; Skip &rarr; Not Reached &rarr; Correct. Tap the small ◆ mark to flag a sound-production observation — it never changes scoring on its own.</p>'
+    +'<div class="card" id="c2t-results" style="margin-top:14px"></div>'
+    +'<button class="btn primary" onclick="c2tSave()" style="margin-top:10px">Save scores</button>'
+    +'<p class="mini-note" id="c2t-save-note"></p>'
+    +"</div>"
+    +'<div class="nav-row" style="margin-top:14px"><button class="btn" onclick="c2tPaintAttemptList()">&#8592; Back to attempts</button></div>';
+  c2tPaintAllGrids();
+  c2tPaintResults();
+}
+function c2tOpenFile(input){
+  var f=input.files&&input.files[0]; if(!f){ return; }
+  var v=document.getElementById("c2t-player");
+  if(c2tFileUrl){ try{ URL.revokeObjectURL(c2tFileUrl); }catch(e){} }
+  c2tFileUrl=URL.createObjectURL(f);
+  v.src=c2tFileUrl;
+  document.getElementById("c2t-file-note").textContent="Opened: "+f.name;
+}
+function c2tItemLabel(item){
+  if(item.section==="2A"){ return item.letter; }
+  return (item.section==="2B"?"short ":"long ")+item.letter;
+}
+function c2tPaintGrid(hostId,items,startIdx){
+  var box=document.getElementById(hostId); if(!box){ return; }
+  var html="", i, gi;
+  for(i=0;i<items.length;i++){
+    gi=startIdx+i;
+    var st=c2tScores[gi]||"";
+    var cls=C2T_CSS_CLASS[st]||"";
+    var obsOn=!!c2tObserved[gi];
+    html+='<button class="c1-cell c1t-cell'+(cls?" "+cls:"")+'" onclick="c2tTap('+gi+')" title="'+C2T_LABELS[st]+(obsOn?" + sound-production observation":"")+'">'
+      +escapeHtml(items[i].letter)
+      +'<span class="c2-obs'+(obsOn?" on":"")+'" onclick="c2tToggleObs(event,'+gi+')" title="Sound-production observation (does not affect scoring)">◆</span>'
+      +"</button>";
+  }
+  box.innerHTML=html;
+}
+function c2tPaintAllGrids(){
+  c2tPaintGrid("c2t-2a-grid", C2_ITEMS.slice(0,21), 0);
+  c2tPaintGrid("c2t-2b-grid", C2_ITEMS.slice(21,26), 21);
+  c2tPaintGrid("c2t-2c-grid", C2_ITEMS.slice(26,31), 26);
+}
+function c2tTap(i){
+  var idx=C2T_ORDER.indexOf(c2tScores[i]);
+  c2tScores[i]=C2T_ORDER[(idx+1)%C2T_ORDER.length];
+  c2tPaintAllGrids();
+  c2tPaintResults();
+}
+function c2tToggleObs(e,i){
+  if(e&&e.stopPropagation){ e.stopPropagation(); }
+  c2tObserved[i]=!c2tObserved[i];
+  c2tPaintAllGrids();
+  c2tPaintResults();
+}
+function c2tCompute(){
+  var i, item, st, label, corr2A=0, corr2B=0, corr2C=0;
+  var missed2A=[], missed2B=[], missed2C=[], altList=[], lnsList=[], selfCorr=0, skips=0, notReached=[], observations=[];
+  for(i=0;i<C2_ITEMS.length;i++){
+    item=C2_ITEMS[i]; st=c2tScores[i]||""; label=c2tItemLabel(item);
+    if(c2tObserved[i]){ observations.push(label); }
+    if(st==="nr"){ notReached.push(label); continue; }
+    var isCorrect=(st===""||st==="sc"||st==="alt");
+    if(st==="sc"){ selfCorr++; }
+    if(st==="alt"){ altList.push(label); }
+    if(st==="lns"){ lnsList.push(label); }
+    if(st==="skip"){ skips++; }
+    if(item.section==="2A"){ if(isCorrect){ corr2A++; } else { missed2A.push(label); } }
+    else if(item.section==="2B"){ if(isCorrect){ corr2B++; } else { missed2B.push(label); } }
+    else { if(isCorrect){ corr2C++; } else { missed2C.push(label); } }
+  }
+  return { corr2A:corr2A, corr2B:corr2B, corr2C:corr2C, missed2A:missed2A, missed2B:missed2B, missed2C:missed2C,
+    altList:altList, lnsList:lnsList, selfCorr:selfCorr, skips:skips, notReached:notReached, observations:observations,
+    targets:missed2A.concat(missed2B).concat(missed2C) };
+}
+function c2tPaintResults(){
+  var host=document.getElementById("c2t-results"); if(!host){ return; }
+  var r=c2tCompute();
+  host.innerHTML =
+     "<p><strong>2A Consonant Sound Retrieval:</strong> "+r.corr2A+" / 21</p>"
+    +'<p class="mini-note">Needs instruction: '+(r.missed2A.length?escapeHtml(r.missed2A.join(", ")):"none")+"</p>"
+    +"<p><strong>2B Short-Vowel Sound Knowledge in Keyword Context:</strong> "+r.corr2B+" / 5</p>"
+    +'<p class="mini-note">Needs instruction: '+(r.missed2B.length?escapeHtml(r.missed2B.join(", ")):"none")+"</p>"
+    +"<p><strong>2C Long-Vowel Sound Knowledge in Keyword Context:</strong> "+r.corr2C+" / 5</p>"
+    +'<p class="mini-note">Needs instruction: '+(r.missed2C.length?escapeHtml(r.missed2C.join(", ")):"none")+"</p>"
+    +"<p><strong>Vowels combined:</strong> "+(r.corr2B+r.corr2C)+" / 10</p>"
+    +"<p><strong>Overall Check 2:</strong> "+(r.corr2A+r.corr2B+r.corr2C)+" / 31</p>"
+    +'<p class="mini-note">Self-corrections: '+r.selfCorr+"</p>"
+    +'<p class="mini-note">Acceptable alternates: '+(r.altList.length?escapeHtml(r.altList.join(", ")):"none")+"</p>"
+    +'<p class="mini-note">Letter-name substitutions: '+(r.lnsList.length?escapeHtml(r.lnsList.join(", ")):"none")+"</p>"
+    +'<p class="mini-note">Skips: '+r.skips+"</p>"
+    +'<p class="mini-note">Not Reached (administration ceiling — not counted as incorrect): '+(r.notReached.length?escapeHtml(r.notReached.join(", ")):"none")+"</p>"
+    +'<p class="mini-note">Sound-production observations (never automatically an instructional target): '+(r.observations.length?escapeHtml(r.observations.join(", ")):"none")+"</p>";
+}
+function c2tSave(){
+  if(!C2T_ATTEMPT){ return; }
+  var r=c2tCompute();
+  C2Attempts.update(C2T_ATTEMPT,{ scores:c2tScores.slice(0), observed:c2tObserved.slice(0),
+    c2aCorrect:r.corr2A, c2bCorrect:r.corr2B, c2cCorrect:r.corr2C, targets:r.targets });
+  var n=document.getElementById("c2t-save-note");
   if(n){ n.className="mini-note"; n.style.color="var(--good)"; n.textContent="✓ Saved."; }
 }
 

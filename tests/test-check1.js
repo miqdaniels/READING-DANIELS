@@ -105,17 +105,19 @@ setTimeout(function(){
     ck(activeId()==="diagLanding","YES returns to the Reading Checks dashboard");
     ck(!!w.ckDone()["check1"],"Check 1 is marked completed after YES");
     var i2, diagBtns=d.querySelectorAll("#diagLanding .btn");
-    var foundDone=false, foundGreen=false, foundCk2Locked=true;
+    var foundDone=false, foundGreen=false, foundCk2Unlocked=false, foundCk3Locked=true;
     for(i2=0;i2<diagBtns.length;i2++){
       if(/Check 1/.test(diagBtns[i2].textContent) && /Completed/.test(diagBtns[i2].textContent)){
         foundDone=true;
         if(diagBtns[i2].className.indexOf("done")>-1){ foundGreen=true; }
       }
-      if(/Check 2/.test(diagBtns[i2].textContent) && diagBtns[i2].disabled!==true){ foundCk2Locked=false; }
+      if(/Check 2/.test(diagBtns[i2].textContent) && diagBtns[i2].disabled!==true){ foundCk2Unlocked=true; }
+      if(/Check 3/.test(diagBtns[i2].textContent) && diagBtns[i2].disabled!==true){ foundCk3Locked=false; }
     }
     ck(foundDone,"Check 1 shows as Completed on the dashboard");
     ck(foundGreen,"the completed Check 1 card uses the green 'done' styling class");
-    ck(foundCk2Locked,"Check 2 is still not clickable (it has no real screen built yet -- stays 'Coming soon')");
+    ck(foundCk2Unlocked,"Check 2 unlocks immediately -- clickable right after Check 1 completes");
+    ck(foundCk3Locked,"Check 3 remains locked (Check 2 isn't done yet)");
     ck(d.getElementById("diag-alldone").style.display==="none","the 'all Reading Checks completed' banner does NOT show after only Check 1 (7 total checks exist)");
 
     /* ---- clicking YES again (accidental double tap) never double-records ---- */
