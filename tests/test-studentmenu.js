@@ -75,8 +75,8 @@ setTimeout(function(){
   function ck(c,m){ if(c){pass++;} else {fail++; console.log("FAIL:",m);} }
 
   /* ---- every existing screen still opens ---- */
-  var existingScreens=["s-home","s-pick","s-roster","s-groups","s-final","s-score","s-board","s-teach","s-settings","s-status","fluencyPassage","fluencyRetell","s-fluteach"];
-  w.CURCLASS=w.CLASSES[0]; w.READER=w.CLASSES[0].students[0]; w.CURGROUP=w.GROUPS[0];
+  var existingScreens=["s-home","s-pick","s-roster","s-confirm","s-groups","s-final","s-score","s-board","s-teach","s-settings","s-status","fluencyPassage","fluencyRetell","s-fluteach"];
+  w.CURCLASS=w.CLASSES[0]; w.READER=w.CLASSES[0].students[0]; w.CURGROUP=w.GROUPS[0]; w.PENDING_STU=w.CLASSES[0].students[0];
   var i;
   for(i=0;i<existingScreens.length;i++){
     w.go(existingScreens[i]);
@@ -98,22 +98,30 @@ setTimeout(function(){
   ck(activeId()==="s-roster","the class tap reaches s-roster");
   var rosterBtnsNow=d.querySelectorAll("#roster-list .btn");
   click(rosterBtnsNow[0]); // immediately tapping the roster's first name (Miriam Gomez)
-  ck(activeId()==="studentMenu","an immediate tap on the freshly-rendered roster fires right away, no wait");
-  ck(w.READER && w.READER.name==="Miriam Gomez","and selects the right student");
+  ck(activeId()==="s-confirm","an immediate tap on the freshly-rendered roster fires right away, no wait");
+  ck(w.PENDING_STU && w.PENDING_STU.name==="Miriam Gomez","and selects the right student");
+  click(d.getElementById("confirm-yes-btn"));
+  ck(activeId()==="studentMenu","tapping Yes opens the student menu");
+  ck(w.READER && w.READER.name==="Miriam Gomez","and confirms the right student");
 
   /* ---- but a literal duplicate event for the SAME tap on the SAME
      button never double-fires, no matter how much time passes ---- */
-  w.READER=null;
+  w.READER=null; w.PENDING_STU=null;
   w.go("s-pick"); w.buildClasses();
   var classBtns2=d.querySelectorAll("#class-list .btn");
   click(classBtns2[0]);
   var rosterBtnsNow2=d.querySelectorAll("#roster-list .btn");
   click(rosterBtnsNow2[0]); click(rosterBtnsNow2[0]); click(rosterBtnsNow2[0]);
-  ck(activeId()==="studentMenu","three clicks on the exact same name button still only navigate once");
+  ck(activeId()==="s-confirm","three clicks on the exact same name button still only navigate once");
+  ck(w.PENDING_STU && w.PENDING_STU.name==="Miriam Gomez","PENDING_STU is set correctly, not corrupted by the extra duplicate events");
+  var yesBtn2=d.getElementById("confirm-yes-btn");
+  click(yesBtn2); click(yesBtn2); click(yesBtn2);
+  ck(activeId()==="studentMenu","three clicks on the exact same Yes button still only navigate once");
   ck(w.READER && w.READER.name==="Miriam Gomez","READER is set correctly, not corrupted by the extra duplicate events");
 
-  /* ---- tapping a student's name (for real, past the guard window) opens studentMenu, not straight into an activity ---- */
-  w.READER=null;
+  /* ---- tapping a student's name (for real, past the guard window) opens
+     the Is-this-you confirm, not straight into studentMenu or an activity ---- */
+  w.READER=null; w.PENDING_STU=null;
   w.go("s-pick"); w.buildClasses();
   w.CURCLASS=w.CLASSES[0];
   w.go("s-roster");
@@ -123,7 +131,10 @@ setTimeout(function(){
     for(i=0;i<nameBtns.length;i++){ if(nameBtns[i].textContent==="Miriam Gomez") target=nameBtns[i]; }
     ck(!!target,"Miriam Gomez listed on the roster");
     click(target);
-    ck(activeId()==="studentMenu","tapping a name opens studentMenu (not an activity directly)");
+    ck(activeId()==="s-confirm","tapping a name opens the Is-this-you confirm (not studentMenu or an activity directly)");
+    ck(d.getElementById("confirm-name").textContent==="Miriam Gomez","confirm screen names the tapped student");
+    click(d.getElementById("confirm-yes-btn"));
+    ck(activeId()==="studentMenu","tapping Yes opens studentMenu");
     ck(w.READER && w.READER.name==="Miriam Gomez","READER set correctly by the tap");
     ck(d.getElementById("sm-who").textContent==="Miriam Gomez","student's name shown at the top of the menu");
 

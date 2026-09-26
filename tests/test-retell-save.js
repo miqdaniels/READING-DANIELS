@@ -94,7 +94,9 @@ setTimeout(function(){
     var nameBtns=d.querySelectorAll("#roster-list .btn"), target=null, i;
     for(i=0;i<nameBtns.length;i++){ if(nameBtns[i].textContent===w.CLASSES[0].students[0].name) target=nameBtns[i]; }
     click(target);
-    ck(activeId()==="studentMenu","name tap reaches the student menu");
+    ck(activeId()==="s-confirm","name tap reaches the Is-this-you confirm");
+    click(d.getElementById("confirm-yes-btn"));
+    ck(activeId()==="studentMenu","tapping Yes reaches the student menu");
 
     setTimeout(function(){
       click(menuBtn("#studentMenu","Fluency"));

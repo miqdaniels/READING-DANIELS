@@ -69,9 +69,12 @@ setTimeout(function(){
       var si=(round*3)%nameBtns.length; // vary the picked name across rounds
       var wantStudent=wantClass.students[si];
       click(nameBtns[si]); // exactly ONE tap
+      ck(activeId()==="s-confirm","round "+round+": one tap on '"+wantStudent.name+"' reached the Is-this-you confirm (got '"+activeId()+"')");
+      ck(d.getElementById("confirm-name").textContent===wantStudent.name,"round "+round+": the confirm screen names '"+wantStudent.name+"'");
+      click(d.getElementById("confirm-yes-btn")); // exactly ONE tap
       var landedRight = activeId()==="studentMenu" && w.READER===wantStudent;
       if(!landedRight){ wrongLanding=true; }
-      ck(activeId()==="studentMenu","round "+round+": one tap on '"+wantStudent.name+"' reached the student menu (got '"+activeId()+"')");
+      ck(activeId()==="studentMenu","round "+round+": tapping Yes reached the student menu (got '"+activeId()+"')");
       ck(w.READER===wantStudent,"round "+round+": READER is '"+wantStudent.name+"' (got '"+(w.READER?w.READER.name:null)+"') -- not a wrong-name landing");
       ck(d.getElementById("sm-who").textContent===wantStudent.name,"round "+round+": the menu header shows '"+wantStudent.name+"'");
 

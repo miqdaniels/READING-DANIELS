@@ -44,6 +44,18 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .btn[disabled]{opacity:.5;cursor:default}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:520px){.grid{grid-template-columns:1fr}}
+/* Class-hour buttons: one horizontal row, not a stacked vertical column --
+   so mashing one can never bleed onto the SAME on-screen spot a roster
+   name occupies on the next screen (see .roster-headzone below). */
+.classrow{display:flex;gap:8px;flex-wrap:wrap}
+.classrow .btn{flex:1 1 100px;text-align:center;padding:12px 10px;font-size:15px}
+/* Non-tappable header on the name screen, deliberately sitting in the same
+   screen zone the class-hour row just occupied -- nothing here has an
+   onclick, so a stray tap landing here does nothing at all. */
+.roster-headzone{display:flex;align-items:center;gap:12px;padding:8px 0 16px;margin:0 0 14px;border-bottom:1px solid var(--line)}
+.roster-headzone .book{font-size:30px;line-height:1}
+.roster-headzone h1{font-size:19px;margin:0;font-weight:650;letter-spacing:-.01em}
+.roster-headzone .hour{display:block;font-size:14px;color:var(--ink-soft);font-weight:600;margin-top:2px}
 .screen{display:none}.screen.active{display:block}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px 22px;margin:0 0 16px}
 .progress-track{height:6px;background:var(--line);border-radius:999px;overflow:hidden;margin:0 0 18px}
@@ -208,12 +220,16 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
   <section id="s-pick" class="screen active">
     <h2>Which class are you in?</h2>
     <p class="lede">Tap your class hour.</p>
-    <div class="grid" id="class-list"></div>
+    <div class="classrow" id="class-list"></div>
   </section>
 
   <!-- NAME PICK -->
   <section id="s-roster" class="screen">
-    <p class="crumb"><a onclick="go('s-pick')">Change class</a> &nbsp;/&nbsp; <span id="roster-title"></span></p>
+    <div class="roster-headzone">
+      <span class="book" aria-hidden="true">&#128214;</span>
+      <div><h1>Reading Foundations</h1><span class="hour" id="roster-hour-label"></span></div>
+    </div>
+    <p class="crumb"><a onclick="go('s-pick')">Change class</a></p>
     <h2>Who&rsquo;s reading today?</h2>
     <p class="lede">Tap your name.</p>
     <div class="setting-row" id="code-box" style="display:none;flex-wrap:wrap">
@@ -221,6 +237,16 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <div><input id="code-input" class="code-input" placeholder="Code" autocomplete="off"> <button class="btn" onclick="rosterSaveCode()">Save</button><div class="mini-note" id="code-msg"></div></div>
     </div>
     <div class="grid" id="roster-list"></div>
+  </section>
+
+  <!-- IS THIS YOU? confirm, between tapping a name and opening the student menu -->
+  <section id="s-confirm" class="screen">
+    <h2>Is this you?</h2>
+    <p class="lede" id="confirm-name" style="font-size:28px;font-weight:700;color:var(--ink);margin:0 0 26px"></p>
+    <div class="nav-row" style="margin-top:14px">
+      <button class="btn primary" id="confirm-yes-btn" onclick="confirmYes()">Yes, that&rsquo;s me</button>
+      <button class="btn" id="confirm-no-btn" onclick="confirmNo()">No, go back</button>
+    </div>
   </section>
 
   <!-- STUDENT MENU -->
@@ -1795,6 +1821,7 @@ function go(id){
   window.scrollTo(0,0); stopAllAudio();
   if(id==="s-pick"){ buildClasses(); }
   if(id==="s-roster"){ buildRoster(); paintCodeBox(); }
+  if(id==="s-confirm"){ confirmEnter(); }
   if(id==="studentMenu"){ smEnter(); }
   if(id==="diagLanding"){ paintDiagLanding(); }
   if(id==="check1Preview"){ check1PreviewEnter(); }
@@ -1843,17 +1870,35 @@ function buildClasses(){
   var box=document.getElementById("class-list"); box.innerHTML="";
   var used=false;
   var i; for(i=0;i<CLASSES.length;i++){
-    (function(cls){ var b=document.createElement("button"); b.className="btn block"; b.textContent=cls.label; b.onclick=function(){ if(used){ return; } used=true; CURCLASS=cls; go("s-roster"); }; box.appendChild(b); })(CLASSES[i]);
+    (function(cls){ var b=document.createElement("button"); b.className="btn"; b.textContent=cls.label; b.onclick=function(){ if(used){ return; } used=true; CURCLASS=cls; go("s-roster"); }; box.appendChild(b); })(CLASSES[i]);
   }
 }
 function buildRoster(){
   var box=document.getElementById("roster-list"); box.innerHTML="";
   if(!CURCLASS){ go("s-pick"); return; }
-  document.getElementById("roster-title").textContent=CURCLASS.label;
+  document.getElementById("roster-hour-label").textContent=CURCLASS.label;
   var list=CURCLASS.students, i, used=false;
   for(i=0;i<list.length;i++){
-    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ if(used){ return; } used=true; READER=stu; Sync.pull(stu.id); go("studentMenu"); }; box.appendChild(b); })(list[i]);
+    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ if(used){ return; } used=true; PENDING_STU=stu; go("s-confirm"); }; box.appendChild(b); })(list[i]);
   }
+}
+
+/* ---------- "Is this you?" confirm (between tapping a name and the menu) ---------- */
+var PENDING_STU=null, confirmUsed=false;
+function confirmEnter(){
+  confirmUsed=false;
+  if(!PENDING_STU){ go("s-roster"); return; }
+  document.getElementById("confirm-name").textContent=PENDING_STU.name;
+}
+function confirmYes(){
+  if(confirmUsed){ return; } confirmUsed=true;
+  READER=PENDING_STU; Sync.pull(PENDING_STU.id); PENDING_STU=null;
+  go("studentMenu");
+}
+function confirmNo(){
+  if(confirmUsed){ return; } confirmUsed=true;
+  PENDING_STU=null;
+  go("s-roster");
 }
 
 /* ---------- Student read flow ---------- */

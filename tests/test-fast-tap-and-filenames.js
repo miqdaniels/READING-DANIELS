@@ -54,14 +54,17 @@ setTimeout(function(){
   for(i=0;i<nameBtns.length;i++){ if(nameBtns[i].textContent==="Kiara Joachin") target=nameBtns[i]; }
   ck(!!target,"Kiara Joachin is on the First hour roster (setup check)");
   click(target); // zero elapsed time since the class tap -- no setTimeout at all
-  ck(activeId()==="studentMenu","Test B: an immediate (0ms) tap on a DIFFERENT slot opens the student menu on the first try");
+  ck(activeId()==="s-confirm","Test B: an immediate (0ms) tap on a DIFFERENT slot opens the Is-this-you confirm on the first try");
+  ck(d.getElementById("confirm-name").textContent==="Kiara Joachin","the confirm screen shows the tapped student's name");
+  click(d.getElementById("confirm-yes-btn")); // zero elapsed time -- immediate tap on the freshly-rendered confirm screen
+  ck(activeId()==="studentMenu","Test B: an immediate (0ms) tap on Yes opens the student menu on the first try");
   ck(w.READER && w.READER.name==="Kiara Joachin","the correct student was selected, with no wait");
 
   /* ---- Test C: rapidly mash the SAME button several times. A real tap
      on a freshly-rendered button always fires (that's the whole point --
      see Test B), but mashing the exact same element must still only ever
      navigate ONCE, never double- or triple-fire from the extra events. ---- */
-  w.READER=null; w.CURCLASS=null;
+  w.READER=null; w.CURCLASS=null; w.PENDING_STU=null;
   w.go("s-pick"); w.buildClasses();
   var classBtns2=d.querySelectorAll("#class-list .btn");
   click(classBtns2[0]); // First hour
@@ -69,10 +72,16 @@ setTimeout(function(){
   var rosterBtnsNow=d.querySelectorAll("#roster-list .btn");
   var mashCount=6, m;
   for(m=0;m<mashCount;m++){ click(rosterBtnsNow[0]); } // rapid mashing, 0ms apart, same exact button (Miriam)
-  ck(activeId()==="studentMenu","Test C: mashing the same name button still reaches the student menu (the first tap fires)");
-  ck(w.READER && w.READER.name==="Miriam Gomez","Test C: the mashed name was selected once, correctly");
+  ck(activeId()==="s-confirm","Test C: mashing the same name button still reaches the confirm screen only once (the first tap fires)");
+  ck(w.PENDING_STU && w.PENDING_STU.name==="Miriam Gomez","Test C: the mashed name was selected once, correctly");
 
-  /* ---- and a SEPARATE later tap on that same now-stale button still
+  /* mashing the confirm screen's Yes button the same way still only navigates once */
+  var yesBtn=d.getElementById("confirm-yes-btn");
+  for(m=0;m<mashCount;m++){ click(yesBtn); }
+  ck(activeId()==="studentMenu","Test C: mashing Yes still reaches the student menu only once");
+  ck(w.READER && w.READER.name==="Miriam Gomez","Test C: READER was set once, correctly");
+
+  /* ---- and a SEPARATE later tap on that same now-stale roster button still
      never double-navigates, since its one-shot flag is already spent ---- */
   click(rosterBtnsNow[0]);
   ck(activeId()==="studentMenu","a further click on the same (now stale) button does nothing more");

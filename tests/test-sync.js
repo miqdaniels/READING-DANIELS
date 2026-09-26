@@ -71,6 +71,7 @@ function ok(cond, msg) { if (cond) { passes++; console.log("  ok  " + msg); } el
 function clickName(w, name) {
   const b = [...w.document.querySelectorAll("#roster-list button")].find(x => x.textContent === name);
   b.onclick();
+  w.document.getElementById("confirm-yes-btn").onclick(); // "Is this you?" -> Yes, that's me
 }
 function today(w, id) { return w.todayTotals(id).total; }
 
