@@ -82,8 +82,10 @@ Do not build all 31 as if they were one uniform construct; 2A is independent ret
 
 **Content and order — 31 total scored targets:**
 - **2A consonants (21), in this exact order:** m s t p f n r b c h d g l w j k v y z q x
-- **2B short vowels (5), in this exact order, each cued by Miq's recorded keyword question ("Listen: *keyword*. What sound does *letter* make in *keyword*?"):** a–apple, e–edge, i–itch, o–octopus, u–up
-- **2C long vowels (5), same letter order, different keywords:** a–apron, e–eagle, i–ice, o–open, u–unicorn
+- **2B short vowels (5), in this exact order, each cued by Miq's recorded keyword question ("Listen: *keyword*. What sound does *letter* make in *keyword*?"):** a–apple, e–edge, i–itch, o–ox, u–up
+- **2C long vowels (5), same letter order, different keywords:** a–apron, e–me, i–ice, o–open, u–unicorn
+
+*(2026-09-26 correction: short O's keyword was changed from "octopus" to "ox" — octopus is multisyllabic with several vowel sounds, adding unnecessary ambiguity. Long E's keyword was changed from "eagle" to "me" — not "even". Both changes are keyword-only; the instructional targets themselves, short /ŏ/ and long /ē/, are unchanged.)*
 
 **Student task:** one item at a time. For 2A, the student sees a bare consonant and independently produces a sound — no picture, keyword, example word, pronunciation, mouth diagram, target sound, or hint. For 2B/2C, the student sees the vowel, hears Miq's keyword-question prompt, and produces the vowel sound the keyword calls for. No model/target sound ever plays before the student's response, in any section. If the student gives the letter name instead of a sound, teacher marks **Letter-Name Substitution**.
 
@@ -100,9 +102,9 @@ Do not build all 31 as if they were one uniform construct; 2A is independent ret
 
 Teacher judgment remains authoritative; do not automatically mark a legitimate alternate letter-sound response incorrect merely because it differs from the primary instructional target.
 
-**Answer key — 2B Short-Vowel Sound Knowledge in Keyword Context:** a→short a (apple), e→short e (edge), i→short i (itch), o→short o (octopus), u→short u (up).
+**Answer key — 2B Short-Vowel Sound Knowledge in Keyword Context:** a→short a (apple), e→short e (edge), i→short i (itch), o→short o (ox), u→short u (up).
 
-**Answer key — 2C Long-Vowel Sound Knowledge in Keyword Context:** a→long a (apron), e→long e (eagle), i→long i (ice), o→long o (open), u→long u (unicorn). These are scored 2C targets in their own right, never recorded as an "alternate" under the matching 2B item.
+**Answer key — 2C Long-Vowel Sound Knowledge in Keyword Context:** a→long a (apron), e→long e (me), i→long i (ice), o→long o (open), u→long u (unicorn). These are scored 2C targets in their own right, never recorded as an "alternate" under the matching 2B item.
 
 **Teacher scoring — support all of:** Correct / Incorrect / Skip-No Response / Self-Corrected / Letter-Name Substitution / Acceptable Alternate Sound / **Not Reached** / Sound-Production/Articulation Observation / Teacher Note. **Not Reached is distinct from Incorrect** — it means the 5:00 administration ceiling was hit before the student reached that item, and must never be counted or displayed as a wrong answer. A "Sound-Production Observation" mark on an otherwise-correct response must never automatically feed the instructional-target list — that would conflate a pronunciation observation with an actual letter-sound-knowledge gap.
 

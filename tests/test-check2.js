@@ -60,6 +60,37 @@ setTimeout(function(){
   ck(w.C2_ITEMS[30].letter==="u" && w.C2_ITEMS[30].keyword==="unicorn","2C ends with long u / unicorn");
   ck(w.C2_PROMPT_DEFS.length===10,"10 teacher prompt scripts (5 short + 5 long)");
 
+  /* ---- 2026-09-26 keyword corrections: short O -> ox, long E -> me ---- */
+  var wholeSrc=fs.readFileSync("./index.html","utf8");
+  ck(wholeSrc.indexOf("octopus")===-1,"'octopus' is no longer used anywhere for Check 2's short-O item");
+  ck(wholeSrc.indexOf("eagle")===-1,"'eagle' is no longer used anywhere for Check 2's long-E item");
+  ck(!/keyword:"even"/.test(wholeSrc),"'even' was NOT introduced as the long-E replacement");
+  ck(w.C2_ITEMS[24].letter==="o" && w.C2_ITEMS[24].keyword==="ox" && w.C2_ITEMS[24].promptKey==="c2_short_o","short O now uses the keyword 'ox' (same c2_short_o recording slot)");
+  ck(w.C2_ITEMS[27].letter==="e" && w.C2_ITEMS[27].keyword==="me" && w.C2_ITEMS[27].promptKey==="c2_long_e","long E now uses the keyword 'me' (same c2_long_e recording slot)");
+  ck(w.C2_ANSWER_KEY["2B"].o==="short o (ox)","teacher answer-key reference updated for short O");
+  ck(w.C2_ANSWER_KEY["2C"].e==="long e (me)","teacher answer-key reference updated for long E");
+  ck(w.C2_SHORT_VOWELS[0].keyword==="apple" && w.C2_SHORT_VOWELS[1].keyword==="edge" && w.C2_SHORT_VOWELS[2].keyword==="itch" && w.C2_SHORT_VOWELS[4].keyword==="up",
+    "the other four short-vowel keywords are unchanged (apple/edge/itch/up)");
+  ck(w.C2_LONG_VOWELS[0].keyword==="apron" && w.C2_LONG_VOWELS[2].keyword==="ice" && w.C2_LONG_VOWELS[3].keyword==="open" && w.C2_LONG_VOWELS[4].keyword==="unicorn",
+    "the other four long-vowel keywords are unchanged (apron/ice/open/unicorn)");
+
+  /* ---- bug fix: the Check 2 prompt recorder screen actually has working
+     Export/Load controls now (it previously only had descriptive text
+     with nothing to click) ---- */
+  w.go("s-teachC2");
+  ck(activeId()==="s-teachC2","Check 2 prompts screen opens");
+  var exportBtn=null, loadBtn=null, tbtns=d.querySelectorAll("#s-teachC2 .mini-btn"), tb;
+  for(tb=0;tb<tbtns.length;tb++){
+    if(/Export/.test(tbtns[tb].textContent)){ exportBtn=tbtns[tb]; }
+    if(/Load/.test(tbtns[tb].textContent)){ loadBtn=tbtns[tb]; }
+  }
+  ck(!!exportBtn,"an actual clickable Export button is present");
+  ck(!!loadBtn,"an actual clickable Load button is present");
+  ck(!!d.getElementById("c2t-import"),"a file-picker input backs the Load button");
+  ck(typeof w.c2tExport==="function" && typeof w.c2tImportPick==="function","c2tExport/c2tImportPick are wired up and don't collide with #t-backup-state on the other recorder screen");
+  click(exportBtn);
+  ck(d.getElementById("c2t-backup-state").textContent.length>0,"tapping Export updates this screen's own status line without erroring");
+
   /* ---- Fix 3 filename convention applies to Check 2 too ---- */
   w.CURCLASS=w.CLASSES[0]; w.READER=w.CLASSES[0].students[0];
   ck(/^Miriam_Gomez_P1_CHECK_2_\d{4}_\d{2}_\d{2}\.webm$/.test(w.rfStandardFileName("CHECK_2")),
@@ -164,8 +195,9 @@ setTimeout(function(){
     w.c2Blob=realBlob;
 
     w.c2Finish();
-    ck(w.__c2Downloads.length===1,"exactly one video file downloaded (got "+w.__c2Downloads.length+")");
-    ck(/^Miriam_Gomez_P1_CHECK_2_\d{4}_\d{2}_\d{2}\.webm$/.test(w.__c2Downloads[0]),"downloaded file follows the standard naming pattern (got '"+w.__c2Downloads[0]+"')");
+    var webmDownloads=w.__c2Downloads.filter(function(f){ return /\.webm$/.test(f); });
+    ck(webmDownloads.length===1,"exactly one video file downloaded (got "+webmDownloads.length+"; unrelated JSON export backups, if any, are ignored here)");
+    ck(/^Miriam_Gomez_P1_CHECK_2_\d{4}_\d{2}_\d{2}\.webm$/.test(webmDownloads[0]),"downloaded file follows the standard naming pattern (got '"+webmDownloads[0]+"')");
     ck(/Did you submit your video file\?/.test(d.getElementById("c2-review").textContent),"asks the student to confirm submission");
     var yesBtn=d.getElementById("c2-yes-btn");
     ck(!!yesBtn,"a YES button is shown");

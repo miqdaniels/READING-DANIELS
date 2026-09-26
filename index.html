@@ -382,8 +382,14 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <p class="lede">Read each script exactly as written, in your own voice. These play to the student before they answer -- never say the target sound itself, only the keyword question.</p>
       <div id="c2t-prompt-list"></div>
       <div class="setting-row" style="margin-top:4px">
-        <div><strong>Your recordings</strong><br><span class="mini-note">Uses the same Export/Load system as your other recordings, so these travel with the rest.</span></div>
+        <div><strong>Your recordings</strong><br><span class="mini-note">Export the file to send to me to bake in for good, or Load it onto another computer.</span></div>
+        <div class="item-actions">
+          <button class="mini-btn" onclick="c2tExport()">&#8681; Export</button>
+          <button class="mini-btn" onclick="document.getElementById('c2t-import').click()">&#8679; Load</button>
+        </div>
       </div>
+      <input type="file" id="c2t-import" accept="application/json,.json" style="display:none" onchange="c2tImportPick(this)">
+      <p class="mini-note" id="c2t-backup-state" style="margin:-4px 0 14px;min-height:16px"></p>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -2439,12 +2445,12 @@ var C2_SHORT_VOWELS=[
   {letter:"a", keyword:"apple", promptKey:"c2_short_a", label:"Short A — apple", script:"Listen: apple. What sound does A make in apple?"},
   {letter:"e", keyword:"edge", promptKey:"c2_short_e", label:"Short E — edge", script:"Listen: edge. What sound does E make in edge?"},
   {letter:"i", keyword:"itch", promptKey:"c2_short_i", label:"Short I — itch", script:"Listen: itch. What sound does I make in itch?"},
-  {letter:"o", keyword:"octopus", promptKey:"c2_short_o", label:"Short O — octopus", script:"Listen: octopus. What sound does O make in octopus?"},
+  {letter:"o", keyword:"ox", promptKey:"c2_short_o", label:"Short O — ox", script:"Listen: ox. What sound does O make in ox?"},
   {letter:"u", keyword:"up", promptKey:"c2_short_u", label:"Short U — up", script:"Listen: up. What sound does U make in up?"}
 ];
 var C2_LONG_VOWELS=[
   {letter:"a", keyword:"apron", promptKey:"c2_long_a", label:"Long A — apron", script:"Listen: apron. What sound does A make in apron?"},
-  {letter:"e", keyword:"eagle", promptKey:"c2_long_e", label:"Long E — eagle", script:"Listen: eagle. What sound does E make in eagle?"},
+  {letter:"e", keyword:"me", promptKey:"c2_long_e", label:"Long E — me", script:"Listen: me. What sound does E make in me?"},
   {letter:"i", keyword:"ice", promptKey:"c2_long_i", label:"Long I — ice", script:"Listen: ice. What sound does I make in ice?"},
   {letter:"o", keyword:"open", promptKey:"c2_long_o", label:"Long O — open", script:"Listen: open. What sound does O make in open?"},
   {letter:"u", keyword:"unicorn", promptKey:"c2_long_u", label:"Long U — unicorn", script:"Listen: unicorn. What sound does U make in unicorn?"}
@@ -2466,8 +2472,8 @@ var C2_ANSWER_KEY={
     l:"/l/", w:"/w/", j:"sound as in ‘jump’", k:"/k/", v:"/v/",
     y:"target consonant sound as in ‘yes’", z:"/z/", q:"target /kw/", x:"target /ks/"
   },
-  "2B":{a:"short a (apple)", e:"short e (edge)", i:"short i (itch)", o:"short o (octopus)", u:"short u (up)"},
-  "2C":{a:"long a (apron)", e:"long e (eagle)", i:"long i (ice)", o:"long o (open)", u:"long u (unicorn)"}
+  "2B":{a:"short a (apple)", e:"short e (edge)", i:"short i (itch)", o:"short o (ox)", u:"short u (up)"},
+  "2C":{a:"long a (apron)", e:"long e (me)", i:"long i (ice)", o:"long o (open)", u:"long u (unicorn)"}
 };
 /* the 10 teacher-recorded prompt clips Check 2 needs (see s-teachC2) */
 var C2_PROMPT_DEFS=C2_SHORT_VOWELS.concat(C2_LONG_VOWELS);
@@ -2962,6 +2968,65 @@ function c2tPlayOne(key){
   var b=c2tBlobs[key];
   if(b){ playBlob(b); return; }
   playId(key);
+}
+/* Same Export/Load pattern as the existing word/sentence recorder
+   (tExport/tImportPick), pointed at this screen's own status line --
+   AudioStore is shared, so this exports/loads everything recorded on
+   this device (the 70 words AND these 10 prompts) in one file, same as
+   before. Left as its own function rather than reusing tExport/tImportPick
+   directly so this screen never touches #t-backup-state (which doesn't
+   exist here) or s-teach's own list. */
+function c2tExport(){
+  var st=document.getElementById("c2t-backup-state"); st.style.color="var(--ink-soft)"; st.textContent="Gathering your recordings…";
+  AudioStore.keys().then(function(ks){
+    if(!ks.length){ st.style.color="var(--retry)"; st.textContent="Nothing recorded yet — record a prompt or two first."; return; }
+    var results={}, done=0, i;
+    function fin(){
+      done++;
+      if(done===ks.length){
+        var payload=JSON.stringify({app:"read-and-slide", version:1, savedAt:new Date().toISOString(), clips:results});
+        downloadBlob(new Blob([payload],{type:"application/json"}), "read-and-slide-recordings.json");
+        st.style.color="var(--good)"; st.textContent="✓ Exported "+ks.length+" recordings. Send that file to bake it in, or Load it on another computer.";
+      }
+    }
+    for(i=0;i<ks.length;i++){
+      (function(key){
+        AudioStore.get(key).then(function(b){
+          if(!b){ results[key]=null; fin(); return; }
+          var fr=new FileReader();
+          fr.onload=function(){ results[key]={type:(b.type||"audio/webm"), data:fr.result}; fin(); };
+          fr.onerror=function(){ results[key]=null; fin(); };
+          fr.readAsDataURL(b);
+        });
+      })(ks[i]);
+    }
+  });
+}
+function c2tImportPick(input){
+  var st=document.getElementById("c2t-backup-state");
+  if(!input.files||!input.files[0]){ return; }
+  var file=input.files[0]; input.value="";
+  st.style.color="var(--ink-soft)"; st.textContent="Loading recordings…";
+  var fr=new FileReader();
+  fr.onload=function(){
+    var obj; try{ obj=JSON.parse(fr.result); }catch(e){ st.style.color="var(--retry)"; st.textContent="That file couldn’t be read. Use a file the Export button made."; return; }
+    var clips=(obj&&obj.clips)?obj.clips:null;
+    if(!clips){ st.style.color="var(--retry)"; st.textContent="No recordings found in that file."; return; }
+    var keys=[], k; for(k in clips){ if(clips.hasOwnProperty(k)) keys.push(k); }
+    if(!keys.length){ st.style.color="var(--retry)"; st.textContent="That file has no recordings in it."; return; }
+    var done=0, ok=0, i;
+    function check(){ if(done===keys.length){ st.style.color="var(--good)"; st.textContent="✓ Loaded "+ok+" recordings onto this computer."; c2tRefreshDots(); } }
+    for(i=0;i<keys.length;i++){
+      (function(key){
+        var c=clips[key];
+        if(!c||!c.data){ done++; check(); return; }
+        var blob; try{ blob=dataURLtoBlob(c.data); }catch(e){ done++; check(); return; }
+        AudioStore.put(key,blob).then(function(){ ok++; done++; check(); }, function(){ done++; check(); });
+      })(keys[i]);
+    }
+  };
+  fr.onerror=function(){ st.style.color="var(--retry)"; st.textContent="Couldn’t open that file."; };
+  fr.readAsText(file);
 }
 
 /* ---------- Check 1: teacher scoring ----------
