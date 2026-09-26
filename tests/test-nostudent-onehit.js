@@ -31,7 +31,7 @@ setTimeout(function(){
       var btns=d.querySelectorAll(".btn"),i; for(i=0;i<btns.length;i++){ if(btns[i].textContent.replace(/\s+/g," ").trim()==="Student"){ return false; } } return true;
     })(),"there is no bare 'Student' button anywhere in the app");
   var h1=d.querySelector("header.app h1");
-  ck(!!h1 && h1.textContent==="Reading Foundations","'Reading Foundations' still shows at the top");
+  ck(!!h1 && h1.textContent==="READING FOUNDATIONS FOR TEENS","'READING FOUNDATIONS FOR TEENS' still shows at the top");
 
   /* ---- "Bridges Unit 1" removed from the shared header, still shown once in Word Practice ---- */
   var headerTag=d.querySelector("header.app .tag");

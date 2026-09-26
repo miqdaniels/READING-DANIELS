@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Reading Foundations</title>
+<title>Reading Foundations for Teens</title>
 <!-- Andika: used ONLY for Check 1 letter stimuli (see spec's font requirement --
      clear I vs l, single-story a/g). Nowhere else in the app changes fonts. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +24,9 @@ body{background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMac
 .wrap{max-width:780px;margin:0 auto;padding:20px 20px 72px}
 header.app{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:14px 20px;max-width:780px;margin:0 auto;flex-wrap:wrap}
 header.app .brand{display:flex;align-items:baseline;gap:10px}
-header.app h1{font-size:19px;margin:0;font-weight:650;letter-spacing:-.01em}
+header.app .brand-text{display:flex;flex-direction:column;align-items:center;text-align:center}
+header.app h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.02em;line-height:1.25}
+header.app .byline{font-size:11px;color:var(--ink-soft);font-weight:400;margin:2px 0 0;line-height:1.2}
 header.app .tag{font-size:13px;color:var(--ink-soft)}
 .theming{display:flex;align-items:center;gap:8px}
 .swatches{display:flex;gap:6px}
@@ -191,7 +193,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 <body>
 
 <header class="app">
-  <div class="brand"><h1>Reading Foundations</h1></div>
+  <div class="brand"><div class="brand-text"><h1>READING FOUNDATIONS FOR TEENS</h1><p class="byline">by AI Academy</p></div></div>
   <div class="theming">
     <div class="swatches" id="swatches"></div>
     <button class="mode-btn" id="mode-btn" onclick="toggleMode()">Dark</button>
