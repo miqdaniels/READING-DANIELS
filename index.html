@@ -110,6 +110,7 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 footer.mini{max-width:780px;margin:24px auto 0;padding:0 20px;font-size:13px;color:var(--ink-soft)}
 footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-action:manipulation}
 .btn.locked{ opacity:.38; cursor:default; }
+.btn.done{ border-color:var(--good); background:var(--good-bg); color:var(--good); }
 .grp-count{ opacity:.6; font-size:13px; margin-left:6px; }
 .f-sentence{ font-size:20px; line-height:1.95; margin:24px 0; }
 .f-chunk{ padding:2px 3px; border-radius:6px; transition:background .12s,color .12s; }
@@ -216,9 +217,9 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <p class="crumb"><a onclick="go('s-roster')">Change reader</a></p>
       <h2 class="scr-title" id="sm-who"></h2>
       <p class="lede">What do you want to do?</p>
-      <button class="btn primary block" onclick="smTap(function(){go('diagLanding');})">Diagnostic Tools<span class="sub">Reading checks</span></button>
-      <button class="btn primary block" style="margin-top:10px" onclick="smTap(fluOpen)">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
-      <button class="btn primary block" style="margin-top:10px" onclick="smTap(function(){go('s-groups');})">Word Practice<span class="sub">Hear it, slide, read, record</span></button>
+      <button class="btn primary block" onclick="smTap(0,function(){go('diagLanding');})">Diagnostic Tools<span class="sub">Reading checks</span></button>
+      <button class="btn primary block" style="margin-top:10px" onclick="smTap(1,fluOpen)">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
+      <button class="btn primary block" style="margin-top:10px" onclick="smTap(2,function(){go('s-groups');})">Word Practice<span class="sub">Hear it, slide, read, record</span></button>
       <button class="btn block locked" style="margin-top:10px" disabled>Reading Comprehension<span class="sub">Coming soon</span></button>
       <div class="nav-row" style="margin-top:14px">
         <button class="btn" onclick="go('s-roster')">&#8592; Back</button>
@@ -948,11 +949,11 @@ function ckUnlocked(idx){
 function paintDiagLanding(){
   var box=document.getElementById("diag-list"); if(!box){ return; }
   box.innerHTML="";
-  var done=ckDone(), i, allBuiltDone=true, used=false;
+  var done=ckDone(), i, completedCount=0, used=false;
   for(i=0;i<CHECK_DEFS.length;i++){
     (function(def,idx){
       var isDone=!!done[def.id];
-      if(def.built && !isDone){ allBuiltDone=false; }
+      if(isDone){ completedCount++; }
       var open=ckUnlocked(idx);
       var b=document.createElement("button");
       if(!def.built){
@@ -961,16 +962,22 @@ function paintDiagLanding(){
       } else if(!open){
         b.className="btn block locked"; b.disabled=true;
         b.innerHTML="&#128274; "+def.label+'<span class="sub">Locked until you finish the check before it</span>';
+      } else if(isDone){
+        b.className="btn block done";
+        b.innerHTML="&#10003;&nbsp; "+def.label+" — Completed"+'<span class="sub">'+def.sub+'</span>';
+        b.onclick=function(){ if(used||tapGuardBlocks(idx)){ return; } used=true; armTapGuard(idx); go(def.screen); };
       } else {
         b.className="btn block";
-        b.innerHTML=(isDone?"&#10003;&nbsp; ":"")+def.label+(isDone?" — Completed":"")+'<span class="sub">'+def.sub+'</span>';
-        b.onclick=function(){ if(used||!navGuard()){ return; } used=true; go(def.screen); };
+        b.innerHTML=def.label+'<span class="sub">'+def.sub+'</span>';
+        b.onclick=function(){ if(used||tapGuardBlocks(idx)){ return; } used=true; armTapGuard(idx); go(def.screen); };
       }
       box.appendChild(b);
     })(CHECK_DEFS[i], i);
   }
+  /* the final banner is about EVERY required check, not just the ones
+     built so far -- completing Check 1 alone must never trigger it */
   var banner=document.getElementById("diag-alldone");
-  if(banner){ banner.style.display=allBuiltDone?"block":"none"; }
+  if(banner){ banner.style.display=(completedCount===CHECK_DEFS.length)?"block":"none"; }
 }
 
 /* ---------- Final read: whole group, one recording ---------- */
@@ -1447,22 +1454,34 @@ function fCanvasSteps(fname){
 }
 
 /* ---------- Routing ---------- */
-/* Guards against a stray tap landing on whatever button a screen change
-   just rendered in that same spot, WITHOUT blocking a real, fast, separate
-   tap on the next screen (the actual bug: a shared 400ms cooldown was
-   swallowing a confident student's very next tap on their own name). This
-   window is short on purpose -- long enough to absorb a same-instant
-   duplicate/bounce event, short enough that any real second tap, even a
-   fast one, clears it (visually finding a new target and moving a finger
-   takes noticeably longer than this in practice). Combined with each
-   render's own one-shot "used" flag (see buildClasses/buildRoster/smTap),
-   which independently blocks a second event on the SAME button no matter
-   how much time passes. */
-var navReadyAt=0;
-function navGuard(){
+/* Tap-collision guard (replaces an earlier global cooldown, which blocked
+   a real fast tap on ANY button just because some OTHER button had
+   recently been tapped -- that was the actual bug: tap a class, then tap
+   your name right away, and the name tap got eaten because it landed
+   inside a timer that had nothing to do with that button).
+
+   The real, narrower problem: a screen change is instant, so if a student
+   taps the same SCREEN POSITION again right after (because they think
+   nothing happened, or they're mashing), that second physical tap lands on
+   whatever the NEW screen just rendered in that exact list slot -- e.g.
+   tapping "1st Hour" (slot 0) and then, milliseconds later, an extra tap
+   at that same spot lands on the roster's slot-0 name instead. There is no
+   way to tell that apart from a deliberate tap on slot 0 using events
+   alone -- both are "a click on slot 0, right after a nav." So this guards
+   ONLY that one exact slot, for a brief moment, and nothing else: any
+   button in a DIFFERENT slot -- which covers the vast majority of real
+   taps, including tapping a student's name immediately after picking a
+   class -- fires the instant it's tapped, every time, with no wait at all.
+   Repeated mashing on the same slot keeps re-arming the guard for that
+   slot only; stopping (or tapping elsewhere) lets it go again right away. */
+var tapGuardSlot=-1, tapGuardUntil=0;
+var TAP_GUARD_MS=120;
+function armTapGuard(slot){ tapGuardSlot=slot; tapGuardUntil=new Date().getTime()+TAP_GUARD_MS; }
+function tapGuardBlocks(slot){
+  if(slot!==tapGuardSlot){ return false; }
   var now=new Date().getTime();
-  if(now<navReadyAt){ return false; }
-  navReadyAt=now+200;
+  if(now>=tapGuardUntil){ return false; }
+  tapGuardUntil=now+TAP_GUARD_MS; // still being mashed at this exact slot -- keep blocking just this slot
   return true;
 }
 function go(id){
@@ -1495,24 +1514,26 @@ function smEnter(){
   smUsed=false;
   var who=document.getElementById("sm-who"); if(who && READER){ who.textContent=READER.name; }
 }
-/* One-shot per menu visit: the FIRST tap on any of these three buttons
-   always fires right away. A second/duplicate event for that same tap (or
-   a stray tap on a sibling button before this screen changes) is ignored,
-   without blocking the visit's first tap the way a timed cooldown would. */
-function smTap(fn){ if(smUsed||!navGuard()){ return; } smUsed=true; fn(); }
+/* slot 0/1/2 = Diagnostic Tools/Fluency/Word Practice, in that fixed order.
+   smUsed is a one-shot per visit (blocks a second tap on ANY of these three
+   once one has fired); tapGuardBlocks additionally covers the one slot
+   that risks colliding with whatever screen was just left. */
+function smTap(slot,fn){ if(smUsed||tapGuardBlocks(slot)){ return; } smUsed=true; armTapGuard(slot); fn(); }
 
 /* ---------- Class + student pick ---------- */
 /* Each render also gets its OWN "used" flag, shared only by the buttons
-   THAT render creates (a closure variable, not a global). Combined with
-   navGuard()'s short cross-render window above: a real tap on a fresh
-   screen always gets through on the first try, a same-instant stray/dupe
-   tap does not, and a second event on that exact same button never fires
-   twice no matter how much time passes. */
+   THAT render creates (a closure variable, not a global), which blocks a
+   second event on that exact same button no matter how much time passes.
+   tapGuardBlocks(idx)/armTapGuard(idx) (defined above, under Routing) cover
+   the one narrower case that flag can't: a stray tap landing on a
+   DIFFERENT, freshly-rendered button that happens to sit in the same list
+   slot as whatever was just tapped. Every other slot is fully live from
+   the first frame -- no wait, no cooldown. */
 function buildClasses(){
   var box=document.getElementById("class-list"); box.innerHTML="";
   var used=false;
   var i; for(i=0;i<CLASSES.length;i++){
-    (function(cls){ var b=document.createElement("button"); b.className="btn block"; b.textContent=cls.label; b.onclick=function(){ if(used||!navGuard()){ return; } used=true; CURCLASS=cls; go("s-roster"); }; box.appendChild(b); })(CLASSES[i]);
+    (function(cls,idx){ var b=document.createElement("button"); b.className="btn block"; b.textContent=cls.label; b.onclick=function(){ if(used||tapGuardBlocks(idx)){ return; } used=true; armTapGuard(idx); CURCLASS=cls; go("s-roster"); }; box.appendChild(b); })(CLASSES[i], i);
   }
 }
 function buildRoster(){
@@ -1521,7 +1542,7 @@ function buildRoster(){
   document.getElementById("roster-title").textContent=CURCLASS.label;
   var list=CURCLASS.students, i, used=false;
   for(i=0;i<list.length;i++){
-    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ if(used||!navGuard()){ return; } used=true; READER=stu; Sync.pull(stu.id); go("studentMenu"); }; box.appendChild(b); })(list[i]);
+    (function(stu,idx){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ if(used||tapGuardBlocks(idx)){ return; } used=true; armTapGuard(idx); READER=stu; Sync.pull(stu.id); go("studentMenu"); }; box.appendChild(b); })(list[i], i);
   }
 }
 
@@ -2426,7 +2447,9 @@ function c1Next(){
 }
 /* Review step: listen, record again, or submit -- the recording is not
    downloaded or saved as an attempt until Submit is tapped. */
+var c1Playing=false;
 function c1Review(){
+  c1Playing=false;
   var sb=document.getElementById("c1-start"); sb.style.display="none";
   document.getElementById("c1-current").style.display="none";
   document.getElementById("c1-progress").textContent="";
@@ -2436,17 +2459,39 @@ function c1Review(){
   st.textContent="Recording complete.";
   var rv=document.getElementById("c1-review");
   rv.innerHTML='<div class="rec-row">'
-    +'<button class="play-btn" onclick="playBlob(c1Blob)">▶ Listen to Recording</button>'
+    +'<button class="play-btn" id="c1-listen-btn" onclick="c1ToggleListen()">▶ Listen to Recording</button>'
     +'<button class="btn" onclick="c1RecordAgain()">🔄 Record Again</button>'
     +'<button class="btn primary" onclick="c1Finish()">✅ Submit Recording</button>'
     +"</div>";
 }
+/* Listening is just a quality check ("can I hear myself?"), not a
+   requirement to hear the whole (possibly several-minute) recording, so a
+   Stop control appears the instant playback starts and lets the student
+   bail out immediately, right back to the same review screen. */
+function c1ToggleListen(){
+  var btn=document.getElementById("c1-listen-btn"); if(!btn){ return; }
+  if(c1Playing){
+    stopAllAudio();
+    c1Playing=false;
+    btn.innerHTML="▶ Listen to Recording";
+    return;
+  }
+  var a=playBlob(c1Blob);
+  c1Playing=true;
+  btn.innerHTML="⏹ Stop";
+  if(a){
+    var origOnEnded=a.onended;
+    a.onended=function(){ if(origOnEnded){ origOnEnded(); } c1Playing=false; var b=document.getElementById("c1-listen-btn"); if(b){ b.innerHTML="▶ Listen to Recording"; } };
+  }
+}
 function c1RecordAgain(){
+  stopAllAudio(); c1Playing=false;
   c1Blob=null;
   document.getElementById("c1-review").innerHTML="";
   c1Enter();
 }
 function c1Finish(){
+  stopAllAudio(); c1Playing=false;
   var fname=rfStandardFileName("CHECK_1");
   downloadBlob(c1Blob,fname);
   C1Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,

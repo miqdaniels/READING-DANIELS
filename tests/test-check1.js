@@ -72,6 +72,17 @@ setTimeout(function(){
     ck(d.getElementById("c1-review").innerHTML.indexOf("Submit Recording")>-1,"a Submit Recording control is offered");
     ck(w.C1Attempts.forStudent(w.READER.id).length===0,"no attempt is saved yet, before Submit is tapped");
 
+    /* ---- Fix 4: a Stop control appears during playback and works ---- */
+    var listenBtn=d.getElementById("c1-listen-btn");
+    ck(/Listen to Recording/.test(listenBtn.textContent),"starts out as Listen to Recording");
+    w.c1ToggleListen(); // tap Listen
+    ck(w.c1Playing===true,"playback is considered active");
+    ck(/Stop/.test(d.getElementById("c1-listen-btn").textContent),"button now offers Stop");
+    w.c1ToggleListen(); // tap Stop, part-way through -- doesn't need to hear the whole thing
+    ck(w.c1Playing===false,"playback stopped");
+    ck(/Listen to Recording/.test(d.getElementById("c1-listen-btn").textContent),"button returns to Listen to Recording, ready to play again");
+    ck(activeId()==="check1","stopping playback does not navigate away -- still reviewing");
+
     w.c1Finish(); // taps "Submit Recording"
     ck(w.__downloads.length===1,"exactly one file was downloaded for the whole 52-letter check (got "+w.__downloads.length+")");
     ck(/^[A-Za-z]+_[A-Za-z]+_P1_CHECK_1_\d{4}_\d{2}_\d{2}\.webm$/.test(w.__downloads[0]),"file name follows FirstName_LastName_P#_CHECK_1_YYYY_MM_DD.webm (got '"+w.__downloads[0]+"')");
@@ -94,13 +105,18 @@ setTimeout(function(){
     ck(activeId()==="diagLanding","YES returns to the Reading Checks dashboard");
     ck(!!w.ckDone()["check1"],"Check 1 is marked completed after YES");
     var i2, diagBtns=d.querySelectorAll("#diagLanding .btn");
-    var foundDone=false, foundCk2Locked=true;
+    var foundDone=false, foundGreen=false, foundCk2Locked=true;
     for(i2=0;i2<diagBtns.length;i2++){
-      if(/Check 1/.test(diagBtns[i2].textContent) && /Completed/.test(diagBtns[i2].textContent)){ foundDone=true; }
+      if(/Check 1/.test(diagBtns[i2].textContent) && /Completed/.test(diagBtns[i2].textContent)){
+        foundDone=true;
+        if(diagBtns[i2].className.indexOf("done")>-1){ foundGreen=true; }
+      }
       if(/Check 2/.test(diagBtns[i2].textContent) && diagBtns[i2].disabled!==true){ foundCk2Locked=false; }
     }
     ck(foundDone,"Check 1 shows as Completed on the dashboard");
+    ck(foundGreen,"the completed Check 1 card uses the green 'done' styling class");
     ck(foundCk2Locked,"Check 2 is still not clickable (it has no real screen built yet -- stays 'Coming soon')");
+    ck(d.getElementById("diag-alldone").style.display==="none","the 'all Reading Checks completed' banner does NOT show after only Check 1 (7 total checks exist)");
 
     /* ---- clicking YES again (accidental double tap) never double-records ---- */
     var attemptsAfter=w.C1Attempts.forStudent(w.READER.id);
