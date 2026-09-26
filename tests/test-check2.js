@@ -153,7 +153,12 @@ setTimeout(function(){
             ck(d.getElementById("c2-section-label").textContent.indexOf("2B")>-1,"section label switched to 2B");
             ck(d.getElementById("c2-current").textContent==="a","first 2B item shows the bare vowel letter (no keyword text shown on screen)");
             ck(d.getElementById("c2-prompt-row").style.display==="block","a prompt/replay control shows for vowel items");
-            ck(/been recorded yet/.test(d.getElementById("c2-state").textContent),"honest message shown when the teacher hasn't recorded this prompt yet (never fakes audio)");
+            /* Miq's real prompt clips are baked in now, so playId() finds
+               this one instead of falling back to the "not recorded yet"
+               message (that fallback path is exercised for real by any
+               NOT-yet-recorded key -- structurally unchanged, just no
+               longer reachable for this specific, now-recorded item). */
+            ck(!!w.window.BAKED_CLIPS && !!w.window.BAKED_CLIPS["c2_short_a"],"the short-A prompt clip is baked in and found by playId()");
 
             /* ---- timer: 4:30 warning and 5:00 hard stop, driven by the actual clock logic ---- */
             w.c2StartAt = new Date().getTime() - 271000; // 4:31 elapsed
