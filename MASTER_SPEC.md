@@ -68,29 +68,59 @@ s m a t r p c f n h b l d e g i w k u y j v o q x z
 
 **What to Teach Next:** missed letters automatically populate instructional targets (teacher never retypes them) — feeding What to Teach Next, practice activities, flashcards, memory/matching, lesson-plan/slide prompts, home practice, targeted recheck.
 
-### CHECK 2 — LETTER-SOUND KNOWLEDGE (final)
-**Purpose:** what sound can this letter represent (different question from Check 1's "what is this letter called").
+### CHECK 2 — LETTER-SOUND KNOWLEDGE (final) — REPLACED 2026-09-26, supersedes the answer key immediately below in this same section
+**This 2026-09-26 revision is authoritative for Check 2 and replaces every prior Check 2 answer key in this document, including the "26 total / short-vowel-only" version originally in this APPROVED CORRECTIONS section.** Check 2 is now **31 scored targets**, not 26, and long vowels are their own scored section (2C), not an "alternate vowel sound" folded into the short-vowel item.
 
-**Recording mode: ONE CONTINUOUS VIDEO FILE** for the entire assessment (consonants + vowels together) — never split into per-letter, per-type, or 21/5/26 separate files. Video should show the student's face/mouth clearly enough for teacher review; this is an instructional observation, not a speech-language diagnosis.
+**Purpose:** what sound(s) can this letter represent — a different question from Check 1's "what is this letter called." Check 2 has three related but distinct sub-tasks, reported separately:
+- **2A — Consonant Sound Retrieval:** student sees a bare consonant and independently retrieves a sound for it (no keyword, no hint).
+- **2B — Short-Vowel Sound Knowledge in Keyword Context:** student sees a vowel, hears Miq's recorded keyword question, and produces the short-vowel sound that vowel represents in that keyword.
+- **2C — Long-Vowel Sound Knowledge in Keyword Context:** same structure as 2B, with a keyword whose vowel is long. Long-vowel knowledge is now its own scored target — it is NOT recorded as "Alternate Vowel Sound" under 2B.
 
-**Letter order — consonants (21):** m s t p f n r b c h d g l w j k v y z q x
-**Letter order — vowels (5):** a i o e u (total 26)
+Do not build all 31 as if they were one uniform construct; 2A is independent retrieval, 2B/2C are keyword-cued identification. A vowel keyword is required (not optional/decorative): showing a bare vowel and asking "what sound does this make" is genuinely ambiguous, since a vowel legitimately represents multiple sounds. The keyword disambiguates which vowel sound is being asked for; it never supplies the isolated target phoneme itself (see the "never give the student the answer" rule below).
 
-**Student task:** one letter at a time; student produces the sound, not the letter name; no model sound before response. If the student gives the letter name instead, teacher marks **Letter-Name Substitution**.
+**Recording mode: ONE CONTINUOUS VIDEO FILE (camera + microphone)** for the entire assessment (2A + 2B + 2C together) — never split into per-letter, per-section, or per-type files. Camera setup (permission, live preview, "make sure your face and mouth are visible") happens before the timer starts; the student records inside Reading Foundations itself, never inside Canvas — Canvas is upload-only, never the recording environment. Video should show the student's face/mouth clearly enough for teacher review; this is an instructional observation, not a speech-language diagnosis, and mouth position is never an automatic correctness requirement (see multilingual safeguard below).
 
-**Answer key (required):** build a teacher-side scoring reference distinguishing TARGET RESPONSE (most useful/common instructional response) / ACCEPTABLE ALTERNATE (another legitimate English sound for that grapheme) / NOT ACCEPTABLE (e.g., letter name instead of a sound). Special attention: c, g, x, q, y, and the five vowels. Teacher override always available.
+**Content and order — 31 total scored targets:**
+- **2A consonants (21), in this exact order:** m s t p f n r b c h d g l w j k v y z q x
+- **2B short vowels (5), in this exact order, each cued by Miq's recorded keyword question ("Listen: *keyword*. What sound does *letter* make in *keyword*?"):** a–apple, e–edge, i–itch, o–octopus, u–up
+- **2C long vowels (5), same letter order, different keywords:** a–apron, e–eagle, i–ice, o–open, u–unicorn
 
-**Vowels:** report more than correct/incorrect — expected/common short-vowel response, acceptable alternate vowel sound, incorrect/unrecognized, letter-name substitution. Purpose is what the student knows/needs, not penalizing a legitimate alternate vowel sound.
+**Student task:** one item at a time. For 2A, the student sees a bare consonant and independently produces a sound — no picture, keyword, example word, pronunciation, mouth diagram, target sound, or hint. For 2B/2C, the student sees the vowel, hears Miq's keyword-question prompt, and produces the vowel sound the keyword calls for. No model/target sound ever plays before the student's response, in any section. If the student gives the letter name instead of a sound, teacher marks **Letter-Name Substitution**.
 
-**Teacher scoring:** Correct / Incorrect / Skip-No Response / Self-Corrected / Letter-Name Substitution / Acceptable Alternate Sound / Sound-Production-Articulation Observation / Teacher Note.
+**Answer key (required) — 2A Consonant Sound Retrieval:**
+- m /m/, s target /s/ (legitimate /z/ use may be recorded as an acceptable alternate where appropriate), t /t/, p /p/, f /f/, n /n/, r /r/, b /b/
+- c target /k/, acceptable alternate /s/
+- h /h/, d /d/
+- g target hard g as in *go*, acceptable alternate soft g as in *giant*
+- l /l/, w /w/, j sound as in *jump*, k /k/, v /v/
+- y target consonant sound as in *yes*
+- z /z/
+- q target /kw/
+- x target /ks/
 
-**Results — report separately:**
-- Consonants correct / 21
-- Vowels correct / 5
-- Overall correct / 26
-- exact missed letter sounds, alternate sounds produced, letter-name substitutions, self-corrections, teacher observations, sounds needing instruction
+Teacher judgment remains authoritative; do not automatically mark a legitimate alternate letter-sound response incorrect merely because it differs from the primary instructional target.
 
-**What to Teach Next:** auto-populate target letter sounds → explicit sound instruction, mouth-position practice where appropriate, letter-sound cards, matching, decoding practice, AI-generated activities, home practice, targeted recheck. Teacher never retypes targets.
+**Answer key — 2B Short-Vowel Sound Knowledge in Keyword Context:** a→short a (apple), e→short e (edge), i→short i (itch), o→short o (octopus), u→short u (up).
+
+**Answer key — 2C Long-Vowel Sound Knowledge in Keyword Context:** a→long a (apron), e→long e (eagle), i→long i (ice), o→long o (open), u→long u (unicorn). These are scored 2C targets in their own right, never recorded as an "alternate" under the matching 2B item.
+
+**Teacher scoring — support all of:** Correct / Incorrect / Skip-No Response / Self-Corrected / Letter-Name Substitution / Acceptable Alternate Sound / **Not Reached** / Sound-Production/Articulation Observation / Teacher Note. **Not Reached is distinct from Incorrect** — it means the 5:00 administration ceiling was hit before the student reached that item, and must never be counted or displayed as a wrong answer. A "Sound-Production Observation" mark on an otherwise-correct response must never automatically feed the instructional-target list — that would conflate a pronunciation observation with an actual letter-sound-knowledge gap.
+
+**Administration ceiling:** 5:00 hard maximum for the pilot (not a mastery threshold — no "took too long therefore doesn't know it" conclusions yet). Timer starts when the student begins the first SCORED item, never during directions, permission prompts, camera positioning, or preview. A quiet "30 seconds remaining. Keep going." notice appears at 4:30 — no alarm. At 5:00: stop item advancement, stop recording, keep every response already given, mark every remaining item **Not Reached**, finalize the recording, and continue normally to review/save.
+
+**Results — report separately, never collapse to one number:**
+- 2A Consonant Sound Retrieval — correct / 21, plus its own needs-instruction target list
+- 2B Short-Vowel Sound Knowledge in Keyword Context — correct / 5, plus its own needs-instruction target list
+- 2C Long-Vowel Sound Knowledge in Keyword Context — correct / 5, plus its own needs-instruction target list
+- Vowels combined (2B+2C) — correct / 10
+- Overall Check 2 — correct / 31
+- Preserve exact item-level results, acceptable alternates, letter-name substitutions, skips, self-corrections, Not Reached items, sound-production observations, teacher notes, and total time.
+
+**What to Teach Next:** auto-populate target letters/sounds (2A, 2B, 2C tracked separately) → explicit sound instruction, mouth-position practice where pedagogically appropriate, letter-sound cards, matching, decoding practice, AI-generated activities, home practice, targeted recheck. Teacher never retypes targets; a sound-production-only observation on an otherwise-correct item is kept out of this list (see teacher scoring above).
+
+**Privacy/storage:** the video stays browser-local (MediaRecorder → in-memory Blob → review → download) until the student downloads and uploads it to Canvas themselves. It is never automatically stored in GitHub, Vercel, localStorage, or any Reading Foundations server. Camera and microphone tracks are released and temporary object URLs revoked once the recording workflow is exited. Only completion/progress *metadata* (not the video itself) uses the app's existing persistence architecture.
+
+**Multilingual/dignity safeguard:** accent alone is never an error. Reading Foundations must never use Check 2 (or any Check) to diagnose dyslexia, ADHD, an articulation/speech/language disorder, a learning disability, a medical condition, or special-education eligibility — it reports observable reading performance only, and teacher judgment controls interpretation.
 
 ### CHECK 3 — PHONEMIC AWARENESS (final)
 **Purpose:** hearing/manipulating individual speech sounds in spoken words — primarily auditory; the student should NOT need to read the target words (this is phonemic awareness, not printed-word decoding).
@@ -135,7 +165,7 @@ Do not re-administer the full original assessment every ~2 weeks just to get ano
 
 ### Final QA gates before calling Checks 1–3 complete
 - **Check 1:** 26 unique uppercase + 26 unique lowercase letters; font distinction confirmed; Lenovo-screen rendering confirmed; audio recording; teacher scoring; target propagation.
-- **Check 2:** 21 consonants + 5 vowels; one continuous video; teacher answer key; alternate-sound handling; letter-name substitution; teacher override; target propagation.
+- **Check 2:** 31 scored targets (2A 21 consonants + 2B 5 short vowels + 2C 5 long vowels); one continuous camera+mic video; teacher answer key; alternate-sound handling; letter-name substitution; Not Reached distinct from Incorrect; 4:30 warning / 5:00 hard stop; teacher override; target propagation.
 - **Check 3:** four unscored practice items; exactly 20 scored items, five per domain; no duplicate scored target words; all required Miq recordings identified; one continuous video; domain-level scoring; target propagation.
 
 ---
