@@ -76,7 +76,9 @@ function menuBtn(scope,label){
   for(i=0;i<btns.length;i++){ if(btns[i].textContent.indexOf(label)===0) return btns[i]; }
   return null;
 }
-const FNAME_RE=/^[A-Za-z0-9]+_\d+(st|nd|rd|th)Hour_PassagePK0\.0_(ColdRead|Retell)_\d{4}-\d{2}-\d{2}\.webm$/;
+/* FirstName_LastName_P#_FLUENCY_PK_0_0_COLDREAD/RETELL_YYYY_MM_DD.webm --
+   the same standardized filename pattern used everywhere else (Fix 3). */
+const FNAME_RE=/^[A-Za-z]+_[A-Za-z]+_P1_FLUENCY_PK_0_0_(COLDREAD|RETELL)_\d{4}_\d{2}_\d{2}\.webm$/;
 
 setTimeout(function(){
   let pass=0,fail=0;
@@ -107,7 +109,7 @@ setTimeout(function(){
           /* ---- cold-read file saved ---- */
           ck(activeId()==="fluencyRetell","Submit moves on to the retell screen");
           ck(w.__downloads.length===1,"exactly one file downloaded for the cold read (got "+w.__downloads.length+")");
-          ck(FNAME_RE.test(w.__downloads[0]) && /ColdRead/.test(w.__downloads[0]),"cold-read file name follows student_HourHour_Passage_ColdRead_date.webm (got '"+w.__downloads[0]+"')");
+          ck(FNAME_RE.test(w.__downloads[0]) && /COLDREAD/.test(w.__downloads[0]),"cold-read file name follows FirstName_LastName_P#_FLUENCY_..._COLDREAD_date.webm (got '"+w.__downloads[0]+"')");
 
           /* ---- sentence frames untouched ---- */
           var frameLis=d.querySelectorAll("#ret-frames li");
@@ -129,7 +131,7 @@ setTimeout(function(){
               /* ---- retell file saved + confirmation, not auto-navigated ---- */
               ck(activeId()==="fluencyRetell","still on the retell screen -- confirmation shown before leaving");
               ck(w.__downloads.length===2,"a second file downloaded for the retell (got "+w.__downloads.length+")");
-              ck(FNAME_RE.test(w.__downloads[1]) && /Retell/.test(w.__downloads[1]),"retell file name follows student_HourHour_Passage_Retell_date.webm (got '"+w.__downloads[1]+"')");
+              ck(FNAME_RE.test(w.__downloads[1]) && /RETELL/.test(w.__downloads[1]),"retell file name follows FirstName_LastName_P#_FLUENCY_..._RETELL_date.webm (got '"+w.__downloads[1]+"')");
               ck(/Your retell is saved! Now upload it to Canvas\./.test(d.getElementById("ret-state").textContent),"plain confirmation message shown");
               ck(/Upload/.test(d.getElementById("ret-state").innerHTML) && d.getElementById("ret-state").innerHTML.indexOf(">Record<")===-1,"Canvas steps say Upload, not Record");
               ck(w.window.onbeforeunload===null || w.window.onbeforeunload===undefined,"unsaved-leave warning is cleared once saved");

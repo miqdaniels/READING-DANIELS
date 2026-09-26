@@ -50,7 +50,9 @@ setTimeout(function(){
     ck(d.getElementById("c1-current").style.display==="block","first letter shows once recording actually starts");
     ck(d.getElementById("c1-current").textContent===w.C1_ALL[0],"first letter is "+w.C1_ALL[0]+" (start of the fixed sequence)");
     ck(d.getElementById("c1-progress").textContent==="Letter 1 of 52","progress reads Letter 1 of 52");
-    ck(d.getElementById("c1-start").style.display==="none","Start button hides once recording begins");
+    ck(d.getElementById("c1-start").style.display!=="none","Start button stays visible (so its pulsing dot is visible) once recording begins");
+    ck(d.getElementById("c1-start").disabled===true,"Start button is disabled while recording so it can't be tapped again");
+    ck(d.getElementById("c1-start").className.indexOf("rec")>-1,"Start button carries the pulsing-dot 'rec' class while recording");
     ck(d.getElementById("c1-next").style.display!=="none","Next letter button shows once recording begins");
 
     /* walk through all 52 letters with one tap each */
@@ -62,15 +64,47 @@ setTimeout(function(){
 
     w.c1Next(); // taps Finish -> stops the ONE continuous recording
     ck(w.recording===false,"recording has stopped after Finish");
+
+    /* ---- review step: nothing is downloaded/saved until Submit ---- */
+    ck(w.__downloads.length===0,"nothing downloads yet -- the student reviews first (got "+w.__downloads.length+")");
+    ck(d.getElementById("c1-review").innerHTML.indexOf("Listen to Recording")>-1,"a Listen control is offered before saving");
+    ck(d.getElementById("c1-review").innerHTML.indexOf("Record Again")>-1,"a Record Again control is offered before saving");
+    ck(d.getElementById("c1-review").innerHTML.indexOf("Submit Recording")>-1,"a Submit Recording control is offered");
+    ck(w.C1Attempts.forStudent(w.READER.id).length===0,"no attempt is saved yet, before Submit is tapped");
+
+    w.c1Finish(); // taps "Submit Recording"
     ck(w.__downloads.length===1,"exactly one file was downloaded for the whole 52-letter check (got "+w.__downloads.length+")");
-    ck(/^[A-Za-z0-9]+_\d+(st|nd|rd|th)Hour_Check1_\d{4}-\d{2}-\d{2}\.webm$/.test(w.__downloads[0]),"file name follows name_HourHour_Check1_date.webm (got '"+w.__downloads[0]+"')");
+    ck(/^[A-Za-z]+_[A-Za-z]+_P1_CHECK_1_\d{4}_\d{2}_\d{2}\.webm$/.test(w.__downloads[0]),"file name follows FirstName_LastName_P#_CHECK_1_YYYY_MM_DD.webm (got '"+w.__downloads[0]+"')");
     ck(/Nice work/.test(d.getElementById("c1-state").textContent),"student sees a plain confirmation after finishing");
     ck(/Upload/.test(d.getElementById("c1-state").innerHTML) && !/Record</.test(d.getElementById("c1-state").innerHTML),"Canvas steps say Upload, not Record");
+
+    /* ---- the app does not consider the Check done until the student
+       confirms they actually submitted the file to Canvas ---- */
+    ck(/Did you submit your audio file\?/.test(d.getElementById("c1-state").textContent),"asks the student to confirm submission");
+    var yesBtn=d.getElementById("c1-yes-btn");
+    ck(!!yesBtn,"a YES button is shown");
+    ck(!w.ckDone()["check1"],"Check 1 is not marked done until YES is tapped");
 
     var attempts=w.C1Attempts.forStudent(w.READER.id);
     ck(attempts.length===1,"one Check 1 attempt saved for this student");
     ck(attempts[0].scores===null,"attempt is not yet scored");
     var attemptId=attempts[0].id;
+
+    click(yesBtn);
+    ck(activeId()==="diagLanding","YES returns to the Reading Checks dashboard");
+    ck(!!w.ckDone()["check1"],"Check 1 is marked completed after YES");
+    var i2, diagBtns=d.querySelectorAll("#diagLanding .btn");
+    var foundDone=false, foundCk2Locked=true;
+    for(i2=0;i2<diagBtns.length;i2++){
+      if(/Check 1/.test(diagBtns[i2].textContent) && /Completed/.test(diagBtns[i2].textContent)){ foundDone=true; }
+      if(/Check 2/.test(diagBtns[i2].textContent) && diagBtns[i2].disabled!==true){ foundCk2Locked=false; }
+    }
+    ck(foundDone,"Check 1 shows as Completed on the dashboard");
+    ck(foundCk2Locked,"Check 2 is still not clickable (it has no real screen built yet -- stays 'Coming soon')");
+
+    /* ---- clicking YES again (accidental double tap) never double-records ---- */
+    var attemptsAfter=w.C1Attempts.forStudent(w.READER.id);
+    ck(attemptsAfter.length===1,"still exactly one attempt saved (YES does not create duplicate records)");
 
     /* ---- mic-blocked path never locks the Start button ----
        (a fresh page/window is required: this app deliberately caches a

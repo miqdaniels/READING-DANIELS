@@ -216,9 +216,9 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <p class="crumb"><a onclick="go('s-roster')">Change reader</a></p>
       <h2 class="scr-title" id="sm-who"></h2>
       <p class="lede">What do you want to do?</p>
-      <button class="btn primary block" onclick="if(navGuard()){go('diagLanding');}">Diagnostic Tools<span class="sub">Reading checks</span></button>
-      <button class="btn primary block" style="margin-top:10px" onclick="if(navGuard()){fluOpen();}">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
-      <button class="btn primary block" style="margin-top:10px" onclick="if(navGuard()){go('s-groups');}">Word Practice<span class="sub">Hear it, slide, read, record</span></button>
+      <button class="btn primary block" onclick="smTap(function(){go('diagLanding');})">Diagnostic Tools<span class="sub">Reading checks</span></button>
+      <button class="btn primary block" style="margin-top:10px" onclick="smTap(fluOpen)">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
+      <button class="btn primary block" style="margin-top:10px" onclick="smTap(function(){go('s-groups');})">Word Practice<span class="sub">Hear it, slide, read, record</span></button>
       <button class="btn block locked" style="margin-top:10px" disabled>Reading Comprehension<span class="sub">Coming soon</span></button>
       <div class="nav-row" style="margin-top:14px">
         <button class="btn" onclick="go('s-roster')">&#8592; Back</button>
@@ -232,15 +232,10 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <p class="crumb"><a onclick="go('studentMenu')">Menu</a> &nbsp;/&nbsp; Diagnostic Tools</p>
       <h2 class="scr-title">Reading Checks</h2>
       <p class="lede">Pick a check.</p>
-      <div class="diag-list">
-        <button class="btn block" onclick="if(navGuard()){go('check1');}">Check 1: Letter Identification<span class="sub">Say the name of each letter</span></button>
-        <button class="btn block locked" disabled>Check 2: Letter-Sound Knowledge<span class="sub">Coming soon</span></button>
-        <button class="btn block locked" disabled>Check 3: Phonemic Awareness<span class="sub">Coming soon</span></button>
-        <button class="btn block locked" disabled>Check 4: Decoding<span class="sub">Coming soon</span></button>
-        <button class="btn block locked" disabled>Check 5: Automatic Word Recognition<span class="sub">Coming soon</span></button>
-        <button class="btn block locked" disabled>Check 6: Morphological Awareness &amp; Word Analysis<span class="sub">Coming soon</span></button>
-        <button class="btn block locked" disabled>Check 7: Multisyllabic Word Analysis<span class="sub">Coming soon</span></button>
+      <div class="note-box" id="diag-alldone" style="display:none;border-color:var(--good);background:var(--good-bg)">
+        <h4 style="color:var(--good)">Great work! You completed all of your Reading Checks.</h4>
       </div>
+      <div class="diag-list" id="diag-list"></div>
       <div class="nav-row" style="margin-top:14px">
         <button class="btn" onclick="go('studentMenu')">&#8592; Back</button>
       </div>
@@ -276,14 +271,27 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <p class="crumb"><a onclick="go('diagLanding')">Diagnostic Tools</a> &nbsp;/&nbsp; Check 1</p>
       <p class="step-eyebrow">Check 1: Letter Identification</p>
       <h2 class="scr-title">Say the name of each letter</h2>
-      <p class="lede" id="c1-intro">Tap Start. Say the name of each letter out loud, then tap Next letter.</p>
+      <div class="lede" id="c1-intro">
+        <strong>Ready to Read?</strong>
+        <ol style="margin:8px 0 0 20px;padding:0">
+          <li>Tap Start Recording.</li>
+          <li>When you see that recording has started, say the first letter out loud.</li>
+          <li>Tap Next letter after each one, at your normal speed.</li>
+          <li>After the last letter, the recording stops by itself.</li>
+          <li>Listen to your recording to make sure you can hear yourself clearly.</li>
+          <li>Record again if needed.</li>
+          <li>Submit your recording when you are satisfied with it.</li>
+        </ol>
+      </div>
+      <p class="mini-note" id="c1-mic-note">Your browser will ask for permission to use the microphone. Tap Allow so your reading can be recorded.</p>
       <div class="c1-letter" id="c1-current" style="display:none">&nbsp;</div>
       <p class="mini-note" id="c1-progress"></p>
       <div class="rec-row">
-        <button class="rec-btn" id="c1-start" onclick="c1Start()"><span class="rec-dot"></span><span id="c1-start-lbl">Start</span></button>
+        <button class="rec-btn" id="c1-start" onclick="c1Start()"><span class="rec-dot"></span><span id="c1-start-lbl">&#127908; Start Recording</span></button>
         <button class="btn primary" id="c1-next" onclick="c1Next()" style="display:none">Next letter &#8594;</button>
       </div>
       <p class="state-line none" id="c1-state"></p>
+      <div id="c1-review"></div>
       <div class="nav-row" style="margin-top:14px">
         <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
       </div>
@@ -483,6 +491,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     <p class="step-eyebrow" id="flu-level"></p>
     <h2 class="scr-title" id="flu-title"></h2>
     <div class="flu-passage" id="flu-text"></div>
+    <p class="mini-note">Your browser will ask for permission to use the microphone. Tap Allow so your reading can be recorded.</p>
     <div class="flu-timer-row">
       <span class="flu-timer" id="flu-timer">1:00</span>
     </div>
@@ -906,6 +915,62 @@ function buildGroups(){
       box.appendChild(b);
     })(GROUPS[i], i);
   }
+}
+
+/* ---------- Reading Checks: lock / available / completed ----------
+   Same pattern as the Word Practice groups above (gDone/gMarkDone/
+   gUnlocked): one localStorage record per student, keyed by student id
+   (which already embeds the class period, e.g. "stu_gomezmiriam_p1"), so
+   one student's completed Checks never unlock another student's, even
+   across periods with similarly-named students.
+   Only Check 1 has a real screen today -- Checks 2-7 stay "Coming soon"
+   (built:false) no matter what's completed, since there's nothing behind
+   them yet. The moment a check is actually built, giving it screen:"..."
+   and built:true here is the only change needed to wire it into this same
+   lock/available/completed system -- no other plumbing to touch. */
+var CHECK_DEFS=[
+  {id:"check1", label:"Check 1: Letter Identification", sub:"Say the name of each letter", built:true, screen:"check1"},
+  {id:"check2", label:"Check 2: Letter-Sound Knowledge", sub:"Coming soon", built:false},
+  {id:"check3", label:"Check 3: Phonemic Awareness", sub:"Coming soon", built:false},
+  {id:"check4", label:"Check 4: Decoding", sub:"Coming soon", built:false},
+  {id:"check5", label:"Check 5: Automatic Word Recognition", sub:"Coming soon", built:false},
+  {id:"check6", label:"Check 6: Morphological Awareness &amp; Word Analysis", sub:"Coming soon", built:false},
+  {id:"check7", label:"Check 7: Multisyllabic Word Analysis", sub:"Coming soon", built:false}
+];
+function ckKey(){ return "rf_checks_"+(READER?READER.id:"anon"); }
+function ckDone(){ try{ var v=localStorage.getItem(ckKey()); return v?JSON.parse(v):{}; }catch(e){ return {}; } }
+function ckMarkDone(id){ try{ var o=ckDone(); o[id]=1; localStorage.setItem(ckKey(), JSON.stringify(o)); }catch(e){} }
+function ckUnlocked(idx){
+  if(!CHECK_DEFS[idx].built){ return false; }
+  if(idx===0){ return true; }
+  return !!ckDone()[CHECK_DEFS[idx-1].id];
+}
+function paintDiagLanding(){
+  var box=document.getElementById("diag-list"); if(!box){ return; }
+  box.innerHTML="";
+  var done=ckDone(), i, allBuiltDone=true, used=false;
+  for(i=0;i<CHECK_DEFS.length;i++){
+    (function(def,idx){
+      var isDone=!!done[def.id];
+      if(def.built && !isDone){ allBuiltDone=false; }
+      var open=ckUnlocked(idx);
+      var b=document.createElement("button");
+      if(!def.built){
+        b.className="btn block locked"; b.disabled=true;
+        b.innerHTML=def.label+'<span class="sub">Coming soon</span>';
+      } else if(!open){
+        b.className="btn block locked"; b.disabled=true;
+        b.innerHTML="&#128274; "+def.label+'<span class="sub">Locked until you finish the check before it</span>';
+      } else {
+        b.className="btn block";
+        b.innerHTML=(isDone?"&#10003;&nbsp; ":"")+def.label+(isDone?" — Completed":"")+'<span class="sub">'+def.sub+'</span>';
+        b.onclick=function(){ if(used||!navGuard()){ return; } used=true; go(def.screen); };
+      }
+      box.appendChild(b);
+    })(CHECK_DEFS[i], i);
+  }
+  var banner=document.getElementById("diag-alldone");
+  if(banner){ banner.style.display=allBuiltDone?"block":"none"; }
 }
 
 /* ---------- Final read: whole group, one recording ---------- */
@@ -1382,19 +1447,22 @@ function fCanvasSteps(fname){
 }
 
 /* ---------- Routing ---------- */
-/* A few specific drill-down buttons (pick a class -> pick a name -> pick an
-   activity) call navGuard() before acting: it both checks and, if the check
-   passes, immediately arms a brief cooldown. So a genuine double-click/tap
-   lands its first click normally, but the second one -- which would land on
-   whatever button the screen freshly re-rendered at that same spot -- gets
-   ignored instead of cascading straight through to a further screen. Only
-   these specific handlers touch it; an unrelated go() (a crumb link, a Back
-   button, a test calling go() directly) never arms or trips it. */
+/* Guards against a stray tap landing on whatever button a screen change
+   just rendered in that same spot, WITHOUT blocking a real, fast, separate
+   tap on the next screen (the actual bug: a shared 400ms cooldown was
+   swallowing a confident student's very next tap on their own name). This
+   window is short on purpose -- long enough to absorb a same-instant
+   duplicate/bounce event, short enough that any real second tap, even a
+   fast one, clears it (visually finding a new target and moving a finger
+   takes noticeably longer than this in practice). Combined with each
+   render's own one-shot "used" flag (see buildClasses/buildRoster/smTap),
+   which independently blocks a second event on the SAME button no matter
+   how much time passes. */
 var navReadyAt=0;
 function navGuard(){
   var now=new Date().getTime();
   if(now<navReadyAt){ return false; }
-  navReadyAt=now+400;
+  navReadyAt=now+200;
   return true;
 }
 function go(id){
@@ -1405,6 +1473,7 @@ function go(id){
   if(id==="s-pick"){ buildClasses(); }
   if(id==="s-roster"){ buildRoster(); paintCodeBox(); }
   if(id==="studentMenu"){ smEnter(); }
+  if(id==="diagLanding"){ paintDiagLanding(); }
   if(id==="check1Preview"){ check1PreviewEnter(); }
   if(id==="check1"){ c1Enter(); }
   if(id==="check1Teach"){ check1TeachEnter(); }
@@ -1421,24 +1490,38 @@ function go(id){
 }
 
 /* ---------- Student menu (Fluency / Word Practice / Reading Comprehension) ---------- */
+var smUsed=false;
 function smEnter(){
+  smUsed=false;
   var who=document.getElementById("sm-who"); if(who && READER){ who.textContent=READER.name; }
 }
+/* One-shot per menu visit: the FIRST tap on any of these three buttons
+   always fires right away. A second/duplicate event for that same tap (or
+   a stray tap on a sibling button before this screen changes) is ignored,
+   without blocking the visit's first tap the way a timed cooldown would. */
+function smTap(fn){ if(smUsed||!navGuard()){ return; } smUsed=true; fn(); }
 
 /* ---------- Class + student pick ---------- */
+/* Each render also gets its OWN "used" flag, shared only by the buttons
+   THAT render creates (a closure variable, not a global). Combined with
+   navGuard()'s short cross-render window above: a real tap on a fresh
+   screen always gets through on the first try, a same-instant stray/dupe
+   tap does not, and a second event on that exact same button never fires
+   twice no matter how much time passes. */
 function buildClasses(){
   var box=document.getElementById("class-list"); box.innerHTML="";
+  var used=false;
   var i; for(i=0;i<CLASSES.length;i++){
-    (function(cls){ var b=document.createElement("button"); b.className="btn block"; b.textContent=cls.label; b.onclick=function(){ if(!navGuard()){ return; } CURCLASS=cls; go("s-roster"); }; box.appendChild(b); })(CLASSES[i]);
+    (function(cls){ var b=document.createElement("button"); b.className="btn block"; b.textContent=cls.label; b.onclick=function(){ if(used||!navGuard()){ return; } used=true; CURCLASS=cls; go("s-roster"); }; box.appendChild(b); })(CLASSES[i]);
   }
 }
 function buildRoster(){
   var box=document.getElementById("roster-list"); box.innerHTML="";
   if(!CURCLASS){ go("s-pick"); return; }
   document.getElementById("roster-title").textContent=CURCLASS.label;
-  var list=CURCLASS.students, i;
+  var list=CURCLASS.students, i, used=false;
   for(i=0;i<list.length;i++){
-    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ if(!navGuard()){ return; } READER=stu; Sync.pull(stu.id); go("studentMenu"); }; box.appendChild(b); })(list[i]);
+    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ if(used||!navGuard()){ return; } used=true; READER=stu; Sync.pull(stu.id); go("studentMenu"); }; box.appendChild(b); })(list[i]);
   }
 }
 
@@ -1979,7 +2062,7 @@ function fluToggleRec(){
       document.getElementById("flu-timer").textContent=fluFmtTime(fluTimerLeft);
     },1000);
     btn.className="rec-btn rec"; lbl.textContent="Stop";
-    st.className="state-line none"; st.textContent="Recording. Read the passage out loud.";
+    st.className="state-line none"; st.textContent="🔴 Recording. Read the passage out loud.";
   }).catch(function(err){
     fluClearTimer();
     btn.className="rec-btn"; btn.disabled=false; lbl.textContent="Record";
@@ -1993,10 +2076,18 @@ function fluSubmit(){
   if(!fluBlob){ if(st){ st.className="state-line err"; st.textContent="Record your reading first."; } return; }
   fluFinishSubmit();
 }
+/* Same reusable filename as every other recording assignment (Fix 3), with
+   the passage level folded into the assignment id so the teacher can still
+   tell which passage a file is from. */
+function fluAssignmentId(kind){
+  var lbl=fluPassage?fluPassage.label:"";
+  var tag=lbl.replace(/[^A-Za-z0-9]+/g,"_").replace(/^_+|_+$/g,"").toUpperCase();
+  return "FLUENCY_"+(tag?tag+"_":"")+kind;
+}
 function fluFinishSubmit(){
   fluClearTimer();
   var id=fluUid(), p=fluPassage, blob=fluBlob;
-  var fname=fluFileName("ColdRead")+".webm";
+  var fname=rfStandardFileName(fluAssignmentId("COLDREAD"));
   FluencyStore.put(id+"_passage", blob).then(function(){
     fluAttemptId=id;
     FluAttempts.add({ id:id, studentId:READER.id, studentName:READER.name,
@@ -2043,16 +2134,7 @@ function retEnter(){
 function retToggleRec(){
   var btn=document.getElementById("ret-rec"), lbl=document.getElementById("ret-rec-lbl"), st=document.getElementById("ret-state");
   if(recording&&activeCtx==="retell"){ stopRec(); return; }
-  activeCtx="retell"; st.className="state-line none"; st.textContent="Recording…";
-  var left=60;
-  document.getElementById("ret-timer").textContent=fluFmtTime(left);
-  retClearTimer();
-  retTimerHandle=setInterval(function(){
-    left--;
-    if(left<0){ retClearTimer(); return; }
-    document.getElementById("ret-timer").textContent=fluFmtTime(left);
-  },1000);
-  retAutoStop=setTimeout(function(){ if(recording&&activeCtx==="retell"){ stopRec(); } },60000);
+  activeCtx="retell"; st.className="state-line none"; st.textContent="Starting the microphone…";
   startRec(function(blob){
     retClearTimer(); if(retAutoStop){ clearTimeout(retAutoStop); retAutoStop=null; }
     retBlob=blob;
@@ -2060,14 +2142,27 @@ function retToggleRec(){
     var pb=document.getElementById("ret-play"); if(pb){ pb.disabled=false; }
     var sb=document.getElementById("ret-submit"); if(sb){ sb.disabled=false; }
     st.className="state-line saved"; st.textContent="✓ Got it. Play it back, then Submit.";
-  }).then(function(){ btn.className="rec-btn rec"; lbl.textContent="Stop"; })
-    .catch(function(err){ retClearTimer(); if(retAutoStop){ clearTimeout(retAutoStop); retAutoStop=null; } st.className="state-line err"; st.textContent=micErrorText(err); });
+  },function(){
+    /* the mic actually started -- only now start the timer and show the
+       pulsing recording state, same rule as the passage screen */
+    var left=60;
+    document.getElementById("ret-timer").textContent=fluFmtTime(left);
+    retClearTimer();
+    retTimerHandle=setInterval(function(){
+      left--;
+      if(left<0){ retClearTimer(); return; }
+      document.getElementById("ret-timer").textContent=fluFmtTime(left);
+    },1000);
+    retAutoStop=setTimeout(function(){ if(recording&&activeCtx==="retell"){ stopRec(); } },60000);
+    btn.className="rec-btn rec"; lbl.textContent="Stop";
+    st.className="state-line none"; st.textContent="🔴 Recording…";
+  }).catch(function(err){ st.className="state-line err"; st.textContent=micErrorText(err); });
 }
 function retPlayMine(){ if(retBlob){ playBlob(retBlob); } }
 function retSubmit(){
   if(!retBlob||!fluAttemptId){ return; }
   var id=fluAttemptId, blob=retBlob;
-  var fname=fluFileName("Retell")+".webm";
+  var fname=rfStandardFileName(fluAssignmentId("RETELL"));
   FluencyStore.put(id+"_retell", blob).then(function(){
     FluAttempts.update(id, {retellSaved:true});
     downloadBlob(blob,fname);
@@ -2238,6 +2333,34 @@ function rfOrdinalHour(){
   return num+suf+"Hour";
 }
 
+/* ---------- Standard recording filename: ONE function for every recording
+   assignment in the app (Check 1 today; Fluency Cold Read/Retell; any
+   Check 2-7 later). Pattern: FirstName_LastName_P#_ASSIGNMENT_YYYY_MM_DD.webm
+   rfBuildFileName is the pure, reusable piece (plain args in, string out,
+   easy to test on its own). rfStandardFileName is the convenience wrapper
+   the app actually calls, which reads the current student/class/date. */
+function rfSanitizeName(s){ return (s||"").replace(/[^A-Za-z0-9]/g,""); }
+function rfPeriodTag(){
+  var num=CURCLASS?parseInt((CURCLASS.id||"").replace(/[^0-9]/g,""),10):0;
+  return "P"+(num||0);
+}
+function azDateUnderscored(){ var d=azNow(); return d.getFullYear()+"_"+pad2(d.getMonth()+1)+"_"+pad2(d.getDate()); }
+function rfBuildFileName(firstName,lastName,period,assignmentId,dateStr){
+  var parts=[rfSanitizeName(firstName)||"Student"];
+  var last=rfSanitizeName(lastName);
+  if(last){ parts.push(last); }
+  parts.push(period||"P0");
+  parts.push(assignmentId||"CHECK_1");
+  parts.push(dateStr||azDateUnderscored());
+  return parts.join("_")+".webm";
+}
+function rfStandardFileName(assignmentId){
+  var name=(READER&&READER.name)?READER.name:"Student";
+  var bits=name.split(" ");
+  var first=bits[0], last=bits.length>1?bits[bits.length-1]:"";
+  return rfBuildFileName(first,last,rfPeriodTag(),assignmentId,azDateUnderscored());
+}
+
 /* ---------- Check 1 attempts (localStorage): one row per completed recording ---------- */
 var C1Attempts=(function(){
   var KEY="rf_check1_attempts";
@@ -2255,18 +2378,22 @@ var C1Attempts=(function(){
    Canvas (nothing is assumed to persist on a server -- the teacher opens
    that same file later, same as the existing Fluency Tap pattern). ---------- */
 var c1Idx=-1, c1Blob=null;
+var c1YesUsed=false;
 function c1Enter(){
-  c1Idx=-1; c1Blob=null;
+  c1Idx=-1; c1Blob=null; c1YesUsed=false;
   document.getElementById("c1-intro").style.display="block";
+  document.getElementById("c1-mic-note").style.display="block";
   var cur=document.getElementById("c1-current"); cur.style.display="none"; cur.textContent="";
   document.getElementById("c1-progress").textContent="";
-  var sb=document.getElementById("c1-start"); sb.style.display="inline-flex"; sb.disabled=false;
-  document.getElementById("c1-start-lbl").textContent="Start";
+  var sb=document.getElementById("c1-start"); sb.style.display="inline-flex"; sb.disabled=false; sb.className="rec-btn";
+  document.getElementById("c1-start-lbl").textContent="🎤 Start Recording";
   document.getElementById("c1-next").style.display="none";
   var st=document.getElementById("c1-state"); st.className="state-line none"; st.textContent="";
+  var rv=document.getElementById("c1-review"); if(rv){ rv.innerHTML=""; }
 }
 function c1PaintLetter(){
   document.getElementById("c1-intro").style.display="none";
+  document.getElementById("c1-mic-note").style.display="none";
   var cur=document.getElementById("c1-current");
   cur.style.display="block"; cur.textContent=C1_ALL[c1Idx];
   document.getElementById("c1-progress").textContent="Letter "+(c1Idx+1)+" of "+C1_ALL.length;
@@ -2277,13 +2404,16 @@ function c1Start(){
   var sb=document.getElementById("c1-start"), st=document.getElementById("c1-state");
   activeCtx="check1"; st.className="state-line none"; st.textContent="Starting the microphone…";
   startRec(function(blob){
-    /* the whole 52-letter recording just ended */
+    /* the whole 52-letter recording just ended -- review before it's final */
     c1Blob=blob;
-    c1Finish();
+    c1Review();
   },function(){
-    /* mic actually started -- begin the walk */
+    /* mic actually started (the browser confirmed it, not just the tap) --
+       keep the Start button visible so its red dot keeps pulsing, but
+       disable it and relabel it, and begin the letter walk */
     c1Idx=0; c1PaintLetter();
-    sb.style.display="none";
+    sb.disabled=true; sb.className="rec-btn rec";
+    document.getElementById("c1-start-lbl").textContent="🔴 Recording... Read Aloud";
     document.getElementById("c1-next").style.display="inline-block";
     st.className="state-line none"; st.textContent="Recording. Say each letter, then tap Next letter.";
   }).catch(function(err){
@@ -2294,14 +2424,34 @@ function c1Next(){
   if(c1Idx<C1_ALL.length-1){ c1Idx++; c1PaintLetter(); }
   else { stopRec(); }
 }
-function c1Finish(){
-  var fname=rfFirstName()+"_"+rfOrdinalHour()+"_Check1_"+azDateStr()+".webm";
-  downloadBlob(c1Blob,fname);
-  C1Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
-    scores:null, uppercaseCorrect:null, lowercaseCorrect:null, missedUpper:null, missedLower:null, selfCorrections:null, targets:null });
+/* Review step: listen, record again, or submit -- the recording is not
+   downloaded or saved as an attempt until Submit is tapped. */
+function c1Review(){
+  var sb=document.getElementById("c1-start"); sb.style.display="none";
   document.getElementById("c1-current").style.display="none";
   document.getElementById("c1-progress").textContent="";
   document.getElementById("c1-next").style.display="none";
+  var st=document.getElementById("c1-state");
+  st.className="state-line saved";
+  st.textContent="Recording complete.";
+  var rv=document.getElementById("c1-review");
+  rv.innerHTML='<div class="rec-row">'
+    +'<button class="play-btn" onclick="playBlob(c1Blob)">▶ Listen to Recording</button>'
+    +'<button class="btn" onclick="c1RecordAgain()">🔄 Record Again</button>'
+    +'<button class="btn primary" onclick="c1Finish()">✅ Submit Recording</button>'
+    +"</div>";
+}
+function c1RecordAgain(){
+  c1Blob=null;
+  document.getElementById("c1-review").innerHTML="";
+  c1Enter();
+}
+function c1Finish(){
+  var fname=rfStandardFileName("CHECK_1");
+  downloadBlob(c1Blob,fname);
+  C1Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
+    scores:null, uppercaseCorrect:null, lowercaseCorrect:null, missedUpper:null, missedLower:null, selfCorrections:null, targets:null });
+  document.getElementById("c1-review").innerHTML="";
   var st=document.getElementById("c1-state");
   st.className="state-line saved";
   st.innerHTML="Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
@@ -2309,7 +2459,15 @@ function c1Finish(){
     +"<li>Open today’s Check 1 assignment in Canvas.</li>"
     +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
     +"<li>Press <strong>Submit</strong>.</li></ol></div>"
-    +'<div class="nav-row" style="margin-top:14px"><button class="btn primary" onclick="go(\'diagLanding\')">Back to Diagnostic Tools →</button></div>';
+    +'<div class="note-box" style="margin-top:14px"><h4>Did you submit your audio file?</h4>'
+    +'<button class="btn primary block" id="c1-yes-btn" style="font-size:19px;padding:16px" onclick="c1ConfirmSubmitted()">YES</button></div>';
+}
+function c1ConfirmSubmitted(){
+  if(c1YesUsed){ return; }
+  c1YesUsed=true;
+  var b=document.getElementById("c1-yes-btn"); if(b){ b.disabled=true; b.textContent="Saved ✓"; }
+  ckMarkDone("check1");
+  go("diagLanding");
 }
 
 /* ---------- Check 1: teacher scoring ----------
