@@ -66,7 +66,12 @@ setTimeout(function(){
     setTimeout(function(){
       var nameBtns=d.querySelectorAll("#roster-list .btn");
       ck(nameBtns.length===wantClass.students.length,"round "+round+": all names for '"+wantClass.label+"' rendered");
-      var si=(round*3)%nameBtns.length; // vary the picked name across rounds
+      /* only cycle through TAPPABLE students -- an un-activated placeholder
+         (Student 1/2/3) is deliberately locked and covered by its own
+         dedicated test, not this one-tap-per-real-student sweep */
+      var tappableIdxs=[], ti;
+      for(ti=0;ti<wantClass.students.length;ti++){ if(!w.isPlaceholder(wantClass.students[ti]) || wantClass.students[ti].activated){ tappableIdxs.push(ti); } }
+      var si=tappableIdxs[(round*3)%tappableIdxs.length]; // vary the picked name across rounds
       var wantStudent=wantClass.students[si];
       click(nameBtns[si]); // exactly ONE tap
       ck(activeId()==="s-confirm","round "+round+": one tap on '"+wantStudent.name+"' reached the Is-this-you confirm (got '"+activeId()+"')");

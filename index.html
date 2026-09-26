@@ -28,6 +28,8 @@ header.app .brand-text{display:flex;flex-direction:column;align-items:center;tex
 header.app h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.02em;line-height:1.25}
 header.app .byline{font-size:11px;color:var(--ink-soft);font-weight:400;margin:2px 0 0;line-height:1.2}
 header.app .tag{font-size:13px;color:var(--ink-soft)}
+.vas-banner{display:none;align-items:center;justify-content:center;gap:14px;background:var(--retry);color:#fff;padding:10px 16px;position:sticky;top:0;z-index:50;font-weight:700;text-align:center;flex-wrap:wrap}
+.vas-banner .vas-exit{background:#fff;color:var(--retry);border:none;border-radius:8px;padding:8px 16px;font:inherit;font-weight:700;cursor:pointer;touch-action:manipulation}
 .theming{display:flex;align-items:center;gap:8px}
 .swatches{display:flex;gap:6px}
 .sw{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0;touch-action:manipulation}
@@ -224,6 +226,11 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
   </div>
 </header>
 
+<div class="vas-banner" id="vas-banner">
+  <span>VIEWING AS STUDENT &mdash; nothing here counts for a real student</span>
+  <button class="vas-exit" onclick="exitViewAsStudent()">Exit</button>
+</div>
+
 <div class="wrap">
 
   <!-- HOME (teacher hub only -- students go straight to s-pick, see Boot) -->
@@ -238,7 +245,10 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <button class="btn block" style="margin-top:10px" onclick="go('s-teachDir')">Directions recordings<span class="sub">Record the Listen-button voice-overs</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-fluteach')">Fluency review<span class="sub">Listen to fluency &amp; retell attempts, score WCPM, approve moves</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-settings')">Settings<span class="sub">Practice reads, pacer, and teams</span></button>
-      <button class="btn block" style="margin-top:10px" onclick="go('s-pick')">Go to student view<span class="sub">See what a student sees</span></button>
+      <button class="btn block" style="margin-top:10px" onclick="go('s-teachStudents')">Add new student<span class="sub">Activate a placeholder slot with a real name</span></button>
+      <button class="btn block" style="margin-top:10px" onclick="enterViewAsStudent()">View as Student<span class="sub">Demo the full student experience -- nothing you do here counts for a real student</span></button>
+      <button class="btn block" style="margin-top:10px" onclick="vasReset()">Reset View as Student data<span class="sub">Clear everything from past demos before modeling for a new class</span></button>
+      <p class="mini-note" id="vas-reset-msg"></p>
     </div>
   </section>
 
@@ -506,6 +516,18 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       </div>
       <input type="file" id="dirt-import" accept="application/json,.json" style="display:none" onchange="dirtImportPick(this)">
       <p class="mini-note" id="dirt-backup-state" style="margin:-4px 0 14px;min-height:16px"></p>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <!-- ADD NEW STUDENT: activate a placeholder slot (Student 1/2/3) with a
+       real name. Grayed-out/locked on the roster until then. -->
+  <section class="screen" id="s-teachStudents">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Add new student</p>
+      <h2>Activate a placeholder student</h2>
+      <p class="lede">Pick a placeholder slot, type the student&rsquo;s first name and last initial, then tap Activate. Once activated, the slot works exactly like any other student -- one-shot checks, cold read, and retell all apply normally.</p>
+      <div id="teachStudents-list"></div>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -945,6 +967,92 @@ var CLASSES=[
 var CURCLASS=null;
 var READER=null;
 
+/* ---------- View as Student (teacher-only demo mode) ----------
+   Every per-student storage key gets redirected into a separate "vas_"
+   sandbox while this mode is on, so nothing a teacher does while demoing
+   -- checks, fluency, retell, vocabulary, points, groups -- ever touches a
+   real student's data, counts in a report, or affects a real unlock.
+   Reset just sweeps every "vas_"-prefixed key out of localStorage. */
+var VIEW_AS_STUDENT=false;
+function vasK(key){ return VIEW_AS_STUDENT ? ("vas_"+key) : key; }
+function paintVasBanner(){
+  var b=document.getElementById("vas-banner"); if(b){ b.style.display=VIEW_AS_STUDENT?"flex":"none"; }
+}
+function enterViewAsStudent(){
+  VIEW_AS_STUDENT=true;
+  READER=null; CURCLASS=null; PENDING_STU=null;
+  paintVasBanner();
+  go("s-pick");
+}
+function exitViewAsStudent(){
+  VIEW_AS_STUDENT=false;
+  READER=null; CURCLASS=null; PENDING_STU=null;
+  paintVasBanner();
+  go("s-home");
+}
+function vasReset(){
+  var keys=[], i;
+  for(i=0;i<localStorage.length;i++){ var k=localStorage.key(i); if(k && k.indexOf("vas_")===0){ keys.push(k); } }
+  for(i=0;i<keys.length;i++){ localStorage.removeItem(keys[i]); }
+  var m=document.getElementById("vas-reset-msg"); if(m){ m.textContent="✓ Cleared "+keys.length+" item(s) of View as Student data."; }
+}
+
+/* ---------- Placeholder students (Student 1/2/3 in each class hour) ----------
+   Grayed out and NOT tappable until the teacher activates a slot with a
+   real name. Activation is stored by placeholder id, overlaid onto the
+   in-memory CLASSES data on load (and again right after activating), so
+   everything downstream -- the roster, studentMenu, filenames, attempts --
+   just sees a normal student from then on, with no extra wiring. */
+var PH_KEY="rf_placeholder_activations";
+function isPlaceholder(stu){ return !!(stu && stu.id && stu.id.indexOf("spare_")===0); }
+function phAll(){ try{ var r=localStorage.getItem(PH_KEY); return r?JSON.parse(r):{}; }catch(e){ return {}; } }
+function phSave(m){ try{ localStorage.setItem(PH_KEY, JSON.stringify(m)); }catch(e){} }
+function applyPlaceholderOverlay(){
+  var m=phAll(), ci, si;
+  for(ci=0;ci<CLASSES.length;ci++){
+    for(si=0;si<CLASSES[ci].students.length;si++){
+      var stu=CLASSES[ci].students[si];
+      if(isPlaceholder(stu)){
+        if(m[stu.id] && m[stu.id].name){ stu.name=m[stu.id].name; stu.activated=true; }
+        else { stu.activated=false; }
+      }
+    }
+  }
+}
+function phActivate(stuId,name){
+  var m=phAll(); m[stuId]={name:name}; phSave(m);
+  applyPlaceholderOverlay();
+}
+applyPlaceholderOverlay();
+
+/* ---------- Teacher: Add new student (activate a placeholder slot) ---------- */
+function teachStudentsEnter(){
+  var box=document.getElementById("teachStudents-list"); if(!box){ return; }
+  var html="", ci, si;
+  for(ci=0;ci<CLASSES.length;ci++){
+    var cls=CLASSES[ci];
+    html+='<div class="card"><h4 style="margin:0 0 10px">'+escapeHtml(cls.label)+'</h4>';
+    for(si=0;si<cls.students.length;si++){
+      var stu=cls.students[si];
+      if(!isPlaceholder(stu)){ continue; }
+      var inputId="ts-name-"+stu.id;
+      html+='<div class="list-item"><span class="lbl">'+(stu.activated?escapeHtml(stu.name):"Placeholder slot")
+        +(stu.activated?"<small>Activated</small>":"<small>Not yet activated — grayed out on the roster</small>")+"</span>"
+        +'<span><input id="'+inputId+'" class="code-input" placeholder="First name + last initial" value="'+(stu.activated?escapeHtml(stu.name):"")+'" autocomplete="off"> '
+        +'<button class="btn" onclick="teachActivate(\''+stu.id+'\',\''+inputId+'\')">'+(stu.activated?"Update":"Activate")+"</button></span></div>";
+    }
+    html+="</div>";
+  }
+  box.innerHTML=html;
+}
+function teachActivate(stuId,inputId){
+  var inp=document.getElementById(inputId); if(!inp){ return; }
+  var name=(inp.value||"").replace(/^\s+|\s+$/g,"");
+  if(!name){ return; }
+  phActivate(stuId,name);
+  teachStudentsEnter();
+}
+
 /* ---------- Settings (localStorage) ---------- */
 var Settings=(function(){
   var KEY="slider_settings";
@@ -1064,8 +1172,8 @@ var AudioStore=(function(){
 /* ---------- Progress (localStorage) ---------- */
 var Progress=(function(){
   var KEY="slider_progress";
-  function all(){ try{ var r=window.localStorage.getItem(KEY); return r?JSON.parse(r):[]; }catch(e){ return []; } }
-  function save(l){ try{ window.localStorage.setItem(KEY,JSON.stringify(l)); }catch(e){} }
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(l)); }catch(e){} }
   return { record:function(rec){ var l=all(); rec.timestamp=new Date().toISOString(); l.push(rec); save(l); } };
 })();
 
@@ -1280,7 +1388,7 @@ function micErrorText(err){
 
 /* ---------- Group state ---------- */
 var CURGROUP=null, GIDX=0;
-function gKey(){ return "rf_groups_"+(READER?READER.id:"anon"); }
+function gKey(){ return vasK("rf_groups_"+(READER?READER.id:"anon")); }
 function gDone(){ try{ var v=localStorage.getItem(gKey()); return v?JSON.parse(v):{}; }catch(e){ return {}; } }
 function gMarkDone(name){ try{ var o=gDone(); o[name]=1; localStorage.setItem(gKey(), JSON.stringify(o)); }catch(e){} Sync.dirty(); }
 function gUnlocked(idx){ if(idx===0){ return true; } var o=gDone(); return !!o[GROUPS[idx-1].name]; }
@@ -1324,7 +1432,7 @@ var CHECK_DEFS=[
   {id:"check6", label:"Check 6: Morphological Awareness &amp; Word Analysis", sub:"Coming soon", built:false},
   {id:"check7", label:"Check 7: Multisyllabic Word Analysis", sub:"Coming soon", built:false}
 ];
-function ckKey(){ return "rf_checks_"+(READER?READER.id:"anon"); }
+function ckKey(){ return vasK("rf_checks_"+(READER?READER.id:"anon")); }
 function ckDone(){ try{ var v=localStorage.getItem(ckKey()); return v?JSON.parse(v):{}; }catch(e){ return {}; } }
 function ckMarkDone(id){ try{ var o=ckDone(); o[id]=1; localStorage.setItem(ckKey(), JSON.stringify(o)); }catch(e){} }
 /* Unlocking depends ONLY on the previous check being done -- never on
@@ -1383,8 +1491,8 @@ function pad2(n){ return (n<10?"0":"")+n; }
 function azNow(){ var n=new Date(); var utc=n.getTime()+n.getTimezoneOffset()*60000; return new Date(utc - 7*3600000); }
 function azDateStr(){ var d=azNow(); return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate()); }
 function isBlue(){ return azNow().getHours() >= 16; }
-function pointsData(){ try{ return JSON.parse(localStorage.getItem("points_data")||"{}"); }catch(e){ return {}; } }
-function savePoints(o){ try{ localStorage.setItem("points_data", JSON.stringify(o)); }catch(e){} Sync.dirty(); }
+function pointsData(){ try{ return JSON.parse(localStorage.getItem(vasK("points_data"))||"{}"); }catch(e){ return {}; } }
+function savePoints(o){ try{ localStorage.setItem(vasK("points_data"), JSON.stringify(o)); }catch(e){} Sync.dirty(); }
 function dayRec(data,id,date){
   var rec=data[id]||(data[id]={});
   var day=rec[date]||(rec[date]={green:0,blue:0,gEarned:{},bEarned:{},finals:{}});
@@ -1507,6 +1615,7 @@ var Sync=(function(){
   }
   function setState(s){ state=s; paintNote(); }
   function push(id,cb){
+    if(VIEW_AS_STUDENT){ if(cb){ cb(false); } return; } // View as Student never reaches the network or a real student's record
     var code=codeFor(id); if(!code){ if(cb){ cb(false); } return; }
     setState("saving");
     xhr("POST",API,{code:code,id:id,data:localBlob(id)},function(st,j){
@@ -1525,6 +1634,7 @@ var Sync=(function(){
      no-op gate, same as the rest of this sync layer before Vercel exists. */
   var teacherPin=null;
   function pushTeacherField(id,field,value,cb){
+    if(VIEW_AS_STUDENT){ if(cb){ cb(false); } return; }
     var code=codeFor(id); if(!enabled()||!code){ if(cb){ cb(false); } return; }
     var data={}; data[field]=value;
     var body={code:code,id:id,data:data}; if(teacherPin){ body.pin=teacherPin; }
@@ -1541,6 +1651,7 @@ var Sync=(function(){
   function pushTeam(id,team,cb){ pushTeacherField(id,"team",team||"",cb); }
 
   function pull(id,cb){
+    if(VIEW_AS_STUDENT){ setState("idle"); if(cb){ cb(false); } return; }
     var code=codeFor(id); if(!enabled()||!code){ setState("idle"); if(cb){ cb(false); } return; }
     setState("saving");
     xhr("GET",API+"?code="+encodeURIComponent(code)+"&id="+encodeURIComponent(id),null,function(st,j){
@@ -1559,6 +1670,7 @@ var Sync=(function(){
   }
   /* called after every local save; debounced so a burst of taps is one request */
   function dirty(){
+    if(VIEW_AS_STUDENT){ return; }
     if(!enabled()||!READER||!codeFor(READER.id)){ return; }
     var id=READER.id; pending[id]=1;
     if(timer){ clearTimeout(timer); }
@@ -1566,6 +1678,7 @@ var Sync=(function(){
   }
   function retryPending(){ var id; for(id in pending){ if(pending.hasOwnProperty(id)){ if(hydrated[id]){ push(id); } else { pull(id); } } } }
   function pullClass(cls,cb){
+    if(VIEW_AS_STUDENT){ if(cb){ cb(false); } return; }
     var code=enabled()?(codes()[cls.id]||""):""; if(!code){ if(cb){ cb(false); } return; }
     xhr("GET",API+"?code="+encodeURIComponent(code)+"&all=1",null,function(st,j){
       if(st===200 && j && j.ok && j.students){ var id; for(id in j.students){ if(j.students.hasOwnProperty(id)){ applyRemote(id,j.students[id]); } } if(cb){ cb(true); } }
@@ -1861,6 +1974,7 @@ function go(id){
   if(wasActive==="check2" && id!=="check2"){ c2StopMedia(); }
   document.getElementById(id).className="screen active";
   window.scrollTo(0,0); stopAllAudio();
+  paintVasBanner();
   if(id==="s-pick"){ buildClasses(); }
   if(id==="s-roster"){ buildRoster(); paintCodeBox(); }
   if(id==="s-confirm"){ confirmEnter(); }
@@ -1873,6 +1987,7 @@ function go(id){
   if(id==="s-teachC2"){ c2tPromptsEnter(); }
   if(id==="check2Teach"){ check2TeachEnter(); }
   if(id==="s-teachDir"){ dirtEnter(); }
+  if(id==="s-teachStudents"){ teachStudentsEnter(); }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
   if(id==="s-final"){ fEnter(); }
   if(id==="s-read"){ refreshPtsBadge(); }
@@ -1921,7 +2036,19 @@ function buildRoster(){
   document.getElementById("roster-hour-label").textContent=CURCLASS.label;
   var list=CURCLASS.students, i, used=false;
   for(i=0;i<list.length;i++){
-    (function(stu){ var b=document.createElement("button"); b.className="btn block"; b.textContent=stu.name; b.onclick=function(){ if(used){ return; } used=true; PENDING_STU=stu; go("s-confirm"); }; box.appendChild(b); })(list[i]);
+    (function(stu){
+      var b=document.createElement("button");
+      if(isPlaceholder(stu) && !stu.activated){
+        /* grayed out, not tappable, until the teacher activates this slot
+           with a real name -- same locked look used elsewhere, no onclick
+           at all so mashing it can never do anything */
+        b.className="btn block locked"; b.disabled=true; b.textContent=stu.name;
+      } else {
+        b.className="btn block"; b.textContent=stu.name;
+        b.onclick=function(){ if(used){ return; } used=true; PENDING_STU=stu; go("s-confirm"); };
+      }
+      box.appendChild(b);
+    })(list[i]);
   }
 }
 
@@ -2386,8 +2513,8 @@ function findPassage(level,sub){ var i; for(i=0;i<PASSAGES.length;i++){ if(PASSA
 /* ---------- Placement: which passage a student is on (no login; per student id) ---------- */
 var FluPlace=(function(){
   var KEY="rf_fluency_place";
-  function all(){ try{ var r=window.localStorage.getItem(KEY); return r?JSON.parse(r):{}; }catch(e){ return {}; } }
-  function save(o){ try{ window.localStorage.setItem(KEY,JSON.stringify(o)); }catch(e){} }
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):{}; }catch(e){ return {}; } }
+  function save(o){ try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(o)); }catch(e){} }
   function get(id){ var o=all(); return o[id] || {level:LEVELS[0], sub:0}; }
   function set(id,level,sub){ var o=all(); o[id]={level:level, sub:sub}; save(o); }
   return { get:get, set:set };
@@ -2415,8 +2542,8 @@ var FluencyStore=(function(){
 /* ---------- Fluency attempts (localStorage): metadata + teacher-entered scores ---------- */
 var FluAttempts=(function(){
   var KEY="rf_fluency_attempts";
-  function all(){ try{ var r=window.localStorage.getItem(KEY); return r?JSON.parse(r):[]; }catch(e){ return []; } }
-  function save(l){ try{ window.localStorage.setItem(KEY,JSON.stringify(l)); }catch(e){} }
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(l)); }catch(e){} }
   function add(rec){ var l=all(); l.push(rec); save(l); return rec; }
   function update(id,patch){ var l=all(), i, k; for(i=0;i<l.length;i++){ if(l[i].id===id){ for(k in patch){ if(patch.hasOwnProperty(k)){ l[i][k]=patch[k]; } } break; } } save(l); }
   function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
@@ -2854,8 +2981,8 @@ function rfStandardFileName(assignmentId){
 /* ---------- Check 1 attempts (localStorage): one row per completed recording ---------- */
 var C1Attempts=(function(){
   var KEY="rf_check1_attempts";
-  function all(){ try{ var r=window.localStorage.getItem(KEY); return r?JSON.parse(r):[]; }catch(e){ return []; } }
-  function save(l){ try{ window.localStorage.setItem(KEY,JSON.stringify(l)); }catch(e){} }
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(l)); }catch(e){} }
   function add(rec){ var l=all(); l.push(rec); save(l); return rec; }
   function update(id,patch){ var l=all(), i, k; for(i=0;i<l.length;i++){ if(l[i].id===id){ for(k in patch){ if(patch.hasOwnProperty(k)){ l[i][k]=patch[k]; } } break; } } save(l); }
   function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
@@ -2992,8 +3119,8 @@ function c1ConfirmSubmitted(){
 /* ---------- Check 2 attempts (localStorage): one row per completed recording ---------- */
 var C2Attempts=(function(){
   var KEY="rf_check2_attempts";
-  function all(){ try{ var r=window.localStorage.getItem(KEY); return r?JSON.parse(r):[]; }catch(e){ return []; } }
-  function save(l){ try{ window.localStorage.setItem(KEY,JSON.stringify(l)); }catch(e){} }
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(l)); }catch(e){} }
   function add(rec){ var l=all(); l.push(rec); save(l); return rec; }
   function update(id,patch){ var l=all(), i, k; for(i=0;i<l.length;i++){ if(l[i].id===id){ for(k in patch){ if(patch.hasOwnProperty(k)){ l[i][k]=patch[k]; } } break; } } save(l); }
   function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }

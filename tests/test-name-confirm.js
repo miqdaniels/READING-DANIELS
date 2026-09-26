@@ -87,7 +87,12 @@ setTimeout(function(){
     ck(activeId()==="s-roster","round "+round+": one tap on '"+wantClass.label+"' reaches the roster");
 
     var nameBtns=d.querySelectorAll("#roster-list .btn");
-    var si=(round*5)%nameBtns.length;
+    /* only cycle through TAPPABLE students -- an un-activated placeholder
+       (Student 1/2/3) is deliberately locked, covered separately in
+       test-view-as-student.js, not this one-tap-per-real-student sweep */
+    var tappableIdxs=[], ti;
+    for(ti=0;ti<wantClass.students.length;ti++){ if(!w.isPlaceholder(wantClass.students[ti]) || wantClass.students[ti].activated){ tappableIdxs.push(ti); } }
+    var si=tappableIdxs[(round*5)%tappableIdxs.length];
     var wantStudent=wantClass.students[si];
     click(nameBtns[si]); // exactly ONE tap
     var confirmRight = activeId()==="s-confirm" && w.PENDING_STU===wantStudent && d.getElementById("confirm-name").textContent===wantStudent.name;
