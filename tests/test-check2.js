@@ -44,6 +44,18 @@ setTimeout(function(){
   let pass=0,fail=0;
   function ck(c,m){ if(c){pass++;} else {fail++; console.log("FAIL:",m);} }
 
+  /* Miq has since recorded and baked the real directions clips (dir_check1,
+     dir_check2_open, dir_check2_before2b, dir_vocab, dir_fluency,
+     dir_retell) into clips.js -- this file loads the REAL clips.js, so
+     without this, the "no Listen button until recorded" demonstrations
+     below would be testing a premise that's no longer true. Clear just
+     these keys for this run so those checks stay honest; the "appears
+     once recorded" checks further down fake their own stub value back in
+     afterward, same as before. */
+  ["dir_check1","dir_check2_open","dir_check2_before2b","dir_vocab","dir_fluency","dir_retell"].forEach(function(k){
+    if(w.window.BAKED_CLIPS){ delete w.window.BAKED_CLIPS[k]; }
+  });
+
   /* ---- content structure ---- */
   ck(w.C2_ITEMS.length===31,"31 total scored targets (got "+w.C2_ITEMS.length+")");
   var n2a=0,n2b=0,n2c=0,i;
@@ -155,7 +167,7 @@ setTimeout(function(){
           ck(w.c2Idx===20,"c2Idx has NOT advanced yet -- the new section's first item hasn't appeared");
           ck(w.c2TimerHandle===null,"the 5:00 timer is paused (no running interval) while the transition shows");
           ck(/Now you will hear a word\. Look at the letter\./.test(d.getElementById("c2-trans-text").textContent),"before-2B directions text shows");
-          ck(d.getElementById("dl-dir_check2_before2b").style.display==="none","no Listen button yet -- that clip isn't recorded/baked");
+          ck(d.getElementById("dl-dir_check2_before2b").style.display==="none","no Listen button yet -- cleared for this test (it's really recorded/baked now)");
 
           /* a duplicate tap on "I'm Ready" must not ALSO skip the first item */
           w.c2ReadyTap(); w.c2ReadyTap(); w.c2ReadyTap();
