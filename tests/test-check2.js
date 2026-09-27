@@ -154,7 +154,7 @@ setTimeout(function(){
           ck(d.getElementById("c2-assess").style.display==="none","the item-walk screen is hidden while the transition shows");
           ck(w.c2Idx===20,"c2Idx has NOT advanced yet -- the new section's first item hasn't appeared");
           ck(w.c2TimerHandle===null,"the 5:00 timer is paused (no running interval) while the transition shows");
-          ck(/Listen to the word\. Say the sound\./.test(d.getElementById("c2-trans-text").textContent),"before-2B directions text shows");
+          ck(/Now you will hear a word\. Look at the letter\./.test(d.getElementById("c2-trans-text").textContent),"before-2B directions text shows");
           ck(d.getElementById("dl-dir_check2_before2b").style.display==="none","no Listen button yet -- that clip isn't recorded/baked");
 
           /* a duplicate tap on "I'm Ready" must not ALSO skip the first item */

@@ -84,7 +84,12 @@ setTimeout(function(){
         ck(w.fluBlob!==null,"a blob was captured from the automatic stop");
         ck(d.getElementById("flu-timer").textContent==="0:00","timer display reached 0:00");
         ck(d.getElementById("flu-rec").disabled===true,"button is disabled after the automatic stop");
-        ck(d.getElementById("flu-done").style.display==="none","Done is hidden after the automatic stop too");
+        /* the auto-stop flashes "Time's up!" on Done for ~1.2s (real time,
+           not fast-forwarded like the per-second ticks above) before the
+           review screen hides it */
+        ck(d.getElementById("flu-done").className.indexOf("flash")>-1,"Done flashes \"Time's up!\" right after the automatic stop");
+        setTimeout(function(){
+        ck(d.getElementById("flu-done").style.display==="none","Done is hidden after the automatic stop too, once the flash finishes");
 
         /* ---- mic blocked: friendly message, button stays usable ---- */
         const dom2=makeDom(true);
@@ -101,6 +106,7 @@ setTimeout(function(){
           console.log("\n=== "+pass+" passed, "+fail+" failed ===");
           process.exit(fail?1:0);
         },60);
+        },1300); // real time -- past the ~1.2s "Time's up!" flash
       },250); // 60 fast-forwarded ticks resolve well within this
     },60);
   },60);

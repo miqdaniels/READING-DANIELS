@@ -112,7 +112,10 @@ setTimeout(function(){
       w.fluSubmit();
       setTimeout(function(){
         ck(w.__downloads.length===2,"Fluency Save downloaded exactly one file (2 total so far)");
-        ck(/FLUENCY/.test(w.__downloads[1]) && /COLDREAD/.test(w.__downloads[1]),"Fluency's downloaded file name is correct (got '"+w.__downloads[1]+"')");
+        ck(/FLUENCY/.test(w.__downloads[1]) && /Day1-ColdRead/.test(w.__downloads[1]),"Fluency's downloaded file name is correct (got '"+w.__downloads[1]+"')");
+        var nextBtn=d.querySelector("#flu-after .icon-btn-next");
+        ck(!!nextBtn && nextBtn.className.indexOf("icon-btn-next")>-1,"a Next icon button moves on to Retell");
+        nextBtn.dispatchEvent(new w.Event("click",{bubbles:true}));
         runRetellAndFinal();
       },30);
     },30);

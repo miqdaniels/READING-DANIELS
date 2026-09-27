@@ -148,7 +148,11 @@ function runMain(){
 
     // fluSubmit -> FluencyStore.put is async (IndexedDB round trip); give it a tick
     setTimeout(function(){
-      ck(activeId()==="fluencyRetell","Submit moves to fluencyRetell");
+      ck(activeId()==="fluencyPassage","Save shows a confirmation on the passage screen first (Day 1/3)");
+      var nextBtn=d.querySelector("#flu-after .icon-btn-next");
+      ck(!!nextBtn,"a Next icon button offers to move on to the Retell");
+      click(nextBtn);
+      ck(activeId()==="fluencyRetell","tapping Next moves to fluencyRetell");
       ck(d.getElementById("fluencyPassage").className==="screen","passage screen fully inactive");
 
       var retLevel=d.getElementById("ret-level").textContent;
@@ -207,8 +211,12 @@ function runMain(){
             ck(w.flutRecommend(92)==="Repeat level","92% recommends repeat");
             ck(w.flutRecommend(80)==="Too hard","80% recommends too hard");
 
+            /* the 3-day fluency cycle already auto-advanced FluPlace to the
+               NEXT never-used passage the moment Day 1 opened (so a future
+               Day 1/3 gets a fresh passage) -- it's PK 0.1 here even before
+               the teacher makes any move/repeat/down decision */
             var beforePlace=w.FluPlace.get(w.READER.id);
-            ck(beforePlace.level==="PK" && beforePlace.sub===0,"placement still PK 0.0 before decision");
+            ck(beforePlace.level==="PK" && beforePlace.sub===1,"placement already auto-advanced to PK 0.1 before any teacher decision");
             w.flutMove(attemptId,"repeat");
             var afterPlace=w.FluPlace.get(w.READER.id);
             ck(afterPlace.level==="PK" && afterPlace.sub===1,"repeat decision advances to next PK passage (0.1)");

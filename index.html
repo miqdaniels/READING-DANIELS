@@ -198,6 +198,22 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .flu-passage p{ margin:0 0 14px; }
 .flu-timer-row{ display:flex; align-items:center; gap:12px; margin:10px 0; }
 .flu-timer{ font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; }
+/* Countdown ring around the pulsing Record mic for every fluency read
+   (Day 1/2/3). Empties over the one-minute read via a CSS custom
+   property JS updates each second -- the Record/Done button underneath
+   is untouched (same icon, same color, same word). */
+.flu-timer-ring-wrap{display:flex;justify-content:center;margin:10px 0}
+.flu-timer-ring{--flu-pct:100;position:relative;width:104px;height:104px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:conic-gradient(var(--retry) calc(var(--flu-pct)*1%), var(--line) 0);transition:background .2s linear}
+.flu-timer-ring:before{content:"";position:absolute;inset:7px;background:var(--paper);border-radius:50%}
+.flu-timer-ring .flu-timer{position:relative;z-index:1}
+/* "Time's up!" flash -- reuses the existing Done (square-stop) icon
+   button, just flashes it 3 times instead of inventing a new button. */
+.icon-btn-done.flash{animation:fluFlash .3s steps(1) 3}
+@keyframes fluFlash{0%,100%{opacity:1;background:var(--good)}50%{opacity:.25;background:var(--retry)}}
+/* Short "Get ready for Read N" interstitial between Day 2's 3 reads --
+   the recording keeps going the whole time, this is display-only. */
+.flu-getready{text-align:center;padding:30px 10px}
+.flu-getready .lede{margin-bottom:0}
 .diag-list .btn{ margin:0 0 10px; }
 .c1-letter{ font-family:'Andika',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; font-size:9rem; font-weight:700; text-align:center; line-height:1; margin:24px 0; }
 .c1-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(70px,1fr)); gap:10px; margin:16px 0; }
@@ -253,6 +269,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <button class="btn block" style="margin-top:10px" onclick="go('check2Teach')">Check 2 review<span class="sub">Score letter-sound videos</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-teachDir')">Directions recordings<span class="sub">Record the Listen-button voice-overs</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-fluteach')">Fluency review<span class="sub">Listen to fluency &amp; retell attempts, score WCPM, approve moves</span></button>
+      <button class="btn block" style="margin-top:10px" onclick="go('s-teachGroupLocks')">Word Practice group locks<span class="sub">Lock or unlock any group for any student</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-settings')">Settings<span class="sub">Practice reads, pacer, and teams</span></button>
       <button class="btn block" style="margin-top:10px" onclick="go('s-teachStudents')">Add new student<span class="sub">Activate a placeholder slot with a real name</span></button>
       <button class="btn block" style="margin-top:10px" onclick="enterViewAsStudent()">Student View<span class="sub">Demo the full student experience -- nothing you do here counts for a real student</span></button>
@@ -540,7 +557,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
   <div class="wrap">
     <p class="step-eyebrow">Bridges Unit 1</p>
     <h2 class="scr-title">Choose your group, <span id="group-who"></span></h2>
-    <p class="mini-note">Finish a group to open the next one.</p>
+    <p class="mini-note">Tap your next group. Follow the steps.</p>
     <div class="dir-listen-wrap" id="dl-dir_vocab" style="display:none">
       <button class="dir-listen-btn" id="dl-dir_vocab-btn" onclick="dirToggle('dir_vocab')">
         <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
@@ -718,7 +735,8 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     <p class="crumb"><a onclick="go('studentMenu')">Menu</a> &nbsp;/&nbsp; Fluency</p>
     <p class="step-eyebrow" id="flu-level"></p>
     <h2 class="scr-title" id="flu-title"></h2>
-    <p class="mini-note">Read the passage out loud. Tap Submit when you're done.</p>
+    <p class="step-eyebrow" id="flu-read-label" style="display:none"></p>
+    <p class="mini-note" id="flu-directions"></p>
     <div class="dir-listen-wrap" id="dl-dir_fluency" style="display:none">
       <button class="dir-listen-btn" id="dl-dir_fluency-btn" onclick="dirToggle('dir_fluency')">
         <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
@@ -726,19 +744,29 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     </div>
     <div class="flu-passage" id="flu-text"></div>
     <p class="mini-note">Your browser will ask for permission to use the microphone. Tap Allow so your reading can be recorded.</p>
-    <div class="flu-timer-row">
-      <span class="flu-timer" id="flu-timer">1:00</span>
+
+    <div id="flu-getready" class="flu-getready" style="display:none">
+      <p class="lede" id="flu-getready-text"></p>
     </div>
-    <p class="rec-status" id="flu-rec-status"></p>
-    <div class="icon-row">
-      <button class="icon-btn icon-btn-record" id="flu-rec" onclick="fluToggleRec()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="flu-rec-lbl">Record</span></button>
-      <button class="icon-btn icon-btn-done" id="flu-done" onclick="fluToggleRec()" style="display:none"><span class="icon-glyph">&#9209;</span><span class="icon-label">Done</span></button>
-      <button class="icon-btn icon-btn-listen" id="flu-play" onclick="fluPlayMine()" disabled><span class="icon-glyph">&#9654;</span><span class="icon-label">Play back</span></button>
+
+    <div id="flu-active">
+      <div class="flu-timer-ring-wrap">
+        <div class="flu-timer-ring" id="flu-timer-ring"><span class="flu-timer" id="flu-timer">1:00</span></div>
+      </div>
+      <p class="rec-status" id="flu-rec-status"></p>
+      <div class="icon-row">
+        <button class="icon-btn icon-btn-record" id="flu-rec" onclick="fluToggleRec()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="flu-rec-lbl">Record</span></button>
+        <button class="icon-btn icon-btn-done" id="flu-done" onclick="fluToggleRec()" style="display:none"><span class="icon-glyph">&#9209;</span><span class="icon-label">Done</span></button>
+        <button class="icon-btn icon-btn-listen" id="flu-play" onclick="fluPlayMine()" disabled><span class="icon-glyph">&#9654;</span><span class="icon-label">Play back</span></button>
+      </div>
+      <p class="state-line none" id="flu-state"></p>
+      <div class="icon-row" id="flu-save-row" style="margin-top:14px">
+        <button class="icon-btn icon-btn-save" onclick="fluSubmit()"><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>
+        <button class="icon-btn icon-btn-redo" id="flu-redo" onclick="fluRedo()" style="display:none"><span class="icon-glyph">&#128260;</span><span class="icon-label">Redo</span></button>
+      </div>
     </div>
-    <p class="state-line none" id="flu-state"></p>
-    <div class="icon-row" style="margin-top:14px">
-      <button class="icon-btn icon-btn-save" onclick="fluSubmit()"><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>
-    </div>
+
+    <div id="flu-after"></div>
   </section>
 
   <!-- FLUENCY: retell -->
@@ -777,6 +805,18 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     <div class="seg" id="flut-class" style="margin:10px 0;flex-wrap:wrap"></div>
     <div class="grid" id="flut-roster" style="margin-bottom:14px"></div>
     <div id="flut-body"></div>
+    <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+  </section>
+
+  <!-- WORD PRACTICE: lock or unlock any group for any student, overriding
+       the normal "finish the one before it" progression. -->
+  <section id="s-teachGroupLocks" class="screen">
+    <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Word Practice group locks</p>
+    <h2>Lock or unlock groups</h2>
+    <p class="lede">Pick a class, then a student, to lock or unlock any Word Practice group for them. Auto follows the normal rule -- finish one group to open the next.</p>
+    <div class="seg" id="tgl-class" style="margin:10px 0;flex-wrap:wrap"></div>
+    <div class="grid" id="tgl-roster" style="margin-bottom:14px"></div>
+    <div id="tgl-body"></div>
     <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
   </section>
 
@@ -1204,9 +1244,9 @@ function getBlob(id){ return AudioStore.get(id); }
 var DIRECTIONS_DEFS=[
   {key:"dir_check1", label:"Check 1 directions", script:"Say each letter's name out loud. Tap Next after each one."},
   {key:"dir_check2_open", label:"Check 2 -- opening directions", script:"Look at the letter. Say the sound."},
-  {key:"dir_check2_before2b", label:"Check 2 -- before 2B (short vowels)", script:"Listen to the word. Say the sound."},
-  {key:"dir_check2_before2c", label:"Check 2 -- before 2C (long vowels)", script:"Listen to the word. Say the sound."},
-  {key:"dir_fluency", label:"Fluency directions", script:"Read the passage out loud. Tap Submit when you're done."},
+  {key:"dir_check2_before2b", label:"Check 2 -- before 2B (short vowels)", script:"Now you will hear a word. Look at the letter. Say the sound it makes in that word."},
+  {key:"dir_check2_before2c", label:"Check 2 -- before 2C (long vowels)", script:"Last part. Look at the letter. Listen to the word. Say the sound it makes in that word."},
+  {key:"dir_fluency", label:"Fluency directions", script:"Read the passage out loud."},
   {key:"dir_retell", label:"Retell directions", script:"Tell what you read, in your own words. You have one minute."},
   {key:"dir_vocab", label:"Vocabulary (Word Practice) directions", script:"Pick a group. Hear the word, then read it."}
 ];
@@ -1382,7 +1422,23 @@ var CURGROUP=null, GIDX=0;
 function gKey(){ return vasK("rf_groups_"+(READER?READER.id:"anon")); }
 function gDone(){ try{ var v=localStorage.getItem(gKey()); return v?JSON.parse(v):{}; }catch(e){ return {}; } }
 function gMarkDone(name){ try{ var o=gDone(); o[name]=1; localStorage.setItem(gKey(), JSON.stringify(o)); }catch(e){} Sync.dirty(); }
-function gUnlocked(idx){ if(idx===0){ return true; } var o=gDone(); return !!o[GROUPS[idx-1].name]; }
+/* Teacher override: lock or unlock any group for any student, regardless
+   of natural progress. Only overridden groups are stored; every other
+   group keeps following the normal "finish the one before it" rule. */
+function gLockKey(id){ return vasK("rf_group_lock_"+(id||"anon")); }
+function gLockAll(id){ try{ var v=localStorage.getItem(gLockKey(id)); return v?JSON.parse(v):{}; }catch(e){ return {}; } }
+function gLockSet(id,groupName,state){
+  var o=gLockAll(id);
+  if(state){ o[groupName]=state; } else { delete o[groupName]; }
+  try{ localStorage.setItem(gLockKey(id), JSON.stringify(o)); }catch(e){}
+}
+function gUnlocked(idx){
+  var ov = READER ? gLockAll(READER.id)[GROUPS[idx].name] : null;
+  if(ov==="locked"){ return false; }
+  if(ov==="unlocked"){ return true; }
+  if(idx===0){ return true; }
+  var o=gDone(); return !!o[GROUPS[idx-1].name];
+}
 function groupWords(name){ var out=[], i; for(i=0;i<SENTENCES.length;i++){ if(SENTENCES[i].grp===name){ out.push(i); } } return out; }
 function buildGroups(){
   var box=document.getElementById("group-list"); if(!box){ return; }
@@ -1814,6 +1870,54 @@ function paintTeamList(){
   box.innerHTML=html;
 }
 
+/* ---------- Teacher: lock/unlock Word Practice groups per student ---------- */
+var TGLCLS=0, TGLSTU=null;
+function tglEnter(){
+  TGLCLS=0; TGLSTU=null; tglPaintClasses(); tglPaintRoster();
+  var b=document.getElementById("tgl-body"); if(b){ b.innerHTML=""; }
+}
+function tglPaintClasses(){
+  var seg=document.getElementById("tgl-class"); if(!seg){ return; }
+  var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="tglPick('+i+')" class="'+(i===TGLCLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function tglPick(i){
+  TGLCLS=i; TGLSTU=null; tglPaintClasses(); tglPaintRoster();
+  var b=document.getElementById("tgl-body"); if(b){ b.innerHTML=""; }
+}
+function tglPaintRoster(){
+  var box=document.getElementById("tgl-roster"); if(!box){ return; }
+  box.innerHTML="";
+  var cls=CLASSES[TGLCLS], i;
+  for(i=0;i<cls.students.length;i++){
+    (function(stu){
+      var b=document.createElement("button");
+      b.className="btn block"; b.textContent=stu.name;
+      b.onclick=function(){ TGLSTU=stu.id; tglPaintBody(); };
+      box.appendChild(b);
+    })(cls.students[i]);
+  }
+}
+function tglSet(groupName,state){
+  if(!TGLSTU){ return; }
+  gLockSet(TGLSTU,groupName,state);
+  tglPaintBody();
+}
+function tglPaintBody(){
+  var host=document.getElementById("tgl-body"); if(!host){ return; }
+  if(!TGLSTU){ host.innerHTML=""; return; }
+  var overrides=gLockAll(TGLSTU), html="", i;
+  for(i=0;i<GROUPS.length;i++){
+    var g=GROUPS[i], ov=overrides[g.name]||"";
+    html+='<div class="list-item"><span class="lbl">'+escapeHtml(g.name)+'</span><span class="seg seg2">'
+      +'<button onclick="tglSet(\''+g.name+'\',\'\')" class="'+(!ov?"on":"")+'">Auto</button>'
+      +'<button onclick="tglSet(\''+g.name+'\',\'locked\')" class="'+(ov==="locked"?"on":"")+'">Lock</button>'
+      +'<button onclick="tglSet(\''+g.name+'\',\'unlocked\')" class="'+(ov==="unlocked"?"on":"")+'">Unlock</button>'
+      +"</span></div>";
+  }
+  host.innerHTML=html;
+}
+
 window.FCHUNKS = {"imperative": ["It was imperative", "for me to make a good impression", "on my first day."], "horrendous": ["Because the uniform was horrendous,", "I begged my mom", "to let me wear something else."], "insecurity": ["My insecurity grew,", "but I still walked", "into the classroom", "with my head up."], "my jaw dropped to the floor": ["I walked into my new classroom", "and my jaw dropped to the floor", "because the teacher", "was standing on her desk."], "sporting": ["My teacher was sporting", "the exact same dress", "that I had picked out", "that morning."], "unscathed": ["Although the day started badly,", "I walked out unscathed", "and even made a new friend."], "dreading": ["I had been dreading the presentation", "for a week,", "so I practiced it", "every night."], "apprehension": ["My apprehension faded", "once the teacher smiled", "and told us", "to find our seats."], "genuine": ["Her smile was genuine,", "and it made the whole room", "feel a little safer."], "incident": ["The incident in the hallway", "was embarrassing,", "yet everyone had forgotten it", "by lunch."], "trivial": ["Looking back,", "the problem seems trivial,", "but at the time", "it felt enormous."], "grandstand": ["The crowd filled the grandstand", "and cheered loudly", "for every single player."], "claim": ["He made the bold claim", "that he could run a mile", "without stopping", "to catch his breath."], "evidence": ["Because she used evidence", "from the story,", "her argument convinced", "almost everyone in class."], "conclusion": ["In her conclusion,", "she explained", "what she had learned", "about herself that year."], "figurative language": ["Poets use figurative language", "to help readers", "picture feelings", "that are hard to explain."], "idiom": ["An idiom means something different", "from its words,", "so new speakers", "often get confused."], "narrative": ["The author's narrative", "pulled me in so quickly", "that I read the whole first chapter", "in one sitting."], "chronological": ["We arranged the events", "in chronological order", "so the timeline made sense", "from beginning to end."], "memories": ["Memories are the pictures and facts", "that your brain saves", "from your past."], "process": ["The brain must process", "new information", "before it can store", "that information for later."], "associate": ["When you associate two things,", "your brain links them together", "in your memory."], "vast": ["Something vast", "is so large", "that it is almost impossible", "to measure."], "cortex": ["The cortex", "is the wrinkled outer layer", "of the brain,", "and it handles most of our thinking,", "like reading, talking, and solving problems."], "prefrontal cortex": ["Because the prefrontal cortex", "is still growing,", "teenagers sometimes make", "quick, risky decisions."], "hippocampus": ["The hippocampus", "is the part of the brain", "that collects your new memories", "and saves them", "so you can remember them later."], "amygdala": ["The amygdala", "is a small part of the brain", "that controls fear", "and reacts fast,", "before you even have time to think."], "exponent": ["The exponent tells you", "how many times", "to multiply the base", "by itself."], "root": ["A root", "is the number multiplied", "to make a bigger number;", "for example,", "the root is three", "in three times three equals nine."], "power": ["In two to the third power,", "the base is two", "and the exponent is three,", "and the whole thing", "is called a power."], "base": ["The base", "is the number that gets multiplied,", "like the two", "in two to the third power,", "which means", "two times two times two."], "square root": ["The square root of nine", "is three,", "because three times three", "equals nine."], "radical": ["The radical sign", "looks like a check mark", "with a long line over the top,", "and it tells you", "to find a root,", "as in √9,", "which equals three."], "equivalent expressions": ["Equivalent expressions", "look different on paper,", "yet they always have", "the same value."], "materials": ["Artists choose their materials carefully,", "and those choices change", "how the finished piece feels."], "self-portrait": ["Because a self-portrait shows", "how you see yourself,", "no two of them", "look alike."], "selfie": ["A quick selfie", "and a painted portrait", "both tell a story", "about identity."], "symbol": ["Although a symbol", "is just a simple shape,", "it can carry", "an enormous meaning."], "virtual reality": ["Virtual reality", "lets you step inside a painting", "and walk around inside it."], "culturally": ["Something culturally important", "matters deeply", "to the people", "who share that way of life."], "iconic": ["Something iconic", "is so famous", "that people know it right away,", "like the Nike swoosh", "or the McDonald's arches."], "illusion": ["An illusion", "is something", "that tricks your eyes", "into seeing what is not real."], "landscape": ["The landscape stretched for miles,", "and not a single building", "blocked our view."], "national park": ["Although the national park", "was crowded,", "we still found", "a quiet trail to hike."], "park ranger": ["The park ranger", "answered our questions", "and showed us", "where the deer sleep."], "preserved": ["Land that is preserved", "is protected", "and kept exactly the way it is,", "so a national park", "will look the same", "for your grandchildren someday."], "anticipated": ["Everyone had anticipated the game", "for weeks,", "so the gym was packed", "by the time it started."], "annoyed": ["I was annoyed", "when my group kept talking", "and I couldn't finish", "my part of the project."], "astrologer": ["The astrologer claimed", "she could predict your future", "by studying", "the stars and planets."], "antiquated": ["The rules in that old handbook", "felt antiquated,", "like they were written", "for a completely different time."], "abbreviations": ["Texting is faster", "when you use abbreviations,", "but teachers still want", "full words on your essays."], "confident": ["She walked into the interview", "confident and calm,", "because she had practiced", "her answers all week."], "compared to": ["Compared to the book,", "the movie left out", "a lot of important details", "from the story."], "charts": ["The scientist used charts", "to show", "how the temperature changed", "over the past hundred years."], "decade": ["A lot can change", "in a single decade,", "especially in the way", "people use technology."], "enrolled": ["After she moved to a new city,", "she enrolled in a school", "where she didn't know", "a single person."], "entities": ["The two companies", "are separate entities,", "even though they share", "the same downtown building."], "elements": ["A good story has", "a few key elements:", "interesting characters,", "a real problem,", "and a satisfying ending."], "enhanced": ["The team's new strategy", "enhanced their chances", "of making it", "all the way to the finals."], "incomplete": ["The teacher marked my assignment incomplete", "because I forgot", "to answer the last two questions."], "gentle": ["Even though he was the biggest player", "on the field,", "he was surprisingly gentle", "with his little sister."], "persevered": ["She persevered", "through months of hard training,", "and finally her effort", "paid off at the meet."], "respond to": ["It's polite", "to respond to a message", "within a day,", "even if you can", "only send a quick reply."], "route": ["We chose a different route home", "to avoid the traffic", "near the construction", "on Main Street."], "realization": ["Halfway through the year,", "I had the realization", "that studying a little every day", "beats cramming."], "souvenirs": ["We brought back souvenirs", "from the trip", "so we would always remember", "the places we visited."], "sold out": ["By the time we got", "to the box office,", "the concert was completely sold out", "and no tickets were left."], "select": ["The coach will select", "the starting lineup", "based on who shows up", "and works hard at practice."], "unique": ["Her art style", "is so unique", "that you can recognize her paintings", "the second you walk in the room."], "virtues": ["Patience and honesty", "are virtues", "that will help you far more", "than people sometimes expect."]};
 /* ---------- Final read: chunked highlight, tap or pacer ---------- */
 var FSEQ=[], fp=-1, fPacerTimer=null, fPaused=false, fMode="tap";
@@ -1989,6 +2093,7 @@ function go(id){
   if(id==="fluencyPassage"){ fluEnter(); }
   if(id==="fluencyRetell"){ retEnter(); }
   if(id==="s-fluteach"){ flutEnter(); }
+  if(id==="s-teachGroupLocks"){ tglEnter(); }
 }
 
 /* ---------- Student menu (Fluency / Word Practice / Reading Comprehension) ---------- */
@@ -2500,6 +2605,16 @@ var PASSAGES=[
 ];
 function passagesForLevel(level){ var out=[],i; for(i=0;i<PASSAGES.length;i++){ if(PASSAGES[i].level===level){ out.push(PASSAGES[i]); } } out.sort(function(a,b){ return a.sub-b.sub; }); return out; }
 function findPassage(level,sub){ var i; for(i=0;i<PASSAGES.length;i++){ if(PASSAGES[i].level===level && PASSAGES[i].sub===sub){ return PASSAGES[i]; } } return null; }
+/* the next never-yet-used passage after level/sub, for a fresh cold read;
+   if there's no next sub at this level, stays put -- leveling up is the
+   teacher's own decision (flutMove), never automatic */
+function fluNextPassage(level,sub){
+  var ps=passagesForLevel(level), i;
+  for(i=0;i<ps.length;i++){
+    if(ps[i].sub===sub){ return (i+1<ps.length) ? {level:level, sub:ps[i+1].sub} : {level:level, sub:sub}; }
+  }
+  return {level:level, sub:sub};
+}
 
 /* ---------- Placement: which passage a student is on (no login; per student id) ---------- */
 var FluPlace=(function(){
@@ -2510,6 +2625,29 @@ var FluPlace=(function(){
   function set(id,level,sub){ var o=all(); o[id]={level:level, sub:sub}; save(o); }
   return { get:get, set:set };
 })();
+
+/* ---------- 3-day fluency cycle: Day 1 cold read (new passage) -> Day 2
+   practice (same passage, 3 reads in one file) -> Day 3 cold read
+   (another new passage) -> back to Day 1. "day" is which day comes NEXT;
+   cycleLevel/cycleSub is the passage Day 1 used, kept so Day 2 can reuse
+   the exact same one. ---------- */
+var FluCycle=(function(){
+  var KEY="rf_fluency_cycle";
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):{}; }catch(e){ return {}; } }
+  function save(o){ try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(o)); }catch(e){} }
+  function get(id){ var o=all(); return o[id] || {day:1, cycleLevel:null, cycleSub:null}; }
+  function set(id,day,cycleLevel,cycleSub){ var o=all(); o[id]={day:day, cycleLevel:cycleLevel, cycleSub:cycleSub}; save(o); }
+  return { get:get, set:set };
+})();
+function fluDayTag(day){ return day===1?"Day1-ColdRead":(day===2?"Day2-Practice":"Day3-ColdRead"); }
+/* called once a day's work (fluency + retell, or just fluency for Day 2)
+   is fully saved -- moves the cycle on to the next day */
+function fluAdvanceDay(){
+  if(!READER){ return; }
+  var cyc=FluCycle.get(READER.id);
+  var nextDay = cyc.day>=3 ? 1 : cyc.day+1;
+  FluCycle.set(READER.id, nextDay, cyc.cycleLevel, cyc.cycleSub);
+}
 
 /* ---------- Fluency + retell recordings (IndexedDB, this device) ---------- */
 var FluencyStore=(function(){
@@ -2553,62 +2691,115 @@ function fluFileName(kind){
 
 /* ---------- Fluency: read the passage ---------- */
 var fluPassage=null, fluBlob=null, fluAttemptId=null, fluTimerLeft=60, fluTimerHandle=null, fluPendingSubmit=false;
+var fluDay=1, fluReadNum=1, fluAutoStopped=false;
+var fluD2Rec=null, fluD2Stream=null, fluD2Chunks=[];
 function fluClearTimer(){ if(fluTimerHandle){ clearInterval(fluTimerHandle); fluTimerHandle=null; } }
 function fluOpen(){
   if(!READER){ go("s-pick"); return; }
-  var pl=FluPlace.get(READER.id);
-  var p=findPassage(pl.level,pl.sub);
-  if(!p){ p=findPassage(LEVELS[0],0); FluPlace.set(READER.id,LEVELS[0],0); }
-  fluPassage=p;
+  var cyc=FluCycle.get(READER.id);
+  fluDay=cyc.day;
+  if(fluDay===2 && cyc.cycleLevel){
+    /* Day 2 always reuses the exact passage Day 1 just used */
+    fluPassage=findPassage(cyc.cycleLevel,cyc.cycleSub) || findPassage(LEVELS[0],0);
+  } else {
+    /* Day 1 or Day 3: today's passage is whatever FluPlace currently
+       points to -- remember it (for Day 2 to reuse) and advance FluPlace
+       to the NEXT never-yet-used passage for the following cold-read day */
+    var pl=FluPlace.get(READER.id);
+    var p=findPassage(pl.level,pl.sub);
+    if(!p){ p=findPassage(LEVELS[0],0); pl={level:LEVELS[0],sub:0}; FluPlace.set(READER.id,pl.level,pl.sub); }
+    fluPassage=p;
+    FluCycle.set(READER.id,fluDay,p.level,p.sub);
+    var nxt=fluNextPassage(p.level,p.sub);
+    FluPlace.set(READER.id,nxt.level,nxt.sub);
+  }
   go("fluencyPassage");
+}
+function fluRingSet(pct){ var r=document.getElementById("flu-timer-ring"); if(r){ r.style.setProperty("--flu-pct",pct); } }
+/* At 1:00, the recording stops itself; the Done (square-stop) icon
+   flashes 3 times with "Time's up!" before the review screen shows --
+   no tap needed. A manual Done tap (finishing early) skips the flash. */
+function fluFlashTimesUp(then){
+  var db=document.getElementById("flu-done");
+  if(db){ db.style.display="inline-flex"; db.className="icon-btn icon-btn-done flash"; var lbl=db.querySelector(".icon-label"); if(lbl){ lbl.textContent="Time's up!"; } }
+  var rs=document.getElementById("flu-rec-status"); if(rs){ rs.className="rec-status paused"; rs.innerHTML="Time's up!"; }
+  setTimeout(function(){
+    if(db){ db.className="icon-btn icon-btn-done"; var lbl=db.querySelector(".icon-label"); if(lbl){ lbl.textContent="Done"; } }
+    then();
+  },1200);
 }
 function fluEnter(){
   if(!fluPassage){ fluPassage=findPassage(LEVELS[0],0); }
-  fluBlob=null; fluClearTimer(); fluTimerLeft=60; fluPendingSubmit=false;
+  fluBlob=null; fluClearTimer(); fluTimerLeft=60; fluPendingSubmit=false; fluAutoStopped=false; fluReadNum=1;
+  fluD2Rec=null; fluD2Stream=null; fluD2Chunks=[];
   var p=fluPassage, i;
   document.getElementById("flu-level").textContent=p.label;
   document.getElementById("flu-title").textContent=p.title;
   var html=""; for(i=0;i<p.paragraphs.length;i++){ html+="<p>"+escapeHtml(p.paragraphs[i].replace(/^\s+|\s+$/g,""))+"</p>"; }
   document.getElementById("flu-text").innerHTML=html;
   document.getElementById("flu-timer").textContent=fluFmtTime(60);
+  fluRingSet(100);
+  var ring=document.getElementById("flu-timer-ring"); if(ring){ ring.style.display="flex"; }
+  var active=document.getElementById("flu-active"); if(active){ active.style.display="block"; }
+  var gr=document.getElementById("flu-getready"); if(gr){ gr.style.display="none"; }
+  var after=document.getElementById("flu-after"); if(after){ after.innerHTML=""; }
+  var rl=document.getElementById("flu-read-label");
+  if(rl){ if(fluDay===2){ rl.style.display="block"; rl.textContent="Read 1 of 3"; } else { rl.style.display="none"; rl.textContent=""; } }
+  var dirEl=document.getElementById("flu-directions");
+  if(dirEl){
+    dirEl.textContent = (fluDay===2)
+      ? "Read the passage 3 times. Each read is one minute."
+      : "Read the passage out loud. You have one minute. The recording stops by itself.";
+  }
   var rb=document.getElementById("flu-rec"); if(rb){ rb.className="icon-btn icon-btn-record"; rb.disabled=false; rb.style.display="inline-flex"; }
   var lbl=document.getElementById("flu-rec-lbl"); if(lbl){ lbl.textContent="Record"; }
-  var db=document.getElementById("flu-done"); if(db){ db.style.display="none"; }
+  var db=document.getElementById("flu-done"); if(db){ db.style.display="none"; db.className="icon-btn icon-btn-done"; var dlbl=db.querySelector(".icon-label"); if(dlbl){ dlbl.textContent="Done"; } }
   var pb=document.getElementById("flu-play"); if(pb){ pb.disabled=true; }
+  var redo=document.getElementById("flu-redo"); if(redo){ redo.style.display="none"; }
   var rs=document.getElementById("flu-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("flu-state"); if(st){ st.className="state-line none"; st.textContent=""; }
   dirPaintButton("dir_fluency");
 }
-/* Record starts the mic AND the 1:00 timer together (the timer starts on
-   MediaRecorder's own onstart, not the tap, so a slow mic never eats the
-   first second); while recording, Record is replaced by Done -- tapping
-   Done ends the take early, or the timer runs out on its own. No Pause
-   anywhere here: once started, it runs straight through to Done or the
-   timer, same as a Reading Check. A mic error never locks the button. */
+/* Shared by Day 1/3 (one take) and Day 2 (after all 3 reads): reveal
+   Play back + Save (+ Redo on Day 2 only). */
+function fluShowReview(){
+  var btn=document.getElementById("flu-rec"); if(btn){ btn.style.display="none"; }
+  var db=document.getElementById("flu-done"); if(db){ db.style.display="none"; }
+  var pb=document.getElementById("flu-play"); if(pb){ pb.disabled=false; }
+  var rs=document.getElementById("flu-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
+  var rl=document.getElementById("flu-read-label"); if(rl){ rl.style.display="none"; }
+  var ring=document.getElementById("flu-timer-ring"); if(ring){ ring.style.display="none"; }
+  var redo=document.getElementById("flu-redo"); if(redo){ redo.style.display=(fluDay===2)?"inline-flex":"none"; }
+  var st=document.getElementById("flu-state");
+  st.className="state-line saved"; st.textContent="Great job! Tap Save.";
+  if(fluPendingSubmit){ fluPendingSubmit=false; fluFinishSubmit(); }
+}
+/* No Pause anywhere here, on any day: once started, a read runs straight
+   through to Done or the timer, same as a Reading Check. Day 1/3 use the
+   shared startRec/stopRec helper (one take, one file); Day 2 hands off to
+   its own continuous-recording path below (3 reads, ONE file). A mic
+   error never locks the button. */
 function fluToggleRec(){
+  if(fluDay===2){ fluD2ToggleRec(); return; }
   var btn=document.getElementById("flu-rec"), lbl=document.getElementById("flu-rec-lbl"), st=document.getElementById("flu-state");
-  if(recording&&activeCtx==="flu"){ stopRec(); return; }
+  if(recording&&activeCtx==="flu"){ fluAutoStopped=false; stopRec(); return; }
   activeCtx="flu"; st.className="state-line none"; st.textContent="Starting the microphone…";
   startRec(function(blob){
-    /* recording ended -- by the timer or a Done tap */
     fluClearTimer();
     fluBlob=blob;
-    var pb=document.getElementById("flu-play"); if(pb){ pb.disabled=false; }
-    btn.className="icon-btn icon-btn-record"; btn.disabled=true; btn.style.display="none";
-    var db=document.getElementById("flu-done"); if(db){ db.style.display="none"; }
-    var rs=document.getElementById("flu-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
-    st.className="state-line saved"; st.textContent="✓ Got it. Play it back, then Save.";
-    if(fluPendingSubmit){ fluPendingSubmit=false; fluFinishSubmit(); }
+    if(fluAutoStopped){ fluFlashTimesUp(fluShowReview); } else { fluShowReview(); }
   },function(){
-    /* the mic actually started -- now start the 1:00 countdown */
     fluTimerLeft=60;
+    fluRingSet(100);
     document.getElementById("flu-timer").textContent=fluFmtTime(fluTimerLeft);
     fluClearTimer();
     fluTimerHandle=setInterval(function(){
       fluTimerLeft--;
+      fluRingSet(Math.max(0,Math.round(fluTimerLeft/60*100)));
       if(fluTimerLeft<=0){
         document.getElementById("flu-timer").textContent="0:00";
         fluClearTimer();
+        fluAutoStopped=true;
         if(recording&&activeCtx==="flu"){ stopRec(); }
         return;
       }
@@ -2620,40 +2811,144 @@ function fluToggleRec(){
     st.className="state-line none"; st.textContent="Read the passage out loud.";
   }).catch(function(err){
     fluClearTimer();
-    btn.className="rec-btn"; btn.disabled=false; lbl.textContent="Record";
+    btn.className="icon-btn icon-btn-record"; btn.disabled=false;
     st.className="state-line err"; st.textContent=micErrorText(err);
   });
+}
+/* ---------- Day 2: 3 reads, ONE continuous recording (own MediaRecorder,
+   same pattern as the Word Practice final read) ---------- */
+function fluD2ToggleRec(){
+  var st=document.getElementById("flu-state");
+  if(fluD2Rec && fluD2Rec.state==="recording"){
+    /* manual Done tap -- end THIS read early, same as a timer running out
+       except no flash (the flash is only for the timer itself) */
+    fluClearTimer(); fluAutoStopped=false; fluD2EndRead();
+    return;
+  }
+  st.className="state-line none"; st.textContent="Starting the microphone…";
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    fluD2Stream=stream; fluD2Chunks=[];
+    var mr; try{ mr=new MediaRecorder(stream); }catch(e){ mr=new MediaRecorder(stream,{mimeType:"audio/webm"}); }
+    fluD2Rec=mr;
+    mr.ondataavailable=function(e){ if(e.data&&e.data.size>0){ fluD2Chunks.push(e.data); } };
+    mr.onstop=function(){
+      fluBlob=new Blob(fluD2Chunks,{type:(mr.mimeType||"audio/webm")});
+      if(fluD2Stream){ var tr=fluD2Stream.getTracks(), k; for(k=0;k<tr.length;k++){ tr[k].stop(); } }
+      fluD2Rec=null;
+      fluShowReview();
+    };
+    mr.start();
+    fluReadNum=1;
+    fluD2BeginRead();
+  }).catch(function(err){
+    st.className="state-line err"; st.textContent=micErrorText(err);
+  });
+}
+function fluD2BeginRead(){
+  var rl=document.getElementById("flu-read-label"); if(rl){ rl.style.display="block"; rl.textContent="Read "+fluReadNum+" of 3"; }
+  var btn=document.getElementById("flu-rec"), db=document.getElementById("flu-done"), st=document.getElementById("flu-state"), rs=document.getElementById("flu-rec-status");
+  if(btn){ btn.className="icon-btn icon-btn-record rec"; btn.disabled=true; btn.style.display="none"; }
+  if(db){ db.className="icon-btn icon-btn-done"; db.style.display="inline-flex"; var lbl=db.querySelector(".icon-label"); if(lbl){ lbl.textContent="Done"; } }
+  if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
+  if(st){ st.className="state-line none"; st.textContent="Read the passage out loud."; }
+  fluAutoStopped=false;
+  fluTimerLeft=60;
+  fluRingSet(100);
+  var ring=document.getElementById("flu-timer-ring"); if(ring){ ring.style.display="flex"; }
+  document.getElementById("flu-timer").textContent=fluFmtTime(60);
+  fluClearTimer();
+  fluTimerHandle=setInterval(function(){
+    fluTimerLeft--;
+    fluRingSet(Math.max(0,Math.round(fluTimerLeft/60*100)));
+    if(fluTimerLeft<=0){
+      document.getElementById("flu-timer").textContent="0:00";
+      fluClearTimer();
+      fluAutoStopped=true;
+      fluD2EndRead();
+      return;
+    }
+    document.getElementById("flu-timer").textContent=fluFmtTime(fluTimerLeft);
+  },1000);
+}
+function fluD2EndRead(){
+  var wasAuto=fluAutoStopped;
+  function proceed(){
+    if(fluReadNum>=3){ if(fluD2Rec){ fluD2Rec.stop(); } }
+    else { fluReadNum++; fluD2ShowGetReady(); }
+  }
+  if(wasAuto){ fluFlashTimesUp(proceed); } else { proceed(); }
+}
+function fluD2ShowGetReady(){
+  var active=document.getElementById("flu-active"); if(active){ active.style.display="none"; }
+  var gr=document.getElementById("flu-getready"); if(gr){ gr.style.display="block"; }
+  var t=document.getElementById("flu-getready-text"); if(t){ t.textContent="Get ready for Read "+fluReadNum; }
+  setTimeout(function(){
+    if(gr){ gr.style.display="none"; }
+    if(active){ active.style.display="block"; }
+    fluD2BeginRead();
+  },2000);
 }
 function fluPlayMine(){ if(fluBlob){ playBlob(fluBlob); } }
 function fluSubmit(){
   var st=document.getElementById("flu-state");
-  if(recording&&activeCtx==="flu"){ fluPendingSubmit=true; stopRec(); return; }
+  if(fluDay===2){
+    if(fluD2Rec && fluD2Rec.state==="recording"){ fluPendingSubmit=true; fluAutoStopped=false; fluD2EndRead(); return; }
+  } else if(recording&&activeCtx==="flu"){
+    fluPendingSubmit=true; fluAutoStopped=false; stopRec(); return;
+  }
   if(!fluBlob){ if(st){ st.className="state-line err"; st.textContent="Record your reading first."; } return; }
   fluFinishSubmit();
 }
+function fluRedo(){ go("fluencyPassage"); }
 /* Same reusable filename as every other recording assignment (Fix 3), with
-   the passage level folded into the assignment id so the teacher can still
-   tell which passage a file is from. */
-function fluAssignmentId(kind){
+   the passage level AND the cycle day folded into the assignment id so
+   the teacher can tell which passage/day a file is from. */
+function fluAssignmentId(tag){
   var lbl=fluPassage?fluPassage.label:"";
-  var tag=lbl.replace(/[^A-Za-z0-9]+/g,"_").replace(/^_+|_+$/g,"").toUpperCase();
-  return "FLUENCY_"+(tag?tag+"_":"")+kind;
+  var ptag=lbl.replace(/[^A-Za-z0-9]+/g,"_").replace(/^_+|_+$/g,"").toUpperCase();
+  return "FLUENCY_"+(ptag?ptag+"_":"")+tag;
 }
 function fluFinishSubmit(){
   fluClearTimer();
-  var id=fluUid(), p=fluPassage, blob=fluBlob;
-  var fname=rfStandardFileName(fluAssignmentId("COLDREAD"));
+  var id=fluUid(), p=fluPassage, blob=fluBlob, day=fluDay;
+  var fname=rfStandardFileName(fluAssignmentId(fluDayTag(day)));
   FluencyStore.put(id+"_passage", blob).then(function(){
     fluAttemptId=id;
     FluAttempts.add({ id:id, studentId:READER.id, studentName:READER.name,
       level:p.level, sub:p.sub, passageId:p.id, title:p.title, date:azDateStr(),
+      day:day, scored:(day===1),
       wordsRead:null, errors:null, retellWords:null, decision:null, retellSaved:false });
     downloadBlob(blob,fname);
-    go("fluencyRetell");
+    fluShowAfterSave(fname,day);
   }).catch(function(){
     var st=document.getElementById("flu-state");
     if(st){ st.className="state-line err"; st.textContent="Could not save on this device. Try again."; }
   });
+}
+/* Day 1/3: a green Next arrow moves on to the Retell. Day 2: no Retell --
+   just back to the menu (and the cycle moves on to Day 3 here, since
+   Day 2's whole task is just this one save). */
+function fluShowAfterSave(fname,day){
+  var active=document.getElementById("flu-active"); if(active){ active.style.display="none"; }
+  var after=document.getElementById("flu-after"); if(!after){ return; }
+  var html="&#9989; Saved! Now upload it to Canvas."
+    +'<div class="canvas-steps"><h4>Turn it in on Canvas</h4><ol>'
+    +"<li>Your file downloaded. It is called <strong>"+escapeHtml(fname)+"</strong>.</li>"
+    +"<li>Open today’s assignment in Canvas.</li>"
+    +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
+    +"<li>Press <strong>Submit</strong>.</li></ol></div>";
+  if(day===2){
+    html+='<div class="nav-row" style="margin-top:14px"><button class="btn primary" onclick="fluD2FinishToMenu()">Back to my menu &rarr;</button></div>';
+  } else {
+    html+='<div class="icon-row" style="margin-top:14px"><button class="icon-btn icon-btn-next" onclick="fluGoToRetell()"><span class="icon-glyph">&#8594;</span><span class="icon-label">Next</span></button></div>';
+  }
+  after.innerHTML=html;
+}
+function fluGoToRetell(){ go("fluencyRetell"); }
+function fluD2FinishToMenu(){
+  fluAdvanceDay();
+  fluAttemptId=null; fluPassage=null; fluBlob=null;
+  go("studentMenu");
 }
 
 /* ---------- Fluency: retell ---------- */
@@ -2728,7 +3023,7 @@ function retPlayMine(){ if(retBlob){ playBlob(retBlob); } }
 function retSubmit(){
   if(!retBlob||!fluAttemptId){ return; }
   var id=fluAttemptId, blob=retBlob;
-  var fname=rfStandardFileName(fluAssignmentId("RETELL"));
+  var fname=rfStandardFileName(fluAssignmentId(fluDayTag(fluDay)+"_RETELL"));
   FluencyStore.put(id+"_retell", blob).then(function(){
     FluAttempts.update(id, {retellSaved:true});
     downloadBlob(blob,fname);
@@ -2754,6 +3049,7 @@ function retShowSaved(fname){
     +'<div class="nav-row" style="margin-top:14px"><button class="btn primary" onclick="retFinishToMenu()">Back to my menu →</button></div>';
 }
 function retFinishToMenu(){
+  fluAdvanceDay(); /* Day 1 -> 2, or Day 3 -> back to 1 */
   fluAttemptId=null; fluPassage=null; fluBlob=null; retBlob=null; retSaved=false;
   go("studentMenu");
 }
@@ -2835,6 +3131,16 @@ function flutSentenceTable(p){
   return html;
 }
 function flutPlay(id,kind){ FluencyStore.get(id+"_"+kind).then(function(b){ if(b){ playBlob(b); } }); }
+function flutDayLabel(day){
+  return day===1?"Day 1 — Cold Read":(day===2?"Day 2 — Practice":(day===3?"Day 3 — Cold Read":"Cold Read"));
+}
+/* Miq doesn't score every read. Day 1 cold reads are auto-marked "Score";
+   every other read (Day 2, Day 3) needs an explicit "Score this read" tap
+   (and can be unmarked again). Only scored reads show the scoring inputs,
+   WCPM/accuracy, and Move buttons -- an unscored read still shows
+   "Completed" so Miq can see the work was done, but it stays out of
+   reports/growth data until she marks it. */
+function flutSetScored(id,val){ FluAttempts.update(id,{scored:val}); flutPaintAttempts(); }
 function flutPaintAttempts(){
   var host=document.getElementById("flut-body"); if(!host){ return; }
   if(!FLUTSTU){ host.innerHTML=""; return; }
@@ -2843,27 +3149,32 @@ function flutPaintAttempts(){
   var html="", i;
   for(i=0;i<list.length;i++){
     (function(a){
-      var comp=flutCompute(a), rec=flutRecommend(comp.acc), p=findPassage(a.level,a.sub);
+      var p=findPassage(a.level,a.sub), scored=!!a.scored;
       html+='<div class="card">'
-        +'<p class="step-eyebrow">'+escapeHtml(a.level+" 0."+a.sub)+" &mdash; "+escapeHtml(a.title)+' <span class="mini-note">'+escapeHtml(a.date)+"</span></p>"
+        +'<p class="step-eyebrow">'+escapeHtml(a.level+" 0."+a.sub)+" &mdash; "+escapeHtml(a.title)+" &mdash; "+escapeHtml(flutDayLabel(a.day))+' <span class="mini-note">'+escapeHtml(a.date)+"</span></p>"
+        +'<p class="mini-note">Completed'+(scored?"":" — not yet scored")+"</p>"
         +'<div class="hear-line">'
         +'<button class="btn" onclick="flutPlay(\''+a.id+"','passage')\">&#9654;&nbsp; Fluency recording</button>"
         +'<button class="btn" onclick="flutPlay(\''+a.id+"','retell')\" "+(a.retellSaved?"":"disabled")+">&#9654;&nbsp; Retell recording</button>"
-        +"</div>"
-        +'<div class="setting-row" style="margin-top:10px;flex-wrap:wrap">'
-        +'<label>Words read <input type="number" min="0" style="width:5em" value="'+(a.wordsRead==null?"":a.wordsRead)+'" onchange="flutSetField(\''+a.id+"','wordsRead',this.value)\"></label>"
-        +'<label>Errors <input type="number" min="0" style="width:5em" value="'+(a.errors==null?"":a.errors)+'" onchange="flutSetField(\''+a.id+"','errors',this.value)\"></label>"
-        +'<label>Retell words (1 min) <input type="number" min="0" style="width:5em" value="'+(a.retellWords==null?"":a.retellWords)+'" onchange="flutSetField(\''+a.id+"','retellWords',this.value)\"></label>"
-        +"</div>"
-        +'<p class="mini-note">WCPM: <strong>'+(comp.wcpm==null?"—":comp.wcpm)+"</strong> &nbsp; Accuracy: <strong>"+(comp.acc==null?"—":comp.acc+"%")+"</strong> &nbsp; Recommendation: <strong>"+(rec||"—")+"</strong></p>"
-        +'<div class="hear-line">'
-        +'<button class="btn" onclick="flutMove(\''+a.id+"','up')\">Move up a level</button>"
-        +'<button class="btn" onclick="flutMove(\''+a.id+"','repeat')\">Repeat &mdash; next passage</button>"
-        +'<button class="btn" onclick="flutMove(\''+a.id+"','down')\">Move down a level</button>"
-        +"</div>"
-        +(a.decision?'<p class="mini-note">Last decision: '+escapeHtml(a.decision)+"</p>":"")
-        +'<details style="margin-top:8px"><summary class="mini-note">Sentence word counts (for scoring)</summary>'+flutSentenceTable(p)+"</details>"
+        +'<button class="btn'+(scored?"":" primary")+'" onclick="flutSetScored(\''+a.id+"',"+(scored?"false":"true")+')">'+(scored?"Unmark":"Score this read")+"</button>"
         +"</div>";
+      if(scored){
+        var comp=flutCompute(a), rec=flutRecommend(comp.acc);
+        html+='<div class="setting-row" style="margin-top:10px;flex-wrap:wrap">'
+          +'<label>Words read <input type="number" min="0" style="width:5em" value="'+(a.wordsRead==null?"":a.wordsRead)+'" onchange="flutSetField(\''+a.id+"','wordsRead',this.value)\"></label>"
+          +'<label>Errors <input type="number" min="0" style="width:5em" value="'+(a.errors==null?"":a.errors)+'" onchange="flutSetField(\''+a.id+"','errors',this.value)\"></label>"
+          +'<label>Retell words (1 min) <input type="number" min="0" style="width:5em" value="'+(a.retellWords==null?"":a.retellWords)+'" onchange="flutSetField(\''+a.id+"','retellWords',this.value)\"></label>"
+          +"</div>"
+          +'<p class="mini-note">WCPM: <strong>'+(comp.wcpm==null?"—":comp.wcpm)+"</strong> &nbsp; Accuracy: <strong>"+(comp.acc==null?"—":comp.acc+"%")+"</strong> &nbsp; Recommendation: <strong>"+(rec||"—")+"</strong></p>"
+          +'<div class="hear-line">'
+          +'<button class="btn" onclick="flutMove(\''+a.id+"','up')\">Move up a level</button>"
+          +'<button class="btn" onclick="flutMove(\''+a.id+"','repeat')\">Repeat &mdash; next passage</button>"
+          +'<button class="btn" onclick="flutMove(\''+a.id+"','down')\">Move down a level</button>"
+          +"</div>"
+          +(a.decision?'<p class="mini-note">Last decision: '+escapeHtml(a.decision)+"</p>":"")
+          +'<details style="margin-top:8px"><summary class="mini-note">Sentence word counts (for scoring)</summary>'+flutSentenceTable(p)+"</details>";
+      }
+      html+="</div>";
     })(list[i]);
   }
   host.innerHTML=html;
@@ -3249,8 +3560,8 @@ function c2ReplayPrompt(){ var item=C2_ITEMS[c2Idx]; if(item && item.promptKey){
    into the new section until "I'm Ready" is tapped, so the new section's
    first item -- and its prompt audio -- never appears/plays on its own. */
 var C2_TRANS_TEXT={
-  "2B":"Listen to the word. Say the sound.",
-  "2C":"Listen to the word. Say the sound."
+  "2B":"Now you will hear a word. Look at the letter. Say the sound it makes in that word.",
+  "2C":"Last part. Look at the letter. Listen to the word. Say the sound it makes in that word."
 };
 var c2ReadyUsed=false;
 function c2PauseTimer(){

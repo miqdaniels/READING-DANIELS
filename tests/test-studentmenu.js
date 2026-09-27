@@ -178,7 +178,10 @@ setTimeout(function(){
           w.fluToggleRec(); // stop
           w.fluSubmit();
           setTimeout(function(){
-            ck(activeId()==="fluencyRetell","Submit moves on to the retell screen");
+            ck(activeId()==="fluencyPassage","Save shows the Saved!/Next confirmation first");
+            var nextBtn=d.querySelector("#flu-after .icon-btn-next");
+            click(nextBtn);
+            ck(activeId()==="fluencyRetell","tapping Next moves on to the retell screen");
             w.retToggleRec();
             setTimeout(function(){
               w.retToggleRec(); // stop

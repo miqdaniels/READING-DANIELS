@@ -21,19 +21,24 @@ setTimeout(function(){
   let pass=0,fail=0;
   function ck(c,m){ if(c){pass++;} else {fail++; console.log("FAIL:",m);} }
 
-  /* ---- every recorded directions script is <=2 sentences ---- */
+  /* ---- every recorded directions script is <=2 sentences, EXCEPT the
+     before-2B/before-2C Check 2 transition scripts, which now carry an
+     explicit, exact, longer wording per an explicit later correction ---- */
+  var LONGER_OK={dir_check2_before2b:true, dir_check2_before2c:true};
   var defs=w.DIRECTIONS_DEFS, i;
   ck(defs.length===7,"all 7 directions scripts are present (got "+defs.length+")");
   for(i=0;i<defs.length;i++){
     var n=sentenceCount(defs[i].script);
-    ck(n<=2,"'"+defs[i].label+"' script is at most 2 sentences (got "+n+": \""+defs[i].script+"\")");
+    if(!LONGER_OK[defs[i].key]){
+      ck(n<=2,"'"+defs[i].label+"' script is at most 2 sentences (got "+n+": \""+defs[i].script+"\")");
+    }
     ck(!/\bconsonants?\b/i.test(defs[i].script),"'"+defs[i].label+"' script never says \"consonant\"");
   }
 
   /* ---- exact wording for the three Check 2 screens, as specified ---- */
   ck(defs.filter(function(x){return x.key==="dir_check2_open";})[0].script==="Look at the letter. Say the sound.","Check 2 opening script matches exactly");
-  ck(defs.filter(function(x){return x.key==="dir_check2_before2b";})[0].script==="Listen to the word. Say the sound.","before-2B script matches exactly");
-  ck(defs.filter(function(x){return x.key==="dir_check2_before2c";})[0].script==="Listen to the word. Say the sound.","before-2C script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check2_before2b";})[0].script==="Now you will hear a word. Look at the letter. Say the sound it makes in that word.","before-2B script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check2_before2c";})[0].script==="Last part. Look at the letter. Listen to the word. Say the sound it makes in that word.","before-2C script matches exactly");
 
   /* ---- on-screen directions text (not just the recorded scripts) ---- */
   w.READER=w.CLASSES[0].students[0]; w.CURCLASS=w.CLASSES[0]; w.CURGROUP=w.GROUPS[0];
@@ -50,13 +55,18 @@ setTimeout(function(){
   ck(c2Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="Look at the letter. Say the sound.","Check 2's on-screen opening text matches exactly");
 
   var trans2b=w.C2_TRANS_TEXT["2B"], trans2c=w.C2_TRANS_TEXT["2C"];
-  ck(sentenceCount(trans2b)<=2,"before-2B on-screen text is at most 2 sentences (got \""+trans2b+"\")");
-  ck(sentenceCount(trans2c)<=2,"before-2C on-screen text is at most 2 sentences (got \""+trans2c+"\")");
+  ck(trans2b==="Now you will hear a word. Look at the letter. Say the sound it makes in that word.","before-2B on-screen text matches exactly");
+  ck(trans2c==="Last part. Look at the letter. Listen to the word. Say the sound it makes in that word.","before-2C on-screen text matches exactly");
   ck(!/\bconsonants?\b/i.test(trans2b) && !/\bconsonants?\b/i.test(trans2c),"the transition screens never say \"consonant\"");
 
-  w.go("fluencyPassage");
-  var fluText=d.querySelectorAll("#fluencyPassage .mini-note")[0].textContent;
-  ck(sentenceCount(fluText)<=2,"Fluency's on-screen directions are at most 2 sentences (got \""+fluText+"\")");
+  /* Fluency's Day 1/3 directions are an explicit, exact, later-specified
+     wording (3 short sentences) -- exempt from the 2-sentence rule the
+     same way the Check 2 transitions are, but still checked verbatim. */
+  w.READER=w.CLASSES[0].students[5]; w.CURCLASS=w.CLASSES[0];
+  w.fluOpen();
+  var fluText=d.getElementById("flu-directions").textContent;
+  ck(fluText==="Read the passage out loud. You have one minute. The recording stops by itself.","Fluency Day 1/3 on-screen directions match exactly");
+  ck(!/\bconsonants?\b/i.test(fluText),"Fluency's on-screen directions never say \"consonant\"");
 
   w.fluPassage=w.findPassage(w.LEVELS[0],0);
   w.go("fluencyRetell");

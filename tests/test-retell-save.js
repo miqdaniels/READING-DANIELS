@@ -78,7 +78,7 @@ function menuBtn(scope,label){
 }
 /* FirstName_LastName_P#_FLUENCY_PK_0_0_COLDREAD/RETELL_YYYY_MM_DD.webm --
    the same standardized filename pattern used everywhere else (Fix 3). */
-const FNAME_RE=/^[A-Za-z]+_[A-Za-z]+_P1_FLUENCY_PK_0_0_(COLDREAD|RETELL)_\d{4}_\d{2}_\d{2}\.webm$/;
+const FNAME_RE=/^[A-Za-z]+_[A-Za-z]+_P1_FLUENCY_PK_0_0_Day1-ColdRead(_RETELL)?_\d{4}_\d{2}_\d{2}\.webm$/;
 
 setTimeout(function(){
   let pass=0,fail=0;
@@ -108,10 +108,15 @@ setTimeout(function(){
         w.fluToggleRec(); // stop
         w.fluSubmit();
         setTimeout(function(){
-          /* ---- cold-read file saved ---- */
-          ck(activeId()==="fluencyRetell","Submit moves on to the retell screen");
+          /* ---- cold-read file saved -- Save shows a confirmation with a
+             Next arrow first (Day 1/3), it doesn't auto-navigate ---- */
+          ck(activeId()==="fluencyPassage","Save shows the Saved!/Next confirmation on the passage screen first");
           ck(w.__downloads.length===1,"exactly one file downloaded for the cold read (got "+w.__downloads.length+")");
-          ck(FNAME_RE.test(w.__downloads[0]) && /COLDREAD/.test(w.__downloads[0]),"cold-read file name follows FirstName_LastName_P#_FLUENCY_..._COLDREAD_date.webm (got '"+w.__downloads[0]+"')");
+          ck(FNAME_RE.test(w.__downloads[0]) && /Day1-ColdRead/.test(w.__downloads[0]),"cold-read file name follows FirstName_LastName_P#_FLUENCY_..._Day1-ColdRead_date.webm (got '"+w.__downloads[0]+"')");
+          var nextBtn=d.querySelector("#flu-after .icon-btn-next");
+          ck(!!nextBtn,"a Next icon button is offered");
+          click(nextBtn);
+          ck(activeId()==="fluencyRetell","tapping Next moves on to the retell screen");
 
           /* ---- sentence frames untouched ---- */
           var frameLis=d.querySelectorAll("#ret-frames li");
