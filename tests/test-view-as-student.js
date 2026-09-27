@@ -48,9 +48,9 @@ setTimeout(function(){
   var dom=makeDom("https://miqdaniels.github.io/READING-DANIELS/?teacher");
   var w=dom.window, d=w.document;
   ck(d.getElementById("teacher-doors").style.display!=="none","teacher URL: teacher-doors is visible");
-  var vasBtn=null, btns=d.querySelectorAll("#teacher-doors .btn"), i;
+  var vasBtn=null, btns=d.querySelectorAll("#teacher-doors .teach-tile"), i;
   for(i=0;i<btns.length;i++){ if(/Student View/.test(btns[i].textContent)) vasBtn=btns[i]; }
-  ck(!!vasBtn,"a 'Student View' button exists on the teacher side");
+  ck(!!vasBtn,"a 'Student View' tile exists on the teacher side");
 
   /* ---- 2) entering shows the banner + Exit, walks class -> name -> menu ---- */
   ck(d.getElementById("vas-banner").style.display==="none","banner is hidden before entering View as Student");
