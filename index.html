@@ -283,26 +283,49 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .allstu-detail-line{font-size:13px;color:var(--ink-soft);padding:2px 0}
 .tflag{ font-size:11px; background:var(--line); padding:1px 7px; border-radius:999px; margin-left:6px; }
 .f-num{ opacity:.5; margin-right:6px; }
-.flu-passage{ font-size:1.3rem; line-height:1.7; max-width:40em; margin:16px 0; }
-.flu-passage p{ margin:0 0 14px; }
-.flu-timer-row{ display:flex; align-items:center; gap:12px; margin:10px 0; }
+/* Fluency + Retell: tightened header spacing and an auto-shrinking
+   passage box (fluFitPassageText() sets font-size/max-height in JS,
+   never below 18px) so the whole screen fits one Lenovo-size viewport
+   without scrolling. Scoped to these two screens only. */
+#fluencyPassage .crumb,#fluencyPassage .step-eyebrow,#fluencyPassage .mini-note,
+#fluencyRetell .step-eyebrow,#fluencyRetell .lede{margin-bottom:3px}
+#fluencyPassage h2,#fluencyRetell h2{font-size:19px;margin:2px 0 4px}
+#fluencyRetell .note-box{padding:10px 14px;margin:6px 0}
+.flu-text-wrap{overflow:hidden}
+.flu-passage{ font-size:1.3rem; line-height:1.45; max-width:40em; margin:6px 0; }
+.flu-passage p{ margin:0 0 8px; }
+.flu-timer-row{ display:flex; align-items:center; gap:12px; margin:6px 0; }
 .flu-timer{ font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; }
-/* Countdown ring around the pulsing Record mic for every fluency read
+/* Countdown ring around the pulsing Record square for every fluency read
    (Day 1/2/3). Empties over the one-minute read via a CSS custom
-   property JS updates each second -- the Record/Done button underneath
-   is untouched (same icon, same color, same word). */
-.flu-timer-ring-wrap{display:flex;justify-content:center;margin:10px 0}
-.flu-timer-ring{--flu-pct:100;position:relative;width:104px;height:104px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:conic-gradient(var(--retry) calc(var(--flu-pct)*1%), var(--line) 0);transition:background .2s linear}
-.flu-timer-ring:before{content:"";position:absolute;inset:7px;background:var(--paper);border-radius:50%}
+   property JS updates each second. */
+.flu-timer-ring-wrap{display:flex;justify-content:center;margin:4px 0}
+.flu-timer-ring{--flu-pct:100;position:relative;width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:conic-gradient(#d5382e calc(var(--flu-pct)*1%), var(--line) 0);transition:background .2s linear}
+.flu-timer-ring:before{content:"";position:absolute;inset:6px;background:var(--paper);border-radius:50%}
 .flu-timer-ring .flu-timer{position:relative;z-index:1}
-/* "Time's up!" flash -- reuses the existing Done (square-stop) icon
-   button, just flashes it 3 times instead of inventing a new button. */
-.icon-btn-done.flash{animation:fluFlash .3s steps(1) 3}
-@keyframes fluFlash{0%,100%{opacity:1;background:var(--good)}50%{opacity:.25;background:var(--retry)}}
 /* Short "Get ready for Read N" interstitial between Day 2's 3 reads --
    the recording keeps going the whole time, this is display-only. */
-.flu-getready{text-align:center;padding:30px 10px}
+.flu-getready{text-align:center;padding:16px 10px}
 .flu-getready .lede{margin-bottom:0}
+/* Fluency + Retell's own Record/Play back/Save: three identical rounded
+   squares (16px corners), true red/blue/green -- no brown anywhere.
+   Scoped to these two screens with their own class names (flu-sq-*)
+   rather than touching the shared .icon-btn-record/-listen/-save classes
+   Check 1, Check 2, and Word Practice still use unchanged. */
+.flu-btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:6px 0}
+.flu-sq-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:80px;height:80px;border:none;border-radius:16px;font:inherit;font-weight:700;color:#fff;cursor:pointer;touch-action:manipulation;padding:4px;flex:0 0 auto}
+.flu-sq-btn .icon-glyph{font-size:26px;line-height:1}
+.flu-sq-btn .icon-label{font-size:12px}
+.flu-sq-btn[disabled]{opacity:.4;cursor:default}
+.flu-sq-record{background:#d5382e}
+.flu-sq-record.rec{animation:fluSqPulse 1.2s ease-in-out infinite}
+@keyframes fluSqPulse{0%,100%{box-shadow:0 0 0 0 rgba(213,56,46,.55)}50%{box-shadow:0 0 0 9px rgba(213,56,46,0)}}
+.flu-sq-record.flash{animation:fluSqFlash .3s steps(1) 3}
+@keyframes fluSqFlash{0%,100%{background:#d5382e}50%{background:#7d201a}}
+.flu-sq-play{background:var(--accent)}
+.flu-sq-save{background:var(--good)}
+.flu-sq-redo{background:var(--ink-soft);width:64px;height:64px}
+.flu-sq-redo .icon-glyph{font-size:20px}
 .diag-list .btn{ margin:0 0 10px; }
 .c1-letter{ font-family:'Andika',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; font-size:9rem; font-weight:700; text-align:center; line-height:1; margin:24px 0; }
 .c1-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(70px,1fr)); gap:10px; margin:16px 0; }
@@ -448,7 +471,8 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <h2 class="scr-title" id="sm-who"></h2>
       <p class="lede">What do you want to do?</p>
       <button class="btn primary block" onclick="smTap(function(){go('diagLanding');})">Diagnostic Tools<span class="sub">Reading checks</span></button>
-      <button class="btn primary block" style="margin-top:10px" onclick="smTap(fluOpen)">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
+      <button class="btn primary block" id="sm-flu-btn" style="margin-top:10px" onclick="smFluTap()">Fluency<span class="sub">Read a passage, then tell what you read</span></button>
+      <p class="mini-note" id="sm-flu-lock-msg" style="display:none;color:#d5382e"></p>
       <button class="btn primary block" style="margin-top:10px" onclick="smTap(function(){go('s-groups');})">Word Practice<span class="sub">Hear it, slide, read, record</span></button>
       <button class="btn block locked" style="margin-top:10px" disabled>Reading Comprehension<span class="sub">Coming soon</span></button>
       <div class="nav-row" style="margin-top:14px">
@@ -892,7 +916,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
         <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
       </button>
     </div>
-    <div class="flu-passage" id="flu-text"></div>
+    <div class="flu-text-wrap" id="flu-text-wrap"><div class="flu-passage" id="flu-text"></div></div>
     <p class="mini-note">Your browser will ask for permission to use the microphone. Tap Allow so your reading can be recorded.</p>
 
     <div id="flu-getready" class="flu-getready" style="display:none">
@@ -904,15 +928,15 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
         <div class="flu-timer-ring" id="flu-timer-ring"><span class="flu-timer" id="flu-timer">1:00</span></div>
       </div>
       <p class="rec-status" id="flu-rec-status"></p>
-      <div class="icon-row">
-        <button class="icon-btn icon-btn-record" id="flu-rec" onclick="fluToggleRec()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="flu-rec-lbl">Record</span></button>
-        <button class="icon-btn icon-btn-done" id="flu-done" onclick="fluToggleRec()" style="display:none"><span class="icon-glyph">&#9209;</span><span class="icon-label">Done</span></button>
-        <button class="icon-btn icon-btn-listen" id="flu-play" onclick="fluPlayMine()" disabled><span class="icon-glyph">&#9654;</span><span class="icon-label">Play back</span></button>
+      <div class="flu-btn-row">
+        <button class="flu-sq-btn flu-sq-record" id="flu-rec" onclick="fluToggleRec()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="flu-rec-lbl">Record</span></button>
+        <button class="flu-sq-btn flu-sq-record" id="flu-done" onclick="fluToggleRec()" style="display:none"><span class="icon-glyph">&#9209;</span><span class="icon-label">Done</span></button>
+        <button class="flu-sq-btn flu-sq-play" id="flu-play" onclick="fluPlayMine()" disabled><span class="icon-glyph">&#9654;</span><span class="icon-label">Play back</span></button>
+        <button class="flu-sq-btn flu-sq-save" id="flu-save" onclick="fluSubmit()" disabled><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>
       </div>
       <p class="state-line none" id="flu-state"></p>
-      <div class="icon-row" id="flu-save-row" style="margin-top:14px">
-        <button class="icon-btn icon-btn-save" onclick="fluSubmit()"><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>
-        <button class="icon-btn icon-btn-redo" id="flu-redo" onclick="fluRedo()" style="display:none"><span class="icon-glyph">&#128260;</span><span class="icon-label">Redo</span></button>
+      <div class="icon-row" id="flu-save-row" style="margin-top:8px">
+        <button class="flu-sq-btn flu-sq-redo" id="flu-redo" onclick="fluRedo()" style="display:none"><span class="icon-glyph">&#128260;</span><span class="icon-label">Redo</span></button>
       </div>
     </div>
 
@@ -935,15 +959,13 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     </div>
     <div class="flu-timer-row"><span class="flu-timer" id="ret-timer">1:00</span></div>
     <p class="rec-status" id="ret-rec-status"></p>
-    <div class="icon-row">
-      <button class="icon-btn icon-btn-record" id="ret-rec" onclick="retToggleRec()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="ret-rec-lbl">Record</span></button>
-      <button class="icon-btn icon-btn-done" id="ret-done" onclick="retToggleRec()" style="display:none"><span class="icon-glyph">&#9209;</span><span class="icon-label">Done</span></button>
-      <button class="icon-btn icon-btn-listen" id="ret-play" onclick="retPlayMine()" disabled><span class="icon-glyph">&#9654;</span><span class="icon-label">Play back</span></button>
+    <div class="flu-btn-row">
+      <button class="flu-sq-btn flu-sq-record" id="ret-rec" onclick="retToggleRec()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="ret-rec-lbl">Record</span></button>
+      <button class="flu-sq-btn flu-sq-record" id="ret-done" onclick="retToggleRec()" style="display:none"><span class="icon-glyph">&#9209;</span><span class="icon-label">Done</span></button>
+      <button class="flu-sq-btn flu-sq-play" id="ret-play" onclick="retPlayMine()" disabled><span class="icon-glyph">&#9654;</span><span class="icon-label">Play back</span></button>
+      <button class="flu-sq-btn flu-sq-save" id="ret-submit" onclick="retSubmit()" disabled><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>
     </div>
     <p class="state-line none" id="ret-state"></p>
-    <div class="icon-row" style="margin-top:14px">
-      <button class="icon-btn icon-btn-save" id="ret-submit" onclick="retSubmit()" disabled><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>
-    </div>
   </section>
 
   <!-- FLUENCY: teacher review -->
@@ -2378,9 +2400,27 @@ function go(id){
 
 /* ---------- Student menu (Fluency / Word Practice / Reading Comprehension) ---------- */
 var smUsed=false;
+/* Fluency stays locked until BOTH diagnostic checks are done -- those are
+   the only two diagnostics the app has (Check 1 and Check 2), so "finish
+   your checks" means both. */
+function fluDiagnosticsDone(){
+  var d=ckDone();
+  return !!(d.check1===1 && d.check2===1);
+}
+function smFluTap(){
+  if(!fluDiagnosticsDone()){
+    var msg=document.getElementById("sm-flu-lock-msg");
+    if(msg){ msg.style.display="block"; msg.textContent="Finish your check first."; }
+    return;
+  }
+  smTap(fluOpen);
+}
 function smEnter(){
   smUsed=false;
   var who=document.getElementById("sm-who"); if(who && READER){ who.textContent=READER.name; }
+  var fb=document.getElementById("sm-flu-btn");
+  if(fb){ fb.className = fluDiagnosticsDone() ? "btn primary block" : "btn block locked"; }
+  var msg=document.getElementById("sm-flu-lock-msg"); if(msg){ msg.style.display="none"; msg.textContent=""; }
 }
 /* One-shot per menu visit: blocks a second event on this exact set of
    buttons (a literal duplicate touch/click for one physical tap), never a
@@ -3011,14 +3051,40 @@ function fluRingSet(pct){ var r=document.getElementById("flu-timer-ring"); if(r)
 /* At 1:00, the recording stops itself; the Done (square-stop) icon
    flashes 3 times with "Time's up!" before the review screen shows --
    no tap needed. A manual Done tap (finishing early) skips the flash. */
-function fluFlashTimesUp(then){
-  var db=document.getElementById("flu-done");
-  if(db){ db.style.display="inline-flex"; db.className="icon-btn icon-btn-done flash"; var lbl=db.querySelector(".icon-label"); if(lbl){ lbl.textContent="Time's up!"; } }
-  var rs=document.getElementById("flu-rec-status"); if(rs){ rs.className="rec-status paused"; rs.innerHTML="Time's up!"; }
+/* btnId lets this same flash serve both Fluency ("flu-done") and Retell
+   ("ret-done") -- the same red square that was pulsing just stops
+   pulsing and flashes 3 times, no separate button. */
+function fluFlashTimesUp(btnId,then){
+  var db=document.getElementById(btnId);
+  if(db){ db.style.display="inline-flex"; db.className="flu-sq-btn flu-sq-record flash"; var lbl=db.querySelector(".icon-label"); if(lbl){ lbl.textContent="Time's up!"; } }
+  var rsId=(btnId==="ret-done")?"ret-rec-status":"flu-rec-status";
+  var rs=document.getElementById(rsId); if(rs){ rs.className="rec-status paused"; rs.innerHTML="Time's up!"; }
   setTimeout(function(){
-    if(db){ db.className="icon-btn icon-btn-done"; var lbl=db.querySelector(".icon-label"); if(lbl){ lbl.textContent="Done"; } }
+    if(db){ db.className="flu-sq-btn flu-sq-record"; var lbl=db.querySelector(".icon-label"); if(lbl){ lbl.textContent="Done"; } }
     then();
   },1200);
+}
+/* Auto-fits the passage into whatever room is actually left on screen
+   (viewport height minus the space the buttons/header below still need),
+   shrinking the font only as far as 18px -- never smaller. If it still
+   doesn't fit at 18px, only the passage box itself scrolls (never the
+   whole page). No-ops in an environment with no real layout (e.g. this
+   file's own jsdom tests), since there's nothing to measure there. */
+function fluFitPassageText(){
+  var wrap=document.getElementById("flu-text-wrap"), el=document.getElementById("flu-text");
+  if(!wrap || !el){ return; }
+  el.style.fontSize=""; wrap.style.maxHeight=""; wrap.style.overflowY="";
+  if(!window.innerHeight || typeof wrap.getBoundingClientRect!=="function"){ return; }
+  var rect=wrap.getBoundingClientRect();
+  var reserveBelow=250; /* mic-permission note, timer ring, button row, state line, bottom margin */
+  var avail=window.innerHeight-rect.top-reserveBelow;
+  if(avail<70){ avail=70; }
+  var size=23; /* the passage's normal ~1.3rem size, in px */
+  el.style.fontSize=size+"px";
+  var guard=0;
+  while(el.scrollHeight>avail && size>18 && guard<20){ size--; el.style.fontSize=size+"px"; guard++; }
+  wrap.style.maxHeight=avail+"px";
+  wrap.style.overflowY=(el.scrollHeight>avail)?"auto":"visible";
 }
 function fluEnter(){
   if(!fluPassage){ fluPassage=findPassage(LEVELS[0],0); }
@@ -3043,14 +3109,16 @@ function fluEnter(){
       ? "Read the passage 3 times. Each read is one minute."
       : "Read the passage out loud. You have one minute. The recording stops by itself.";
   }
-  var rb=document.getElementById("flu-rec"); if(rb){ rb.className="icon-btn icon-btn-record"; rb.disabled=false; rb.style.display="inline-flex"; }
+  var rb=document.getElementById("flu-rec"); if(rb){ rb.className="flu-sq-btn flu-sq-record"; rb.disabled=false; rb.style.display="inline-flex"; }
   var lbl=document.getElementById("flu-rec-lbl"); if(lbl){ lbl.textContent="Record"; }
-  var db=document.getElementById("flu-done"); if(db){ db.style.display="none"; db.className="icon-btn icon-btn-done"; var dlbl=db.querySelector(".icon-label"); if(dlbl){ dlbl.textContent="Done"; } }
+  var db=document.getElementById("flu-done"); if(db){ db.style.display="none"; db.className="flu-sq-btn flu-sq-record"; var dlbl=db.querySelector(".icon-label"); if(dlbl){ dlbl.textContent="Done"; } }
   var pb=document.getElementById("flu-play"); if(pb){ pb.disabled=true; }
+  var sv=document.getElementById("flu-save"); if(sv){ sv.disabled=true; }
   var redo=document.getElementById("flu-redo"); if(redo){ redo.style.display="none"; }
   var rs=document.getElementById("flu-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("flu-state"); if(st){ st.className="state-line none"; st.textContent=""; }
   dirPaintButton("dir_fluency");
+  fluFitPassageText();
 }
 /* Shared by Day 1/3 (one take) and Day 2 (after all 3 reads): reveal
    Play back + Save (+ Redo on Day 2 only for a real student -- Student
@@ -3059,6 +3127,7 @@ function fluShowReview(){
   var btn=document.getElementById("flu-rec"); if(btn){ btn.style.display="none"; }
   var db=document.getElementById("flu-done"); if(db){ db.style.display="none"; }
   var pb=document.getElementById("flu-play"); if(pb){ pb.disabled=false; }
+  var sv=document.getElementById("flu-save"); if(sv){ sv.disabled=false; }
   var rs=document.getElementById("flu-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var rl=document.getElementById("flu-read-label"); if(rl){ rl.style.display="none"; }
   var ring=document.getElementById("flu-timer-ring"); if(ring){ ring.style.display="none"; }
@@ -3080,7 +3149,7 @@ function fluToggleRec(){
   startRec(function(blob){
     fluClearTimer();
     fluBlob=blob;
-    if(fluAutoStopped){ fluFlashTimesUp(fluShowReview); } else { fluShowReview(); }
+    if(fluAutoStopped){ fluFlashTimesUp("flu-done",fluShowReview); } else { fluShowReview(); }
   },function(){
     fluTimerLeft=60;
     fluRingSet(100);
@@ -3098,13 +3167,13 @@ function fluToggleRec(){
       }
       document.getElementById("flu-timer").textContent=fluFmtTime(fluTimerLeft);
     },1000);
-    btn.className="icon-btn icon-btn-record rec"; btn.disabled=true;
+    btn.className="flu-sq-btn flu-sq-record rec"; btn.disabled=true; btn.style.display="none";
     var db2=document.getElementById("flu-done"); if(db2){ db2.style.display="inline-flex"; }
     var rs2=document.getElementById("flu-rec-status"); if(rs2){ rs2.className="rec-status"; rs2.innerHTML='<span class="rec-status-dot"></span>Recording'; }
     st.className="state-line none"; st.textContent="Read the passage out loud.";
   }).catch(function(err){
     fluClearTimer();
-    btn.className="icon-btn icon-btn-record"; btn.disabled=false;
+    btn.className="flu-sq-btn flu-sq-record"; btn.disabled=false;
     st.className="state-line err"; st.textContent=micErrorText(err);
   });
 }
@@ -3140,8 +3209,8 @@ function fluD2ToggleRec(){
 function fluD2BeginRead(){
   var rl=document.getElementById("flu-read-label"); if(rl){ rl.style.display="block"; rl.textContent="Read "+fluReadNum+" of 3"; }
   var btn=document.getElementById("flu-rec"), db=document.getElementById("flu-done"), st=document.getElementById("flu-state"), rs=document.getElementById("flu-rec-status");
-  if(btn){ btn.className="icon-btn icon-btn-record rec"; btn.disabled=true; btn.style.display="none"; }
-  if(db){ db.className="icon-btn icon-btn-done"; db.style.display="inline-flex"; var lbl=db.querySelector(".icon-label"); if(lbl){ lbl.textContent="Done"; } }
+  if(btn){ btn.className="flu-sq-btn flu-sq-record rec"; btn.disabled=true; btn.style.display="none"; }
+  if(db){ db.className="flu-sq-btn flu-sq-record"; db.style.display="inline-flex"; var lbl=db.querySelector(".icon-label"); if(lbl){ lbl.textContent="Done"; } }
   if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
   if(st){ st.className="state-line none"; st.textContent="Read the passage out loud."; }
   fluAutoStopped=false;
@@ -3169,7 +3238,7 @@ function fluD2EndRead(){
     if(fluReadNum>=3){ if(fluD2Rec){ fluD2Rec.stop(); } }
     else { fluReadNum++; fluD2ShowGetReady(); }
   }
-  if(wasAuto){ fluFlashTimesUp(proceed); } else { proceed(); }
+  if(wasAuto){ fluFlashTimesUp("flu-done",proceed); } else { proceed(); }
 }
 function fluD2ShowGetReady(){
   var active=document.getElementById("flu-active"); if(active){ active.style.display="none"; }
@@ -3245,7 +3314,7 @@ function fluD2FinishToMenu(){
 }
 
 /* ---------- Fluency: retell ---------- */
-var retBlob=null, retTimerHandle=null, retAutoStop=null, retSaved=false, retUnsavedWarnHandler=null;
+var retBlob=null, retTimerHandle=null, retAutoStop=null, retAutoStopped=false, retSaved=false, retUnsavedWarnHandler=null;
 function retClearTimer(){ if(retTimerHandle){ clearInterval(retTimerHandle); retTimerHandle=null; } }
 /* warn (browser-level) if the student tries to leave with a recording
    that hasn't been saved yet -- there's no in-app way off this screen
@@ -3260,7 +3329,7 @@ function retSetUnsavedWarn(on){
   }
 }
 function retEnter(){
-  retBlob=null; retSaved=false; retClearTimer(); if(retAutoStop){ clearTimeout(retAutoStop); retAutoStop=null; }
+  retBlob=null; retSaved=false; retAutoStopped=false; retClearTimer(); if(retAutoStop){ clearTimeout(retAutoStop); retAutoStop=null; }
   retSetUnsavedWarn(false);
   var p=fluPassage; if(!p){ go("studentMenu"); return; }
   document.getElementById("ret-level").textContent=p.label+" - Retell";
@@ -3268,9 +3337,9 @@ function retEnter(){
   var html="", i; for(i=0;i<p.frames.length;i++){ html+="<li>"+escapeHtml(p.frames[i])+"</li>"; }
   document.getElementById("ret-frames").innerHTML=html;
   document.getElementById("ret-timer").textContent=fluFmtTime(60);
-  var rb=document.getElementById("ret-rec"); if(rb){ rb.className="icon-btn icon-btn-record"; rb.disabled=false; rb.style.display="inline-flex"; }
+  var rb=document.getElementById("ret-rec"); if(rb){ rb.className="flu-sq-btn flu-sq-record"; rb.disabled=false; rb.style.display="inline-flex"; }
   var lbl=document.getElementById("ret-rec-lbl"); if(lbl){ lbl.textContent="Record"; }
-  var db=document.getElementById("ret-done"); if(db){ db.style.display="none"; }
+  var db=document.getElementById("ret-done"); if(db){ db.style.display="none"; db.className="flu-sq-btn flu-sq-record"; var dlbl=db.querySelector(".icon-label"); if(dlbl){ dlbl.textContent="Done"; } }
   var pb=document.getElementById("ret-play"); if(pb){ pb.disabled=true; pb.style.display="inline-flex"; }
   var sub=document.getElementById("ret-submit"); if(sub){ sub.disabled=true; sub.style.display="inline-flex"; }
   var rs=document.getElementById("ret-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
@@ -3278,22 +3347,27 @@ function retEnter(){
   dirPaintButton("dir_retell");
 }
 /* Same no-Pause rule as the passage screen: Record starts the mic and the
-   1:00 timer together; while recording, Record is replaced by Done, which
-   ends the take early (or the timer ends it on its own). */
+   1:00 timer together; while recording, the same red square keeps
+   showing (just pulsing) -- tapping it again ends the take early, or the
+   timer ends it on its own with the same "Time's up!" flash Fluency
+   uses, for consistency between the two screens. */
 function retToggleRec(){
   var btn=document.getElementById("ret-rec"), lbl=document.getElementById("ret-rec-lbl"), st=document.getElementById("ret-state");
-  if(recording&&activeCtx==="retell"){ stopRec(); return; }
+  if(recording&&activeCtx==="retell"){ retAutoStopped=false; stopRec(); return; }
   activeCtx="retell"; st.className="state-line none"; st.textContent="Starting the microphone…";
   startRec(function(blob){
     retClearTimer(); if(retAutoStop){ clearTimeout(retAutoStop); retAutoStop=null; }
     retBlob=blob;
     retSetUnsavedWarn(true);
-    var pb=document.getElementById("ret-play"); if(pb){ pb.disabled=false; }
-    var sb=document.getElementById("ret-submit"); if(sb){ sb.disabled=false; }
-    btn.className="icon-btn icon-btn-record"; btn.disabled=true; btn.style.display="none";
-    var db=document.getElementById("ret-done"); if(db){ db.style.display="none"; }
-    var rs=document.getElementById("ret-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
-    st.className="state-line saved"; st.textContent="✓ Got it. Play it back, then Save.";
+    btn.className="flu-sq-btn flu-sq-record"; btn.disabled=true; btn.style.display="none";
+    function reveal(){
+      var pb=document.getElementById("ret-play"); if(pb){ pb.disabled=false; }
+      var sb=document.getElementById("ret-submit"); if(sb){ sb.disabled=false; }
+      var db=document.getElementById("ret-done"); if(db){ db.style.display="none"; }
+      var rs=document.getElementById("ret-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
+      st.className="state-line saved"; st.textContent="✓ Got it. Play it back, then Save.";
+    }
+    if(retAutoStopped){ fluFlashTimesUp("ret-done",reveal); } else { reveal(); }
   },function(){
     /* the mic actually started -- only now start the timer and show the
        pulsing recording state, same rule as the passage screen */
@@ -3305,9 +3379,9 @@ function retToggleRec(){
       if(left<0){ retClearTimer(); return; }
       document.getElementById("ret-timer").textContent=fluFmtTime(left);
     },1000);
-    retAutoStop=setTimeout(function(){ if(recording&&activeCtx==="retell"){ stopRec(); } },60000);
-    btn.className="icon-btn icon-btn-record rec"; btn.disabled=true;
-    var db2=document.getElementById("ret-done"); if(db2){ db2.style.display="inline-flex"; }
+    retAutoStop=setTimeout(function(){ if(recording&&activeCtx==="retell"){ retAutoStopped=true; stopRec(); } },60000);
+    btn.className="flu-sq-btn flu-sq-record rec"; btn.disabled=true; btn.style.display="none";
+    var db2=document.getElementById("ret-done"); if(db2){ db2.style.display="inline-flex"; db2.className="flu-sq-btn flu-sq-record"; }
     var rs2=document.getElementById("ret-rec-status"); if(rs2){ rs2.className="rec-status"; rs2.innerHTML='<span class="rec-status-dot"></span>Recording'; }
     st.className="state-line none"; st.textContent="Recording…";
   }).catch(function(err){ st.className="state-line err"; st.textContent=micErrorText(err); });

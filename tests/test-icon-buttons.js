@@ -102,13 +102,13 @@ setTimeout(function(){
   function runFluency(){
     w.go("fluencyPassage");
     var fRec=d.getElementById("flu-rec");
-    ck(fRec.className.indexOf("icon-btn-record")>-1,"Fluency Record is an icon-btn-record");
+    ck(fRec.className.indexOf("flu-sq-record")>-1,"Fluency Record is a flu-sq-record (its own true-red rounded square, no brown)");
     w.fluToggleRec();
     setTimeout(function(){
       ck(fRec.className.indexOf("rec")>-1,"Fluency Record pulses while recording");
-      ck(d.getElementById("flu-done").className.indexOf("icon-btn-done")>-1,"Fluency shows an icon-btn-done while recording (no Pause)");
+      ck(d.getElementById("flu-done").className.indexOf("flu-sq-record")>-1,"Fluency's Done state is the SAME red square, still visible while recording (no Pause)");
       w.fluToggleRec(); // Done
-      ck(d.getElementById("flu-play").className.indexOf("icon-btn-listen")>-1,"Fluency Play back is an icon-btn-listen");
+      ck(d.getElementById("flu-play").className.indexOf("flu-sq-play")>-1,"Fluency Play back is a flu-sq-play (matching rounded square)");
       w.fluSubmit();
       setTimeout(function(){
         ck(w.__downloads.length===2,"Fluency Save downloaded exactly one file (2 total so far)");
@@ -123,11 +123,11 @@ setTimeout(function(){
 
   function runRetellAndFinal(){
     var retRec=d.getElementById("ret-rec");
-    ck(retRec.className.indexOf("icon-btn-record")>-1,"Retell Record is an icon-btn-record");
+    ck(retRec.className.indexOf("flu-sq-record")>-1,"Retell Record is a flu-sq-record too (same matching square as Fluency)");
     w.retToggleRec();
     setTimeout(function(){
       ck(retRec.className.indexOf("rec")>-1,"Retell Record pulses while recording");
-      ck(d.getElementById("ret-done").className.indexOf("icon-btn-done")>-1,"Retell shows an icon-btn-done while recording (no Pause)");
+      ck(d.getElementById("ret-done").className.indexOf("flu-sq-record")>-1,"Retell's Done state is the SAME red square, still visible while recording (no Pause)");
       w.retToggleRec(); // Done
       w.retSubmit();
       setTimeout(function(){

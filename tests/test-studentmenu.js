@@ -165,6 +165,7 @@ setTimeout(function(){
 
       /* ---- Fluency opens the passage screen we built, at the student's current placement ---- */
       w.READER=w.CLASSES[0].students[3];
+      w.ckMarkDone("check1"); w.ckMarkDone("check2"); // Fluency is locked on the menu until both checks are done
       w.go("studentMenu");
 
       setTimeout(function(){

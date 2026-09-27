@@ -97,6 +97,8 @@ setTimeout(function(){
     ck(activeId()==="s-confirm","name tap reaches the Is-this-you confirm");
     click(d.getElementById("confirm-yes-btn"));
     ck(activeId()==="studentMenu","tapping Yes reaches the student menu");
+    w.ckMarkDone("check1"); w.ckMarkDone("check2"); // Fluency is locked on the menu until both checks are done
+    w.smEnter();
 
     setTimeout(function(){
       click(menuBtn("#studentMenu","Fluency"));

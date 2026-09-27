@@ -109,7 +109,7 @@ setTimeout(function(){
       setTimeout(function(){
         ck(d.getElementById("flu-state").textContent==="Great job! Tap Save.","Day 1: review text is exact");
         ck(d.getElementById("flu-redo").style.display==="none","Day 1: no Redo on the review screen");
-        ck(!!d.querySelector("#flu-active .icon-btn-listen"),"Day 1: Play back is offered");
+        ck(!!d.querySelector("#flu-active .flu-sq-play"),"Day 1: Play back is offered");
 
         w.fluSubmit();
         setTimeout(function(){

@@ -120,6 +120,7 @@ function runMain(){
 
   /* ---- fluOpen defaults a fresh student to PK 0.0 ---- */
   w.READER=w.CLASSES[0].students[1];
+  w.ckMarkDone("check1"); w.ckMarkDone("check2"); // Fluency is locked on the menu until both checks are done
   w.go("studentMenu");
 
   /* navGuard() ignores a click within 400ms of that go() (a real fix for
