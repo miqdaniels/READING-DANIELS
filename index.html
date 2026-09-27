@@ -44,46 +44,56 @@ header.app .tag{font-size:13px;color:var(--ink-soft)}
    Layout/look only -- every tile keeps the exact onclick it always had.
    Tiles are compact (small icon + 2-3 word label) and packed into a
    grid per category so the whole hub fits one screen without scrolling
-   on a laptop. Dark mode is scoped to teacher-only screens (the
-   data-teacher="1" marker on each teacher <section>): the toggle
-   only ever adds/removes "teacher-dark" on <body> while a teacher-only
-   screen is the active one (see applyTeacherDarkClass()), so it can
-   never touch a student screen -- including a student screen shown
-   temporarily inside Student View. */
+   on a laptop. Both "teacher-active" (the page background, on whenever
+   a teacher-only screen -- data-teacher="1" -- is the active one) and
+   "teacher-dark" (the dark-mode preference, only ever added on top of
+   teacher-active) are managed together by applyTeacherDarkClass(), so
+   neither can touch a student screen -- including a student screen
+   shown temporarily inside Student View. */
 .teach-topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:2px}
 .teach-theme-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;width:40px;height:40px;font-size:19px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;touch-action:manipulation}
 .teach-cat-title{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin:16px 0 6px}
 .teach-tile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin:0 0 4px}
-.teach-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border:none;border-radius:16px;padding:10px 6px;min-height:82px;cursor:pointer;font:inherit;font-size:13px;font-weight:700;color:#1c1d20;text-align:center;line-height:1.2;touch-action:manipulation}
+/* Professional look: a plain white card with a thin gray border, not a
+   pastel fill -- only the icon itself carries the category's color. */
+.teach-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:#ffffff;border:1px solid #d8dce2;border-radius:12px;padding:10px 6px;min-height:82px;cursor:pointer;font:inherit;font-size:13px;font-weight:700;color:#33363c;text-align:center;line-height:1.2;touch-action:manipulation;transition:border-color .15s}
+.teach-tile:hover,.teach-tile:active,.teach-tile:focus-visible{border-color:#a8afb9}
 .teach-tile-icon{font-size:22px;line-height:1}
 .teach-tile-label{display:block}
-.cat-students{background:#cfe3fb}
-.cat-scoring{background:#cdeeda}
-.cat-recordings{background:#e3d6f5}
-.cat-practice{background:#fbe0cf}
-.cat-reports{background:#faf3c0}
-.cat-settings{background:#e2e2e6}
+.cat-students .teach-tile-icon{color:#3b74c9}
+.cat-scoring .teach-tile-icon{color:#1f8a4c}
+.cat-recordings .teach-tile-icon{color:#7c4fc4}
+.cat-practice .teach-tile-icon{color:#c96a2e}
+.cat-reports .teach-tile-icon{color:#a8860a}
+.cat-settings .teach-tile-icon{color:#6b7280}
+
+/* The page background behind the tiles: a very light gray so the white
+   cards stand out. On while ANY teacher-only screen is active (not just
+   the tiled home hub), so navigating to Settings/Check 1 review/etc.
+   doesn't flash back to the app's normal paper color. */
+body.teacher-active{background:#eef0f3}
 
 /* Dark mode: redefining the shared theme variables on body.teacher-dark
    reskins every existing teacher-screen component (.btn, .card,
    .list-item, .code-input, .seg, etc.) automatically, since they all
    already read colors from these same variables -- nothing about those
-   components themselves needs to change. Tile colors are handled
-   separately right below, since tiles use their own hardcoded pastel
-   values rather than the shared theme variables. */
+   components themselves needs to change. Tiles get their own dark
+   card/border/icon colors right below, since they use hardcoded values
+   rather than the shared theme variables. */
 body.teacher-dark{
   --paper:#141820; --panel:#1d222b; --line:#333945; --ink:#e8e8ec; --ink-soft:#a9b0bc;
   --accent:#7aa7e0; --accent-press:#8fb6ea; --hl:#4a3f1f; --hl-ink:#f5dfa0; --past:#5c6675;
   --good:#5fd48d; --good-bg:#1d3327; --retry:#e8a862; --retry-bg:#3a2c18; --unsure:#aab3c2; --unsure-bg:#242832;
-  background:var(--paper); color:var(--ink);
+  background:#0b0d10; color:var(--ink);
 }
-body.teacher-dark .teach-tile{color:#eef1f6}
-body.teacher-dark .cat-students{background:#2c3e57}
-body.teacher-dark .cat-scoring{background:#24392f}
-body.teacher-dark .cat-recordings{background:#3a2f4d}
-body.teacher-dark .cat-practice{background:#4a3628}
-body.teacher-dark .cat-reports{background:#4a4326}
-body.teacher-dark .cat-settings{background:#33353a}
+body.teacher-dark .teach-tile{background:#1d222b;border-color:#3a4150;color:#e8e8ec}
+body.teacher-dark .teach-tile:hover,body.teacher-dark .teach-tile:active,body.teacher-dark .teach-tile:focus-visible{border-color:#5b6474}
+body.teacher-dark .cat-students .teach-tile-icon{color:#7fb0ef}
+body.teacher-dark .cat-scoring .teach-tile-icon{color:#6bd39a}
+body.teacher-dark .cat-recordings .teach-tile-icon{color:#b79ae8}
+body.teacher-dark .cat-practice .teach-tile-icon{color:#f0a86a}
+body.teacher-dark .cat-reports .teach-tile-icon{color:#e0c04a}
+body.teacher-dark .cat-settings .teach-tile-icon{color:#a7adb8}
 .theming{display:flex;align-items:center;gap:8px}
 .swatches{display:flex;gap:6px}
 .sw{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0;touch-action:manipulation}
@@ -4276,9 +4286,12 @@ function paintTeacherThemeIcon(){
 function applyTeacherDarkClass(id){
   var el=id?document.getElementById(id):null;
   var isTeacherScreen = !!(el && el.getAttribute("data-teacher")==="1");
-  var on = TEACHER_DARK && isTeacherScreen;
-  var cls=(document.body.className||"").replace(/\bteacher-dark\b/g,"").replace(/\s+/g," ").replace(/^\s+|\s+$/g,"");
-  document.body.className = on ? (cls?cls+" teacher-dark":"teacher-dark") : cls;
+  var cls=(document.body.className||"").replace(/\bteacher-dark\b/g,"").replace(/\bteacher-active\b/g,"").replace(/\s+/g," ").replace(/^\s+|\s+$/g,"");
+  if(isTeacherScreen){
+    cls = cls ? cls+" teacher-active" : "teacher-active";
+    if(TEACHER_DARK){ cls += " teacher-dark"; }
+  }
+  document.body.className = cls;
   paintTeacherThemeIcon();
 }
 function toggleTeacherDark(){

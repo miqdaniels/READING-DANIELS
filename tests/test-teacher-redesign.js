@@ -82,24 +82,37 @@ setTimeout(function(){
   click(w,rdTile);
   ck(/Cleared/.test(d.getElementById("vas-reset-msg").textContent),"Reset Demo Data tile still calls vasReset()");
 
-  /* ---- 2) pastel colors, one per category, dark text on top ---- */
-  var palette={
-    "cat-students":"#cfe3fb", "cat-scoring":"#cdeeda", "cat-recordings":"#e3d6f5",
-    "cat-practice":"#fbe0cf", "cat-reports":"#faf3c0", "cat-settings":"#e2e2e6"
+  /* ---- hover/tap only darkens the border, no shadow, no big color swing
+     (jsdom can't simulate a real :hover, so this checks the rule exists
+     in the stylesheet source instead) ---- */
+  ck(/\.teach-tile:hover,\s*\.teach-tile:active[^{]*\{border-color:[^;]+;?\}/.test(html),"a light-mode hover/active rule darkens the tile border");
+  ck(/body\.teacher-dark \.teach-tile:hover,body\.teacher-dark \.teach-tile:active[^{]*\{border-color:[^;]+;?\}/.test(html),"a dark-mode hover/active rule darkens the tile border too");
+  ck(!/\.teach-tile:hover[^}]*box-shadow/.test(html) && !/\.teach-tile:active[^}]*box-shadow/.test(html),"no shadow added on hover/tap");
+
+  /* ---- 2) professional look: white cards, thin gray border, dark text --
+     ONLY the icon carries the category color, not the whole tile ---- */
+  var iconPalette={
+    "cat-students":"#3b74c9", "cat-scoring":"#1f8a4c", "cat-recordings":"#7c4fc4",
+    "cat-practice":"#c96a2e", "cat-reports":"#a8860a", "cat-settings":"#6b7280"
   };
   var cat;
-  for(cat in palette){
+  for(cat in iconPalette){
     var el=d.querySelector("."+cat);
     ck(!!el,"a tile with category "+cat+" exists");
     var cs=w.getComputedStyle(el);
-    ck(cs.backgroundColor===rgb(palette[cat]),cat+" is the right pastel color (got "+cs.backgroundColor+")");
-    var textColor=w.getComputedStyle(el.querySelector(".teach-tile-label")||el).color;
-    ck(textColor!==cs.backgroundColor,cat+"'s text color is not the same as its background (readable)");
+    ck(cs.backgroundColor==="rgb(255, 255, 255)",cat+" tile is white, not a pastel fill (got "+cs.backgroundColor+")");
+    ck(cs.borderWidth==="1px","1px border on "+cat);
+    ck(cs.borderRadius==="12px","12px rounded corners on "+cat);
+    var iconColor=w.getComputedStyle(el.querySelector(".teach-tile-icon")).color;
+    ck(iconColor===rgb(iconPalette[cat]),cat+"'s icon carries the category color (got "+iconColor+")");
+    var textColor=w.getComputedStyle(el.querySelector(".teach-tile-label")).color;
+    ck(textColor!==iconColor,cat+"'s text is a different color than its icon (label text is NOT category-colored)");
   }
   /* dark, low-lightness text specifically (not just "different from bg") */
   var anyTile=d.querySelector(".teach-tile");
   var lightModeColor=w.getComputedStyle(anyTile).color;
-  ck(/rgb\(2[0-9], 2[0-9], 3[0-2]\)/.test(lightModeColor),"tile text is a dark ink color in light mode (got "+lightModeColor+")");
+  ck(lightModeColor==="rgb(51, 54, 60)","tile text is a dark gray ink color in light mode (got "+lightModeColor+")");
+  ck(w.getComputedStyle(d.body).backgroundColor==="rgb(238, 240, 243)","the page behind the tiles is a very light gray, so the white tiles stand out (got "+w.getComputedStyle(d.body).backgroundColor+")");
 
   /* ---- 3) categories are grouped under their own small headers, in the
      required order ---- */
@@ -120,11 +133,13 @@ setTimeout(function(){
 
   var studentsTileDark=d.querySelector(".cat-students");
   var csDark=w.getComputedStyle(studentsTileDark);
-  ck(csDark.backgroundColor===rgb("#2c3e57"),"Students tile uses a deeper, muted blue in dark mode (got "+csDark.backgroundColor+")");
-  ck(csDark.backgroundColor!==rgb(palette["cat-students"]),"the dark tile color is NOT just the light pastel again");
+  ck(csDark.backgroundColor===rgb("#1d222b"),"Students tile turns dark gray in dark mode (got "+csDark.backgroundColor+")");
+  ck(csDark.backgroundColor!=="rgb(255, 255, 255)","the dark tile is NOT still white");
+  var darkIconColor=w.getComputedStyle(studentsTileDark.querySelector(".teach-tile-icon")).color;
+  ck(darkIconColor===rgb("#7fb0ef"),"the icon still carries its (brighter, dark-mode) category color (got "+darkIconColor+")");
   var darkTileTextColor=w.getComputedStyle(studentsTileDark.querySelector(".teach-tile-label")).color;
   ck(/rgb\(2[0-4][0-9], 2[0-4][0-9], 2[0-5][0-9]\)/.test(darkTileTextColor),"tile text turns light-colored in dark mode (got "+darkTileTextColor+")");
-  ck(w.getComputedStyle(d.body).backgroundColor!=="rgb(247, 249, 252)","the page background itself goes dark (no longer the light paper color)");
+  ck(w.getComputedStyle(d.body).backgroundColor==="rgb(11, 13, 16)","the page background goes near-black in dark mode (got "+w.getComputedStyle(d.body).backgroundColor+")");
 
   /* reload -- a fresh DOM/localStorage-backed session remembers the choice */
   var dom2=makeDom("https://miqdaniels.github.io/READING-DANIELS/?teacher");
