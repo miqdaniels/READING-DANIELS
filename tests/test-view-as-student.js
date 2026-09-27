@@ -68,15 +68,47 @@ setTimeout(function(){
   ck(activeId(d)==="s-roster","class tap reaches the roster while viewing as student");
   ck(d.getElementById("vas-banner").style.display!=="none","banner still showing on the roster screen");
 
-  /* pick a REAL (non-placeholder) student for the demo */
+  /* ---- Test Student sits at the top, the only tappable row; every real
+     student AND every placeholder (Student 1/2/3) is grayed out, so a
+     demo can never land on a real kid by accident ---- */
   var realStudent=w.CLASSES[0].students[0];
-  var nameBtns=d.querySelectorAll("#roster-list .btn"), target=null, k;
-  for(k=0;k<nameBtns.length;k++){ if(nameBtns[k].textContent===realStudent.name) target=nameBtns[k]; }
-  click(w,target);
-  ck(activeId(d)==="s-confirm","name tap reaches the Is-this-you confirm, same as for a real student");
+  var rosterBtns=d.querySelectorAll("#roster-list .btn");
+  ck(rosterBtns[0].textContent==="Test Student","Test Student is the very first row on the roster");
+  var k;
+  for(k=1;k<rosterBtns.length;k++){
+    ck(rosterBtns[k].disabled===true,"row "+k+" ('"+rosterBtns[k].textContent+"') is disabled in Student View");
+    ck(rosterBtns[k].className.indexOf("locked")>-1,"row "+k+" ('"+rosterBtns[k].textContent+"') uses the grayed-out locked style in Student View");
+  }
+
+  /* mashing a real student's now-locked name does nothing */
+  var realBtn=null;
+  for(k=0;k<rosterBtns.length;k++){ if(rosterBtns[k].textContent===realStudent.name) realBtn=rosterBtns[k]; }
+  ck(!!realBtn,"the real student is still listed (just locked)");
+  click(w,realBtn); click(w,realBtn);
+  ck(activeId(d)==="s-roster","tapping a locked real student's name does nothing at all");
+  ck(w.PENDING_STU===null,"no student got selected from tapping the locked real name");
+
+  /* ---- every OTHER class hour also gets Test Student at the top, real
+     names grayed there too ---- */
+  var ci;
+  for(ci=0;ci<w.CLASSES.length;ci++){
+    w.CURCLASS=w.CLASSES[ci];
+    w.buildRoster();
+    var rb=d.querySelectorAll("#roster-list .btn");
+    ck(rb.length>0 && rb[0].textContent==="Test Student","Test Student appears at the top of "+w.CLASSES[ci].label+"'s roster too");
+    ck(rb[1].disabled===true,"the first real/placeholder row in "+w.CLASSES[ci].label+" is locked");
+  }
+  w.CURCLASS=w.CLASSES[0]; w.buildRoster();
+
+  /* ---- tap Test Student -> Is this you? -> Yes -> student menu, exactly
+     like any real student's flow ---- */
+  var testBtn=d.querySelectorAll("#roster-list .btn")[0];
+  click(w,testBtn);
+  ck(activeId(d)==="s-confirm","tapping Test Student reaches the Is-this-you confirm");
+  ck(d.getElementById("confirm-name").textContent==="Test Student","confirm screen names Test Student");
   click(w,d.getElementById("confirm-yes-btn"));
   ck(activeId(d)==="studentMenu","Yes reaches the student menu");
-  ck(w.READER===realStudent,"READER is the real student, for a realistic demo");
+  ck(w.READER===w.TEST_STUDENT,"READER is the dedicated Test Student identity");
   ck(d.getElementById("vas-banner").style.display!=="none","banner still showing on the student menu");
 
   /* ---- 3) complete a Check 1 take through the real UI and confirm it
@@ -96,13 +128,13 @@ setTimeout(function(){
     w.c1ConfirmSubmitted(); // taps YES -- marks the check done
 
     var realAttempts=JSON.parse(w.localStorage.getItem("rf_check1_attempts")||"[]");
-    ck(realAttempts.filter(function(a){return a.studentId===realStudent.id;}).length===0,"the REAL student's Check 1 attempt log is untouched");
+    ck(realAttempts.filter(function(a){return a.studentId===realStudent.id;}).length===0,"the REAL student's Check 1 attempt log is untouched (it was never even selectable)");
     var realChecks=JSON.parse(w.localStorage.getItem("rf_checks_"+realStudent.id)||"{}");
     ck(realChecks.check1!==1,"the REAL student's check-done flag is untouched");
     var vasAttempts=JSON.parse(w.localStorage.getItem("vas_rf_check1_attempts")||"[]");
-    ck(vasAttempts.filter(function(a){return a.studentId===realStudent.id;}).length===1,"the DEMO's own sandboxed attempt log WAS recorded");
-    var vasChecks=JSON.parse(w.localStorage.getItem("vas_rf_checks_"+realStudent.id)||"{}");
-    ck(vasChecks.check1===1,"the DEMO's own sandboxed check-done flag WAS set");
+    ck(vasAttempts.filter(function(a){return a.studentId===w.TEST_STUDENT.id;}).length===1,"Test Student's own sandboxed attempt log WAS recorded");
+    var vasChecks=JSON.parse(w.localStorage.getItem("vas_rf_checks_"+w.TEST_STUDENT.id)||"{}");
+    ck(vasChecks.check1===1,"Test Student's own sandboxed check-done flag WAS set");
 
     /* Redo -- no one-shot limit, can demo the same check again right away */
     w.go("check1");
@@ -117,19 +149,47 @@ setTimeout(function(){
       var realAttempts2=JSON.parse(w.localStorage.getItem("rf_check1_attempts")||"[]");
       ck(realAttempts2.filter(function(a){return a.studentId===realStudent.id;}).length===0,"still nothing landed on the real student's attempt log after a second demo take");
 
-      /* ---- Exit returns to the teacher home and turns the mode off ---- */
-      click(w,d.getElementById("vas-banner").querySelector(".vas-exit"));
-      ck(w.VIEW_AS_STUDENT===false,"Exit turns View as Student off");
-      ck(activeId(d)==="s-home","Exit returns to the teacher home");
-      ck(d.getElementById("vas-banner").style.display==="none","banner is hidden again after Exit");
+      /* ---- Redo has no one-shot limit on Fluency's cold read either (Day
+         1/3 normally allow no Redo at all -- Student View is the one
+         exception, so a demo of the hardest case, a one-attempt cold
+         read, can still be repeated) ---- */
+      w.fluOpen();
+      ck(w.fluDay===1,"(setup) Test Student is on Fluency Day 1 -- the one-attempt cold read, normally with no Redo at all");
+      w.fluToggleRec();
+      setTimeout(function(){
+        w.fluToggleRec(); // Done -- a manual early finish, straight to the review screen
+        var redo=d.getElementById("flu-redo");
+        ck(redo && redo.style.display!=="none","Fluency's cold read (Day 1/3) offers Redo in Student View, unlike for a real student");
+        w.fluRedo();
+        ck(activeId(d)==="fluencyPassage","tapping Redo goes straight back to the passage, ready to record again");
 
-      /* ---- Reset clears the sandbox ---- */
-      ck(w.localStorage.getItem("vas_rf_checks_"+realStudent.id)!==null,"(setup) sandboxed data exists before Reset");
-      w.vasReset();
-      ck(w.localStorage.getItem("vas_rf_checks_"+realStudent.id)===null,"Reset clears the View as Student sandbox");
-      ck(/Cleared/.test(d.getElementById("vas-reset-msg").textContent),"Reset shows a confirmation message");
+          /* ---- Exit returns to the teacher home and turns the mode off ---- */
+          click(w,d.getElementById("vas-banner").querySelector(".vas-exit"));
+          ck(w.VIEW_AS_STUDENT===false,"Exit turns View as Student off");
+          ck(activeId(d)==="s-home","Exit returns to the teacher home");
+          ck(d.getElementById("vas-banner").style.display==="none","banner is hidden again after Exit");
 
-      runPlaceholderTests();
+          /* ---- Test Student never shows on the regular student side ---- */
+          w.READER=null; w.PENDING_STU=null;
+          var ci2;
+          for(ci2=0;ci2<w.CLASSES.length;ci2++){
+            w.CURCLASS=w.CLASSES[ci2];
+            w.buildRoster();
+            var rb2=d.querySelectorAll("#roster-list .btn"), foundTest=false, z;
+            for(z=0;z<rb2.length;z++){ if(rb2[z].textContent==="Test Student"){ foundTest=true; } }
+            ck(!foundTest,"Test Student never appears on "+w.CLASSES[ci2].label+"'s roster outside Student View");
+            ck(rb2[0].disabled!==true,"outside Student View, the roster's first real row is tappable again, same as before");
+          }
+          w.CURCLASS=w.CLASSES[0]; w.buildRoster();
+
+          /* ---- Reset clears Test Student's sandbox ---- */
+          ck(w.localStorage.getItem("vas_rf_checks_"+w.TEST_STUDENT.id)!==null,"(setup) Test Student's sandboxed data exists before Reset");
+          w.vasReset();
+          ck(w.localStorage.getItem("vas_rf_checks_"+w.TEST_STUDENT.id)===null,"Reset clears Test Student's sandboxed data");
+          ck(/Cleared/.test(d.getElementById("vas-reset-msg").textContent),"Reset shows a confirmation message");
+
+          runPlaceholderTests();
+      },60);
     },30);
   },30);
 

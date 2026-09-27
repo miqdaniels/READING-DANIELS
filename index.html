@@ -1028,6 +1028,14 @@ function vasReset(){
   var m=document.getElementById("vas-reset-msg"); if(m){ m.textContent="✓ Cleared "+keys.length+" item(s) of View as Student data."; }
 }
 
+/* A dedicated demo identity for Student View -- not a real roster row, not
+   a placeholder, never part of CLASSES. Only buildRoster() ever adds it
+   (and only while VIEW_AS_STUDENT is on), so it can never reach the
+   regular student side, the scoreboard, reports, or any real unlock.
+   Its data lands under the same "vas_" sandbox as everything else in
+   Student View, so Reset clears it same as always. */
+var TEST_STUDENT={id:"test_student", name:"Test Student"};
+
 /* ---------- Placeholder students (Student 1/2/3 in each class hour) ----------
    Grayed out and NOT tappable until the teacher activates a slot with a
    real name. Activation is stored by placeholder id, overlaid onto the
@@ -2131,13 +2139,25 @@ function buildRoster(){
   if(!CURCLASS){ go("s-pick"); return; }
   document.getElementById("roster-hour-label").textContent=CURCLASS.label;
   var list=CURCLASS.students, i, used=false;
+  if(VIEW_AS_STUDENT){
+    /* Test Student sits at the top of every class hour's list, the only
+       tappable row -- everything below (real students AND Student 1/2/3)
+       is grayed out for the whole time Student View is on, so a demo can
+       never land on a real kid by accident. */
+    var tb=document.createElement("button");
+    tb.className="btn block"; tb.textContent=TEST_STUDENT.name;
+    tb.onclick=function(){ if(used){ return; } used=true; PENDING_STU=TEST_STUDENT; go("s-confirm"); };
+    box.appendChild(tb);
+  }
   for(i=0;i<list.length;i++){
     (function(stu){
       var b=document.createElement("button");
-      if(isPlaceholder(stu) && !stu.activated){
-        /* grayed out, not tappable, until the teacher activates this slot
-           with a real name -- same locked look used elsewhere, no onclick
-           at all so mashing it can never do anything */
+      if(VIEW_AS_STUDENT || (isPlaceholder(stu) && !stu.activated)){
+        /* grayed out, not tappable -- same locked look used elsewhere, no
+           onclick at all so mashing it can never do anything. Outside
+           Student View this is just the normal not-yet-activated
+           placeholder rule; inside Student View, EVERY real row is
+           locked this way, regardless of activation. */
         b.className="btn block locked"; b.disabled=true; b.textContent=stu.name;
       } else {
         b.className="btn block"; b.textContent=stu.name;
@@ -2761,7 +2781,8 @@ function fluEnter(){
   dirPaintButton("dir_fluency");
 }
 /* Shared by Day 1/3 (one take) and Day 2 (after all 3 reads): reveal
-   Play back + Save (+ Redo on Day 2 only). */
+   Play back + Save (+ Redo on Day 2 only for a real student -- Student
+   View has no one-shot limits anywhere, so Redo shows on every day there). */
 function fluShowReview(){
   var btn=document.getElementById("flu-rec"); if(btn){ btn.style.display="none"; }
   var db=document.getElementById("flu-done"); if(db){ db.style.display="none"; }
@@ -2769,7 +2790,7 @@ function fluShowReview(){
   var rs=document.getElementById("flu-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var rl=document.getElementById("flu-read-label"); if(rl){ rl.style.display="none"; }
   var ring=document.getElementById("flu-timer-ring"); if(ring){ ring.style.display="none"; }
-  var redo=document.getElementById("flu-redo"); if(redo){ redo.style.display=(fluDay===2)?"inline-flex":"none"; }
+  var redo=document.getElementById("flu-redo"); if(redo){ redo.style.display=(fluDay===2||VIEW_AS_STUDENT)?"inline-flex":"none"; }
   var st=document.getElementById("flu-state");
   st.className="state-line saved"; st.textContent="Great job! Tap Save.";
   if(fluPendingSubmit){ fluPendingSubmit=false; fluFinishSubmit(); }
