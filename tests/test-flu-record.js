@@ -1,6 +1,6 @@
 const fs=require('fs');
 const {JSDOM}=require('jsdom');
-const html=fs.readFileSync('./index.html','utf8');
+const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js" defer></script>','<script>'+fs.readFileSync('./clips.js','utf8')+'</script>');
 
 /* This file tests the Fluency passage screen's single Record/Stop button:
    tap once to start recording AND the 1:00 timer together, tap again (or

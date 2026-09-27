@@ -1,6 +1,6 @@
 const fs=require('fs');
 const {JSDOM}=require('jsdom');
-const html=fs.readFileSync('./index.html','utf8');
+const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js" defer></script>','<script>'+fs.readFileSync('./clips.js','utf8')+'</script>');
 
 /* End-to-end: Student -> hour -> name -> Fluency -> passage -> retell ->
    save, confirming both the cold-read AND the retell each trigger a real

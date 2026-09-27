@@ -52,7 +52,8 @@ function fakeXHRClass() {
   };
 }
 
-const HTML = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
+const HTML = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8")
+  .replace('<script src="clips.js" defer></script>', '<script>'+fs.readFileSync(path.join(__dirname, "..", "clips.js"), "utf8")+'</script>');
 function device(url) {
   const dom = new JSDOM(HTML, {
     url, runScripts: "dangerously", pretendToBeVisual: true,

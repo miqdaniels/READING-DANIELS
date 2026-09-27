@@ -1,6 +1,6 @@
 const fs=require('fs');
 const {JSDOM}=require('jsdom');
-const html=fs.readFileSync('./index.html','utf8');
+const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js" defer></script>','<script>'+fs.readFileSync('./clips.js','utf8')+'</script>');
 
 /* Check 2 -- Letter-Sound Knowledge. 31 scored targets (2A 21 consonants +
    2B 5 short vowels + 2C 5 long vowels), one continuous camera+mic video,
@@ -154,7 +154,7 @@ setTimeout(function(){
           ck(d.getElementById("c2-assess").style.display==="none","the item-walk screen is hidden while the transition shows");
           ck(w.c2Idx===20,"c2Idx has NOT advanced yet -- the new section's first item hasn't appeared");
           ck(w.c2TimerHandle===null,"the 5:00 timer is paused (no running interval) while the transition shows");
-          ck(/short vowel sounds/.test(d.getElementById("c2-trans-text").textContent),"before-2B directions text shows");
+          ck(/Listen to the word\. Say the sound\./.test(d.getElementById("c2-trans-text").textContent),"before-2B directions text shows");
           ck(d.getElementById("dl-dir_check2_before2b").style.display==="none","no Listen button yet -- that clip isn't recorded/baked");
 
           /* a duplicate tap on "I'm Ready" must not ALSO skip the first item */
@@ -197,7 +197,7 @@ setTimeout(function(){
   function finishReviewFlow(){
     /* ---- review: Watch/Stop + Record Again + Submit; never marks complete on empty blob ---- */
     ck(d.getElementById("c2-review").innerHTML.indexOf("Play back")>-1,"a Play back (Watch Recording) control is offered");
-    ck(d.getElementById("c2-review").innerHTML.indexOf("Redo")>-1,"a Redo (Record Again) control is offered");
+    ck(d.getElementById("c2-review").innerHTML.indexOf("Redo")===-1,"no student Redo on a check -- only View as Student may restart one");
     ck(d.getElementById("c2-review").innerHTML.indexOf("Save")>-1,"a Save (Submit) control is offered");
 
     w.c2ToggleListen();

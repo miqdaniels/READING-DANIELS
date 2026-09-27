@@ -1,6 +1,6 @@
 const fs=require('fs');
 const {JSDOM}=require('jsdom');
-const html=fs.readFileSync('./index.html','utf8');
+const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js" defer></script>','<script>'+fs.readFileSync('./clips.js','utf8')+'</script>');
 
 const dom=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/",runScripts:"dangerously",pretendToBeVisual:true,
   beforeParse(w){
@@ -68,7 +68,7 @@ setTimeout(function(){
     /* ---- review step: nothing is downloaded/saved until Submit ---- */
     ck(w.__downloads.length===0,"nothing downloads yet -- the student reviews first (got "+w.__downloads.length+")");
     ck(d.getElementById("c1-review").innerHTML.indexOf("Play back")>-1,"a Play back (Listen) control is offered before saving");
-    ck(d.getElementById("c1-review").innerHTML.indexOf("Redo")>-1,"a Redo (Record Again) control is offered before saving");
+    ck(d.getElementById("c1-review").innerHTML.indexOf("Redo")===-1,"no student Redo on a check -- only View as Student may restart one");
     ck(d.getElementById("c1-review").innerHTML.indexOf("Save")>-1,"a Save (Submit) control is offered");
     ck(w.C1Attempts.forStudent(w.READER.id).length===0,"no attempt is saved yet, before Submit is tapped");
 

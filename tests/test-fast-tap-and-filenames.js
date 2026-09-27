@@ -1,6 +1,6 @@
 const fs=require('fs');
 const {JSDOM}=require('jsdom');
-const html=fs.readFileSync('./index.html','utf8');
+const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js" defer></script>','<script>'+fs.readFileSync('./clips.js','utf8')+'</script>');
 
 /* ZERO artificial delay anywhere a real tap is expected to work -- every
    button fires on the very first tap, always, including the first tap on

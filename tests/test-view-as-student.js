@@ -1,6 +1,6 @@
 const fs=require('fs');
 const {JSDOM}=require('jsdom');
-const html=fs.readFileSync('./index.html','utf8');
+const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js" defer></script>','<script>'+fs.readFileSync('./clips.js','utf8')+'</script>');
 
 /* VIEW AS STUDENT + PLACEHOLDER STUDENTS.
    - "View as Student" only exists inside the teacher-only #teacher-doors
@@ -49,8 +49,8 @@ setTimeout(function(){
   var w=dom.window, d=w.document;
   ck(d.getElementById("teacher-doors").style.display!=="none","teacher URL: teacher-doors is visible");
   var vasBtn=null, btns=d.querySelectorAll("#teacher-doors .btn"), i;
-  for(i=0;i<btns.length;i++){ if(/View as Student/.test(btns[i].textContent)) vasBtn=btns[i]; }
-  ck(!!vasBtn,"a 'View as Student' button exists on the teacher side");
+  for(i=0;i<btns.length;i++){ if(/Student View/.test(btns[i].textContent)) vasBtn=btns[i]; }
+  ck(!!vasBtn,"a 'Student View' button exists on the teacher side");
 
   /* ---- 2) entering shows the banner + Exit, walks class -> name -> menu ---- */
   ck(d.getElementById("vas-banner").style.display==="none","banner is hidden before entering View as Student");

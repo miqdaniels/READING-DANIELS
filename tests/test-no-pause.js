@@ -1,6 +1,6 @@
 const fs=require('fs');
 const {JSDOM}=require('jsdom');
-const html=fs.readFileSync('./index.html','utf8');
+const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js" defer></script>','<script>'+fs.readFileSync('./clips.js','utf8')+'</script>');
 
 /* CHANGE: REMOVE PAUSE FROM ALL DIAGNOSTICS -- no Pause button anywhere in
    Check 1, Check 2, Fluency, or Retell (pausing lets a student leave and
@@ -93,16 +93,17 @@ setTimeout(function(){
     ck(noPauseIn("check1"),"still no Pause once Check 1 recording is active");
     ck(d.getElementById("c1-next").style.display!=="none","Next is the only way to move through Check 1 (no Pause hides it)");
 
-    /* ---- Redo on Check 1's review screen restarts cleanly ---- */
+    /* ---- no student Redo on a check -- but the underlying restart still
+       works cleanly for View as Student, which is exempt ---- */
     var C1_ALL=w.C1_ALL, i;
     for(i=0;i<C1_ALL.length-1;i++){ w.c1Next(); }
     w.c1Next(); // Finish -> stops the recording, shows review
-    ck(d.getElementById("c1-review").innerHTML.indexOf("Redo")>-1,"Redo is offered on the Check 1 review screen");
-    w.c1RecordAgain();
-    ck(activeId()==="check1","Redo returns to a clean Check 1 start");
-    ck(d.getElementById("c1-start").style.display!=="none","Record button is back and usable after Redo");
-    ck(d.getElementById("c1-start").disabled===false,"Record button is re-enabled after Redo");
-    ck(noPauseIn("check1"),"still no Pause after Redo");
+    ck(d.getElementById("c1-review").innerHTML.indexOf("Redo")===-1,"no student Redo is offered on the Check 1 review screen");
+    w.c1RecordAgain(); // the restart mechanism itself still works (View as Student uses it)
+    ck(activeId()==="check1","restarting returns to a clean Check 1 start");
+    ck(d.getElementById("c1-start").style.display!=="none","Record button is back and usable after restarting");
+    ck(d.getElementById("c1-start").disabled===false,"Record button is re-enabled after restarting");
+    ck(noPauseIn("check1"),"still no Pause after restarting");
 
     runCheck2();
   },30);
@@ -136,16 +137,18 @@ setTimeout(function(){
         ck(w.c2TimerHandle!==null,"tapping I'm Ready resumes the timer");
         ck(noPauseIn("check2"),"still no Pause after resuming into 2B");
 
-        /* ---- finish Check 2 straight through (no pausing) and confirm Redo
-           works -- jump straight to the last item and advance once more,
-           which triggers c2FinishRecording() and stops the recorder ---- */
+        /* ---- finish Check 2 straight through (no pausing); no student
+           Redo is offered, but the restart mechanism itself still works
+           (View as Student uses it) -- jump straight to the last item and
+           advance once more, which triggers c2FinishRecording() and stops
+           the recorder ---- */
         w.c2Idx=w.C2_ITEMS.length-1; w.c2PaintItem();
         w.c2DoAdvance();
         setTimeout(function(){
-          ck(d.getElementById("c2-review").innerHTML.indexOf("Redo")>-1,"Redo is offered on the Check 2 review screen");
+          ck(d.getElementById("c2-review").innerHTML.indexOf("Redo")===-1,"no student Redo is offered on the Check 2 review screen");
           w.c2RecordAgain();
-          ck(d.getElementById("c2-setup").style.display!=="none","Redo returns Check 2 to a clean setup screen");
-          ck(noPauseIn("check2"),"still no Pause after Check 2 Redo");
+          ck(d.getElementById("c2-setup").style.display!=="none","restarting returns Check 2 to a clean setup screen");
+          ck(noPauseIn("check2"),"still no Pause after restarting Check 2");
 
           runFluencyRetell();
         },30);
