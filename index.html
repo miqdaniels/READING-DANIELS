@@ -392,6 +392,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
           <div class="teach-tile-grid">
             <button class="teach-tile cat-scoring" onclick="go('check1Teach')" title="Score letter identification recordings"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 1 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('check2Teach')" title="Score letter-sound videos"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 2 Review</span></button>
+            <button class="teach-tile cat-scoring" onclick="go('check3Teach')" title="Score phonemic-awareness videos"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 3 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('s-fluteach')" title="Listen to fluency &amp; retell attempts, score WCPM, approve moves"><span class="teach-tile-icon">&#128214;</span><span class="teach-tile-label">Fluency Review</span></button>
           </div>
         </div>
@@ -401,6 +402,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
           <div class="teach-tile-grid">
             <button class="teach-tile cat-recordings" onclick="go('s-teach')" title="Record each word and its sentence in your voice"><span class="teach-tile-icon">&#127908;</span><span class="teach-tile-label">Record Words</span></button>
             <button class="teach-tile cat-recordings" onclick="go('s-teachC2')" title="Record the 10 vowel-keyword prompts"><span class="teach-tile-icon">&#127908;</span><span class="teach-tile-label">Check 2 Prompts</span></button>
+            <button class="teach-tile cat-recordings" onclick="go('s-teachC3')" title="Record the 24 phonemic-awareness prompts"><span class="teach-tile-icon">&#127908;</span><span class="teach-tile-label">Check 3 Prompts</span></button>
             <button class="teach-tile cat-recordings" onclick="go('s-teachDir')" title="Record the Listen-button voice-overs"><span class="teach-tile-icon">&#128266;</span><span class="teach-tile-label">Directions Audio</span></button>
           </div>
         </div>
@@ -703,6 +705,130 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <div class="seg" id="c2t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c2t-roster" style="margin-bottom:14px"></div>
       <div id="c2t-body"></div>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <!-- CHECK 3: student assessment -- ONE continuous camera+mic video across
+       Practice -> 3A (Initial) -> 3B (Final) -> 3C (Blending) -> 3D
+       (Segmentation), 4 unscored practice items + 20 scored items. Purely
+       auditory: the student never sees a target word/letter/phoneme, only
+       hears Miq's recorded prompts and answers out loud. Reuses Check 2's
+       video architecture (setup/preview -> MediaRecorder -> review/save)
+       and the same icon-btn family -- no new button styles. No 5:00 cap
+       (per spec) -- collects pilot timing data only. -->
+  <section class="screen" id="check3">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('diagLanding')">Diagnostic Tools</a> &nbsp;/&nbsp; Check 3</p>
+      <p class="step-eyebrow">Check 3: Phonemic Awareness</p>
+      <h2 class="scr-title">Listen and answer</h2>
+
+      <div id="c3-setup">
+        <div class="lede">
+          Listen carefully. Answer out loud. You can listen one more time if you need to. Tap Next when you&rsquo;re ready.
+        </div>
+        <div class="dir-listen-wrap" id="dl-dir_check3_open" style="display:none">
+          <button class="dir-listen-btn" id="dl-dir_check3_open-btn" onclick="dirToggle('dir_check3_open')">
+            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+          </button>
+        </div>
+        <p class="mini-note">Your browser will ask for permission to use the camera and microphone. Tap Allow so your check can be recorded.</p>
+        <p class="mini-note" id="c3-face-note" style="display:none">Make sure your face and mouth are visible.</p>
+        <video id="c3-preview" muted autoplay playsinline style="width:100%;max-width:360px;border-radius:12px;background:#000;display:none"></video>
+        <div class="rec-row" style="margin-top:14px">
+          <button class="rec-btn" id="c3-setup-btn" onclick="c3SetupMedia()"><span class="rec-dot"></span><span id="c3-setup-lbl">Turn on camera</span></button>
+          <button class="icon-btn icon-btn-record" id="c3-start-real" onclick="c3StartCheck()" style="display:none"><span class="icon-glyph">&#127908;</span><span class="icon-label">Record</span></button>
+        </div>
+        <p class="state-line none" id="c3-setup-state"></p>
+      </div>
+
+      <div id="c3-assess" style="display:none">
+        <p class="rec-status" id="c3-rec-status"><span class="rec-status-dot"></span>Recording</p>
+        <p class="step-eyebrow" id="c3-section-label"></p>
+        <div class="c1-letter" id="c3-current" style="font-size:2.6rem">&#128266;</div>
+        <p class="mini-note" id="c3-progress"></p>
+        <div class="rec-row" id="c3-prompt-row">
+          <button class="play-btn" id="c3-replay-btn" onclick="c3ReplayPrompt()">&#9654;&nbsp; Hear it again</button>
+        </div>
+        <div class="icon-row">
+          <button class="icon-btn icon-btn-next" id="c3-next" onclick="c3NextTap()"><span class="icon-glyph">&#8594;</span><span class="icon-label" id="c3-next-lbl">Next</span></button>
+        </div>
+        <p class="state-line none" id="c3-state"></p>
+      </div>
+
+      <!-- Shown before EACH of the 4 domains (including the first). The
+           video keeps recording the whole time. The new section's first
+           item (its unscored practice item) is never painted -- so its
+           prompt never plays -- until "I'm Ready" is tapped. -->
+      <div id="c3-transition" style="display:none">
+        <p class="rec-status"><span class="rec-status-dot"></span>Recording (still going)</p>
+        <div class="lede" id="c3-trans-text"></div>
+        <div class="dir-listen-wrap" id="dl-dir_check3_3a" style="display:none">
+          <button class="dir-listen-btn" id="dl-dir_check3_3a-btn" onclick="dirToggle('dir_check3_3a')">
+            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+          </button>
+        </div>
+        <div class="dir-listen-wrap" id="dl-dir_check3_3b" style="display:none">
+          <button class="dir-listen-btn" id="dl-dir_check3_3b-btn" onclick="dirToggle('dir_check3_3b')">
+            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+          </button>
+        </div>
+        <div class="dir-listen-wrap" id="dl-dir_check3_3c" style="display:none">
+          <button class="dir-listen-btn" id="dl-dir_check3_3c-btn" onclick="dirToggle('dir_check3_3c')">
+            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+          </button>
+        </div>
+        <div class="dir-listen-wrap" id="dl-dir_check3_3d" style="display:none">
+          <button class="dir-listen-btn" id="dl-dir_check3_3d-btn" onclick="dirToggle('dir_check3_3d')">
+            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+          </button>
+        </div>
+        <div class="nav-row" style="margin-top:14px">
+          <button class="btn primary" id="c3-ready-btn" onclick="c3ReadyTap()">I'm Ready</button>
+        </div>
+      </div>
+
+      <div id="c3-review"></div>
+
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECK 3: teacher prompt recorder -- the 24 clips this Check needs
+       (5 x 3A/3B/3C/3D scored prompts + 4 practice prompts). Separate from
+       the existing recorders; does not touch them. The 5 short "General/
+       Section Directions" lines live in the existing s-teachDir screen
+       (DIRECTIONS_DEFS), not here. -->
+  <section class="screen" data-teacher="1" id="s-teachC3">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Check 3 prompts</p>
+      <h2>Record the Check 3 prompts</h2>
+      <p class="lede">Read each script exactly as written, in your own voice. These play to the student before they answer -- never say the target word/answer itself beyond what's written here.</p>
+      <div id="c3t-prompt-list"></div>
+      <div class="setting-row" style="margin-top:4px">
+        <div><strong>Your recordings</strong><br><span class="mini-note">Export the file to send to me to bake in for good, or Load it onto another computer.</span></div>
+        <div class="item-actions">
+          <button class="mini-btn" onclick="c3tExport()">&#8681; Export</button>
+          <button class="mini-btn" onclick="document.getElementById('c3t-import').click()">&#8679; Load</button>
+        </div>
+      </div>
+      <input type="file" id="c3t-import" accept="application/json,.json" style="display:none" onchange="c3tImportPick(this)">
+      <p class="mini-note" id="c3t-backup-state" style="margin:-4px 0 14px;min-height:16px"></p>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <!-- CHECK 3: teacher scoring -- same local-file pattern as check1Teach/check2Teach -->
+  <section class="screen" data-teacher="1" id="check3Teach">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Check 3 review</p>
+      <h2>Check 3 &mdash; Phonemic Awareness review</h2>
+      <p class="lede">Pick a class, then a student. Open the student&rsquo;s downloaded video, then score each item. Teacher judgment is authoritative -- accent alone is never an error.</p>
+      <div class="seg" id="c3t-class" style="margin:10px 0;flex-wrap:wrap"></div>
+      <div class="grid" id="c3t-roster" style="margin-bottom:14px"></div>
+      <div id="c3t-body"></div>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -1436,6 +1562,11 @@ var DIRECTIONS_DEFS=[
   {key:"dir_check2_open", label:"Check 2 -- opening directions", script:"Look at the letter. Say the sound."},
   {key:"dir_check2_before2b", label:"Check 2 -- before 2B (short vowels)", script:"Now you will hear a word. Look at the letter. Say the sound it makes in that word."},
   {key:"dir_check2_before2c", label:"Check 2 -- before 2C (long vowels)", script:"Last part. Look at the letter. Listen to the word. Say the sound it makes in that word."},
+  {key:"dir_check3_open", label:"Check 3 -- opening directions", script:"Listen carefully. Answer out loud. You can listen one more time if you need to. Tap Next when you’re ready."},
+  {key:"dir_check3_3a", label:"Check 3 -- before 3A (initial sound)", script:"Tell me the first sound."},
+  {key:"dir_check3_3b", label:"Check 3 -- before 3B (final sound)", script:"Tell me the last sound."},
+  {key:"dir_check3_3c", label:"Check 3 -- before 3C (blending)", script:"Listen to the sounds. Put them together. Say the word."},
+  {key:"dir_check3_3d", label:"Check 3 -- before 3D (segmentation)", script:"Listen to the word. Say every sound you hear."},
   {key:"dir_fluency", label:"Fluency directions", script:"Read the passage out loud."},
   {key:"dir_retell", label:"Retell directions", script:"Tell what you read, in your own words. You have one minute."},
   {key:"dir_vocab", label:"Vocabulary (Word Practice) directions", script:"Pick a group. Hear the word, then read it."}
@@ -1663,7 +1794,7 @@ function buildGroups(){
 var CHECK_DEFS=[
   {id:"check1", label:"Check 1: Letter Identification", sub:"Say the name of each letter", built:true, screen:"check1"},
   {id:"check2", label:"Check 2: Letter-Sound Knowledge", sub:"Letter and vowel sounds (one video)", built:true, screen:"check2"},
-  {id:"check3", label:"Check 3: Phonemic Awareness", sub:"Coming soon", built:false},
+  {id:"check3", label:"Check 3: Phonemic Awareness", sub:"Listen and answer out loud (one video)", built:true, screen:"check3"},
   {id:"check4", label:"Check 4: Decoding", sub:"Coming soon", built:false},
   {id:"check5", label:"Check 5: Automatic Word Recognition", sub:"Coming soon", built:false},
   {id:"check6", label:"Check 6: Morphological Awareness &amp; Word Analysis", sub:"Coming soon", built:false},
@@ -2368,6 +2499,7 @@ function go(id){
   var s=document.getElementsByClassName("screen"), i, wasActive=null;
   for(i=0;i<s.length;i++){ if(/active/.test(s[i].className)){ wasActive=s[i].id; } s[i].className="screen"; }
   if(wasActive==="check2" && id!=="check2"){ c2StopMedia(); }
+  if(wasActive==="check3" && id!=="check3"){ c3StopMedia(); }
   document.getElementById(id).className="screen active";
   window.scrollTo(0,0); stopAllAudio();
   paintVasBanner();
@@ -2383,6 +2515,9 @@ function go(id){
   if(id==="check2"){ c2Enter(); }
   if(id==="s-teachC2"){ c2tPromptsEnter(); }
   if(id==="check2Teach"){ check2TeachEnter(); }
+  if(id==="check3"){ c3Enter(); }
+  if(id==="s-teachC3"){ c3tPromptsEnter(); }
+  if(id==="check3Teach"){ check3TeachEnter(); }
   if(id==="s-teachDir"){ dirtEnter(); }
   if(id==="s-teachStudents"){ teachStudentsEnter(); }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
@@ -4532,6 +4667,699 @@ function c2tSave(){
   C2Attempts.update(C2T_ATTEMPT,{ scores:c2tScores.slice(0), observed:c2tObserved.slice(0),
     c2aCorrect:r.corr2A, c2bCorrect:r.corr2B, c2cCorrect:r.corr2C, targets:r.targets });
   var n=document.getElementById("c2t-save-note");
+  if(n){ n.className="mini-note"; n.style.color="var(--good)"; n.textContent="✓ Saved."; }
+}
+
+/* ============================================================
+   Diagnostic Tools -- Check 3: Phonemic Awareness
+   Purely auditory: the student never sees a target word, letter, or
+   phoneme -- only hears Miq's recorded prompt and answers out loud.
+   4 unscored practice items (one per domain) + 20 scored items across
+   4 domains of 5: 3A Initial Sound ID, 3B Final Sound ID, 3C Phoneme
+   Blending, 3D Phoneme Segmentation. Word bank + prompt scripts per
+   MASTER_SPEC.md (verified duplicate-free by script). Reuses Check 2's
+   continuous camera+mic video architecture below -- no 5:00 cap (this is
+   pilot timing data only, not a mastery rule), no new button styles.
+   ============================================================ */
+var C3_SECTIONS=[
+  {id:"3A", label:"Initial Sound Identification", introText:"Tell me the first sound.", introKey:"dir_check3_3a"},
+  {id:"3B", label:"Final Sound Identification", introText:"Tell me the last sound.", introKey:"dir_check3_3b"},
+  {id:"3C", label:"Phoneme Blending", introText:"Listen to the sounds. Put them together. Say the word.", introKey:"dir_check3_3c"},
+  {id:"3D", label:"Phoneme Segmentation", introText:"Listen to the word. Say every sound you hear.", introKey:"dir_check3_3d"}
+];
+/* one unscored practice item per domain -- different words than the
+   scored bank below, so nothing scored is ever "given away" early */
+var C3_PRACTICE={
+  "3A":{word:"dog", promptKey:"c3_prac_3a", script:"Dog. What is the first sound?"},
+  "3B":{word:"pen", promptKey:"c3_prac_3b", script:"Pen. What is the last sound?"},
+  "3C":{word:"up", promptKey:"c3_prac_3c", script:"/ŭ/ — /p/. What word?"},
+  "3D":{word:"sit", promptKey:"c3_prac_3d", script:"Sit. Say every sound."}
+};
+/* the 20 scored targets. "answer" is teacher-scoring reference text only
+   -- never shown to the student. 3D's "phonemes" is the phoneme count
+   (used as the max for check3Teach's "phonemes correctly segmented"
+   count); /sh/ counts as ONE phoneme (digraph). */
+var C3_SCORED=[
+  {section:"3A", word:"map", promptKey:"c3_3a_map", script:"Map. What is the first sound?", answer:"/m/"},
+  {section:"3A", word:"fish", promptKey:"c3_3a_fish", script:"Fish. What is the first sound?", answer:"/f/"},
+  {section:"3A", word:"top", promptKey:"c3_3a_top", script:"Top. What is the first sound?", answer:"/t/"},
+  {section:"3A", word:"nose", promptKey:"c3_3a_nose", script:"Nose. What is the first sound?", answer:"/n/"},
+  {section:"3A", word:"bike", promptKey:"c3_3a_bike", script:"Bike. What is the first sound?", answer:"/b/"},
+  {section:"3B", word:"sun", promptKey:"c3_3b_sun", script:"Sun. What is the last sound?", answer:"/n/"},
+  {section:"3B", word:"lip", promptKey:"c3_3b_lip", script:"Lip. What is the last sound?", answer:"/p/"},
+  {section:"3B", word:"bus", promptKey:"c3_3b_bus", script:"Bus. What is the last sound?", answer:"/s/"},
+  {section:"3B", word:"room", promptKey:"c3_3b_room", script:"Room. What is the last sound?", answer:"/m/"},
+  {section:"3B", word:"cat", promptKey:"c3_3b_cat", script:"Cat. What is the last sound?", answer:"/t/"},
+  {section:"3C", word:"at", promptKey:"c3_3c_at", script:"/ă/ — /t/. What word?", answer:"at"},
+  {section:"3C", word:"me", promptKey:"c3_3c_me", script:"/m/ — /ē/. What word?", answer:"me"},
+  {section:"3C", word:"red", promptKey:"c3_3c_red", script:"/r/ — /ĕ/ — /d/. What word?", answer:"red"},
+  {section:"3C", word:"hop", promptKey:"c3_3c_hop", script:"/h/ — /ŏ/ — /p/. What word?", answer:"hop"},
+  {section:"3C", word:"stop", promptKey:"c3_3c_stop", script:"/s/ — /t/ — /ŏ/ — /p/. What word?", answer:"stop"},
+  {section:"3D", word:"go", promptKey:"c3_3d_go", script:"Go. Say every sound.", answer:"/g/ /ō/", phonemes:2},
+  {section:"3D", word:"van", promptKey:"c3_3d_van", script:"Van. Say every sound.", answer:"/v/ /ă/ /n/", phonemes:3},
+  {section:"3D", word:"ship", promptKey:"c3_3d_ship", script:"Ship. Say every sound.", answer:"/sh/ /ĭ/ /p/", phonemes:3},
+  {section:"3D", word:"best", promptKey:"c3_3d_best", script:"Best. Say every sound.", answer:"/b/ /ĕ/ /s/ /t/", phonemes:4},
+  {section:"3D", word:"flag", promptKey:"c3_3d_flag", script:"Flag. Say every sound.", answer:"/f/ /l/ /ă/ /g/", phonemes:4}
+];
+/* the flat walk order the student actually sees: for each domain, its
+   unscored practice item first, then its 5 scored items -- 24 total.
+   scoredIndex is null for practice items, else 0-19 matching C3_SCORED's
+   order (used throughout check3Teach's per-item arrays). */
+var C3_ITEMS=(function(){
+  var out=[], i, s, sec, prac, scoredIdx=0;
+  for(i=0;i<C3_SECTIONS.length;i++){
+    sec=C3_SECTIONS[i].id;
+    prac=C3_PRACTICE[sec];
+    out.push({kind:"practice", section:sec, word:prac.word, promptKey:prac.promptKey, scoredIndex:null});
+    for(s=0;s<C3_SCORED.length;s++){
+      if(C3_SCORED[s].section===sec){
+        out.push({kind:"scored", section:sec, word:C3_SCORED[s].word, promptKey:C3_SCORED[s].promptKey,
+          answer:C3_SCORED[s].answer, phonemes:C3_SCORED[s].phonemes, scoredIndex:scoredIdx});
+        scoredIdx++;
+      }
+    }
+  }
+  return out;
+})();
+/* the 24 clips Miq needs to record for Check 3 (see s-teachC3), grouped
+   3A/3B/3C/3D scored prompts then Practice, per spec. General/section
+   directions live in the existing DIRECTIONS_DEFS system (s-teachDir)
+   instead of here -- same split as every other Check. */
+var C3_PROMPT_DEFS=(function(){
+  var out=[], i, sec;
+  for(i=0;i<C3_SCORED.length;i++){
+    out.push({group:C3_SCORED[i].section, promptKey:C3_SCORED[i].promptKey, label:C3_SCORED[i].section+" — “"+C3_SCORED[i].word+"”", script:C3_SCORED[i].script});
+  }
+  for(i=0;i<C3_SECTIONS.length;i++){
+    sec=C3_SECTIONS[i].id;
+    out.push({group:"Practice", promptKey:C3_PRACTICE[sec].promptKey, label:"Practice ("+sec+") — “"+C3_PRACTICE[sec].word+"”", script:C3_PRACTICE[sec].script});
+  }
+  return out;
+})();
+
+/* ---------- Check 3 attempts (localStorage): one row per completed recording ---------- */
+var C3Attempts=(function(){
+  var KEY="rf_check3_attempts";
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(l)); }catch(e){} }
+  function add(rec){ var l=all(); l.push(rec); save(l); return rec; }
+  function update(id,patch){ var l=all(), i, k; for(i=0;i<l.length;i++){ if(l[i].id===id){ for(k in patch){ if(patch.hasOwnProperty(k)){ l[i][k]=patch[k]; } } break; } } save(l); }
+  function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
+  function forStudent(sid){ var l=all(), out=[], i; for(i=0;i<l.length;i++){ if(l[i].studentId===sid){ out.push(l[i]); } } out.sort(function(a,b){ return a.date<b.date?1:(a.date>b.date?-1:0); }); return out; }
+  return { all:all, add:add, update:update, get:get, forStudent:forStudent };
+})();
+
+/* ---------- Check 3: student flow -- ONE continuous camera+mic video
+   across Practice/3A -> 3B -> 3C -> 3D. Reuses Check 2's exact
+   getUserMedia -> MediaRecorder -> review/save architecture (including
+   c2PickMimeType/c2MediaErrorText below -- both are already generic, not
+   Check-2-specific). No 5:00 cap -- collects total/section time only. */
+var c3Stream=null, c3Recorder=null, c3Chunks=[], c3MimeType="video/webm";
+var c3Idx=-1, c3Blob=null, c3ReviewUrl=null;
+var c3StartAt=0, c3CurSection=null, c3CurSectionStartAt=0, c3SectionMs={};
+var c3ReplayUsedFlat=[], c3NextLock=false, c3Playing=false, c3YesUsed=false, c3ReadyUsed=false;
+
+function c3Enter(){
+  c3Idx=-1; c3Blob=null; c3Chunks=[]; c3YesUsed=false; c3Playing=false; c3NextLock=false; c3ReadyUsed=false;
+  c3CurSection=null; c3CurSectionStartAt=0; c3SectionMs={};
+  c3ReplayUsedFlat=[]; var i; for(i=0;i<C3_ITEMS.length;i++){ c3ReplayUsedFlat.push(false); }
+  var setup=document.getElementById("c3-setup"); if(setup){ setup.style.display="block"; }
+  var assess=document.getElementById("c3-assess"); if(assess){ assess.style.display="none"; }
+  var rv=document.getElementById("c3-review"); if(rv){ rv.innerHTML=""; }
+  var v=document.getElementById("c3-preview"); if(v){ v.style.display="none"; }
+  var fn=document.getElementById("c3-face-note"); if(fn){ fn.style.display="none"; }
+  var sb=document.getElementById("c3-setup-btn"); if(sb){ sb.style.display="inline-flex"; sb.disabled=false; }
+  var sl=document.getElementById("c3-setup-lbl"); if(sl){ sl.textContent="Turn on camera"; }
+  var ss=document.getElementById("c3-setup-state"); if(ss){ ss.className="state-line none"; ss.textContent=""; }
+  var startBtn=document.getElementById("c3-start-real"); if(startBtn){ startBtn.style.display="none"; }
+  var trans=document.getElementById("c3-transition"); if(trans){ trans.style.display="none"; }
+  dirPaintButton("dir_check3_open");
+  dirAutoPlayOnce("dir_check3_open");
+}
+function c3SetupMedia(){
+  var st=document.getElementById("c3-setup-state"), btn=document.getElementById("c3-setup-btn");
+  st.className="state-line none"; st.textContent="Turning on your camera and microphone…";
+  btn.disabled=true;
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    st.className="state-line err"; st.textContent=c2MediaErrorText({message:"no-media-api"});
+    btn.disabled=false;
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({video:{width:{ideal:640},height:{ideal:480}}, audio:true}).then(function(stream){
+    c3Stream=stream;
+    var v=document.getElementById("c3-preview");
+    if(v){ try{ v.srcObject=stream; }catch(e){} v.style.display="block"; try{ if(v.play){ v.play().catch(function(){}); } }catch(e){} }
+    var fn=document.getElementById("c3-face-note"); if(fn){ fn.style.display="block"; }
+    st.className="state-line saved"; st.textContent="✓ Camera ready. Make sure your face and mouth are visible, then tap Record.";
+    btn.style.display="none";
+    var startBtn=document.getElementById("c3-start-real"); if(startBtn){ startBtn.style.display="inline-flex"; }
+  }).catch(function(err){
+    btn.disabled=false;
+    st.className="state-line err"; st.textContent=c2MediaErrorText(err);
+  });
+}
+function c3StartCheck(){
+  var st=document.getElementById("c3-setup-state");
+  if(!c3Stream){ return; }
+  if(typeof window.MediaRecorder==="undefined"){
+    st.className="state-line err"; st.textContent="This browser can’t record video. Use Chrome.";
+    return;
+  }
+  var mt=c2PickMimeType();
+  c3Chunks=[];
+  var mr;
+  try{ mr = mt ? new MediaRecorder(c3Stream,{mimeType:mt}) : new MediaRecorder(c3Stream); }
+  catch(e){ try{ mr=new MediaRecorder(c3Stream); }catch(e2){ st.className="state-line err"; st.textContent="Couldn’t start recording on this device."; return; } }
+  c3Recorder=mr;
+  c3MimeType = mt || (mr.mimeType||"video/webm");
+  mr.ondataavailable=function(e){ if(e.data && e.data.size>0){ c3Chunks.push(e.data); } };
+  mr.onstop=function(){ c3OnRecordingStopped(); };
+  mr.onstart=function(){ c3BeginWalk(); };
+  st.className="state-line none"; st.textContent="Starting the camera and microphone…";
+  try{ mr.start(); }catch(e){ st.className="state-line err"; st.textContent="Couldn’t start recording on this device."; }
+}
+function c3BeginWalk(){
+  var setup=document.getElementById("c3-setup"); if(setup){ setup.style.display="none"; }
+  c3Idx=-1;
+  c3StartAt=new Date().getTime();
+  c3DoAdvance();
+}
+function c3PaintItem(){
+  var item=C3_ITEMS[c3Idx];
+  var sec=C3_SECTIONS[0]; var i; for(i=0;i<C3_SECTIONS.length;i++){ if(C3_SECTIONS[i].id===item.section){ sec=C3_SECTIONS[i]; break; } }
+  var sl=document.getElementById("c3-section-label"); if(sl){ sl.textContent=item.section+": "+sec.label; }
+  var pg=document.getElementById("c3-progress");
+  if(pg){ pg.textContent = item.kind==="practice" ? "Practice" : ("Item "+((item.scoredIndex%5)+1)+" of 5"); }
+  var nb=document.getElementById("c3-next");
+  if(nb){ nb.textContent = (c3Idx===C3_ITEMS.length-1) ? "Finish →" : "Next →"; }
+  var rb=document.getElementById("c3-replay-btn");
+  if(rb){ rb.style.display = c3ReplayUsedFlat[c3Idx] ? "none" : "inline-flex"; }
+  c3PlayPrompt(item.promptKey);
+}
+function c3PlayPrompt(key){
+  var st=document.getElementById("c3-state"); if(!st){ return; }
+  playId(key).then(function(ok){
+    if(!ok){ st.className="state-line none"; st.textContent="(This prompt hasn’t been recorded yet — ask your teacher.)"; }
+    else { st.className="state-line none"; st.textContent=""; }
+  });
+}
+/* exactly one replay per item -- the button hides itself the instant it's
+   tapped, so a second tap can never play (or overlap) a second time */
+function c3ReplayPrompt(){
+  if(c3Idx<0||c3ReplayUsedFlat[c3Idx]){ return; }
+  c3ReplayUsedFlat[c3Idx]=true;
+  var rb=document.getElementById("c3-replay-btn"); if(rb){ rb.style.display="none"; }
+  c3PlayPrompt(C3_ITEMS[c3Idx].promptKey);
+}
+var C3_TRANS_KEYS={"3A":"dir_check3_3a","3B":"dir_check3_3b","3C":"dir_check3_3c","3D":"dir_check3_3d"};
+function c3ShowSectionIntro(section){
+  var now=new Date().getTime();
+  if(c3CurSection){ c3SectionMs[c3CurSection]=(c3SectionMs[c3CurSection]||0)+(now-c3CurSectionStartAt); }
+  c3CurSection=section; c3CurSectionStartAt=now;
+  c3ReadyUsed=false;
+  var assess=document.getElementById("c3-assess"); if(assess){ assess.style.display="none"; }
+  var trans=document.getElementById("c3-transition"); if(trans){ trans.style.display="block"; }
+  var secDef=null, i; for(i=0;i<C3_SECTIONS.length;i++){ if(C3_SECTIONS[i].id===section){ secDef=C3_SECTIONS[i]; break; } }
+  var txt=document.getElementById("c3-trans-text"); if(txt){ txt.textContent=secDef.introText; }
+  var k; for(k in C3_TRANS_KEYS){ if(C3_TRANS_KEYS.hasOwnProperty(k)){ var w=document.getElementById("dl-"+C3_TRANS_KEYS[k]); if(w){ w.style.display=(k===section)?"":"none"; } } }
+  dirPaintButton(C3_TRANS_KEYS[section]);
+  dirAutoPlayOnce(C3_TRANS_KEYS[section]);
+}
+/* one-shot: a single tap dismisses the transition AND reveals the new
+   domain's first item -- a duplicate event for that same tap must not
+   also skip past that first (practice) item */
+function c3ReadyTap(){
+  if(c3ReadyUsed){ return; }
+  c3ReadyUsed=true;
+  stopAllAudio();
+  var trans=document.getElementById("c3-transition"); if(trans){ trans.style.display="none"; }
+  var assess=document.getElementById("c3-assess"); if(assess){ assess.style.display="block"; }
+  c3Idx++;
+  c3PaintItem();
+}
+function c3DoAdvance(){
+  if(c3Idx>=C3_ITEMS.length-1){ c3FinishRecording(); return; }
+  var prevSection = c3Idx>=0 ? C3_ITEMS[c3Idx].section : null;
+  var nextSection = C3_ITEMS[c3Idx+1].section;
+  if(nextSection!==prevSection){ c3ShowSectionIntro(nextSection); return; }
+  c3Idx++; c3PaintItem();
+}
+/* Rapid-tap protection scoped to THIS one repeatedly-tapped button: a
+   frame-paced lock (not a millisecond cooldown) absorbs a duplicate event
+   for the same physical tap without ever delaying a real next tap. */
+function c3NextTap(){
+  if(c3NextLock){ return; }
+  c3NextLock=true;
+  if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c3NextLock=false; }); }
+  else { setTimeout(function(){ c3NextLock=false; },16); }
+  c3DoAdvance();
+}
+function c3FinishRecording(){
+  var now=new Date().getTime();
+  if(c3CurSection){ c3SectionMs[c3CurSection]=(c3SectionMs[c3CurSection]||0)+(now-c3CurSectionStartAt); c3CurSection=null; }
+  c3StopRecorderOnly();
+}
+function c3StopRecorderOnly(){ if(c3Recorder && c3Recorder.state!=="inactive"){ try{ c3Recorder.stop(); }catch(e){} } }
+function c3OnRecordingStopped(){
+  var blob=new Blob(c3Chunks, {type:c3MimeType||"video/webm"});
+  c3Chunks=[];
+  if(!blob || blob.size===0){
+    var assess=document.getElementById("c3-assess"); if(assess){ assess.style.display="none"; }
+    var setup=document.getElementById("c3-setup"); if(setup){ setup.style.display="block"; }
+    var ss=document.getElementById("c3-setup-state");
+    if(ss){ ss.className="state-line err"; ss.textContent="The recording didn’t save properly. Please try Check 3 again."; }
+    return;
+  }
+  c3Blob=blob;
+  c3Review();
+}
+function c3Review(){
+  c3Playing=false;
+  var assess=document.getElementById("c3-assess"); if(assess){ assess.style.display="none"; }
+  var rv=document.getElementById("c3-review"); if(!rv){ return; }
+  if(c3ReviewUrl){ try{ URL.revokeObjectURL(c3ReviewUrl); }catch(e){} }
+  c3ReviewUrl=URL.createObjectURL(c3Blob);
+  rv.innerHTML='<p class="state-line saved">Recording complete.</p>'
+    +'<video id="c3-play" style="width:100%;max-width:360px;border-radius:12px;background:#000" src="'+c3ReviewUrl+'"></video>'
+    +'<div class="icon-row" style="margin-top:10px">'
+    +'<button class="icon-btn icon-btn-listen" id="c3-listen-btn" onclick="c3ToggleListen()"><span class="icon-glyph">&#9654;</span><span class="icon-label" id="c3-listen-lbl">Play back</span></button>'
+    +(VIEW_AS_STUDENT?'<button class="icon-btn icon-btn-redo" onclick="c3RecordAgain()"><span class="icon-glyph">&#128260;</span><span class="icon-label">Redo</span></button>':"")
+    +'<button class="icon-btn icon-btn-save" onclick="c3Finish()"><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>'
+    +"</div>";
+}
+function c3ToggleListen(){
+  var v=document.getElementById("c3-play"), btn=document.getElementById("c3-listen-btn"); if(!v||!btn){ return; }
+  if(c3Playing){
+    try{ v.pause(); }catch(e){}
+    c3Playing=false; btn.innerHTML='<span class="icon-glyph">&#9654;</span><span class="icon-label" id="c3-listen-lbl">Play back</span>';
+    return;
+  }
+  try{ v.currentTime=0; v.play(); }catch(e){}
+  c3Playing=true; btn.innerHTML='<span class="icon-glyph">&#9209;</span><span class="icon-label" id="c3-listen-lbl">Stop</span>';
+  v.onended=function(){ c3Playing=false; var b=document.getElementById("c3-listen-btn"); if(b){ b.innerHTML='<span class="icon-glyph">&#9654;</span><span class="icon-label" id="c3-listen-lbl">Play back</span>'; } };
+}
+function c3RecordAgain(){
+  try{ var v=document.getElementById("c3-play"); if(v){ v.pause(); } }catch(e){}
+  if(c3ReviewUrl){ try{ URL.revokeObjectURL(c3ReviewUrl); }catch(e){} c3ReviewUrl=null; }
+  c3Playing=false; c3Blob=null;
+  var rv=document.getElementById("c3-review"); if(rv){ rv.innerHTML=""; }
+  var setup=document.getElementById("c3-setup"); if(setup){ setup.style.display="block"; }
+  if(c3Stream){
+    var startBtn=document.getElementById("c3-start-real"); if(startBtn){ startBtn.style.display="inline-flex"; }
+    var ss=document.getElementById("c3-setup-state"); if(ss){ ss.className="state-line saved"; ss.textContent="✓ Camera still ready. Tap Record to record again."; }
+  } else {
+    var sb=document.getElementById("c3-setup-btn"); if(sb){ sb.style.display="inline-flex"; sb.disabled=false; }
+  }
+}
+function c3Finish(){
+  if(!c3Blob||c3Blob.size===0){ return; } // never mark complete on a failed/empty recording
+  var fname=rfStandardFileName("CHECK_3");
+  downloadBlob(c3Blob,fname);
+  var replayUsed=[], i; for(i=0;i<C3_ITEMS.length;i++){ if(C3_ITEMS[i].scoredIndex!==null){ replayUsed[C3_ITEMS[i].scoredIndex]=c3ReplayUsedFlat[i]; } }
+  C3Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
+    totalTimeMs:(new Date().getTime()-c3StartAt), sectionMs:c3SectionMs, replayUsed:replayUsed,
+    scores:null, observed:null, added:null, omitted:null, combined:null, phonemes:null, note:null,
+    initialCorrect:null, finalCorrect:null, blendingCorrect:null, segmentationCorrect:null, targets:null });
+  var rv=document.getElementById("c3-review"); if(!rv){ return; }
+  rv.innerHTML="&#9989; All done! Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
+    +'<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
+    +"<li>Open today’s Check 3 assignment in Canvas.</li>"
+    +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
+    +"<li>Press <strong>Submit</strong>.</li></ol></div>"
+    +'<div class="note-box" style="margin-top:14px"><h4>Did you submit your video file?</h4>'
+    +'<button class="btn primary block" id="c3-yes-btn" style="font-size:19px;padding:16px" onclick="c3ConfirmSubmitted()">YES</button></div>';
+}
+function c3ConfirmSubmitted(){
+  if(c3YesUsed){ return; }
+  c3YesUsed=true;
+  var b=document.getElementById("c3-yes-btn"); if(b){ b.disabled=true; b.textContent="Saved ✓"; }
+  ckMarkDone("check3");
+  go("diagLanding");
+}
+/* Called whenever the student leaves the check3 screen by any path (Back
+   button, or the normal finish-and-return-to-diagLanding flow) -- releases
+   the camera/mic and revokes the temporary preview URL either way. */
+function c3StopMedia(){
+  if(c3Recorder && c3Recorder.state!=="inactive"){ try{ c3Recorder.stop(); }catch(e){} }
+  c3Recorder=null;
+  if(c3Stream){
+    var tracks = c3Stream.getTracks ? c3Stream.getTracks() : [];
+    var i; for(i=0;i<tracks.length;i++){ try{ tracks[i].stop(); }catch(e){} }
+    c3Stream=null;
+  }
+  if(c3ReviewUrl){ try{ URL.revokeObjectURL(c3ReviewUrl); }catch(e){} c3ReviewUrl=null; }
+  var v=document.getElementById("c3-preview"); if(v){ try{ v.srcObject=null; }catch(e){} }
+}
+
+/* ---------- Check 3: teacher prompt recorder (the 24 clips) ----------
+   Same record/stop/play/Export/Load pattern as s-teachC2 -- reuses the
+   same startRec/stopRec/AudioStore/playBlob/playId machinery, so these
+   clips travel through the existing Export/Load/bake workflow with no
+   changes to s-teach/s-teachC2 themselves. */
+var c3tBlobs={};
+function c3tPromptsEnter(){ c3tPaintPromptList(); }
+function c3tPaintPromptList(){
+  var box=document.getElementById("c3t-prompt-list"); if(!box){ return; }
+  box.innerHTML="";
+  var i, curGroup=null;
+  for(i=0;i<C3_PROMPT_DEFS.length;i++){
+    (function(def){
+      if(def.group!==curGroup){
+        curGroup=def.group;
+        var h=document.createElement("p"); h.className="step-eyebrow"; h.style.marginTop="14px";
+        h.textContent = curGroup==="Practice" ? "Practice (unscored)" : curGroup;
+        box.appendChild(h);
+      }
+      var row=document.createElement("div"); row.className="card";
+      row.innerHTML =
+         '<p class="step-eyebrow">'+escapeHtml(def.label)+'</p>'
+        +'<p class="sentence" style="font-size:19px">“'+escapeHtml(def.script)+'”</p>'
+        +'<div class="trow">'
+        +'<div class="tl">Recording<small id="c3t-state-'+def.promptKey+'">Not recorded yet.</small></div>'
+        +'<div class="item-actions">'
+        +'<button class="rec-btn" id="c3t-rec-'+def.promptKey+'" onclick="c3tToggle(\''+def.promptKey+'\')"><span class="rec-dot"></span><span id="c3t-lbl-'+def.promptKey+'">Record</span></button>'
+        +'<button class="mini-btn play" id="c3t-play-'+def.promptKey+'" onclick="c3tPlayOne(\''+def.promptKey+'\')" disabled>&#9654;</button>'
+        +"</div></div>";
+      box.appendChild(row);
+    })(C3_PROMPT_DEFS[i]);
+  }
+  c3tRefreshDots();
+}
+function c3tRefreshDots(){
+  AudioStore.keys().then(function(ks){
+    var have={}, i; for(i=0;i<ks.length;i++){ have[ks[i]]=true; }
+    for(i=0;i<C3_PROMPT_DEFS.length;i++){
+      var key=C3_PROMPT_DEFS[i].promptKey;
+      var st=document.getElementById("c3t-state-"+key);
+      var pb=document.getElementById("c3t-play-"+key);
+      if(st){ st.textContent = have[key] ? "✓ Saved." : "Not recorded yet."; }
+      if(pb){ pb.disabled = !have[key]; }
+    }
+  });
+}
+function c3tToggle(key){
+  var recBtn=document.getElementById("c3t-rec-"+key), lbl=document.getElementById("c3t-lbl-"+key), st=document.getElementById("c3t-state-"+key);
+  if(recording&&activeCtx==="c3teach-"+key){ stopRec(); recBtn.className="rec-btn"; lbl.textContent="Record"; return; }
+  activeCtx="c3teach-"+key; st.textContent="Recording…";
+  startRec(function(blob){
+    c3tBlobs[key]=blob;
+    var pb=document.getElementById("c3t-play-"+key); if(pb){ pb.disabled=false; }
+    AudioStore.put(key,blob).then(function(){ st.textContent="✓ Saved."; c3tRefreshDots(); })
+      .catch(function(){ st.textContent="Could not save on this device."; });
+  }).then(function(){ recBtn.className="rec-btn rec"; lbl.textContent="Stop"; })
+    .catch(function(err){ st.textContent=micErrorText(err); });
+}
+function c3tPlayOne(key){
+  var b=c3tBlobs[key];
+  if(b){ playBlob(b); return; }
+  playId(key);
+}
+function c3tExport(){
+  var st=document.getElementById("c3t-backup-state"); st.style.color="var(--ink-soft)"; st.textContent="Gathering your recordings…";
+  AudioStore.keys().then(function(ks){
+    if(!ks.length){ st.style.color="var(--retry)"; st.textContent="Nothing recorded yet — record a prompt or two first."; return; }
+    var results={}, done=0, i;
+    function fin(){
+      done++;
+      if(done===ks.length){
+        var payload=JSON.stringify({app:"read-and-slide", version:1, savedAt:new Date().toISOString(), clips:results});
+        downloadBlob(new Blob([payload],{type:"application/json"}), "read-and-slide-recordings.json");
+        st.style.color="var(--good)"; st.textContent="✓ Exported "+ks.length+" recordings. Send that file to bake it in, or Load it on another computer.";
+      }
+    }
+    for(i=0;i<ks.length;i++){
+      (function(key){
+        AudioStore.get(key).then(function(b){
+          if(!b){ results[key]=null; fin(); return; }
+          var fr=new FileReader();
+          fr.onload=function(){ results[key]={type:(b.type||"audio/webm"), data:fr.result}; fin(); };
+          fr.onerror=function(){ results[key]=null; fin(); };
+          fr.readAsDataURL(b);
+        });
+      })(ks[i]);
+    }
+  });
+}
+function c3tImportPick(input){
+  var st=document.getElementById("c3t-backup-state");
+  if(!input.files||!input.files[0]){ return; }
+  var file=input.files[0]; input.value="";
+  st.style.color="var(--ink-soft)"; st.textContent="Loading recordings…";
+  var fr=new FileReader();
+  fr.onload=function(){
+    var obj; try{ obj=JSON.parse(fr.result); }catch(e){ st.style.color="var(--retry)"; st.textContent="That file couldn’t be read. Use a file the Export button made."; return; }
+    var clips=(obj&&obj.clips)?obj.clips:null;
+    if(!clips){ st.style.color="var(--retry)"; st.textContent="No recordings found in that file."; return; }
+    var keys=[], k; for(k in clips){ if(clips.hasOwnProperty(k)) keys.push(k); }
+    if(!keys.length){ st.style.color="var(--retry)"; st.textContent="That file has no recordings in it."; return; }
+    var done=0, ok=0, i;
+    function check(){ if(done===keys.length){ st.style.color="var(--good)"; st.textContent="✓ Loaded "+ok+" recordings onto this computer."; c3tRefreshDots(); } }
+    for(i=0;i<keys.length;i++){
+      (function(key){
+        var c=clips[key];
+        if(!c||!c.data){ done++; check(); return; }
+        var blob; try{ blob=dataURLtoBlob(c.data); }catch(e){ done++; check(); return; }
+        AudioStore.put(key,blob).then(function(){ ok++; done++; check(); }, function(){ done++; check(); });
+      })(keys[i]);
+    }
+  };
+  fr.onerror=function(){ st.style.color="var(--retry)"; st.textContent="Couldn’t open that file."; };
+  fr.readAsText(file);
+}
+
+/* ---------- Check 3: teacher scoring ----------
+   Same local-file pattern as Check 1/2's teacher scoring. 3A/3B/3C share
+   a tap-to-cycle correctness grid (like c1t/c2t); 3A/3B add an
+   independent sound-production-observation toggle (like c2's); 3C's
+   cycle adds "Partial Blend"; 3D is a row list (its per-item data --
+   phoneme count + Added/Omitted/Combined -- doesn't fit a small grid
+   cell). Replay-used is auto-tracked telemetry from the live assessment,
+   shown read-only, never a teacher-editable score. */
+var C3T_CLS=0, C3T_STU=null, C3T_ATTEMPT=null, c3tFileUrl=null;
+var c3tScores=[], c3tObserved=[], c3tReplay=[], c3tAdded=[], c3tOmitted=[], c3tCombined=[], c3tPhonemes=[];
+var C3T_ORDER_STD=["","err","skip","sc"];
+var C3T_LABELS_STD={"":"Correct","err":"Incorrect","skip":"Skip / No response","sc":"Self-corrected"};
+var C3T_ORDER_3C=["","err","partial","skip","sc"];
+var C3T_LABELS_3C={"":"Correct","err":"Incorrect","partial":"Partial blend","skip":"Skip / No response","sc":"Self-corrected"};
+var C3T_CSS_CLASS={"":"","err":"err","partial":"skip","skip":"skip","sc":"sc"};
+function check3TeachEnter(){
+  C3T_CLS=0; C3T_STU=null; C3T_ATTEMPT=null;
+  c3tPaintClasses(); c3tPaintRoster();
+  var b=document.getElementById("c3t-body"); if(b){ b.innerHTML=""; }
+}
+function c3tPaintClasses(){
+  var seg=document.getElementById("c3t-class"); if(!seg){ return; }
+  var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="c3tPick('+i+')" class="'+(i===C3T_CLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function c3tPick(i){
+  C3T_CLS=i; C3T_STU=null; C3T_ATTEMPT=null;
+  c3tPaintClasses(); c3tPaintRoster();
+  var b=document.getElementById("c3t-body"); if(b){ b.innerHTML=""; }
+}
+function c3tPaintRoster(){
+  var box=document.getElementById("c3t-roster"); if(!box){ return; }
+  box.innerHTML="";
+  var cls=CLASSES[C3T_CLS], i;
+  for(i=0;i<cls.students.length;i++){
+    (function(stu){
+      var n=C3Attempts.forStudent(stu.id).length;
+      var b=document.createElement("button");
+      b.className="btn block"; b.textContent=stu.name+(n?" ("+n+")":"");
+      b.onclick=function(){ C3T_STU=stu.id; C3T_ATTEMPT=null; c3tPaintAttemptList(); };
+      box.appendChild(b);
+    })(cls.students[i]);
+  }
+}
+function c3tPaintAttemptList(){
+  var host=document.getElementById("c3t-body"); if(!host){ return; }
+  var list=C3Attempts.forStudent(C3T_STU);
+  if(!list.length){ host.innerHTML='<p class="mini-note">No Check 3 attempts yet.</p>'; return; }
+  var html="", i;
+  for(i=0;i<list.length;i++){
+    (function(a){
+      var total=(a.initialCorrect!==null&&a.initialCorrect!==undefined) ? (a.initialCorrect+a.finalCorrect+a.blendingCorrect+a.segmentationCorrect) : null;
+      var scored = total!==null ? " — scored ("+total+"/20)" : " — not scored yet";
+      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small>'+scored+'</small></div>'
+        +'<button class="mini-btn" onclick="c3tOpenAttempt(\''+a.id+'\')">Open</button></div>';
+    })(list[i]);
+  }
+  host.innerHTML=html;
+}
+function c3tOpenAttempt(id){
+  C3T_ATTEMPT=id;
+  var a=C3Attempts.get(id);
+  c3tScores = (a.scores && a.scores.length===20) ? a.scores.slice(0) : [];
+  if(!c3tScores.length){ var i; for(i=0;i<20;i++){ c3tScores.push(""); } }
+  c3tObserved = (a.observed && a.observed.length===20) ? a.observed.slice(0) : [];
+  if(!c3tObserved.length){ var j; for(j=0;j<20;j++){ c3tObserved.push(false); } }
+  c3tReplay = (a.replayUsed && a.replayUsed.length===20) ? a.replayUsed.slice(0) : [];
+  if(!c3tReplay.length){ var k; for(k=0;k<20;k++){ c3tReplay.push(false); } }
+  c3tAdded = (a.added && a.added.length===5) ? a.added.slice(0) : [false,false,false,false,false];
+  c3tOmitted = (a.omitted && a.omitted.length===5) ? a.omitted.slice(0) : [false,false,false,false,false];
+  c3tCombined = (a.combined && a.combined.length===5) ? a.combined.slice(0) : [false,false,false,false,false];
+  c3tPhonemes = (a.phonemes && a.phonemes.length===5) ? a.phonemes.slice(0) : [0,0,0,0,0];
+  var ms=a.totalTimeMs||0, mins=Math.floor(ms/60000), secs=Math.floor((ms%60000)/1000);
+  var host=document.getElementById("c3t-body"); if(!host){ return; }
+  host.innerHTML =
+     '<div class="card">'
+    +'<p class="step-eyebrow">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+"</p>"
+    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+"</p>"
+    +'<label class="btn" for="c3t-file">Open the video from Canvas</label>'
+    +'<input type="file" id="c3t-file" style="display:none" accept="video/*,.webm,.mp4" onchange="c3tOpenFile(this)">'
+    +'<video id="c3t-player" controls style="width:100%;max-width:420px;margin:10px 0;background:#000"></video>'
+    +'<p class="mini-note" id="c3t-file-note">No file open. The file stays on this computer.</p>'
+    +'<p class="step-eyebrow" style="margin-top:14px">3A &mdash; Initial Sound Identification (5)</p>'
+    +'<div class="c1-grid" id="c3t-3a-grid"></div>'
+    +'<p class="step-eyebrow">3B &mdash; Final Sound Identification (5)</p>'
+    +'<div class="c1-grid" id="c3t-3b-grid"></div>'
+    +'<p class="step-eyebrow">3C &mdash; Phoneme Blending (5)</p>'
+    +'<div class="c1-grid" id="c3t-3c-grid"></div>'
+    +'<p class="mini-note">Tap a word to cycle its score. Tap the small ◆ mark (3A/3B) to flag a sound-production observation — it never changes scoring on its own. "R" shows whether the student used their one replay (automatic, not editable).</p>'
+    +'<p class="step-eyebrow" style="margin-top:14px">3D &mdash; Phoneme Segmentation (5)</p>'
+    +'<div id="c3t-3d-rows"></div>'
+    +'<div class="setting-row" style="margin-top:10px"><div><strong>Teacher note</strong> (optional)</div></div>'
+    +'<textarea id="c3t-note" rows="3" style="width:100%;font:inherit;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:inherit">'+escapeHtml(a.note||"")+'</textarea>'
+    +'<div class="card" id="c3t-results" style="margin-top:14px"></div>'
+    +'<button class="btn primary" onclick="c3tSave()" style="margin-top:10px">Save scores</button>'
+    +'<p class="mini-note" id="c3t-save-note"></p>'
+    +"</div>"
+    +'<div class="nav-row" style="margin-top:14px"><button class="btn" onclick="c3tPaintAttemptList()">&#8592; Back to attempts</button></div>';
+  c3tPaintAllGrids();
+  c3tPaintResults();
+}
+function c3tOpenFile(input){
+  var f=input.files&&input.files[0]; if(!f){ return; }
+  var v=document.getElementById("c3t-player");
+  if(c3tFileUrl){ try{ URL.revokeObjectURL(c3tFileUrl); }catch(e){} }
+  c3tFileUrl=URL.createObjectURL(f);
+  v.src=c3tFileUrl;
+  document.getElementById("c3t-file-note").textContent="Opened: "+f.name;
+}
+function c3tPaintGrid(hostId,startIdx){
+  var box=document.getElementById(hostId); if(!box){ return; }
+  var html="", i, gi, isC=(startIdx===10), order=isC?C3T_ORDER_3C:C3T_ORDER_STD, labels=isC?C3T_LABELS_3C:C3T_LABELS_STD;
+  var hasObs=(startIdx===0||startIdx===5);
+  for(i=0;i<5;i++){
+    gi=startIdx+i;
+    var st=c3tScores[gi]||"";
+    var cls=C3T_CSS_CLASS[st]||"";
+    var obsOn=hasObs&&!!c3tObserved[gi];
+    html+='<button class="c1-cell c1t-cell'+(cls?" "+cls:"")+'" onclick="c3tTap('+gi+')" title="'+labels[st]+(obsOn?" + sound-production observation":"")+'">'
+      +escapeHtml(C3_SCORED[gi].word)
+      +(hasObs?'<span class="c2-obs'+(obsOn?" on":"")+'" onclick="c3tToggleObs(event,'+gi+')" title="Sound-production observation (does not affect scoring)">◆</span>':"")
+      +'<span class="c2-obs on" style="opacity:.55;font-size:10px">'+(c3tReplay[gi]?"R":"")+'</span>'
+      +"</button>";
+  }
+  box.innerHTML=html;
+}
+function c3tPaintSegRows(){
+  var box=document.getElementById("c3t-3d-rows"); if(!box){ return; }
+  var html="", i, gi;
+  for(i=0;i<5;i++){
+    gi=15+i;
+    var item=C3_SCORED[gi], st=c3tScores[gi]||"";
+    html+='<div class="card" style="margin-bottom:8px">'
+      +'<div class="trow"><div class="tl">'+escapeHtml(item.word)+(c3tReplay[gi]?' <small style="opacity:.6">(replay used)</small>':"")+'</div>'
+      +'<button class="c1-cell c1t-cell'+(C3T_CSS_CLASS[st]?" "+C3T_CSS_CLASS[st]:"")+'" style="min-width:110px;font-size:1rem;padding:8px" onclick="c3tTap('+gi+')">'+C3T_LABELS_STD[st]+'</button></div>'
+      +'<p class="mini-note">Phonemes correctly segmented: '
+      +'<button class="mini-btn" onclick="c3tPhon(-1,'+i+')">&minus;</button> <strong>'+c3tPhonemes[i]+' / '+item.phonemes+'</strong> <button class="mini-btn" onclick="c3tPhon(1,'+i+')">+</button></p>'
+      +'<div class="item-actions">'
+      +'<button class="mini-btn" onclick="c3tToggleFlag(\'added\','+i+')" style="'+(c3tAdded[i]?"border-color:var(--retry);color:var(--retry);font-weight:700":"")+'">Added Sound</button>'
+      +'<button class="mini-btn" onclick="c3tToggleFlag(\'omitted\','+i+')" style="'+(c3tOmitted[i]?"border-color:var(--retry);color:var(--retry);font-weight:700":"")+'">Omitted Sound</button>'
+      +'<button class="mini-btn" onclick="c3tToggleFlag(\'combined\','+i+')" style="'+(c3tCombined[i]?"border-color:var(--retry);color:var(--retry);font-weight:700":"")+'">Combined Sounds</button>'
+      +"</div></div>";
+  }
+  box.innerHTML=html;
+}
+function c3tPaintAllGrids(){
+  c3tPaintGrid("c3t-3a-grid",0);
+  c3tPaintGrid("c3t-3b-grid",5);
+  c3tPaintGrid("c3t-3c-grid",10);
+  c3tPaintSegRows();
+}
+function c3tTap(i){
+  var isC=(i>=10&&i<15), order=isC?C3T_ORDER_3C:C3T_ORDER_STD;
+  var idx=order.indexOf(c3tScores[i]);
+  c3tScores[i]=order[(idx+1)%order.length];
+  c3tPaintAllGrids();
+  c3tPaintResults();
+}
+function c3tToggleObs(e,i){
+  if(e&&e.stopPropagation){ e.stopPropagation(); }
+  c3tObserved[i]=!c3tObserved[i];
+  c3tPaintAllGrids();
+  c3tPaintResults();
+}
+function c3tPhon(delta,segI){
+  var max=C3_SCORED[15+segI].phonemes;
+  var v=(c3tPhonemes[segI]||0)+delta;
+  if(v<0){ v=0; } if(v>max){ v=max; }
+  c3tPhonemes[segI]=v;
+  c3tPaintSegRows();
+  c3tPaintResults();
+}
+function c3tToggleFlag(kind,segI){
+  var arr = kind==="added"?c3tAdded:(kind==="omitted"?c3tOmitted:c3tCombined);
+  arr[segI]=!arr[segI];
+  c3tPaintSegRows();
+  c3tPaintResults();
+}
+function c3tCompute(){
+  var i, st, corrA=0, corrB=0, corrC=0, corrD=0, missedA=[], missedB=[], missedC=[], missedD=[];
+  var selfCorr=0, skips=0, partials=[], observations=[], replays=0;
+  for(i=0;i<20;i++){
+    st=c3tScores[i]||"";
+    if(c3tReplay[i]){ replays++; }
+    if(i<5&&c3tObserved[i]){ observations.push(C3_SCORED[i].word); }
+    if(i>=5&&i<10&&c3tObserved[i]){ observations.push(C3_SCORED[i].word); }
+    if(st==="sc"){ selfCorr++; }
+    if(st==="skip"){ skips++; }
+    if(st==="partial"){ partials.push(C3_SCORED[i].word); }
+    var isCorrect=(st===""||st==="sc");
+    if(i<5){ if(isCorrect){ corrA++; } else { missedA.push(C3_SCORED[i].word); } }
+    else if(i<10){ if(isCorrect){ corrB++; } else { missedB.push(C3_SCORED[i].word); } }
+    else if(i<15){ if(isCorrect){ corrC++; } else { missedC.push(C3_SCORED[i].word); } }
+    else { if(isCorrect){ corrD++; } else { missedD.push(C3_SCORED[i].word); } }
+  }
+  var phonTotal=0, phonMax=0, addedList=[], omittedList=[], combinedList=[];
+  for(i=0;i<5;i++){
+    phonTotal+=(c3tPhonemes[i]||0); phonMax+=C3_SCORED[15+i].phonemes;
+    if(c3tAdded[i]){ addedList.push(C3_SCORED[15+i].word); }
+    if(c3tOmitted[i]){ omittedList.push(C3_SCORED[15+i].word); }
+    if(c3tCombined[i]){ combinedList.push(C3_SCORED[15+i].word); }
+  }
+  return { corrA:corrA, corrB:corrB, corrC:corrC, corrD:corrD, missedA:missedA, missedB:missedB, missedC:missedC, missedD:missedD,
+    selfCorr:selfCorr, skips:skips, partials:partials, observations:observations, replays:replays,
+    phonTotal:phonTotal, phonMax:phonMax, addedList:addedList, omittedList:omittedList, combinedList:combinedList,
+    targets:missedA.concat(missedB).concat(missedC).concat(missedD) };
+}
+function c3tPaintResults(){
+  var host=document.getElementById("c3t-results"); if(!host){ return; }
+  var r=c3tCompute();
+  host.innerHTML =
+     "<p><strong>3A Initial Sound Identification:</strong> "+r.corrA+" / 5</p>"
+    +'<p class="mini-note">Needs instruction: '+(r.missedA.length?escapeHtml(r.missedA.join(", ")):"none")+"</p>"
+    +"<p><strong>3B Final Sound Identification:</strong> "+r.corrB+" / 5</p>"
+    +'<p class="mini-note">Needs instruction: '+(r.missedB.length?escapeHtml(r.missedB.join(", ")):"none")+"</p>"
+    +"<p><strong>3C Phoneme Blending:</strong> "+r.corrC+" / 5 (partial blends: "+r.partials.length+")</p>"
+    +'<p class="mini-note">Needs instruction: '+(r.missedC.length?escapeHtml(r.missedC.join(", ")):"none")+"</p>"
+    +"<p><strong>3D Phoneme Segmentation:</strong> "+r.corrD+" / 5 (phonemes correctly segmented: "+r.phonTotal+" / "+r.phonMax+")</p>"
+    +'<p class="mini-note">Needs instruction: '+(r.missedD.length?escapeHtml(r.missedD.join(", ")):"none")+"</p>"
+    +"<p><strong>Overall Check 3:</strong> "+(r.corrA+r.corrB+r.corrC+r.corrD)+" / 20</p>"
+    +'<p class="mini-note">Self-corrections: '+r.selfCorr+" &nbsp; Skips: "+r.skips+" &nbsp; Replays used: "+r.replays+" / 20</p>"
+    +'<p class="mini-note">Sound-production observations (never automatically an instructional target): '+(r.observations.length?escapeHtml(r.observations.join(", ")):"none")+"</p>"
+    +'<p class="mini-note">Added sound: '+(r.addedList.length?escapeHtml(r.addedList.join(", ")):"none")+" &nbsp; Omitted sound: "+(r.omittedList.length?escapeHtml(r.omittedList.join(", ")):"none")+" &nbsp; Combined sounds: "+(r.combinedList.length?escapeHtml(r.combinedList.join(", ")):"none")+"</p>";
+}
+function c3tSave(){
+  if(!C3T_ATTEMPT){ return; }
+  var r=c3tCompute();
+  var noteEl=document.getElementById("c3t-note");
+  C3Attempts.update(C3T_ATTEMPT,{ scores:c3tScores.slice(0), observed:c3tObserved.slice(0), added:c3tAdded.slice(0),
+    omitted:c3tOmitted.slice(0), combined:c3tCombined.slice(0), phonemes:c3tPhonemes.slice(0),
+    note:noteEl?noteEl.value:"", initialCorrect:r.corrA, finalCorrect:r.corrB, blendingCorrect:r.corrC, segmentationCorrect:r.corrD,
+    targets:r.targets });
+  var n=document.getElementById("c3t-save-note");
   if(n){ n.className="mini-note"; n.style.color="var(--good)"; n.textContent="✓ Saved."; }
 }
 

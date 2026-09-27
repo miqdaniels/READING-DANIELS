@@ -249,16 +249,16 @@ setTimeout(function(){
       if(diagBtns2[j].textContent.indexOf("Check 3")>-1){ c3Btn=diagBtns2[j]; }
     }
     ck(foundC2Green,"Check 2 shows green/Completed on the dashboard");
-    /* Check 3 is now logically unlocked (Check 2 is done) but has no real
-       screen yet -- it must show in its normal available style (not gray/
-       locked) and tapping it must say "Coming soon!" rather than opening
-       a broken screen. */
-    ck(!!c3Btn && c3Btn.disabled!==true,"Check 3 is not gray/locked once Check 2 is done, even though it isn't built yet");
+    /* Check 3 is now logically unlocked (Check 2 is done) AND built (see
+       test-check3.js for its own full coverage) -- it must show in its
+       normal available style (not gray/locked) and tapping it must open
+       the real screen, not a "Coming soon!" placeholder. */
+    ck(!!c3Btn && c3Btn.disabled!==true,"Check 3 is not gray/locked once Check 2 is done");
     ck(!!c3Btn && c3Btn.className.indexOf("locked")===-1,"Check 3 uses the normal available style, not the locked style");
     click(c3Btn);
-    ck(activeId()==="diagLanding","tapping the not-yet-built Check 3 never navigates anywhere");
-    ck(/Coming soon!/.test(d.getElementById("diag-comingsoon-note").textContent),"tapping it shows 'Coming soon!' instead of a broken screen");
-    ck(d.getElementById("diag-alldone").style.display==="none","no final-completion banner yet (Checks 3-7 aren't built/done)");
+    ck(activeId()==="check3","tapping Check 3 opens the real screen (it's built now -- see test-check3.js)");
+    w.go("diagLanding");
+    ck(d.getElementById("diag-alldone").style.display==="none","no final-completion banner yet (Checks 4-7 aren't built/done)");
 
     teacherScoringFlow(attempts[0].id);
   }

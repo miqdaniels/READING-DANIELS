@@ -21,12 +21,13 @@ setTimeout(function(){
   let pass=0,fail=0;
   function ck(c,m){ if(c){pass++;} else {fail++; console.log("FAIL:",m);} }
 
-  /* ---- every recorded directions script is <=2 sentences, EXCEPT the
-     before-2B/before-2C Check 2 transition scripts, which now carry an
-     explicit, exact, longer wording per an explicit later correction ---- */
-  var LONGER_OK={dir_check2_before2b:true, dir_check2_before2c:true};
+  /* ---- every recorded directions script is <=2 sentences, EXCEPT a few
+     screens that carry an explicit, exact, longer wording per an explicit
+     later specification (Check 2's before-2B/before-2C transitions, and
+     Check 3's opening directions + its before-3C one-liner) ---- */
+  var LONGER_OK={dir_check2_before2b:true, dir_check2_before2c:true, dir_check3_open:true, dir_check3_3c:true};
   var defs=w.DIRECTIONS_DEFS, i;
-  ck(defs.length===7,"all 7 directions scripts are present (got "+defs.length+")");
+  ck(defs.length===12,"all 12 directions scripts are present (got "+defs.length+")");
   for(i=0;i<defs.length;i++){
     var n=sentenceCount(defs[i].script);
     if(!LONGER_OK[defs[i].key]){
@@ -39,6 +40,13 @@ setTimeout(function(){
   ck(defs.filter(function(x){return x.key==="dir_check2_open";})[0].script==="Look at the letter. Say the sound.","Check 2 opening script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check2_before2b";})[0].script==="Now you will hear a word. Look at the letter. Say the sound it makes in that word.","before-2B script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check2_before2c";})[0].script==="Last part. Look at the letter. Listen to the word. Say the sound it makes in that word.","before-2C script matches exactly");
+
+  /* ---- exact wording for the 5 Check 3 directions scripts, as specified ---- */
+  ck(defs.filter(function(x){return x.key==="dir_check3_open";})[0].script==="Listen carefully. Answer out loud. You can listen one more time if you need to. Tap Next when you’re ready.","Check 3 opening script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check3_3a";})[0].script==="Tell me the first sound.","Check 3 before-3A script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check3_3b";})[0].script==="Tell me the last sound.","Check 3 before-3B script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check3_3c";})[0].script==="Listen to the sounds. Put them together. Say the word.","Check 3 before-3C script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check3_3d";})[0].script==="Listen to the word. Say every sound you hear.","Check 3 before-3D script matches exactly");
 
   /* ---- on-screen directions text (not just the recorded scripts) ---- */
   w.READER=w.CLASSES[0].students[0]; w.CURCLASS=w.CLASSES[0]; w.CURGROUP=w.GROUPS[0];
@@ -58,6 +66,16 @@ setTimeout(function(){
   ck(trans2b==="Now you will hear a word. Look at the letter. Say the sound it makes in that word.","before-2B on-screen text matches exactly");
   ck(trans2c==="Last part. Look at the letter. Listen to the word. Say the sound it makes in that word.","before-2C on-screen text matches exactly");
   ck(!/\bconsonants?\b/i.test(trans2b) && !/\bconsonants?\b/i.test(trans2c),"the transition screens never say \"consonant\"");
+
+  /* ---- Check 3's on-screen directions text (exempt like Check 2's
+     transitions/Fluency above -- these are exact, later-specified wording) ---- */
+  w.go("check3");
+  var c3Text=d.querySelector("#c3-setup .lede").textContent;
+  ck(c3Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="Listen carefully. Answer out loud. You can listen one more time if you need to. Tap Next when you’re ready.","Check 3's on-screen opening text matches exactly");
+  ck(!/\bconsonants?\b/i.test(c3Text),"Check 3's opening on-screen directions never say \"consonant\"");
+  ck(w.C3_SECTIONS[0].introText==="Tell me the first sound." && w.C3_SECTIONS[1].introText==="Tell me the last sound."
+    && w.C3_SECTIONS[2].introText==="Listen to the sounds. Put them together. Say the word." && w.C3_SECTIONS[3].introText==="Listen to the word. Say every sound you hear.",
+    "all 4 Check 3 domain one-liners match exactly");
 
   /* Fluency's Day 1/3 directions are an explicit, exact, later-specified
      wording (3 short sentences) -- exempt from the 2-sentence rule the
@@ -84,7 +102,7 @@ setTimeout(function(){
   /* ---- "consonant" never appears on any STUDENT screen (teacher-only
      scoring screens like check2Teach still say it for Miq's own
      reference, which is fine -- students never see those) ---- */
-  var studentScreens=["s-pick","s-roster","s-confirm","studentMenu","diagLanding","check1","check2","s-groups","s-final","s-read","fluencyPassage","fluencyRetell","s-score","s-board","s-status"];
+  var studentScreens=["s-pick","s-roster","s-confirm","studentMenu","diagLanding","check1","check2","check3","s-groups","s-final","s-read","fluencyPassage","fluencyRetell","s-score","s-board","s-status"];
   var j;
   for(j=0;j<studentScreens.length;j++){
     w.go(studentScreens[j]);
