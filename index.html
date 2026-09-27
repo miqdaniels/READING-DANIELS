@@ -267,6 +267,20 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .team-name{ font-weight:800; margin:4px 0; }
 .team-pts{ font-size:24px; font-weight:900; }
 .board-line{ display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--line); }
+/* Scoreboard: All Students report (fluency WCPM, scored reads only) --
+   same professional look as the rest of the teacher side (var(--panel)/
+   var(--line)/var(--ink), so it already works with every theme and dark
+   mode with no extra color rules needed here). Only the table itself
+   scrolls when a class is long, not the whole page. */
+.allstu-table-wrap{border:1px solid var(--line);border-radius:14px;overflow:auto;max-height:420px;background:var(--panel)}
+.allstu-table{width:100%;border-collapse:collapse;font-size:14px}
+.allstu-table th{position:sticky;top:0;background:var(--panel);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-weight:700;color:var(--ink-soft);white-space:nowrap;touch-action:manipulation}
+.allstu-table td{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--ink)}
+.allstu-table tr:last-child td{border-bottom:none}
+.allstu-name{cursor:pointer;font-weight:600;touch-action:manipulation}
+.allstu-caret{color:var(--ink-soft);font-size:12px}
+.allstu-detail-row td{background:var(--paper);padding:8px 12px 10px 28px}
+.allstu-detail-line{font-size:13px;color:var(--ink-soft);padding:2px 0}
 .tflag{ font-size:11px; background:var(--line); padding:1px 7px; border-radius:999px; margin-left:6px; }
 .f-num{ opacity:.5; margin-right:6px; }
 .flu-passage{ font-size:1.3rem; line-height:1.7; max-width:40em; margin:16px 0; }
@@ -722,6 +736,26 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     <div class="seg" id="board-class" style="margin:10px 0;flex-wrap:wrap"></div>
     <p class="mini-note" id="board-sync"></p>
     <div id="board-body"></div>
+
+    <h3 class="board-h">All students &mdash; fluency scores</h3>
+    <p class="mini-note">Only reads marked &ldquo;Score&rdquo; count (Day 1 cold reads, or anything you marked Score this read).</p>
+    <div class="seg" id="allstu-class" style="margin:10px 0;flex-wrap:wrap"></div>
+    <div class="allstu-table-wrap" id="allstu-table-wrap">
+      <table class="allstu-table" id="allstu-table">
+        <thead>
+          <tr>
+            <th onclick="allStuSort('name')">Student<span class="allstu-sort-ind" id="allstu-ind-name"></span></th>
+            <th onclick="allStuSort('level')">Passage level<span class="allstu-sort-ind" id="allstu-ind-level"></span></th>
+            <th onclick="allStuSort('wcpm')">WCPM<span class="allstu-sort-ind" id="allstu-ind-wcpm"></span></th>
+            <th onclick="allStuSort('acc')">Accuracy<span class="allstu-sort-ind" id="allstu-ind-acc"></span></th>
+            <th onclick="allStuSort('date')">Date<span class="allstu-sort-ind" id="allstu-ind-date"></span></th>
+            <th onclick="allStuSort('growth')">Growth<span class="allstu-sort-ind" id="allstu-ind-growth"></span></th>
+          </tr>
+        </thead>
+        <tbody id="allstu-body"></tbody>
+      </table>
+    </div>
+
     <div class="nav-row" style="margin-top:14px">
       <button class="btn" onclick="go('s-home')">Back to start</button>
     </div>
@@ -1987,6 +2021,117 @@ function paintBoard(){
   host.innerHTML=html;
 }
 function setTeam(id,t){ Settings.setTeam(id,t); paintTeamList(); Sync.pushTeam(id,t); }
+
+/* ---------- Scoreboard: All Students report (fluency WCPM, scored reads
+   only). Separate class-hour picker/state from the Teams/Top readers
+   section above (BOARDCLS/paintBoard) on purpose -- that section works
+   on ONE class at a time and stays completely untouched; this one also
+   offers "All classes", which those don't support and weren't asked to. */
+var ALLSTU_CLS=0, ALLSTU_SORT={col:"name",dir:"asc"}, ALLSTU_EXPANDED={};
+function allStuClassList(){
+  if(ALLSTU_CLS===-1){
+    var out=[], ci; for(ci=0;ci<CLASSES.length;ci++){ out=out.concat(CLASSES[ci].students); }
+    return out;
+  }
+  return CLASSES[ALLSTU_CLS] ? CLASSES[ALLSTU_CLS].students : [];
+}
+/* newest-first, matching FluAttempts.forStudent()'s own order; only
+   reads the teacher has actually marked Score AND entered real numbers
+   for count as an actual score here */
+function allStuScoredReads(stuId){
+  var all=FluAttempts.forStudent(stuId), out=[], i;
+  for(i=0;i<all.length;i++){ if(all[i].scored && all[i].wordsRead!=null && all[i].errors!=null){ out.push(all[i]); } }
+  return out;
+}
+function allStuRow(stu){
+  var reads=allStuScoredReads(stu.id);
+  if(!reads.length){
+    return { id:stu.id, name:stu.name, hasData:false, level:null, wcpm:null, acc:null, date:null, growth:null, single:false, reads:[] };
+  }
+  var latest=reads[0], oldest=reads[reads.length-1];
+  var latestC=flutCompute(latest), oldestC=flutCompute(oldest);
+  var single=(reads.length<=1);
+  var growth=(!single && latestC.wcpm!=null && oldestC.wcpm!=null) ? (latestC.wcpm-oldestC.wcpm) : null;
+  return {
+    id:stu.id, name:stu.name, hasData:true,
+    level:latest.level+" 0."+latest.sub, wcpm:latestC.wcpm, acc:latestC.acc, date:latest.date,
+    growth:growth, single:single,
+    reads:reads.slice().reverse() /* oldest to newest, for the tap-to-expand detail */
+  };
+}
+function allStuPaintClassButtons(){
+  var seg=document.getElementById("allstu-class"); if(!seg){ return; }
+  var html="", ci;
+  for(ci=0;ci<CLASSES.length;ci++){ html+='<button onclick="allStuPick('+ci+')" class="'+(ci===ALLSTU_CLS?"on":"")+'">'+escapeHtml(CLASSES[ci].label)+"</button>"; }
+  html+='<button onclick="allStuPick(-1)" class="'+(ALLSTU_CLS===-1?"on":"")+'">All classes</button>';
+  seg.innerHTML=html;
+}
+function allStuPick(i){ ALLSTU_CLS=i; allStuPaintClassButtons(); allStuPaintTable(); }
+function allStuSort(col){
+  if(ALLSTU_SORT.col===col){ ALLSTU_SORT.dir=(ALLSTU_SORT.dir==="asc")?"desc":"asc"; }
+  else { ALLSTU_SORT.col=col; ALLSTU_SORT.dir=(col==="name"||col==="level")?"asc":"desc"; }
+  allStuPaintTable();
+}
+function allStuToggleExpand(id){ ALLSTU_EXPANDED[id]=!ALLSTU_EXPANDED[id]; allStuPaintTable(); }
+/* raw compare, assuming neither value is null -- the null/"no score yet"
+   case is handled separately in the sort call below, so it can stay
+   pinned to the bottom regardless of which direction is picked */
+function allStuCompare(a,b,col){
+  var av, bv;
+  if(col==="name"){ av=a.name.toLowerCase(); bv=b.name.toLowerCase(); return av<bv?-1:(av>bv?1:0); }
+  if(col==="level"||col==="date"){ av=a[col]; bv=b[col]; return av<bv?-1:(av>bv?1:0); }
+  return a[col]-b[col]; /* wcpm, acc, growth */
+}
+function allStuInit(){ allStuPaintClassButtons(); allStuPaintTable(); }
+function allStuPaintTable(){
+  var body=document.getElementById("allstu-body"); if(!body){ return; }
+  var students=allStuClassList(), rows=[], i;
+  for(i=0;i<students.length;i++){
+    var stu=students[i];
+    if(isPlaceholder(stu) && !stu.activated){ continue; }
+    rows.push(allStuRow(stu));
+  }
+  rows.sort(function(a,b){
+    var col=ALLSTU_SORT.col, av=a[col], bv=b[col];
+    if(av==null && bv==null){ return 0; }
+    if(av==null){ return 1; } /* "Not yet" rows always sort last, whichever direction is picked */
+    if(bv==null){ return -1; }
+    var r=allStuCompare(a,b,col);
+    return ALLSTU_SORT.dir==="desc" ? -r : r;
+  });
+
+  var cols=["name","level","wcpm","acc","date","growth"];
+  for(i=0;i<cols.length;i++){
+    var ind=document.getElementById("allstu-ind-"+cols[i]);
+    if(ind){ ind.textContent=(ALLSTU_SORT.col===cols[i])?(ALLSTU_SORT.dir==="asc"?" ▲":" ▼"):""; }
+  }
+
+  var html="";
+  for(i=0;i<rows.length;i++){
+    (function(r){
+      var expanded=!!ALLSTU_EXPANDED[r.id];
+      html+="<tr>"
+        +'<td class="allstu-name" onclick="allStuToggleExpand(\''+r.id+"')\">"+escapeHtml(r.name)+(r.reads.length?' <span class="allstu-caret">'+(expanded?"▴":"▾")+"</span>":"")+"</td>"
+        +"<td>"+(r.hasData?escapeHtml(r.level):"&mdash;")+"</td>"
+        +"<td>"+(r.hasData?r.wcpm:"Not yet")+"</td>"
+        +"<td>"+(r.hasData?r.acc+"%":"&mdash;")+"</td>"
+        +"<td>"+(r.hasData?escapeHtml(r.date):"&mdash;")+"</td>"
+        +"<td>"+(r.hasData?(r.single?"First read":(r.growth==null?"&mdash;":(r.growth>0?"+"+r.growth:r.growth))):"&mdash;")+"</td>"
+        +"</tr>";
+      if(expanded && r.reads.length){
+        html+='<tr class="allstu-detail-row"><td colspan="6"><div class="allstu-detail">';
+        var j, comp;
+        for(j=0;j<r.reads.length;j++){
+          comp=flutCompute(r.reads[j]);
+          html+='<div class="allstu-detail-line">'+escapeHtml(r.reads[j].date)+" &mdash; "+escapeHtml(r.reads[j].level+" 0."+r.reads[j].sub)+" &mdash; WCPM "+comp.wcpm+" &mdash; "+comp.acc+"%</div>";
+        }
+        html+="</div></td></tr>";
+      }
+    })(rows[i]);
+  }
+  if(!rows.length){ html='<tr><td colspan="6" class="mini-note">No students in this class yet.</td></tr>'; }
+  body.innerHTML=html;
+}
 function paintTeamList(){
   var box=document.getElementById("team-list"); if(!box){ return; }
   var teams=["A","B","C","D"], html="", ci, si, ti;
@@ -2222,7 +2367,7 @@ function go(id){
   if(id==="s-final"){ fEnter(); }
   if(id==="s-read"){ refreshPtsBadge(); }
   if(id==="s-score"){ paintScore(); }
-  if(id==="s-board"){ paintBoard(); boardSync(); }
+  if(id==="s-board"){ paintBoard(); boardSync(); allStuInit(); }
   if(id==="s-teach"){ enterTeach(); }
   if(id==="s-settings"){ paintReadsSeg(); paintPacerList(); paintTeamList(); paintCodeList(); }
   if(id==="fluencyPassage"){ fluEnter(); }
