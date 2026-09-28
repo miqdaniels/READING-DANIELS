@@ -351,6 +351,58 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
   .mini-btn:hover{border-color:var(--accent)}
   footer.mini a:hover{text-decoration:underline}
 }
+
+/* ===== ONE microphone icon, everywhere (Mick, Sept 27 2026) =====
+   Red circle + white mic on every Record button, every "Recording"
+   status line, and every teacher record button. The red circle pulses
+   the WHOLE time a recording is running. Replaces the old brown
+   (#B45309) record buttons and the mixed emoji/red-square icons. */
+.mic-ico{display:inline-block;flex:0 0 auto;border-radius:50%;background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:64px;height:64px;font-size:0;line-height:0;color:transparent}
+@keyframes micPulse{0%,100%{box-shadow:0 0 0 0 rgba(229,57,53,.6);transform:scale(1)}50%{box-shadow:0 0 0 14px rgba(229,57,53,0);transform:scale(1.07)}}
+@keyframes micFlash{0%,100%{background-color:#E53935}50%{background-color:#8E1B18}}
+.icon-btn-record,.flu-sq-record{background:transparent !important;color:var(--ink) !important;animation:none !important;box-shadow:none !important}
+.icon-btn-record{min-width:90px;min-height:96px;gap:6px;padding:6px 8px}
+.flu-sq-record{gap:3px;padding:2px}
+.icon-btn-record .icon-label,.flu-sq-record .icon-label{font-size:14px;color:var(--ink)}
+.icon-btn-record[disabled].rec,.flu-sq-record[disabled].rec{opacity:1}
+.icon-btn-record.rec .mic-ico,.flu-sq-record.rec .mic-ico,#flu-done .mic-ico,#ret-done .mic-ico{animation:micPulse 1.2s ease-in-out infinite}
+#flu-done.flash .mic-ico,#ret-done.flash .mic-ico{animation:micFlash .3s steps(1) 3}
+.flu-sq-record .mic-ico{width:54px;height:54px}
+.flu-sq-record .icon-label{font-size:12px}
+/* small versions: the "Recording" status line and the teacher Record buttons */
+.rec-status{color:#C62828}
+.rec-status .rec-status-dot,.rec-btn .rec-dot{border-radius:50%;background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:22px;height:22px;display:inline-block;flex:0 0 auto}
+.rec-status .rec-status-dot{animation:micPulse 1.2s ease-in-out infinite}
+.rec-status.paused .rec-status-dot{background-color:#9AA3AD;animation:none}
+.rec-btn .rec-dot{width:26px;height:26px;animation:none}
+.mic-ico.mic-ico-tile{width:34px;height:34px}
+.rec-btn.rec{background:var(--accent)}
+.rec-btn.rec .rec-dot{animation:micPulse 1.2s ease-in-out infinite}
+
+/* ===== Student View bar: the chosen theme, darker (light mode) or lighter (dark mode) ===== */
+.vas-banner{background:var(--accent-press);background:color-mix(in srgb,var(--accent) 62%,#000);color:#fff}
+.vas-banner .vas-exit{background:#fff;color:var(--accent-press)}
+html[data-mode="dark"] .vas-banner{background:var(--accent);background:color-mix(in srgb,var(--accent) 55%,#fff);color:#111}
+html[data-mode="dark"] .vas-banner .vas-exit{background:#111;color:#fff}
+
+/* ===== Listen button sits right beside its directions ===== */
+.dir-row{display:flex;align-items:center;gap:12px;margin:10px 0 14px}
+.dir-row .dir-listen-wrap{margin:0;flex:0 0 auto}
+.dir-row .dir-listen-btn{padding:8px 14px}
+.dir-row .dir-listen-btn .dir-listen-icon{font-size:24px}
+.dir-row > .lede,.dir-row > .mini-note,.dir-row > p,.dir-row > div:not(.dir-listen-wrap){flex:1 1 auto;margin:0}
+
+/* ===== ONE listen icon, everywhere: white ear + sound lines on a green circle =====
+   Same shape family as the red mic. It pulses while the directions play. */
+.ear-ico{display:inline-block;flex:0 0 auto;border-radius:50%;background-color:#2E9E4F;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 19C20 11.5 25.5 6 32 6S44 11 44 18C44 23.5 41 26.5 39 29.5C37 32.5 37 35 36 38C35 41 32.5 43 29.5 43C27 43 25.5 41.5 25 40'/%3E%3Cpath d='M26.5 20C26.5 15.5 29 12.5 32 12.5S38 15 38 18.5C38 21.5 35.5 23 34 25'/%3E%3Cpath d='M30.5 29.5C33 29.5 34.5 27.5 34 25C33.5 22.5 30.5 22 29.5 24'/%3E%3Cpath d='M5 13L12 16M4 23H12M5 33L12 30'/%3E%3C/g%3E%3C/svg%3E");background-position:center;background-size:66%;background-repeat:no-repeat;width:52px;height:52px;vertical-align:middle}
+.ear-ico.ear-sm{width:26px;height:26px;margin-right:6px}
+.ear-ico.ear-tile{width:34px;height:34px}
+.ear-ico.ear-lg{width:84px;height:84px}
+@keyframes earPulse{0%,100%{box-shadow:0 0 0 0 rgba(46,158,79,.6);transform:scale(1)}50%{box-shadow:0 0 0 12px rgba(46,158,79,0);transform:scale(1.07)}}
+.dir-listen-btn .dir-listen-icon.ear-ico{font-size:0}
+.dir-listen-btn.playing .dir-listen-icon.ear-ico{animation:earPulse 1.2s ease-in-out infinite}
+.dir-row .dir-listen-btn .dir-listen-icon.ear-ico{width:44px;height:44px}
+.hearw,.play-btn{display:inline-flex;align-items:center}
 </style>
 </head>
 <body>
@@ -400,10 +452,10 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
         <div class="teach-cat-block">
           <h3 class="teach-cat-title">Recordings</h3>
           <div class="teach-tile-grid">
-            <button class="teach-tile cat-recordings" onclick="go('s-teach')" title="Record each word and its sentence in your voice"><span class="teach-tile-icon">&#127908;</span><span class="teach-tile-label">Record Words</span></button>
-            <button class="teach-tile cat-recordings" onclick="go('s-teachC2')" title="Record the 10 vowel-keyword prompts"><span class="teach-tile-icon">&#127908;</span><span class="teach-tile-label">Check 2 Prompts</span></button>
-            <button class="teach-tile cat-recordings" onclick="go('s-teachC3')" title="Record the 24 phonemic-awareness prompts"><span class="teach-tile-icon">&#127908;</span><span class="teach-tile-label">Check 3 Prompts</span></button>
-            <button class="teach-tile cat-recordings" onclick="go('s-teachDir')" title="Record the Listen-button voice-overs"><span class="teach-tile-icon">&#128266;</span><span class="teach-tile-label">Directions Audio</span></button>
+            <button class="teach-tile cat-recordings" onclick="go('s-teach')" title="Record each word and its sentence in your voice"><span class="teach-tile-icon"><span class="mic-ico mic-ico-tile"></span></span><span class="teach-tile-label">Record Words</span></button>
+            <button class="teach-tile cat-recordings" onclick="go('s-teachC2')" title="Record the 10 vowel-keyword prompts"><span class="teach-tile-icon"><span class="mic-ico mic-ico-tile"></span></span><span class="teach-tile-label">Check 2 Prompts</span></button>
+            <button class="teach-tile cat-recordings" onclick="go('s-teachC3')" title="Record the 24 phonemic-awareness prompts"><span class="teach-tile-icon"><span class="mic-ico mic-ico-tile"></span></span><span class="teach-tile-label">Check 3 Prompts</span></button>
+            <button class="teach-tile cat-recordings" onclick="go('s-teachDir')" title="Record the Listen-button voice-overs"><span class="teach-tile-icon"><span class="ear-ico ear-tile"></span></span><span class="teach-tile-label">Directions Audio</span></button>
           </div>
         </div>
 
@@ -532,7 +584,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <div class="lede" id="c1-intro">Say each letter's name out loud. Tap Next after each one.</div>
       <div class="dir-listen-wrap" id="dl-dir_check1" style="display:none">
         <button class="dir-listen-btn" id="dl-dir_check1-btn" onclick="dirToggle('dir_check1')">
-          <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+          <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
         </button>
       </div>
       <p class="mini-note" id="c1-mic-note">Your browser will ask for permission to use the microphone. Tap Allow so your reading can be recorded.</p>
@@ -540,7 +592,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <p class="mini-note" id="c1-progress"></p>
       <p class="rec-status" id="c1-rec-status"></p>
       <div class="icon-row">
-        <button class="icon-btn icon-btn-record" id="c1-start" onclick="c1Start()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="c1-start-lbl">Record</span></button>
+        <button class="icon-btn icon-btn-record" id="c1-start" onclick="c1Start()"><span class="icon-glyph mic-ico"></span><span class="icon-label" id="c1-start-lbl">Record</span></button>
         <button class="icon-btn icon-btn-next" id="c1-next" onclick="c1Next()" style="display:none"><span class="icon-glyph">&#8594;</span><span class="icon-label" id="c1-next-lbl">Next</span></button>
       </div>
       <p class="state-line none" id="c1-state"></p>
@@ -581,7 +633,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
         </div>
         <div class="dir-listen-wrap" id="dl-dir_check2_open" style="display:none">
           <button class="dir-listen-btn" id="dl-dir_check2_open-btn" onclick="dirToggle('dir_check2_open')">
-            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+            <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
           </button>
         </div>
         <p class="mini-note">Your browser will ask for permission to use the camera and microphone. Tap Allow so your check can be recorded.</p>
@@ -589,7 +641,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
         <video id="c2-preview" muted autoplay playsinline style="width:100%;max-width:360px;border-radius:12px;background:#000;display:none"></video>
         <div class="rec-row" style="margin-top:14px">
           <button class="rec-btn" id="c2-setup-btn" onclick="c2SetupMedia()"><span class="rec-dot"></span><span id="c2-setup-lbl">Turn on camera</span></button>
-          <button class="icon-btn icon-btn-record" id="c2-start-real" onclick="c2StartCheck()" style="display:none"><span class="icon-glyph">&#127908;</span><span class="icon-label">Record</span></button>
+          <button class="icon-btn icon-btn-record" id="c2-start-real" onclick="c2StartCheck()" style="display:none"><span class="icon-glyph mic-ico"></span><span class="icon-label">Record</span></button>
         </div>
         <p class="state-line none" id="c2-setup-state"></p>
       </div>
@@ -602,7 +654,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
         <div class="c1-letter" id="c2-current">&nbsp;</div>
         <p class="mini-note" id="c2-progress"></p>
         <div class="rec-row" id="c2-prompt-row" style="display:none">
-          <button class="play-btn" onclick="c2ReplayPrompt()">&#9654;&nbsp; Hear it again</button>
+          <button class="play-btn" onclick="c2ReplayPrompt()"><span class="ear-ico ear-sm"></span>Hear it again</button>
         </div>
         <div class="icon-row">
           <button class="icon-btn icon-btn-next" id="c2-next" onclick="c2NextTap()"><span class="icon-glyph">&#8594;</span><span class="icon-label">Next</span></button>
@@ -619,12 +671,12 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
         <div class="lede" id="c2-trans-text" style="white-space:pre-line"></div>
         <div class="dir-listen-wrap" id="dl-dir_check2_before2b" style="display:none">
           <button class="dir-listen-btn" id="dl-dir_check2_before2b-btn" onclick="dirToggle('dir_check2_before2b')">
-            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+            <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
           </button>
         </div>
         <div class="dir-listen-wrap" id="dl-dir_check2_before2c" style="display:none">
           <button class="dir-listen-btn" id="dl-dir_check2_before2c-btn" onclick="dirToggle('dir_check2_before2c')">
-            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+            <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
           </button>
         </div>
         <div class="nav-row" style="margin-top:14px">
@@ -729,7 +781,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
         </div>
         <div class="dir-listen-wrap" id="dl-dir_check3_open" style="display:none">
           <button class="dir-listen-btn" id="dl-dir_check3_open-btn" onclick="dirToggle('dir_check3_open')">
-            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+            <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
           </button>
         </div>
         <p class="mini-note">Your browser will ask for permission to use the camera and microphone. Tap Allow so your check can be recorded.</p>
@@ -737,7 +789,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
         <video id="c3-preview" muted autoplay playsinline style="width:100%;max-width:360px;border-radius:12px;background:#000;display:none"></video>
         <div class="rec-row" style="margin-top:14px">
           <button class="rec-btn" id="c3-setup-btn" onclick="c3SetupMedia()"><span class="rec-dot"></span><span id="c3-setup-lbl">Turn on camera</span></button>
-          <button class="icon-btn icon-btn-record" id="c3-start-real" onclick="c3StartCheck()" style="display:none"><span class="icon-glyph">&#127908;</span><span class="icon-label">Record</span></button>
+          <button class="icon-btn icon-btn-record" id="c3-start-real" onclick="c3StartCheck()" style="display:none"><span class="icon-glyph mic-ico"></span><span class="icon-label">Record</span></button>
         </div>
         <p class="state-line none" id="c3-setup-state"></p>
       </div>
@@ -745,10 +797,10 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       <div id="c3-assess" style="display:none">
         <p class="rec-status" id="c3-rec-status"><span class="rec-status-dot"></span>Recording</p>
         <p class="step-eyebrow" id="c3-section-label"></p>
-        <div class="c1-letter" id="c3-current" style="font-size:2.6rem">&#128266;</div>
+        <div class="c1-letter" id="c3-current" style="font-size:2.6rem"><span class="ear-ico ear-lg"></span></div>
         <p class="mini-note" id="c3-progress"></p>
         <div class="rec-row" id="c3-prompt-row">
-          <button class="play-btn" id="c3-replay-btn" onclick="c3ReplayPrompt()">&#9654;&nbsp; Hear it again</button>
+          <button class="play-btn" id="c3-replay-btn" onclick="c3ReplayPrompt()"><span class="ear-ico ear-sm"></span>Hear it again</button>
         </div>
         <div class="icon-row">
           <button class="icon-btn icon-btn-next" id="c3-next" onclick="c3NextTap()"><span class="icon-glyph">&#8594;</span><span class="icon-label" id="c3-next-lbl">Next</span></button>
@@ -765,22 +817,22 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
         <div class="lede" id="c3-trans-text"></div>
         <div class="dir-listen-wrap" id="dl-dir_check3_3a" style="display:none">
           <button class="dir-listen-btn" id="dl-dir_check3_3a-btn" onclick="dirToggle('dir_check3_3a')">
-            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+            <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
           </button>
         </div>
         <div class="dir-listen-wrap" id="dl-dir_check3_3b" style="display:none">
           <button class="dir-listen-btn" id="dl-dir_check3_3b-btn" onclick="dirToggle('dir_check3_3b')">
-            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+            <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
           </button>
         </div>
         <div class="dir-listen-wrap" id="dl-dir_check3_3c" style="display:none">
           <button class="dir-listen-btn" id="dl-dir_check3_3c-btn" onclick="dirToggle('dir_check3_3c')">
-            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+            <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
           </button>
         </div>
         <div class="dir-listen-wrap" id="dl-dir_check3_3d" style="display:none">
           <button class="dir-listen-btn" id="dl-dir_check3_3d-btn" onclick="dirToggle('dir_check3_3d')">
-            <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+            <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
           </button>
         </div>
         <div class="nav-row" style="margin-top:14px">
@@ -840,7 +892,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     <p class="mini-note">Tap your next group. Follow the steps.</p>
     <div class="dir-listen-wrap" id="dl-dir_vocab" style="display:none">
       <button class="dir-listen-btn" id="dl-dir_vocab-btn" onclick="dirToggle('dir_vocab')">
-        <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+        <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
       </button>
     </div>
     <p class="mini-note" id="sync-note" style="display:none"></p>
@@ -1039,7 +1091,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     <p class="mini-note" id="flu-directions"></p>
     <div class="dir-listen-wrap" id="dl-dir_fluency" style="display:none">
       <button class="dir-listen-btn" id="dl-dir_fluency-btn" onclick="dirToggle('dir_fluency')">
-        <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+        <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
       </button>
     </div>
     <div class="flu-text-wrap" id="flu-text-wrap"><div class="flu-passage" id="flu-text"></div></div>
@@ -1055,8 +1107,8 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
       </div>
       <p class="rec-status" id="flu-rec-status"></p>
       <div class="flu-btn-row">
-        <button class="flu-sq-btn flu-sq-record" id="flu-rec" onclick="fluToggleRec()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="flu-rec-lbl">Record</span></button>
-        <button class="flu-sq-btn flu-sq-record" id="flu-done" onclick="fluToggleRec()" style="display:none"><span class="icon-glyph">&#9209;</span><span class="icon-label">Done</span></button>
+        <button class="flu-sq-btn flu-sq-record" id="flu-rec" onclick="fluToggleRec()"><span class="icon-glyph mic-ico"></span><span class="icon-label" id="flu-rec-lbl">Record</span></button>
+        <button class="flu-sq-btn flu-sq-record" id="flu-done" onclick="fluToggleRec()" style="display:none"><span class="icon-glyph mic-ico"></span><span class="icon-label">Done</span></button>
         <button class="flu-sq-btn flu-sq-play" id="flu-play" onclick="fluPlayMine()" disabled><span class="icon-glyph">&#9654;</span><span class="icon-label">Play back</span></button>
         <button class="flu-sq-btn flu-sq-save" id="flu-save" onclick="fluSubmit()" disabled><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>
       </div>
@@ -1076,7 +1128,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     <p class="lede" id="ret-prompt"></p>
     <div class="dir-listen-wrap" id="dl-dir_retell" style="display:none">
       <button class="dir-listen-btn" id="dl-dir_retell-btn" onclick="dirToggle('dir_retell')">
-        <span class="dir-listen-icon">&#128266;</span><span class="dir-listen-label">Listen</span>
+        <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
       </button>
     </div>
     <div class="note-box">
@@ -1086,8 +1138,8 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
     <div class="flu-timer-row"><span class="flu-timer" id="ret-timer">1:00</span></div>
     <p class="rec-status" id="ret-rec-status"></p>
     <div class="flu-btn-row">
-      <button class="flu-sq-btn flu-sq-record" id="ret-rec" onclick="retToggleRec()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="ret-rec-lbl">Record</span></button>
-      <button class="flu-sq-btn flu-sq-record" id="ret-done" onclick="retToggleRec()" style="display:none"><span class="icon-glyph">&#9209;</span><span class="icon-label">Done</span></button>
+      <button class="flu-sq-btn flu-sq-record" id="ret-rec" onclick="retToggleRec()"><span class="icon-glyph mic-ico"></span><span class="icon-label" id="ret-rec-lbl">Record</span></button>
+      <button class="flu-sq-btn flu-sq-record" id="ret-done" onclick="retToggleRec()" style="display:none"><span class="icon-glyph mic-ico"></span><span class="icon-label">Done</span></button>
       <button class="flu-sq-btn flu-sq-play" id="ret-play" onclick="retPlayMine()" disabled><span class="icon-glyph">&#9654;</span><span class="icon-label">Play back</span></button>
       <button class="flu-sq-btn flu-sq-save" id="ret-submit" onclick="retSubmit()" disabled><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>
     </div>
@@ -2386,7 +2438,7 @@ function fRenderControls(state){
   var rs=document.getElementById("f-rec-status");
   if(state==="idle"){
     if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
-    box.innerHTML='<div class="icon-row"><button class="icon-btn icon-btn-record" onclick="fStart()"><span class="icon-glyph">&#127908;</span><span class="icon-label">Record</span></button></div>';
+    box.innerHTML='<div class="icon-row"><button class="icon-btn icon-btn-record" onclick="fStart()"><span class="icon-glyph mic-ico"></span><span class="icon-label">Record</span></button></div>';
     return;
   }
   if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
@@ -2704,7 +2756,7 @@ function rRenderStage(){
   var stage=rStages[rStage];
   var head='<p class="step-eyebrow">Word '+(gPos+1)+' of '+GIDXS.length+'</p>'+passDotsHTML();
   var chip='<div class="word-chip"><span class="w">'+escapeHtml(s.word)+'</span>'
-          +'<button class="hearw" onclick="hearWord()">&#9654;&nbsp; Hear the word</button></div>'
+          +'<button class="hearw" onclick="hearWord()"><span class="ear-ico ear-sm"></span>Hear the word</button></div>'
           +'<p class="mini-note" id="word-miss"></p>';
   var sent='<p class="sentence" id="sent-line">'+sentenceHTML()+'</p>';
   var pacer='<div class="pacer-wrap"><div class="pacer" id="pacer"><div class="pfill" id="pfill"></div><div class="knob" id="knob"></div></div>'
@@ -2730,7 +2782,7 @@ function rRenderStage(){
       +'<p class="mini-note">Read <strong>'+readNo+'</strong>: slide and read it out loud. Tap a word if you get stuck.</p>'
       +'</div>'
       +'<div class="nav-row">'
-      +'<button class="btn" onclick="hearSentence()">&#9654; Hear it again</button><button class="btn" id="pause-btn" onclick="togglePause()">&#10073;&#10073;&nbsp; Pause</button>'
+      +'<button class="btn" onclick="hearSentence()"><span class="ear-ico ear-sm"></span>Hear it again</button><button class="btn" id="pause-btn" onclick="togglePause()">&#10073;&#10073;&nbsp; Pause</button>'
       +'<button class="btn primary" onclick="rAdvance()">I read it &rarr;</button>'
       +'</div>';
   } else { /* record */
@@ -2740,7 +2792,7 @@ function rRenderStage(){
       +'<p class="mini-note">Last read: slide, read it out loud, and record your best one.</p>'
       +'<p class="rec-status" id="r-rec-status"></p>'
       +'<div class="icon-row">'
-      +'<button class="icon-btn icon-btn-record" id="r-rec" onclick="rToggleRec()"><span class="icon-glyph">&#127908;</span><span class="icon-label" id="r-rec-label">Record</span></button>'
+      +'<button class="icon-btn icon-btn-record" id="r-rec" onclick="rToggleRec()"><span class="icon-glyph mic-ico"></span><span class="icon-label" id="r-rec-label">Record</span></button>'
       +'<button class="icon-btn icon-btn-done" id="r-done" onclick="rToggleRec()" style="display:none"><span class="icon-glyph">&#9209;</span><span class="icon-label">Done</span></button>'
       +'<button class="icon-btn icon-btn-listen" id="r-play" onclick="rPlayMine()" disabled><span class="icon-glyph">&#9654;</span><span class="icon-label">Play back</span></button>'
       +'</div>'
@@ -2748,7 +2800,7 @@ function rRenderStage(){
       +'<div id="r-save"></div>'
       +'</div>'
       +'<div class="nav-row">'
-      +'<button class="btn" onclick="hearSentence()">&#9654; Hear it again</button><button class="btn" id="pause-btn" onclick="togglePause()">&#10073;&#10073;&nbsp; Pause</button>'
+      +'<button class="btn" onclick="hearSentence()"><span class="ear-ico ear-sm"></span>Hear it again</button><button class="btn" id="pause-btn" onclick="togglePause()">&#10073;&#10073;&nbsp; Pause</button>'
       +(gPos<GIDXS.length-1?'<button class="btn primary" onclick="rNextSentence()">Next word &rarr;</button>':'<button class="btn primary" onclick="rToFinal()">Final read &rarr;</button>')
       +'</div>';
   }
@@ -5413,6 +5465,31 @@ function toggleTeacherDark(){
   TEACHER_DARK=!TEACHER_DARK; saveTeacherDark();
   applyTeacherDarkClass("s-home");
 }
+
+/* ---------- Listen button beside its directions ----------
+   Every .dir-listen-wrap is moved into a row WITH the directions text
+   that comes right before it (Listen on the left, words on the right),
+   so students never hunt for it. Consecutive wraps (the Check 2/3
+   section intros, where only one shows at a time) share one row. */
+function placeListenBesideDirections(){
+  var wraps=document.querySelectorAll(".dir-listen-wrap"), i;
+  for(i=0;i<wraps.length;i++){
+    var w=wraps[i];
+    if(w.parentNode && (" "+w.parentNode.className+" ").indexOf(" dir-row ")>-1){ continue; }
+    var prev=w.previousElementSibling;
+    while(prev && (" "+prev.className+" ").indexOf(" dir-listen-wrap ")>-1){ prev=prev.previousElementSibling; }
+    if(!prev){ continue; }
+    var tag=prev.tagName;
+    if(tag!=="P" && tag!=="DIV"){ continue; }
+    var row=document.createElement("div"); row.className="dir-row";
+    prev.parentNode.insertBefore(row,prev);
+    var run=[], n=prev.nextElementSibling;
+    while(n && (" "+n.className+" ").indexOf(" dir-listen-wrap ")>-1){ run.push(n); n=n.nextElementSibling; }
+    var j; for(j=0;j<run.length;j++){ row.appendChild(run[j]); }
+    row.appendChild(prev);
+  }
+}
+placeListenBesideDirections();
 
 /* ---------- Boot ---------- */
 applyTheme();
