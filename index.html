@@ -334,6 +334,12 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .c1t-cell.err{ background:var(--retry-bg); border-color:var(--retry); color:var(--retry); }
 .c1t-cell.sc{ background:var(--good-bg); border-color:var(--good); color:var(--good); }
 .c1t-cell.skip{ background:var(--unsure-bg); border-color:var(--unsure); color:var(--unsure); }
+/* Check 4's grid holds whole printed words (up to 8 letters, e.g.
+   "swimming"), not single letters like Check 1/2 -- wider, shorter
+   tiles and a smaller font so the word never overflows or overlaps
+   its neighbor. */
+.c4-grid{ grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); }
+.c4-grid .c1-cell{ font-size:1.4rem; padding:14px 6px; white-space:nowrap; }
 .c2-obs{ display:block; font-size:11px; opacity:.3; margin-top:2px; }
 .c2-obs.on{ opacity:1; color:var(--accent); font-weight:700; }
 /* Hover effects only for a real mouse/trackpad. On a touch screen, a
@@ -5887,7 +5893,7 @@ function c4tOpenAttempt(id){
   for(i=0;i<C4_BANDS.length;i++){
     var b=C4_BANDS[i];
     gridsHtml+='<p class="step-eyebrow" style="margin-top:14px">'+b.id+' — '+escapeHtml(b.label)+' ('+b.words.length+')</p>'
-      +'<div class="c1-grid" id="c4t-grid-'+b.id+'"></div>';
+      +'<div class="c1-grid c4-grid" id="c4t-grid-'+b.id+'"></div>';
   }
   var ms=a.totalTimeMs||0, mins=Math.floor(ms/60000), secs=Math.floor((ms%60000)/1000);
   host.innerHTML =
