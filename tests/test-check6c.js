@@ -147,11 +147,10 @@ setTimeout(function(){
         if(diagBtns2[m].textContent.indexOf("Check 7")>-1){ c7Btn=diagBtns2[m]; }
       }
       ck(foundC6cGreen,"Check 6C shows green/Completed on the dashboard");
-      ck(!!c7Btn && c7Btn.disabled!==true,"Check 7 is not gray/locked once Check 6 (6A+6B+6C) is fully done, even though it isn't built yet");
+      ck(!!c7Btn && c7Btn.disabled!==true,"Check 7 is not gray/locked once Check 6 (6A+6B+6C) is fully done");
       ck(!!c7Btn && c7Btn.className.indexOf("locked")===-1,"Check 7 uses the normal available style, not the locked style");
       click(c7Btn);
-      ck(activeId()==="diagLanding","tapping the not-yet-built Check 7 never navigates anywhere");
-      ck(/Coming soon!/.test(d.getElementById("diag-comingsoon-note").textContent),"tapping it shows 'Coming soon!' -- Check 7 was NOT built");
+      ck(activeId()==="check7","tapping Check 7 opens it -- it was built in a later task");
 
       teacherViewFlow(attempts[0].id);
     });

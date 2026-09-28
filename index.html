@@ -508,6 +508,43 @@ html[data-mode="dark"] #check6 .clean-header,html[data-mode="dark"] #check6Teach
 #check6 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px;background-color:var(--ink-soft)}
 #check6 .dir-listen-btn.playing .dir-listen-icon.ear-ico{background-color:var(--accent);animation:none}
 
+/* ===== Check 7 (Multisyllabic Word Analysis): same Clean/Professional
+   system, a SEPARATE copy again -- Checks 1-6 (including 6A/6B/6C) are
+   locked and this build never touches a line any of them depends on. */
+#check7 .pill-btn,#check7Teach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#check7 .pill-btn-primary,#check7Teach .pill-btn-primary{background:var(--accent);border:none;color:#fff}
+#check7 .pill-btn-secondary,#check7Teach .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+#check7 .pill-btn[disabled],#check7Teach .pill-btn[disabled]{opacity:.45;cursor:default}
+#check7 .clean-icon,#check7Teach .clean-icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink-soft);color:var(--ink-soft);background:var(--panel);flex:0 0 auto;cursor:pointer;touch-action:manipulation}
+#check7 .clean-icon svg,#check7Teach .clean-icon svg{width:18px;height:18px}
+#check7 .clean-icon.active,#check7Teach .clean-icon.active{border-color:var(--accent);color:var(--accent)}
+#check7 .clean-icon[disabled],#check7Teach .clean-icon[disabled]{opacity:.45;cursor:default}
+#check7 .clean-icon-row,#check7Teach .clean-icon-row{display:flex;align-items:center;gap:14px;margin:14px 0}
+#check7 .clean-icon-label,#check7Teach .clean-icon-label{font-size:13px;color:var(--ink-soft);font-weight:600}
+#check7 .clean-header,#check7Teach .clean-header{background:color-mix(in srgb,var(--accent) 10%,var(--panel));border-bottom:1px solid var(--line);padding:14px 18px}
+html[data-mode="dark"] #check7 .clean-header,html[data-mode="dark"] #check7Teach .clean-header{background:color-mix(in srgb,var(--accent) 22%,var(--panel))}
+#check7 .clean-card,#check7Teach .clean-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin:0 0 16px}
+#check7 .clean-card-body,#check7Teach .clean-card-body{padding:18px}
+/* Check 7's academic/four-plus-syllable band (7E) and pseudowords (7F) run
+   as long as Check 6's longest words -- same smaller base size + a
+   defensive word-break as a last resort, so nothing clips/overlaps. */
+#check7 .clean-word{font-size:3.6rem;font-weight:800;text-align:center;line-height:1.15;letter-spacing:-.01em;margin:32px 0;overflow-wrap:break-word}
+@media(max-width:520px){#check7 .clean-word{font-size:2.3rem}}
+#check7 .clean-tile,#check7Teach .clean-tile{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:1.05rem;font-weight:700;color:var(--ink);white-space:nowrap;background:var(--panel)}
+#check7Teach .clean-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin:14px 0}
+#check7Teach .clean-grid .clean-tile{cursor:pointer;touch-action:manipulation;text-align:center;position:relative}
+#check7Teach .clean-tile.state-err{background:var(--retry-bg);border-color:var(--retry);color:var(--retry)}
+#check7Teach .clean-tile.state-sc{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+#check7Teach .clean-tile.state-skip{background:var(--unsure-bg);border-color:var(--unsure);color:var(--unsure)}
+#check7Teach .speed-row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px}
+#check7Teach .speed-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);border-radius:999px;padding:6px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation}
+#check7Teach .speed-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+#check7 .rec-status{color:var(--ink-soft)}
+#check7 .rec-status .rec-status-dot{background-color:var(--ink-soft);animation:none}
+#check7 .dir-listen-btn{border-radius:999px;padding:10px 20px}
+#check7 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px;background-color:var(--ink-soft)}
+#check7 .dir-listen-btn.playing .dir-listen-icon.ear-ico{background-color:var(--accent);animation:none}
+
 /* ===== Check 6B (Understand It): same Clean/Professional system, a
    SEPARATE copy again -- 6A is locked and this build never touches a
    line it depends on. New here: the stem text and the 3 stacked
@@ -609,6 +646,7 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
             <button class="teach-tile cat-scoring" onclick="go('check6Teach')" title="Score morphological word reading recordings (6A)"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 6 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('check6bTeach')" title="View morpheme-meaning results (6B, auto-scored)"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 6B Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('check6cTeach')" title="View morphological manipulation results (6C, auto-scored)"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 6C Review</span></button>
+            <button class="teach-tile cat-scoring" onclick="go('check7Teach')" title="Score multisyllabic word analysis recordings"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 7 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('s-fluteach')" title="Listen to fluency &amp; retell attempts, score WCPM, approve moves"><span class="teach-tile-icon">&#128214;</span><span class="teach-tile-label">Fluency Review</span></button>
           </div>
         </div>
@@ -1294,6 +1332,56 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
       <div class="seg" id="c6ct-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c6ct-roster" style="margin-bottom:14px"></div>
       <div id="c6ct-body"></div>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <!-- CHECK 7 (Multisyllabic Word Analysis): same audio-only, one-recording
+       architecture as Check 4/5/6A. Checks 1-6 (including 6A/6B/6C) are
+       untouched by this build. -->
+  <section class="screen" id="check7">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('diagLanding')">Diagnostic Tools</a> &nbsp;/&nbsp; Check 7</p>
+      <p class="step-eyebrow">Check 7: Multisyllabic Word Analysis</p>
+      <h2 class="scr-title">Read each word</h2>
+      <div class="lede" id="c7-intro">Read each word out loud. Tap Next after each one.</div>
+      <div class="dir-listen-wrap" id="dl-dir_check7" style="display:none">
+        <button class="dir-listen-btn" id="dl-dir_check7-btn" onclick="dirToggle('dir_check7')">
+          <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
+        </button>
+      </div>
+      <p class="mini-note" id="c7-mic-note">Your browser will ask for permission to use the microphone. Tap Allow so your reading can be recorded.</p>
+      <p class="step-eyebrow" id="c7-section-label" style="display:none"></p>
+      <div class="clean-word" id="c7-current" style="display:none">&nbsp;</div>
+      <p class="mini-note" id="c7-progress"></p>
+      <p class="mini-note" id="c7-pseudo-note" style="display:none">These are made-up words. Read each one out loud.</p>
+      <p class="rec-status" id="c7-rec-status"></p>
+      <button class="pill-btn pill-btn-primary" id="c7-start" onclick="c7Start()">Start Recording</button>
+      <div class="clean-icon-row" id="c7-active-row" style="display:none">
+        <button class="pill-btn pill-btn-primary" id="c7-next" onclick="c7NextTap()"><span id="c7-next-lbl">Next</span></button>
+        <button class="pill-btn pill-btn-secondary" id="c7-done" onclick="c7DoneTap()">Done</button>
+      </div>
+      <p class="state-line none" id="c7-state"></p>
+      <div id="c7-review"></div>
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECK 7: teacher scoring -- same local-file pattern as check4Teach/
+       check5Teach/check6Teach, plus its own playback speed (own persisted
+       preference, kept separate from every earlier check's). No keyboard
+       shortcuts for Check 7 -- not requested for this build. -->
+  <section class="screen" data-teacher="1" id="check7Teach">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Check 7 review</p>
+      <h2>Check 7 &mdash; Multisyllabic Word Analysis review</h2>
+      <p class="lede">Pick a class, then a student. Open the student&rsquo;s downloaded recording, then tap each word to score it.</p>
+      <button class="mini-btn" onclick="previewGoto('check7')" title="See the real student screen, any time -- even with nothing saved yet">&#128065; Student View</button>
+      <div class="seg" id="c7t-class" style="margin:10px 0;flex-wrap:wrap"></div>
+      <div class="grid" id="c7t-roster" style="margin-bottom:14px"></div>
+      <div id="c7t-body"></div>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -2132,6 +2220,7 @@ var DIRECTIONS_DEFS=[
   {key:"dir_check6", label:"Check 6 directions", script:"Read each word out loud."},
   {key:"dir_check6b", label:"Check 6B directions", script:"Choose the best answer."},
   {key:"dir_check6c", label:"Check 6C directions", script:"Build, take away, or change each word."},
+  {key:"dir_check7", label:"Check 7 directions", script:"Read each word out loud."},
   {key:"dir_fluency", label:"Fluency directions", script:"Read the passage out loud."},
   {key:"dir_retell", label:"Retell directions", script:"Tell what you read, in your own words. You have one minute."},
   {key:"dir_vocab", label:"Vocabulary (Word Practice) directions", script:"Pick a group. Hear the word, then read it."}
@@ -2367,7 +2456,7 @@ var CHECK_DEFS=[
   {id:"check6", label:"Check 6: Morphology (6A)", sub:"Read each printed word out loud (one recording)", built:true, screen:"check6"},
   {id:"check6b", label:"Check 6B: Morphology (Understand It)", sub:"Choose the best answer", built:true, screen:"check6b"},
   {id:"check6c", label:"Check 6C: Morphology (Build It)", sub:"Build, take away, or change each word", built:true, screen:"check6c"},
-  {id:"check7", label:"Check 7: Multisyllabic Word Analysis", sub:"Coming soon", built:false}
+  {id:"check7", label:"Check 7: Multisyllabic Word Analysis", sub:"Read each printed word out loud (one recording)", built:true, screen:"check7"}
 ];
 function ckKey(){ return vasK("rf_checks_"+(READER?READER.id:"anon")); }
 function ckDone(){ try{ var v=localStorage.getItem(ckKey()); return v?JSON.parse(v):{}; }catch(e){ return {}; } }
@@ -3098,6 +3187,8 @@ function go(id){
   if(id==="check6bTeach"){ check6bTeachEnter(); }
   if(id==="check6c"){ c6cEnter(); }
   if(id==="check6cTeach"){ check6cTeachEnter(); }
+  if(id==="check7"){ c7Enter(); }
+  if(id==="check7Teach"){ check7TeachEnter(); }
   if(id==="s-teachDir"){ dirtEnter(); }
   if(id==="s-teachStudents"){ teachStudentsEnter(); }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
@@ -7554,6 +7645,376 @@ function c6ctOpenAttempt(id){
     +'<div class="clean-list">'+itemsHtml+"</div>"
     +"</div></div>"
     +'<div class="nav-row" style="margin-top:14px"><button class="btn" onclick="c6ctPaintAttemptList()">&#8592; Back to attempts</button></div>';
+}
+
+/* ---------- Check 7 (Multisyllabic Word Analysis) item bank: 90 items
+   across 6 bands (7A Two-syllable, 7B Compound, 7C Syllable-pattern
+   application, 7D Three-syllable, 7E Four-plus syllable/academic, 7F
+   Original controlled pseudowords). Content = the QC-corrected MASTER_SPEC
+   section (line 226 area, "CHECKS 3-7: QC-CORRECTED FINAL CONTENT") --
+   confirmed by Miq after a pre-build QC gate found this section already
+   fixes all three known issues (7C no longer duplicates 7A, 7E no longer
+   duplicates Check 6, 7F is fully populated) and independently verified
+   against index.html's actual live Check 3-6 banks: zero internal
+   duplicates, zero cross-check duplicates, exact 90-item count. Same
+   audio-only architecture as Check 4/5/6A: ONE continuous recording, no
+   model audio, printed word only, teacher controls how far the student
+   goes. Purpose = decoding/word-analysis (syllable chunking), not
+   vocabulary/morpheme-meaning -- Check 6 already owns that. Pseudowords
+   (7F) are tracked with their own isPseudo flag so their score is never
+   blended with the real-word bands, mirroring Check 4's 4L pattern. */
+var C7_SETS=[
+  {id:"7A", label:"Two-Syllable Words", words:["sunset","picnic","rabbit","napkin","helmet","basket","music","hotel","robot","tiger","paper","open","cactus","seven","winter","market","problem","contest","number","hundred"]},
+  {id:"7B", label:"Compound Words", words:["sunlight","football","weekend","bedroom","backpack","outside","upstairs","downtown","something","everyone"]},
+  {id:"7C", label:"Syllable-Pattern Application", words:["magnet","dentist","pumpkin","silent","basic","unit","remote","invite","rainbow","daylight","season","peanut","garden","perfect","birthday","little","purple","candle"]},
+  {id:"7D", label:"Three-Syllable Words", words:["animal","banana","computer","remember","important","another","tomorrow","fantastic","discover","September","attention","different","energy","family","exercise"]},
+  {id:"7E", label:"Four-Plus Syllable / Academic Words", words:["education","community","independent","opportunity","communication","population","environmental","mathematical","investigation","relationship","responsibility","electricity","democracy","geography","celebration"]},
+  {id:"7F", label:"Controlled Pseudowords", words:["mepnic","ravlet","sopane","fimote","zeebon","plooder","narvish","torpune","cambrel","vantrel","plindor","vorimble"], pseudo:true}
+];
+/* the flat walk order the student actually sees, built once at load time */
+var C7_ITEMS=(function(){
+  var out=[], i, j;
+  for(i=0;i<C7_SETS.length;i++){
+    for(j=0;j<C7_SETS[i].words.length;j++){
+      out.push({section:C7_SETS[i].id, word:C7_SETS[i].words[j], isPseudo:!!C7_SETS[i].pseudo});
+    }
+  }
+  return out;
+})();
+/* set start offsets into the flat C7_ITEMS array, for the teacher grids */
+var C7_SET_START=(function(){
+  var out=[], run=0, i;
+  for(i=0;i<C7_SETS.length;i++){ out.push(run); run+=C7_SETS[i].words.length; }
+  return out;
+})();
+
+/* ---------- Check 7 attempts (localStorage): one row per completed recording ---------- */
+var C7Attempts=(function(){
+  var KEY="rf_check7_attempts";
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(l)); }catch(e){} }
+  function add(rec){ var l=all(); l.push(rec); save(l); return rec; }
+  function update(id,patch){ var l=all(), i, k; for(i=0;i<l.length;i++){ if(l[i].id===id){ for(k in patch){ if(patch.hasOwnProperty(k)){ l[i][k]=patch[k]; } } break; } } save(l); }
+  function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
+  function forStudent(sid){ var l=all(), out=[], i; for(i=0;i<l.length;i++){ if(l[i].studentId===sid){ out.push(l[i]); } } out.sort(function(a,b){ return a.date<b.date?1:(a.date>b.date?-1:0); }); return out; }
+  return { all:all, add:add, update:update, get:get, forStudent:forStudent };
+})();
+var C7Review=rfReviewStore("rf_check7_attempts");
+
+/* ---------- Check 7: student flow -- ONE continuous AUDIO recording
+   (no camera, same audio-only startRec/stopRec pattern as Check 1/4/5/6A),
+   one printed word at a time across 6 bands (90 items total). No model
+   audio/pronunciation/hints; accent alone is never an error (teacher
+   scoring note only, not enforceable in code). Teacher controls how far
+   the student goes via the same Done-early button Check 4/5/6A use. A
+   static transition note (no new recording needed, same honest-fallback
+   pattern as Check 4's 4L pseudoword note) appears once the student
+   reaches 7F. ---------- */
+var c7Idx=-1, c7Blob=null, c7YesUsed=false, c7NextLock=false, c7Playing=false, c7StartAt=0;
+function c7Enter(){
+  c7Idx=-1; c7Blob=null; c7YesUsed=false; c7NextLock=false; c7Playing=false;
+  document.getElementById("c7-intro").style.display="block";
+  document.getElementById("c7-mic-note").style.display="block";
+  var sl=document.getElementById("c7-section-label"); sl.style.display="none"; sl.textContent="";
+  var cur=document.getElementById("c7-current"); cur.style.display="none"; cur.textContent="";
+  document.getElementById("c7-progress").textContent="";
+  var pn=document.getElementById("c7-pseudo-note"); if(pn){ pn.style.display="none"; }
+  var sb=document.getElementById("c7-start"); sb.style.display="inline-flex"; sb.disabled=false; sb.textContent="Start Recording";
+  document.getElementById("c7-active-row").style.display="none";
+  var rs=document.getElementById("c7-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
+  var st=document.getElementById("c7-state"); st.className="state-line none"; st.textContent="";
+  var rv=document.getElementById("c7-review"); if(rv){ rv.innerHTML=""; }
+  dirPaintButton("dir_check7");
+}
+function c7PaintItem(){
+  document.getElementById("c7-intro").style.display="none";
+  document.getElementById("c7-mic-note").style.display="none";
+  var dl=document.getElementById("dl-dir_check7"); if(dl){ dl.style.display="none"; }
+  var item=C7_ITEMS[c7Idx];
+  var sl=document.getElementById("c7-section-label"); sl.style.display="block"; sl.textContent=item.section;
+  var cur=document.getElementById("c7-current");
+  cur.style.display="block"; cur.textContent=item.word;
+  document.getElementById("c7-progress").textContent="Item "+(c7Idx+1)+" of "+C7_ITEMS.length;
+  var pn=document.getElementById("c7-pseudo-note"); if(pn){ pn.style.display=item.isPseudo?"block":"none"; }
+  var nlbl=document.getElementById("c7-next-lbl");
+  nlbl.textContent = (c7Idx===C7_ITEMS.length-1) ? "Finish" : "Next";
+}
+function c7Start(){
+  var sb=document.getElementById("c7-start"), st=document.getElementById("c7-state");
+  activeCtx="check7"; st.className="state-line none"; st.textContent="Starting the microphone…";
+  startRec(function(blob){
+    /* the whole recording (however far it got) just ended -- review before it's final */
+    c7Blob=blob;
+    c7Review();
+  },function(){
+    c7Idx=0; c7PaintItem();
+    c7StartAt=new Date().getTime();
+    sb.style.display="none";
+    document.getElementById("c7-active-row").style.display="flex";
+    var rs=document.getElementById("c7-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
+    st.className="state-line none"; st.textContent="Recording. Read each word, then tap Next.";
+  }).catch(function(err){
+    st.className="state-line err"; st.textContent=micErrorText(err);
+  });
+}
+function c7DoAdvance(){
+  if(c7Idx<C7_ITEMS.length-1){ c7Idx++; c7PaintItem(); }
+  else { stopRec(); }
+}
+/* Rapid-tap protection scoped to THIS one repeatedly-tapped button: a
+   frame-paced lock (not a millisecond cooldown) absorbs a duplicate event
+   for the same physical tap without ever delaying a real next tap. */
+function c7NextTap(){
+  if(c7NextLock){ return; }
+  c7NextLock=true;
+  if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c7NextLock=false; }); }
+  else { setTimeout(function(){ c7NextLock=false; },16); }
+  c7DoAdvance();
+}
+/* Teacher-controlled early stop, at any item -- "do not force all 90
+   items on every student" */
+function c7DoneTap(){ stopRec(); }
+function c7Review(){
+  c7Playing=false;
+  document.getElementById("c7-start").style.display="none";
+  document.getElementById("c7-active-row").style.display="none";
+  document.getElementById("c7-section-label").style.display="none";
+  document.getElementById("c7-current").style.display="none";
+  document.getElementById("c7-progress").textContent="";
+  var pn=document.getElementById("c7-pseudo-note"); if(pn){ pn.style.display="none"; }
+  var rs=document.getElementById("c7-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
+  var st=document.getElementById("c7-state");
+  st.className="state-line saved";
+  st.textContent="Recording complete.";
+  var rv=document.getElementById("c7-review");
+  rv.innerHTML='<div class="clean-icon-row">'
+    +'<button class="pill-btn pill-btn-secondary" id="c7-listen-btn" onclick="c7ToggleListen()">Play back</button>'
+    +(VIEW_AS_STUDENT?'<button class="pill-btn pill-btn-secondary" onclick="c7RecordAgain()">Redo</button>':"")
+    +'<button class="pill-btn pill-btn-primary" onclick="c7Finish()">Save &amp; Finish</button>'
+    +"</div>";
+}
+function c7ToggleListen(){
+  var btn=document.getElementById("c7-listen-btn"); if(!btn){ return; }
+  if(c7Playing){
+    stopAllAudio();
+    c7Playing=false;
+    btn.textContent="Play back";
+    return;
+  }
+  var a=playBlob(c7Blob);
+  c7Playing=true;
+  btn.textContent="Stop";
+  if(a){
+    var origOnEnded=a.onended;
+    a.onended=function(){ if(origOnEnded){ origOnEnded(); } c7Playing=false; var b=document.getElementById("c7-listen-btn"); if(b){ b.textContent="Play back"; } };
+  }
+}
+function c7RecordAgain(){
+  stopAllAudio(); c7Playing=false;
+  c7Blob=null;
+  document.getElementById("c7-review").innerHTML="";
+  c7Enter();
+}
+function c7Finish(){
+  if(!c7Blob||c7Blob.size===0){ return; } // never mark complete on a failed/empty recording
+  stopAllAudio(); c7Playing=false;
+  var fname=rfStandardFileName("CHECK_7");
+  downloadBlob(c7Blob,fname);
+  var reached=c7Idx+1;
+  C7Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
+    totalTimeMs:(new Date().getTime()-c7StartAt), reachedCount:reached, scores:null, note:null,
+    setCorrect:null, targets:null });
+  document.getElementById("c7-review").innerHTML="";
+  var st=document.getElementById("c7-state");
+  st.className="state-line saved";
+  st.innerHTML="&#9989; All done! Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
+    +'<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
+    +"<li>Open today’s Check 7 assignment in Canvas.</li>"
+    +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
+    +"<li>Press <strong>Submit</strong>.</li></ol></div>"
+    +'<div class="note-box" style="margin-top:14px"><h4>Did you submit your audio file?</h4>'
+    +'<button class="pill-btn pill-btn-primary" id="c7-yes-btn" style="font-size:19px;padding:16px 32px" onclick="c7ConfirmSubmitted()">YES</button></div>';
+}
+function c7ConfirmSubmitted(){
+  if(c7YesUsed){ return; }
+  c7YesUsed=true;
+  var b=document.getElementById("c7-yes-btn"); if(b){ b.disabled=true; b.textContent="Saved ✓"; }
+  ckMarkDone("check7");
+  go("diagLanding");
+}
+
+/* ---------- Check 7: teacher scoring ----------
+   Same local-file pattern as check4Teach/check5Teach/check6Teach. One
+   grid per band (6 total, 90 cells). Simple 5-state cycle (no Check
+   5-style Immediate/Labored split -- not requested for Check 7, same
+   choice already made for Check 6A): blank/default = Correct, then
+   Incorrect, Self-Corrected, Skip, Not-Reached. Playback speed uses ITS
+   OWN persisted key (not Check 5/6's), kept fully separate so no earlier
+   check's code is ever touched by this build. Real-word vs pseudoword
+   (7F) totals are tracked and displayed SEPARATELY, mirroring Check 4's
+   4L pattern -- never blended into one combined score. */
+var C7T_CLS=0, C7T_STU=null, C7T_ATTEMPT=null, c7tFileUrl=null, c7tScores=[];
+var C7T_ORDER=["","err","sc","skip","nr"];
+var C7T_LABELS={"":"Correct","err":"Incorrect","sc":"Self-Corrected","skip":"No Response / Skip","nr":"Not Reached"};
+var C7T_CSS_CLASS={"":"","err":"state-err","sc":"state-sc","skip":"state-skip","nr":"state-skip"};
+var C7T_SPEEDS=[0.75,1,1.25,1.5,1.75,2];
+function c7tSpeedKey(){ return "rf_c7_playback_rate"; }
+function c7tSavedSpeed(){ try{ var v=parseFloat(window.localStorage.getItem(c7tSpeedKey())); return (v&&C7T_SPEEDS.indexOf(v)>-1)?v:1; }catch(e){ return 1; } }
+function c7tSaveSpeed(v){ try{ window.localStorage.setItem(c7tSpeedKey(), String(v)); }catch(e){} }
+function check7TeachEnter(){
+  C7T_CLS=0; C7T_STU=null; C7T_ATTEMPT=null;
+  c7tPaintClasses(); c7tPaintRoster();
+  var b=document.getElementById("c7t-body"); if(b){ b.innerHTML=""; }
+}
+function c7tPaintClasses(){
+  var seg=document.getElementById("c7t-class"); if(!seg){ return; }
+  var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="c7tPick('+i+')" class="'+(i===C7T_CLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function c7tPick(i){
+  C7T_CLS=i; C7T_STU=null; C7T_ATTEMPT=null;
+  c7tPaintClasses(); c7tPaintRoster();
+  var b=document.getElementById("c7t-body"); if(b){ b.innerHTML=""; }
+}
+function c7tPaintRoster(){
+  rfReviewRoster("c7t-roster", CLASSES[C7T_CLS], C7Review, C7T_STU, function(id){ C7T_STU=id; C7T_ATTEMPT=null; c7tPaintRoster(); c7tPaintAttemptList(); });
+}
+function c7tPaintAttemptList(){
+  var host=document.getElementById("c7t-body"); if(!host){ return; }
+  var list=C7Review.forStudent(C7T_STU);
+  if(!list.length){ rfReviewEmpty(host,7,C7T_STU,"check7"); rfReviewScroll(host); return; }
+  var html="", i;
+  for(i=0;i<list.length;i++){
+    (function(a){
+      var scored=(a.setCorrect!==null&&a.setCorrect!==undefined) ? " — scored" : " — not scored yet";
+      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small> Reached '+(a.reachedCount||0)+" of "+C7_ITEMS.length+scored+'</small></div>'
+        +'<button class="mini-btn" onclick="c7tOpenAttempt(\''+a.id+'\')">Open</button></div>';
+    })(list[i]);
+  }
+  host.innerHTML='<p class="step-eyebrow">'+escapeHtml(rfStuName(C7T_STU))+'</p>'+html;
+  rfReviewScroll(host);
+}
+function c7tOpenAttempt(id){
+  C7T_ATTEMPT=id;
+  var a=C7Review.get(id);
+  var n=C7_ITEMS.length, i;
+  c7tScores=(a.scores&&a.scores.length===n)?a.scores.slice(0):[];
+  if(!c7tScores.length){ for(i=0;i<n;i++){ c7tScores.push(i>=(a.reachedCount||0)?"nr":""); } }
+  var host=document.getElementById("c7t-body"); if(!host){ return; }
+  var gridsHtml="";
+  for(i=0;i<C7_SETS.length;i++){
+    var s=C7_SETS[i];
+    gridsHtml+='<p class="step-eyebrow" style="margin-top:14px">'+escapeHtml(s.label)+' ('+s.words.length+')'+(s.pseudo?" — pseudowords":"")+'</p>'
+      +'<div class="clean-grid" id="c7t-grid-'+s.id+'"></div>';
+  }
+  var ms=a.totalTimeMs||0, mins=Math.floor(ms/60000), secs=Math.floor((ms%60000)/1000);
+  var speed=c7tSavedSpeed(), speedHtml="", si;
+  for(si=0;si<C7T_SPEEDS.length;si++){
+    speedHtml+='<button class="speed-btn'+(C7T_SPEEDS[si]===speed?" on":"")+'" onclick="c7tSetSpeed('+C7T_SPEEDS[si]+')">'+C7T_SPEEDS[si]+'&times;</button>';
+  }
+  host.innerHTML =
+     '<div class="clean-card"><div class="clean-header">'
+    +'<p class="step-eyebrow" style="margin:0">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+"</p>"
+    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+" &nbsp; Reached "+(a.reachedCount||0)+" of "+n+" items</p>"
+    +"</div><div class=\"clean-card-body\">"
+    +'<label class="pill-btn pill-btn-secondary" for="c7t-file">Open the recording from Canvas</label>'
+    +'<input type="file" id="c7t-file" style="display:none" accept="audio/*,video/webm,.webm,.ogg" onchange="c7tOpenFile(this)">'
+    +'<audio id="c7t-player" controls style="width:100%;margin:10px 0"></audio>'
+    +'<p class="mini-note" id="c7t-file-note">No file open. The file stays on this computer.</p>'
+    +'<p class="clean-icon-label">Playback speed (this device only — never changes the original recording or the student&rsquo;s timing)</p>'
+    +'<div class="speed-row">'+speedHtml+'</div>'
+    +gridsHtml
+    +'<p class="mini-note">Tap a word to cycle: Correct &rarr; Incorrect &rarr; Self-Corrected &rarr; Skip &rarr; Not Reached &rarr; Correct. Accent alone is never an error.</p>'
+    +'<div class="setting-row" style="margin-top:10px"><div><strong>Teacher note</strong> (optional)</div></div>'
+    +'<textarea id="c7t-note" rows="3" style="width:100%;font:inherit;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:inherit">'+escapeHtml(a.note||"")+'</textarea>'
+    +'<div class="clean-card" id="c7t-results" style="margin-top:14px"></div>'
+    +'<button class="pill-btn pill-btn-primary" onclick="c7tSave()" style="margin-top:10px">Save scores</button>'
+    +'<p class="mini-note" id="c7t-save-note"></p>'
+    +"</div></div>"
+    +'<div class="nav-row" style="margin-top:14px"><button class="btn" onclick="c7tPaintAttemptList()">&#8592; Back to attempts</button></div>';
+  var player=document.getElementById("c7t-player"); if(player){ player.playbackRate=speed; }
+  c7tPaintAllGrids();
+  c7tPaintResults();
+}
+function c7tOpenFile(input){
+  var f=input.files&&input.files[0]; if(!f){ return; }
+  var a=document.getElementById("c7t-player");
+  if(c7tFileUrl){ try{ URL.revokeObjectURL(c7tFileUrl); }catch(e){} }
+  c7tFileUrl=URL.createObjectURL(f);
+  a.src=c7tFileUrl;
+  a.playbackRate=c7tSavedSpeed();
+  document.getElementById("c7t-file-note").textContent="Opened: "+f.name;
+}
+function c7tSetSpeed(v){
+  c7tSaveSpeed(v);
+  var a=document.getElementById("c7t-player"); if(a){ a.playbackRate=v; }
+  var btns=document.querySelectorAll("#c7t-body .speed-btn"), i;
+  for(i=0;i<btns.length;i++){ btns[i].className="speed-btn"+(parseFloat(btns[i].textContent)===v?" on":""); }
+}
+function c7tPaintGrid(hostId,startIdx,count){
+  var box=document.getElementById(hostId); if(!box){ return; }
+  var html="", i, gi;
+  for(i=0;i<count;i++){
+    gi=startIdx+i;
+    var st=c7tScores[gi]||"";
+    var cls=C7T_CSS_CLASS[st]||"";
+    html+='<button class="clean-tile'+(cls?" "+cls:"")+'" onclick="c7tTap('+gi+')" title="'+C7T_LABELS[st]+'">'
+      +escapeHtml(C7_ITEMS[gi].word)
+      +"</button>";
+  }
+  box.innerHTML=html;
+}
+function c7tPaintAllGrids(){
+  var i; for(i=0;i<C7_SETS.length;i++){ c7tPaintGrid("c7t-grid-"+C7_SETS[i].id, C7_SET_START[i], C7_SETS[i].words.length); }
+}
+function c7tTap(i){
+  var idx=C7T_ORDER.indexOf(c7tScores[i]);
+  c7tScores[i]=C7T_ORDER[(idx+1)%C7T_ORDER.length];
+  c7tPaintAllGrids();
+  c7tPaintResults();
+}
+function c7tCompute(){
+  var i, item, st, setCorrect={}, setMissed={};
+  for(i=0;i<C7_SETS.length;i++){ setCorrect[C7_SETS[i].id]=0; setMissed[C7_SETS[i].id]=[]; }
+  var selfCorr=0, skips=0, notReached=[], targets=[], realCorrect=0, realTotal=0, pseudoCorrect=0, pseudoTotal=0;
+  for(i=0;i<C7_ITEMS.length;i++){
+    item=C7_ITEMS[i]; st=c7tScores[i]||"";
+    if(st==="nr"){ notReached.push(item.word); continue; }
+    var isCorrect=(st===""||st==="sc");
+    if(st==="sc"){ selfCorr++; }
+    if(st==="skip"){ skips++; targets.push(item.word); }
+    if(st==="err"){ targets.push(item.word); }
+    if(isCorrect){ setCorrect[item.section]++; } else { setMissed[item.section].push(item.word); }
+    if(item.isPseudo){ pseudoTotal++; if(isCorrect){ pseudoCorrect++; } } else { realTotal++; if(isCorrect){ realCorrect++; } }
+  }
+  return { setCorrect:setCorrect, setMissed:setMissed, selfCorr:selfCorr, skips:skips, notReached:notReached,
+    targets:targets, realCorrect:realCorrect, realTotal:realTotal, pseudoCorrect:pseudoCorrect, pseudoTotal:pseudoTotal };
+}
+function c7tPaintResults(){
+  var host=document.getElementById("c7t-results"); if(!host){ return; }
+  var r=c7tCompute(), html="", i, overall=0, s;
+  for(i=0;i<C7_SETS.length;i++){
+    s=C7_SETS[i];
+    overall+=r.setCorrect[s.id];
+    html+="<p><strong>"+s.id+" "+escapeHtml(s.label)+":</strong> "+r.setCorrect[s.id]+" / "+s.words.length+"</p>";
+    if(r.setMissed[s.id].length){ html+='<p class="mini-note">Needs instruction: '+escapeHtml(r.setMissed[s.id].join(", "))+"</p>"; }
+  }
+  html+="<p><strong>Real Words (7A–7E):</strong> "+r.realCorrect+" / "+r.realTotal+"</p>";
+  html+="<p><strong>Controlled Pseudowords (7F):</strong> "+r.pseudoCorrect+" / "+r.pseudoTotal+"</p>";
+  html+="<p><strong>Overall Check 7:</strong> "+overall+" / "+C7_ITEMS.length+"</p>";
+  html+='<p class="mini-note">Self-corrections: '+r.selfCorr+" &nbsp; Skips: "+r.skips+"</p>";
+  html+='<p class="mini-note">Not Reached (recording ended before this item — never counted as incorrect): '+(r.notReached.length?escapeHtml(r.notReached.join(", ")):"none")+"</p>";
+  host.innerHTML=html;
+}
+function c7tSave(){
+  if(!C7T_ATTEMPT){ return; }
+  var r=c7tCompute();
+  var noteEl=document.getElementById("c7t-note");
+  var setScores={}, i; for(i=0;i<C7_SETS.length;i++){ setScores[C7_SETS[i].id]=r.setCorrect[C7_SETS[i].id]; }
+  C7Review.update(C7T_ATTEMPT,{ scores:c7tScores.slice(0), note:noteEl?noteEl.value:"",
+    setCorrect:setScores, realWordsCorrect:r.realCorrect, pseudoCorrect:r.pseudoCorrect, targets:r.targets });
+  var n=document.getElementById("c7t-save-note");
+  if(n){ n.className="mini-note"; n.style.color="var(--good)"; n.textContent="✓ Saved."; }
 }
 
 /* ---------- Teacher home: dark mode (layout/look only, teacher side only) ----------

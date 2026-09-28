@@ -614,68 +614,15 @@ Report separately:
 
 A multilingual student may decode a word correctly without knowing its English meaning; preserve that distinction.
 
-# CHECK 7 — MULTISYLLABIC WORD ANALYSIS
-## Purpose
-Determine whether the student can break an unfamiliar longer word into manageable parts, decode the parts, blend them, and pronounce the complete word.
-
-## 7A — Two-syllable words (20)
-sunset, picnic, rabbit, napkin, helmet, basket, music, hotel, robot, tiger, paper, open, cactus, seven, winter, market, problem, contest, number, hundred
-
-## 7B — Compound words (10)
-sunlight, football, weekend, bedroom, backpack, outside, upstairs, downtown, something, everyone
-
-## 7C — Syllable-pattern application (18)
-Closed: rabbit, basket, contest
-Open: robot, music, hotel
-VCe/silent-e: complete, mistake, inside
-Vowel team: raincoat, daydream, season
-R-controlled: market, perfect, corner
-Consonant-le: little, purple, candle
-
-The student does NOT need to name the syllable type. The skill is reading.
-
-## 7D — Three-syllable words (15)
-animal, banana, computer, remember, important, another, tomorrow, fantastic, discover, September, attention, different, energy, family, exercise
-
-## 7E — Four-plus syllable / academic words (15)
-information, education, community, independent, opportunity, organization, communication, population, environmental, mathematical, investigation, transportation, relationship, responsibility, electricity
-
-## 7F — Controlled unfamiliar words (12)
-Create a clearly isolated data slot for 12 original controlled pseudowords sampling:
-- closed
-- open
-- VCe
-- vowel teams
-- r-controlled
-- consonant-le
-- mixed multisyllabic patterns
-
-DO NOT silently copy pseudowords from a published assessment.
-If the 12 final QC'd Reading Foundations pseudowords are not already in the project, leave them visibly marked as "CONTENT REQUIRED — FINAL QC BEFORE PILOT/COMMERCIAL USE" rather than inventing copyrighted content.
-
-## Administration
-- Printed word only.
-- No model audio.
-- One continuous audio recording for administered sections.
-- Teacher controls entry/stop.
-- No grade labels on student screen.
-
-## Teacher scoring
-Core:
-- Correct
-- SC Self-corrected
-- Incorrect
-
-Optional error-pattern flags:
-- Couldn't Start
-- First Part Correct
-- Middle Error
-- Ending Error
-- Added/Omitted Syllable
-- Incorrect Vowel
-- Stress/Pronunciation Note
-
-Accent alone is never an error. Meaning knowledge is not the same as decoding.
+# CHECK 7 — MULTISYLLABIC WORD ANALYSIS — SUPERSEDED, see the authoritative section above
+**BUILT (2026-09-28).** This older draft is kept only for history. It is the version that had the
+three QC issues later found and fixed: 7C duplicated rabbit/basket/contest/robot/music/hotel/market
+from 7A, 7E duplicated information/transportation/organization from Check 6, and 7F was an
+unpopulated "CONTENT REQUIRED" placeholder. **The authoritative Check 7 content lives in one place
+only: see "CHECK 7 — MULTISYLLABIC WORD ANALYSIS (90 items, verified)" under "CHECKS 3–7: QC-CORRECTED
+FINAL CONTENT" above** — 90 items (7A 20, 7B 10, 7C 18, 7D 15, 7E 15, 7F 12 original pseudowords),
+built exactly as specified, confirmed by Miq after an independent pre-build QC pass (zero internal
+duplicates, zero cross-check duplicates against Checks 3–6's actual live word banks).
 
 # 6. DANIELS ASSESSMENT — EXISTING WORD-READING PLACEMENT SCREENER
 Preserve the existing Daniels Assessment if already built.

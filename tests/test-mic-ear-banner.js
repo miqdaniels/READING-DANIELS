@@ -25,7 +25,7 @@ ok(/\.rec-btn\.rec \.rec-dot\{animation:micPulse/.test(css),"teacher record mic 
 ok(html.indexOf("&#128266;")===-1,"no old speaker emoji anywhere");
 var ls=d.querySelectorAll(".dir-listen-btn"); bad=0;
 for(i=0;i<ls.length;i++){ if(!ls[i].querySelector(".ear-ico")){ bad++; } }
-ok(ls.length===17 && bad===0,"all 17 Listen buttons have the green ear");
+ok(ls.length===18 && bad===0,"all 18 Listen buttons have the green ear");
 var ear=w.getComputedStyle(d.querySelector(".dir-listen-btn .ear-ico"));
 ok(ear.backgroundColor==="rgb(46, 158, 79)","ear circle is green");
 ok(/\.dir-listen-btn\.playing \.dir-listen-icon\.ear-ico\{animation:earPulse/.test(css),"ear pulses while directions play");
