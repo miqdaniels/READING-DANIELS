@@ -507,6 +507,27 @@ html[data-mode="dark"] #check6 .clean-header,html[data-mode="dark"] #check6Teach
 #check6 .dir-listen-btn{border-radius:999px;padding:10px 20px}
 #check6 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px;background-color:var(--ink-soft)}
 #check6 .dir-listen-btn.playing .dir-listen-icon.ear-ico{background-color:var(--accent);animation:none}
+
+/* ===== Check 6B (Understand It): same Clean/Professional system, a
+   SEPARATE copy again -- 6A is locked and this build never touches a
+   line it depends on. New here: the stem text and the 3 stacked
+   full-width answer-choice pills (selected-response, no recording). ===== */
+#check6b .pill-btn,#check6bTeach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#check6b .pill-btn-primary,#check6bTeach .pill-btn-primary{background:var(--accent);border:none;color:#fff}
+#check6b .pill-btn-secondary,#check6bTeach .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+#check6b .pill-btn[disabled],#check6bTeach .pill-btn[disabled]{opacity:.45;cursor:default}
+#check6b .clean-header,#check6bTeach .clean-header{background:color-mix(in srgb,var(--accent) 10%,var(--panel));border-bottom:1px solid var(--line);padding:14px 18px}
+html[data-mode="dark"] #check6b .clean-header,html[data-mode="dark"] #check6bTeach .clean-header{background:color-mix(in srgb,var(--accent) 22%,var(--panel))}
+#check6b .clean-card,#check6bTeach .clean-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin:0 0 16px}
+#check6b .clean-card-body,#check6bTeach .clean-card-body{padding:18px}
+#check6b .clean-stem{font-size:1.6rem;font-weight:700;line-height:1.4;margin:28px 0 22px;text-align:center}
+@media(max-width:520px){#check6b .clean-stem{font-size:1.3rem}}
+#check6b .choice-pill{display:block;width:100%;box-sizing:border-box;text-align:center;border-radius:999px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:600;font-size:16px;padding:14px 20px;margin:0 0 12px;cursor:pointer;touch-action:manipulation}
+#check6b .choice-pill:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+#check6bTeach .clean-tile{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:14px;color:var(--ink);background:var(--panel)}
+#check6bTeach .clean-tile.state-err{background:var(--retry-bg);border-color:var(--retry);color:var(--retry)}
+#check6bTeach .clean-tile.state-ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+#check6bTeach .clean-list{display:flex;flex-direction:column;gap:8px;margin:14px 0}
 </style>
 </head>
 <body>
@@ -561,6 +582,7 @@ html[data-mode="dark"] #check6 .clean-header,html[data-mode="dark"] #check6Teach
             <button class="teach-tile cat-scoring" onclick="go('check4Teach')" title="Score decoding recordings"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 4 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('check5Teach')" title="Score automatic word recognition recordings"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 5 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('check6Teach')" title="Score morphological word reading recordings (6A)"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 6 Review</span></button>
+            <button class="teach-tile cat-scoring" onclick="go('check6bTeach')" title="View morpheme-meaning results (6B, auto-scored)"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 6B Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('s-fluteach')" title="Listen to fluency &amp; retell attempts, score WCPM, approve moves"><span class="teach-tile-icon">&#128214;</span><span class="teach-tile-label">Fluency Review</span></button>
           </div>
         </div>
@@ -1159,6 +1181,48 @@ html[data-mode="dark"] #check6 .clean-header,html[data-mode="dark"] #check6Teach
       <div class="seg" id="c6t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c6t-roster" style="margin-bottom:14px"></div>
       <div id="c6t-body"></div>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <!-- CHECK 6B (Understand It: Morpheme Meaning): selected-response, NO
+       recording, NO camera/mic at all -- the student taps the best of 3
+       answer choices and it advances immediately. Auto-scored (an
+       objectively correct answer key), so there is no teacher
+       listen-and-tap step for this component; the teacher-side screen is
+       a read-only results view. 6A above is untouched/locked. -->
+  <section class="screen" id="check6b">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('diagLanding')">Diagnostic Tools</a> &nbsp;/&nbsp; Check 6B</p>
+      <p class="step-eyebrow">Check 6: Morphology (6B &mdash; Understand It)</p>
+      <h2 class="scr-title">Choose the best answer</h2>
+      <div class="lede" id="c6b-intro">Choose the best answer.</div>
+      <div class="dir-listen-wrap" id="dl-dir_check6b" style="display:none">
+        <button class="dir-listen-btn" id="dl-dir_check6b-btn" onclick="dirToggle('dir_check6b')">
+          <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
+        </button>
+      </div>
+      <p class="mini-note" id="c6b-progress"></p>
+      <div class="clean-stem" id="c6b-stem" style="display:none">&nbsp;</div>
+      <div id="c6b-choices"></div>
+      <div id="c6b-done"></div>
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECK 6B: teacher-side results -- read-only (nothing to score; the
+       answer key already determined correctness at completion time). -->
+  <section class="screen" data-teacher="1" id="check6bTeach">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Check 6B review</p>
+      <h2>Check 6B &mdash; Understand It review</h2>
+      <p class="lede">Pick a class, then a student, to see their auto-scored results.</p>
+      <button class="mini-btn" onclick="previewGoto('check6b')" title="See the real student screen, any time -- even with nothing saved yet">&#128065; Student View</button>
+      <div class="seg" id="c6bt-class" style="margin:10px 0;flex-wrap:wrap"></div>
+      <div class="grid" id="c6bt-roster" style="margin-bottom:14px"></div>
+      <div id="c6bt-body"></div>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -1995,6 +2059,7 @@ var DIRECTIONS_DEFS=[
   {key:"dir_check4", label:"Check 4 directions", script:"Read each word out loud."},
   {key:"dir_check5", label:"Check 5 directions", script:"Read each word out loud."},
   {key:"dir_check6", label:"Check 6 directions", script:"Read each word out loud."},
+  {key:"dir_check6b", label:"Check 6B directions", script:"Choose the best answer."},
   {key:"dir_fluency", label:"Fluency directions", script:"Read the passage out loud."},
   {key:"dir_retell", label:"Retell directions", script:"Tell what you read, in your own words. You have one minute."},
   {key:"dir_vocab", label:"Vocabulary (Word Practice) directions", script:"Pick a group. Hear the word, then read it."}
@@ -2228,6 +2293,7 @@ var CHECK_DEFS=[
   {id:"check4", label:"Check 4: Decoding", sub:"Read each printed word out loud (one recording)", built:true, screen:"check4"},
   {id:"check5", label:"Check 5: Automatic Word Recognition", sub:"Read each printed word out loud (one recording)", built:true, screen:"check5"},
   {id:"check6", label:"Check 6: Morphology (6A)", sub:"Read each printed word out loud (one recording)", built:true, screen:"check6"},
+  {id:"check6b", label:"Check 6B: Morphology (Understand It)", sub:"Choose the best answer", built:true, screen:"check6b"},
   {id:"check7", label:"Check 7: Multisyllabic Word Analysis", sub:"Coming soon", built:false}
 ];
 function ckKey(){ return vasK("rf_checks_"+(READER?READER.id:"anon")); }
@@ -2955,6 +3021,8 @@ function go(id){
   if(id==="check5Teach"){ check5TeachEnter(); }
   if(id==="check6"){ c6Enter(); }
   if(id==="check6Teach"){ check6TeachEnter(); }
+  if(id==="check6b"){ c6bEnter(); }
+  if(id==="check6bTeach"){ check6bTeachEnter(); }
   if(id==="s-teachDir"){ dirtEnter(); }
   if(id==="s-teachStudents"){ teachStudentsEnter(); }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
@@ -6953,6 +7021,224 @@ function c6tSave(){
     setCorrect:setScores, targets:r.targets });
   var n=document.getElementById("c6t-save-note");
   if(n){ n.className="mini-note"; n.style.color="var(--good)"; n.textContent="✓ Saved."; }
+}
+
+/* ---------- Check 6B (Understand It) item bank: 24 ORIGINAL items, 4
+   categories x 6 (Prefix Meaning, Suffix Meaning/Function, Inflectional
+   Endings, Word-Part Meaning in Context). Selected-response, 3 choices,
+   1 correct answer, objectively auto-scored -- no teacher judgment call
+   needed the way oral reading requires one. Every base word is common
+   and familiar (happy, do, heat, like, spell, stop, help, care, teach,
+   kind, wash, slow, dog, jump, run, fast, tall, wish, finish, play,
+   fear, smart, use, thought) specifically so a student can miss an item
+   only for a morphology reason, not because the vocabulary itself is
+   hard. Correct-answer position is balanced (8 A / 8 B / 8 C) so guessing
+   position never helps. No target word repeats across the 24 items. This
+   is entirely separate content from 6A's 50-word reading bank -- 6A is
+   locked and untouched. ---------- */
+var C6B_SETS=[
+  {id:"6B-Prefix", label:"Prefix Meaning", items:[
+    {stem:"“un-” in “unhappy” means:", choices:["not","again","before"], correct:0, baseWord:"happy", morpheme:"un-", targetWord:"unhappy"},
+    {stem:"“re-” in “redo” means:", choices:["not","again","small"], correct:1, baseWord:"do", morpheme:"re-", targetWord:"redo"},
+    {stem:"“pre-” in “preheat” means:", choices:["after","again","before"], correct:2, baseWord:"heat", morpheme:"pre-", targetWord:"preheat"},
+    {stem:"“dis-” in “dislike” means:", choices:["not, or the opposite","more","again"], correct:0, baseWord:"like", morpheme:"dis-", targetWord:"dislike"},
+    {stem:"“mis-” in “misspell” means:", choices:["correctly","wrong, or incorrectly","again"], correct:1, baseWord:"spell", morpheme:"mis-", targetWord:"misspell"},
+    {stem:"“non-” in “nonstop” means:", choices:["always","before","without, or not"], correct:2, baseWord:"stop", morpheme:"non-", targetWord:"nonstop"}
+  ]},
+  {id:"6B-Suffix", label:"Suffix Meaning/Function", items:[
+    {stem:"“-ful” in “helpful” means:", choices:["without","full of","before"], correct:1, baseWord:"help", morpheme:"-ful", targetWord:"helpful"},
+    {stem:"“-less” in “careless” means:", choices:["full of","again","without"], correct:2, baseWord:"care", morpheme:"-less", targetWord:"careless"},
+    {stem:"“-er” in “teacher” means:", choices:["a person who does something","very","not"], correct:0, baseWord:"teach", morpheme:"-er", targetWord:"teacher"},
+    {stem:"“-ness” in “kindness” means:", choices:["not","the state of being something","again"], correct:1, baseWord:"kind", morpheme:"-ness", targetWord:"kindness"},
+    {stem:"“-able” in “washable” means:", choices:["able to be done","never","always"], correct:0, baseWord:"wash", morpheme:"-able", targetWord:"washable"},
+    {stem:"“-ly” in “slowly” means:", choices:["not","a person who","in a certain way"], correct:2, baseWord:"slow", morpheme:"-ly", targetWord:"slowly"}
+  ]},
+  {id:"6B-Inflect", label:"Inflectional Endings", items:[
+    {stem:"Adding “-s” to “dog” (dogs) means:", choices:["one dog","more than one dog","a baby dog"], correct:1, baseWord:"dog", morpheme:"-s", targetWord:"dogs"},
+    {stem:"Adding “-ed” to “jump” (jumped) means:", choices:["it is happening right now","it will happen later","it already happened"], correct:2, baseWord:"jump", morpheme:"-ed", targetWord:"jumped"},
+    {stem:"Adding “-ing” to “run” (running) means:", choices:["it is happening right now","it already happened","it will happen later"], correct:0, baseWord:"run", morpheme:"-ing", targetWord:"running"},
+    {stem:"Adding “-er” to “fast” (faster) means:", choices:["it compares two things","it means less fast","it is the most fast of all"], correct:0, baseWord:"fast", morpheme:"-er", targetWord:"faster"},
+    {stem:"Adding “-est” to “tall” (tallest) means:", choices:["it compares two things","it is the most tall of all","it means less tall"], correct:1, baseWord:"tall", morpheme:"-est", targetWord:"tallest"},
+    {stem:"Adding “-es” to “wish” (wishes) means:", choices:["one wish","a wish that already happened","more than one wish"], correct:2, baseWord:"wish", morpheme:"-es", targetWord:"wishes"}
+  ]},
+  {id:"6B-Context", label:"Word-Part Meaning in Context", items:[
+    {stem:"“The unfinished homework worried her.” What does “un-” tell you about the homework?", choices:["It was finished.","It was NOT finished.","It will be finished."], correct:1, baseWord:"finished", morpheme:"un-", targetWord:"unfinished"},
+    {stem:"“He replayed the video three times.” What does “re-” tell you?", choices:["He played it again.","He played it one time.","He never played it."], correct:0, baseWord:"played", morpheme:"re-", targetWord:"replayed"},
+    {stem:"“The fearless firefighter ran inside.” What does “-less” tell you about the firefighter?", choices:["very afraid","full of fear","without fear"], correct:2, baseWord:"fear", morpheme:"-less", targetWord:"fearless"},
+    {stem:"“She is the smartest student in class.” What does “-est” tell you?", choices:["She is less smart than others.","She is smarter than one other student.","She is the most smart of everyone."], correct:2, baseWord:"smart", morpheme:"-est", targetWord:"smartest"},
+    {stem:"“The reusable water bottle saved money.” What does “-able” tell you about the bottle?", choices:["It cannot be used again.","It CAN be used again.","It must be thrown away."], correct:1, baseWord:"use", morpheme:"-able", targetWord:"reusable"},
+    {stem:"“The thoughtful gift made her smile.” What does “-ful” tell you about the gift?", choices:["full of thought or care","without any thought","against giving gifts"], correct:0, baseWord:"thought", morpheme:"-ful", targetWord:"thoughtful"}
+  ]}
+];
+/* the flat walk order the student actually sees, built once at load time */
+var C6B_ITEMS=(function(){
+  var out=[], i, j, it;
+  for(i=0;i<C6B_SETS.length;i++){
+    for(j=0;j<C6B_SETS[i].items.length;j++){
+      it=C6B_SETS[i].items[j];
+      out.push({section:C6B_SETS[i].id, stem:it.stem, choices:it.choices, correct:it.correct,
+        baseWord:it.baseWord, morpheme:it.morpheme, targetWord:it.targetWord});
+    }
+  }
+  return out;
+})();
+var C6B_SET_START=(function(){
+  var out=[], run=0, i;
+  for(i=0;i<C6B_SETS.length;i++){ out.push(run); run+=C6B_SETS[i].items.length; }
+  return out;
+})();
+
+/* ---------- Check 6B attempts (localStorage): auto-scored and saved
+   COMPLETE at finish time -- unlike every recording-based check, there is
+   no separate "teacher opens and scores it" step, since correctness is
+   objectively determined by the answer key the instant the student taps
+   a choice. ---------- */
+var C6BAttempts=(function(){
+  var KEY="rf_check6b_attempts";
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(l)); }catch(e){} }
+  function add(rec){ var l=all(); l.push(rec); save(l); return rec; }
+  function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
+  function forStudent(sid){ var l=all(), out=[], i; for(i=0;i<l.length;i++){ if(l[i].studentId===sid){ out.push(l[i]); } } out.sort(function(a,b){ return a.date<b.date?1:(a.date>b.date?-1:0); }); return out; }
+  return { all:all, add:add, get:get, forStudent:forStudent };
+})();
+var C6BReview=rfReviewStore("rf_check6b_attempts");
+
+/* ---------- Check 6B: student flow -- selected-response, NO recording,
+   NO camera/mic. One item at a time; tapping a choice records the
+   response and advances immediately (no separate Next button, no
+   correctness feedback of any kind, matching "record response ->
+   advance"). Category is never shown to the student. ---------- */
+var c6bIdx=-1, c6bStartAt=0, c6bResponses=[], c6bNextLock=false;
+function c6bEnter(){
+  c6bIdx=-1; c6bStartAt=new Date().getTime(); c6bResponses=[]; c6bNextLock=false;
+  document.getElementById("c6b-intro").style.display="block";
+  document.getElementById("c6b-progress").textContent="";
+  var st=document.getElementById("c6b-stem"); st.style.display="none"; st.textContent="";
+  document.getElementById("c6b-choices").innerHTML="";
+  document.getElementById("c6b-done").innerHTML="";
+  dirPaintButton("dir_check6b");
+  c6bIdx=0;
+  c6bPaintItem();
+}
+function c6bPaintItem(){
+  document.getElementById("c6b-intro").style.display="none";
+  var dl=document.getElementById("dl-dir_check6b"); if(dl){ dl.style.display="none"; }
+  var item=C6B_ITEMS[c6bIdx];
+  var st=document.getElementById("c6b-stem"); st.style.display="block"; st.textContent=item.stem;
+  document.getElementById("c6b-progress").textContent="Item "+(c6bIdx+1)+" of "+C6B_ITEMS.length;
+  var box=document.getElementById("c6b-choices"), html="", i;
+  for(i=0;i<item.choices.length;i++){
+    html+='<button class="choice-pill" onclick="c6bChoose('+i+')">'+escapeHtml(item.choices[i])+"</button>";
+  }
+  box.innerHTML=html;
+}
+/* Rapid-tap protection: a frame-paced lock absorbs a duplicate event for
+   the same physical tap (the screen repaints to the NEXT item almost
+   immediately, so a fast double-tap could otherwise land on the next
+   item's first choice and silently record a second, unintended answer). */
+function c6bChoose(choiceIdx){
+  if(c6bNextLock){ return; }
+  c6bNextLock=true;
+  if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c6bNextLock=false; }); }
+  else { setTimeout(function(){ c6bNextLock=false; },16); }
+  var item=C6B_ITEMS[c6bIdx];
+  c6bResponses.push({ index:c6bIdx, section:item.section, targetWord:item.targetWord, baseWord:item.baseWord,
+    morpheme:item.morpheme, chosen:choiceIdx, correct:item.correct, isCorrect:(choiceIdx===item.correct) });
+  if(c6bIdx<C6B_ITEMS.length-1){ c6bIdx++; c6bPaintItem(); }
+  else { c6bFinish(); }
+}
+function c6bCompute(){
+  var setCorrect={}, i, r;
+  for(i=0;i<C6B_SETS.length;i++){ setCorrect[C6B_SETS[i].id]=0; }
+  var overall=0, missed=[];
+  for(i=0;i<c6bResponses.length;i++){
+    r=c6bResponses[i];
+    if(r.isCorrect){ overall++; setCorrect[r.section]++; } else { missed.push(r.targetWord); }
+  }
+  return { overall:overall, setCorrect:setCorrect, missed:missed };
+}
+function c6bFinish(){
+  document.getElementById("c6b-stem").style.display="none";
+  document.getElementById("c6b-choices").innerHTML="";
+  document.getElementById("c6b-progress").textContent="";
+  var r=c6bCompute();
+  var setScores={}, i; for(i=0;i<C6B_SETS.length;i++){ setScores[C6B_SETS[i].id]=r.setCorrect[C6B_SETS[i].id]; }
+  C6BAttempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(),
+    totalTimeMs:(new Date().getTime()-c6bStartAt), responses:c6bResponses.slice(0),
+    overall:r.overall, setCorrect:setScores, missed:r.missed });
+  document.getElementById("c6b-done").innerHTML =
+    '<p class="state-line saved">&#9989; All done! Nice work!</p>'
+    +'<button class="pill-btn pill-btn-primary" onclick="c6bContinue()">Continue</button>';
+}
+function c6bContinue(){
+  ckMarkDone("check6b");
+  go("diagLanding");
+}
+
+/* ---------- Check 6B: teacher-side results -- READ ONLY. There is
+   nothing to tap-score: the answer key already determined correctness
+   for every response the instant the student tapped it. Same
+   class/roster pattern as every other Check review screen. ---------- */
+var C6BT_CLS=0, C6BT_STU=null;
+function check6bTeachEnter(){
+  C6BT_CLS=0; C6BT_STU=null;
+  c6btPaintClasses(); c6btPaintRoster();
+  var b=document.getElementById("c6bt-body"); if(b){ b.innerHTML=""; }
+}
+function c6btPaintClasses(){
+  var seg=document.getElementById("c6bt-class"); if(!seg){ return; }
+  var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="c6btPick('+i+')" class="'+(i===C6BT_CLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function c6btPick(i){
+  C6BT_CLS=i; C6BT_STU=null;
+  c6btPaintClasses(); c6btPaintRoster();
+  var b=document.getElementById("c6bt-body"); if(b){ b.innerHTML=""; }
+}
+function c6btPaintRoster(){
+  rfReviewRoster("c6bt-roster", CLASSES[C6BT_CLS], C6BReview, C6BT_STU, function(id){ C6BT_STU=id; c6btPaintRoster(); c6btPaintAttemptList(); });
+}
+function c6btPaintAttemptList(){
+  var host=document.getElementById("c6bt-body"); if(!host){ return; }
+  var list=C6BReview.forStudent(C6BT_STU);
+  if(!list.length){ rfReviewEmpty(host,"6B",C6BT_STU,"check6b"); rfReviewScroll(host); return; }
+  var html="", i;
+  for(i=0;i<list.length;i++){
+    (function(a){
+      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+'<small> Overall '+a.overall+" of "+C6B_ITEMS.length+'</small></div>'
+        +'<button class="mini-btn" onclick="c6btOpenAttempt(\''+a.id+'\')">Open</button></div>';
+    })(list[i]);
+  }
+  host.innerHTML='<p class="step-eyebrow">'+escapeHtml(rfStuName(C6BT_STU))+'</p>'+html;
+  rfReviewScroll(host);
+}
+function c6btOpenAttempt(id){
+  var a=C6BReview.get(id); if(!a){ return; }
+  var host=document.getElementById("c6bt-body"); if(!host){ return; }
+  var ms=a.totalTimeMs||0, mins=Math.floor(ms/60000), secs=Math.floor((ms%60000)/1000);
+  var setsHtml="", i, s;
+  for(i=0;i<C6B_SETS.length;i++){
+    s=C6B_SETS[i];
+    setsHtml+="<p><strong>"+escapeHtml(s.label)+":</strong> "+(a.setCorrect?a.setCorrect[s.id]:0)+" / "+s.items.length+"</p>";
+  }
+  var itemsHtml="";
+  for(i=0;i<a.responses.length;i++){
+    var r=a.responses[i];
+    itemsHtml+='<div class="clean-tile'+(r.isCorrect?" state-ok":" state-err")+'">'+escapeHtml(r.targetWord)+" ("+escapeHtml(r.morpheme)+") &mdash; "+(r.isCorrect?"Correct":"Incorrect")+"</div>";
+  }
+  host.innerHTML =
+     '<div class="clean-card"><div class="clean-header">'
+    +'<p class="step-eyebrow" style="margin:0">'+escapeHtml(a.date)+"</p>"
+    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+"</p>"
+    +"</div><div class=\"clean-card-body\">"
+    +"<p><strong>Overall:</strong> "+a.overall+" / "+C6B_ITEMS.length+"</p>"
+    +setsHtml
+    +'<p class="mini-note">Missed: '+(a.missed&&a.missed.length?escapeHtml(a.missed.join(", ")):"none")+"</p>"
+    +'<p class="step-eyebrow" style="margin-top:14px">Every response</p>'
+    +'<div class="clean-list">'+itemsHtml+"</div>"
+    +"</div></div>"
+    +'<div class="nav-row" style="margin-top:14px"><button class="btn" onclick="c6btPaintAttemptList()">&#8592; Back to attempts</button></div>';
 }
 
 /* ---------- Teacher home: dark mode (layout/look only, teacher side only) ----------

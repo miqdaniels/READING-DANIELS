@@ -89,14 +89,14 @@ setTimeout(function(){
   w.CURCLASS=w.CLASSES[0]; w.READER=w.CLASSES[0].students[0];
   w.go("diagLanding");
   var diagBtns=d.querySelectorAll("#diagLanding .btn"), c6Btn=null, j;
-  for(j=0;j<diagBtns.length;j++){ if(diagBtns[j].textContent.indexOf("Check 6")>-1){ c6Btn=diagBtns[j]; } }
+  for(j=0;j<diagBtns.length;j++){ if(diagBtns[j].textContent.indexOf("Check 6:")>-1){ c6Btn=diagBtns[j]; } }
   ck(!!c6Btn && c6Btn.disabled===true,"Check 6 is locked before Check 5 is done");
   ck(c6Btn.className.indexOf("locked")>-1,"Check 6 shows the locked style before Check 5 is done");
 
   w.ckMarkDone("check1"); w.ckMarkDone("check2"); w.ckMarkDone("check3"); w.ckMarkDone("check4"); w.ckMarkDone("check5");
   w.go("diagLanding");
   diagBtns=d.querySelectorAll("#diagLanding .btn");
-  for(j=0;j<diagBtns.length;j++){ if(diagBtns[j].textContent.indexOf("Check 6")>-1){ c6Btn=diagBtns[j]; } }
+  for(j=0;j<diagBtns.length;j++){ if(diagBtns[j].textContent.indexOf("Check 6:")>-1){ c6Btn=diagBtns[j]; } }
   ck(!!c6Btn && c6Btn.disabled!==true,"Check 6 unlocks immediately once Check 5 is done, no reload needed");
   ck(c6Btn.className.indexOf("locked")===-1,"Check 6 no longer shows the locked style");
 
@@ -174,17 +174,21 @@ setTimeout(function(){
         ck(activeId()==="diagLanding","YES returns straight to the Reading Checks dashboard");
         ck(!!w.ckDone()["check6"],"Check 6 marked completed after YES");
 
-        var diagBtns2=d.querySelectorAll("#diagLanding .btn"), foundC6Green=false, c7Btn=null, m;
+        var diagBtns2=d.querySelectorAll("#diagLanding .btn"), foundC6Green=false, c6bBtn=null, c7Btn=null, m;
         for(m=0;m<diagBtns2.length;m++){
-          if(diagBtns2[m].textContent.indexOf("Check 6")>-1 && /Completed/.test(diagBtns2[m].textContent) && diagBtns2[m].className.indexOf("done")>-1){ foundC6Green=true; }
+          if(diagBtns2[m].textContent.indexOf("Check 6:")>-1 && /Completed/.test(diagBtns2[m].textContent) && diagBtns2[m].className.indexOf("done")>-1){ foundC6Green=true; }
+          if(diagBtns2[m].textContent.indexOf("Check 6B")>-1){ c6bBtn=diagBtns2[m]; }
           if(diagBtns2[m].textContent.indexOf("Check 7")>-1){ c7Btn=diagBtns2[m]; }
         }
-        ck(foundC6Green,"Check 6 shows green/Completed on the dashboard");
-        ck(!!c7Btn && c7Btn.disabled!==true,"Check 7 is not gray/locked once Check 6 is done, even though it isn't built yet");
-        ck(!!c7Btn && c7Btn.className.indexOf("locked")===-1,"Check 7 uses the normal available style, not the locked style");
-        click(c7Btn);
-        ck(activeId()==="diagLanding","tapping the not-yet-built Check 7 never navigates anywhere");
-        ck(/Coming soon!/.test(d.getElementById("diag-comingsoon-note").textContent),"tapping it shows 'Coming soon!' -- Check 7 was NOT built");
+        ck(foundC6Green,"Check 6 (6A) shows green/Completed on the dashboard");
+        /* Check 6B is the very next component -- it unlocks off 6A's completion,
+           exactly like every other check-to-check unlock. Check 7 (the NEXT
+           diagnostic domain) does NOT unlock yet: 6B is still an unbuilt-until-now
+           part of Check 6, so Check 7 correctly stays locked until 6B is done too. */
+        ck(!!c6bBtn && c6bBtn.disabled!==true,"Check 6B is not gray/locked once Check 6 (6A) is done");
+        ck(!!c6bBtn && c6bBtn.className.indexOf("locked")===-1,"Check 6B uses the normal available style, not the locked style");
+        ck(!!c7Btn && c7Btn.disabled===true,"Check 7 stays locked after 6A alone -- it now waits on 6B too");
+        ck(!!c7Btn && c7Btn.className.indexOf("locked")>-1,"Check 7 still shows the locked style after 6A alone");
 
         teacherScoringFlow(attempts[0].id);
       },30);
@@ -277,7 +281,7 @@ setTimeout(function(){
     w.CURGROUP=w.GROUPS[0];
     var existingScreens=["s-home","s-pick","s-roster","studentMenu","diagLanding","check1","check1Preview","check1Teach",
       "check2","s-teachC2","check2Teach","check3","s-teachC3","check3Teach","check4","check4Teach","check5","check5Teach",
-      "check6","check6Teach","s-teachDir",
+      "check6","check6Teach","check6b","check6bTeach","s-teachDir",
       "s-groups","s-final","s-score","s-board","s-teach","s-settings","s-status","fluencyPassage","fluencyRetell","s-fluteach"];
     var allOk=true, m;
     for(m=0;m<existingScreens.length;m++){

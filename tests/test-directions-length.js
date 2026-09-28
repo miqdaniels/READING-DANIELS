@@ -27,7 +27,7 @@ setTimeout(function(){
      Check 3's opening directions + its before-3C one-liner) ---- */
   var LONGER_OK={dir_check2_before2b:true, dir_check2_before2c:true, dir_check3_open:true, dir_check3_3c:true};
   var defs=w.DIRECTIONS_DEFS, i;
-  ck(defs.length===15,"all 15 directions scripts are present (got "+defs.length+")");
+  ck(defs.length===16,"all 16 directions scripts are present (got "+defs.length+")");
   for(i=0;i<defs.length;i++){
     var n=sentenceCount(defs[i].script);
     if(!LONGER_OK[defs[i].key]){
@@ -50,6 +50,7 @@ setTimeout(function(){
   ck(defs.filter(function(x){return x.key==="dir_check4";})[0].script==="Read each word out loud.","Check 4 script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check5";})[0].script==="Read each word out loud.","Check 5 script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check6";})[0].script==="Read each word out loud.","Check 6 script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check6b";})[0].script==="Choose the best answer.","Check 6B script matches exactly");
 
   /* ---- on-screen directions text (not just the recorded scripts) ---- */
   w.READER=w.CLASSES[0].students[0]; w.CURCLASS=w.CLASSES[0]; w.CURGROUP=w.GROUPS[0];
@@ -126,10 +127,17 @@ setTimeout(function(){
   ck(!/\bconsonants?\b/i.test(c6Text),"Check 6's on-screen directions never say \"consonant\"");
   ck(c6Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="Read each word out loud. Tap Next after each one.","Check 6's on-screen opening text matches exactly");
 
+  /* ---- Check 6B's on-screen directions text ---- */
+  w.go("check6b");
+  var c6bText=d.getElementById("c6b-intro").textContent;
+  ck(sentenceCount(c6bText)<=2,"Check 6B's on-screen directions are at most 2 sentences (got \""+c6bText+"\")");
+  ck(!/\bconsonants?\b/i.test(c6bText),"Check 6B's on-screen directions never say \"consonant\"");
+  ck(c6bText.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="Choose the best answer.","Check 6B's on-screen opening text matches exactly");
+
   /* ---- "consonant" never appears on any STUDENT screen (teacher-only
      scoring screens like check2Teach still say it for Miq's own
      reference, which is fine -- students never see those) ---- */
-  var studentScreens=["s-pick","s-roster","s-confirm","studentMenu","diagLanding","check1","check2","check3","check4","check5","check6","s-groups","s-final","s-read","fluencyPassage","fluencyRetell","s-score","s-board","s-status"];
+  var studentScreens=["s-pick","s-roster","s-confirm","studentMenu","diagLanding","check1","check2","check3","check4","check5","check6","check6b","s-groups","s-final","s-read","fluencyPassage","fluencyRetell","s-score","s-board","s-status"];
   var j;
   for(j=0;j<studentScreens.length;j++){
     w.go(studentScreens[j]);

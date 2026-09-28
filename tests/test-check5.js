@@ -162,7 +162,7 @@ setTimeout(function(){
         var diagBtns2=d.querySelectorAll("#diagLanding .btn"), foundC5Green=false, c6Btn=null, m;
         for(m=0;m<diagBtns2.length;m++){
           if(diagBtns2[m].textContent.indexOf("Check 5")>-1 && /Completed/.test(diagBtns2[m].textContent) && diagBtns2[m].className.indexOf("done")>-1){ foundC5Green=true; }
-          if(diagBtns2[m].textContent.indexOf("Check 6")>-1){ c6Btn=diagBtns2[m]; }
+          if(diagBtns2[m].textContent.indexOf("Check 6:")>-1){ c6Btn=diagBtns2[m]; }
         }
         ck(foundC5Green,"Check 5 shows green/Completed on the dashboard");
         ck(!!c6Btn && c6Btn.disabled!==true,"Check 6 is not gray/locked once Check 5 is done");
