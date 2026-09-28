@@ -1,1 +1,8 @@
 node_modules/
+
+# Reading Foundations teacher data backups (Workstream C) -- these can
+# contain real, identifiable student educational data and must never be
+# committed to this public/shared repository. Exported files always
+# follow one of these two name patterns.
+Reading_Foundations_Teacher_Backup_*.json
+Reading_Foundations_SAFETY_BEFORE_IMPORT_*.json

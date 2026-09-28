@@ -590,6 +590,123 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
 #check6cTeach .clean-tile.state-err{background:var(--retry-bg);border-color:var(--retry);color:var(--retry)}
 #check6cTeach .clean-tile.state-ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}
 #check6cTeach .clean-list{display:flex;flex-direction:column;gap:8px;margin:14px 0}
+
+/* ===== VISUAL RESTYLE: Checks 1-4 -> Clean/Professional, matching
+   Checks 5-7's already-approved design system. CSS-ONLY: every element
+   ID, class name, and onclick handler in Checks 1-4's HTML/JS is left
+   completely untouched, so nothing here can alter scoring, recording,
+   progression, unlock behavior, or stored data -- confirmed by a full
+   class-usage audit before writing this block. Every selector below is
+   scoped to #check1/#check2/#check3/#check4 (+ their teacher screens and
+   the s-teachC2/s-teachC3 prompt recorders) specifically because several
+   of these classes are ALSO used by out-of-scope screens that must keep
+   their current look untouched: .icon-btn/.mic-ico (also Fluency/
+   Retell/Word Practice), .rec-btn/.play-btn (also the Word Practice and
+   Directions recorders), .c2-obs (also Check 5's teacher screen),
+   .flu-timer (also Fluency). The bottom Back/nav-row button and the
+   Student View preview button keep their existing plain .btn/.mini-btn
+   look -- Checks 5-7 made that same choice already, so this matches
+   established precedent rather than inventing a new one. */
+
+/* ---- Record/Next/Listen/Redo/Save/Done buttons: reshaped from the old
+   big square icon-button into the same solid/outline pill Checks 5-7
+   use. Checks 5-7's equivalent buttons carry no icon at all (just text),
+   so the icon glyph is hidden here rather than removed from markup --
+   nothing in the DOM structure changes, only what's visible. The base
+   .icon-btn-record rule carries !important (from the original "one mic
+   icon" pass), so the override below matches that specificity style
+   rather than silently losing to it. ---- */
+#check1 .icon-row,#check2 .icon-row,#check3 .icon-row,#check4 .icon-row{gap:10px;flex-wrap:wrap}
+#check1 .icon-btn,#check2 .icon-btn,#check3 .icon-btn,#check4 .icon-btn{
+  display:inline-flex;align-items:center;justify-content:center;min-width:0;min-height:0;
+  border-radius:999px;background:var(--accent) !important;color:#fff !important;
+  padding:12px 26px;font:inherit;font-weight:700;font-size:15px;border:none;
+  touch-action:manipulation;animation:none !important;box-shadow:none !important}
+#check1 .icon-btn .icon-glyph,#check2 .icon-btn .icon-glyph,#check3 .icon-btn .icon-glyph,#check4 .icon-btn .icon-glyph{display:none}
+#check1 .icon-btn .icon-label,#check2 .icon-btn .icon-label,#check3 .icon-btn .icon-label,#check4 .icon-btn .icon-label{font-size:inherit;color:inherit;margin:0}
+#check1 .icon-btn-record.rec,#check2 .icon-btn-record.rec,#check3 .icon-btn-record.rec,#check4 .icon-btn-record.rec{animation:none !important}
+#check1 .icon-btn-next,#check2 .icon-btn-next,#check3 .icon-btn-next,#check4 .icon-btn-next,
+#check1 .icon-btn-listen,#check2 .icon-btn-listen,#check3 .icon-btn-listen,#check4 .icon-btn-listen,
+#check1 .icon-btn-save,#check2 .icon-btn-save,#check3 .icon-btn-save,#check4 .icon-btn-save,
+#check4 .icon-btn-done{
+  background:transparent !important;border:1.5px solid var(--accent);color:var(--accent) !important}
+#check1 .icon-btn-redo,#check2 .icon-btn-redo,#check3 .icon-btn-redo,#check4 .icon-btn-redo{
+  background:transparent !important;border:1.5px solid var(--ink-soft);color:var(--ink-soft) !important}
+#check1 .icon-btn[disabled],#check2 .icon-btn[disabled],#check3 .icon-btn[disabled],#check4 .icon-btn[disabled]{opacity:.45}
+
+/* ---- Recording status line + Listen-to-directions button: same muted,
+   non-pulsing treatment already established for Checks 5-7 (identical
+   markup, confirmed) -- a small static dot/ear instead of a large
+   colored pulsing circle. ---- */
+#check1 .rec-status,#check2 .rec-status,#check3 .rec-status,#check4 .rec-status{color:var(--ink-soft)}
+#check1 .rec-status .rec-status-dot,#check2 .rec-status .rec-status-dot,#check3 .rec-status .rec-status-dot,#check4 .rec-status .rec-status-dot{background-color:var(--ink-soft);animation:none}
+#check1 .dir-listen-btn,#check2 .dir-listen-btn,#check3 .dir-listen-btn,#check4 .dir-listen-btn{border-radius:999px;padding:10px 20px}
+#check1 .dir-listen-btn .dir-listen-icon.ear-ico,#check2 .dir-listen-btn .dir-listen-icon.ear-ico,#check3 .dir-listen-btn .dir-listen-icon.ear-ico,#check4 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px;background-color:var(--ink-soft)}
+#check1 .dir-listen-btn.playing .dir-listen-icon.ear-ico,#check2 .dir-listen-btn.playing .dir-listen-icon.ear-ico,#check3 .dir-listen-btn.playing .dir-listen-icon.ear-ico,#check4 .dir-listen-btn.playing .dir-listen-icon.ear-ico{background-color:var(--accent);animation:none}
+
+/* ---- The big printed letter/word display: same calmer sizing Checks
+   5-7 use (with a defensive word-break for Check 3/4's longer scored
+   words), instead of one giant fixed 9rem size that was tuned only for
+   a single letter. Check 1 shows one letter at a time (never a multi-
+   letter word), so a slightly smaller but still very large size is used
+   there; Checks 2-4 show short words/keywords, sized like Check 6's
+   longer targets. ---- */
+#check1 .c1-letter{font-size:6rem;font-weight:800;text-align:center;line-height:1.05;letter-spacing:-.01em;margin:24px 0;overflow-wrap:break-word}
+@media(max-width:520px){#check1 .c1-letter{font-size:4rem}}
+#check2 .c1-letter,#check3 .c1-letter,#check4 .c1-letter{font-size:3.6rem;font-weight:800;text-align:center;line-height:1.15;letter-spacing:-.01em;margin:24px 0;overflow-wrap:break-word}
+@media(max-width:520px){#check2 .c1-letter,#check3 .c1-letter,#check4 .c1-letter{font-size:2.3rem}}
+
+/* ---- Teacher scoring grids: same thin-border/restrained-rounding
+   "clean tile" treatment as Checks 5-7's .clean-tile, applied to the
+   existing .c1-cell/.c1t-cell classes (never renamed, so nothing in the
+   scoring JS needs to change). Check 4's .c4-grid keeps its already-
+   fixed overflow sizing (white-space:nowrap + wider minimum column) --
+   only color/border/radius are touched here. ---- */
+#check1Teach .c1-grid .c1-cell,#check2Teach .c1-grid .c1-cell,#check3Teach .c1-grid .c1-cell,#check4Teach .c1-grid .c1-cell{
+  border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)}
+#check1Teach .c1t-cell,#check2Teach .c1t-cell,#check3Teach .c1t-cell,#check4Teach .c1t-cell{cursor:pointer;touch-action:manipulation}
+#check1Teach .c1t-cell.err,#check2Teach .c1t-cell.err,#check3Teach .c1t-cell.err,#check4Teach .c1t-cell.err{background:var(--retry-bg);border-color:var(--retry);color:var(--retry)}
+#check1Teach .c1t-cell.sc,#check2Teach .c1t-cell.sc,#check3Teach .c1t-cell.sc,#check4Teach .c1t-cell.sc{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+#check1Teach .c1t-cell.skip,#check2Teach .c1t-cell.skip,#check3Teach .c1t-cell.skip,#check4Teach .c1t-cell.skip{background:var(--unsure-bg);border-color:var(--unsure);color:var(--unsure)}
+
+/* ---- Check 2/3's camera-setup screen + their prompt-recorder screens
+   (s-teachC2/s-teachC3): same pill shape as every other rebuilt button,
+   applied to the existing .rec-btn/.play-btn classes. Scoped to exactly
+   these four screens -- the Word Practice recorder (#s-teach) and the
+   Directions recorder (#s-teachDir) also use .rec-btn/.play-btn and are
+   explicitly NOT part of this restyle. ---- */
+#check2 .rec-btn,#check3 .rec-btn,#s-teachC2 .rec-btn,#s-teachC3 .rec-btn{border-radius:999px}
+#check2 .play-btn,#check3 .play-btn,#s-teachC2 .play-btn,#s-teachC3 .play-btn{border-radius:999px}
+#check2 .rec-btn .rec-dot,#check3 .rec-btn .rec-dot,#s-teachC2 .rec-btn .rec-dot,#s-teachC3 .rec-btn .rec-dot{animation:none}
+
+/* ===== Teacher Instructional Groups: same Clean/Professional system as
+   Checks 5-7 -- clean cards, pill buttons, restrained color, generous
+   whitespace. A brand-new screen (not a restyle of anything existing),
+   so it gets the .pill-btn/.clean-card family directly like Check 5. ===== */
+#instrGroups .pill-btn,#instrGroupDetail .pill-btn,#instrFuture .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#instrGroups .pill-btn-primary,#instrGroupDetail .pill-btn-primary{background:var(--accent);border:none;color:#fff}
+#instrGroups .pill-btn-secondary,#instrGroupDetail .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+#instrGroups .clean-card,#instrGroupDetail .clean-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin:0 0 16px}
+#instrGroups .clean-header,#instrGroupDetail .clean-header{background:color-mix(in srgb,var(--accent) 10%,var(--panel));border-bottom:1px solid var(--line);padding:14px 18px}
+html[data-mode="dark"] #instrGroups .clean-header,html[data-mode="dark"] #instrGroupDetail .clean-header{background:color-mix(in srgb,var(--accent) 22%,var(--panel))}
+#instrGroups .clean-card-body,#instrGroupDetail .clean-card-body{padding:18px}
+#instrGroups .clean-icon-row,#instrGroupDetail .clean-icon-row{display:flex;align-items:center;gap:10px;margin:14px 0;flex-wrap:wrap}
+#instrGroups .clean-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin:10px 0}
+#instrGroups .clean-tile,#instrGroupDetail .clean-tile{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:14px;color:var(--ink);background:var(--panel);cursor:pointer;touch-action:manipulation}
+#instrGroups .clean-tile.state-sc{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+.ig-card .mini-note strong{color:var(--ink)}
+
+/* ===== Teacher Data Management (Workstream C: export/import): same
+   Clean/Professional system, scoped to its own screen and to the
+   Settings screen (which links into it). ===== */
+#dataMgmt .pill-btn,#s-settings .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#dataMgmt .pill-btn-primary,#s-settings .pill-btn-primary{background:var(--accent);border:none;color:#fff}
+#dataMgmt .pill-btn-secondary,#s-settings .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+#dataMgmt .clean-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin:0 0 16px}
+#dataMgmt .clean-header{background:color-mix(in srgb,var(--accent) 10%,var(--panel));border-bottom:1px solid var(--line);padding:14px 18px}
+html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(--accent) 22%,var(--panel))}
+#dataMgmt .clean-card-body{padding:18px}
+#dataMgmt .clean-icon-row{display:flex;align-items:center;gap:10px;margin:14px 0;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -672,6 +789,7 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
           <h3 class="teach-cat-title">Reports</h3>
           <div class="teach-tile-grid">
             <button class="teach-tile cat-reports" onclick="go('s-board')" title="Show today's team standings at the end of class"><span class="teach-tile-icon">&#127942;</span><span class="teach-tile-label">Scoreboard</span></button>
+            <button class="teach-tile cat-reports" onclick="go('instrGroups')" title="Provisional skill-based groups computed from Checks 1-7"><span class="teach-tile-icon">&#128202;</span><span class="teach-tile-label">Instructional Groups</span></button>
           </div>
         </div>
 
@@ -1386,6 +1504,78 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
     </div>
   </section>
 
+  <!-- TEACHER INSTRUCTIONAL GROUPS: converts each student's diagnostic
+       evidence (Checks 1-7, exactly as already scored) into provisional
+       skill-based groups. Reads existing Attempts/Review data only --
+       nothing here changes how a Check is scored or stored. See the
+       Instructional Grouping section in CLAUDE.md for the full design. -->
+  <section class="screen" data-teacher="1" id="instrGroups">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Instructional Groups</p>
+      <h2>Instructional Groups</h2>
+      <p class="lede">Who should I teach together, and what should I teach them? Groups are recomputed from Checks 1&ndash;7 each time you open this screen -- the program recommends, you decide.</p>
+      <p class="mini-note">Provisional recommendations &mdash; based on configurable draft thresholds, not yet finalized instructional cut scores. This groups by decoding/foundational-skill evidence only; it never diagnoses language ability or English proficiency.</p>
+      <div class="seg" id="ig-class" style="margin:10px 0;flex-wrap:wrap"></div>
+      <div id="ig-cards"></div>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <section class="screen" data-teacher="1" id="instrGroupDetail">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('instrGroups')">Instructional Groups</a> &nbsp;/&nbsp; Group</p>
+      <h2>Group detail</h2>
+      <div id="ig-detail-body"></div>
+      <button class="btn" onclick="go('instrGroups')" style="margin-top:14px">&#8592; Back to groups</button>
+    </div>
+  </section>
+
+  <!-- Placeholder for "What to Teach Next" and "Recheck Skill" -- the
+       instructional-activity engine and recheck-scheduling flow are
+       future work (not built tonight); this preserves the route/button
+       so neither needs rewiring later, and is honest that nothing is
+       generated here yet. -->
+  <section class="screen" data-teacher="1" id="instrFuture">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('instrGroups')">Instructional Groups</a> &nbsp;/&nbsp; Coming soon</p>
+      <h2 id="ig-future-title">Coming soon</h2>
+      <p class="lede">This connects to the shared Read It / Hear It / Say It / Write It / Build-Practice-It pathways using this group's shared targets &mdash; not built yet.</p>
+      <button class="btn" onclick="go('instrGroups')" style="margin-top:14px">&#8592; Back to groups</button>
+    </div>
+  </section>
+
+  <!-- TEACHER DATA MANAGEMENT: export/import the teacher's own Reading
+       Foundations data (Checks 1-7 scored attempts, Instructional Group
+       overrides, Settings, Fluency placement/cycle). Never includes
+       Canvas audio/video -- Canvas stays the submission location for
+       those. Teacher-only; never reachable from a student screen. -->
+  <section class="screen" data-teacher="1" id="dataMgmt">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-settings')">Settings</a> &nbsp;/&nbsp; Data Management</p>
+      <h2>Data Management</h2>
+      <p class="lede">Back up your Reading Foundations scoring, grouping, and settings data, or restore it on a new device or after a move to a new web address. This never includes student audio/video &mdash; those stay in Canvas.</p>
+      <div class="clean-card">
+        <div class="clean-header"><p class="step-eyebrow" style="margin:0">Export Teacher Data</p></div>
+        <div class="clean-card-body">
+          <p class="mini-note">Downloads one backup file with everything below, in JSON format.</p>
+          <button class="pill-btn pill-btn-primary" onclick="dmDoExport()">Export Teacher Data</button>
+          <div id="dm-export-result"></div>
+        </div>
+      </div>
+      <div class="clean-card">
+        <div class="clean-header"><p class="step-eyebrow" style="margin:0">Import Teacher Data</p></div>
+        <div class="clean-card-body">
+          <p class="mini-note">Choose a Reading Foundations backup file. Nothing changes until you review the preview and choose Continue Import.</p>
+          <label class="pill-btn pill-btn-secondary" for="dm-import-file">Choose backup file&hellip;</label>
+          <input type="file" id="dm-import-file" accept="application/json,.json" style="display:none" onchange="dmFileSelected(this)">
+          <div id="dm-import-preview"></div>
+          <div id="dm-import-result"></div>
+        </div>
+      </div>
+      <button class="btn" onclick="go('s-settings')" style="margin-top:14px">&#8592; Back to Settings</button>
+    </div>
+  </section>
+
 <section class="screen" id="s-groups">
   <div class="wrap">
     <p class="step-eyebrow">Bridges Unit 1</p>
@@ -1547,6 +1737,10 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
     <div class="setting-row" style="display:block">
       <div style="margin-bottom:8px"><strong>Class codes (save across devices)</strong><br><span class="mini-note">Enter each class&rsquo;s code once on this computer so the Scoreboard counts every student&rsquo;s device. Give students their class link with the code in it (<code>?c=CODE</code>) in Canvas, so they never have to type it.</span></div>
       <div id="code-list"></div>
+    </div>
+    <div class="setting-row" style="display:block">
+      <div style="margin-bottom:8px"><strong>Data Management</strong><br><span class="mini-note">Back up your scoring, grouping, and settings data, or restore it on a new device.</span></div>
+      <button class="pill-btn pill-btn-secondary" onclick="go('dataMgmt')">Data Management</button>
     </div>
     <button class="btn" onclick="go('s-home')">Back to start</button>
   </section>
@@ -3189,6 +3383,10 @@ function go(id){
   if(id==="check6cTeach"){ check6cTeachEnter(); }
   if(id==="check7"){ c7Enter(); }
   if(id==="check7Teach"){ check7TeachEnter(); }
+  if(id==="instrGroups"){ instrGroupsEnter(); }
+  if(id==="instrGroupDetail"){ instrGroupDetailEnter(); }
+  if(id==="instrFuture"){ instrFutureEnter(); }
+  if(id==="dataMgmt"){ dataMgmtEnter(); }
   if(id==="s-teachDir"){ dirtEnter(); }
   if(id==="s-teachStudents"){ teachStudentsEnter(); }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
@@ -8015,6 +8213,735 @@ function c7tSave(){
     setCorrect:setScores, realWordsCorrect:r.realCorrect, pseudoCorrect:r.pseudoCorrect, targets:r.targets });
   var n=document.getElementById("c7t-save-note");
   if(n){ n.className="mini-note"; n.style.color="var(--good)"; n.textContent="✓ Saved."; }
+}
+
+/* ======================================================================
+   TEACHER INSTRUCTIONAL GROUPING SYSTEM
+   ======================================================================
+   Converts each student's diagnostic evidence (Checks 1-7, exactly as
+   already scored/saved) into provisional instructional groups: "who
+   should I teach together, and what should I teach them." Reads ONLY
+   data that already exists in the Attempts/Review stores built for
+   Checks 1-7 -- nothing here invents new assessment data, and nothing
+   here changes how any Check is administered, scored, or stored.
+
+   PROVISIONAL: the cut scores in GROUP_THRESHOLDS have NOT been
+   validated as final instructional criteria. They live in exactly ONE
+   place so every grouping decision reads from here instead of scattering
+   magic numbers through the code, and the UI visibly labels every
+   recommendation "Provisional" until Miq approves final thresholds. */
+var GROUP_THRESHOLDS = {
+  provisional: true,
+  masteryPct: 0.85,  // at/above this = the skill is met, not a gap
+  gapPct: 0.70        // below this = a clear instructional gap (between the two = "emerging")
+};
+function gtIsCorrectState(st){ return st===""||st==="sc"||st==="alt"; }
+function gtClassify(stats){
+  if(!stats){ return "not-attempted"; }
+  if(stats.pct>=GROUP_THRESHOLDS.masteryPct){ return "met"; }
+  if(stats.pct<GROUP_THRESHOLDS.gapPct){ return "gap"; }
+  return "emerging";
+}
+/* the most recently SCORED attempt for a check (skips attempts still
+   awaiting teacher scoring, which have scores:null) -- forStudent()
+   already sorts newest-first */
+function gtScoredAttempt(reviewStore, studentId){
+  var list=reviewStore.forStudent(studentId), i;
+  for(i=0;i<list.length;i++){ if(list[i].scores!=null || list[i].overall!=null){ return list[i]; } }
+  return null;
+}
+/* Check 1: index-based (0-25 uppercase, 26-51 lowercase against C1_ALL) --
+   no per-item .section field exists on Check 1's flat letter arrays */
+function gtC1Subskill(studentId, which){
+  var a=gtScoredAttempt(C1Review, studentId);
+  if(!a || !a.scores){ return null; }
+  var start=which==="upper"?0:26, end=which==="upper"?26:52, i, reached=0, correct=0, missed=[], st;
+  for(i=start;i<end;i++){
+    st=a.scores[i];
+    if(st===undefined||st==="nr"){ continue; }
+    reached++;
+    if(gtIsCorrectState(st)){ correct++; } else { missed.push(C1_ALL[i]); }
+  }
+  if(reached===0){ return null; }
+  return { total:reached, correct:correct, pct:correct/reached, missed:missed };
+}
+/* Check 3: index-based ranges against C3_SCORED (0-4=3A,5-9=3B,10-14=3C,15-19=3D) */
+var C3_SECTION_RANGE={"3A":[0,5],"3B":[5,10],"3C":[10,15],"3D":[15,20]};
+function gtC3Subskill(studentId, sectionId){
+  var a=gtScoredAttempt(C3Review, studentId);
+  if(!a || !a.scores){ return null; }
+  var range=C3_SECTION_RANGE[sectionId], i, reached=0, correct=0, missed=[], st;
+  for(i=range[0];i<range[1];i++){
+    st=a.scores[i];
+    if(st===undefined||st==="nr"){ continue; }
+    reached++;
+    if(gtIsCorrectState(st)){ correct++; } else { missed.push(C3_SCORED[i].word); }
+  }
+  if(reached===0){ return null; }
+  return { total:reached, correct:correct, pct:correct/reached, missed:missed };
+}
+/* Checks 2/4/5/6A/7: a flat scores[] array parallel to a flat items[]
+   array where each item carries a .section field (2A/2B/2C, 4A-4L,
+   5A-5F, 6A-1..6A-5, 7A-7F) -- one generic reader covers all five */
+function gtGenericBandStats(attempt, items, sectionId){
+  if(!attempt || !attempt.scores){ return null; }
+  var i, reached=0, correct=0, missed=[], st;
+  for(i=0;i<items.length;i++){
+    if(items[i].section!==sectionId){ continue; }
+    st=attempt.scores[i];
+    if(st===undefined||st==="nr"){ continue; }
+    reached++;
+    if(gtIsCorrectState(st)){ correct++; } else { missed.push(items[i].word||items[i].letter); }
+  }
+  if(reached===0){ return null; }
+  return { total:reached, correct:correct, pct:correct/reached, missed:missed };
+}
+/* Checks 6B/6C: auto-scored, item-level responses[] already carries
+   .section (the category id) and .isCorrect directly -- no flat scores[]
+   array to index into, so this reads the response list instead */
+function gtGenericResponseStats(attempt, sectionId){
+  if(!attempt || !attempt.responses){ return null; }
+  var i, r, total=0, correct=0, missed=[];
+  for(i=0;i<attempt.responses.length;i++){
+    r=attempt.responses[i];
+    if(r.section!==sectionId){ continue; }
+    total++;
+    if(r.isCorrect){ correct++; } else { missed.push(r.baseWord||r.targetWord||""); }
+  }
+  if(total===0){ return null; }
+  return { total:total, correct:correct, pct:correct/total, missed:missed };
+}
+/* the full instructional hierarchy, Level 1 (Check 1) through Level 7
+   (Check 7) -- built directly from each check's LIVE band/set/section
+   arrays (never a hardcoded duplicate list), so if a word bank ever
+   changes, the grouping skill catalog follows automatically. This is
+   also what guarantees Checks 1 and 2 (and every other pair of subskills)
+   are never silently combined into one group -- each is its own skillId. */
+var INSTR_SKILLS=(function(){
+  var out=[], i;
+  out.push({level:1, checkId:"check1", skillId:"c1-upper", label:"Letter Identification — Uppercase",
+    compute:function(sid){ return gtC1Subskill(sid,"upper"); }});
+  out.push({level:1, checkId:"check1", skillId:"c1-lower", label:"Letter Identification — Lowercase",
+    compute:function(sid){ return gtC1Subskill(sid,"lower"); }});
+
+  out.push({level:2, checkId:"check2", skillId:"c2-2A", label:"Letter-Sound Knowledge — Consonant Sounds",
+    compute:function(sid){ return gtGenericBandStats(gtScoredAttempt(C2Review,sid), C2_ITEMS, "2A"); }});
+  out.push({level:2, checkId:"check2", skillId:"c2-2B", label:"Letter-Sound Knowledge — Short Vowel Sounds",
+    compute:function(sid){ return gtGenericBandStats(gtScoredAttempt(C2Review,sid), C2_ITEMS, "2B"); }});
+  out.push({level:2, checkId:"check2", skillId:"c2-2C", label:"Letter-Sound Knowledge — Long Vowel Sounds",
+    compute:function(sid){ return gtGenericBandStats(gtScoredAttempt(C2Review,sid), C2_ITEMS, "2C"); }});
+
+  var c3Labels={"3A":"Phonemic Awareness — Initial Sound","3B":"Phonemic Awareness — Final Sound","3C":"Phonemic Awareness — Blending","3D":"Phonemic Awareness — Segmentation"};
+  for(i=0;i<C3_SECTIONS.length;i++){ (function(sec){
+    out.push({level:3, checkId:"check3", skillId:"c3-"+sec.id, label:c3Labels[sec.id],
+      compute:function(sid){ return gtC3Subskill(sid,sec.id); }});
+  })(C3_SECTIONS[i]); }
+
+  for(i=0;i<C4_BANDS.length;i++){ (function(b){
+    out.push({level:4, checkId:"check4", skillId:"c4-"+b.id, label:"Decoding — "+b.id+" "+b.label,
+      compute:function(sid){ return gtGenericBandStats(gtScoredAttempt(C4Review,sid), C4_ITEMS, b.id); }});
+  })(C4_BANDS[i]); }
+
+  for(i=0;i<C5_SETS.length;i++){ (function(s){
+    out.push({level:5, checkId:"check5", skillId:"c5-"+s.id, label:"Automatic Word Recognition — "+s.label,
+      compute:function(sid){ return gtGenericBandStats(gtScoredAttempt(C5Review,sid), C5_ITEMS, s.id); }});
+  })(C5_SETS[i]); }
+
+  for(i=0;i<C6_SETS.length;i++){ (function(s){
+    out.push({level:6, checkId:"check6", skillId:"c6a-"+s.id, label:"Morphology (Read It) — "+s.label,
+      compute:function(sid){ return gtGenericBandStats(gtScoredAttempt(C6Review,sid), C6_ITEMS, s.id); }});
+  })(C6_SETS[i]); }
+  for(i=0;i<C6B_SETS.length;i++){ (function(s){
+    out.push({level:6, checkId:"check6b", skillId:"c6b-"+s.id, label:"Morphology (Understand It) — "+s.label,
+      compute:function(sid){ return gtGenericResponseStats(gtScoredAttempt(C6BReview,sid), s.id); }});
+  })(C6B_SETS[i]); }
+  for(i=0;i<C6C_SETS.length;i++){ (function(s){
+    out.push({level:6, checkId:"check6c", skillId:"c6c-"+s.id, label:"Morphology (Build It) — "+s.label,
+      compute:function(sid){ return gtGenericResponseStats(gtScoredAttempt(C6CReview,sid), s.id); }});
+  })(C6C_SETS[i]); }
+
+  for(i=0;i<C7_SETS.length;i++){ (function(s){
+    out.push({level:7, checkId:"check7", skillId:"c7-"+s.id,
+      label:"Multisyllabic Word Analysis — "+s.label+(s.pseudo?" (pseudowords, tracked separately)":""),
+      compute:function(sid){ return gtGenericBandStats(gtScoredAttempt(C7Review,sid), C7_ITEMS, s.id); }});
+  })(C7_SETS[i]); }
+  return out;
+})();
+function gtSkillById(skillId){ var i; for(i=0;i<INSTR_SKILLS.length;i++){ if(INSTR_SKILLS[i].skillId===skillId){ return INSTR_SKILLS[i]; } } return null; }
+
+/* Per-student profile: scans EVERY skill in hierarchy order (assessment
+   always continues across all of them -- this is not a diagnostic stop
+   rule) and calls the FIRST "gap" the PRIMARY/start-here need. Every
+   other gap found afterward becomes a secondary need, never discarded. */
+function gtStudentProfile(studentId){
+  var i, skill, stats, state, primary=null, secondary=[], bySkill={};
+  for(i=0;i<INSTR_SKILLS.length;i++){
+    skill=INSTR_SKILLS[i];
+    stats=skill.compute(studentId);
+    state=gtClassify(stats);
+    bySkill[skill.skillId]={ skill:skill, stats:stats, state:state };
+    if(state==="gap"){ if(!primary){ primary=skill.skillId; } else { secondary.push(skill.skillId); } }
+  }
+  return { studentId:studentId, bySkill:bySkill, primary:primary, secondary:secondary };
+}
+/* Groups students who share the same PRIMARY need -- this is what
+   guarantees instructional coherence (same skillId = the same targeted
+   lesson actually applies to everyone in the card), never a same-looking
+   percentage across different subskills. */
+function gtBuildGroups(classObj){
+  var students=classObj.students, i, k, p, groups={}, order=[], out=[], noData=[];
+  for(i=0;i<students.length;i++){
+    p=gtStudentProfile(students[i].id);
+    if(p.primary){
+      if(!groups[p.primary]){ groups[p.primary]={ skillId:p.primary, studentIds:[], profiles:[] }; order.push(p.primary); }
+      groups[p.primary].studentIds.push(p.studentId);
+      groups[p.primary].profiles.push(p);
+    } else {
+      var anyAttempted=false;
+      for(k in p.bySkill){ if(p.bySkill.hasOwnProperty(k) && p.bySkill[k].state!=="not-attempted"){ anyAttempted=true; break; } }
+      noData.push({ studentId:students[i].id, profile:p, anyAttempted:anyAttempted });
+    }
+  }
+  for(i=0;i<order.length;i++){ out.push(groups[order[i]]); }
+  return { groups:out, noData:noData };
+}
+/* common missed targets across a group's own primary skill -- "Shared
+   Targets" on the group card/detail view */
+function gtSharedTargets(group){
+  var tally={}, order=[], i, j, p, missed, seenInStudent;
+  for(i=0;i<group.profiles.length;i++){
+    p=group.profiles[i];
+    missed=(p.bySkill[group.skillId].stats && p.bySkill[group.skillId].stats.missed)||[];
+    seenInStudent={};
+    for(j=0;j<missed.length;j++){
+      if(seenInStudent[missed[j]]){ continue; }
+      seenInStudent[missed[j]]=true;
+      if(tally[missed[j]]===undefined){ tally[missed[j]]=0; order.push(missed[j]); }
+      tally[missed[j]]++;
+    }
+  }
+  order.sort(function(a,b){ return tally[b]-tally[a]; });
+  var out=[], k; for(k=0;k<order.length;k++){ out.push({ target:order[k], count:tally[order[k]] }); }
+  return out;
+}
+
+/* ---------- Teacher overrides (per class, per device): the program
+   recommends, the teacher decides. Every operation Miq's spec requires
+   (accept/remove/add/move/create/combine/split/rename) is covered by
+   this one small persisted shape: remove+add per recommended group,
+   plus independent teacher-created custom groups. Combine = create a
+   custom group with the union of members, then Hide the old recommended
+   cards; split = remove members from one group and create a new custom
+   group holding them. No destructive merge logic is needed. ---------- */
+var GroupOverrides=(function(){
+  function key(classId){ return vasK("rf_group_overrides_"+classId); }
+  function all(classId){ try{ var r=window.localStorage.getItem(key(classId)); var d=r?JSON.parse(r):null; return d||{groups:{},customGroups:[]}; }catch(e){ return {groups:{},customGroups:[]}; } }
+  function save(classId,data){ try{ window.localStorage.setItem(key(classId), JSON.stringify(data)); }catch(e){} }
+  function groupOverride(classId,groupKey){ var d=all(classId); return d.groups[groupKey]||{name:null,removedStudents:[],addedStudents:[],dismissed:false,notes:""}; }
+  function setGroupOverride(classId,groupKey,patch){ var d=all(classId), cur=d.groups[groupKey]||{name:null,removedStudents:[],addedStudents:[],dismissed:false,notes:""}, k; for(k in patch){ if(patch.hasOwnProperty(k)){ cur[k]=patch[k]; } } d.groups[groupKey]=cur; save(classId,d); }
+  function removeStudent(classId,groupKey,studentId){ var o=groupOverride(classId,groupKey); if(o.removedStudents.indexOf(studentId)===-1){ o.removedStudents.push(studentId); } var ai=o.addedStudents.indexOf(studentId); if(ai>-1){ o.addedStudents.splice(ai,1); } setGroupOverride(classId,groupKey,o); }
+  function addStudent(classId,groupKey,studentId){ var o=groupOverride(classId,groupKey); if(o.addedStudents.indexOf(studentId)===-1){ o.addedStudents.push(studentId); } var ri=o.removedStudents.indexOf(studentId); if(ri>-1){ o.removedStudents.splice(ri,1); } setGroupOverride(classId,groupKey,o); }
+  function rename(classId,groupKey,name){ setGroupOverride(classId,groupKey,{name:name}); }
+  function dismiss(classId,groupKey,dismissed){ setGroupOverride(classId,groupKey,{dismissed:!!dismissed}); }
+  function setNotes(classId,groupKey,notes){ setGroupOverride(classId,groupKey,{notes:notes}); }
+  function customGroups(classId){ return all(classId).customGroups; }
+  function getCustomGroup(classId,id){ var l=all(classId).customGroups, i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
+  function addCustomGroup(classId,grp){ var d=all(classId); d.customGroups.push(grp); save(classId,d); return grp; }
+  function updateCustomGroup(classId,id,patch){ var d=all(classId), i, k; for(i=0;i<d.customGroups.length;i++){ if(d.customGroups[i].id===id){ for(k in patch){ if(patch.hasOwnProperty(k)){ d.customGroups[i][k]=patch[k]; } } break; } } save(classId,d); }
+  function deleteCustomGroup(classId,id){ var d=all(classId), out=[], i; for(i=0;i<d.customGroups.length;i++){ if(d.customGroups[i].id!==id){ out.push(d.customGroups[i]); } } d.customGroups=out; save(classId,d); }
+  return { groupOverride:groupOverride, setGroupOverride:setGroupOverride, removeStudent:removeStudent, addStudent:addStudent,
+    rename:rename, dismiss:dismiss, setNotes:setNotes, customGroups:customGroups, getCustomGroup:getCustomGroup,
+    addCustomGroup:addCustomGroup, updateCustomGroup:updateCustomGroup, deleteCustomGroup:deleteCustomGroup };
+})();
+function igEffectiveStudentIds(classId, group){
+  var ov=GroupOverrides.groupOverride(classId, group.skillId), ids=[], i;
+  for(i=0;i<group.studentIds.length;i++){ if(ov.removedStudents.indexOf(group.studentIds[i])===-1){ ids.push(group.studentIds[i]); } }
+  for(i=0;i<ov.addedStudents.length;i++){ if(ids.indexOf(ov.addedStudents[i])===-1){ ids.push(ov.addedStudents[i]); } }
+  return ids;
+}
+
+/* ---------- Teacher UI: Instructional Groups ---------- */
+var IG_CLS=0, IG_BUILT=null, IG_DETAIL_KEY=null, IG_DETAIL_CUSTOM=false, IG_CREATE_OPEN=false, IG_CREATE_SEL=[];
+function instrGroupsEnter(){
+  IG_CLS=0; IG_CREATE_OPEN=false; IG_CREATE_SEL=[];
+  igPaintClasses(); igPaintCards();
+}
+function igPaintClasses(){
+  var seg=document.getElementById("ig-class"); if(!seg){ return; }
+  var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="igPick('+i+')" class="'+(i===IG_CLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function igPick(i){ IG_CLS=i; IG_CREATE_OPEN=false; IG_CREATE_SEL=[]; igPaintClasses(); igPaintCards(); }
+function igStudentNames(ids){ var out=[], i; for(i=0;i<ids.length;i++){ out.push(escapeHtml(rfStuName(ids[i]))); } return out.join(", "); }
+function igSharedTargetsLine(shared,groupSize){
+  var out=[], i, n=Math.min(shared.length,8);
+  for(i=0;i<n;i++){ out.push(escapeHtml(shared[i].target)+" ("+shared[i].count+"/"+groupSize+")"); }
+  return out.join(", ");
+}
+function igPaintCards(){
+  var host=document.getElementById("ig-cards"); if(!host){ return; }
+  var cls=CLASSES[IG_CLS];
+  IG_BUILT=gtBuildGroups(cls);
+  var html="", i, shown=0;
+  for(i=0;i<IG_BUILT.groups.length;i++){
+    (function(group){
+      var ov=GroupOverrides.groupOverride(cls.id, group.skillId);
+      if(ov.dismissed){ return; }
+      var ids=igEffectiveStudentIds(cls.id, group);
+      if(!ids.length){ return; }
+      shown++;
+      var skill=gtSkillById(group.skillId);
+      var shared=gtSharedTargets(group);
+      var name=ov.name||skill.label;
+      html+='<div class="clean-card ig-card">'
+        +'<div class="clean-header"><p class="step-eyebrow" style="margin:0">'+escapeHtml(name)+'</p>'
+        +'<p class="mini-note" style="margin:4px 0 0">'+ids.length+" student"+(ids.length===1?"":"s")+"</p></div>"
+        +'<div class="clean-card-body">'
+        +'<p class="mini-note"><strong>Students:</strong> '+igStudentNames(ids)+'</p>'
+        +'<p class="mini-note"><strong>Primary instructional need:</strong> '+escapeHtml(skill.label)+'</p>'
+        +(shared.length?'<p class="mini-note"><strong>Shared targets:</strong> '+igSharedTargetsLine(shared,ids.length)+'</p>':'')
+        +'<div class="clean-icon-row">'
+        +'<button class="pill-btn pill-btn-primary" onclick="igOpenDetail(\''+group.skillId+'\',false)">View Group</button>'
+        +'<button class="pill-btn pill-btn-secondary" onclick="igFuture(\'What to Teach Next\')">What to Teach Next</button>'
+        +'<button class="pill-btn pill-btn-secondary" onclick="igFuture(\'Recheck Skill\')">Recheck Skill</button>'
+        +"</div></div></div>";
+    })(IG_BUILT.groups[i]);
+  }
+  var custom=GroupOverrides.customGroups(cls.id);
+  for(i=0;i<custom.length;i++){
+    (function(g){
+      shown++;
+      html+='<div class="clean-card ig-card">'
+        +'<div class="clean-header"><p class="step-eyebrow" style="margin:0">'+escapeHtml(g.name)+'</p>'
+        +'<p class="mini-note" style="margin:4px 0 0">'+g.studentIds.length+" student"+(g.studentIds.length===1?"":"s")+" &mdash; teacher-created</p></div>"
+        +'<div class="clean-card-body">'
+        +'<p class="mini-note"><strong>Students:</strong> '+igStudentNames(g.studentIds)+'</p>'
+        +'<div class="clean-icon-row">'
+        +'<button class="pill-btn pill-btn-primary" onclick="igOpenDetail(\''+g.id+'\',true)">View Group</button>'
+        +'<button class="pill-btn pill-btn-secondary" onclick="igFuture(\'What to Teach Next\')">What to Teach Next</button>'
+        +'<button class="pill-btn pill-btn-secondary" onclick="igFuture(\'Recheck Skill\')">Recheck Skill</button>'
+        +"</div></div></div>";
+    })(custom[i]);
+  }
+  if(!shown){
+    html='<div class="clean-card"><div class="clean-card-body"><p class="mini-note">No diagnostic data yet for '+escapeHtml(cls.label)+'. Groups appear automatically once a teacher has scored at least one Check for a student here.</p></div></div>'+html;
+  }
+  html+=igNoDataHtml(IG_BUILT.noData)+igCreatePanelHtml(cls);
+  host.innerHTML=html;
+}
+function igNoDataHtml(noData){
+  if(!noData.length){ return ""; }
+  var names=[], i;
+  for(i=0;i<noData.length;i++){ names.push(escapeHtml(rfStuName(noData[i].studentId))+(noData[i].anyAttempted?"":" (not yet assessed)")); }
+  return '<div class="clean-card"><div class="clean-card-body"><p class="mini-note"><strong>No current instructional gap identified:</strong> '+names.join(", ")+'</p></div></div>';
+}
+function igCreatePanelHtml(cls){
+  if(!IG_CREATE_OPEN){
+    return '<button class="pill-btn pill-btn-secondary" onclick="igToggleCreate()" style="margin-top:10px">+ Create Group</button>';
+  }
+  var html='<div class="clean-card" id="ig-create-panel"><div class="clean-card-body">'
+    +'<p class="step-eyebrow" style="margin-top:0">New group</p>'
+    +'<input type="text" id="ig-create-name" placeholder="Group name" style="width:100%;font:inherit;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:inherit;margin-bottom:10px">'
+    +'<div class="clean-grid">';
+  var i, s;
+  for(i=0;i<cls.students.length;i++){
+    s=cls.students[i];
+    html+='<button class="clean-tile'+(IG_CREATE_SEL.indexOf(s.id)>-1?" state-sc":"")+'" onclick="igToggleCreateStudent(\''+s.id+'\')">'+escapeHtml(s.name)+"</button>";
+  }
+  html+='</div><div class="clean-icon-row" style="margin-top:12px">'
+    +'<button class="pill-btn pill-btn-primary" onclick="igCreateSubmit()">Create</button>'
+    +'<button class="pill-btn pill-btn-secondary" onclick="igToggleCreate()">Cancel</button>'
+    +"</div></div></div>";
+  return html;
+}
+function igToggleCreate(){ IG_CREATE_OPEN=!IG_CREATE_OPEN; IG_CREATE_SEL=[]; igPaintCards(); }
+function igToggleCreateStudent(sid){
+  var idx=IG_CREATE_SEL.indexOf(sid);
+  if(idx>-1){ IG_CREATE_SEL.splice(idx,1); } else { IG_CREATE_SEL.push(sid); }
+  igPaintCards();
+  var box=document.getElementById("ig-create-panel"); if(box){ box.scrollIntoView&&box.scrollIntoView({block:"nearest"}); }
+}
+function igCreateSubmit(){
+  var nameEl=document.getElementById("ig-create-name");
+  var name=(nameEl&&nameEl.value.replace(/^\s+|\s+$/g,""))||"";
+  if(!name||!IG_CREATE_SEL.length){ return; }
+  var cls=CLASSES[IG_CLS];
+  GroupOverrides.addCustomGroup(cls.id, { id:rfUid(), name:name, studentIds:IG_CREATE_SEL.slice(0), createdAt:azDateStr() });
+  IG_CREATE_OPEN=false; IG_CREATE_SEL=[];
+  igPaintCards();
+}
+/* ---------- Group detail view ---------- */
+function igOpenDetail(key,isCustom){ IG_DETAIL_KEY=key; IG_DETAIL_CUSTOM=!!isCustom; go("instrGroupDetail"); }
+function instrGroupDetailEnter(){ igPaintDetail(); }
+function igPaintDetail(){
+  var host=document.getElementById("ig-detail-body"); if(!host){ return; }
+  var cls=CLASSES[IG_CLS];
+  if(IG_DETAIL_CUSTOM){
+    var g=GroupOverrides.getCustomGroup(cls.id, IG_DETAIL_KEY);
+    if(!g){ host.innerHTML='<p class="mini-note">This group no longer exists.</p>'; return; }
+    var i, html='<p class="step-eyebrow" style="margin-top:0">'+escapeHtml(g.name)+'</p>'
+      +'<p class="mini-note">Teacher-created group. '+g.studentIds.length+" student"+(g.studentIds.length===1?"":"s")+"</p>"
+      +'<p class="step-eyebrow">Students</p>';
+    for(i=0;i<g.studentIds.length;i++){
+      html+='<div class="trow"><div class="tl">'+escapeHtml(rfStuName(g.studentIds[i]))+'</div>'
+        +'<button class="mini-btn" onclick="igRemoveFromCustom(\''+g.id+'\',\''+g.studentIds[i]+'\')">Remove</button></div>';
+    }
+    html+=igAddStudentControlHtml(cls, g.studentIds)
+      +'<p class="step-eyebrow" style="margin-top:14px">Rename</p>'
+      +'<input type="text" id="ig-rename-input" value="'+escapeHtml(g.name)+'" style="width:100%;font:inherit;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:inherit">'
+      +'<button class="pill-btn pill-btn-secondary" onclick="igRenameCustom(\''+g.id+'\')" style="margin-top:8px">Save name</button>'
+      +'<div class="clean-icon-row" style="margin-top:14px">'
+      +'<button class="pill-btn pill-btn-secondary" onclick="igFuture(\'What to Teach Next\')">What to Teach Next</button>'
+      +'<button class="pill-btn pill-btn-secondary" onclick="igFuture(\'Recheck Skill\')">Recheck Skill</button>'
+      +'</div>'
+      +'<button class="pill-btn pill-btn-secondary" onclick="igDeleteCustom(\''+g.id+'\')" style="margin-top:14px">Delete this group</button>';
+    host.innerHTML=html;
+    return;
+  }
+  var built=gtBuildGroups(cls), group=null, i2;
+  for(i2=0;i2<built.groups.length;i2++){ if(built.groups[i2].skillId===IG_DETAIL_KEY){ group=built.groups[i2]; } }
+  if(!group){ host.innerHTML='<p class="mini-note">No students currently share this need.</p>'; return; }
+  var skill=gtSkillById(group.skillId);
+  var ov=GroupOverrides.groupOverride(cls.id, group.skillId);
+  var ids=igEffectiveStudentIds(cls.id, group);
+  var shared=gtSharedTargets(group);
+  var html2='<p class="step-eyebrow" style="margin-top:0">'+escapeHtml(ov.name||skill.label)+'</p>'
+    +'<p class="mini-note"><strong>Why they were grouped:</strong> each student’s earliest important instructional gap, in order across Checks 1–7, is this same skill: '+escapeHtml(skill.label)+'.</p>'
+    +'<p class="mini-note">This groups by decoding/foundational-skill evidence only — it never diagnoses language ability, vocabulary knowledge, or English proficiency. A multilingual student may decode accurately while still needing language support elsewhere.</p>'
+    +(shared.length?'<p class="mini-note"><strong>Shared targets:</strong> '+igSharedTargetsLine(shared,ids.length)+'</p>':'')
+    +'<p class="step-eyebrow">Students &amp; individual differences</p>';
+  var j, p, st;
+  for(j=0;j<ids.length;j++){
+    p=null; var pi; for(pi=0;pi<group.profiles.length;pi++){ if(group.profiles[pi].studentId===ids[j]){ p=group.profiles[pi]; } }
+    var missedStr="", pctStr="new evidence (added by teacher)";
+    if(p){
+      st=p.bySkill[group.skillId].stats;
+      pctStr=st?(st.correct+" / "+st.total):"no evidence";
+      missedStr=(st&&st.missed.length)?(" — missed: "+escapeHtml(st.missed.join(", "))):"";
+      var secLabels=[]; for(var s2=0;s2<p.secondary.length;s2++){ var sk=gtSkillById(p.secondary[s2]); if(sk){ secLabels.push(sk.label); } }
+    }
+    html2+='<div class="trow"><div class="tl">'+escapeHtml(rfStuName(ids[j]))+" — "+pctStr+missedStr
+      +(secLabels&&secLabels.length?'<small>Secondary needs: '+escapeHtml(secLabels.join("; "))+'</small>':'')
+      +'</div><button class="mini-btn" onclick="igRemoveFromGroup(\''+group.skillId+'\',\''+ids[j]+'\')">Remove</button></div>';
+  }
+  html2+=igAddStudentControlHtml(cls, ids)
+    +'<p class="step-eyebrow" style="margin-top:14px">Rename this group</p>'
+    +'<input type="text" id="ig-rename-input" value="'+escapeHtml(ov.name||skill.label)+'" style="width:100%;font:inherit;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:inherit">'
+    +'<button class="pill-btn pill-btn-secondary" onclick="igRenameGroup(\''+group.skillId+'\')" style="margin-top:8px">Save name</button>'
+    +'<p class="step-eyebrow" style="margin-top:14px">Teacher notes (optional -- observations, never diagnoses)</p>'
+    +'<textarea id="ig-notes" rows="3" style="width:100%;font:inherit;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:inherit">'+escapeHtml(ov.notes||"")+'</textarea>'
+    +'<button class="pill-btn pill-btn-secondary" onclick="igSaveNotes(\''+group.skillId+'\')" style="margin-top:8px">Save notes</button>'
+    +'<div class="clean-icon-row" style="margin-top:14px">'
+    +'<button class="pill-btn pill-btn-secondary" onclick="igFuture(\'What to Teach Next\')">What to Teach Next</button>'
+    +'<button class="pill-btn pill-btn-secondary" onclick="igFuture(\'Recheck Skill\')">Recheck Skill</button>'
+    +'</div>'
+    +'<button class="pill-btn pill-btn-secondary" onclick="igHideGroup(\''+group.skillId+'\')" style="margin-top:14px">Hide this group</button>';
+  host.innerHTML=html2;
+}
+function igAddStudentControlHtml(cls, currentIds){
+  var html='<p class="step-eyebrow" style="margin-top:14px">Add a student</p><select id="ig-add-select">';
+  var i, s;
+  for(i=0;i<cls.students.length;i++){
+    s=cls.students[i];
+    if(currentIds.indexOf(s.id)>-1){ continue; }
+    html+='<option value="'+s.id+'">'+escapeHtml(s.name)+"</option>";
+  }
+  html+='</select> <button class="pill-btn pill-btn-secondary" onclick="igAddSelected()">Add</button>';
+  return html;
+}
+function igAddSelected(){
+  var sel=document.getElementById("ig-add-select"); if(!sel||!sel.value){ return; }
+  var cls=CLASSES[IG_CLS];
+  if(IG_DETAIL_CUSTOM){
+    var g=GroupOverrides.getCustomGroup(cls.id, IG_DETAIL_KEY); if(!g){ return; }
+    var ids=g.studentIds.slice(0); if(ids.indexOf(sel.value)===-1){ ids.push(sel.value); }
+    GroupOverrides.updateCustomGroup(cls.id, g.id, { studentIds:ids });
+  } else {
+    GroupOverrides.addStudent(cls.id, IG_DETAIL_KEY, sel.value);
+  }
+  igPaintDetail();
+}
+function igRemoveFromGroup(groupKey,sid){ GroupOverrides.removeStudent(CLASSES[IG_CLS].id, groupKey, sid); igPaintDetail(); }
+function igRemoveFromCustom(gid,sid){
+  var cls=CLASSES[IG_CLS], g=GroupOverrides.getCustomGroup(cls.id,gid); if(!g){ return; }
+  var out=[], i; for(i=0;i<g.studentIds.length;i++){ if(g.studentIds[i]!==sid){ out.push(g.studentIds[i]); } }
+  GroupOverrides.updateCustomGroup(cls.id, gid, { studentIds:out });
+  igPaintDetail();
+}
+function igRenameGroup(groupKey){ var el=document.getElementById("ig-rename-input"); if(!el){ return; } GroupOverrides.rename(CLASSES[IG_CLS].id, groupKey, el.value); igPaintDetail(); }
+function igRenameCustom(gid){ var el=document.getElementById("ig-rename-input"); if(!el||!el.value){ return; } GroupOverrides.updateCustomGroup(CLASSES[IG_CLS].id, gid, { name:el.value }); igPaintDetail(); }
+function igSaveNotes(groupKey){ var el=document.getElementById("ig-notes"); if(!el){ return; } GroupOverrides.setNotes(CLASSES[IG_CLS].id, groupKey, el.value); }
+function igHideGroup(groupKey){ GroupOverrides.dismiss(CLASSES[IG_CLS].id, groupKey, true); go("instrGroups"); }
+function igDeleteCustom(gid){ GroupOverrides.deleteCustomGroup(CLASSES[IG_CLS].id, gid); go("instrGroups"); }
+/* ---------- "What to Teach Next" / "Recheck Skill": the instructional
+   engine and recheck-scheduling flow are future work (see B20/B29) --
+   this preserves the route/button so nothing needs to be re-wired later,
+   and is honest that nothing is generated here yet. ---------- */
+var IG_FUTURE_TITLE="";
+function igFuture(title){ IG_FUTURE_TITLE=title; go("instrFuture"); }
+function instrFutureEnter(){
+  var h=document.getElementById("ig-future-title"); if(h){ h.textContent=IG_FUTURE_TITLE; }
+}
+
+/* ======================================================================
+   TEACHER DATA BACKUP / RESTORE
+   ======================================================================
+   Protects TEACHER-SIDE Reading Foundations data (Checks 1-7 scored
+   attempts, Instructional Grouping overrides, Settings, Fluency
+   placement/cycle state -- the same class of teacher-entered progress
+   data CLAUDE.md already documents as local-to-this-browser) against
+   browser-data clearing, a device change, or a future move off GitHub
+   Pages. Canvas remains the storage/submission location for the actual
+   student audio/video recordings -- this backup never includes them,
+   only the teacher's own scoring/grouping/settings data already sitting
+   in this browser's localStorage. Deliberately excluded (this is
+   PER-STUDENT-DEVICE data, not teacher-side): ckDone ("rf_checks_*"),
+   gamification points, Word Practice group progress, sync class codes,
+   and Fluency Tap's rf_wcpm_scores (a separate file, teacher-tap.html,
+   which already has its own dedicated export/import/restore feature --
+   this does not duplicate it). Nothing here touches Check content,
+   scoring constructs, or student prompts. */
+var TEACHER_ATTEMPT_KEYS=["rf_check1_attempts","rf_check2_attempts","rf_check3_attempts","rf_check4_attempts",
+  "rf_check5_attempts","rf_check6_attempts","rf_check6b_attempts","rf_check6c_attempts","rf_check7_attempts"];
+var RF_BACKUP_ID="READING_FOUNDATIONS_TEACHER_BACKUP";
+var RF_BACKUP_VERSION=1;
+var RF_SCHEMA_VERSION=1;
+function tdRawGet(key){ try{ var r=window.localStorage.getItem(key); return r?JSON.parse(r):null; }catch(e){ return null; } }
+function tdRawSet(key,val){ try{ window.localStorage.setItem(key, JSON.stringify(val)); }catch(e){} }
+function tdBackupFilename(){
+  var dt=new Date(), pad=function(n){return (n<10?"0":"")+n;};
+  return "Reading_Foundations_Teacher_Backup_"+dt.getFullYear()+"_"+pad(dt.getMonth()+1)+"_"+pad(dt.getDate())+"_"+pad(dt.getHours())+pad(dt.getMinutes())+".json";
+}
+function tdBuildBackup(){
+  var i, attempts={}, recordCount=0, studentIds={};
+  for(i=0;i<TEACHER_ATTEMPT_KEYS.length;i++){
+    var list=tdRawGet(TEACHER_ATTEMPT_KEYS[i])||[];
+    attempts[TEACHER_ATTEMPT_KEYS[i]]=list;
+    recordCount+=list.length;
+    var j; for(j=0;j<list.length;j++){ if(list[j].studentId){ studentIds[list[j].studentId]=true; } }
+  }
+  var groupOverrides={}, groupCount=0;
+  for(i=0;i<CLASSES.length;i++){
+    var ov=tdRawGet("rf_group_overrides_"+CLASSES[i].id);
+    if(ov){
+      groupOverrides[CLASSES[i].id]=ov;
+      var k; for(k in ov.groups){ if(ov.groups.hasOwnProperty(k)){ groupCount++; } }
+      groupCount+=(ov.customGroups||[]).length;
+    }
+  }
+  var studentCount=0, sid; for(sid in studentIds){ if(studentIds.hasOwnProperty(sid)){ studentCount++; } }
+  return {
+    rfBackupId: RF_BACKUP_ID,
+    backupVersion: RF_BACKUP_VERSION,
+    schemaVersion: RF_SCHEMA_VERSION,
+    exportedAt: new Date().toISOString(),
+    exportedDateLabel: azDateStr(),
+    counts: { students:studentCount, diagnosticRecords:recordCount, groups:groupCount },
+    data: {
+      attempts: attempts,
+      groupOverrides: groupOverrides,
+      settings: tdRawGet("slider_settings")||{},
+      fluencyPlacement: tdRawGet("rf_fluency_place")||{},
+      fluencyCycle: tdRawGet("rf_fluency_cycle")||{},
+      teacherPrefs: {
+        rf_teacher_dark: window.localStorage.getItem("rf_teacher_dark"),
+        rf_c5_playback_rate: window.localStorage.getItem("rf_c5_playback_rate"),
+        rf_c6_playback_rate: window.localStorage.getItem("rf_c6_playback_rate"),
+        rf_c7_playback_rate: window.localStorage.getItem("rf_c7_playback_rate")
+      }
+    }
+  };
+}
+function tdExport(){
+  var backup=tdBuildBackup();
+  var blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
+  downloadBlob(blob, tdBackupFilename());
+  return backup;
+}
+/* Validate BEFORE touching any current data -- never blindly imports
+   arbitrary JSON (C11/C13). */
+function tdValidateBackup(obj){
+  var errors=[];
+  if(!obj || typeof obj!=="object"){ errors.push("Not a valid backup file."); return { ok:false, errors:errors }; }
+  if(obj.rfBackupId!==RF_BACKUP_ID){ errors.push("This file is not a Reading Foundations teacher backup."); }
+  if(typeof obj.backupVersion!=="number"){ errors.push("Missing backup version."); }
+  else if(obj.backupVersion>RF_BACKUP_VERSION){ errors.push("This backup was made by a newer version of Reading Foundations than this app understands -- update the app before importing."); }
+  if(typeof obj.schemaVersion!=="number"){ errors.push("Missing data/schema version."); }
+  else if(obj.schemaVersion>RF_SCHEMA_VERSION){ errors.push("This backup's data format is newer than this app understands -- update the app before importing."); }
+  if(!obj.data || typeof obj.data!=="object"){ errors.push("Missing backup data."); }
+  return { ok:errors.length===0, errors:errors };
+}
+/* ---- merge helpers: NEVER overwrite a conflicting record. A "conflict"
+   is the same stable id/key existing on both sides with DIFFERENT
+   content -- it is skipped and reported, not guessed at, per the
+   explicit "stop and warn rather than guess" rule. An identical
+   duplicate is silently a no-op; a genuinely new id/key is added. ---- */
+function tdMergeAttempts(key, incomingList){
+  var current=tdRawGet(key)||[], added=0, skippedDup=0, conflicts=0, i, j, found;
+  for(i=0;i<incomingList.length;i++){
+    found=null;
+    for(j=0;j<current.length;j++){ if(current[j].id===incomingList[i].id){ found=current[j]; break; } }
+    if(!found){ current.push(incomingList[i]); added++; }
+    else if(JSON.stringify(found)===JSON.stringify(incomingList[i])){ skippedDup++; }
+    else { conflicts++; }
+  }
+  tdRawSet(key, current);
+  return { added:added, skippedDup:skippedDup, conflicts:conflicts };
+}
+function tdMergeGroupOverrides(incoming){
+  var results={}, classId;
+  for(classId in incoming){
+    if(!incoming.hasOwnProperty(classId)){ continue; }
+    var key="rf_group_overrides_"+classId;
+    var cur=tdRawGet(key)||{groups:{},customGroups:[]};
+    var inc=incoming[classId]||{groups:{},customGroups:[]};
+    var added=0, skippedDup=0, conflicts=0, k, i, j, found;
+    for(k in inc.groups){
+      if(!inc.groups.hasOwnProperty(k)){ continue; }
+      if(!cur.groups[k]){ cur.groups[k]=inc.groups[k]; added++; }
+      else if(JSON.stringify(cur.groups[k])===JSON.stringify(inc.groups[k])){ skippedDup++; }
+      else { conflicts++; }
+    }
+    for(i=0;i<(inc.customGroups||[]).length;i++){
+      found=null;
+      for(j=0;j<cur.customGroups.length;j++){ if(cur.customGroups[j].id===inc.customGroups[i].id){ found=cur.customGroups[j]; break; } }
+      if(!found){ cur.customGroups.push(inc.customGroups[i]); added++; }
+      else if(JSON.stringify(found)===JSON.stringify(inc.customGroups[i])){ skippedDup++; }
+      else { conflicts++; }
+    }
+    tdRawSet(key, cur);
+    results[classId]={added:added, skippedDup:skippedDup, conflicts:conflicts};
+  }
+  return results;
+}
+/* for per-student-id keyed objects (Fluency placement/cycle) */
+function tdMergeKeyedById(localKey, incomingObj){
+  var cur=tdRawGet(localKey)||{}, added=0, skippedDup=0, conflicts=0, k;
+  for(k in incomingObj){
+    if(!incomingObj.hasOwnProperty(k)){ continue; }
+    if(cur[k]===undefined){ cur[k]=incomingObj[k]; added++; }
+    else if(JSON.stringify(cur[k])===JSON.stringify(incomingObj[k])){ skippedDup++; }
+    else { conflicts++; }
+  }
+  tdRawSet(localKey, cur);
+  return { added:added, skippedDup:skippedDup, conflicts:conflicts };
+}
+function tdMergeSettings(incoming){
+  var cur=tdRawGet("slider_settings")||{}, added=0, conflicts=0, skippedDup=0, k, sk;
+  for(k in incoming){
+    if(!incoming.hasOwnProperty(k)){ continue; }
+    if(k==="pacer"||k==="teams"){
+      if(!cur[k]){ cur[k]={}; }
+      for(sk in incoming[k]){
+        if(!incoming[k].hasOwnProperty(sk)){ continue; }
+        if(cur[k][sk]===undefined){ cur[k][sk]=incoming[k][sk]; added++; }
+        else if(cur[k][sk]===incoming[k][sk]){ skippedDup++; }
+        else { conflicts++; }
+      }
+      continue;
+    }
+    if(cur[k]===undefined){ cur[k]=incoming[k]; added++; }
+    else if(cur[k]===incoming[k]){ skippedDup++; }
+    else { conflicts++; }
+  }
+  tdRawSet("slider_settings", cur);
+  return { added:added, skippedDup:skippedDup, conflicts:conflicts };
+}
+/* the whole import, in the required order: SAFETY BACKUP OF CURRENT DATA
+   FIRST (auto-downloaded), then merge every data type -- never a blind
+   overwrite/replace. */
+function tdRunImport(backup){
+  var safety=tdBuildBackup();
+  var safetyBlob=new Blob([JSON.stringify(safety,null,2)],{type:"application/json"});
+  downloadBlob(safetyBlob, "Reading_Foundations_SAFETY_BEFORE_IMPORT_"+tdBackupFilename());
+  var summary={ attempts:{}, groupOverrides:null, settings:null, fluencyPlacement:null, fluencyCycle:null };
+  var i;
+  for(i=0;i<TEACHER_ATTEMPT_KEYS.length;i++){
+    var key=TEACHER_ATTEMPT_KEYS[i];
+    var incoming=(backup.data.attempts && backup.data.attempts[key])||[];
+    summary.attempts[key]=tdMergeAttempts(key, incoming);
+  }
+  summary.groupOverrides=tdMergeGroupOverrides(backup.data.groupOverrides||{});
+  summary.settings=tdMergeSettings(backup.data.settings||{});
+  summary.fluencyPlacement=tdMergeKeyedById("rf_fluency_place", backup.data.fluencyPlacement||{});
+  summary.fluencyCycle=tdMergeKeyedById("rf_fluency_cycle", backup.data.fluencyCycle||{});
+  return summary;
+}
+
+/* ---------- Teacher UI: Data Management ---------- */
+var DM_PENDING_BACKUP=null;
+function dataMgmtEnter(){
+  DM_PENDING_BACKUP=null;
+  var r=document.getElementById("dm-export-result"); if(r){ r.innerHTML=""; }
+  var p=document.getElementById("dm-import-preview"); if(p){ p.innerHTML=""; }
+  var res=document.getElementById("dm-import-result"); if(res){ res.innerHTML=""; }
+  var f=document.getElementById("dm-import-file"); if(f){ f.value=""; }
+}
+function dmDoExport(){
+  var backup=tdExport();
+  var host=document.getElementById("dm-export-result"); if(!host){ return; }
+  host.innerHTML='<div class="clean-card"><div class="clean-card-body">'
+    +'<p class="mini-note"><strong>&#9989; Backup created successfully.</strong></p>'
+    +'<p class="mini-note">Date/time: '+escapeHtml(new Date(backup.exportedAt).toLocaleString())+'</p>'
+    +'<p class="mini-note">Students: '+backup.counts.students+'</p>'
+    +'<p class="mini-note">Diagnostic records: '+backup.counts.diagnosticRecords+'</p>'
+    +'<p class="mini-note">Groups: '+backup.counts.groups+'</p>'
+    +"</div></div>";
+}
+function dmFileSelected(input){
+  var f=input.files&&input.files[0]; if(!f){ return; }
+  var reader=new FileReader();
+  reader.onload=function(){
+    var host=document.getElementById("dm-import-preview"); if(!host){ return; }
+    var obj=null;
+    try{ obj=JSON.parse(reader.result); }catch(e){ obj=null; }
+    if(!obj){
+      host.innerHTML='<div class="clean-card"><div class="clean-card-body"><p class="mini-note" style="color:var(--retry)">This file is not valid JSON. Nothing was imported.</p></div></div>';
+      return;
+    }
+    var v=tdValidateBackup(obj);
+    if(!v.ok){
+      host.innerHTML='<div class="clean-card"><div class="clean-card-body"><p class="mini-note" style="color:var(--retry)"><strong>This file cannot be imported:</strong> '+escapeHtml(v.errors.join(" "))+'</p></div></div>';
+      return;
+    }
+    DM_PENDING_BACKUP=obj;
+    host.innerHTML='<div class="clean-card"><div class="clean-card-body">'
+      +'<p class="step-eyebrow" style="margin-top:0">Backup found</p>'
+      +'<p class="mini-note">Exported: '+escapeHtml(new Date(obj.exportedAt).toLocaleString())+'</p>'
+      +'<p class="mini-note">Students: '+obj.counts.students+'</p>'
+      +'<p class="mini-note">Diagnostic records: '+obj.counts.diagnosticRecords+'</p>'
+      +'<p class="mini-note">Groups: '+obj.counts.groups+'</p>'
+      +'<p class="mini-note">A safety backup of your CURRENT data downloads automatically first. New records are added; anything already identical is left alone; anything that conflicts with a record you already have is skipped and reported here, never overwritten.</p>'
+      +'<div class="clean-icon-row">'
+      +'<button class="pill-btn pill-btn-primary" onclick="dmContinueImport()">Continue Import</button>'
+      +'<button class="pill-btn pill-btn-secondary" onclick="dmCancelImport()">Cancel</button>'
+      +"</div></div></div>";
+  };
+  reader.readAsText(f);
+}
+function dmCancelImport(){
+  DM_PENDING_BACKUP=null;
+  var host=document.getElementById("dm-import-preview"); if(host){ host.innerHTML=""; }
+  var f=document.getElementById("dm-import-file"); if(f){ f.value=""; }
+}
+function dmContinueImport(){
+  if(!DM_PENDING_BACKUP){ return; }
+  var summary=tdRunImport(DM_PENDING_BACKUP);
+  DM_PENDING_BACKUP=null;
+  var host=document.getElementById("dm-import-result"); if(!host){ return; }
+  var k, tot={added:0,skippedDup:0,conflicts:0};
+  for(k in summary.attempts){ if(summary.attempts.hasOwnProperty(k)){ tot.added+=summary.attempts[k].added; tot.skippedDup+=summary.attempts[k].skippedDup; tot.conflicts+=summary.attempts[k].conflicts; } }
+  var gTot={added:0,skippedDup:0,conflicts:0}, cid;
+  for(cid in summary.groupOverrides){ if(summary.groupOverrides.hasOwnProperty(cid)){ gTot.added+=summary.groupOverrides[cid].added; gTot.skippedDup+=summary.groupOverrides[cid].skippedDup; gTot.conflicts+=summary.groupOverrides[cid].conflicts; } }
+  host.innerHTML='<div class="clean-card"><div class="clean-card-body">'
+    +'<p class="step-eyebrow" style="margin-top:0">Import complete</p>'
+    +'<p class="mini-note">A safety backup of your data from just before this import also downloaded to this device.</p>'
+    +'<p class="mini-note"><strong>Diagnostic records:</strong> '+tot.added+" added, "+tot.skippedDup+" already had, "+tot.conflicts+" conflicts skipped (not overwritten)</p>"
+    +'<p class="mini-note"><strong>Groups:</strong> '+gTot.added+" added, "+gTot.skippedDup+" already had, "+gTot.conflicts+" conflicts skipped</p>"
+    +'<p class="mini-note"><strong>Settings:</strong> '+summary.settings.added+" added, "+summary.settings.skippedDup+" already had, "+summary.settings.conflicts+" conflicts skipped</p>"
+    +"</div></div>";
+  var f=document.getElementById("dm-import-file"); if(f){ f.value=""; }
+  var p=document.getElementById("dm-import-preview"); if(p){ p.innerHTML=""; }
 }
 
 /* ---------- Teacher home: dark mode (layout/look only, teacher side only) ----------
