@@ -19,7 +19,9 @@ ok(w.getComputedStyle(d.getElementById("c1-start")).backgroundColor!=="rgb(180, 
 var css=Array.prototype.map.call(d.querySelectorAll("style"),function(s){return s.textContent;}).join("\n");
 ok(/\.icon-btn-record\.rec \.mic-ico[^{]*\{animation:micPulse/.test(css),"Record mic pulses while recording");
 ok(/\.rec-status \.rec-status-dot\{animation:micPulse/.test(css),"Recording status mic pulses (Check 2/3 video)");
-ok(/\.rec-btn\.rec \.rec-dot\{animation:micPulse/.test(css),"teacher record mic pulses");
+ok(/\.rec-btn\.rec \.rec-dot\{[^}]*animation:micPulse/.test(css),"teacher record mic pulses while actually recording");
+/* idle (not recording): plain white-background mic, no pulse (Mick, Sept 28 2026) */
+ok(/\.rec-btn \.rec-dot\{[^}]*background-color:#fff[^}]*animation:none\}/.test(css),"teacher record mic is plain/white at rest, not pulsing");
 
 /* ONE listen icon: green ear on every Listen button */
 ok(html.indexOf("&#128266;")===-1,"no old speaker emoji anywhere");

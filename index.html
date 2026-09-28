@@ -378,13 +378,17 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .flu-sq-record .icon-label{font-size:12px}
 /* small versions: the "Recording" status line and the teacher Record buttons */
 .rec-status{color:#C62828}
-.rec-status .rec-status-dot,.rec-btn .rec-dot{box-sizing:border-box;border:1px solid rgba(0,0,0,.28);border-radius:50%;background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:22px;height:22px;display:inline-block;flex:0 0 auto}
+.rec-status .rec-status-dot{box-sizing:border-box;border:1px solid rgba(0,0,0,.28);border-radius:50%;background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:22px;height:22px;display:inline-block;flex:0 0 auto}
 .rec-status .rec-status-dot{animation:micPulse 1.2s ease-in-out infinite}
 .rec-status.paused .rec-status-dot{background-color:#9AA3AD;animation:none}
-.rec-btn .rec-dot{width:26px;height:26px;animation:none}
 .mic-ico.mic-ico-tile{width:34px;height:34px}
 .rec-btn.rec{background:var(--accent)}
-.rec-btn.rec .rec-dot{animation:micPulse 1.2s ease-in-out infinite}
+/* Teacher Record buttons (Mick, Sept 28 2026): plain/simple white-background
+   mic icon at rest -- pulsing red mic ONLY while actually recording, using
+   the same red-circle-white-mic image as everywhere else the instant it
+   starts, so "recording now" still reads unmistakably. */
+.rec-btn .rec-dot{box-sizing:border-box;border:1px solid rgba(0,0,0,.28);border-radius:50%;background-color:#fff;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='none' stroke='%236b7280' stroke-width='3'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%236b7280' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='%236b7280' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='%236b7280' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:26px;height:26px;display:inline-block;flex:0 0 auto;animation:none}
+.rec-btn.rec .rec-dot{background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");animation:micPulse 1.2s ease-in-out infinite}
 
 /* ===== Student View bar: the chosen theme, darker (light mode) or lighter (dark mode) ===== */
 .vas-banner{background:var(--accent-press);background:color-mix(in srgb,var(--accent) 62%,#000);color:#fff}
@@ -678,7 +682,7 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
    explicitly NOT part of this restyle. ---- */
 #check2 .rec-btn,#check3 .rec-btn,#s-teachC2 .rec-btn,#s-teachC3 .rec-btn{border-radius:999px}
 #check2 .play-btn,#check3 .play-btn,#s-teachC2 .play-btn,#s-teachC3 .play-btn{border-radius:999px}
-#check2 .rec-btn .rec-dot,#check3 .rec-btn .rec-dot,#s-teachC2 .rec-btn .rec-dot,#s-teachC3 .rec-btn .rec-dot{animation:none}
+#check2 .rec-btn .rec-dot,#check3 .rec-btn .rec-dot{animation:none}
 
 /* ===== Teacher Instructional Groups: same Clean/Professional system as
    Checks 5-7 -- clean cards, pill buttons, restrained color, generous
