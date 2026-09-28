@@ -165,11 +165,11 @@ setTimeout(function(){
           if(diagBtns2[m].textContent.indexOf("Check 6")>-1){ c6Btn=diagBtns2[m]; }
         }
         ck(foundC5Green,"Check 5 shows green/Completed on the dashboard");
-        ck(!!c6Btn && c6Btn.disabled!==true,"Check 6 is not gray/locked once Check 5 is done, even though it isn't built yet");
+        ck(!!c6Btn && c6Btn.disabled!==true,"Check 6 is not gray/locked once Check 5 is done");
         ck(!!c6Btn && c6Btn.className.indexOf("locked")===-1,"Check 6 uses the normal available style, not the locked style");
         click(c6Btn);
-        ck(activeId()==="diagLanding","tapping the not-yet-built Check 6 never navigates anywhere");
-        ck(/Coming soon!/.test(d.getElementById("diag-comingsoon-note").textContent),"tapping it shows 'Coming soon!' instead of a broken screen -- Check 6 was NOT built");
+        ck(activeId()==="check6","tapping Check 6 navigates to the real Check 6 screen now that it's built");
+        w.go("diagLanding");
 
         teacherScoringFlow(attempts[0].id);
       },30);

@@ -465,6 +465,48 @@ html[data-mode="dark"] #check5 .clean-header,html[data-mode="dark"] #check5Teach
 #check5 .dir-listen-btn{border-radius:999px;padding:10px 20px}
 #check5 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px;background-color:var(--ink-soft)}
 #check5 .dir-listen-btn.playing .dir-listen-icon.ear-ico{background-color:var(--accent);animation:none}
+
+/* ===== Check 6 (6A): same Clean/Professional system as Check 5 =====
+   Deliberately a SEPARATE copy of the ruleset above (not a widened
+   selector on Check 5's rules) so this build never touches a single
+   line Check 5 depends on -- zero risk of altering Checks 1-5. */
+#check6 .pill-btn,#check6Teach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#check6 .pill-btn-primary,#check6Teach .pill-btn-primary{background:var(--accent);border:none;color:#fff}
+#check6 .pill-btn-secondary,#check6Teach .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+#check6 .pill-btn[disabled],#check6Teach .pill-btn[disabled]{opacity:.45;cursor:default}
+#check6 .clean-icon,#check6Teach .clean-icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink-soft);color:var(--ink-soft);background:var(--panel);flex:0 0 auto;cursor:pointer;touch-action:manipulation}
+#check6 .clean-icon svg,#check6Teach .clean-icon svg{width:18px;height:18px}
+#check6 .clean-icon.active,#check6Teach .clean-icon.active{border-color:var(--accent);color:var(--accent)}
+#check6 .clean-icon[disabled],#check6Teach .clean-icon[disabled]{opacity:.45;cursor:default}
+#check6 .clean-icon-row,#check6Teach .clean-icon-row{display:flex;align-items:center;gap:14px;margin:14px 0}
+#check6 .clean-icon-label,#check6Teach .clean-icon-label{font-size:13px;color:var(--ink-soft);font-weight:600}
+#check6 .clean-header,#check6Teach .clean-header{background:color-mix(in srgb,var(--accent) 10%,var(--panel));border-bottom:1px solid var(--line);padding:14px 18px}
+html[data-mode="dark"] #check6 .clean-header,html[data-mode="dark"] #check6Teach .clean-header{background:color-mix(in srgb,var(--accent) 22%,var(--panel))}
+#check6 .clean-card,#check6Teach .clean-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin:0 0 16px}
+#check6 .clean-card-body,#check6Teach .clean-card-body{padding:18px}
+/* Morphology words run much longer than Check 5's (e.g. "misunderstanding",
+   17 letters) -- a smaller base size than Check 5's 5.5rem, chosen so the
+   longest actual Check 6 target still fits the .wrap width with no
+   overflow/clipping, plus a defensive word-break as a last resort. */
+#check6 .clean-word{font-size:3.6rem;font-weight:800;text-align:center;line-height:1.15;letter-spacing:-.01em;margin:32px 0;overflow-wrap:break-word}
+@media(max-width:520px){#check6 .clean-word{font-size:2.3rem}}
+/* Morphology words run much longer than Check 4/5's (e.g. "misunderstanding",
+   17 letters) -- smaller font + wider minimum column than Check 5's grid,
+   specifically so the longest actual Check 6 targets never overflow. */
+#check6 .clean-tile,#check6Teach .clean-tile{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:1.05rem;font-weight:700;color:var(--ink);white-space:nowrap;background:var(--panel)}
+#check6Teach .clean-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin:14px 0}
+#check6Teach .clean-grid .clean-tile{cursor:pointer;touch-action:manipulation;text-align:center;position:relative}
+#check6Teach .clean-tile.state-err{background:var(--retry-bg);border-color:var(--retry);color:var(--retry)}
+#check6Teach .clean-tile.state-sc{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+#check6Teach .clean-tile.state-skip{background:var(--unsure-bg);border-color:var(--unsure);color:var(--unsure)}
+#check6Teach .speed-row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px}
+#check6Teach .speed-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);border-radius:999px;padding:6px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation}
+#check6Teach .speed-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+#check6 .rec-status{color:var(--ink-soft)}
+#check6 .rec-status .rec-status-dot{background-color:var(--ink-soft);animation:none}
+#check6 .dir-listen-btn{border-radius:999px;padding:10px 20px}
+#check6 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px;background-color:var(--ink-soft)}
+#check6 .dir-listen-btn.playing .dir-listen-icon.ear-ico{background-color:var(--accent);animation:none}
 </style>
 </head>
 <body>
@@ -518,6 +560,7 @@ html[data-mode="dark"] #check5 .clean-header,html[data-mode="dark"] #check5Teach
             <button class="teach-tile cat-scoring" onclick="go('check3Teach')" title="Score phonemic-awareness videos"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 3 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('check4Teach')" title="Score decoding recordings"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 4 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('check5Teach')" title="Score automatic word recognition recordings"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 5 Review</span></button>
+            <button class="teach-tile cat-scoring" onclick="go('check6Teach')" title="Score morphological word reading recordings (6A)"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 6 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('s-fluteach')" title="Listen to fluency &amp; retell attempts, score WCPM, approve moves"><span class="teach-tile-icon">&#128214;</span><span class="teach-tile-label">Fluency Review</span></button>
           </div>
         </div>
@@ -1063,6 +1106,59 @@ html[data-mode="dark"] #check5 .clean-header,html[data-mode="dark"] #check5Teach
       <div class="seg" id="c5t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c5t-roster" style="margin-bottom:14px"></div>
       <div id="c5t-body"></div>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <!-- CHECK 6 (6A only -- Read It: Morphological Word Reading): ONE
+       continuous AUDIO recording (no camera, same audio-only architecture
+       as Check 1/4/5), one printed word at a time across 5 morphology
+       sets (50 items total). No model audio/hints. 6B (Understand It) and
+       6C (Build It) are intentionally NOT built yet -- their content
+       doesn't exist beyond 3 illustrative examples each; see the
+       2026-09-28 analysis. Clean/Professional style throughout. -->
+  <section class="screen" id="check6">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('diagLanding')">Diagnostic Tools</a> &nbsp;/&nbsp; Check 6</p>
+      <p class="step-eyebrow">Check 6: Morphology (6A &mdash; Read It)</p>
+      <h2 class="scr-title">Read each word</h2>
+      <div class="lede" id="c6-intro">Read each word out loud. Tap Next after each one.</div>
+      <div class="dir-listen-wrap" id="dl-dir_check6" style="display:none">
+        <button class="dir-listen-btn" id="dl-dir_check6-btn" onclick="dirToggle('dir_check6')">
+          <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
+        </button>
+      </div>
+      <p class="mini-note" id="c6-mic-note">Your browser will ask for permission to use the microphone. Tap Allow so your reading can be recorded.</p>
+      <p class="step-eyebrow" id="c6-section-label" style="display:none"></p>
+      <div class="clean-word" id="c6-current" style="display:none">&nbsp;</div>
+      <p class="mini-note" id="c6-progress"></p>
+      <p class="rec-status" id="c6-rec-status"></p>
+      <button class="pill-btn pill-btn-primary" id="c6-start" onclick="c6Start()">Start Recording</button>
+      <div class="clean-icon-row" id="c6-active-row" style="display:none">
+        <button class="pill-btn pill-btn-primary" id="c6-next" onclick="c6NextTap()"><span id="c6-next-lbl">Next</span></button>
+        <button class="pill-btn pill-btn-secondary" id="c6-done" onclick="c6DoneTap()">Done</button>
+      </div>
+      <p class="state-line none" id="c6-state"></p>
+      <div id="c6-review"></div>
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECK 6: teacher scoring -- same local-file pattern as check4Teach/
+       check5Teach, plus playback speed (own persisted preference, kept
+       separate from Check 5's so Check 5's code is never touched). No
+       keyboard shortcuts for Check 6 -- not requested for this build. -->
+  <section class="screen" data-teacher="1" id="check6Teach">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Check 6 review</p>
+      <h2>Check 6 &mdash; Morphology (6A) review</h2>
+      <p class="lede">Pick a class, then a student. Open the student&rsquo;s downloaded recording, then tap each word to score it.</p>
+      <button class="mini-btn" onclick="previewGoto('check6')" title="See the real student screen, any time -- even with nothing saved yet">&#128065; Student View</button>
+      <div class="seg" id="c6t-class" style="margin:10px 0;flex-wrap:wrap"></div>
+      <div class="grid" id="c6t-roster" style="margin-bottom:14px"></div>
+      <div id="c6t-body"></div>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -1898,6 +1994,7 @@ var DIRECTIONS_DEFS=[
   {key:"dir_check3_3d", label:"Check 3 -- before 3D (segmentation)", script:"Listen to the word. Say every sound you hear."},
   {key:"dir_check4", label:"Check 4 directions", script:"Read each word out loud."},
   {key:"dir_check5", label:"Check 5 directions", script:"Read each word out loud."},
+  {key:"dir_check6", label:"Check 6 directions", script:"Read each word out loud."},
   {key:"dir_fluency", label:"Fluency directions", script:"Read the passage out loud."},
   {key:"dir_retell", label:"Retell directions", script:"Tell what you read, in your own words. You have one minute."},
   {key:"dir_vocab", label:"Vocabulary (Word Practice) directions", script:"Pick a group. Hear the word, then read it."}
@@ -2130,7 +2227,7 @@ var CHECK_DEFS=[
   {id:"check3", label:"Check 3: Phonemic Awareness", sub:"Listen and answer out loud (one video)", built:true, screen:"check3"},
   {id:"check4", label:"Check 4: Decoding", sub:"Read each printed word out loud (one recording)", built:true, screen:"check4"},
   {id:"check5", label:"Check 5: Automatic Word Recognition", sub:"Read each printed word out loud (one recording)", built:true, screen:"check5"},
-  {id:"check6", label:"Check 6: Morphological Awareness &amp; Word Analysis", sub:"Coming soon", built:false},
+  {id:"check6", label:"Check 6: Morphology (6A)", sub:"Read each printed word out loud (one recording)", built:true, screen:"check6"},
   {id:"check7", label:"Check 7: Multisyllabic Word Analysis", sub:"Coming soon", built:false}
 ];
 function ckKey(){ return vasK("rf_checks_"+(READER?READER.id:"anon")); }
@@ -2856,6 +2953,8 @@ function go(id){
   if(id==="check4Teach"){ check4TeachEnter(); }
   if(id==="check5"){ c5Enter(); }
   if(id==="check5Teach"){ check5TeachEnter(); }
+  if(id==="check6"){ c6Enter(); }
+  if(id==="check6Teach"){ check6TeachEnter(); }
   if(id==="s-teachDir"){ dirtEnter(); }
   if(id==="s-teachStudents"){ teachStudentsEnter(); }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
@@ -6507,6 +6606,354 @@ document.addEventListener("keydown", function(e){
     player.currentTime=target;
   }
 });
+
+/* ---------- Check 6 (6A only) word bank: 5 sets x 10 = 50 items, exact
+   QC-corrected content confirmed by Miq (MASTER_SPEC.md lines 223-224 --
+   the corrected Set 4/5, not the obsolete duplicated draft further down
+   in the file). 6B (Understand It) and 6C (Build It) are future
+   components with no populated content yet -- do not add placeholder
+   data for them here. ---------- */
+var C6_SETS=[
+  {id:"6A-1", label:"Inflectional Endings", words:["jumps","wishes","jumped","landed","running","helping","faster","tallest","dogs","boxes"]},
+  {id:"6A-2", label:"Common Prefixes", words:["unhappy","unsafe","reread","replay","dislike","disagree","incorrect","impossible","preview","nonstop"]},
+  {id:"6A-3", label:"Common Suffixes", words:["helpful","careless","kindness","payment","washable","teacher","slowly","action","friendship","darkness"]},
+  {id:"6A-4", label:"Multiple Morphemes", words:["unhelpful","rereading","disagreement","carefully","unfinished","hopelessness","incorrectly","carelessness","unfairness","reusable"]},
+  {id:"6A-5", label:"Academic/Derivational Morphology", words:["prediction","transportation","development","misunderstanding","information","preparation","movement","improvement","educational","organization"]}
+];
+/* the flat walk order the student actually sees, built once at load time */
+var C6_ITEMS=(function(){
+  var out=[], i, j;
+  for(i=0;i<C6_SETS.length;i++){
+    for(j=0;j<C6_SETS[i].words.length;j++){
+      out.push({section:C6_SETS[i].id, word:C6_SETS[i].words[j]});
+    }
+  }
+  return out;
+})();
+/* set start offsets into the flat C6_ITEMS array, for the teacher grids */
+var C6_SET_START=(function(){
+  var out=[], run=0, i;
+  for(i=0;i<C6_SETS.length;i++){ out.push(run); run+=C6_SETS[i].words.length; }
+  return out;
+})();
+
+/* ---------- Check 6 attempts (localStorage): one row per completed recording ---------- */
+var C6Attempts=(function(){
+  var KEY="rf_check6_attempts";
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(l)); }catch(e){} }
+  function add(rec){ var l=all(); l.push(rec); save(l); return rec; }
+  function update(id,patch){ var l=all(), i, k; for(i=0;i<l.length;i++){ if(l[i].id===id){ for(k in patch){ if(patch.hasOwnProperty(k)){ l[i][k]=patch[k]; } } break; } } save(l); }
+  function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
+  function forStudent(sid){ var l=all(), out=[], i; for(i=0;i<l.length;i++){ if(l[i].studentId===sid){ out.push(l[i]); } } out.sort(function(a,b){ return a.date<b.date?1:(a.date>b.date?-1:0); }); return out; }
+  return { all:all, add:add, update:update, get:get, forStudent:forStudent };
+})();
+var C6Review=rfReviewStore("rf_check6_attempts");
+
+/* ---------- Check 6 (6A): student flow -- ONE continuous AUDIO recording
+   (no camera, same audio-only startRec/stopRec pattern as Check 1/4/5),
+   one printed word at a time across 5 morphology sets (50 items total).
+   No model audio/pronunciation/hints. Teacher controls how far the
+   student goes via the same Done-early button Check 4/5 use. ---------- */
+var c6Idx=-1, c6Blob=null, c6YesUsed=false, c6NextLock=false, c6Playing=false, c6StartAt=0;
+function c6Enter(){
+  c6Idx=-1; c6Blob=null; c6YesUsed=false; c6NextLock=false; c6Playing=false;
+  document.getElementById("c6-intro").style.display="block";
+  document.getElementById("c6-mic-note").style.display="block";
+  var sl=document.getElementById("c6-section-label"); sl.style.display="none"; sl.textContent="";
+  var cur=document.getElementById("c6-current"); cur.style.display="none"; cur.textContent="";
+  document.getElementById("c6-progress").textContent="";
+  var sb=document.getElementById("c6-start"); sb.style.display="inline-flex"; sb.disabled=false; sb.textContent="Start Recording";
+  document.getElementById("c6-active-row").style.display="none";
+  var rs=document.getElementById("c6-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
+  var st=document.getElementById("c6-state"); st.className="state-line none"; st.textContent="";
+  var rv=document.getElementById("c6-review"); if(rv){ rv.innerHTML=""; }
+  dirPaintButton("dir_check6");
+}
+function c6PaintItem(){
+  document.getElementById("c6-intro").style.display="none";
+  document.getElementById("c6-mic-note").style.display="none";
+  var dl=document.getElementById("dl-dir_check6"); if(dl){ dl.style.display="none"; }
+  var item=C6_ITEMS[c6Idx];
+  var sl=document.getElementById("c6-section-label"); sl.style.display="block"; sl.textContent=item.section;
+  var cur=document.getElementById("c6-current");
+  cur.style.display="block"; cur.textContent=item.word;
+  document.getElementById("c6-progress").textContent="Item "+(c6Idx+1)+" of "+C6_ITEMS.length;
+  var nlbl=document.getElementById("c6-next-lbl");
+  nlbl.textContent = (c6Idx===C6_ITEMS.length-1) ? "Finish" : "Next";
+}
+function c6Start(){
+  var sb=document.getElementById("c6-start"), st=document.getElementById("c6-state");
+  activeCtx="check6"; st.className="state-line none"; st.textContent="Starting the microphone…";
+  startRec(function(blob){
+    /* the whole recording (however far it got) just ended -- review before it's final */
+    c6Blob=blob;
+    c6Review();
+  },function(){
+    c6Idx=0; c6PaintItem();
+    c6StartAt=new Date().getTime();
+    sb.style.display="none";
+    document.getElementById("c6-active-row").style.display="flex";
+    var rs=document.getElementById("c6-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
+    st.className="state-line none"; st.textContent="Recording. Read each word, then tap Next.";
+  }).catch(function(err){
+    st.className="state-line err"; st.textContent=micErrorText(err);
+  });
+}
+function c6DoAdvance(){
+  if(c6Idx<C6_ITEMS.length-1){ c6Idx++; c6PaintItem(); }
+  else { stopRec(); }
+}
+/* Rapid-tap protection scoped to THIS one repeatedly-tapped button: a
+   frame-paced lock (not a millisecond cooldown) absorbs a duplicate event
+   for the same physical tap without ever delaying a real next tap. */
+function c6NextTap(){
+  if(c6NextLock){ return; }
+  c6NextLock=true;
+  if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c6NextLock=false; }); }
+  else { setTimeout(function(){ c6NextLock=false; },16); }
+  c6DoAdvance();
+}
+/* Teacher-controlled early stop, at any item -- "do not force all 50
+   items on every student" */
+function c6DoneTap(){ stopRec(); }
+function c6Review(){
+  c6Playing=false;
+  document.getElementById("c6-start").style.display="none";
+  document.getElementById("c6-active-row").style.display="none";
+  document.getElementById("c6-section-label").style.display="none";
+  document.getElementById("c6-current").style.display="none";
+  document.getElementById("c6-progress").textContent="";
+  var rs=document.getElementById("c6-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
+  var st=document.getElementById("c6-state");
+  st.className="state-line saved";
+  st.textContent="Recording complete.";
+  var rv=document.getElementById("c6-review");
+  rv.innerHTML='<div class="clean-icon-row">'
+    +'<button class="pill-btn pill-btn-secondary" id="c6-listen-btn" onclick="c6ToggleListen()">Play back</button>'
+    +(VIEW_AS_STUDENT?'<button class="pill-btn pill-btn-secondary" onclick="c6RecordAgain()">Redo</button>':"")
+    +'<button class="pill-btn pill-btn-primary" onclick="c6Finish()">Save &amp; Finish</button>'
+    +"</div>";
+}
+function c6ToggleListen(){
+  var btn=document.getElementById("c6-listen-btn"); if(!btn){ return; }
+  if(c6Playing){
+    stopAllAudio();
+    c6Playing=false;
+    btn.textContent="Play back";
+    return;
+  }
+  var a=playBlob(c6Blob);
+  c6Playing=true;
+  btn.textContent="Stop";
+  if(a){
+    var origOnEnded=a.onended;
+    a.onended=function(){ if(origOnEnded){ origOnEnded(); } c6Playing=false; var b=document.getElementById("c6-listen-btn"); if(b){ b.textContent="Play back"; } };
+  }
+}
+function c6RecordAgain(){
+  stopAllAudio(); c6Playing=false;
+  c6Blob=null;
+  document.getElementById("c6-review").innerHTML="";
+  c6Enter();
+}
+function c6Finish(){
+  if(!c6Blob||c6Blob.size===0){ return; } // never mark complete on a failed/empty recording
+  stopAllAudio(); c6Playing=false;
+  var fname=rfStandardFileName("CHECK_6");
+  downloadBlob(c6Blob,fname);
+  var reached=c6Idx+1;
+  C6Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
+    totalTimeMs:(new Date().getTime()-c6StartAt), reachedCount:reached, scores:null, note:null,
+    setCorrect:null, targets:null });
+  document.getElementById("c6-review").innerHTML="";
+  var st=document.getElementById("c6-state");
+  st.className="state-line saved";
+  st.innerHTML="&#9989; All done! Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
+    +'<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
+    +"<li>Open today’s Check 6 assignment in Canvas.</li>"
+    +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
+    +"<li>Press <strong>Submit</strong>.</li></ol></div>"
+    +'<div class="note-box" style="margin-top:14px"><h4>Did you submit your audio file?</h4>'
+    +'<button class="pill-btn pill-btn-primary" id="c6-yes-btn" style="font-size:19px;padding:16px 32px" onclick="c6ConfirmSubmitted()">YES</button></div>';
+}
+function c6ConfirmSubmitted(){
+  if(c6YesUsed){ return; }
+  c6YesUsed=true;
+  var b=document.getElementById("c6-yes-btn"); if(b){ b.disabled=true; b.textContent="Saved ✓"; }
+  ckMarkDone("check6");
+  go("diagLanding");
+}
+
+/* ---------- Check 6 (6A): teacher scoring ----------
+   Same local-file pattern as check4Teach/check5Teach. One grid per set
+   (5 total, 10 words each = 50 cells). Simple 5-state cycle (no Check
+   5-style Immediate/Labored split -- explicitly not requested for
+   Check 6): blank/default = Correct (the fast common case, matching
+   every other check's "only tap what needs marking" convention), then
+   Incorrect, Self-Corrected, Skip, Not-Reached. Playback speed uses ITS
+   OWN persisted key (not Check 5's), kept fully separate so Check 5's
+   code is never touched by this build. No keyboard shortcuts for
+   Check 6 -- not requested. */
+var C6T_CLS=0, C6T_STU=null, C6T_ATTEMPT=null, c6tFileUrl=null, c6tScores=[];
+var C6T_ORDER=["","err","sc","skip","nr"];
+var C6T_LABELS={"":"Correct","err":"Incorrect","sc":"Self-Corrected","skip":"No Response / Skip","nr":"Not Reached"};
+var C6T_CSS_CLASS={"":"","err":"state-err","sc":"state-sc","skip":"state-skip","nr":"state-skip"};
+var C6T_SPEEDS=[0.75,1,1.25,1.5,1.75,2];
+function c6tSpeedKey(){ return "rf_c6_playback_rate"; }
+function c6tSavedSpeed(){ try{ var v=parseFloat(window.localStorage.getItem(c6tSpeedKey())); return (v&&C6T_SPEEDS.indexOf(v)>-1)?v:1; }catch(e){ return 1; } }
+function c6tSaveSpeed(v){ try{ window.localStorage.setItem(c6tSpeedKey(), String(v)); }catch(e){} }
+function check6TeachEnter(){
+  C6T_CLS=0; C6T_STU=null; C6T_ATTEMPT=null;
+  c6tPaintClasses(); c6tPaintRoster();
+  var b=document.getElementById("c6t-body"); if(b){ b.innerHTML=""; }
+}
+function c6tPaintClasses(){
+  var seg=document.getElementById("c6t-class"); if(!seg){ return; }
+  var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="c6tPick('+i+')" class="'+(i===C6T_CLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function c6tPick(i){
+  C6T_CLS=i; C6T_STU=null; C6T_ATTEMPT=null;
+  c6tPaintClasses(); c6tPaintRoster();
+  var b=document.getElementById("c6t-body"); if(b){ b.innerHTML=""; }
+}
+function c6tPaintRoster(){
+  rfReviewRoster("c6t-roster", CLASSES[C6T_CLS], C6Review, C6T_STU, function(id){ C6T_STU=id; C6T_ATTEMPT=null; c6tPaintRoster(); c6tPaintAttemptList(); });
+}
+function c6tPaintAttemptList(){
+  var host=document.getElementById("c6t-body"); if(!host){ return; }
+  var list=C6Review.forStudent(C6T_STU);
+  if(!list.length){ rfReviewEmpty(host,6,C6T_STU,"check6"); rfReviewScroll(host); return; }
+  var html="", i;
+  for(i=0;i<list.length;i++){
+    (function(a){
+      var scored=(a.setCorrect!==null&&a.setCorrect!==undefined) ? " — scored" : " — not scored yet";
+      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small> Reached '+(a.reachedCount||0)+" of "+C6_ITEMS.length+scored+'</small></div>'
+        +'<button class="mini-btn" onclick="c6tOpenAttempt(\''+a.id+'\')">Open</button></div>';
+    })(list[i]);
+  }
+  host.innerHTML='<p class="step-eyebrow">'+escapeHtml(rfStuName(C6T_STU))+'</p>'+html;
+  rfReviewScroll(host);
+}
+function c6tOpenAttempt(id){
+  C6T_ATTEMPT=id;
+  var a=C6Review.get(id);
+  var n=C6_ITEMS.length, i;
+  c6tScores=(a.scores&&a.scores.length===n)?a.scores.slice(0):[];
+  if(!c6tScores.length){ for(i=0;i<n;i++){ c6tScores.push(i>=(a.reachedCount||0)?"nr":""); } }
+  var host=document.getElementById("c6t-body"); if(!host){ return; }
+  var gridsHtml="";
+  for(i=0;i<C6_SETS.length;i++){
+    var s=C6_SETS[i];
+    gridsHtml+='<p class="step-eyebrow" style="margin-top:14px">'+escapeHtml(s.label)+' ('+s.words.length+')</p>'
+      +'<div class="clean-grid" id="c6t-grid-'+s.id+'"></div>';
+  }
+  var ms=a.totalTimeMs||0, mins=Math.floor(ms/60000), secs=Math.floor((ms%60000)/1000);
+  var speed=c6tSavedSpeed(), speedHtml="", si;
+  for(si=0;si<C6T_SPEEDS.length;si++){
+    speedHtml+='<button class="speed-btn'+(C6T_SPEEDS[si]===speed?" on":"")+'" onclick="c6tSetSpeed('+C6T_SPEEDS[si]+')">'+C6T_SPEEDS[si]+'&times;</button>';
+  }
+  host.innerHTML =
+     '<div class="clean-card"><div class="clean-header">'
+    +'<p class="step-eyebrow" style="margin:0">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+"</p>"
+    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+" &nbsp; Reached "+(a.reachedCount||0)+" of "+n+" items</p>"
+    +"</div><div class=\"clean-card-body\">"
+    +'<label class="pill-btn pill-btn-secondary" for="c6t-file">Open the recording from Canvas</label>'
+    +'<input type="file" id="c6t-file" style="display:none" accept="audio/*,video/webm,.webm,.ogg" onchange="c6tOpenFile(this)">'
+    +'<audio id="c6t-player" controls style="width:100%;margin:10px 0"></audio>'
+    +'<p class="mini-note" id="c6t-file-note">No file open. The file stays on this computer.</p>'
+    +'<p class="clean-icon-label">Playback speed (this device only — never changes the original recording or the student&rsquo;s timing)</p>'
+    +'<div class="speed-row">'+speedHtml+'</div>'
+    +gridsHtml
+    +'<p class="mini-note">Tap a word to cycle: Correct &rarr; Incorrect &rarr; Self-Corrected &rarr; Skip &rarr; Not Reached &rarr; Correct.</p>'
+    +'<div class="setting-row" style="margin-top:10px"><div><strong>Teacher note</strong> (optional)</div></div>'
+    +'<textarea id="c6t-note" rows="3" style="width:100%;font:inherit;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:inherit">'+escapeHtml(a.note||"")+'</textarea>'
+    +'<div class="clean-card" id="c6t-results" style="margin-top:14px"></div>'
+    +'<button class="pill-btn pill-btn-primary" onclick="c6tSave()" style="margin-top:10px">Save scores</button>'
+    +'<p class="mini-note" id="c6t-save-note"></p>'
+    +"</div></div>"
+    +'<div class="nav-row" style="margin-top:14px"><button class="btn" onclick="c6tPaintAttemptList()">&#8592; Back to attempts</button></div>';
+  var player=document.getElementById("c6t-player"); if(player){ player.playbackRate=speed; }
+  c6tPaintAllGrids();
+  c6tPaintResults();
+}
+function c6tOpenFile(input){
+  var f=input.files&&input.files[0]; if(!f){ return; }
+  var a=document.getElementById("c6t-player");
+  if(c6tFileUrl){ try{ URL.revokeObjectURL(c6tFileUrl); }catch(e){} }
+  c6tFileUrl=URL.createObjectURL(f);
+  a.src=c6tFileUrl;
+  a.playbackRate=c6tSavedSpeed();
+  document.getElementById("c6t-file-note").textContent="Opened: "+f.name;
+}
+function c6tSetSpeed(v){
+  c6tSaveSpeed(v);
+  var a=document.getElementById("c6t-player"); if(a){ a.playbackRate=v; }
+  var btns=document.querySelectorAll("#c6t-body .speed-btn"), i;
+  for(i=0;i<btns.length;i++){ btns[i].className="speed-btn"+(parseFloat(btns[i].textContent)===v?" on":""); }
+}
+function c6tPaintGrid(hostId,startIdx,count){
+  var box=document.getElementById(hostId); if(!box){ return; }
+  var html="", i, gi;
+  for(i=0;i<count;i++){
+    gi=startIdx+i;
+    var st=c6tScores[gi]||"";
+    var cls=C6T_CSS_CLASS[st]||"";
+    html+='<button class="clean-tile'+(cls?" "+cls:"")+'" onclick="c6tTap('+gi+')" title="'+C6T_LABELS[st]+'">'
+      +escapeHtml(C6_ITEMS[gi].word)
+      +"</button>";
+  }
+  box.innerHTML=html;
+}
+function c6tPaintAllGrids(){
+  var i; for(i=0;i<C6_SETS.length;i++){ c6tPaintGrid("c6t-grid-"+C6_SETS[i].id, C6_SET_START[i], C6_SETS[i].words.length); }
+}
+function c6tTap(i){
+  var idx=C6T_ORDER.indexOf(c6tScores[i]);
+  c6tScores[i]=C6T_ORDER[(idx+1)%C6T_ORDER.length];
+  c6tPaintAllGrids();
+  c6tPaintResults();
+}
+function c6tCompute(){
+  var i, item, st, setCorrect={}, setMissed={};
+  for(i=0;i<C6_SETS.length;i++){ setCorrect[C6_SETS[i].id]=0; setMissed[C6_SETS[i].id]=[]; }
+  var selfCorr=0, skips=0, notReached=[], targets=[];
+  for(i=0;i<C6_ITEMS.length;i++){
+    item=C6_ITEMS[i]; st=c6tScores[i]||"";
+    if(st==="nr"){ notReached.push(item.word); continue; }
+    var isCorrect=(st===""||st==="sc");
+    if(st==="sc"){ selfCorr++; }
+    if(st==="skip"){ skips++; targets.push(item.word); }
+    if(st==="err"){ targets.push(item.word); }
+    if(isCorrect){ setCorrect[item.section]++; } else { setMissed[item.section].push(item.word); }
+  }
+  return { setCorrect:setCorrect, setMissed:setMissed, selfCorr:selfCorr, skips:skips, notReached:notReached, targets:targets };
+}
+function c6tPaintResults(){
+  var host=document.getElementById("c6t-results"); if(!host){ return; }
+  var r=c6tCompute(), html="", i, overall=0, s;
+  for(i=0;i<C6_SETS.length;i++){
+    s=C6_SETS[i];
+    overall+=r.setCorrect[s.id];
+    html+="<p><strong>"+escapeHtml(s.label)+":</strong> "+r.setCorrect[s.id]+" / "+s.words.length+"</p>";
+    if(r.setMissed[s.id].length){ html+='<p class="mini-note">Needs instruction: '+escapeHtml(r.setMissed[s.id].join(", "))+"</p>"; }
+  }
+  html+="<p><strong>Overall Check 6 (6A):</strong> "+overall+" / "+C6_ITEMS.length+"</p>";
+  html+='<p class="mini-note">Self-corrections: '+r.selfCorr+" &nbsp; Skips: "+r.skips+"</p>";
+  html+='<p class="mini-note">Not Reached (recording ended before this item — never counted as incorrect): '+(r.notReached.length?escapeHtml(r.notReached.join(", ")):"none")+"</p>";
+  host.innerHTML=html;
+}
+function c6tSave(){
+  if(!C6T_ATTEMPT){ return; }
+  var r=c6tCompute();
+  var noteEl=document.getElementById("c6t-note");
+  var setScores={}, i; for(i=0;i<C6_SETS.length;i++){ setScores[C6_SETS[i].id]=r.setCorrect[C6_SETS[i].id]; }
+  C6Review.update(C6T_ATTEMPT,{ scores:c6tScores.slice(0), note:noteEl?noteEl.value:"",
+    setCorrect:setScores, targets:r.targets });
+  var n=document.getElementById("c6t-save-note");
+  if(n){ n.className="mini-note"; n.style.color="var(--good)"; n.textContent="✓ Saved."; }
+}
 
 /* ---------- Teacher home: dark mode (layout/look only, teacher side only) ----------
    The toggle just flips a remembered preference; whether it's actually

@@ -585,22 +585,7 @@ Phrases belong primarily in instruction/fluency, not this diagnostic.
 Can the student recognize, read, understand, and manipulate meaningful parts of words?
 
 ## 6A — Read It: Morphological Word Reading
-50-word bank in five sets.
-
-Set 1 — Inflectional endings:
-jumps, wishes, jumped, landed, running, helping, faster, tallest, dogs, boxes
-
-Set 2 — Common prefixes:
-unhappy, unsafe, reread, replay, dislike, disagree, incorrect, impossible, preview, nonstop
-
-Set 3 — Common suffixes:
-helpful, careless, kindness, payment, washable, teacher, slowly, action, friendship, darkness
-
-Set 4 — Base + multiple morphemes:
-unhelpful, rereading, disagreement, carefully, unfinished, hopelessness, incorrectly, washable, kindness, reusable
-
-Set 5 — Academic morphology:
-prediction, transportation, disagreement, impossible, information, preparation, movement, improvement, educational, organization
+50-word bank in five sets. **The authoritative word list lives in one place only: see "CHECK 6 — MORPHOLOGY (50 words)" under "CHECKS 3–7: QC-CORRECTED FINAL CONTENT" above.** (An earlier duplicate listing here contained 4 stale words — washable, kindness, disagreement, impossible — that collided with Sets 2/3/4; that duplicate listing has been removed so this conflict can't recur. Do not re-add a word list here.)
 
 Student reads independently. No model audio.
 One continuous audio recording.
