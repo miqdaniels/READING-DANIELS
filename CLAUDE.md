@@ -10,6 +10,8 @@
 
 **Update (2026-09-27):** Check 3 (Phonemic Awareness) is built and live on `main`, plus a teacher all-access pass — on `?teacher`, every screen (all Checks, all Word Practice groups, Fluency) opens without finishing the ones before it, and the Check 1/2/3 review screens now list Test Student first, highlight the picked name, and pick up Test Student runs saved in Student View's sandbox. Students (no `?teacher`) still unlock step-by-step as before.
 
+**Update (2026-09-28):** One consistent icon system shipped — a single red pulsing mic icon on every Record button/"Recording" line, one green pulsing ear icon on every Listen/Hear button, Listen buttons now sit in a row beside their directions, and the Student View bar is now a shade of the chosen theme (darker in light mode, lighter in dark mode) instead of brown.
+
 **Finished and live on `main`:**
 - Fluency + Retell (a passage screen + a retell screen), reached through a new student menu (Fluency / Word Practice / Reading Comprehension-coming-soon) that now opens when a student taps their name.
 - A teacher "Fluency review" screen (behind `?teacher`) with playback, teacher-entered Words read/Errors, computed WCPM/Accuracy, a recommendation, and Move up/Repeat/Move down buttons that set a student's fluency placement (`PK 0.0`–`PK 0.4` only; more levels are just data, not built yet).
