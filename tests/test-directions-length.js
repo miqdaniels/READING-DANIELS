@@ -27,7 +27,7 @@ setTimeout(function(){
      Check 3's opening directions + its before-3C one-liner) ---- */
   var LONGER_OK={dir_check2_before2b:true, dir_check2_before2c:true, dir_check3_open:true, dir_check3_3c:true};
   var defs=w.DIRECTIONS_DEFS, i;
-  ck(defs.length===12,"all 12 directions scripts are present (got "+defs.length+")");
+  ck(defs.length===13,"all 13 directions scripts are present (got "+defs.length+")");
   for(i=0;i<defs.length;i++){
     var n=sentenceCount(defs[i].script);
     if(!LONGER_OK[defs[i].key]){
@@ -47,6 +47,7 @@ setTimeout(function(){
   ck(defs.filter(function(x){return x.key==="dir_check3_3b";})[0].script==="Tell me the last sound.","Check 3 before-3B script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check3_3c";})[0].script==="Listen to the sounds. Put them together. Say the word.","Check 3 before-3C script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check3_3d";})[0].script==="Listen to the word. Say every sound you hear.","Check 3 before-3D script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check4";})[0].script==="Read each word out loud.","Check 4 script matches exactly");
 
   /* ---- on-screen directions text (not just the recorded scripts) ---- */
   w.READER=w.CLASSES[0].students[0]; w.CURCLASS=w.CLASSES[0]; w.CURGROUP=w.GROUPS[0];
@@ -99,10 +100,20 @@ setTimeout(function(){
   var finalText=d.querySelectorAll("#s-final .mini-note")[0].textContent;
   ck(sentenceCount(finalText)<=2,"Word Practice final-read on-screen directions are at most 2 sentences (got \""+finalText+"\")");
 
+  /* ---- Check 4's on-screen directions text ---- */
+  w.go("check4");
+  var c4Text=d.getElementById("c4-intro").textContent;
+  ck(sentenceCount(c4Text)<=2,"Check 4's on-screen directions are at most 2 sentences (got \""+c4Text+"\")");
+  ck(!/\bconsonants?\b/i.test(c4Text),"Check 4's on-screen directions never say \"consonant\"");
+  ck(c4Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="Read each word out loud. Tap Next after each one.","Check 4's on-screen opening text matches exactly");
+  var c4PseudoText=d.getElementById("c4-pseudo-note").textContent;
+  ck(sentenceCount(c4PseudoText)<=2,"Check 4's pseudoword point-of-need text is at most 2 sentences (got \""+c4PseudoText+"\")");
+  ck(c4PseudoText==="This is a made-up word. Read it out loud.","Check 4's pseudoword text matches exactly");
+
   /* ---- "consonant" never appears on any STUDENT screen (teacher-only
      scoring screens like check2Teach still say it for Miq's own
      reference, which is fine -- students never see those) ---- */
-  var studentScreens=["s-pick","s-roster","s-confirm","studentMenu","diagLanding","check1","check2","check3","s-groups","s-final","s-read","fluencyPassage","fluencyRetell","s-score","s-board","s-status"];
+  var studentScreens=["s-pick","s-roster","s-confirm","studentMenu","diagLanding","check1","check2","check3","check4","s-groups","s-final","s-read","fluencyPassage","fluencyRetell","s-score","s-board","s-status"];
   var j;
   for(j=0;j<studentScreens.length;j++){
     w.go(studentScreens[j]);

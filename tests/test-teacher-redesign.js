@@ -37,15 +37,17 @@ setTimeout(function(){
   var dom=makeDom("https://miqdaniels.github.io/READING-DANIELS/?teacher");
   var w=dom.window, d=w.document;
 
-  /* ---- 1) the 14 tiles, in order, each with its category, label, and
-     the SAME destination it always had (Check 3 Review/Prompts are new
-     additions for the Check 3 build -- everything else is unchanged) ---- */
+  /* ---- 1) the 15 tiles, in order, each with its category, label, and
+     the SAME destination it always had (Check 4 Review is new for the
+     Check 4 build -- everything else is unchanged; Check 4 needs no
+     recorder tile since it has no per-item recorded prompts) ---- */
   var expect=[
     {label:"Add Student",       cat:"cat-students",   kind:"go",      target:"s-teachStudents"},
     {label:"Student View",      cat:"cat-students",   kind:"fn",      target:"enterViewAsStudent"},
     {label:"Check 1 Review",    cat:"cat-scoring",    kind:"go",      target:"check1Teach"},
     {label:"Check 2 Review",    cat:"cat-scoring",    kind:"go",      target:"check2Teach"},
     {label:"Check 3 Review",    cat:"cat-scoring",    kind:"go",      target:"check3Teach"},
+    {label:"Check 4 Review",    cat:"cat-scoring",    kind:"go",      target:"check4Teach"},
     {label:"Fluency Review",    cat:"cat-scoring",    kind:"go",      target:"s-fluteach"},
     {label:"Record Words",      cat:"cat-recordings", kind:"go",      target:"s-teach"},
     {label:"Check 2 Prompts",   cat:"cat-recordings", kind:"go",      target:"s-teachC2"},
@@ -57,7 +59,7 @@ setTimeout(function(){
     {label:"Reset Demo Data",   cat:"cat-settings",   kind:"fn",      target:"vasReset"}
   ];
   var tiles=d.querySelectorAll("#teacher-doors .teach-tile");
-  ck(tiles.length===14,"exactly 14 tiles (12 previous + Check 3 Review/Prompts, nothing else lost or invented) -- got "+tiles.length);
+  ck(tiles.length===15,"exactly 15 tiles (14 previous + Check 4 Review, nothing else lost or invented) -- got "+tiles.length);
 
   var i;
   for(i=0;i<tiles.length;i++){

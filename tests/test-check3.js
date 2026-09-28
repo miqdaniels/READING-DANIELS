@@ -272,18 +272,18 @@ setTimeout(function(){
       ck(!!w.ckDone()["check3"],"Check 3 marked completed after YES");
       ck(w.__tracksStopped>=2,"camera/mic tracks were released once the check3 screen was exited ("+w.__tracksStopped+" stopped)");
 
-      /* ---- Check 4 logically unlocks but stays "Coming soon" ---- */
+      /* ---- Check 4 logically unlocks and is now built ---- */
       var diagBtns2=d.querySelectorAll("#diagLanding .btn"), foundC3Green=false, c4Btn=null, m;
       for(m=0;m<diagBtns2.length;m++){
         if(diagBtns2[m].textContent.indexOf("Check 3")>-1 && /Completed/.test(diagBtns2[m].textContent) && diagBtns2[m].className.indexOf("done")>-1){ foundC3Green=true; }
         if(diagBtns2[m].textContent.indexOf("Check 4")>-1){ c4Btn=diagBtns2[m]; }
       }
       ck(foundC3Green,"Check 3 shows green/Completed on the dashboard");
-      ck(!!c4Btn && c4Btn.disabled!==true,"Check 4 is not gray/locked once Check 3 is done, even though it isn't built yet");
+      ck(!!c4Btn && c4Btn.disabled!==true,"Check 4 is not gray/locked once Check 3 is done");
       ck(!!c4Btn && c4Btn.className.indexOf("locked")===-1,"Check 4 uses the normal available style, not the locked style");
       click(c4Btn);
-      ck(activeId()==="diagLanding","tapping the not-yet-built Check 4 never navigates anywhere");
-      ck(/Coming soon!/.test(d.getElementById("diag-comingsoon-note").textContent),"tapping it shows 'Coming soon!' instead of a broken screen");
+      ck(activeId()==="check4","tapping Check 4 navigates to the real Check 4 screen now that it's built");
+      w.go("diagLanding");
 
       teacherRecorderScreen(attempts[0].id);
     },30);

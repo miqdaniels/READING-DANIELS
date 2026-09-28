@@ -513,12 +513,12 @@ Use the locked 12-band progression, total bank 142 items:
 - 4D Complex closed syllables — 10
 - 4E VCe / silent-e — 12
 - 4F Open syllables — 10
-- 4G Vowel teams — 14
+- 4G Vowel teams — 12
 - 4H R-controlled — 12
 - 4I Complex vowels — 14
 - 4J Inflectional endings + consonant-le — 12
 - 4K Two-syllable decoding — 12
-- 4L Multisyllabic / morphemic decoding — 12
+- 4L Multisyllabic / morphemic decoding — 14
 
 ## Item principles
 - Use original Reading Foundations item banks.
