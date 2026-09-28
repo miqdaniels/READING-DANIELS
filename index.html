@@ -850,6 +850,10 @@ html[data-mode="dark"] .vas-banner .vas-exit{background:#111;color:#fff}
             <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
           </button>
         </div>
+        <div class="note-box" id="c3-sample-box" style="display:none">
+          <h4>Try a sample together</h4>
+          <button class="play-btn" onclick="c3PlaySample()"><span class="ear-ico ear-sm"></span>Hear a sample</button>
+        </div>
         <div class="nav-row" style="margin-top:14px">
           <button class="btn primary" id="c3-ready-btn" onclick="c3ReadyTap()">I'm Ready</button>
         </div>
@@ -1453,7 +1457,12 @@ function c3PreviewItem(flatIdx){
     c3Idx=flatIdx; c3PaintItem();
   });
 }
-function c3PreviewItemByKey(key){ c3PreviewItem(c3ItemIndexForPromptKey(key)); }
+function c3PreviewItemByKey(key){
+  var sec=null, k;
+  for(k in C3_SAMPLE){ if(C3_SAMPLE.hasOwnProperty(k) && C3_SAMPLE[k].promptKey===key){ sec=k; break; } }
+  if(sec){ previewGoto("check3",function(){ document.getElementById("c3-setup").style.display="none"; c3ShowSectionIntro(sec); }); return; }
+  c3PreviewItem(c3ItemIndexForPromptKey(key));
+}
 /* one preview function per directions key -- each maps to the exact
    screen/state where that direction's Listen button actually appears */
 var DIR_PREVIEW_FNS={
@@ -4886,6 +4895,22 @@ var C3_PRACTICE={
   "3C":{word:"up", promptKey:"c3_prac_3c", script:"/ŭ/ — /p/. What word?"},
   "3D":{word:"sit", promptKey:"c3_prac_3d", script:"Sit. Say every sound."}
 };
+/* Worked examples (Mick, Sept 28 2026) -- one per domain, modeled AFTER
+   the AZELLA-style Sample A/B convention: unlike every other Check 3
+   prompt, this ONE script deliberately says the answer out loud, so a
+   student who doesn't yet understand the English directions can still
+   see what's expected before trying it themselves. Lives only on the
+   domain's transition/"I'm Ready" screen (before the continuous scored
+   walk resumes) via a separate "Hear a sample" button -- never inside
+   the practice/scored item flow, so the "never give away the answer"
+   rule for the actual assessment items is untouched. Uses its own word
+   per domain, distinct from every scored AND practice word. */
+var C3_SAMPLE={
+  "3A":{word:"cup", promptKey:"c3_sample_3a", script:"Cup. What is the first sound? … /k/. Cup starts with /k/."},
+  "3B":{word:"web", promptKey:"c3_sample_3b", script:"Web. What is the last sound? … /b/. Web ends with /b/."},
+  "3C":{word:"bed", promptKey:"c3_sample_3c", script:"/b/ — /ĕ/ — /d/. What word? … Bed. /b/–/ĕ/–/d/ makes bed."},
+  "3D":{word:"fun", promptKey:"c3_sample_3d", script:"Fun. Say every sound. … /f/ — /ŭ/ — /n/. Fun has three sounds.", phonemes:3}
+};
 /* the 20 scored targets. "answer" is teacher-scoring reference text only
    -- never shown to the student. 3D's "phonemes" is the phoneme count
    (used as the max for check3Teach's "phonemes correctly segmented"
@@ -4932,10 +4957,11 @@ var C3_ITEMS=(function(){
   }
   return out;
 })();
-/* the 24 clips Miq needs to record for Check 3 (see s-teachC3), grouped
-   3A/3B/3C/3D scored prompts then Practice, per spec. General/section
-   directions live in the existing DIRECTIONS_DEFS system (s-teachDir)
-   instead of here -- same split as every other Check. */
+/* the 28 clips Miq needs to record for Check 3 (see s-teachC3), grouped
+   3A/3B/3C/3D scored prompts, then Practice, then Sample (the 4 worked
+   examples). General/section directions live in the existing
+   DIRECTIONS_DEFS system (s-teachDir) instead of here -- same split as
+   every other Check. */
 var C3_PROMPT_DEFS=(function(){
   var out=[], i, sec;
   for(i=0;i<C3_SCORED.length;i++){
@@ -4944,6 +4970,10 @@ var C3_PROMPT_DEFS=(function(){
   for(i=0;i<C3_SECTIONS.length;i++){
     sec=C3_SECTIONS[i].id;
     out.push({group:"Practice", promptKey:C3_PRACTICE[sec].promptKey, label:"Practice ("+sec+") — “"+C3_PRACTICE[sec].word+"”", script:C3_PRACTICE[sec].script});
+  }
+  for(i=0;i<C3_SECTIONS.length;i++){
+    sec=C3_SECTIONS[i].id;
+    out.push({group:"Sample", promptKey:C3_SAMPLE[sec].promptKey, label:"Sample ("+sec+") — “"+C3_SAMPLE[sec].word+"”", script:C3_SAMPLE[sec].script});
   }
   return out;
 })();
@@ -5075,7 +5105,13 @@ function c3ShowSectionIntro(section){
   var k; for(k in C3_TRANS_KEYS){ if(C3_TRANS_KEYS.hasOwnProperty(k)){ var w=document.getElementById("dl-"+C3_TRANS_KEYS[k]); if(w){ w.style.display=(k===section)?"":"none"; } } }
   dirPaintButton(C3_TRANS_KEYS[section]);
   dirAutoPlayOnce(C3_TRANS_KEYS[section]);
+  c3CurSampleKey=C3_SAMPLE[section].promptKey;
+  var sb=document.getElementById("c3-sample-box"); if(sb){ sb.style.display="block"; }
 }
+/* the worked example lives only here (the transition/"I'm Ready" screen),
+   manually triggered -- never auto-played, never part of the scored walk */
+var c3CurSampleKey=null;
+function c3PlaySample(){ if(c3CurSampleKey){ playId(c3CurSampleKey); } }
 /* one-shot: a single tap dismisses the transition AND reveals the new
    domain's first item -- a duplicate event for that same tap must not
    also skip past that first (practice) item */
@@ -5218,7 +5254,7 @@ function c3tPaintPromptList(){
       if(def.group!==curGroup){
         curGroup=def.group;
         var h=document.createElement("p"); h.className="step-eyebrow"; h.style.marginTop="14px";
-        h.textContent = curGroup==="Practice" ? "Practice (unscored)" : curGroup;
+        h.textContent = curGroup==="Practice" ? "Practice (unscored)" : (curGroup==="Sample" ? "Sample (worked example, says the answer out loud)" : curGroup);
         box.appendChild(h);
       }
       var row=document.createElement("div"); row.className="card";

@@ -117,11 +117,23 @@ setTimeout(function(){
   });
   ck(!giveaway,"no 3A/3B prompt script contains its own phoneme-answer text");
 
-  /* ---- teacher recorder needs exactly the 24 prompt clips, grouped ---- */
-  ck(w.C3_PROMPT_DEFS.length===24,"24 teacher-recorded prompt clips required (20 scored + 4 practice)");
+  /* ---- teacher recorder needs exactly the 28 prompt clips, grouped ---- */
+  ck(w.C3_PROMPT_DEFS.length===28,"28 teacher-recorded prompt clips required (20 scored + 4 practice + 4 worked-example samples)");
   var groups={}; w.C3_PROMPT_DEFS.forEach(function(p){ groups[p.group]=(groups[p.group]||0)+1; });
-  ck(groups["3A"]===5 && groups["3B"]===5 && groups["3C"]===5 && groups["3D"]===5 && groups["Practice"]===4,
-    "prompt recorder organized into 3A/3B/3C/3D (5 each) + Practice (4), per spec (got "+JSON.stringify(groups)+")");
+  ck(groups["3A"]===5 && groups["3B"]===5 && groups["3C"]===5 && groups["3D"]===5 && groups["Practice"]===4 && groups["Sample"]===4,
+    "prompt recorder organized into 3A/3B/3C/3D (5 each) + Practice (4) + Sample (4), per spec (got "+JSON.stringify(groups)+")");
+
+  /* ---- worked-example samples: unlike every other prompt, these ARE allowed
+     (expected) to say their own answer out loud -- that's the whole point ---- */
+  var sampleWords=["3A","3B","3C","3D"].map(function(s){ return w.C3_SAMPLE[s].word.toLowerCase(); });
+  var allWords=words.concat(practiceWords);
+  var sampleOverlap=sampleWords.filter(function(sw){ return allWords.indexOf(sw)>-1; });
+  ck(sampleOverlap.length===0,"none of the 4 sample words duplicate a scored or practice word (overlap: "+sampleOverlap.join(",")+")");
+  ["3A","3B","3C","3D"].forEach(function(sec){
+    var s=w.C3_SAMPLE[sec];
+    ck(s.script.toLowerCase().indexOf(s.word.toLowerCase())>-1,
+      "sample script for "+sec+" states its own word/answer out loud (unlike every other Check 3 prompt) -- got: "+s.script);
+  });
 
   /* ---- unlock: Check 3 stays locked until Check 2 is done ---- */
   w.CURCLASS=w.CLASSES[0]; w.READER=w.CLASSES[0].students[0];
@@ -204,6 +216,8 @@ setTimeout(function(){
           ck(d.getElementById("c3-transition").style.display==="block","the before-3B transition screen shows instead of jumping straight to 3B's item");
           ck(d.getElementById("c3-trans-text").textContent==="Tell me the last sound.","3B's one-liner directions text is exact");
           ck(d.getElementById("c3-assess").style.display==="none","the item-walk screen is hidden while the transition shows");
+          ck(d.getElementById("c3-sample-box").style.display==="block","the worked-example sample box shows right under the directions");
+          ck(w.c3CurSampleKey==="c3_sample_3b","the sample key tracks the CURRENT domain (3B), not the previous one (3A)");
 
           /* a duplicate tap on "I'm Ready" must not ALSO skip the practice item */
           w.c3ReadyTap(); w.c3ReadyTap(); w.c3ReadyTap();
@@ -280,10 +294,25 @@ setTimeout(function(){
     w.go("s-teachC3");
     ck(activeId()==="s-teachC3","Check 3 prompts screen opens");
     var headers=Array.prototype.map.call(d.querySelectorAll("#s-teachC3 .step-eyebrow"),function(e){ return e.textContent; });
-    ck(headers.indexOf("3A")>-1 && headers.indexOf("3B")>-1 && headers.indexOf("3C")>-1 && headers.indexOf("3D")>-1 && headers.indexOf("Practice (unscored)")>-1,
-      "recorder screen is organized with 3A/3B/3C/3D + Practice section headers (got: "+JSON.stringify(headers)+")");
+    ck(headers.indexOf("3A")>-1 && headers.indexOf("3B")>-1 && headers.indexOf("3C")>-1 && headers.indexOf("3D")>-1 && headers.indexOf("Practice (unscored)")>-1
+      && headers.some(function(h){ return /^Sample /.test(h); }),
+      "recorder screen is organized with 3A/3B/3C/3D + Practice + Sample section headers (got: "+JSON.stringify(headers)+")");
     var recBtns=d.querySelectorAll("#s-teachC3 .rec-btn");
-    ck(recBtns.length===24,"24 Record buttons rendered, one per prompt clip (got "+recBtns.length+")");
+    ck(recBtns.length===28,"28 Record buttons rendered, one per prompt clip (got "+recBtns.length+")");
+
+    /* ---- Student View on a Sample card previews the real transition screen ---- */
+    var sampleCards=d.querySelectorAll("#s-teachC3 .card"), sampleCard=null, sc;
+    for(sc=0;sc<sampleCards.length;sc++){ if(/Sample \(3C\)/.test(sampleCards[sc].textContent)){ sampleCard=sampleCards[sc]; } }
+    ck(!!sampleCard,"the Sample (3C) card is present");
+    var samplePvBtn=null, spbtns=sampleCard.querySelectorAll(".mini-btn"), spb;
+    for(spb=0;spb<spbtns.length;spb++){ if(/Student View/.test(spbtns[spb].textContent)){ samplePvBtn=spbtns[spb]; } }
+    click(samplePvBtn);
+    ck(activeId()==="check3","Sample card's Student View opens check3");
+    ck(d.getElementById("c3-transition").style.display==="block" && d.getElementById("c3-sample-box").style.display==="block",
+      "shows the real before-3C transition screen with the sample box visible");
+    ck(w.c3CurSampleKey==="c3_sample_3c","previews the correct domain's sample");
+    w.exitPreview();
+    ck(activeId()==="s-teachC3","returns to s-teachC3");
     var exportBtn=null, loadBtn=null, tbtns=d.querySelectorAll("#s-teachC3 .mini-btn"), tb;
     for(tb=0;tb<tbtns.length;tb++){
       if(/Export/.test(tbtns[tb].textContent)){ exportBtn=tbtns[tb]; }
