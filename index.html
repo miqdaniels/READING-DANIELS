@@ -357,7 +357,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
    status line, and every teacher record button. The red circle pulses
    the WHOLE time a recording is running. Replaces the old brown
    (#B45309) record buttons and the mixed emoji/red-square icons. */
-.mic-ico{display:inline-block;flex:0 0 auto;border-radius:50%;background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:64px;height:64px;font-size:0;line-height:0;color:transparent}
+.mic-ico{display:inline-block;flex:0 0 auto;box-sizing:border-box;border:2px solid rgba(0,0,0,.28);border-radius:50%;background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:64px;height:64px;font-size:0;line-height:0;color:transparent}
 @keyframes micPulse{0%,100%{box-shadow:0 0 0 0 rgba(229,57,53,.6);transform:scale(1)}50%{box-shadow:0 0 0 14px rgba(229,57,53,0);transform:scale(1.07)}}
 @keyframes micFlash{0%,100%{background-color:#E53935}50%{background-color:#8E1B18}}
 .icon-btn-record,.flu-sq-record{background:transparent !important;color:var(--ink) !important;animation:none !important;box-shadow:none !important}
@@ -371,7 +371,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .flu-sq-record .icon-label{font-size:12px}
 /* small versions: the "Recording" status line and the teacher Record buttons */
 .rec-status{color:#C62828}
-.rec-status .rec-status-dot,.rec-btn .rec-dot{border-radius:50%;background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:22px;height:22px;display:inline-block;flex:0 0 auto}
+.rec-status .rec-status-dot,.rec-btn .rec-dot{box-sizing:border-box;border:1px solid rgba(0,0,0,.28);border-radius:50%;background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:22px;height:22px;display:inline-block;flex:0 0 auto}
 .rec-status .rec-status-dot{animation:micPulse 1.2s ease-in-out infinite}
 .rec-status.paused .rec-status-dot{background-color:#9AA3AD;animation:none}
 .rec-btn .rec-dot{width:26px;height:26px;animation:none}
@@ -385,6 +385,12 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 html[data-mode="dark"] .vas-banner{background:var(--accent);background:color-mix(in srgb,var(--accent) 55%,#fff);color:#111}
 html[data-mode="dark"] .vas-banner .vas-exit{background:#111;color:#fff}
 
+/* Preview banner's own color, distinct from the (student-facing) VIEWING AS
+   STUDENT bar above -- an ID selector beats every .vas-banner color rule
+   above regardless of dark/light mode or source order. */
+#preview-banner{background:#2d3748;color:#fff}
+#preview-banner .vas-exit{background:#fff;color:#2d3748}
+
 /* ===== Listen button sits right beside its directions ===== */
 .dir-row{display:flex;align-items:center;gap:12px;margin:10px 0 14px}
 .dir-row .dir-listen-wrap{margin:0;flex:0 0 auto}
@@ -394,7 +400,7 @@ html[data-mode="dark"] .vas-banner .vas-exit{background:#111;color:#fff}
 
 /* ===== ONE listen icon, everywhere: white ear + sound lines on a green circle =====
    Same shape family as the red mic. It pulses while the directions play. */
-.ear-ico{display:inline-block;flex:0 0 auto;border-radius:50%;background-color:#2E9E4F;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 19C20 11.5 25.5 6 32 6S44 11 44 18C44 23.5 41 26.5 39 29.5C37 32.5 37 35 36 38C35 41 32.5 43 29.5 43C27 43 25.5 41.5 25 40'/%3E%3Cpath d='M26.5 20C26.5 15.5 29 12.5 32 12.5S38 15 38 18.5C38 21.5 35.5 23 34 25'/%3E%3Cpath d='M30.5 29.5C33 29.5 34.5 27.5 34 25C33.5 22.5 30.5 22 29.5 24'/%3E%3Cpath d='M5 13L12 16M4 23H12M5 33L12 30'/%3E%3C/g%3E%3C/svg%3E");background-position:center;background-size:66%;background-repeat:no-repeat;width:52px;height:52px;vertical-align:middle}
+.ear-ico{display:inline-block;flex:0 0 auto;box-sizing:border-box;border:2px solid rgba(0,0,0,.28);border-radius:50%;background-color:#2E9E4F;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 19C20 11.5 25.5 6 32 6S44 11 44 18C44 23.5 41 26.5 39 29.5C37 32.5 37 35 36 38C35 41 32.5 43 29.5 43C27 43 25.5 41.5 25 40'/%3E%3Cpath d='M26.5 20C26.5 15.5 29 12.5 32 12.5S38 15 38 18.5C38 21.5 35.5 23 34 25'/%3E%3Cpath d='M30.5 29.5C33 29.5 34.5 27.5 34 25C33.5 22.5 30.5 22 29.5 24'/%3E%3Cpath d='M5 13L12 16M4 23H12M5 33L12 30'/%3E%3C/g%3E%3C/svg%3E");background-position:center;background-size:66%;background-repeat:no-repeat;width:52px;height:52px;vertical-align:middle}
 .ear-ico.ear-sm{width:26px;height:26px;margin-right:6px}
 .ear-ico.ear-tile{width:34px;height:34px}
 .ear-ico.ear-lg{width:84px;height:84px}
@@ -418,6 +424,15 @@ html[data-mode="dark"] .vas-banner .vas-exit{background:#111;color:#fff}
 <div class="vas-banner" id="vas-banner">
   <span>VIEWING AS STUDENT &mdash; nothing here counts for a real student</span>
   <button class="vas-exit" onclick="exitViewAsStudent()">Exit</button>
+</div>
+
+<!-- Student View preview: shows the REAL student screen for one exact item,
+     tapped from a teacher recorder/directions card. Reuses .vas-banner's
+     layout/button (#preview-banner overrides just the color via ID, which
+     beats .vas-banner's own color rules regardless of source order). -->
+<div class="vas-banner" id="preview-banner">
+  <span>&#128065; STUDENT VIEW PREVIEW &mdash; this is exactly what the student sees/hears for this item</span>
+  <button class="vas-exit" onclick="exitPreview()">&#8592; Back to teacher</button>
 </div>
 
 <div class="wrap">
@@ -1378,6 +1393,96 @@ function vasReset(){
   var m=document.getElementById("vas-reset-msg"); if(m){ m.textContent="✓ Cleared "+keys.length+" item(s) of View as Student data."; }
 }
 
+/* ---------- Student View preview (Mick, Sept 28 2026) ----------
+   A quick, in-place "what does the student see/hear for THIS exact item"
+   peek from a teacher recorder/directions card -- distinct from the
+   existing enterViewAsStudent() (which is a whole separate mode the
+   teacher deliberately steps into to play a full student session end to
+   end). This is a one-tap toggle: tap the card's Student View button,
+   see the real screen, tap Back to teacher, land exactly back where you
+   were. Never starts a camera/mic, never saves an attempt -- it only
+   navigates to the real screen and repaints it at a specific item using
+   the screen's own existing paint functions, so it is guaranteed to look
+   exactly like what a student would actually see (not a copy/mockup). */
+var PREVIEW_ACTIVE=false, PREVIEW_RETURN_TO=null;
+var PREVIEW_SAVED_READER, PREVIEW_SAVED_CURGROUP, PREVIEW_SAVED_CURCLASS;
+function enterPreview(){
+  if(PREVIEW_ACTIVE){ return false; } // already previewing -- ignore a stray second tap
+  PREVIEW_ACTIVE=true;
+  PREVIEW_RETURN_TO=curScreenId();
+  PREVIEW_SAVED_READER=READER; PREVIEW_SAVED_CURGROUP=CURGROUP; PREVIEW_SAVED_CURCLASS=CURCLASS;
+  if(!READER){ READER=TEST_STUDENT; } // so screens that print the student's name have something sensible to show
+  if(!CURCLASS){ CURCLASS=CLASSES[0]; }
+  var b=document.getElementById("preview-banner"); if(b){ b.style.display="flex"; }
+  return true;
+}
+function exitPreview(){
+  if(!PREVIEW_ACTIVE){ return; }
+  PREVIEW_ACTIVE=false;
+  var b=document.getElementById("preview-banner"); if(b){ b.style.display="none"; }
+  READER=PREVIEW_SAVED_READER; CURGROUP=PREVIEW_SAVED_CURGROUP; CURCLASS=PREVIEW_SAVED_CURCLASS;
+  var back=PREVIEW_RETURN_TO; PREVIEW_RETURN_TO=null;
+  go(back||"s-home");
+}
+/* go() to the real student screen (its normal enter-hook runs exactly as
+   it would for an actual student), then optionally patch it to show one
+   specific item instead of its default starting state. */
+function previewGoto(targetScreen,paintFn){
+  if(!enterPreview()){ return; }
+  go(targetScreen);
+  if(paintFn){ paintFn(); }
+}
+function c2ItemIndexForPromptKey(key){ var i; for(i=0;i<C2_ITEMS.length;i++){ if(C2_ITEMS[i].promptKey===key){ return i; } } return -1; }
+function c2PreviewItem(flatIdx){
+  if(flatIdx<0){ return; }
+  previewGoto("check2",function(){
+    var su=document.getElementById("c2-setup"); if(su){ su.style.display="none"; }
+    var tr=document.getElementById("c2-transition"); if(tr){ tr.style.display="none"; }
+    var as=document.getElementById("c2-assess"); if(as){ as.style.display="block"; }
+    c2Idx=flatIdx; c2PaintItem();
+  });
+}
+function c2PreviewItemByKey(key){ c2PreviewItem(c2ItemIndexForPromptKey(key)); }
+function c3ItemIndexForPromptKey(key){ var i; for(i=0;i<C3_ITEMS.length;i++){ if(C3_ITEMS[i].promptKey===key){ return i; } } return -1; }
+function c3PreviewItem(flatIdx){
+  if(flatIdx<0){ return; }
+  previewGoto("check3",function(){
+    var su=document.getElementById("c3-setup"); if(su){ su.style.display="none"; }
+    var tr=document.getElementById("c3-transition"); if(tr){ tr.style.display="none"; }
+    var as=document.getElementById("c3-assess"); if(as){ as.style.display="block"; }
+    c3Idx=flatIdx; c3PaintItem();
+  });
+}
+function c3PreviewItemByKey(key){ c3PreviewItem(c3ItemIndexForPromptKey(key)); }
+/* one preview function per directions key -- each maps to the exact
+   screen/state where that direction's Listen button actually appears */
+var DIR_PREVIEW_FNS={
+  dir_check1: function(){ previewGoto("check1"); },
+  dir_check2_open: function(){ previewGoto("check2"); },
+  dir_check2_before2b: function(){ previewGoto("check2",function(){ document.getElementById("c2-setup").style.display="none"; c2ShowTransition("2B"); }); },
+  dir_check2_before2c: function(){ previewGoto("check2",function(){ document.getElementById("c2-setup").style.display="none"; c2ShowTransition("2C"); }); },
+  dir_check3_open: function(){ previewGoto("check3"); },
+  dir_check3_3a: function(){ previewGoto("check3",function(){ document.getElementById("c3-setup").style.display="none"; c3ShowSectionIntro("3A"); }); },
+  dir_check3_3b: function(){ previewGoto("check3",function(){ document.getElementById("c3-setup").style.display="none"; c3ShowSectionIntro("3B"); }); },
+  dir_check3_3c: function(){ previewGoto("check3",function(){ document.getElementById("c3-setup").style.display="none"; c3ShowSectionIntro("3C"); }); },
+  dir_check3_3d: function(){ previewGoto("check3",function(){ document.getElementById("c3-setup").style.display="none"; c3ShowSectionIntro("3D"); }); },
+  dir_fluency: function(){ previewGoto("fluencyPassage"); },
+  dir_retell: function(){ if(!fluPassage){ fluPassage=findPassage(LEVELS[0],0); } previewGoto("fluencyRetell"); },
+  dir_vocab: function(){ previewGoto("s-groups"); }
+};
+function dirPreviewByKey(key){ var fn=DIR_PREVIEW_FNS[key]; if(fn){ fn(); } }
+/* preview one word's real Word Practice reading screen */
+function wordPreview(sentIdx){
+  var s=SENTENCES[sentIdx]; if(!s){ return; }
+  var grp=null,gi; for(gi=0;gi<GROUPS.length;gi++){ if(GROUPS[gi].name===s.grp){ grp=GROUPS[gi]; break; } }
+  if(!grp){ return; }
+  if(!enterPreview()){ return; }
+  CURGROUP=grp;
+  rStart();
+  var pos=GIDXS.indexOf(sentIdx);
+  if(pos>-1){ gPos=pos; rIndex=sentIdx; rEnterSentence(); }
+}
+
 /* A dedicated demo identity for Student View -- not a real roster row, not
    a placeholder, never part of CLASSES. Only buildRoster() ever adds it
    (and only while VIEW_AS_STUDENT is on), so it can never reach the
@@ -1675,6 +1780,7 @@ function dirtPaintList(){
         +'<div class="item-actions">'
         +'<button class="rec-btn" id="dirt-rec-'+def.key+'" onclick="dirtToggle(\''+def.key+'\')"><span class="rec-dot"></span><span id="dirt-lbl-'+def.key+'">Record</span></button>'
         +'<button class="mini-btn play" id="dirt-play-'+def.key+'" onclick="dirtPlayOne(\''+def.key+'\')" disabled>&#9654;</button>'
+        +'<button class="mini-btn" onclick="dirPreviewByKey(\''+def.key+'\')" title="See the real student screen where this plays">&#128065; Student View</button>'
         +"</div></div>";
       box.appendChild(row);
     })(DIRECTIONS_DEFS[i]);
@@ -3009,6 +3115,7 @@ function refreshList(){
         row.innerHTML='<div class="lbl"><span class="dot '+(on?"on":"off")+'"></span>'+escapeHtml(s.word)+'<small>'+sub+'</small></div>';
         var acts=document.createElement("div"); acts.className="item-actions";
         var g=document.createElement("button"); g.className="mini-btn"; g.textContent="Open"; g.onclick=function(){ tJump(idx); }; acts.appendChild(g);
+        var pv=document.createElement("button"); pv.className="mini-btn"; pv.title="See the real student reading screen for this word"; pv.innerHTML="&#128065; Student View"; pv.onclick=function(){ wordPreview(idx); }; acts.appendChild(pv);
         row.appendChild(acts); box.appendChild(row);
       })(SENTENCES[i],i);
     }
@@ -4352,6 +4459,7 @@ function c2tPaintPromptList(){
         +'<div class="item-actions">'
         +'<button class="rec-btn" id="c2t-rec-'+def.promptKey+'" onclick="c2tToggle(\''+def.promptKey+'\')"><span class="rec-dot"></span><span id="c2t-lbl-'+def.promptKey+'">Record</span></button>'
         +'<button class="mini-btn play" id="c2t-play-'+def.promptKey+'" onclick="c2tPlayOne(\''+def.promptKey+'\')" disabled>&#9654;</button>'
+        +'<button class="mini-btn" onclick="c2PreviewItemByKey(\''+def.promptKey+'\')" title="See the real student screen for this exact item">&#128065; Student View</button>'
         +"</div></div>";
       box.appendChild(row);
     })(C2_PROMPT_DEFS[i]);
@@ -5122,6 +5230,7 @@ function c3tPaintPromptList(){
         +'<div class="item-actions">'
         +'<button class="rec-btn" id="c3t-rec-'+def.promptKey+'" onclick="c3tToggle(\''+def.promptKey+'\')"><span class="rec-dot"></span><span id="c3t-lbl-'+def.promptKey+'">Record</span></button>'
         +'<button class="mini-btn play" id="c3t-play-'+def.promptKey+'" onclick="c3tPlayOne(\''+def.promptKey+'\')" disabled>&#9654;</button>'
+        +'<button class="mini-btn" onclick="c3PreviewItemByKey(\''+def.promptKey+'\')" title="See the real student screen for this exact item">&#128065; Student View</button>'
         +"</div></div>";
       box.appendChild(row);
     })(C3_PROMPT_DEFS[i]);
