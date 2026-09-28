@@ -591,31 +591,15 @@ Student reads independently. No model audio.
 One continuous audio recording.
 Teacher scoring: Correct / Incorrect / Self-corrected (and Skip if consistent with the global scoring UI).
 
-## 6B — Understand It: Morpheme Meaning
-24 selected-response items sampling:
-- inflectional endings
-- common prefixes
-- common suffixes
-- base-word recognition
-- meaning changes
-
-Miq-recorded directions/prompts may be used because this section is intended to assess morphological understanding, not make oral decoding the only barrier.
-Ordinary multiple-choice answer-key scoring may be automatic.
-
-Examples of the intended ORIGINAL item form:
-- unhappy: what does `un-` contribute? -> not
-- replay: what does `re-` contribute? -> again
-- careless: what does `-less` contribute? -> without
+## 6B — Understand It: Morpheme Meaning — BUILT (2026-09-28)
+**Final approved architecture, superseding the earlier 3-example sketch that used to sit here.** 24 ORIGINAL selected-response items, 4 categories x 6 (Prefix Meaning, Suffix Meaning/Function, Inflectional Endings, Word-Part Meaning in Context), 3 choices each, one correct answer. No recording, no camera/mic — the student taps the best answer and it advances immediately; auto-scored the instant a choice is tapped, since correctness is objectively determined by the answer key (no teacher judgment call needed the way oral reading requires one). Every base word is common/familiar so a miss reflects a morphology gap, not a vocabulary gap. Correct-answer position is balanced 8/8/8 across the 3 choice slots.
 
 Do not copy a published morphology assessment.
 
-## 6C — Build It: Morphological Manipulation
-12 selected-response/application items.
+## 6C — Build It: Morphological Manipulation & Application — BUILT (2026-09-28)
+**Final approved architecture: 16 items, superseding the earlier incomplete "12 selected-response/application items" sketch, which was never a populated bank (only 3 illustrative examples existed).** 4 categories x 4: Add a Word Part, Remove a Word Part, Change the Word, Build the Word in Context. Tap-to-build only — no typed input, no whole-word multiple choice. The student either taps 2 real morphological pieces in the correct order (Add category), or taps the one piece among the real candidates that correctly completes the construction (Remove/Change/Context) — every option shown is a genuine morphological piece, never a finished whole word, so the task measures construction rather than recognition. No recording, no camera/mic. Auto-scored the instant the required tap(s) land.
 
-Examples of intended item form:
-- Which word means "to play again"? -> replay
-- Which word means "without hope"? -> hopeless
-- Which word means "the state of being kind"? -> kindness
+Check 6 as a whole (6A + 6B + 6C) is only complete once all three components are finished — not merely because 6A, or 6A+6B, are done.
 
 ## Reporting
 Do NOT collapse Check 6 into one crude percentage.

@@ -15,7 +15,7 @@ ok(w.eval('gUnlocked(4)')===true,"teacher: Word Practice group 5 open");
 w.eval('paintDiagLanding()');
 var btns=w.document.querySelectorAll('#diag-list button');
 var locked=0; for(var i=0;i<btns.length;i++){ if(btns[i].disabled){ locked++; } }
-ok(btns.length===7 && locked===0,"teacher: no grayed-out Check buttons ("+locked+" locked)");
+ok(btns.length===9 && locked===0,"teacher: no grayed-out Check buttons ("+locked+" locked)");
 w.eval('smEnter()');
 ok(w.document.getElementById("sm-flu-btn").className.indexOf("locked")===-1,"teacher: Fluency button live");
 

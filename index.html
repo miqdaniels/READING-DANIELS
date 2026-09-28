@@ -528,6 +528,31 @@ html[data-mode="dark"] #check6b .clean-header,html[data-mode="dark"] #check6bTea
 #check6bTeach .clean-tile.state-err{background:var(--retry-bg);border-color:var(--retry);color:var(--retry)}
 #check6bTeach .clean-tile.state-ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}
 #check6bTeach .clean-list{display:flex;flex-direction:column;gap:8px;margin:14px 0}
+
+/* ===== Check 6C (Build It): same Clean/Professional system, a SEPARATE
+   copy again -- 6A/6B are locked/approved and this build never touches a
+   line either depends on. New here: word-part tiles (tap-to-build) and a
+   plain building-area preview -- no drag-and-drop, no animation, no
+   game-show effects, per the explicit "this is an assessment" rule. ===== */
+#check6c .pill-btn,#check6cTeach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#check6c .pill-btn-primary,#check6cTeach .pill-btn-primary{background:var(--accent);border:none;color:#fff}
+#check6c .pill-btn-secondary,#check6cTeach .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+#check6c .pill-btn[disabled],#check6cTeach .pill-btn[disabled]{opacity:.45;cursor:default}
+#check6c .clean-header,#check6cTeach .clean-header{background:color-mix(in srgb,var(--accent) 10%,var(--panel));border-bottom:1px solid var(--line);padding:14px 18px}
+html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTeach .clean-header{background:color-mix(in srgb,var(--accent) 22%,var(--panel))}
+#check6c .clean-card,#check6cTeach .clean-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin:0 0 16px}
+#check6c .clean-card-body,#check6cTeach .clean-card-body{padding:18px}
+#check6c .clean-stem{font-size:1.4rem;font-weight:700;line-height:1.4;margin:22px 0;text-align:center}
+@media(max-width:520px){#check6c .clean-stem{font-size:1.15rem}}
+#check6c .word-part-row{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:18px 0}
+#check6c .word-part-tile{border:1.5px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);font:inherit;font-weight:700;font-size:1.2rem;padding:14px 22px;cursor:pointer;touch-action:manipulation}
+#check6c .word-part-tile.used{opacity:.35;cursor:default}
+#check6c .word-part-tile[disabled]{cursor:default}
+#check6c .build-area{text-align:center;font-size:1.3rem;font-weight:700;min-height:1.6em;margin:8px 0 20px;color:var(--ink-soft)}
+#check6cTeach .clean-tile{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:14px;color:var(--ink);background:var(--panel)}
+#check6cTeach .clean-tile.state-err{background:var(--retry-bg);border-color:var(--retry);color:var(--retry)}
+#check6cTeach .clean-tile.state-ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+#check6cTeach .clean-list{display:flex;flex-direction:column;gap:8px;margin:14px 0}
 </style>
 </head>
 <body>
@@ -583,6 +608,7 @@ html[data-mode="dark"] #check6b .clean-header,html[data-mode="dark"] #check6bTea
             <button class="teach-tile cat-scoring" onclick="go('check5Teach')" title="Score automatic word recognition recordings"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 5 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('check6Teach')" title="Score morphological word reading recordings (6A)"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 6 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('check6bTeach')" title="View morpheme-meaning results (6B, auto-scored)"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 6B Review</span></button>
+            <button class="teach-tile cat-scoring" onclick="go('check6cTeach')" title="View morphological manipulation results (6C, auto-scored)"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 6C Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('s-fluteach')" title="Listen to fluency &amp; retell attempts, score WCPM, approve moves"><span class="teach-tile-icon">&#128214;</span><span class="teach-tile-label">Fluency Review</span></button>
           </div>
         </div>
@@ -1223,6 +1249,51 @@ html[data-mode="dark"] #check6b .clean-header,html[data-mode="dark"] #check6bTea
       <div class="seg" id="c6bt-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c6bt-roster" style="margin-bottom:14px"></div>
       <div id="c6bt-body"></div>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <!-- CHECK 6C (Build It: Morphological Manipulation): tap-to-build only
+       -- no typed responses anywhere, no whole-word multiple choice, no
+       recording/camera/mic. Every item shows the real morphological
+       pieces (never a finished whole-word as a "recognize this" option)
+       and the student either (a) taps 2 pieces in the correct order to
+       build a word, or (b) taps the one piece/part that correctly
+       completes the construction. Auto-scored the instant the last
+       required tap lands. 6A/6B above are untouched/locked. -->
+  <section class="screen" id="check6c">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('diagLanding')">Diagnostic Tools</a> &nbsp;/&nbsp; Check 6C</p>
+      <p class="step-eyebrow">Check 6: Morphology (6C &mdash; Build It)</p>
+      <h2 class="scr-title">Build the word</h2>
+      <div class="lede" id="c6c-intro">Build, take away, or change each word.</div>
+      <div class="dir-listen-wrap" id="dl-dir_check6c" style="display:none">
+        <button class="dir-listen-btn" id="dl-dir_check6c-btn" onclick="dirToggle('dir_check6c')">
+          <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
+        </button>
+      </div>
+      <p class="mini-note" id="c6c-progress"></p>
+      <div class="clean-stem" id="c6c-stem" style="display:none">&nbsp;</div>
+      <div class="build-area" id="c6c-build" style="display:none">&nbsp;</div>
+      <div class="word-part-row" id="c6c-pieces"></div>
+      <div id="c6c-done"></div>
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECK 6C: teacher-side results -- read-only, same as 6B (nothing to
+       score; the answer key already determined correctness). -->
+  <section class="screen" data-teacher="1" id="check6cTeach">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Check 6C review</p>
+      <h2>Check 6C &mdash; Build It review</h2>
+      <p class="lede">Pick a class, then a student, to see their auto-scored results.</p>
+      <button class="mini-btn" onclick="previewGoto('check6c')" title="See the real student screen, any time -- even with nothing saved yet">&#128065; Student View</button>
+      <div class="seg" id="c6ct-class" style="margin:10px 0;flex-wrap:wrap"></div>
+      <div class="grid" id="c6ct-roster" style="margin-bottom:14px"></div>
+      <div id="c6ct-body"></div>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -2060,6 +2131,7 @@ var DIRECTIONS_DEFS=[
   {key:"dir_check5", label:"Check 5 directions", script:"Read each word out loud."},
   {key:"dir_check6", label:"Check 6 directions", script:"Read each word out loud."},
   {key:"dir_check6b", label:"Check 6B directions", script:"Choose the best answer."},
+  {key:"dir_check6c", label:"Check 6C directions", script:"Build, take away, or change each word."},
   {key:"dir_fluency", label:"Fluency directions", script:"Read the passage out loud."},
   {key:"dir_retell", label:"Retell directions", script:"Tell what you read, in your own words. You have one minute."},
   {key:"dir_vocab", label:"Vocabulary (Word Practice) directions", script:"Pick a group. Hear the word, then read it."}
@@ -2294,6 +2366,7 @@ var CHECK_DEFS=[
   {id:"check5", label:"Check 5: Automatic Word Recognition", sub:"Read each printed word out loud (one recording)", built:true, screen:"check5"},
   {id:"check6", label:"Check 6: Morphology (6A)", sub:"Read each printed word out loud (one recording)", built:true, screen:"check6"},
   {id:"check6b", label:"Check 6B: Morphology (Understand It)", sub:"Choose the best answer", built:true, screen:"check6b"},
+  {id:"check6c", label:"Check 6C: Morphology (Build It)", sub:"Build, take away, or change each word", built:true, screen:"check6c"},
   {id:"check7", label:"Check 7: Multisyllabic Word Analysis", sub:"Coming soon", built:false}
 ];
 function ckKey(){ return vasK("rf_checks_"+(READER?READER.id:"anon")); }
@@ -3023,6 +3096,8 @@ function go(id){
   if(id==="check6Teach"){ check6TeachEnter(); }
   if(id==="check6b"){ c6bEnter(); }
   if(id==="check6bTeach"){ check6bTeachEnter(); }
+  if(id==="check6c"){ c6cEnter(); }
+  if(id==="check6cTeach"){ check6cTeachEnter(); }
   if(id==="s-teachDir"){ dirtEnter(); }
   if(id==="s-teachStudents"){ teachStudentsEnter(); }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
@@ -7239,6 +7314,246 @@ function c6btOpenAttempt(id){
     +'<div class="clean-list">'+itemsHtml+"</div>"
     +"</div></div>"
     +'<div class="nav-row" style="margin-top:14px"><button class="btn" onclick="c6btPaintAttemptList()">&#8592; Back to attempts</button></div>';
+}
+
+/* ---------- Check 6C (Build It) item bank: 16 ORIGINAL items, 4
+   categories x 4 (Add a Word Part, Remove a Word Part, Change the Word,
+   Build the Word in Context). Every item requires ACTUAL manipulation --
+   the student taps real morphological pieces (never a finished whole
+   word as a "pick this" option), so this measures construction, not
+   recognition, per the explicit rule against ordinary multiple choice.
+   Two interaction modes:
+     "build2" (Add category): two tiles shown (the base word + the target
+       morpheme); the student must tap them in the correct order (prefix
+       before base, suffix after base) to build the target -- tap ORDER
+       is the actual construction action.
+     "pick" (Remove/Change/Context): the student taps ONE tile among the
+       real candidate pieces -- for Remove, the two literal halves of the
+       given word (which piece remains once the named part is taken
+       away); for Change/Context, three candidate morphemes (only one
+       correctly completes the described change or the sentence).
+   No typed input anywhere, so there is no spelling-vs-morphology-error
+   ambiguity to resolve (section 17/18 of the spec): every tap uses a
+   pre-written, correctly-spelled piece, so any wrong answer is
+   necessarily a construction/selection error, never a spelling one. ---------- */
+function c6cStrip(s){ return s.replace(/^-|-$/g,""); }
+var C6C_SETS=[
+  {id:"6C-Add", label:"Add a Word Part", mode:"build2", items:[
+    {prompt:"Build the new word.", pieces:["pack","un-"], answerOrder:[1,0], expected:"unpack", baseWord:"pack", morpheme:"un-"},
+    {prompt:"Build the new word.", pieces:["-ing","walk"], answerOrder:[1,0], expected:"walking", baseWord:"walk", morpheme:"-ing"},
+    {prompt:"Build the new word.", pieces:["fast","-est"], answerOrder:[0,1], expected:"fastest", baseWord:"fast", morpheme:"-est"},
+    {prompt:"Build the new word.", pieces:["-ful","hope"], answerOrder:[1,0], expected:"hopeful", baseWord:"hope", morpheme:"-ful"}
+  ]},
+  {id:"6C-Remove", label:"Remove a Word Part", mode:"pick", items:[
+    {prompt:"Take away “-ed” from “jumped.” Tap what’s left.", pieces:["jump","-ed"], correctIndex:0, expected:"jump", baseWord:"jump", morpheme:"-ed"},
+    {prompt:"Take away “re-” from “reread.” Tap what’s left.", pieces:["re-","read"], correctIndex:1, expected:"read", baseWord:"read", morpheme:"re-"},
+    {prompt:"Take away “-less” from “careless.” Tap what’s left.", pieces:["care","-less"], correctIndex:0, expected:"care", baseWord:"care", morpheme:"-less"},
+    {prompt:"Take away “un-” from “unsafe.” Tap what’s left.", pieces:["un-","safe"], correctIndex:1, expected:"safe", baseWord:"safe", morpheme:"un-"}
+  ]},
+  {id:"6C-Change", label:"Change the Word", mode:"pick", items:[
+    {prompt:"Change “kind” to a word that names the quality of being kind.", pieces:["-ness","-ful","-er"], correctIndex:0, expected:"kindness", baseWord:"kind", morpheme:"-ness"},
+    {prompt:"Change “agree” to a word that means “not agree.”", pieces:["re-","dis-","un-"], correctIndex:1, expected:"disagree", baseWord:"agree", morpheme:"dis-"},
+    {prompt:"Change “help” to a word that means “full of help.”", pieces:["-less","-ness","-ful"], correctIndex:2, expected:"helpful", baseWord:"help", morpheme:"-ful"},
+    {prompt:"Change “use” to a word that means “able to be used.”", pieces:["-ful","-ness","-able"], correctIndex:2, expected:"usable", baseWord:"use", morpheme:"-able"}
+  ]},
+  {id:"6C-Context", label:"Build the Word in Context", mode:"pick", items:[
+    {prompt:"The kitten is very ___. It never causes trouble.", pieces:["-less","-ful","-er"], correctIndex:0, expected:"harmless", baseWord:"harm", morpheme:"-less"},
+    {prompt:"Yesterday we ___ outside.", pieces:["-ing","-er","-ed"], correctIndex:2, expected:"played", baseWord:"play", morpheme:"-ed"},
+    {prompt:"He is ___ than his brother.", pieces:["-est","-er","-ly"], correctIndex:1, expected:"taller", baseWord:"tall", morpheme:"-er"},
+    {prompt:"She ___ to school every day.", pieces:["-ing","-s","-ed"], correctIndex:1, expected:"walks", baseWord:"walk", morpheme:"-s"}
+  ]}
+];
+var C6C_ITEMS=(function(){
+  var out=[], i, j, it;
+  for(i=0;i<C6C_SETS.length;i++){
+    for(j=0;j<C6C_SETS[i].items.length;j++){
+      it=C6C_SETS[i].items[j];
+      out.push({section:C6C_SETS[i].id, mode:C6C_SETS[i].mode, prompt:it.prompt, pieces:it.pieces,
+        answerOrder:it.answerOrder, correctIndex:it.correctIndex, expected:it.expected,
+        baseWord:it.baseWord, morpheme:it.morpheme});
+    }
+  }
+  return out;
+})();
+var C6C_SET_START=(function(){
+  var out=[], run=0, i;
+  for(i=0;i<C6C_SETS.length;i++){ out.push(run); run+=C6C_SETS[i].items.length; }
+  return out;
+})();
+
+/* ---------- Check 6C attempts (localStorage): auto-scored and saved
+   COMPLETE at finish time, same pattern as 6B. ---------- */
+var C6CAttempts=(function(){
+  var KEY="rf_check6c_attempts";
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(l)); }catch(e){} }
+  function add(rec){ var l=all(); l.push(rec); save(l); return rec; }
+  function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
+  function forStudent(sid){ var l=all(), out=[], i; for(i=0;i<l.length;i++){ if(l[i].studentId===sid){ out.push(l[i]); } } out.sort(function(a,b){ return a.date<b.date?1:(a.date>b.date?-1:0); }); return out; }
+  return { all:all, add:add, get:get, forStudent:forStudent };
+})();
+var C6CReview=rfReviewStore("rf_check6c_attempts");
+
+/* ---------- Check 6C: student flow -- tap-to-build only, NO recording,
+   NO typed input. One item at a time; for "build2" items the student
+   taps 2 pieces in order (each tap locks briefly to absorb an accidental
+   double-fire, then the SECOND real tap is accepted normally); for
+   "pick" items a single tap records the response and advances
+   immediately. Category is never shown to the student. ---------- */
+var c6cIdx=-1, c6cStartAt=0, c6cResponses=[], c6cNextLock=false, c6cTapped=[];
+function c6cEnter(){
+  c6cIdx=-1; c6cStartAt=new Date().getTime(); c6cResponses=[]; c6cNextLock=false; c6cTapped=[];
+  document.getElementById("c6c-intro").style.display="block";
+  document.getElementById("c6c-progress").textContent="";
+  var st=document.getElementById("c6c-stem"); st.style.display="none"; st.textContent="";
+  var ba=document.getElementById("c6c-build"); ba.style.display="none"; ba.innerHTML="&nbsp;";
+  document.getElementById("c6c-pieces").innerHTML="";
+  document.getElementById("c6c-done").innerHTML="";
+  dirPaintButton("dir_check6c");
+  c6cIdx=0;
+  c6cPaintItem();
+}
+function c6cPaintItem(){
+  document.getElementById("c6c-intro").style.display="none";
+  var dl=document.getElementById("dl-dir_check6c"); if(dl){ dl.style.display="none"; }
+  c6cTapped=[];
+  var item=C6C_ITEMS[c6cIdx];
+  var st=document.getElementById("c6c-stem"); st.style.display="block"; st.textContent=item.prompt;
+  document.getElementById("c6c-progress").textContent="Item "+(c6cIdx+1)+" of "+C6C_ITEMS.length;
+  var ba=document.getElementById("c6c-build");
+  if(item.mode==="build2"){ ba.style.display="block"; ba.innerHTML="&nbsp;"; } else { ba.style.display="none"; }
+  var box=document.getElementById("c6c-pieces"), html="", i;
+  for(i=0;i<item.pieces.length;i++){
+    html+='<button class="word-part-tile" id="c6c-piece-'+i+'" onclick="c6cTap('+i+')">'+escapeHtml(item.pieces[i])+"</button>";
+  }
+  box.innerHTML=html;
+}
+/* Rapid-tap protection: absorbs a duplicate event for the SAME physical
+   tap without blocking the student's next real tap (needed for "build2"
+   items, which legitimately require two separate taps per item). */
+function c6cTap(pieceIdx){
+  if(c6cNextLock){ return; }
+  c6cNextLock=true;
+  if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c6cNextLock=false; }); }
+  else { setTimeout(function(){ c6cNextLock=false; },16); }
+  var item=C6C_ITEMS[c6cIdx];
+  if(item.mode==="pick"){
+    c6cRecord(pieceIdx===item.correctIndex, item.pieces[pieceIdx]);
+    return;
+  }
+  // build2: ignore a repeat tap on an already-used tile
+  if(c6cTapped.indexOf(pieceIdx)>-1){ return; }
+  c6cTapped.push(pieceIdx);
+  var tile=document.getElementById("c6c-piece-"+pieceIdx); if(tile){ tile.className="word-part-tile used"; tile.disabled=true; }
+  var built=c6cTapped.map(function(i){ return c6cStrip(item.pieces[i]); }).join("");
+  document.getElementById("c6c-build").innerHTML=built;
+  if(c6cTapped.length>=2){
+    var isCorrect = c6cTapped.length===item.answerOrder.length && c6cTapped.every(function(v,idx){ return v===item.answerOrder[idx]; });
+    c6cRecord(isCorrect, built);
+  }
+}
+function c6cRecord(isCorrect, responseText){
+  var item=C6C_ITEMS[c6cIdx];
+  c6cResponses.push({ index:c6cIdx, section:item.section, baseWord:item.baseWord, morpheme:item.morpheme,
+    expected:item.expected, response:responseText, isCorrect:isCorrect });
+  if(c6cIdx<C6C_ITEMS.length-1){ c6cIdx++; c6cPaintItem(); }
+  else { c6cFinish(); }
+}
+function c6cCompute(){
+  var setCorrect={}, i, r;
+  for(i=0;i<C6C_SETS.length;i++){ setCorrect[C6C_SETS[i].id]=0; }
+  var overall=0, missed=[];
+  for(i=0;i<c6cResponses.length;i++){
+    r=c6cResponses[i];
+    if(r.isCorrect){ overall++; setCorrect[r.section]++; } else { missed.push(r.expected); }
+  }
+  return { overall:overall, setCorrect:setCorrect, missed:missed };
+}
+function c6cFinish(){
+  document.getElementById("c6c-stem").style.display="none";
+  document.getElementById("c6c-build").style.display="none";
+  document.getElementById("c6c-pieces").innerHTML="";
+  document.getElementById("c6c-progress").textContent="";
+  var r=c6cCompute();
+  var setScores={}, i; for(i=0;i<C6C_SETS.length;i++){ setScores[C6C_SETS[i].id]=r.setCorrect[C6C_SETS[i].id]; }
+  C6CAttempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(),
+    totalTimeMs:(new Date().getTime()-c6cStartAt), responses:c6cResponses.slice(0),
+    overall:r.overall, setCorrect:setScores, missed:r.missed });
+  document.getElementById("c6c-done").innerHTML =
+    '<p class="state-line saved">&#9989; All done! Nice work!</p>'
+    +'<button class="pill-btn pill-btn-primary" onclick="c6cContinue()">Continue</button>';
+}
+function c6cContinue(){
+  ckMarkDone("check6c");
+  go("diagLanding");
+}
+/* Exposed for future teacher-dashboard use (not built now, per scope):
+   Check 6 is only truly complete once all three approved components are
+   done -- never merely because 6A, or 6A+6B, finished. */
+function check6FullyDone(){ var d=ckDone(); return !!d["check6"] && !!d["check6b"] && !!d["check6c"]; }
+
+/* ---------- Check 6C: teacher-side results -- READ ONLY, same pattern
+   as 6B's (nothing to tap-score; correctness was already determined by
+   the answer key the instant the student tapped). ---------- */
+var C6CT_CLS=0, C6CT_STU=null;
+function check6cTeachEnter(){
+  C6CT_CLS=0; C6CT_STU=null;
+  c6ctPaintClasses(); c6ctPaintRoster();
+  var b=document.getElementById("c6ct-body"); if(b){ b.innerHTML=""; }
+}
+function c6ctPaintClasses(){
+  var seg=document.getElementById("c6ct-class"); if(!seg){ return; }
+  var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="c6ctPick('+i+')" class="'+(i===C6CT_CLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function c6ctPick(i){
+  C6CT_CLS=i; C6CT_STU=null;
+  c6ctPaintClasses(); c6ctPaintRoster();
+  var b=document.getElementById("c6ct-body"); if(b){ b.innerHTML=""; }
+}
+function c6ctPaintRoster(){
+  rfReviewRoster("c6ct-roster", CLASSES[C6CT_CLS], C6CReview, C6CT_STU, function(id){ C6CT_STU=id; c6ctPaintRoster(); c6ctPaintAttemptList(); });
+}
+function c6ctPaintAttemptList(){
+  var host=document.getElementById("c6ct-body"); if(!host){ return; }
+  var list=C6CReview.forStudent(C6CT_STU);
+  if(!list.length){ rfReviewEmpty(host,"6C",C6CT_STU,"check6c"); rfReviewScroll(host); return; }
+  var html="", i;
+  for(i=0;i<list.length;i++){
+    (function(a){
+      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+'<small> Overall '+a.overall+" of "+C6C_ITEMS.length+'</small></div>'
+        +'<button class="mini-btn" onclick="c6ctOpenAttempt(\''+a.id+'\')">Open</button></div>';
+    })(list[i]);
+  }
+  host.innerHTML='<p class="step-eyebrow">'+escapeHtml(rfStuName(C6CT_STU))+'</p>'+html;
+  rfReviewScroll(host);
+}
+function c6ctOpenAttempt(id){
+  var a=C6CReview.get(id); if(!a){ return; }
+  var host=document.getElementById("c6ct-body"); if(!host){ return; }
+  var ms=a.totalTimeMs||0, mins=Math.floor(ms/60000), secs=Math.floor((ms%60000)/1000);
+  var setsHtml="", i, s;
+  for(i=0;i<C6C_SETS.length;i++){
+    s=C6C_SETS[i];
+    setsHtml+="<p><strong>"+escapeHtml(s.label)+":</strong> "+(a.setCorrect?a.setCorrect[s.id]:0)+" / "+s.items.length+"</p>";
+  }
+  var itemsHtml="";
+  for(i=0;i<a.responses.length;i++){
+    var r=a.responses[i];
+    itemsHtml+='<div class="clean-tile'+(r.isCorrect?" state-ok":" state-err")+'">'+escapeHtml(r.baseWord)+" ("+escapeHtml(r.morpheme)+") &rarr; typed/built: "+escapeHtml(r.response)+" &mdash; expected: "+escapeHtml(r.expected)+" &mdash; "+(r.isCorrect?"Correct":"Incorrect")+"</div>";
+  }
+  host.innerHTML =
+     '<div class="clean-card"><div class="clean-header">'
+    +'<p class="step-eyebrow" style="margin:0">'+escapeHtml(a.date)+"</p>"
+    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+"</p>"
+    +"</div><div class=\"clean-card-body\">"
+    +"<p><strong>Overall:</strong> "+a.overall+" / "+C6C_ITEMS.length+"</p>"
+    +setsHtml
+    +'<p class="mini-note">Missed: '+(a.missed&&a.missed.length?escapeHtml(a.missed.join(", ")):"none")+"</p>"
+    +'<p class="step-eyebrow" style="margin-top:14px">Every response</p>'
+    +'<div class="clean-list">'+itemsHtml+"</div>"
+    +"</div></div>"
+    +'<div class="nav-row" style="margin-top:14px"><button class="btn" onclick="c6ctPaintAttemptList()">&#8592; Back to attempts</button></div>';
 }
 
 /* ---------- Teacher home: dark mode (layout/look only, teacher side only) ----------

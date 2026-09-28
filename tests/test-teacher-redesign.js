@@ -51,6 +51,7 @@ setTimeout(function(){
     {label:"Check 5 Review",    cat:"cat-scoring",    kind:"go",      target:"check5Teach"},
     {label:"Check 6 Review",    cat:"cat-scoring",    kind:"go",      target:"check6Teach"},
     {label:"Check 6B Review",   cat:"cat-scoring",    kind:"go",      target:"check6bTeach"},
+    {label:"Check 6C Review",   cat:"cat-scoring",    kind:"go",      target:"check6cTeach"},
     {label:"Fluency Review",    cat:"cat-scoring",    kind:"go",      target:"s-fluteach"},
     {label:"Record Words",      cat:"cat-recordings", kind:"go",      target:"s-teach"},
     {label:"Check 2 Prompts",   cat:"cat-recordings", kind:"go",      target:"s-teachC2"},
@@ -62,7 +63,7 @@ setTimeout(function(){
     {label:"Reset Demo Data",   cat:"cat-settings",   kind:"fn",      target:"vasReset"}
   ];
   var tiles=d.querySelectorAll("#teacher-doors .teach-tile");
-  ck(tiles.length===18,"exactly 18 tiles (17 previous + Check 6B Review, nothing else lost or invented) -- got "+tiles.length);
+  ck(tiles.length===19,"exactly 19 tiles (18 previous + Check 6C Review, nothing else lost or invented) -- got "+tiles.length);
 
   var i;
   for(i=0;i<tiles.length;i++){

@@ -127,17 +127,20 @@ setTimeout(function(){
       ck(activeId()==="diagLanding","Continue returns to the Reading Checks dashboard");
       ck(!!w.ckDone()["check6b"],"Check 6B marked completed after Continue");
 
-      var diagBtns2=d.querySelectorAll("#diagLanding .btn"), foundC6bGreen=false, c7Btn=null, m;
+      var diagBtns2=d.querySelectorAll("#diagLanding .btn"), foundC6bGreen=false, c6cBtn=null, c7Btn=null, m;
       for(m=0;m<diagBtns2.length;m++){
         if(diagBtns2[m].textContent.indexOf("Check 6B")>-1 && /Completed/.test(diagBtns2[m].textContent) && diagBtns2[m].className.indexOf("done")>-1){ foundC6bGreen=true; }
+        if(diagBtns2[m].textContent.indexOf("Check 6C")>-1){ c6cBtn=diagBtns2[m]; }
         if(diagBtns2[m].textContent.indexOf("Check 7")>-1){ c7Btn=diagBtns2[m]; }
       }
       ck(foundC6bGreen,"Check 6B shows green/Completed on the dashboard");
-      ck(!!c7Btn && c7Btn.disabled!==true,"Check 7 is not gray/locked once Check 6B is done, even though it isn't built yet");
-      ck(!!c7Btn && c7Btn.className.indexOf("locked")===-1,"Check 7 uses the normal available style, not the locked style");
-      click(c7Btn);
-      ck(activeId()==="diagLanding","tapping the not-yet-built Check 7 never navigates anywhere");
-      ck(/Coming soon!/.test(d.getElementById("diag-comingsoon-note").textContent),"tapping it shows 'Coming soon!' -- Check 7 was NOT built");
+      /* Check 6C is the next component -- it unlocks off 6B's completion. Check 7
+         (the next diagnostic domain) still waits: 6C is a separate, now-built part
+         of Check 6, so Check 7 correctly stays locked until 6C is done too. */
+      ck(!!c6cBtn && c6cBtn.disabled!==true,"Check 6C is not gray/locked once Check 6B is done");
+      ck(!!c6cBtn && c6cBtn.className.indexOf("locked")===-1,"Check 6C uses the normal available style, not the locked style");
+      ck(!!c7Btn && c7Btn.disabled===true,"Check 7 stays locked after 6B -- it now waits on 6C too");
+      ck(!!c7Btn && c7Btn.className.indexOf("locked")>-1,"Check 7 still shows the locked style after 6B");
 
       teacherViewFlow(attempts[0].id);
     });
@@ -176,7 +179,7 @@ setTimeout(function(){
     w.CURGROUP=w.GROUPS[0];
     var existingScreens=["s-home","s-pick","s-roster","studentMenu","diagLanding","check1","check1Preview","check1Teach",
       "check2","s-teachC2","check2Teach","check3","s-teachC3","check3Teach","check4","check4Teach","check5","check5Teach",
-      "check6","check6Teach","check6b","check6bTeach","s-teachDir",
+      "check6","check6Teach","check6b","check6bTeach","check6c","check6cTeach","s-teachDir",
       "s-groups","s-final","s-score","s-board","s-teach","s-settings","s-status","fluencyPassage","fluencyRetell","s-fluteach"];
     var allOk=true, m;
     for(m=0;m<existingScreens.length;m++){
