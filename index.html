@@ -1004,6 +1004,7 @@ html[data-mode="dark"] #check5 .clean-header,html[data-mode="dark"] #check5Teach
       <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Check 4 review</p>
       <h2>Check 4 &mdash; Decoding review</h2>
       <p class="lede">Pick a class, then a student. Open the student&rsquo;s downloaded recording, then tap each word to score it.</p>
+      <button class="mini-btn" onclick="previewGoto('check4')" title="See the real student screen, any time -- even with nothing saved yet">&#128065; Student View</button>
       <div class="seg" id="c4t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c4t-roster" style="margin-bottom:14px"></div>
       <div id="c4t-body"></div>
@@ -1058,6 +1059,7 @@ html[data-mode="dark"] #check5 .clean-header,html[data-mode="dark"] #check5Teach
       <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Check 5 review</p>
       <h2>Check 5 &mdash; Automatic Word Recognition review</h2>
       <p class="lede">Pick a class, then a student. Open the student&rsquo;s downloaded recording, then tap each word to score it.</p>
+      <button class="mini-btn" onclick="previewGoto('check5')" title="See the real student screen, any time -- even with nothing saved yet">&#128065; Student View</button>
       <div class="seg" id="c5t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c5t-roster" style="margin-bottom:14px"></div>
       <div id="c5t-body"></div>
@@ -4163,9 +4165,17 @@ function rfReviewRoster(boxId, cls, store, selId, onPick){
     })(list[i]);
   }
 }
-function rfReviewEmpty(host, checkNum, sid){
+/* previewScreenId is optional -- only Checks 4/5 pass it (they have no
+   per-item recorder cards to carry a Student View button, so with
+   nothing saved yet there was previously no way at all to see what the
+   student screen looks like). Checks 1-3 don't pass it: their existing
+   Student View buttons live on their prompt/recorder cards already, so
+   this stays exactly as it was for them. */
+function rfReviewEmpty(host, checkNum, sid, previewScreenId){
   host.innerHTML='<div class="card"><p class="step-eyebrow">'+escapeHtml(rfStuName(sid))+'</p>'
-    +'<p class="mini-note">No Check '+checkNum+' video saved on this computer yet. Once this student finishes Check '+checkNum+' here (or you run it as Test Student), it shows up in this spot, ready to score.</p></div>';
+    +'<p class="mini-note">No Check '+checkNum+' video saved on this computer yet. Once this student finishes Check '+checkNum+' here (or you run it as Test Student), it shows up in this spot, ready to score.</p>'
+    +(previewScreenId?'<button class="mini-btn" onclick="previewGoto(\''+previewScreenId+'\')" title="See the real student screen, even with nothing saved yet">&#128065; Student View</button>':"")
+    +"</div>";
 }
 function rfReviewScroll(host){ try{ host.scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){} }
 
@@ -5976,7 +5986,7 @@ function c4tPaintRoster(){
 function c4tPaintAttemptList(){
   var host=document.getElementById("c4t-body"); if(!host){ return; }
   var list=C4Review.forStudent(C4T_STU);
-  if(!list.length){ rfReviewEmpty(host,4,C4T_STU); rfReviewScroll(host); return; }
+  if(!list.length){ rfReviewEmpty(host,4,C4T_STU,"check4"); rfReviewScroll(host); return; }
   var html="", i;
   for(i=0;i<list.length;i++){
     (function(a){
@@ -6326,7 +6336,7 @@ function c5tPaintRoster(){
 function c5tPaintAttemptList(){
   var host=document.getElementById("c5t-body"); if(!host){ return; }
   var list=C5Review.forStudent(C5T_STU);
-  if(!list.length){ rfReviewEmpty(host,5,C5T_STU); rfReviewScroll(host); return; }
+  if(!list.length){ rfReviewEmpty(host,5,C5T_STU,"check5"); rfReviewScroll(host); return; }
   var html="", i;
   for(i=0;i<list.length;i++){
     (function(a){
