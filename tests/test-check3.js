@@ -151,7 +151,7 @@ setTimeout(function(){
   ck(c3Btn.className.indexOf("locked")===-1,"Check 3 no longer shows the locked style");
 
   /* ---- filename convention ---- */
-  ck(/^Miriam_Gomez_P1_CHECK_3_\d{4}_\d{2}_\d{2}\.webm$/.test(w.rfStandardFileName("CHECK_3")),
+  ck(/^Miriam_G_P1_CHECK_3_\d{4}_\d{2}_\d{2}\.webm$/.test(w.rfStandardFileName("CHECK_3")),
     "Check 3 uses the standard filename pattern with CHECK_3 (got '"+w.rfStandardFileName("CHECK_3")+"')");
 
   /* ---- media permission denied: a clear message, never silently continues ---- */
@@ -257,7 +257,7 @@ setTimeout(function(){
       w.c3Finish();
       var webmDownloads=w.__c3Downloads.filter(function(f){ return /\.webm$/.test(f); });
       ck(webmDownloads.length===1,"exactly one video file downloaded (got "+webmDownloads.length+")");
-      ck(/^Miriam_Gomez_P1_CHECK_3_\d{4}_\d{2}_\d{2}\.webm$/.test(webmDownloads[0]),"downloaded file follows the standard naming pattern (got '"+webmDownloads[0]+"')");
+      ck(/^Miriam_G_P1_CHECK_3_\d{4}_\d{2}_\d{2}\.webm$/.test(webmDownloads[0]),"downloaded file follows the standard naming pattern (got '"+webmDownloads[0]+"')");
       var yesBtn=d.getElementById("c3-yes-btn");
       ck(!!yesBtn,"a YES button is shown");
       ck(!w.ckDone()["check3"],"Check 3 is not marked done until YES is tapped");

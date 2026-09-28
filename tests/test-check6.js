@@ -101,7 +101,7 @@ setTimeout(function(){
   ck(c6Btn.className.indexOf("locked")===-1,"Check 6 no longer shows the locked style");
 
   /* ---- filename convention ---- */
-  ck(/^Miriam_Gomez_P1_CHECK_6_\d{4}_\d{2}_\d{2}\.webm$/.test(w.rfStandardFileName("CHECK_6")),
+  ck(/^Miriam_G_P1_CHECK_6_\d{4}_\d{2}_\d{2}\.webm$/.test(w.rfStandardFileName("CHECK_6")),
     "Check 6 uses the standard filename pattern with CHECK_6 (got '"+w.rfStandardFileName("CHECK_6")+"')");
 
   /* ---- student flow ---- */
@@ -160,7 +160,7 @@ setTimeout(function(){
 
         w.c6Finish();
         ck(w.__downloads.length===1,"exactly one file downloaded (got "+w.__downloads.length+")");
-        ck(/^Miriam_Gomez_P1_CHECK_6_\d{4}_\d{2}_\d{2}\.webm$/.test(w.__downloads[0]),"downloaded file follows the standard naming pattern");
+        ck(/^Miriam_G_P1_CHECK_6_\d{4}_\d{2}_\d{2}\.webm$/.test(w.__downloads[0]),"downloaded file follows the standard naming pattern");
         var yesBtn=d.getElementById("c6-yes-btn");
         ck(!!yesBtn,"a YES button is shown");
         ck(!w.ckDone()["check6"],"Check 6 is not marked done until YES is tapped");

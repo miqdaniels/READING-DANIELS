@@ -92,7 +92,7 @@ setTimeout(function(){
   ck(c5Btn.className.indexOf("locked")===-1,"Check 5 no longer shows the locked style");
 
   /* ---- filename convention ---- */
-  ck(/^Miriam_Gomez_P1_CHECK_5_\d{4}_\d{2}_\d{2}\.webm$/.test(w.rfStandardFileName("CHECK_5")),
+  ck(/^Miriam_G_P1_CHECK_5_\d{4}_\d{2}_\d{2}\.webm$/.test(w.rfStandardFileName("CHECK_5")),
     "Check 5 uses the standard filename pattern with CHECK_5 (got '"+w.rfStandardFileName("CHECK_5")+"')");
 
   /* ---- student flow ---- */
@@ -145,7 +145,7 @@ setTimeout(function(){
 
         w.c5Finish();
         ck(w.__downloads.length===1,"exactly one file downloaded (got "+w.__downloads.length+")");
-        ck(/^Miriam_Gomez_P1_CHECK_5_\d{4}_\d{2}_\d{2}\.webm$/.test(w.__downloads[0]),"downloaded file follows the standard naming pattern (got '"+w.__downloads[0]+"')");
+        ck(/^Miriam_G_P1_CHECK_5_\d{4}_\d{2}_\d{2}\.webm$/.test(w.__downloads[0]),"downloaded file follows the standard naming pattern (got '"+w.__downloads[0]+"')");
         var yesBtn=d.getElementById("c5-yes-btn");
         ck(!!yesBtn,"a YES button is shown");
         ck(!w.ckDone()["check5"],"Check 5 is not marked done until YES is tapped");

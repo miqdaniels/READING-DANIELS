@@ -10,7 +10,7 @@ const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js
    3) The old "Read and Slide" lede text is gone.
    4) 15-round single-tap reliability: tap each class-hour button and each
       name button EXACTLY ONCE and confirm it moves on -- and never lands
-      on the wrong name (the reported symptom named "Miriam Gomez", the
+      on the wrong name (the reported symptom named "Miriam G.", the
       first student in the first class, as the wrong landing spot). */
 const dom=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/",runScripts:"dangerously",pretendToBeVisual:true,
   beforeParse(w){ w.HTMLElement.prototype.scrollIntoView=function(){}; w.scrollTo=function(){}; }

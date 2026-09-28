@@ -97,12 +97,12 @@ setTimeout(function(){
   click(classBtns[0]); // "First hour"
   ck(activeId()==="s-roster","the class tap reaches s-roster");
   var rosterBtnsNow=d.querySelectorAll("#roster-list .btn");
-  click(rosterBtnsNow[0]); // immediately tapping the roster's first name (Miriam Gomez)
+  click(rosterBtnsNow[0]); // immediately tapping the roster's first name (Miriam G.)
   ck(activeId()==="s-confirm","an immediate tap on the freshly-rendered roster fires right away, no wait");
-  ck(w.PENDING_STU && w.PENDING_STU.name==="Miriam Gomez","and selects the right student");
+  ck(w.PENDING_STU && w.PENDING_STU.name==="Miriam G.","and selects the right student");
   click(d.getElementById("confirm-yes-btn"));
   ck(activeId()==="studentMenu","tapping Yes opens the student menu");
-  ck(w.READER && w.READER.name==="Miriam Gomez","and confirms the right student");
+  ck(w.READER && w.READER.name==="Miriam G.","and confirms the right student");
 
   /* ---- but a literal duplicate event for the SAME tap on the SAME
      button never double-fires, no matter how much time passes ---- */
@@ -113,11 +113,11 @@ setTimeout(function(){
   var rosterBtnsNow2=d.querySelectorAll("#roster-list .btn");
   click(rosterBtnsNow2[0]); click(rosterBtnsNow2[0]); click(rosterBtnsNow2[0]);
   ck(activeId()==="s-confirm","three clicks on the exact same name button still only navigate once");
-  ck(w.PENDING_STU && w.PENDING_STU.name==="Miriam Gomez","PENDING_STU is set correctly, not corrupted by the extra duplicate events");
+  ck(w.PENDING_STU && w.PENDING_STU.name==="Miriam G.","PENDING_STU is set correctly, not corrupted by the extra duplicate events");
   var yesBtn2=d.getElementById("confirm-yes-btn");
   click(yesBtn2); click(yesBtn2); click(yesBtn2);
   ck(activeId()==="studentMenu","three clicks on the exact same Yes button still only navigate once");
-  ck(w.READER && w.READER.name==="Miriam Gomez","READER is set correctly, not corrupted by the extra duplicate events");
+  ck(w.READER && w.READER.name==="Miriam G.","READER is set correctly, not corrupted by the extra duplicate events");
 
   /* ---- tapping a student's name (for real, past the guard window) opens
      the Is-this-you confirm, not straight into studentMenu or an activity ---- */
@@ -128,15 +128,15 @@ setTimeout(function(){
 
   setTimeout(function(){
     var nameBtns=d.querySelectorAll("#roster-list .btn"), target=null;
-    for(i=0;i<nameBtns.length;i++){ if(nameBtns[i].textContent==="Miriam Gomez") target=nameBtns[i]; }
-    ck(!!target,"Miriam Gomez listed on the roster");
+    for(i=0;i<nameBtns.length;i++){ if(nameBtns[i].textContent==="Miriam G.") target=nameBtns[i]; }
+    ck(!!target,"Miriam G. listed on the roster");
     click(target);
     ck(activeId()==="s-confirm","tapping a name opens the Is-this-you confirm (not studentMenu or an activity directly)");
-    ck(d.getElementById("confirm-name").textContent==="Miriam Gomez","confirm screen names the tapped student");
+    ck(d.getElementById("confirm-name").textContent==="Miriam G.","confirm screen names the tapped student");
     click(d.getElementById("confirm-yes-btn"));
     ck(activeId()==="studentMenu","tapping Yes opens studentMenu");
-    ck(w.READER && w.READER.name==="Miriam Gomez","READER set correctly by the tap");
-    ck(d.getElementById("sm-who").textContent==="Miriam Gomez","student's name shown at the top of the menu");
+    ck(w.READER && w.READER.name==="Miriam G.","READER set correctly by the tap");
+    ck(d.getElementById("sm-who").textContent==="Miriam G.","student's name shown at the top of the menu");
 
     var fluBtn=menuBtn("Fluency"), wpBtn=menuBtn("Word Practice"), rcBtn=menuBtn("Reading Comprehension");
     ck(!!fluBtn && !!wpBtn && !!rcBtn,"all three menu buttons present");

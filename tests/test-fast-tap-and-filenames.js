@@ -49,16 +49,16 @@ setTimeout(function(){
   /* ---- Test B: tap the class, then IMMEDIATELY (0ms, same tick) tap the
      intended student -- as long as it's a different slot than the class
      button just tapped, it must work on the very first try, no wait at
-     all. Kiara Joachin is slot 3 in First hour's roster (Miriam is 0). ---- */
+     all. Kiara J. is slot 3 in First hour's roster (Miriam is 0). ---- */
   var nameBtns=d.querySelectorAll("#roster-list .btn"), target=null, i;
-  for(i=0;i<nameBtns.length;i++){ if(nameBtns[i].textContent==="Kiara Joachin") target=nameBtns[i]; }
-  ck(!!target,"Kiara Joachin is on the First hour roster (setup check)");
+  for(i=0;i<nameBtns.length;i++){ if(nameBtns[i].textContent==="Kiara J.") target=nameBtns[i]; }
+  ck(!!target,"Kiara J. is on the First hour roster (setup check)");
   click(target); // zero elapsed time since the class tap -- no setTimeout at all
   ck(activeId()==="s-confirm","Test B: an immediate (0ms) tap on a DIFFERENT slot opens the Is-this-you confirm on the first try");
-  ck(d.getElementById("confirm-name").textContent==="Kiara Joachin","the confirm screen shows the tapped student's name");
+  ck(d.getElementById("confirm-name").textContent==="Kiara J.","the confirm screen shows the tapped student's name");
   click(d.getElementById("confirm-yes-btn")); // zero elapsed time -- immediate tap on the freshly-rendered confirm screen
   ck(activeId()==="studentMenu","Test B: an immediate (0ms) tap on Yes opens the student menu on the first try");
-  ck(w.READER && w.READER.name==="Kiara Joachin","the correct student was selected, with no wait");
+  ck(w.READER && w.READER.name==="Kiara J.","the correct student was selected, with no wait");
 
   /* ---- Test C: rapidly mash the SAME button several times. A real tap
      on a freshly-rendered button always fires (that's the whole point --
@@ -73,13 +73,13 @@ setTimeout(function(){
   var mashCount=6, m;
   for(m=0;m<mashCount;m++){ click(rosterBtnsNow[0]); } // rapid mashing, 0ms apart, same exact button (Miriam)
   ck(activeId()==="s-confirm","Test C: mashing the same name button still reaches the confirm screen only once (the first tap fires)");
-  ck(w.PENDING_STU && w.PENDING_STU.name==="Miriam Gomez","Test C: the mashed name was selected once, correctly");
+  ck(w.PENDING_STU && w.PENDING_STU.name==="Miriam G.","Test C: the mashed name was selected once, correctly");
 
   /* mashing the confirm screen's Yes button the same way still only navigates once */
   var yesBtn=d.getElementById("confirm-yes-btn");
   for(m=0;m<mashCount;m++){ click(yesBtn); }
   ck(activeId()==="studentMenu","Test C: mashing Yes still reaches the student menu only once");
-  ck(w.READER && w.READER.name==="Miriam Gomez","Test C: READER was set once, correctly");
+  ck(w.READER && w.READER.name==="Miriam G.","Test C: READER was set once, correctly");
 
   /* ---- and a SEPARATE later tap on that same now-stale roster button still
      never double-navigates, since its one-shot flag is already spent ---- */
@@ -90,10 +90,10 @@ setTimeout(function(){
 
   function finishFixSixChecks(){
     /* ---- Fix 6: Check progress is isolated per student ---- */
-    w.READER=w.CLASSES[0].students[0]; // Miriam Gomez, p1
+    w.READER=w.CLASSES[0].students[0]; // Miriam G., p1
     w.ckMarkDone("check1");
     ck(!!w.ckDone()["check1"],"Miriam's own Check 1 is marked done");
-    w.READER=w.CLASSES[0].students[1]; // Oneiver Guerrero, same class
+    w.READER=w.CLASSES[0].students[1]; // Oneiver G., same class
     ck(!w.ckDone()["check1"],"a different student in the SAME class does not inherit that completion");
     w.READER=w.CLASSES[1].students[0]; // a same-index student in a different class/period
     ck(!w.ckDone()["check1"],"a student in a different class period does not inherit it either");

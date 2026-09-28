@@ -105,7 +105,7 @@ setTimeout(function(){
 
   /* ---- Fix 3 filename convention applies to Check 2 too ---- */
   w.CURCLASS=w.CLASSES[0]; w.READER=w.CLASSES[0].students[0];
-  ck(/^Miriam_Gomez_P1_CHECK_2_\d{4}_\d{2}_\d{2}\.webm$/.test(w.rfStandardFileName("CHECK_2")),
+  ck(/^Miriam_G_P1_CHECK_2_\d{4}_\d{2}_\d{2}\.webm$/.test(w.rfStandardFileName("CHECK_2")),
     "Check 2 uses the standard filename pattern with CHECK_2 (got '"+w.rfStandardFileName("CHECK_2")+"')");
 
   /* ---- Check 1 completion immediately unlocks Check 2, no reload needed ---- */
@@ -228,7 +228,7 @@ setTimeout(function(){
     w.c2Finish();
     var webmDownloads=w.__c2Downloads.filter(function(f){ return /\.webm$/.test(f); });
     ck(webmDownloads.length===1,"exactly one video file downloaded (got "+webmDownloads.length+"; unrelated JSON export backups, if any, are ignored here)");
-    ck(/^Miriam_Gomez_P1_CHECK_2_\d{4}_\d{2}_\d{2}\.webm$/.test(webmDownloads[0]),"downloaded file follows the standard naming pattern (got '"+webmDownloads[0]+"')");
+    ck(/^Miriam_G_P1_CHECK_2_\d{4}_\d{2}_\d{2}\.webm$/.test(webmDownloads[0]),"downloaded file follows the standard naming pattern (got '"+webmDownloads[0]+"')");
     ck(/Did you submit your video file\?/.test(d.getElementById("c2-review").textContent),"asks the student to confirm submission");
     var yesBtn=d.getElementById("c2-yes-btn");
     ck(!!yesBtn,"a YES button is shown");

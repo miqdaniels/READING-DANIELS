@@ -51,7 +51,7 @@ setTimeout(function(){
   ck(!/spare_/.test(d.getElementById("allstu-body").innerHTML),"un-activated placeholder slots are not listed by their spare_ id/name");
 
   /* ---- 3) only Score-marked reads with real numbers count ---- */
-  var stu=stu0.students[0]; // Miriam Gomez
+  var stu=stu0.students[0]; // Miriam G.
   w.FluAttempts.add({id:"unscored1", studentId:stu.id, studentName:stu.name, level:"PK", sub:0, passageId:"PK_0", title:"x", date:"2026-09-05", day:2, scored:false, wordsRead:50, errors:2, retellWords:null, decision:null, retellSaved:false});
   w.FluAttempts.add({id:"noNumbersYet", studentId:stu.id, studentName:stu.name, level:"PK", sub:0, passageId:"PK_0", title:"x", date:"2026-09-06", day:1, scored:true, wordsRead:null, errors:null, retellWords:null, decision:null, retellSaved:false});
   w.allStuPaintTable();
@@ -64,7 +64,7 @@ setTimeout(function(){
   w.allStuPaintTable();
   rr=d.querySelectorAll("#allstu-body tr"); row=null;
   for(i=0;i<rr.length;i++){ if(rr[i].textContent.indexOf(stu.name)===0){ row=rr[i]; } }
-  ck(!!row,"Miriam Gomez's row is found after adding two real scored reads");
+  ck(!!row,"Miriam G.'s row is found after adding two real scored reads");
   var cells=row.querySelectorAll("td");
   ck(cells[1].textContent==="PK 0.1","Passage level column shows the LATEST scored read's level (PK 0.1)");
   ck(cells[2].textContent==="68","WCPM column shows the latest scored read's words-correct-per-minute (70-2=68)");

@@ -25,13 +25,22 @@ const IX=new Function(block('var SENTENCES')+block('var GROUPS')+block('var CLAS
 function h(s){ let x=5381; for(let i=0;i<s.length;i++){ x=((x*33)^s.charCodeAt(i))>>>0; } return x.toString(36); }
 function short(n){ const p=n.split(' '); if(p.length<2||p[0]==="Student") return n; return p[0]+' '+p[p.length-1].charAt(0)+'.'; }
 
-// privacy: no full names and no index.html student ids anywhere in the page
+// privacy: no full names and no index.html student ids anywhere in the page.
+// index.html's own roster is now already "First L." only (Mick, Sept 28
+// 2026 privacy fix) -- there is no longer a full surname to derive FROM
+// index.html's live data, so this checks against the fixed list of the
+// real surnames the roster used to spell out, as a permanent regression
+// guard that none of them ever reappear anywhere in this page.
+const REAL_SURNAMES=["Gomez","Guerrero","Hashimoto","Joachin","Kobayashi","Mendoza","Solis","Sugishita",
+  "Barrera","Castaneda-Blancas","Castro","Cruz","Estrada","Flores","Lopez","Morales-Varela","Moya","Murillo","Ortega","Ramirez","Rendon","Rodriguez",
+  "Alvarez","Bravo","Burdette","Chaparro","Chee","Diaz","Duque","Espinal","Gozos","Ibarra","Macias","Martin","Soto","Urdaneta","Vega","Verdin","Zeferino"];
 IX.C.forEach(c=>c.students.forEach(s=>{
   if(/^spare_/.test(s.id)) return;
   ck(html.indexOf(s.id)<0,"no index id in page: "+s.id);
-  const last=s.name.split(' ').slice(1).join(' ');
-  ck(!new RegExp("\\b"+last.replace(/[-]/g,"\\-")+"\\b").test(html),"no last name in page: "+last);
 }));
+REAL_SURNAMES.forEach(last=>{
+  ck(!new RegExp("\\b"+last.replace(/[-]/g,"\\-")+"\\b").test(html),"no last name in page: "+last);
+});
 
 const dom=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/teacher-tap.html",runScripts:"dangerously",pretendToBeVisual:true,
   beforeParse(w){

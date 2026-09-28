@@ -140,7 +140,7 @@ setTimeout(function(){
   ck(w.check6FullyDone()===true,"check6FullyDone() correctly reports true once all three parts are done");
 
   /* ---- filename convention ---- */
-  ck(/^Miriam_Gomez_P1_CHECK_7_\d{4}_\d{2}_\d{2}\.webm$/.test(w.rfStandardFileName("CHECK_7")),
+  ck(/^Miriam_G_P1_CHECK_7_\d{4}_\d{2}_\d{2}\.webm$/.test(w.rfStandardFileName("CHECK_7")),
     "Check 7 uses the standard filename pattern with CHECK_7 (got '"+w.rfStandardFileName("CHECK_7")+"')");
 
   /* ---- student flow ---- */
@@ -207,7 +207,7 @@ setTimeout(function(){
 
         w.c7Finish();
         ck(w.__downloads.length===1,"exactly one file downloaded (got "+w.__downloads.length+")");
-        ck(/^Miriam_Gomez_P1_CHECK_7_\d{4}_\d{2}_\d{2}\.webm$/.test(w.__downloads[0]),"downloaded file follows the standard naming pattern");
+        ck(/^Miriam_G_P1_CHECK_7_\d{4}_\d{2}_\d{2}\.webm$/.test(w.__downloads[0]),"downloaded file follows the standard naming pattern");
         var yesBtn=d.getElementById("c7-yes-btn");
         ck(!!yesBtn,"a YES button is shown");
         ck(!w.ckDone()["check7"],"Check 7 is not marked done until YES is tapped");
