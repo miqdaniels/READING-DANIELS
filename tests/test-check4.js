@@ -152,11 +152,11 @@ setTimeout(function(){
           if(diagBtns2[m].textContent.indexOf("Check 5")>-1){ c5Btn=diagBtns2[m]; }
         }
         ck(foundC4Green,"Check 4 shows green/Completed on the dashboard");
-        ck(!!c5Btn && c5Btn.disabled!==true,"Check 5 is not gray/locked once Check 4 is done, even though it isn't built yet");
+        ck(!!c5Btn && c5Btn.disabled!==true,"Check 5 is not gray/locked once Check 4 is done");
         ck(!!c5Btn && c5Btn.className.indexOf("locked")===-1,"Check 5 uses the normal available style, not the locked style");
         click(c5Btn);
-        ck(activeId()==="diagLanding","tapping the not-yet-built Check 5 never navigates anywhere");
-        ck(/Coming soon!/.test(d.getElementById("diag-comingsoon-note").textContent),"tapping it shows 'Coming soon!' instead of a broken screen");
+        ck(activeId()==="check5","tapping Check 5 navigates to the real Check 5 screen now that it's built");
+        w.go("diagLanding");
 
         teacherScoringFlow(attempts[0].id);
       },30);
@@ -222,7 +222,7 @@ setTimeout(function(){
     /* ---- every existing screen still opens (regression protection) ---- */
     w.CURGROUP=w.GROUPS[0];
     var existingScreens=["s-home","s-pick","s-roster","studentMenu","diagLanding","check1","check1Preview","check1Teach",
-      "check2","s-teachC2","check2Teach","check3","s-teachC3","check3Teach","check4","check4Teach","s-teachDir",
+      "check2","s-teachC2","check2Teach","check3","s-teachC3","check3Teach","check4","check4Teach","check5","check5Teach","s-teachDir",
       "s-groups","s-final","s-score","s-board","s-teach","s-settings","s-status","fluencyPassage","fluencyRetell","s-fluteach"];
     var allOk=true, m;
     for(m=0;m<existingScreens.length;m++){

@@ -415,6 +415,56 @@ html[data-mode="dark"] .vas-banner .vas-exit{background:#111;color:#fff}
 .dir-listen-btn.playing .dir-listen-icon.ear-ico{animation:earPulse 1.2s ease-in-out infinite}
 .dir-row .dir-listen-btn .dir-listen-icon.ear-ico{width:44px;height:44px}
 .hearw,.play-btn{display:inline-flex;align-items:center}
+
+/* ===== Check 5: "Clean / Professional" style system (2026-09-28) =====
+   Mick's approved new visual direction, closer to a testing platform
+   (AZELLA/Cambium) than a colorful kids'-app look: pill-shaped buttons,
+   small muted thin-outline icons instead of big solid pulsing circles,
+   plain bordered tiles sized to fit their word, light-tinted header
+   bands, generous whitespace. Built entirely from the EXISTING theme
+   variables (var(--accent)/var(--line)/var(--ink)/var(--ink-soft)/
+   var(--panel)/var(--good)/var(--retry)/var(--unsure)/var(--hl)) --
+   no new colors, so it already works across all 5 themes x light/dark
+   with zero extra color rules. Scoped under #check5/#check5Teach only:
+   Checks 1-4 keep their current look untouched. Rolling this forward to
+   earlier checks later is just widening these same selectors. */
+#check5 .pill-btn,#check5Teach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#check5 .pill-btn-primary,#check5Teach .pill-btn-primary{background:var(--accent);border:none;color:#fff}
+#check5 .pill-btn-secondary,#check5Teach .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+#check5 .pill-btn[disabled],#check5Teach .pill-btn[disabled]{opacity:.45;cursor:default}
+#check5 .clean-icon,#check5Teach .clean-icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink-soft);color:var(--ink-soft);background:var(--panel);flex:0 0 auto;cursor:pointer;touch-action:manipulation}
+#check5 .clean-icon svg,#check5Teach .clean-icon svg{width:18px;height:18px}
+#check5 .clean-icon.active,#check5Teach .clean-icon.active{border-color:var(--accent);color:var(--accent)}
+#check5 .clean-icon[disabled],#check5Teach .clean-icon[disabled]{opacity:.45;cursor:default}
+#check5 .clean-icon-row,#check5Teach .clean-icon-row{display:flex;align-items:center;gap:14px;margin:14px 0}
+#check5 .clean-icon-label,#check5Teach .clean-icon-label{font-size:13px;color:var(--ink-soft);font-weight:600}
+#check5 .clean-header,#check5Teach .clean-header{background:color-mix(in srgb,var(--accent) 10%,var(--panel));border-bottom:1px solid var(--line);padding:14px 18px}
+html[data-mode="dark"] #check5 .clean-header,html[data-mode="dark"] #check5Teach .clean-header{background:color-mix(in srgb,var(--accent) 22%,var(--panel))}
+#check5 .clean-card,#check5Teach .clean-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin:0 0 16px}
+#check5 .clean-card-body,#check5Teach .clean-card-body{padding:18px}
+#check5 .clean-word{font-size:5.5rem;font-weight:800;text-align:center;line-height:1.05;letter-spacing:-.01em;margin:32px 0}
+@media(max-width:520px){#check5 .clean-word{font-size:3.6rem}}
+#check5 .clean-tile,#check5Teach .clean-tile{border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:1.2rem;font-weight:700;color:var(--ink);white-space:nowrap;background:var(--panel)}
+#check5Teach .clean-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:14px 0}
+#check5Teach .clean-grid .clean-tile{cursor:pointer;touch-action:manipulation;text-align:center;position:relative}
+#check5Teach .clean-tile.state-lab{background:var(--hl);border-color:var(--accent);color:var(--hl-ink)}
+#check5Teach .clean-tile.state-err{background:var(--retry-bg);border-color:var(--retry);color:var(--retry)}
+#check5Teach .clean-tile.state-sc{background:var(--good-bg);border-color:var(--good);color:var(--good)}
+#check5Teach .clean-tile.state-skip{background:var(--unsure-bg);border-color:var(--unsure);color:var(--unsure)}
+#check5Teach .speed-row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px}
+#check5Teach .speed-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);border-radius:999px;padding:6px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation}
+#check5Teach .speed-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+/* Check 5 reuses the exact same proven mic/ear artwork (never invents a
+   new icon), just muted and never pulsing/animated -- scoped so Checks
+   1-4's red/green pulsing icons stay exactly as they are. Primary
+   actions (Start/Next/Finish) are plain pill buttons with no icon at
+   all, per the locked button rule; the small recording indicator is the
+   app's existing 22px status dot, just recolored calm/muted. */
+#check5 .rec-status{color:var(--ink-soft)}
+#check5 .rec-status .rec-status-dot{background-color:var(--ink-soft);animation:none}
+#check5 .dir-listen-btn{border-radius:999px;padding:10px 20px}
+#check5 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px;background-color:var(--ink-soft)}
+#check5 .dir-listen-btn.playing .dir-listen-icon.ear-ico{background-color:var(--accent);animation:none}
 </style>
 </head>
 <body>
@@ -467,6 +517,7 @@ html[data-mode="dark"] .vas-banner .vas-exit{background:#111;color:#fff}
             <button class="teach-tile cat-scoring" onclick="go('check2Teach')" title="Score letter-sound videos"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 2 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('check3Teach')" title="Score phonemic-awareness videos"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 3 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('check4Teach')" title="Score decoding recordings"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 4 Review</span></button>
+            <button class="teach-tile cat-scoring" onclick="go('check5Teach')" title="Score automatic word recognition recordings"><span class="teach-tile-icon">&#9989;</span><span class="teach-tile-label">Check 5 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('s-fluteach')" title="Listen to fluency &amp; retell attempts, score WCPM, approve moves"><span class="teach-tile-icon">&#128214;</span><span class="teach-tile-label">Fluency Review</span></button>
           </div>
         </div>
@@ -956,6 +1007,60 @@ html[data-mode="dark"] .vas-banner .vas-exit{background:#111;color:#fff}
       <div class="seg" id="c4t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c4t-roster" style="margin-bottom:14px"></div>
       <div id="c4t-body"></div>
+      <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <!-- CHECK 5: student flow -- ONE continuous AUDIO recording (no camera,
+       same audio-only startRec/stopRec pattern as Check 1/4), one printed
+       word at a time across 6 sets (120 items total). No model audio or
+       hints. First screen built in the new Clean/Professional style:
+       plain pill buttons (no icon on primary actions, per the locked
+       button rule), a muted small recording indicator instead of a big
+       pulsing circle, and a plain large word with no special font
+       override (Andika was only ever for Check 1's single-letterform
+       clarity problem -- e.g. capital I vs lowercase l -- which doesn't
+       apply to whole printed words). -->
+  <section class="screen" id="check5">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('diagLanding')">Diagnostic Tools</a> &nbsp;/&nbsp; Check 5</p>
+      <p class="step-eyebrow">Check 5: Automatic Word Recognition</p>
+      <h2 class="scr-title">Read each word</h2>
+      <div class="lede" id="c5-intro">Read each word out loud. Tap Next after each one.</div>
+      <div class="dir-listen-wrap" id="dl-dir_check5" style="display:none">
+        <button class="dir-listen-btn" id="dl-dir_check5-btn" onclick="dirToggle('dir_check5')">
+          <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
+        </button>
+      </div>
+      <p class="mini-note" id="c5-mic-note">Your browser will ask for permission to use the microphone. Tap Allow so your reading can be recorded.</p>
+      <p class="step-eyebrow" id="c5-section-label" style="display:none"></p>
+      <div class="clean-word" id="c5-current" style="display:none">&nbsp;</div>
+      <p class="mini-note" id="c5-progress"></p>
+      <p class="rec-status" id="c5-rec-status"></p>
+      <button class="pill-btn pill-btn-primary" id="c5-start" onclick="c5Start()">Start Recording</button>
+      <div class="clean-icon-row" id="c5-active-row" style="display:none">
+        <button class="pill-btn pill-btn-primary" id="c5-next" onclick="c5NextTap()"><span id="c5-next-lbl">Next</span></button>
+        <button class="pill-btn pill-btn-secondary" id="c5-done" onclick="c5DoneTap()">Done</button>
+      </div>
+      <p class="state-line none" id="c5-state"></p>
+      <div id="c5-review"></div>
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECK 5: teacher scoring -- same local-file pattern as check4Teach,
+       plus playback speed control and keyboard shortcuts (new for
+       Check 5), in the new Clean/Professional style. -->
+  <section class="screen" data-teacher="1" id="check5Teach">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Check 5 review</p>
+      <h2>Check 5 &mdash; Automatic Word Recognition review</h2>
+      <p class="lede">Pick a class, then a student. Open the student&rsquo;s downloaded recording, then tap each word to score it.</p>
+      <div class="seg" id="c5t-class" style="margin:10px 0;flex-wrap:wrap"></div>
+      <div class="grid" id="c5t-roster" style="margin-bottom:14px"></div>
+      <div id="c5t-body"></div>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -1790,6 +1895,7 @@ var DIRECTIONS_DEFS=[
   {key:"dir_check3_3c", label:"Check 3 -- before 3C (blending)", script:"Listen to the sounds. Put them together. Say the word."},
   {key:"dir_check3_3d", label:"Check 3 -- before 3D (segmentation)", script:"Listen to the word. Say every sound you hear."},
   {key:"dir_check4", label:"Check 4 directions", script:"Read each word out loud."},
+  {key:"dir_check5", label:"Check 5 directions", script:"Read each word out loud."},
   {key:"dir_fluency", label:"Fluency directions", script:"Read the passage out loud."},
   {key:"dir_retell", label:"Retell directions", script:"Tell what you read, in your own words. You have one minute."},
   {key:"dir_vocab", label:"Vocabulary (Word Practice) directions", script:"Pick a group. Hear the word, then read it."}
@@ -2021,7 +2127,7 @@ var CHECK_DEFS=[
   {id:"check2", label:"Check 2: Letter-Sound Knowledge", sub:"Letter and vowel sounds (one video)", built:true, screen:"check2"},
   {id:"check3", label:"Check 3: Phonemic Awareness", sub:"Listen and answer out loud (one video)", built:true, screen:"check3"},
   {id:"check4", label:"Check 4: Decoding", sub:"Read each printed word out loud (one recording)", built:true, screen:"check4"},
-  {id:"check5", label:"Check 5: Automatic Word Recognition", sub:"Coming soon", built:false},
+  {id:"check5", label:"Check 5: Automatic Word Recognition", sub:"Read each printed word out loud (one recording)", built:true, screen:"check5"},
   {id:"check6", label:"Check 6: Morphological Awareness &amp; Word Analysis", sub:"Coming soon", built:false},
   {id:"check7", label:"Check 7: Multisyllabic Word Analysis", sub:"Coming soon", built:false}
 ];
@@ -2746,6 +2852,8 @@ function go(id){
   if(id==="check3Teach"){ check3TeachEnter(); }
   if(id==="check4"){ c4Enter(); }
   if(id==="check4Teach"){ check4TeachEnter(); }
+  if(id==="check5"){ c5Enter(); }
+  if(id==="check5Teach"){ check5TeachEnter(); }
   if(id==="s-teachDir"){ dirtEnter(); }
   if(id==="s-teachStudents"){ teachStudentsEnter(); }
   if(id==="s-groups"){ buildGroups(); Sync.paintNote(); }
@@ -5999,6 +6107,396 @@ function c4tSave(){
   var n=document.getElementById("c4t-save-note");
   if(n){ n.className="mini-note"; n.style.color="var(--good)"; n.textContent="✓ Saved."; }
 }
+
+/* ---------- Check 5 word bank: 6 sets x 20 = 120 items, exact QC-
+   corrected content from MASTER_SPEC.md (do not add/remove/reorder). ---------- */
+var C5_SETS=[
+  {id:"5A", label:"Core classroom connectors & pronouns", words:["and","or","but","because","yet","although","while","than","who","what","where","why","how","they","them","their","we","our","you","your"]},
+  {id:"5B", label:"Core verbs students meet constantly", words:["is","are","was","were","have","has","had","do","does","did","can","could","will","would","should","may","might","must","get","know"]},
+  {id:"5C", label:"Directions & school-task words", words:["read","write","say","tell","ask","answer","choose","match","circle","underline","complete","explain","describe","compare","show","find","use","check","turn","start"]},
+  {id:"5D", label:"Time, sequence & relationship words", words:["before","after","during","until","then","next","last","today","yesterday","always","never","often","sometimes","again","between","through","around","without","within","across"]},
+  {id:"5E", label:"High-utility content words", words:["school","student","class","lesson","word","sentence","story","text","question","idea","reason","example","result","change","part","group","place","world","people","language"]},
+  {id:"5F", label:"Adolescent academic utility", words:["learn","understand","decide","create","support","context","detail","main","similar","however","therefore","possible","opinion","purpose","source","subject","response","practice","review","meaning"]}
+];
+/* the flat walk order the student actually sees, built once at load time */
+var C5_ITEMS=(function(){
+  var out=[], i, j;
+  for(i=0;i<C5_SETS.length;i++){
+    for(j=0;j<C5_SETS[i].words.length;j++){
+      out.push({section:C5_SETS[i].id, word:C5_SETS[i].words[j]});
+    }
+  }
+  return out;
+})();
+/* set start offsets into the flat C5_ITEMS array, for the teacher grids */
+var C5_SET_START=(function(){
+  var out=[], run=0, i;
+  for(i=0;i<C5_SETS.length;i++){ out.push(run); run+=C5_SETS[i].words.length; }
+  return out;
+})();
+
+/* ---------- Check 5 attempts (localStorage): one row per completed recording ---------- */
+var C5Attempts=(function(){
+  var KEY="rf_check5_attempts";
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function save(l){ try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(l)); }catch(e){} }
+  function add(rec){ var l=all(); l.push(rec); save(l); return rec; }
+  function update(id,patch){ var l=all(), i, k; for(i=0;i<l.length;i++){ if(l[i].id===id){ for(k in patch){ if(patch.hasOwnProperty(k)){ l[i][k]=patch[k]; } } break; } } save(l); }
+  function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
+  function forStudent(sid){ var l=all(), out=[], i; for(i=0;i<l.length;i++){ if(l[i].studentId===sid){ out.push(l[i]); } } out.sort(function(a,b){ return a.date<b.date?1:(a.date>b.date?-1:0); }); return out; }
+  return { all:all, add:add, update:update, get:get, forStudent:forStudent };
+})();
+var C5Review=rfReviewStore("rf_check5_attempts");
+
+/* ---------- Check 5: student flow -- ONE continuous AUDIO recording (no
+   camera, same audio-only startRec/stopRec pattern as Check 1/4), one
+   printed word at a time across 6 sets (120 items total). No model
+   audio/pronunciation/hints -- the student sees the word and reads it.
+   Teacher controls how far the student goes via the same Done-early
+   button Check 4 uses -- Check 5 never forces all 120 items. ---------- */
+var c5Idx=-1, c5Blob=null, c5YesUsed=false, c5NextLock=false, c5Playing=false, c5StartAt=0;
+function c5Enter(){
+  c5Idx=-1; c5Blob=null; c5YesUsed=false; c5NextLock=false; c5Playing=false;
+  document.getElementById("c5-intro").style.display="block";
+  document.getElementById("c5-mic-note").style.display="block";
+  var sl=document.getElementById("c5-section-label"); sl.style.display="none"; sl.textContent="";
+  var cur=document.getElementById("c5-current"); cur.style.display="none"; cur.textContent="";
+  document.getElementById("c5-progress").textContent="";
+  var sb=document.getElementById("c5-start"); sb.style.display="inline-flex"; sb.disabled=false; sb.textContent="Start Recording";
+  document.getElementById("c5-active-row").style.display="none";
+  var rs=document.getElementById("c5-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
+  var st=document.getElementById("c5-state"); st.className="state-line none"; st.textContent="";
+  var rv=document.getElementById("c5-review"); if(rv){ rv.innerHTML=""; }
+  dirPaintButton("dir_check5");
+}
+function c5PaintItem(){
+  document.getElementById("c5-intro").style.display="none";
+  document.getElementById("c5-mic-note").style.display="none";
+  var dl=document.getElementById("dl-dir_check5"); if(dl){ dl.style.display="none"; }
+  var item=C5_ITEMS[c5Idx];
+  var sl=document.getElementById("c5-section-label"); sl.style.display="block"; sl.textContent=item.section;
+  var cur=document.getElementById("c5-current");
+  cur.style.display="block"; cur.textContent=item.word;
+  document.getElementById("c5-progress").textContent="Item "+(c5Idx+1)+" of "+C5_ITEMS.length;
+  var nlbl=document.getElementById("c5-next-lbl");
+  nlbl.textContent = (c5Idx===C5_ITEMS.length-1) ? "Finish" : "Next";
+}
+function c5Start(){
+  var sb=document.getElementById("c5-start"), st=document.getElementById("c5-state");
+  activeCtx="check5"; st.className="state-line none"; st.textContent="Starting the microphone…";
+  startRec(function(blob){
+    /* the whole recording (however far it got) just ended -- review before it's final */
+    c5Blob=blob;
+    c5Review();
+  },function(){
+    c5Idx=0; c5PaintItem();
+    c5StartAt=new Date().getTime();
+    sb.style.display="none";
+    document.getElementById("c5-active-row").style.display="flex";
+    var rs=document.getElementById("c5-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
+    st.className="state-line none"; st.textContent="Recording. Read each word, then tap Next.";
+  }).catch(function(err){
+    st.className="state-line err"; st.textContent=micErrorText(err);
+  });
+}
+function c5DoAdvance(){
+  if(c5Idx<C5_ITEMS.length-1){ c5Idx++; c5PaintItem(); }
+  else { stopRec(); }
+}
+/* Rapid-tap protection scoped to THIS one repeatedly-tapped button: a
+   frame-paced lock (not a millisecond cooldown) absorbs a duplicate event
+   for the same physical tap without ever delaying a real next tap. */
+function c5NextTap(){
+  if(c5NextLock){ return; }
+  c5NextLock=true;
+  if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c5NextLock=false; }); }
+  else { setTimeout(function(){ c5NextLock=false; },16); }
+  c5DoAdvance();
+}
+/* Teacher-controlled early stop, at any item -- "do not force all 120
+   items on every student" */
+function c5DoneTap(){ stopRec(); }
+function c5Review(){
+  c5Playing=false;
+  document.getElementById("c5-start").style.display="none";
+  document.getElementById("c5-active-row").style.display="none";
+  document.getElementById("c5-section-label").style.display="none";
+  document.getElementById("c5-current").style.display="none";
+  document.getElementById("c5-progress").textContent="";
+  var rs=document.getElementById("c5-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
+  var st=document.getElementById("c5-state");
+  st.className="state-line saved";
+  st.textContent="Recording complete.";
+  var rv=document.getElementById("c5-review");
+  rv.innerHTML='<div class="clean-icon-row">'
+    +'<button class="pill-btn pill-btn-secondary" id="c5-listen-btn" onclick="c5ToggleListen()">Play back</button>'
+    +(VIEW_AS_STUDENT?'<button class="pill-btn pill-btn-secondary" onclick="c5RecordAgain()">Redo</button>':"")
+    +'<button class="pill-btn pill-btn-primary" onclick="c5Finish()">Save &amp; Finish</button>'
+    +"</div>";
+}
+function c5ToggleListen(){
+  var btn=document.getElementById("c5-listen-btn"); if(!btn){ return; }
+  if(c5Playing){
+    stopAllAudio();
+    c5Playing=false;
+    btn.textContent="Play back";
+    return;
+  }
+  var a=playBlob(c5Blob);
+  c5Playing=true;
+  btn.textContent="Stop";
+  if(a){
+    var origOnEnded=a.onended;
+    a.onended=function(){ if(origOnEnded){ origOnEnded(); } c5Playing=false; var b=document.getElementById("c5-listen-btn"); if(b){ b.textContent="Play back"; } };
+  }
+}
+function c5RecordAgain(){
+  stopAllAudio(); c5Playing=false;
+  c5Blob=null;
+  document.getElementById("c5-review").innerHTML="";
+  c5Enter();
+}
+function c5Finish(){
+  if(!c5Blob||c5Blob.size===0){ return; } // never mark complete on a failed/empty recording
+  stopAllAudio(); c5Playing=false;
+  var fname=rfStandardFileName("CHECK_5");
+  downloadBlob(c5Blob,fname);
+  var reached=c5Idx+1;
+  C5Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
+    totalTimeMs:(new Date().getTime()-c5StartAt), reachedCount:reached, scores:null, flags:null, note:null,
+    setCorrect:null, immediateCount:null, laboredCount:null, incorrectCount:null, selfCorrectedCount:null, skipCount:null, targets:null });
+  document.getElementById("c5-review").innerHTML="";
+  var st=document.getElementById("c5-state");
+  st.className="state-line saved";
+  st.innerHTML="&#9989; All done! Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
+    +'<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
+    +"<li>Open today’s Check 5 assignment in Canvas.</li>"
+    +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
+    +"<li>Press <strong>Submit</strong>.</li></ol></div>"
+    +'<div class="note-box" style="margin-top:14px"><h4>Did you submit your audio file?</h4>'
+    +'<button class="pill-btn pill-btn-primary" id="c5-yes-btn" style="font-size:19px;padding:16px 32px" onclick="c5ConfirmSubmitted()">YES</button></div>';
+}
+function c5ConfirmSubmitted(){
+  if(c5YesUsed){ return; }
+  c5YesUsed=true;
+  var b=document.getElementById("c5-yes-btn"); if(b){ b.disabled=true; b.textContent="Saved ✓"; }
+  ckMarkDone("check5");
+  go("diagLanding");
+}
+
+/* ---------- Check 5: teacher scoring ----------
+   Same local-file pattern as check1Teach/.../check4Teach. One grid per
+   set (6 total, 20 words each = 120 cells) using the new clean-tile
+   family. Blank/default state = Correct-Immediate (the fast common
+   case, matching every other check's "only tap what needs marking"
+   convention) so a teacher never has to tap a plain-correct word; the
+   cycle otherwise moves through Labored/Decoded, Incorrect,
+   Self-Corrected, Skip, and Not-Reached, so the accuracy-vs-automaticity
+   distinction (section 12/13 of Miq's spec) is fully retained in the
+   stored data even though it costs zero extra taps for the common case.
+   Adds a playback-speed control (persisted on this device only, never
+   touching the original recording or the student's timing) and
+   keyboard shortcuts -- both new for Check 5. */
+var C5T_CLS=0, C5T_STU=null, C5T_ATTEMPT=null, c5tFileUrl=null, c5tScores=[], c5tFlags=[];
+var C5T_ORDER=["","lab","err","sc","skip","nr"];
+var C5T_LABELS={"":"Correct — Immediate","lab":"Correct — Labored/Decoded","err":"Incorrect","sc":"Self-Corrected","skip":"No Response / Skip","nr":"Not Reached"};
+var C5T_CSS_CLASS={"":"","lab":"state-lab","err":"state-err","sc":"state-sc","skip":"state-skip","nr":"state-skip"};
+var C5T_SPEEDS=[0.75,1,1.25,1.5,1.75,2];
+function c5tSpeedKey(){ return "rf_c5_playback_rate"; }
+function c5tSavedSpeed(){ try{ var v=parseFloat(window.localStorage.getItem(c5tSpeedKey())); return (v&&C5T_SPEEDS.indexOf(v)>-1)?v:1; }catch(e){ return 1; } }
+function c5tSaveSpeed(v){ try{ window.localStorage.setItem(c5tSpeedKey(), String(v)); }catch(e){} }
+function check5TeachEnter(){
+  C5T_CLS=0; C5T_STU=null; C5T_ATTEMPT=null;
+  c5tPaintClasses(); c5tPaintRoster();
+  var b=document.getElementById("c5t-body"); if(b){ b.innerHTML=""; }
+}
+function c5tPaintClasses(){
+  var seg=document.getElementById("c5t-class"); if(!seg){ return; }
+  var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="c5tPick('+i+')" class="'+(i===C5T_CLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function c5tPick(i){
+  C5T_CLS=i; C5T_STU=null; C5T_ATTEMPT=null;
+  c5tPaintClasses(); c5tPaintRoster();
+  var b=document.getElementById("c5t-body"); if(b){ b.innerHTML=""; }
+}
+function c5tPaintRoster(){
+  rfReviewRoster("c5t-roster", CLASSES[C5T_CLS], C5Review, C5T_STU, function(id){ C5T_STU=id; C5T_ATTEMPT=null; c5tPaintRoster(); c5tPaintAttemptList(); });
+}
+function c5tPaintAttemptList(){
+  var host=document.getElementById("c5t-body"); if(!host){ return; }
+  var list=C5Review.forStudent(C5T_STU);
+  if(!list.length){ rfReviewEmpty(host,5,C5T_STU); rfReviewScroll(host); return; }
+  var html="", i;
+  for(i=0;i<list.length;i++){
+    (function(a){
+      var scored=(a.immediateCount!==null&&a.immediateCount!==undefined) ? " — scored" : " — not scored yet";
+      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small> Reached '+(a.reachedCount||0)+" of "+C5_ITEMS.length+scored+'</small></div>'
+        +'<button class="mini-btn" onclick="c5tOpenAttempt(\''+a.id+'\')">Open</button></div>';
+    })(list[i]);
+  }
+  host.innerHTML='<p class="step-eyebrow">'+escapeHtml(rfStuName(C5T_STU))+'</p>'+html;
+  rfReviewScroll(host);
+}
+function c5tOpenAttempt(id){
+  C5T_ATTEMPT=id;
+  var a=C5Review.get(id);
+  var n=C5_ITEMS.length, i;
+  c5tScores=(a.scores&&a.scores.length===n)?a.scores.slice(0):[];
+  if(!c5tScores.length){ for(i=0;i<n;i++){ c5tScores.push(i>=(a.reachedCount||0)?"nr":""); } }
+  c5tFlags=(a.flags&&a.flags.length===n)?a.flags.slice(0):[];
+  if(!c5tFlags.length){ for(i=0;i<n;i++){ c5tFlags.push(false); } }
+  var host=document.getElementById("c5t-body"); if(!host){ return; }
+  var gridsHtml="";
+  for(i=0;i<C5_SETS.length;i++){
+    var s=C5_SETS[i];
+    gridsHtml+='<p class="step-eyebrow" style="margin-top:14px">'+s.id+' — '+escapeHtml(s.label)+' ('+s.words.length+')</p>'
+      +'<div class="clean-grid" id="c5t-grid-'+s.id+'"></div>';
+  }
+  var ms=a.totalTimeMs||0, mins=Math.floor(ms/60000), secs=Math.floor((ms%60000)/1000);
+  var speed=c5tSavedSpeed(), speedHtml="", si;
+  for(si=0;si<C5T_SPEEDS.length;si++){
+    speedHtml+='<button class="speed-btn'+(C5T_SPEEDS[si]===speed?" on":"")+'" onclick="c5tSetSpeed('+C5T_SPEEDS[si]+')">'+C5T_SPEEDS[si]+'&times;</button>';
+  }
+  host.innerHTML =
+     '<div class="clean-card"><div class="clean-header">'
+    +'<p class="step-eyebrow" style="margin:0">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+"</p>"
+    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+" &nbsp; Reached "+(a.reachedCount||0)+" of "+n+" items</p>"
+    +"</div><div class=\"clean-card-body\">"
+    +'<label class="pill-btn pill-btn-secondary" for="c5t-file">Open the recording from Canvas</label>'
+    +'<input type="file" id="c5t-file" style="display:none" accept="audio/*,video/webm,.webm,.ogg" onchange="c5tOpenFile(this)">'
+    +'<audio id="c5t-player" controls style="width:100%;margin:10px 0"></audio>'
+    +'<p class="mini-note" id="c5t-file-note">No file open. The file stays on this computer.</p>'
+    +'<p class="clean-icon-label">Playback speed (this device only — never changes the original recording or the student&rsquo;s timing)</p>'
+    +'<div class="speed-row">'+speedHtml+'</div>'
+    +'<p class="mini-note">Keyboard: Space = play/pause, Left/Right arrow = back/forward 5 seconds.</p>'
+    +gridsHtml
+    +'<p class="mini-note">Tap a word to cycle: Correct (Immediate) &rarr; Labored/Decoded &rarr; Incorrect &rarr; Self-Corrected &rarr; Skip &rarr; Not Reached &rarr; Correct. Tap the small ◆ mark to flag an error pattern to describe below.</p>'
+    +'<div class="setting-row" style="margin-top:10px"><div><strong>Teacher note</strong> (optional — describe flagged error patterns)</div></div>'
+    +'<textarea id="c5t-note" rows="3" style="width:100%;font:inherit;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:inherit">'+escapeHtml(a.note||"")+'</textarea>'
+    +'<div class="clean-card" id="c5t-results" style="margin-top:14px"></div>'
+    +'<button class="pill-btn pill-btn-primary" onclick="c5tSave()" style="margin-top:10px">Save scores</button>'
+    +'<p class="mini-note" id="c5t-save-note"></p>'
+    +"</div></div>"
+    +'<div class="nav-row" style="margin-top:14px"><button class="btn" onclick="c5tPaintAttemptList()">&#8592; Back to attempts</button></div>';
+  var player=document.getElementById("c5t-player"); if(player){ player.playbackRate=speed; }
+  c5tPaintAllGrids();
+  c5tPaintResults();
+}
+function c5tOpenFile(input){
+  var f=input.files&&input.files[0]; if(!f){ return; }
+  var a=document.getElementById("c5t-player");
+  if(c5tFileUrl){ try{ URL.revokeObjectURL(c5tFileUrl); }catch(e){} }
+  c5tFileUrl=URL.createObjectURL(f);
+  a.src=c5tFileUrl;
+  a.playbackRate=c5tSavedSpeed();
+  document.getElementById("c5t-file-note").textContent="Opened: "+f.name;
+}
+function c5tSetSpeed(v){
+  c5tSaveSpeed(v);
+  var a=document.getElementById("c5t-player"); if(a){ a.playbackRate=v; }
+  var btns=document.querySelectorAll("#c5t-body .speed-btn"), i;
+  for(i=0;i<btns.length;i++){ btns[i].className="speed-btn"+(parseFloat(btns[i].textContent)===v?" on":""); }
+}
+function c5tPaintGrid(hostId,startIdx,count){
+  var box=document.getElementById(hostId); if(!box){ return; }
+  var html="", i, gi;
+  for(i=0;i<count;i++){
+    gi=startIdx+i;
+    var st=c5tScores[gi]||"";
+    var cls=C5T_CSS_CLASS[st]||"";
+    var flagOn=!!c5tFlags[gi];
+    html+='<button class="clean-tile'+(cls?" "+cls:"")+'" onclick="c5tTap('+gi+')" title="'+C5T_LABELS[st]+(flagOn?" + flagged for an error pattern":"")+'">'
+      +escapeHtml(C5_ITEMS[gi].word)
+      +'<span class="c2-obs'+(flagOn?" on":"")+'" onclick="c5tToggleFlag(event,'+gi+')" title="Flag an error pattern to describe in the note below">◆</span>'
+      +"</button>";
+  }
+  box.innerHTML=html;
+}
+function c5tPaintAllGrids(){
+  var i; for(i=0;i<C5_SETS.length;i++){ c5tPaintGrid("c5t-grid-"+C5_SETS[i].id, C5_SET_START[i], C5_SETS[i].words.length); }
+}
+function c5tTap(i){
+  var idx=C5T_ORDER.indexOf(c5tScores[i]);
+  c5tScores[i]=C5T_ORDER[(idx+1)%C5T_ORDER.length];
+  c5tPaintAllGrids();
+  c5tPaintResults();
+}
+function c5tToggleFlag(e,i){
+  if(e&&e.stopPropagation){ e.stopPropagation(); }
+  c5tFlags[i]=!c5tFlags[i];
+  c5tPaintAllGrids();
+  c5tPaintResults();
+}
+function c5tCompute(){
+  var i, item, st, setCorrect={}, setMissed={};
+  for(i=0;i<C5_SETS.length;i++){ setCorrect[C5_SETS[i].id]=0; setMissed[C5_SETS[i].id]=[]; }
+  var immediate=0, labored=0, incorrect=0, selfCorr=0, skips=0, notReached=[], flagged=[], targets=[];
+  for(i=0;i<C5_ITEMS.length;i++){
+    item=C5_ITEMS[i]; st=c5tScores[i]||"";
+    if(c5tFlags[i]){ flagged.push(item.word); }
+    if(st==="nr"){ notReached.push(item.word); continue; }
+    var isCorrect=(st===""||st==="lab"||st==="sc");
+    if(st===""){ immediate++; }
+    if(st==="lab"){ labored++; targets.push(item.word); }
+    if(st==="err"){ incorrect++; targets.push(item.word); }
+    if(st==="sc"){ selfCorr++; }
+    if(st==="skip"){ skips++; targets.push(item.word); }
+    if(isCorrect){ setCorrect[item.section]++; } else { setMissed[item.section].push(item.word); }
+  }
+  return { setCorrect:setCorrect, setMissed:setMissed, immediate:immediate, labored:labored, incorrect:incorrect,
+    selfCorr:selfCorr, skips:skips, notReached:notReached, flagged:flagged, targets:targets };
+}
+function c5tPaintResults(){
+  var host=document.getElementById("c5t-results"); if(!host){ return; }
+  var r=c5tCompute(), html="", i, overall=0, s;
+  for(i=0;i<C5_SETS.length;i++){
+    s=C5_SETS[i];
+    overall+=r.setCorrect[s.id];
+    html+="<p><strong>"+s.id+" "+escapeHtml(s.label)+":</strong> "+r.setCorrect[s.id]+" / "+s.words.length+"</p>";
+    if(r.setMissed[s.id].length){ html+='<p class="mini-note">Needs instruction: '+escapeHtml(r.setMissed[s.id].join(", "))+"</p>"; }
+  }
+  html+="<p><strong>Overall Check 5:</strong> "+overall+" / "+C5_ITEMS.length+"</p>";
+  html+='<p class="mini-note">Correct — Immediate: '+r.immediate+" &nbsp; Correct — Labored/Decoded: "+r.labored+" &nbsp; Incorrect: "+r.incorrect+" &nbsp; Self-Corrected: "+r.selfCorr+" &nbsp; Skips: "+r.skips+"</p>";
+  html+='<p class="mini-note">Not Reached (recording ended before this item — never counted as incorrect): '+(r.notReached.length?escapeHtml(r.notReached.join(", ")):"none")+"</p>";
+  html+='<p class="mini-note">Flagged for an error pattern (see teacher note): '+(r.flagged.length?escapeHtml(r.flagged.join(", ")):"none")+"</p>";
+  host.innerHTML=html;
+}
+function c5tSave(){
+  if(!C5T_ATTEMPT){ return; }
+  var r=c5tCompute();
+  var noteEl=document.getElementById("c5t-note");
+  var setScores={}, i; for(i=0;i<C5_SETS.length;i++){ setScores[C5_SETS[i].id]=r.setCorrect[C5_SETS[i].id]; }
+  C5Review.update(C5T_ATTEMPT,{ scores:c5tScores.slice(0), flags:c5tFlags.slice(0), note:noteEl?noteEl.value:"",
+    setCorrect:setScores, immediateCount:r.immediate, laboredCount:r.labored, incorrectCount:r.incorrect,
+    selfCorrectedCount:r.selfCorr, skipCount:r.skips, targets:r.targets });
+  var n=document.getElementById("c5t-save-note");
+  if(n){ n.className="mini-note"; n.style.color="var(--good)"; n.textContent="✓ Saved."; }
+}
+/* Keyboard shortcuts for grading -- Space = play/pause, Left/Right arrow
+   = back/forward 5s. Harmless everywhere else: bails immediately unless
+   check5Teach is the active screen and a recording is actually open, and
+   never intercepts typing in the note field or any other input. */
+document.addEventListener("keydown", function(e){
+  var scr=document.getElementById("check5Teach");
+  if(!scr || scr.className.indexOf("active")===-1){ return; }
+  var player=document.getElementById("c5t-player");
+  if(!player){ return; }
+  var tag=(e.target&&e.target.tagName)||"";
+  if(tag==="INPUT"||tag==="TEXTAREA"||tag==="SELECT"){ return; }
+  if(e.code==="Space"||e.key===" "){
+    e.preventDefault();
+    if(player.paused){ player.play(); } else { player.pause(); }
+  } else if(e.key==="ArrowLeft"){
+    e.preventDefault();
+    player.currentTime=Math.max(0, player.currentTime-5);
+  } else if(e.key==="ArrowRight"){
+    e.preventDefault();
+    var target=player.currentTime+5;
+    if(player.duration && target>player.duration){ target=player.duration; }
+    player.currentTime=target;
+  }
+});
 
 /* ---------- Teacher home: dark mode (layout/look only, teacher side only) ----------
    The toggle just flips a remembered preference; whether it's actually
