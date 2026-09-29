@@ -4,12 +4,12 @@ const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js
 
 /* Check 6B -- Understand It: Morpheme Meaning. 24 ORIGINAL selected-
    response items (4 categories x 6: Prefix Meaning, Suffix Meaning/
-   Function, Inflectional Endings, Word-Part Meaning in Context), 3
-   choices each, NO recording, NO camera/mic at all -- auto-scored the
-   instant the student taps a choice. 6A is locked/untouched by this
-   build; Check 6B sits between Check 6 (6A) and Check 7 in the unlock
-   chain, so Check 7 now waits on 6B, not 6A alone. Check 6C and Check 7
-   remain NOT built. */
+   Function, Inflectional Endings, Word-Part Meaning in Context), 4
+   choices each (Mick, 2026-09-30 -- was 3, she asked for a 4th), NO
+   recording, NO camera/mic at all -- auto-scored the instant the
+   student taps a choice. 6A is locked/untouched by this build; Check 6B
+   sits between Check 6 (6A) and Check 7 in the unlock chain, so Check 7
+   now waits on 6B, not 6A alone. */
 const dom=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/",runScripts:"dangerously",pretendToBeVisual:true,
   beforeParse(w){
     w.HTMLElement.prototype.scrollIntoView=function(){}; w.scrollTo=function(){};
@@ -55,18 +55,25 @@ setTimeout(function(){
   targets.forEach(function(x){ if(seen[x]){ dupes.push(x); } seen[x]=(seen[x]||0)+1; });
   ck(dupes.length===0,"no duplicate target words within Check 6B (dupes: "+dupes.join(",")+")");
 
-  var allThreeChoices=true, allHaveCorrect=true;
+  var allFourChoices=true, allHaveCorrect=true;
   w.C6B_ITEMS.forEach(function(it){
-    if(!it.choices || it.choices.length!==3){ allThreeChoices=false; }
-    if(typeof it.correct!=="number" || it.correct<0 || it.correct>2){ allHaveCorrect=false; }
+    if(!it.choices || it.choices.length!==4){ allFourChoices=false; }
+    if(typeof it.correct!=="number" || it.correct<0 || it.correct>3){ allHaveCorrect=false; }
   });
-  ck(allThreeChoices,"every item has exactly 3 answer choices");
-  ck(allHaveCorrect,"every item has exactly one correct answer index (0-2)");
+  ck(allFourChoices,"every item has exactly 4 answer choices");
+  ck(allHaveCorrect,"every item has exactly one correct answer index (0-3)");
 
-  var posTally=[0,0,0];
+  var posTally=[0,0,0,0];
   w.C6B_ITEMS.forEach(function(it){ posTally[it.correct]++; });
-  ck(posTally[0]===8 && posTally[1]===8 && posTally[2]===8,
-    "correct-answer position is balanced 8/8/8 across A/B/C (got "+posTally.join("/")+")");
+  ck(posTally[0]===6 && posTally[1]===6 && posTally[2]===6 && posTally[3]===6,
+    "correct-answer position is balanced 6/6/6/6 across A/B/C/D (got "+posTally.join("/")+")");
+
+  var dupChoices=false;
+  w.C6B_ITEMS.forEach(function(it,i){
+    var seen={}, k;
+    for(k=0;k<it.choices.length;k++){ if(seen[it.choices[k]]){ dupChoices=true; console.log("FAIL: duplicate choice in item "+i+": "+it.choices[k]); } seen[it.choices[k]]=true; }
+  });
+  ck(!dupChoices,"no item has a duplicate answer choice among its 4");
 
   var jargon=/\bmorpheme\b|\bderivational\b|\bsemantic\b|\bgrammatical function\b|\baffix\b/i;
   var noJargon=true;
@@ -95,7 +102,7 @@ setTimeout(function(){
   ck(!q("#check6b audio"),"Check 6B has no audio recorder element -- selected-response only");
   ck(!q("#check6b .mic-ico"),"Check 6B never shows a mic/record icon -- no recording is used");
   ck(q("#c6b-stem").textContent===w.C6B_ITEMS[0].stem,"first stem shown matches the first item");
-  ck(d.querySelectorAll("#c6b-choices .choice-pill").length===3,"exactly 3 answer-choice buttons shown");
+  ck(d.querySelectorAll("#c6b-choices .choice-pill").length===4,"exactly 4 answer-choice buttons shown");
   ck(q("#c6b-progress").textContent==="Item 1 of 24","progress reads Item 1 of 24");
   ck(!q("#c6b-stem").parentNode.textContent.match(/6B-Prefix|Prefix Meaning/),"the category is never shown to the student");
 
@@ -103,12 +110,11 @@ setTimeout(function(){
      like a 4th answer choice) ---- */
   ck(d.getElementById("c6b-back").style.display==="none","the Go Back button is hidden while a question is showing (it read like a 4th answer choice)");
 
-  /* ---- layout: two answer buttons side by side, one centered below ---- */
-  var rows=d.querySelectorAll("#c6b-choices .c6b-choice-row");
-  ck(rows.length===2,"answers render as two rows (a pair, then a single)");
-  ck(rows[0].querySelectorAll(".choice-pill").length===2,"the first row holds exactly 2 answer buttons, side by side");
-  ck(rows[1].querySelectorAll(".choice-pill").length===1,"the second row holds exactly 1 answer button, centered below");
-  ck(rows[1].className.indexOf("c6b-choice-single")>-1,"the single centered row carries its own layout class");
+  /* ---- layout: a 2x2 grid of 4 answer buttons (Mick, 2026-09-30 -- was
+     2-up-1-centered for 3 choices) ---- */
+  var grid=d.querySelector("#c6b-choices .c6b-choice-grid");
+  ck(!!grid,"answers render inside a 2x2 grid container");
+  ck(grid.querySelectorAll(".choice-pill").length===4,"the grid holds exactly 4 answer buttons");
 
   /* ---- question text size: short question ~3rem, and it actually
      shrinks for a known long sentence-style stem so nothing is forced to

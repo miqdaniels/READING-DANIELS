@@ -579,14 +579,11 @@ html[data-mode="dark"] #check6b .clean-header,html[data-mode="dark"] #check6bTea
 @media(max-width:520px){#check6b .clean-stem{font-size:2.2rem}}
 #check6b .choice-pill{display:block;width:100%;box-sizing:border-box;text-align:center;border-radius:10px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:600;font-size:2rem;padding:14px 20px;margin:0 0 12px;cursor:pointer;touch-action:manipulation;word-wrap:break-word;overflow-wrap:break-word}
 #check6b .choice-pill:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-/* ---- Mick, 2026-09-29 (Check 6B only): every item has exactly 3 answers
-   -- two side by side on top, one centered below -- each about half the
-   width the old full-width stacked buttons were. ---- */
-#check6b .c6b-choice-row{display:flex;gap:14px;margin:0 0 12px}
-#check6b .c6b-choice-row .choice-pill{flex:1 1 0;min-width:0;margin:0}
-#check6b .c6b-choice-row.c6b-choice-single{justify-content:center}
-#check6b .c6b-choice-row.c6b-choice-single .choice-pill{flex:0 0 auto;width:50%}
-@media(max-width:520px){#check6b .c6b-choice-row.c6b-choice-single .choice-pill{width:100%}}
+/* ---- Mick, 2026-09-30 (Check 6B only): every item has exactly 4 answers,
+   a 2x2 grid (was 3 answers/2-up-1-centered). ---- */
+#check6b .c6b-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 12px}
+#check6b .c6b-choice-grid .choice-pill{margin:0;width:100%;box-sizing:border-box}
+@media(max-width:520px){#check6b .c6b-choice-grid{grid-template-columns:1fr}}
 #check6bTeach .clean-tile{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:14px;color:var(--ink);background:var(--panel)}
 #check6bTeach .clean-tile.state-err{background:var(--retry-bg);border-color:var(--retry);color:var(--retry)}
 #check6bTeach .clean-tile.state-ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}
@@ -7666,36 +7663,36 @@ function c6tSave(){
    locked and untouched. ---------- */
 var C6B_SETS=[
   {id:"6B-Prefix", label:"Prefix Meaning", items:[
-    {stem:"“un-” in “unhappy” means:", choices:["not","again","before"], correct:0, baseWord:"happy", morpheme:"un-", targetWord:"unhappy"},
-    {stem:"“re-” in “redo” means:", choices:["not","again","small"], correct:1, baseWord:"do", morpheme:"re-", targetWord:"redo"},
-    {stem:"“pre-” in “preheat” means:", choices:["after","again","before"], correct:2, baseWord:"heat", morpheme:"pre-", targetWord:"preheat"},
-    {stem:"“dis-” in “dislike” means:", choices:["not, or the opposite","more","again"], correct:0, baseWord:"like", morpheme:"dis-", targetWord:"dislike"},
-    {stem:"“mis-” in “misspell” means:", choices:["correctly","wrong, or incorrectly","again"], correct:1, baseWord:"spell", morpheme:"mis-", targetWord:"misspell"},
-    {stem:"“non-” in “nonstop” means:", choices:["always","before","without, or not"], correct:2, baseWord:"stop", morpheme:"non-", targetWord:"nonstop"}
+    {stem:"“un-” in “unhappy” means:", choices:["not","again","before","very"], correct:0, baseWord:"happy", morpheme:"un-", targetWord:"unhappy"},
+    {stem:"“re-” in “redo” means:", choices:["not","again","small","before"], correct:1, baseWord:"do", morpheme:"re-", targetWord:"redo"},
+    {stem:"“pre-” in “preheat” means:", choices:["after","again","before","not"], correct:2, baseWord:"heat", morpheme:"pre-", targetWord:"preheat"},
+    {stem:"“dis-” in “dislike” means:", choices:["more","again","before","not, or the opposite"], correct:3, baseWord:"like", morpheme:"dis-", targetWord:"dislike"},
+    {stem:"“mis-” in “misspell” means:", choices:["wrong, or incorrectly","correctly","again","not at all"], correct:0, baseWord:"spell", morpheme:"mis-", targetWord:"misspell"},
+    {stem:"“non-” in “nonstop” means:", choices:["always","without, or not","before","again"], correct:1, baseWord:"stop", morpheme:"non-", targetWord:"nonstop"}
   ]},
   {id:"6B-Suffix", label:"Suffix Meaning/Function", items:[
-    {stem:"“-ful” in “helpful” means:", choices:["without","full of","before"], correct:1, baseWord:"help", morpheme:"-ful", targetWord:"helpful"},
-    {stem:"“-less” in “careless” means:", choices:["full of","again","without"], correct:2, baseWord:"care", morpheme:"-less", targetWord:"careless"},
-    {stem:"“-er” in “teacher” means:", choices:["a person who does something","very","not"], correct:0, baseWord:"teach", morpheme:"-er", targetWord:"teacher"},
-    {stem:"“-ness” in “kindness” means:", choices:["not","the state of being something","again"], correct:1, baseWord:"kind", morpheme:"-ness", targetWord:"kindness"},
-    {stem:"“-able” in “washable” means:", choices:["able to be done","never","always"], correct:0, baseWord:"wash", morpheme:"-able", targetWord:"washable"},
-    {stem:"“-ly” in “slowly” means:", choices:["not","a person who","in a certain way"], correct:2, baseWord:"slow", morpheme:"-ly", targetWord:"slowly"}
+    {stem:"“-ful” in “helpful” means:", choices:["without","before","full of","again"], correct:2, baseWord:"help", morpheme:"-ful", targetWord:"helpful"},
+    {stem:"“-less” in “careless” means:", choices:["full of","again","before","without"], correct:3, baseWord:"care", morpheme:"-less", targetWord:"careless"},
+    {stem:"“-er” in “teacher” means:", choices:["a person who does something","very","not","again"], correct:0, baseWord:"teach", morpheme:"-er", targetWord:"teacher"},
+    {stem:"“-ness” in “kindness” means:", choices:["not","the state of being something","again","full of"], correct:1, baseWord:"kind", morpheme:"-ness", targetWord:"kindness"},
+    {stem:"“-able” in “washable” means:", choices:["never","always","able to be done","again"], correct:2, baseWord:"wash", morpheme:"-able", targetWord:"washable"},
+    {stem:"“-ly” in “slowly” means:", choices:["not","a person who","again","in a certain way"], correct:3, baseWord:"slow", morpheme:"-ly", targetWord:"slowly"}
   ]},
   {id:"6B-Inflect", label:"Inflectional Endings", items:[
-    {stem:"Adding “-s” to “dog” (dogs) means:", choices:["one dog","more than one dog","a baby dog"], correct:1, baseWord:"dog", morpheme:"-s", targetWord:"dogs"},
-    {stem:"Adding “-ed” to “jump” (jumped) means:", choices:["it is happening right now","it will happen later","it already happened"], correct:2, baseWord:"jump", morpheme:"-ed", targetWord:"jumped"},
-    {stem:"Adding “-ing” to “run” (running) means:", choices:["it is happening right now","it already happened","it will happen later"], correct:0, baseWord:"run", morpheme:"-ing", targetWord:"running"},
-    {stem:"Adding “-er” to “fast” (faster) means:", choices:["it compares two things","it means less fast","it is the most fast of all"], correct:0, baseWord:"fast", morpheme:"-er", targetWord:"faster"},
-    {stem:"Adding “-est” to “tall” (tallest) means:", choices:["it compares two things","it is the most tall of all","it means less tall"], correct:1, baseWord:"tall", morpheme:"-est", targetWord:"tallest"},
-    {stem:"Adding “-es” to “wish” (wishes) means:", choices:["one wish","a wish that already happened","more than one wish"], correct:2, baseWord:"wish", morpheme:"-es", targetWord:"wishes"}
+    {stem:"Adding “-s” to “dog” (dogs) means:", choices:["more than one dog","one dog","a baby dog","no dogs at all"], correct:0, baseWord:"dog", morpheme:"-s", targetWord:"dogs"},
+    {stem:"Adding “-ed” to “jump” (jumped) means:", choices:["it is happening right now","it already happened","it will happen later","it happens every day"], correct:1, baseWord:"jump", morpheme:"-ed", targetWord:"jumped"},
+    {stem:"Adding “-ing” to “run” (running) means:", choices:["it already happened","it will happen later","it is happening right now","it happens every day"], correct:2, baseWord:"run", morpheme:"-ing", targetWord:"running"},
+    {stem:"Adding “-er” to “fast” (faster) means:", choices:["it means less fast","it is the most fast of all","it already happened","it compares two things"], correct:3, baseWord:"fast", morpheme:"-er", targetWord:"faster"},
+    {stem:"Adding “-est” to “tall” (tallest) means:", choices:["it is the most tall of all","it compares two things","it means less tall","it already happened"], correct:0, baseWord:"tall", morpheme:"-est", targetWord:"tallest"},
+    {stem:"Adding “-es” to “wish” (wishes) means:", choices:["one wish","more than one wish","a wish that already happened","no wishes at all"], correct:1, baseWord:"wish", morpheme:"-es", targetWord:"wishes"}
   ]},
   {id:"6B-Context", label:"Word-Part Meaning in Context", items:[
-    {stem:"“The unfinished homework worried her.” What does “un-” tell you about the homework?", choices:["It was finished.","It was NOT finished.","It will be finished."], correct:1, baseWord:"finished", morpheme:"un-", targetWord:"unfinished"},
-    {stem:"“He replayed the video three times.” What does “re-” tell you?", choices:["He played it again.","He played it one time.","He never played it."], correct:0, baseWord:"played", morpheme:"re-", targetWord:"replayed"},
-    {stem:"“The fearless firefighter ran inside.” What does “-less” tell you about the firefighter?", choices:["very afraid","full of fear","without fear"], correct:2, baseWord:"fear", morpheme:"-less", targetWord:"fearless"},
-    {stem:"“She is the smartest student in class.” What does “-est” tell you?", choices:["She is less smart than others.","She is smarter than one other student.","She is the most smart of everyone."], correct:2, baseWord:"smart", morpheme:"-est", targetWord:"smartest"},
-    {stem:"“The reusable water bottle saved money.” What does “-able” tell you about the bottle?", choices:["It cannot be used again.","It CAN be used again.","It must be thrown away."], correct:1, baseWord:"use", morpheme:"-able", targetWord:"reusable"},
-    {stem:"“The thoughtful gift made her smile.” What does “-ful” tell you about the gift?", choices:["full of thought or care","without any thought","against giving gifts"], correct:0, baseWord:"thought", morpheme:"-ful", targetWord:"thoughtful"}
+    {stem:"“The unfinished homework worried her.” What does “un-” tell you about the homework?", choices:["It was finished.","It will be finished.","It was NOT finished.","It will never be finished."], correct:2, baseWord:"finished", morpheme:"un-", targetWord:"unfinished"},
+    {stem:"“He replayed the video three times.” What does “re-” tell you?", choices:["He played it one time.","He never played it.","He played it before anyone else.","He played it again."], correct:3, baseWord:"played", morpheme:"re-", targetWord:"replayed"},
+    {stem:"“The fearless firefighter ran inside.” What does “-less” tell you about the firefighter?", choices:["without fear","very afraid","full of fear","afraid of everything"], correct:0, baseWord:"fear", morpheme:"-less", targetWord:"fearless"},
+    {stem:"“She is the smartest student in class.” What does “-est” tell you?", choices:["She is less smart than others.","She is the most smart of everyone.","She is smarter than one other student.","She is not smart at all."], correct:1, baseWord:"smart", morpheme:"-est", targetWord:"smartest"},
+    {stem:"“The reusable water bottle saved money.” What does “-able” tell you about the bottle?", choices:["It cannot be used again.","It must be thrown away.","It CAN be used again.","It was never used at all."], correct:2, baseWord:"use", morpheme:"-able", targetWord:"reusable"},
+    {stem:"“The thoughtful gift made her smile.” What does “-ful” tell you about the gift?", choices:["without any thought","against giving gifts","always thinking of one thing","full of thought or care"], correct:3, baseWord:"thought", morpheme:"-ful", targetWord:"thoughtful"}
   ]}
 ];
 /* the flat walk order the student actually sees, built once at load time */
@@ -7799,18 +7796,15 @@ function c6bPaintItem(){
   var n=item.choices.length, i, j, tmp;
   c6bOrder=[]; for(i=0;i<n;i++){ c6bOrder.push(i); }
   for(i=n-1;i>0;i--){ j=Math.floor(Math.random()*(i+1)); tmp=c6bOrder[i]; c6bOrder[i]=c6bOrder[j]; c6bOrder[j]=tmp; }
-  /* Every item has exactly 3 answers: two side by side on top, one
-     centered below (Mick, 2026-09-29). */
+  /* Every item has exactly 4 answers, in a 2x2 grid (Mick, 2026-09-30 --
+     was 3 answers/2-up-1-centered; she asked for a 4th choice per item). */
   var choiceFontStyle="font-size:"+c6bChoiceFontRem(item.choices)+"rem";
   var box=document.getElementById("c6b-choices");
-  box.innerHTML =
-     '<div class="c6b-choice-row">'
-    +'<button class="choice-pill" style="'+choiceFontStyle+'" onclick="c6bChoose(0)">'+escapeHtml(item.choices[c6bOrder[0]])+"</button>"
-    +'<button class="choice-pill" style="'+choiceFontStyle+'" onclick="c6bChoose(1)">'+escapeHtml(item.choices[c6bOrder[1]])+"</button>"
-    +"</div>"
-    +'<div class="c6b-choice-row c6b-choice-single">'
-    +'<button class="choice-pill" style="'+choiceFontStyle+'" onclick="c6bChoose(2)">'+escapeHtml(item.choices[c6bOrder[2]])+"</button>"
-    +"</div>";
+  var html="", pos;
+  for(pos=0;pos<n;pos++){
+    html+='<button class="choice-pill" style="'+choiceFontStyle+'" onclick="c6bChoose('+pos+')">'+escapeHtml(item.choices[c6bOrder[pos]])+"</button>";
+  }
+  box.innerHTML='<div class="c6b-choice-grid">'+html+"</div>";
 }
 /* Rapid-tap protection: a frame-paced lock absorbs a duplicate event for
    the same physical tap (the screen repaints to the NEXT item almost
