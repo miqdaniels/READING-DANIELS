@@ -189,7 +189,8 @@ setTimeout(function(){
         ck(d.getElementById("c3-progress").textContent==="Practice","the very first item shown is 3A's unscored practice item");
         ck(d.getElementById("c3-current").innerHTML.indexOf("dog")===-1 && d.getElementById("c3-current").textContent.indexOf("dog")===-1,
           "the practice word ('dog') is never shown on screen -- listening indicator only");
-        ck(d.getElementById("c3-section-label").textContent.indexOf("3A")>-1,"section label reads 3A");
+        ck(w.C3_ITEMS[w.c3Idx].section==="3A","first item is actually from section 3A (the set-label element itself is hidden from students now, Mick 2026-09-29)");
+        ck(d.getElementById("c3-section-label").textContent==="","the set label is never shown to the student");
 
         /* ---- rapid double-tap protection: two synchronous taps only advance once ---- */
         w.c3NextTap(); w.c3NextTap();
@@ -222,7 +223,7 @@ setTimeout(function(){
           /* a duplicate tap on "I'm Ready" must not ALSO skip the practice item */
           w.c3ReadyTap(); w.c3ReadyTap(); w.c3ReadyTap();
           ck(d.getElementById("c3-progress").textContent==="Practice","exactly one Ready tap took effect -- still on 3B's practice item, not skipped into scored items");
-          ck(d.getElementById("c3-section-label").textContent.indexOf("3B")>-1,"section label switched to 3B");
+          ck(w.C3_ITEMS[w.c3Idx].section==="3B","the item actually switched to section 3B");
 
           finishWalkToEnd();
         },30);
@@ -234,7 +235,7 @@ setTimeout(function(){
     /* jump straight to the last scored item (3D's 5th) via the underlying
        state, bypassing the walk already proven above, then Finish */
     w.c3Idx=w.C3_ITEMS.length-1; w.c3PaintItem();
-    ck(d.getElementById("c3-progress").textContent==="Item 5 of 5" && d.getElementById("c3-section-label").textContent.indexOf("3D")>-1,"reached the final (3D, 5th) item");
+    ck(d.getElementById("c3-progress").textContent==="Item 5 of 5" && w.C3_ITEMS[w.c3Idx].section==="3D","reached the final (3D, 5th) item");
     ck(d.getElementById("c3-next").textContent==="Finish →","the last item's Next button reads Finish");
     w.c3NextTap();
 
