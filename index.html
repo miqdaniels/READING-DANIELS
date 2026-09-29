@@ -7577,8 +7577,13 @@ function c6bChoose(choiceIdx){
   if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c6bNextLock=false; }); }
   else { setTimeout(function(){ c6bNextLock=false; },16); }
   var item=C6B_ITEMS[c6bIdx];
+  /* Save the chosen AND correct answers by their words, not their list
+     position (Mick, 2026-09-29) -- a position-only record is meaningless
+     to a teacher reading it back, and would silently misreport history if
+     the choices for an item were ever reordered later. */
   c6bResponses.push({ index:c6bIdx, section:item.section, targetWord:item.targetWord, baseWord:item.baseWord,
-    morpheme:item.morpheme, chosen:choiceIdx, correct:item.correct, isCorrect:(choiceIdx===item.correct) });
+    morpheme:item.morpheme, chosen:item.choices[choiceIdx], correctAnswer:item.choices[item.correct],
+    isCorrect:(choiceIdx===item.correct) });
   if(c6bIdx<C6B_ITEMS.length-1){ c6bIdx++; c6bPaintItem(); }
   else { c6bFinish(); }
 }
@@ -7659,7 +7664,9 @@ function c6btOpenAttempt(id){
   var itemsHtml="";
   for(i=0;i<a.responses.length;i++){
     var r=a.responses[i];
-    itemsHtml+='<div class="clean-tile'+(r.isCorrect?" state-ok":" state-err")+'">'+escapeHtml(r.targetWord)+" ("+escapeHtml(r.morpheme)+") &mdash; "+(r.isCorrect?"Correct":"Incorrect")+"</div>";
+    itemsHtml+='<div class="clean-tile'+(r.isCorrect?" state-ok":" state-err")+'">'+escapeHtml(r.targetWord)+" ("+escapeHtml(r.morpheme)+") &mdash; chose: \""+escapeHtml(r.chosen)+"\""
+      +(r.isCorrect?"":" &mdash; correct: \""+escapeHtml(r.correctAnswer)+"\"")
+      +" &mdash; "+(r.isCorrect?"Correct":"Incorrect")+"</div>";
   }
   host.innerHTML =
      '<div class="clean-card"><div class="clean-header">'

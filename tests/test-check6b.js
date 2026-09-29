@@ -121,6 +121,15 @@ setTimeout(function(){
       ck(attempts[0].responses.length===24,"item-level response data retained for all 24 items");
       ck(attempts[0].responses[0].targetWord===w.C6B_ITEMS[0].targetWord,"item-level metadata (target word) retained");
       ck(attempts[0].responses[0].morpheme===w.C6B_ITEMS[0].morpheme,"item-level metadata (morpheme) retained");
+      /* ---- bug fix (Mick, 2026-09-29): saved by the words chosen, not the
+         list position -- a position-only record was write-only (never
+         shown to the teacher) and meaningless if choices were reordered ---- */
+      ck(typeof attempts[0].responses[0].chosen==="string" && w.C6B_ITEMS[0].choices.indexOf(attempts[0].responses[0].chosen)>-1,
+        "the chosen answer is saved as its actual words, not a numeric position (got '"+attempts[0].responses[0].chosen+"')");
+      ck(attempts[0].responses[0].chosen===w.C6B_ITEMS[0].choices[w.C6B_ITEMS[0].correct],
+        "the saved chosen-answer text matches the choice actually tapped");
+      ck(typeof attempts[0].responses[0].correctAnswer==="string" && attempts[0].responses[0].correctAnswer===w.C6B_ITEMS[0].choices[w.C6B_ITEMS[0].correct],
+        "the correct answer is also saved by its words, for teacher review");
       ck(!w.ckDone()["check6b"],"Check 6B is not marked done until Continue is tapped");
 
       click(q("#c6b-done .pill-btn-primary"));
@@ -162,6 +171,8 @@ setTimeout(function(){
     ck(body.indexOf("Prefix Meaning: 6 / 6")>-1,"category score displayed correctly");
     ck(d.querySelectorAll("#c6bt-body .clean-tile").length===24,"all 24 individual responses are listed");
     ck(d.querySelectorAll("#c6bt-body .clean-tile.state-err").length===0,"no incorrect-state tiles (every answer was correct in this run)");
+    ck(body.indexOf('chose: "'+w.C6B_ITEMS[0].choices[w.C6B_ITEMS[0].correct]+'"')>-1,
+      "the teacher review actually shows which answer the student chose, by its words (previously write-only)");
 
     /* ---- Student View preview ---- */
     w.go("check6bTeach");
