@@ -103,6 +103,7 @@ If something isn't live yet or didn't push (e.g. it's on a branch that isn't mer
 5. **Dignity first.** This is for teenagers. No elementary/baby imagery, no cutesy tone. They read the same real curriculum as everyone else, just with more scaffolding.
 6. **Canvas submission = Upload, never Record.** Students submit the final read with "Add file → Upload files." The file is `.webm`. If the Canvas assignment has "Restrict Upload File Types" on, `webm` must be in the list — or turn the restriction off.
 7. **Don't invent scoring/assessment you can't actually run.** If real pronunciation scoring can't be done without an outside service (the district blocks those), don't fake a score.
+8. **STYLE LOCK (2026-09-29):** The clean style now in the app is FINAL: pill-shaped Begin/Go Back buttons, Muted (plain gray) icons, plain word tiles, grayed-out helper text, the current fonts, and the five student themes in light and dark mode. Do not change any colors, fonts, icons, or button shapes. Any new button or icon must copy an existing clean-style one. If something isn't covered, ask Mick instead of inventing a style. (Mick's wording said "tinted theme-color icons" here; she confirmed moments earlier in the same session that she meant the Muted/plain-gray icon style just approved via preview artifact, not theme-tinted — corrected here to match that confirmation and avoid contradicting it.)
 
 Mick's working style: verdict/grade first, skip preamble, execution over explanation, one step at a time.
 
