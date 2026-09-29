@@ -1415,6 +1415,11 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <h2>Check 6B &mdash; Understand It review</h2>
       <p class="lede">Pick a class, then a student, to see their auto-scored results.</p>
       <button class="mini-btn" onclick="previewGoto('check6b')" title="See the real student screen, any time -- even with nothing saved yet">&#128065; Student View</button>
+      <div class="rec-row" style="margin:10px 0">
+        <label class="pill-btn pill-btn-secondary" for="c6bt-file">Open a results file</label>
+        <input type="file" id="c6bt-file" style="display:none" accept="application/json,.json" onchange="c6btOpenFile(this)">
+      </div>
+      <p class="mini-note" id="c6bt-file-note" style="min-height:16px"></p>
       <div class="seg" id="c6bt-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c6bt-roster" style="margin-bottom:14px"></div>
       <div id="c6bt-body"></div>
@@ -1460,6 +1465,11 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <h2>Check 6C &mdash; Build It review</h2>
       <p class="lede">Pick a class, then a student, to see their auto-scored results.</p>
       <button class="mini-btn" onclick="previewGoto('check6c')" title="See the real student screen, any time -- even with nothing saved yet">&#128065; Student View</button>
+      <div class="rec-row" style="margin:10px 0">
+        <label class="pill-btn pill-btn-secondary" for="c6ct-file">Open a results file</label>
+        <input type="file" id="c6ct-file" style="display:none" accept="application/json,.json" onchange="c6ctOpenFile(this)">
+      </div>
+      <p class="mini-note" id="c6ct-file-note" style="min-height:16px"></p>
       <div class="seg" id="c6ct-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c6ct-roster" style="margin-bottom:14px"></div>
       <div id="c6ct-body"></div>
@@ -4714,20 +4724,30 @@ function rfPeriodTag(){
   return "P"+(num||0);
 }
 function azDateUnderscored(){ var d=azNow(); return d.getFullYear()+"_"+pad2(d.getMonth()+1)+"_"+pad2(d.getDate()); }
-function rfBuildFileName(firstName,lastName,period,assignmentId,dateStr){
+function rfBuildFileName(firstName,lastName,period,assignmentId,dateStr,ext){
   var parts=[rfSanitizeName(firstName)||"Student"];
   var last=rfSanitizeName(lastName);
   if(last){ parts.push(last); }
   parts.push(period||"P0");
   parts.push(assignmentId||"CHECK_1");
   parts.push(dateStr||azDateUnderscored());
-  return parts.join("_")+".webm";
+  return parts.join("_")+"."+(ext||"webm");
 }
 function rfStandardFileName(assignmentId){
   var name=(READER&&READER.name)?READER.name:"Student";
   var bits=name.split(" ");
   var first=bits[0], last=bits.length>1?bits[bits.length-1]:"";
   return rfBuildFileName(first,last,rfPeriodTag(),assignmentId,azDateUnderscored());
+}
+/* Same naming pattern as the recording checks (Mick, 2026-09-29), but for
+   a results FILE (Checks 6B/6C have no audio/video -- they're
+   auto-scored the instant the student answers) so it's a .json instead
+   of a .webm. */
+function rfStandardResultsFileName(assignmentId){
+  var name=(READER&&READER.name)?READER.name:"Student";
+  var bits=name.split(" ");
+  var first=bits[0], last=bits.length>1?bits[bits.length-1]:"";
+  return rfBuildFileName(first,last,rfPeriodTag(),assignmentId,azDateUnderscored(),"json");
 }
 
 /* ---------- Check 1 attempts (localStorage): one row per completed recording ---------- */
@@ -7644,7 +7664,7 @@ function c6bChoose(displayPos){
     morpheme:item.morpheme, chosen:item.choices[choiceIdx], correctAnswer:item.choices[item.correct],
     isCorrect:(choiceIdx===item.correct) });
   if(c6bIdx<C6B_ITEMS.length-1){ c6bIdx++; c6bPaintItem(); }
-  else { c6bFinish(); }
+  else { c6bReview(); }
 }
 function c6bCompute(){
   var setCorrect={}, i, r;
@@ -7656,20 +7676,48 @@ function c6bCompute(){
   }
   return { overall:overall, setCorrect:setCorrect, missed:missed };
 }
-function c6bFinish(){
+var c6bYesUsed=false;
+/* The review step, shown the instant the 24th item is answered -- same
+   shape as every recording check's review-before-saving step, just with
+   nothing to play back since 6B never records anything. */
+function c6bReview(){
   document.getElementById("c6b-stem").style.display="none";
   document.getElementById("c6b-choices").innerHTML="";
   document.getElementById("c6b-progress").textContent="";
-  var r=c6bCompute();
-  var setScores={}, i; for(i=0;i<C6B_SETS.length;i++){ setScores[C6B_SETS[i].id]=r.setCorrect[C6B_SETS[i].id]; }
-  C6BAttempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(),
-    totalTimeMs:(new Date().getTime()-c6bStartAt), responses:c6bResponses.slice(0),
-    overall:r.overall, setCorrect:setScores, missed:r.missed });
   document.getElementById("c6b-done").innerHTML =
     '<p class="state-line saved">&#9989; All done! Nice work!</p>'
-    +'<button class="pill-btn pill-btn-primary" onclick="c6bContinue()">Continue</button>';
+    +'<button class="pill-btn pill-btn-primary" onclick="c6bFinish()">Save &amp; Finish</button>';
 }
-function c6bContinue(){
+/* Mick, 2026-09-29 (SAVING BUG fix): 6B was only ever saved to the
+   student's own browser storage -- the teacher, on a different device,
+   never saw it. Now it exports a results file the same way the
+   recording checks export audio/video: same filename pattern (just
+   .json instead of .webm, since there's no recording here), same
+   Save & Finish / Canvas-upload / YES-confirm flow. The teacher's
+   review screen below can open that file to pull the results in. */
+function c6bFinish(){
+  c6bYesUsed=false;
+  var r=c6bCompute();
+  var setScores={}, i; for(i=0;i<C6B_SETS.length;i++){ setScores[C6B_SETS[i].id]=r.setCorrect[C6B_SETS[i].id]; }
+  var fname=rfStandardResultsFileName("CHECK_6B");
+  var attempt={ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
+    totalTimeMs:(new Date().getTime()-c6bStartAt), responses:c6bResponses.slice(0),
+    overall:r.overall, setCorrect:setScores, missed:r.missed };
+  C6BAttempts.add(attempt);
+  downloadBlob(new Blob([JSON.stringify(attempt)],{type:"application/json"}), fname);
+  document.getElementById("c6b-done").innerHTML =
+    '<p class="state-line saved">&#9989; All done! Nice work! Your file saved: <strong>'+escapeHtml(fname)+'</strong>.</p>'
+    +'<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
+    +"<li>Open today’s Check 6B assignment in Canvas.</li>"
+    +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
+    +"<li>Press <strong>Submit</strong>.</li></ol></div>"
+    +'<div class="note-box" style="margin-top:14px"><h4>Did you submit your file?</h4>'
+    +'<button class="pill-btn pill-btn-primary" id="c6b-yes-btn" style="font-size:19px;padding:16px 32px" onclick="c6bConfirmSubmitted()">YES</button></div>';
+}
+function c6bConfirmSubmitted(){
+  if(c6bYesUsed){ return; }
+  c6bYesUsed=true;
+  var b=document.getElementById("c6b-yes-btn"); if(b){ b.disabled=true; b.textContent="Saved ✓"; }
   ckMarkDone("check6b");
   go("diagLanding");
 }
@@ -7683,6 +7731,31 @@ function check6bTeachEnter(){
   C6BT_CLS=0; C6BT_STU=null;
   c6btPaintClasses(); c6btPaintRoster();
   var b=document.getElementById("c6bt-body"); if(b){ b.innerHTML=""; }
+}
+/* SAVING BUG fix (Mick, 2026-09-29): the results file a student's
+   Save & Finish step exported -- opening it here pulls the attempt into
+   THIS device's own C6BAttempts (skipped if already present, so opening
+   the same file twice never duplicates it), then jumps straight to that
+   student so the teacher sees it immediately. */
+function c6btOpenFile(input){
+  var f=input.files&&input.files[0]; if(!f){ return; }
+  var note=document.getElementById("c6bt-file-note");
+  var reader=new FileReader();
+  reader.onload=function(){
+    var data;
+    try{ data=JSON.parse(reader.result); }catch(e){ data=null; }
+    if(!data||!data.responses||typeof data.overall!=="number"||!data.studentId){
+      if(note){ note.className="mini-note err"; note.textContent="That doesn't look like a Check 6B results file."; }
+      return;
+    }
+    if(!C6BAttempts.get(data.id)){ C6BAttempts.add(data); }
+    var i,j; for(i=0;i<CLASSES.length;i++){ for(j=0;j<CLASSES[i].students.length;j++){ if(CLASSES[i].students[j].id===data.studentId){ C6BT_CLS=i; } } }
+    C6BT_STU=data.studentId;
+    c6btPaintClasses(); c6btPaintRoster();
+    c6btOpenAttempt(data.id);
+    if(note){ note.className="mini-note"; note.textContent="Opened: "+f.name; }
+  };
+  reader.readAsText(f);
 }
 function c6btPaintClasses(){
   var seg=document.getElementById("c6bt-class"); if(!seg){ return; }
@@ -7882,7 +7955,7 @@ function c6cRecord(isCorrect, responseText){
   c6cResponses.push({ index:c6cIdx, section:item.section, baseWord:item.baseWord, morpheme:item.morpheme,
     expected:item.expected, response:responseText, isCorrect:isCorrect });
   if(c6cIdx<C6C_ITEMS.length-1){ c6cIdx++; c6cPaintItem(); }
-  else { c6cFinish(); }
+  else { c6cReview(); }
 }
 function c6cCompute(){
   var setCorrect={}, i, r;
@@ -7894,21 +7967,45 @@ function c6cCompute(){
   }
   return { overall:overall, setCorrect:setCorrect, missed:missed };
 }
-function c6cFinish(){
+/* Same review-before-saving shape as every recording check (Mick,
+   2026-09-29) -- nothing to play back, but still a deliberate tap
+   before anything is exported, not an automatic silent save. */
+function c6cReview(){
   document.getElementById("c6c-stem").style.display="none";
   document.getElementById("c6c-build").style.display="none";
   document.getElementById("c6c-pieces").innerHTML="";
   document.getElementById("c6c-progress").textContent="";
-  var r=c6cCompute();
-  var setScores={}, i; for(i=0;i<C6C_SETS.length;i++){ setScores[C6C_SETS[i].id]=r.setCorrect[C6C_SETS[i].id]; }
-  C6CAttempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(),
-    totalTimeMs:(new Date().getTime()-c6cStartAt), responses:c6cResponses.slice(0),
-    overall:r.overall, setCorrect:setScores, missed:r.missed });
   document.getElementById("c6c-done").innerHTML =
     '<p class="state-line saved">&#9989; All done! Nice work!</p>'
-    +'<button class="pill-btn pill-btn-primary" onclick="c6cContinue()">Continue</button>';
+    +'<button class="pill-btn pill-btn-primary" onclick="c6cFinish()">Save &amp; Finish</button>';
 }
-function c6cContinue(){
+var c6cYesUsed=false;
+/* SAVING BUG fix (Mick, 2026-09-29): same problem and same fix as 6B --
+   exports a results file the teacher can actually open, instead of the
+   results living only in the student's own browser storage. */
+function c6cFinish(){
+  c6cYesUsed=false;
+  var r=c6cCompute();
+  var setScores={}, i; for(i=0;i<C6C_SETS.length;i++){ setScores[C6C_SETS[i].id]=r.setCorrect[C6C_SETS[i].id]; }
+  var fname=rfStandardResultsFileName("CHECK_6C");
+  var attempt={ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
+    totalTimeMs:(new Date().getTime()-c6cStartAt), responses:c6cResponses.slice(0),
+    overall:r.overall, setCorrect:setScores, missed:r.missed };
+  C6CAttempts.add(attempt);
+  downloadBlob(new Blob([JSON.stringify(attempt)],{type:"application/json"}), fname);
+  document.getElementById("c6c-done").innerHTML =
+    '<p class="state-line saved">&#9989; All done! Nice work! Your file saved: <strong>'+escapeHtml(fname)+'</strong>.</p>'
+    +'<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
+    +"<li>Open today’s Check 6C assignment in Canvas.</li>"
+    +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
+    +"<li>Press <strong>Submit</strong>.</li></ol></div>"
+    +'<div class="note-box" style="margin-top:14px"><h4>Did you submit your file?</h4>'
+    +'<button class="pill-btn pill-btn-primary" id="c6c-yes-btn" style="font-size:19px;padding:16px 32px" onclick="c6cConfirmSubmitted()">YES</button></div>';
+}
+function c6cConfirmSubmitted(){
+  if(c6cYesUsed){ return; }
+  c6cYesUsed=true;
+  var b=document.getElementById("c6c-yes-btn"); if(b){ b.disabled=true; b.textContent="Saved ✓"; }
   ckMarkDone("check6c");
   go("diagLanding");
 }
@@ -7925,6 +8022,28 @@ function check6cTeachEnter(){
   C6CT_CLS=0; C6CT_STU=null;
   c6ctPaintClasses(); c6ctPaintRoster();
   var b=document.getElementById("c6ct-body"); if(b){ b.innerHTML=""; }
+}
+/* SAVING BUG fix (Mick, 2026-09-29): same fix as 6B's c6btOpenFile --
+   pulls a student's exported results file into this device. */
+function c6ctOpenFile(input){
+  var f=input.files&&input.files[0]; if(!f){ return; }
+  var note=document.getElementById("c6ct-file-note");
+  var reader=new FileReader();
+  reader.onload=function(){
+    var data;
+    try{ data=JSON.parse(reader.result); }catch(e){ data=null; }
+    if(!data||!data.responses||typeof data.overall!=="number"||!data.studentId){
+      if(note){ note.className="mini-note err"; note.textContent="That doesn't look like a Check 6C results file."; }
+      return;
+    }
+    if(!C6CAttempts.get(data.id)){ C6CAttempts.add(data); }
+    var i,j; for(i=0;i<CLASSES.length;i++){ for(j=0;j<CLASSES[i].students.length;j++){ if(CLASSES[i].students[j].id===data.studentId){ C6CT_CLS=i; } } }
+    C6CT_STU=data.studentId;
+    c6ctPaintClasses(); c6ctPaintRoster();
+    c6ctOpenAttempt(data.id);
+    if(note){ note.className="mini-note"; note.textContent="Opened: "+f.name; }
+  };
+  reader.readAsText(f);
 }
 function c6ctPaintClasses(){
   var seg=document.getElementById("c6ct-class"); if(!seg){ return; }

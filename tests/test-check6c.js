@@ -13,7 +13,20 @@ const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js
    this build. Check 6C sits between Check 6B and Check 7 in the unlock
    chain, so Check 7 now waits on all of 6A+6B+6C. */
 const dom=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/",runScripts:"dangerously",pretendToBeVisual:true,
-  beforeParse(w){ w.HTMLElement.prototype.scrollIntoView=function(){}; w.scrollTo=function(){}; }
+  beforeParse(w){
+    w.HTMLElement.prototype.scrollIntoView=function(){}; w.scrollTo=function(){};
+    // Mick, 2026-09-29: 6C now exports a results file on Save & Finish -- same download mocks the recording-check tests already use.
+    w.URL.createObjectURL=function(){return "blob:x";};
+    w.URL.revokeObjectURL=function(){};
+    var downloads=[];
+    w.__downloads=downloads;
+    var realCreateElement=w.document.createElement.bind(w.document);
+    w.document.createElement=function(tag){
+      var el=realCreateElement(tag);
+      if(tag==="a"){ el.click=function(){ if(el.download){ downloads.push(el.download); } }; }
+      return el;
+    };
+  }
 });
 const w=dom.window, d=w.document;
 function activeId(){ var s=d.getElementsByClassName("screen"); for(var i=0;i<s.length;i++) if(/active/.test(s[i].className)) return s[i].id; return null; }
@@ -121,11 +134,25 @@ setTimeout(function(){
     answerRemaining(function(){
       ck(w.c6cResponses.length===16,"all 16 items recorded exactly one response each (got "+w.c6cResponses.length+")");
       ck(w.c6cResponses[0].isCorrect===true,"item 1 (Add un-+pack) scored correct when tapped in the right order");
-      ck(!!q("#c6c-done .pill-btn-primary"),"a Continue button appears after the last item");
+      ck(!!q("#c6c-done .pill-btn-primary"),"a Save & Finish button appears after the last item");
+      ck(q("#c6c-done .pill-btn-primary").textContent==="Save & Finish","the button reads Save & Finish, same as the recording checks (Mick, 2026-09-29)");
       ck(!/Correct|Wrong|Great job/i.test(d.getElementById("check6c").textContent),"no per-item correctness feedback ever appeared");
+      ck(w.C6CAttempts.forStudent(w.READER.id).length===0,"nothing is saved yet -- Save & Finish hasn't been tapped");
+
+      click(q("#c6c-done .pill-btn-primary")); // tap Save & Finish
+
+      /* ---- SAVING BUG fix (Mick, 2026-09-29): same fix as 6B -- exports
+         a results file (same naming pattern as the recording checks,
+         .json instead of .webm) so a teacher on a different device can
+         actually see the results. ---- */
+      ck(w.__downloads.length===1,"Save & Finish exports exactly one results file (got "+w.__downloads.length+")");
+      ck(/^Miriam_G_P1_CHECK_6C_\d{4}_\d{2}_\d{2}\.json$/.test(w.__downloads[0]),"the results file follows the same naming pattern as the recording checks, but .json (got '"+w.__downloads[0]+"')");
+      ck(!!q("#c6c-yes-btn"),"a YES-did-you-submit confirmation is shown, same as every recording check");
+      ck(!w.ckDone()["check6c"],"Check 6C is not marked done until YES is tapped");
 
       var attempts=w.C6CAttempts.forStudent(w.READER.id);
-      ck(attempts.length===1,"one Check 6C attempt saved");
+      ck(attempts.length===1,"one Check 6C attempt saved locally too (so a teacher on THIS same device already sees it)");
+      ck(attempts[0].fileName===w.__downloads[0],"the saved attempt records the exact filename that was exported");
       ck(attempts[0].overall===16,"overall score is exact (answered every item correctly)");
       ck(attempts[0].setCorrect["6C-Add"]===4 && attempts[0].setCorrect["6C-Remove"]===4
         && attempts[0].setCorrect["6C-Change"]===4 && attempts[0].setCorrect["6C-Context"]===4,
@@ -134,11 +161,10 @@ setTimeout(function(){
       ck(attempts[0].responses.length===16,"item-level response data retained for all 16 items");
       ck(attempts[0].responses[0].response==="unpack","the student's exact constructed response is stored");
       ck(attempts[0].responses[0].baseWord==="pack" && attempts[0].responses[0].morpheme==="un-","item-level metadata (base word + morpheme) retained");
-      ck(!w.ckDone()["check6c"],"Check 6C is not marked done until Continue is tapped");
 
-      click(q("#c6c-done .pill-btn-primary"));
-      ck(activeId()==="diagLanding","Continue returns to the Reading Checks dashboard");
-      ck(!!w.ckDone()["check6c"],"Check 6C marked completed after Continue");
+      click(q("#c6c-yes-btn"));
+      ck(activeId()==="diagLanding","YES returns to the Reading Checks dashboard");
+      ck(!!w.ckDone()["check6c"],"Check 6C marked completed after YES");
       ck(w.check6FullyDone(),"Check 6 is now fully done -- all of 6A+6B+6C are complete");
 
       var diagBtns2=d.querySelectorAll("#diagLanding .btn"), foundC6cGreen=false, c7Btn=null, m;
@@ -181,7 +207,27 @@ setTimeout(function(){
     click(q("#preview-banner .vas-exit"));
     ck(activeId()==="check6cTeach","exiting preview returns to Check 6C Review");
 
-    regressionScreens();
+    /* ---- SAVING BUG fix (Mick, 2026-09-29): same "open a results file"
+       import as 6B -- a teacher on a different device pulls the exported
+       file into her own storage instead of never seeing it. ---- */
+    var fakeAttempt={ id:"fake-imported-id-1", studentId:w.READER.id, studentName:w.READER.name, date:"2026-09-29",
+      fileName:"Fake_Import_Test.json", totalTimeMs:12345, responses:attemptId?w.C6CAttempts.get(attemptId).responses:[],
+      overall:16, setCorrect:{"6C-Add":4,"6C-Remove":4,"6C-Change":4,"6C-Context":4}, missed:[] };
+    ck(!w.C6CAttempts.get("fake-imported-id-1"),"the imported attempt truly isn't in this device's storage yet");
+    var fakeFile=new w.File([JSON.stringify(fakeAttempt)],"imported-results.json",{type:"application/json"});
+    w.c6ctOpenFile({ files:[fakeFile] });
+    setTimeout(function(){
+      ck(!!w.C6CAttempts.get("fake-imported-id-1"),"opening the results file adds it to this device's Check 6C attempts");
+      ck(d.getElementById("c6ct-file-note").textContent.indexOf("imported-results.json")>-1,"a confirmation names the opened file");
+      ck(d.getElementById("c6ct-body").textContent.indexOf("Overall: 16 / 16")>-1,"the imported attempt opens automatically for viewing");
+
+      var badFile=new w.File(["not real json"],"bad.json",{type:"application/json"});
+      w.c6ctOpenFile({ files:[badFile] });
+      setTimeout(function(){
+        ck(d.getElementById("c6ct-file-note").textContent.indexOf("doesn't look like")>-1,"an invalid file gets an honest error, not a silent failure or a crash");
+        regressionScreens();
+      },20);
+    },20);
   }
 
   function regressionScreens(){

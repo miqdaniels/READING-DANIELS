@@ -11,7 +11,20 @@ const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js
    chain, so Check 7 now waits on 6B, not 6A alone. Check 6C and Check 7
    remain NOT built. */
 const dom=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/",runScripts:"dangerously",pretendToBeVisual:true,
-  beforeParse(w){ w.HTMLElement.prototype.scrollIntoView=function(){}; w.scrollTo=function(){}; }
+  beforeParse(w){
+    w.HTMLElement.prototype.scrollIntoView=function(){}; w.scrollTo=function(){};
+    // Mick, 2026-09-29: 6B now exports a results file on Save & Finish -- same download mocks the recording-check tests already use.
+    w.URL.createObjectURL=function(){return "blob:x";};
+    w.URL.revokeObjectURL=function(){};
+    var downloads=[];
+    w.__downloads=downloads;
+    var realCreateElement=w.document.createElement.bind(w.document);
+    w.document.createElement=function(tag){
+      var el=realCreateElement(tag);
+      if(tag==="a"){ el.click=function(){ if(el.download){ downloads.push(el.download); } }; }
+      return el;
+    };
+  }
 });
 const w=dom.window, d=w.document;
 function activeId(){ var s=d.getElementsByClassName("screen"); for(var i=0;i<s.length;i++) if(/active/.test(s[i].className)) return s[i].id; return null; }
@@ -155,14 +168,28 @@ setTimeout(function(){
   setTimeout(function(){
     answerRemaining(function(){
       ck(w.c6bResponses.length===24,"all 24 items recorded exactly one response each (got "+w.c6bResponses.length+")");
-      ck(!!q("#c6b-done .pill-btn-primary"),"a Continue button appears after the last item");
+      ck(!!q("#c6b-done .pill-btn-primary"),"a Save & Finish button appears after the last item");
+      ck(q("#c6b-done .pill-btn-primary").textContent==="Save & Finish","the button reads Save & Finish, same as the recording checks (Mick, 2026-09-29)");
       ck(q("#c6b-done").textContent.indexOf("24")===-1 && q("#c6b-done").textContent.indexOf("/")===-1,
         "the student is never shown their raw score (dignity-first, matches every other Check)");
       ck(!/Correct|Wrong|Incorrect/i.test(d.getElementById("check6b").textContent.replace(/Correct .{0,20}Skip/,"")),
         "no per-item correctness feedback ever appeared during the test");
+      ck(w.C6BAttempts.forStudent(w.READER.id).length===0,"nothing is saved yet -- Save & Finish hasn't been tapped");
+
+      click(q("#c6b-done .pill-btn-primary")); // tap Save & Finish
+
+      /* ---- SAVING BUG fix (Mick, 2026-09-29): results now export as a
+         file (same naming pattern as the recording checks, .json instead
+         of .webm) so a teacher on a different device can actually see
+         them, instead of the results living only in this browser. ---- */
+      ck(w.__downloads.length===1,"Save & Finish exports exactly one results file (got "+w.__downloads.length+")");
+      ck(/^Miriam_G_P1_CHECK_6B_\d{4}_\d{2}_\d{2}\.json$/.test(w.__downloads[0]),"the results file follows the same naming pattern as the recording checks, but .json (got '"+w.__downloads[0]+"')");
+      ck(!!q("#c6b-yes-btn"),"a YES-did-you-submit confirmation is shown, same as every recording check");
+      ck(!w.ckDone()["check6b"],"Check 6B is not marked done until YES is tapped");
 
       var attempts=w.C6BAttempts.forStudent(w.READER.id);
-      ck(attempts.length===1,"one Check 6B attempt saved");
+      ck(attempts.length===1,"one Check 6B attempt saved locally too (so a teacher on THIS same device already sees it)");
+      ck(attempts[0].fileName===w.__downloads[0],"the saved attempt records the exact filename that was exported");
       ck(attempts[0].overall===24,"overall score is exact (answered every item correctly)");
       ck(attempts[0].setCorrect["6B-Prefix"]===6 && attempts[0].setCorrect["6B-Suffix"]===6
         && attempts[0].setCorrect["6B-Inflect"]===6 && attempts[0].setCorrect["6B-Context"]===6,
@@ -180,11 +207,10 @@ setTimeout(function(){
         "the saved chosen-answer text matches the choice actually tapped");
       ck(typeof attempts[0].responses[0].correctAnswer==="string" && attempts[0].responses[0].correctAnswer===w.C6B_ITEMS[0].choices[w.C6B_ITEMS[0].correct],
         "the correct answer is also saved by its words, for teacher review");
-      ck(!w.ckDone()["check6b"],"Check 6B is not marked done until Continue is tapped");
 
-      click(q("#c6b-done .pill-btn-primary"));
-      ck(activeId()==="diagLanding","Continue returns to the Reading Checks dashboard");
-      ck(!!w.ckDone()["check6b"],"Check 6B marked completed after Continue");
+      click(q("#c6b-yes-btn"));
+      ck(activeId()==="diagLanding","YES returns to the Reading Checks dashboard");
+      ck(!!w.ckDone()["check6b"],"Check 6B marked completed after YES");
 
       var diagBtns2=d.querySelectorAll("#diagLanding .btn"), foundC6bGreen=false, c6cBtn=null, c7Btn=null, m;
       for(m=0;m<diagBtns2.length;m++){
@@ -233,7 +259,36 @@ setTimeout(function(){
     click(q("#preview-banner .vas-exit"));
     ck(activeId()==="check6bTeach","exiting preview returns to Check 6B Review");
 
-    regressionScreens();
+    /* ---- SAVING BUG fix (Mick, 2026-09-29): a teacher on a DIFFERENT
+       device never had this attempt in her own storage -- opening the
+       exported results file should pull it in, jump straight to the
+       right student, and show it, without ever duplicating on a
+       second open of the same file. ---- */
+    var fakeAttempt={ id:"fake-imported-id-1", studentId:w.READER.id, studentName:w.READER.name, date:"2026-09-29",
+      fileName:"Fake_Import_Test.json", totalTimeMs:12345, responses:attemptId?w.C6BAttempts.get(attemptId).responses:[],
+      overall:24, setCorrect:{"6B-Prefix":6,"6B-Suffix":6,"6B-Inflect":6,"6B-Context":6}, missed:[] };
+    ck(!w.C6BAttempts.get("fake-imported-id-1"),"the imported attempt truly isn't in this device's storage yet");
+    var fakeFile=new w.File([JSON.stringify(fakeAttempt)],"imported-results.json",{type:"application/json"});
+    w.c6btOpenFile({ files:[fakeFile] });
+    setTimeout(function(){
+      ck(!!w.C6BAttempts.get("fake-imported-id-1"),"opening the results file adds it to this device's Check 6B attempts");
+      ck(activeId()==="check6bTeach","opening the file keeps the teacher on the Check 6B review screen");
+      ck(d.getElementById("c6bt-file-note").textContent.indexOf("imported-results.json")>-1,"a confirmation names the opened file");
+      ck(d.getElementById("c6bt-body").textContent.indexOf("Overall: 24 / 24")>-1,"the imported attempt opens automatically for viewing");
+      var beforeCount=w.C6BAttempts.forStudent(w.READER.id).length;
+      w.c6btOpenFile({ files:[new w.File([JSON.stringify(fakeAttempt)],"imported-results.json",{type:"application/json"})] });
+      setTimeout(function(){
+        ck(w.C6BAttempts.forStudent(w.READER.id).length===beforeCount,"opening the exact same file again never duplicates the attempt");
+
+        var badFile=new w.File(["not real json"],"bad.json",{type:"application/json"});
+        w.c6btOpenFile({ files:[badFile] });
+        setTimeout(function(){
+          ck(d.getElementById("c6bt-file-note").textContent.indexOf("doesn't look like")>-1,"an invalid file gets an honest error, not a silent failure or a crash");
+
+          regressionScreens();
+        },20);
+      },20);
+    },20);
   }
 
   function regressionScreens(){
