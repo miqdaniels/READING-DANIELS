@@ -107,6 +107,17 @@ setTimeout(function(){
   ck(parseFloat(q("#c6b-stem").style.fontSize)<3,"a long sentence question renders smaller than the short-question size (got '"+q("#c6b-stem").style.fontSize+"' for a "+w.C6B_ITEMS[longIdx].stem.length+"-char stem)");
   w.c6bIdx=0; w.c6bPaintItem(); // restore, since the real run below expects to start at item 0
 
+  /* ---- answer text size: short answers ~2rem, long full-sentence
+     answers step down so a wrapped 2-line answer never forces the page
+     to scroll on a small (1366x768) screen ---- */
+  var shortAnswerBtn=q("#c6b-choices .choice-pill");
+  ck(shortAnswerBtn.style.fontSize==="2rem","short answers render at 2rem (got '"+shortAnswerBtn.style.fontSize+"')");
+  var longAnsIdx=-1, lj, lk, maxLen; for(lj=0;lj<w.C6B_ITEMS.length;lj++){ maxLen=0; for(lk=0;lk<w.C6B_ITEMS[lj].choices.length;lk++){ maxLen=Math.max(maxLen,w.C6B_ITEMS[lj].choices[lk].length); } if(maxLen>30){ longAnsIdx=lj; break; } }
+  ck(longAnsIdx>-1,"the item bank actually contains a long full-sentence answer to test against");
+  w.c6bIdx=longAnsIdx; w.c6bPaintItem();
+  ck(parseFloat(q("#c6b-choices .choice-pill").style.fontSize)<2,"a long full-sentence answer renders smaller than the short-answer size (got '"+q("#c6b-choices .choice-pill").style.fontSize+"')");
+  w.c6bIdx=0; w.c6bPaintItem();
+
   /* ---- answers are shuffled per item, not always in the same order ---- */
   var seenOrders={}, ri;
   for(ri=0;ri<20;ri++){

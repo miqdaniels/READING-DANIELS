@@ -7582,6 +7582,20 @@ function c6bStemFontRem(text){
   if(window.innerWidth && window.innerWidth<=520){ rem=rem*0.75; }
   return rem;
 }
+/* Same idea for the answer buttons -- most answers are short words/phrases
+   and render at the full ~2rem target, but a few items have full-sentence
+   answers that would wrap to 2+ lines and force scrolling at 2rem in a
+   half-width button, so those step down just enough to fit. Sized by the
+   LONGEST of the item's 3 answers so all 3 buttons on one item match. */
+function c6bChoiceFontRem(choices){
+  var maxLen=0, i; for(i=0;i<choices.length;i++){ if(choices[i].length>maxLen){ maxLen=choices[i].length; } }
+  var rem;
+  if(maxLen<=20){ rem=2; }
+  else if(maxLen<=30){ rem=1.5; }
+  else { rem=1.2; }
+  if(window.innerWidth && window.innerWidth<=520){ rem=rem*0.85; }
+  return rem;
+}
 function c6bPaintItem(){
   document.getElementById("c6b-intro").style.display="none";
   var dl=document.getElementById("dl-dir_check6b"); if(dl){ dl.style.display="none"; }
@@ -7600,14 +7614,15 @@ function c6bPaintItem(){
   for(i=n-1;i>0;i--){ j=Math.floor(Math.random()*(i+1)); tmp=c6bOrder[i]; c6bOrder[i]=c6bOrder[j]; c6bOrder[j]=tmp; }
   /* Every item has exactly 3 answers: two side by side on top, one
      centered below (Mick, 2026-09-29). */
+  var choiceFontStyle="font-size:"+c6bChoiceFontRem(item.choices)+"rem";
   var box=document.getElementById("c6b-choices");
   box.innerHTML =
      '<div class="c6b-choice-row">'
-    +'<button class="choice-pill" onclick="c6bChoose(0)">'+escapeHtml(item.choices[c6bOrder[0]])+"</button>"
-    +'<button class="choice-pill" onclick="c6bChoose(1)">'+escapeHtml(item.choices[c6bOrder[1]])+"</button>"
+    +'<button class="choice-pill" style="'+choiceFontStyle+'" onclick="c6bChoose(0)">'+escapeHtml(item.choices[c6bOrder[0]])+"</button>"
+    +'<button class="choice-pill" style="'+choiceFontStyle+'" onclick="c6bChoose(1)">'+escapeHtml(item.choices[c6bOrder[1]])+"</button>"
     +"</div>"
     +'<div class="c6b-choice-row c6b-choice-single">'
-    +'<button class="choice-pill" onclick="c6bChoose(2)">'+escapeHtml(item.choices[c6bOrder[2]])+"</button>"
+    +'<button class="choice-pill" style="'+choiceFontStyle+'" onclick="c6bChoose(2)">'+escapeHtml(item.choices[c6bOrder[2]])+"</button>"
     +"</div>";
 }
 /* Rapid-tap protection: a frame-paced lock absorbs a duplicate event for
