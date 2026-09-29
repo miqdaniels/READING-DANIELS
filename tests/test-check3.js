@@ -351,6 +351,14 @@ setTimeout(function(){
     var a3cCells=d.querySelectorAll("#c3t-3c-grid .c1t-cell");
     var segRows=d.querySelectorAll("#c3t-3d-rows .card");
     ck(a3aCells.length===5 && a3bCells.length===5 && a3cCells.length===5,"5 tappable cells per grid domain (3A/3B/3C)");
+    /* ---- Mick, 2026-09-29: landscape tiles sized to each grid's own
+       longest word, so short words like "map"/"nose"/"bike" no longer
+       spill past the tile border into the next one ---- */
+    var longestIn3A=Math.max.apply(null,["bike","fish","map","nose","top"].map(function(x){return x.length;}));
+    var expectedPx=Math.max(100,longestIn3A*26+50);
+    ck(d.getElementById("c3t-3a-grid").style.gridTemplateColumns==="repeat(auto-fit,minmax("+expectedPx+"px,1fr))",
+      "3A's tiles are sized to fit its own longest word ("+longestIn3A+" letters), got '"+d.getElementById("c3t-3a-grid").style.gridTemplateColumns+"'");
+    ck(w.getComputedStyle(a3aCells[0]).whiteSpace==="nowrap","a word never wraps inside its tile -- the tile is sized to it, not the other way around");
     ck(segRows.length===5,"5 rows for 3D (segmentation detail doesn't fit a small grid cell)");
     ck(a3aCells[0].className.indexOf("err")===-1 && a3aCells[0].className.indexOf("sc")===-1,"a fresh item defaults to blank/Correct, not pre-judged");
 

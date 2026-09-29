@@ -96,6 +96,21 @@ setTimeout(function(){
   setTimeout(function(){
     ck(d.getElementById("c4-current").style.display==="block","first word shows once recording actually starts");
     ck(d.getElementById("c4-current").textContent===w.C4_ITEMS[0].word,"first item is "+w.C4_ITEMS[0].word+" (start of band 4A)");
+    /* ---- Mick, 2026-09-29: test word matches Check 5's 5.5rem standard
+       for a short word, and shrinks (never wraps/cuts off) for a long one ---- */
+    ck(d.getElementById("c4-current").style.fontSize==="5.5rem","a short word ("+w.C4_ITEMS[0].word+") renders at Check 5's 5.5rem standard size (got '"+d.getElementById("c4-current").style.fontSize+"')");
+    var longIdx4=-1, li4; for(li4=0;li4<w.C4_ITEMS.length;li4++){ if(w.C4_ITEMS[li4].word.length>10){ longIdx4=li4; break; } }
+    if(longIdx4>-1){
+      w.c4Idx=longIdx4; w.c4PaintItem();
+      ck(parseFloat(d.getElementById("c4-current").style.fontSize)<5.5,"a long word ("+w.C4_ITEMS[longIdx4].word+") shrinks below the 5.5rem standard so it never wraps or cuts off");
+      w.c4Idx=0; w.c4PaintItem();
+    }
+    /* jsdom's CSS cascade doesn't reliably resolve specificity across the
+       long combined check1-check7 selector lists (a known jsdom
+       limitation, not a real-browser issue), so these check the actual
+       CSS rule text exists rather than trusting getComputedStyle here. */
+    ck(/#check4 \.lede\{font-size:1\.6rem\}|#check1 \.lede,[^{]*#check4 \.lede,[^{]*\{font-size:1\.6rem\}/.test(html),"directions text is scoped to 1.6rem for Check 4");
+    ck(/#check1 \.mini-note,[^{]*#check4 \.mini-note,[^{]*\{font-size:1\.2rem\}/.test(html),"helper lines (Item X of Y) are scoped to 1.2rem for Check 4");
     ck(d.getElementById("c4-progress").textContent==="Item 1 of 142","progress reads Item 1 of 142");
     ck(d.getElementById("c4-section-label").textContent==="4A","section label reads 4A for the first item");
     ck(d.getElementById("c4-pseudo-note").style.display==="none","no made-up-word note on a real word");

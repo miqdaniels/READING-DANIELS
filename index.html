@@ -123,6 +123,14 @@ body.teacher-dark .cat-settings .teach-tile-icon{color:#a7adb8}
 h2{font-size:24px;margin:6px 0 4px;font-weight:650;letter-spacing:-.01em}
 p.lede{color:var(--ink-soft);margin:0 0 22px}
 .crumb{font-size:14px;color:var(--ink-soft);margin:0 0 8px}
+/* Mick, 2026-09-29: bigger text on every diagnostic check's student
+   screen -- directions ~1.6rem, helper lines ("Item 4 of 120",
+   "Recording...") ~1.2rem. Scoped to the 9 check screens only, since
+   .lede/.mini-note/.state-line are shared with Fluency/Retell/Word
+   Practice/teacher screens that keep their current sizing. */
+#check1 .lede,#check2 .lede,#check3 .lede,#check4 .lede,#check5 .lede,#check6 .lede,#check6b .lede,#check6c .lede,#check7 .lede{font-size:1.6rem}
+#check1 .mini-note,#check2 .mini-note,#check3 .mini-note,#check4 .mini-note,#check5 .mini-note,#check6 .mini-note,#check6b .mini-note,#check6c .mini-note,#check7 .mini-note{font-size:1.2rem}
+#check1 .state-line,#check2 .state-line,#check3 .state-line,#check4 .state-line,#check5 .state-line,#check6 .state-line,#check6b .state-line,#check6c .state-line,#check7 .state-line{font-size:1.2rem}
 .crumb a{color:var(--accent);text-decoration:none;cursor:pointer;touch-action:manipulation}
 .btn{display:inline-block;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:550;cursor:pointer;padding:12px 18px;border-radius:10px;text-align:left;touch-action:manipulation}
 .btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
@@ -209,7 +217,7 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .icon-btn-redo{background:var(--ink-soft)}
 .icon-btn-done{background:var(--good)}
 .icon-btn-pause{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
-.rec-status{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--retry);margin:0 0 8px;min-height:20px}
+.rec-status{display:flex;align-items:center;gap:8px;font-size:28px;font-weight:600;color:var(--retry);margin:0 0 8px;min-height:20px}
 .rec-status .rec-status-dot{width:10px;height:10px;border-radius:50%;background:var(--retry);display:inline-block;animation:pulse 1s infinite}
 .rec-status.paused{color:var(--ink-soft)}
 .rec-status.paused .rec-status-dot{background:var(--ink-soft);animation:none}
@@ -382,7 +390,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .flu-sq-record .icon-label{font-size:12px}
 /* small versions: the "Recording" status line and the teacher Record buttons */
 .rec-status{color:#C62828}
-.rec-status .rec-status-dot{box-sizing:border-box;border:1px solid rgba(0,0,0,.28);border-radius:50%;background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:22px;height:22px;display:inline-block;flex:0 0 auto}
+.rec-status .rec-status-dot{box-sizing:border-box;border:1px solid rgba(0,0,0,.28);border-radius:50%;background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:44px;height:44px;display:inline-block;flex:0 0 auto}
 .rec-status .rec-status-dot{animation:micPulse 1.2s ease-in-out infinite}
 .rec-status.paused .rec-status-dot{background-color:#9AA3AD;animation:none}
 .mic-ico.mic-ico-tile{width:34px;height:34px}
@@ -681,6 +689,11 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
    only color/border/radius are touched here. ---- */
 #check1Teach .c1-grid .c1-cell,#check2Teach .c1-grid .c1-cell,#check3Teach .c1-grid .c1-cell,#check4Teach .c1-grid .c1-cell{
   border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)}
+/* Check 3 teacher scoring ONLY -- see c3tPaintGrid/c3tCellWidthPx for the
+   per-grid width. white-space:nowrap keeps the word on one line (never
+   wrapped into a taller "portrait" tile) since the width above is
+   already sized to fit it. */
+#check3Teach .c1-grid .c1-cell{white-space:nowrap;padding:14px 10px}
 #check1Teach .c1t-cell,#check2Teach .c1t-cell,#check3Teach .c1t-cell,#check4Teach .c1t-cell{cursor:pointer;touch-action:manipulation}
 #check1Teach .c1t-cell.err,#check2Teach .c1t-cell.err,#check3Teach .c1t-cell.err,#check4Teach .c1t-cell.err{background:var(--retry-bg);border-color:var(--retry);color:var(--retry)}
 #check1Teach .c1t-cell.sc,#check2Teach .c1t-cell.sc,#check3Teach .c1t-cell.sc,#check4Teach .c1t-cell.sc{background:var(--good-bg);border-color:var(--good);color:var(--good)}
@@ -3651,6 +3664,19 @@ function escapeHtml(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").repl
    Done button is untouched by this (kept everywhere, see the c*DoneTap
    functions) -- this only ever toggles the bottom nav-row button. */
 function rfBackBar(id,show){ var el=document.getElementById(id); if(el){ el.style.display = show ? "" : "none"; } }
+/* Mick, 2026-09-29: Check 5's "because" (5.5rem) is the standard size for
+   a single test word/letter shown one at a time. Most words fit fine at
+   that size (Check 5's own longest word, "understand", already proves 10
+   letters fits), so this only shrinks past 10 characters -- just enough
+   to keep the word on one line, never wrapped or cut off, never bigger
+   than the 5.5rem standard. */
+function rfWordFontRem(word){
+  var len=(word||"").length;
+  var rem = len<=10 ? 5.5 : (5.5*10/len);
+  if(rem<2){ rem=2; }
+  if(window.innerWidth && window.innerWidth<=520){ rem=rem*0.65; }
+  return rem;
+}
 function updateWordClasses(){
   var box=document.getElementById("sent-line"); if(!box) return;
   var sp=box.getElementsByClassName("w-tok"), i;
@@ -4863,6 +4889,7 @@ function c1PaintLetter(){
   var dl=document.getElementById("dl-dir_check1"); if(dl){ dl.style.display="none"; }
   var cur=document.getElementById("c1-current");
   cur.style.display="block"; cur.textContent=C1_ALL[c1Idx];
+  cur.style.fontSize=rfWordFontRem(C1_ALL[c1Idx])+"rem";
   document.getElementById("c1-progress").textContent="Letter "+(c1Idx+1)+" of "+C1_ALL.length;
   var nlbl=document.getElementById("c1-next-lbl");
   nlbl.textContent = (c1Idx===C1_ALL.length-1) ? "Finish" : "Next";
@@ -5085,10 +5112,12 @@ function c2TickTimer(){
 }
 function c2PaintItem(){
   var item=C2_ITEMS[c2Idx];
-  var cur=document.getElementById("c2-current"); if(cur){ cur.textContent=item.letter; }
+  var cur=document.getElementById("c2-current"); if(cur){ cur.textContent=item.letter; cur.style.fontSize=rfWordFontRem(item.letter)+"rem"; }
   var pg=document.getElementById("c2-progress"); if(pg){ pg.textContent="Item "+(c2Idx+1)+" of "+C2_ITEMS.length; }
-  var secLabel = item.section==="2A" ? "2A: Letter Sounds" : (item.section==="2B" ? "2B: Short Vowel Sounds" : "2C: Long Vowel Sounds");
-  var sl=document.getElementById("c2-section-label"); if(sl){ sl.textContent=secLabel; }
+  /* Mick, 2026-09-29: set labels like "2A: Letter Sounds" are teacher
+     language -- students no longer see them (missed in the first pass
+     over check3-7; caught here). Teacher review is separate and untouched. */
+  var sl=document.getElementById("c2-section-label"); if(sl){ sl.textContent=""; }
   var nb=document.getElementById("c2-next"); if(nb){ nb.textContent = (c2Idx===C2_ITEMS.length-1) ? "Finish →" : "Next →"; }
   var pr=document.getElementById("c2-prompt-row");
   if(item.promptKey){
@@ -6289,10 +6318,24 @@ function c3tOpenFile(input){
   v.src=c3tFileUrl;
   document.getElementById("c3t-file-note").textContent="Opened: "+f.name;
 }
+/* Mick, 2026-09-29 (Check 3 teacher scoring ONLY): the word tiles were
+   too narrow for their font size, so short words like "map"/"nose"/
+   "bike" spilled past the tile border into the next one. Each of the 3
+   grids (3A/3B/3C) is sized to fit ITS OWN longest word -- landscape
+   (wider than tall) with room around the text -- so a grid's 5 tiles
+   always match each other. Word font-size, order, video, colors, the
+   diamond mark, and tap-to-score are all untouched; only the tile
+   width/shape changes, and only on this screen. */
+function c3tCellWidthPx(words){
+  var maxLen=0, i; for(i=0;i<words.length;i++){ if(words[i].length>maxLen){ maxLen=words[i].length; } }
+  return Math.max(100, maxLen*26+50);
+}
 function c3tPaintGrid(hostId,startIdx){
   var box=document.getElementById(hostId); if(!box){ return; }
   var html="", i, gi, isC=(startIdx===10), order=isC?C3T_ORDER_3C:C3T_ORDER_STD, labels=isC?C3T_LABELS_3C:C3T_LABELS_STD;
   var hasObs=(startIdx===0||startIdx===5);
+  var rowWords=[]; for(i=0;i<5;i++){ rowWords.push(C3_SCORED[startIdx+i].word); }
+  box.style.gridTemplateColumns="repeat(auto-fit,minmax("+c3tCellWidthPx(rowWords)+"px,1fr))";
   for(i=0;i<5;i++){
     gi=startIdx+i;
     var st=c3tScores[gi]||"";
@@ -6502,6 +6545,7 @@ function c4PaintItem(){
   var sl=document.getElementById("c4-section-label"); sl.textContent=item.section; // Mick, 2026-09-29: kept hidden from students; teacher review is separate
   var cur=document.getElementById("c4-current");
   cur.style.display="block"; cur.textContent=item.word;
+  cur.style.fontSize=rfWordFontRem(item.word)+"rem";
   var pn=document.getElementById("c4-pseudo-note"); pn.style.display=item.isPseudo?"block":"none";
   document.getElementById("c4-progress").textContent="Item "+(c4Idx+1)+" of "+C4_ITEMS.length;
   var nlbl=document.getElementById("c4-next-lbl");
@@ -7249,6 +7293,7 @@ function c6PaintItem(){
   var sl=document.getElementById("c6-section-label"); sl.textContent=item.section; // Mick, 2026-09-29: kept hidden from students; teacher review is separate
   var cur=document.getElementById("c6-current");
   cur.style.display="block"; cur.textContent=item.word;
+  cur.style.fontSize=rfWordFontRem(item.word)+"rem";
   document.getElementById("c6-progress").textContent="Item "+(c6Idx+1)+" of "+C6_ITEMS.length;
   var nlbl=document.getElementById("c6-next-lbl");
   nlbl.textContent = (c6Idx===C6_ITEMS.length-1) ? "Finish" : "Next";
@@ -8238,6 +8283,7 @@ function c7PaintItem(){
   var sl=document.getElementById("c7-section-label"); sl.textContent=item.section; // Mick, 2026-09-29: kept hidden from students; teacher review is separate
   var cur=document.getElementById("c7-current");
   cur.style.display="block"; cur.textContent=item.word;
+  cur.style.fontSize=rfWordFontRem(item.word)+"rem";
   document.getElementById("c7-progress").textContent="Item "+(c7Idx+1)+" of "+C7_ITEMS.length;
   var pn=document.getElementById("c7-pseudo-note"); if(pn){ pn.style.display=item.isPseudo?"block":"none"; }
   var nlbl=document.getElementById("c7-next-lbl");

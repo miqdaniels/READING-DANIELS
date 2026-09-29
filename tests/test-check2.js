@@ -140,7 +140,8 @@ setTimeout(function(){
         ck(activeId()==="check2","still on check2 (assessment now showing)");
         ck(d.getElementById("c2-assess").style.display==="block","the assessment walk is showing now that recording has actually started");
         ck(d.getElementById("c2-current").textContent==="m","first item is the first 2A consonant (m)");
-        ck(d.getElementById("c2-section-label").textContent.indexOf("2A")>-1,"section label reads 2A for the first item");
+        ck(w.C2_ITEMS[w.c2Idx].section==="2A","first item is actually from section 2A (the set-label element itself is hidden from students now, Mick 2026-09-29)");
+        ck(d.getElementById("c2-section-label").textContent==="","the set label is never shown to the student");
         ck(d.getElementById("c2-timer").textContent==="5:00","timer reads 5:00 right as recording begins");
 
         /* ---- rapid double-tap protection: two synchronous taps only advance once ---- */
@@ -158,7 +159,7 @@ setTimeout(function(){
           w.c2Idx=19; w.c2PaintItem();
           w.c2DoAdvance();
           ck(d.getElementById("c2-progress").textContent==="Item 21 of 31","reached the last 2A item (21st)");
-          ck(d.getElementById("c2-section-label").textContent.indexOf("2A")>-1,"still labeled 2A on item 21");
+          ck(w.C2_ITEMS[w.c2Idx].section==="2A","still on section 2A at item 21");
 
           /* ---- Job 1: the before-2B transition screen, not the item itself ---- */
           w.c2DoAdvance();
@@ -176,7 +177,7 @@ setTimeout(function(){
           ck(w.c2TimerHandle!==null,"the timer resumes after I'm Ready");
           setTimeout(function(){
             ck(d.getElementById("c2-progress").textContent==="Item 22 of 31","exactly one item advanced -- the repeated Ready taps didn't skip further");
-            ck(d.getElementById("c2-section-label").textContent.indexOf("2B")>-1,"section label switched to 2B");
+            ck(w.C2_ITEMS[w.c2Idx].section==="2B","the item actually switched to section 2B");
             ck(d.getElementById("c2-current").textContent==="a","first 2B item shows the bare vowel letter (no keyword text shown on screen)");
             ck(d.getElementById("c2-prompt-row").style.display==="block","a prompt/replay control shows for vowel items");
             /* Miq's real prompt clips are baked in now, so playId() finds
