@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Reading Foundations - Link and Mic Test</title>
+<style>
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    background:#0b1220;
+    color:#ffffff;
+    font-family:Arial, Helvetica, sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:24px;
+    box-sizing:border-box;
+    text-align:center;
+  }
+  h1{
+    font-size:42px;
+    margin:0;
+    line-height:1.15;
+    letter-spacing:1px;
+  }
+  .byline{
+    font-size:22px;
+    color:#9fb3d1;
+    margin:6px 0 30px 0;
+  }
+  .msg{
+    font-size:28px;
+    font-weight:bold;
+    margin:0 0 36px 0;
+    line-height:1.3;
+  }
+  #micBtn{
+    width:150px;
+    height:150px;
+    border-radius:32px;
+    background:#e0233d;
+    border:6px solid #ffffff;
+    box-shadow:0 6px 0 #9c0f22;
+    color:#ffffff;
+    font-size:64px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  #micBtn:active{
+    box-shadow:0 2px 0 #9c0f22;
+    transform:translateY(4px);
+  }
+  #micBtn:disabled{
+    opacity:0.6;
+    cursor:default;
+  }
+  #barTrack{
+    width:90vw;
+    max-width:480px;
+    height:36px;
+    background:#1c2740;
+    border:3px solid #33456b;
+    border-radius:18px;
+    margin-top:32px;
+    overflow:hidden;
+  }
+  #barFill{
+    height:100%;
+    width:0%;
+    background:#3a4a6b;
+  }
+  #status{
+    font-size:26px;
+    margin-top:24px;
+    min-height:40px;
+    font-weight:bold;
+  }
+  #status.ok{color:#2ecc71;}
+  #status.err{color:#ff6161;}
+  #status.hint{color:#9fb3d1;font-weight:normal;}
+  .note{
+    font-size:16px;
+    color:#6b7ea3;
+    margin-top:30px;
+    max-width:480px;
+  }
+</style>
+</head>
+<body>
+  <div id="s-test">
+    <h1>READING FOUNDATIONS FOR TEENS</h1>
+    <div class="byline">by AI Academy</div>
+    <div class="msg">If you can see this, the link works! &#9989;</div>
+
+    <button id="micBtn" type="button" aria-label="Test your microphone">&#127908;</button>
+
+    <div id="barTrack"><div id="barFill"></div></div>
+
+    <div id="status" class="hint">Tap the mic, then talk.</div>
+
+    <div class="note">This is a test only. Nothing is recorded, saved, or uploaded.</div>
+  </div>
+
+<script>
+  var micBtn=document.getElementById("micBtn");
+  var barFill=document.getElementById("barFill");
+  var statusEl=document.getElementById("status");
+  var success=false;
+
+  function setStatus(text,cls){
+    statusEl.textContent=text;
+    statusEl.className=cls;
+  }
+
+  function rfComputeLevel(dataArray){
+    var i;
+    var sum=0;
+    for(i=0;i<dataArray.length;i++){
+      var v=dataArray[i]-128;
+      sum=sum+(v*v);
+    }
+    var rms=Math.sqrt(sum/dataArray.length);
+    var level=Math.round((rms/40)*100);
+    if(level>100){ level=100; }
+    if(level<0){ level=0; }
+    return level;
+  }
+
+  function rfUpdateFromLevel(level){
+    barFill.style.width=level+"%";
+    if(level>12){
+      barFill.style.background="#2ecc71";
+    } else {
+      barFill.style.background="#3a4a6b";
+    }
+    if(level>18 && !success){
+      success=true;
+      setStatus("Your mic works! 🎉","ok");
+    }
+  }
+
+  function loop(analyser,dataArray){
+    analyser.getByteTimeDomainData(dataArray);
+    var level=rfComputeLevel(dataArray);
+    rfUpdateFromLevel(level);
+    requestAnimationFrame(function(){ loop(analyser,dataArray); });
+  }
+
+  function startMic(){
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      setStatus("This browser can't test the mic. Try Chrome.","err");
+      micBtn.disabled=false;
+      return;
+    }
+    setStatus("Listening... talk normally.","hint");
+    navigator.mediaDevices.getUserMedia({audio:true,video:false}).then(function(stream){
+      var AC=window.AudioContext || window.webkitAudioContext;
+      var audioCtx=new AC();
+      var source=audioCtx.createMediaStreamSource(stream);
+      var analyser=audioCtx.createAnalyser();
+      analyser.fftSize=1024;
+      var dataArray=new Uint8Array(analyser.fftSize);
+      source.connect(analyser);
+      loop(analyser,dataArray);
+    }).catch(function(){
+      setStatus("Mic permission was blocked. Tap the button and allow mic access.","err");
+      micBtn.disabled=false;
+    });
+  }
+
+  micBtn.addEventListener("click",function(){
+    micBtn.disabled=true;
+    startMic();
+  });
+
+  window.rfComputeLevel=rfComputeLevel;
+  window.rfUpdateFromLevel=rfUpdateFromLevel;
+</script>
+</body></html>
