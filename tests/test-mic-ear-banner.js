@@ -6,35 +6,32 @@ function ok(c,m){ if(c){pass++;} else {fail++; console.log("FAIL: "+m);} }
 const w=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/?teacher",runScripts:"dangerously",pretendToBeVisual:true,beforeParse(w){ w.HTMLElement.prototype.scrollIntoView=function(){}; w.scrollTo=function(){}; }}).window;
 const d=w.document;
 
-/* ONE mic: every Record button uses the red-circle mic, no emoji mic left */
+/* MUTED mic: every Record button uses the thin gray-outline mic, no emoji, no red anywhere (Mick, 2026-09-29 -- STYLE LOCK) */
 ok(html.indexOf("&#127908;")===-1,"no old emoji mic anywhere");
 var recs=d.querySelectorAll(".icon-btn-record, .flu-sq-record"), i, bad=0;
 for(i=0;i<recs.length;i++){ if(!recs[i].querySelector(".mic-ico")){ bad++; } }
-ok(recs.length>=6 && bad===0,"every Record/Done button has the red mic ("+bad+" missing of "+recs.length+")");
+ok(recs.length>=6 && bad===0,"every Record/Done button has the Muted mic ("+bad+" missing of "+recs.length+")");
 var mic=w.getComputedStyle(d.querySelector("#flu-rec .mic-ico"));
-ok(mic.backgroundColor==="rgb(229, 57, 53)","mic circle is red");
-ok(/\.mic-ico\{[^}]*background-image:url\("data:image\/svg\+xml/.test(html),"mic circle has the white mic drawing");
+ok(mic.backgroundColor!=="rgb(229, 57, 53)","mic circle is no longer red (got "+mic.backgroundColor+")");
+ok(/\.mic-ico\{[^}]*border:2px solid var\(--ink-soft\)[^}]*background-color:transparent/.test(html),"mic circle is a thin ink-soft outline with a transparent fill, not a solid color");
+ok(/\.mic-ico::before\{[^}]*mask-image:url\("data:image\/svg\+xml/.test(html),"mic glyph is drawn via a mask so it follows var(--ink-soft), not a hardcoded color");
 ok(w.getComputedStyle(d.getElementById("c1-start")).backgroundColor!=="rgb(180, 83, 9)","Check 1 Record is not brown");
-/* pulses while recording */
+/* static while recording -- no red pulse anywhere, per Mick's explicit "no bright red icons" (2026-09-29) */
 var css=Array.prototype.map.call(d.querySelectorAll("style"),function(s){return s.textContent;}).join("\n");
-ok(/\.icon-btn-record\.rec \.mic-ico[^{]*\{animation:micPulse/.test(css),"Record mic pulses while recording");
-ok(/\.rec-status \.rec-status-dot\{animation:micPulse/.test(css),"Recording status mic pulses (Check 2/3 video)");
-ok(/\.rec-btn\.rec \.rec-dot\{[^}]*animation:micPulse/.test(css),"teacher record mic pulses while actually recording");
-/* idle (not recording): plain white-background mic, no pulse (Mick, Sept 28 2026) */
-ok(/\.rec-btn \.rec-dot\{[^}]*background-color:#fff[^}]*animation:none\}/.test(css),"teacher record mic is plain/white at rest, not pulsing");
+ok(css.indexOf("micPulse")===-1,"the red micPulse animation no longer exists anywhere in the stylesheet");
+ok(css.indexOf("earPulse")===-1,"the green earPulse animation no longer exists anywhere in the stylesheet");
+ok(/\.rec-btn \.rec-dot\{[^}]*border:1px solid var\(--ink-soft\)[^}]*background-color:transparent[^}]*animation:none\}/.test(css),"teacher record mic is a plain ink-soft outline at rest, never pulsing");
+ok(css.indexOf(".rec-btn.rec .rec-dot{background-color:#E53935")===-1,"teacher record mic no longer turns red once recording starts");
 
-/* ONE listen icon: green ear on every Listen button */
+/* MUTED listen icon: thin ink-soft outline on every Listen button, no green anywhere */
 ok(html.indexOf("&#128266;")===-1,"no old speaker emoji anywhere");
 var ls=d.querySelectorAll(".dir-listen-btn"); bad=0;
 for(i=0;i<ls.length;i++){ if(!ls[i].querySelector(".ear-ico")){ bad++; } }
-ok(ls.length===18 && bad===0,"all 18 Listen buttons have the green ear");
-/* Checks 1-7 each have their OWN scoped override muting this icon (see
-   test-restyle-1-4.js and the Check5-7 build) -- pick a Listen button on
-   a screen with no such override (Vocabulary/Word Practice) to confirm
-   the base/default ear icon is still green there. */
+ok(ls.length===18 && bad===0,"all 18 Listen buttons have the Muted ear icon");
 var ear=w.getComputedStyle(d.querySelector("#dl-dir_vocab .ear-ico"));
-ok(ear.backgroundColor==="rgb(46, 158, 79)","ear circle is green (on an unrestyled screen)");
-ok(/\.dir-listen-btn\.playing \.dir-listen-icon\.ear-ico\{animation:earPulse/.test(css),"ear pulses while directions play");
+ok(ear.backgroundColor!=="rgb(46, 158, 79)","ear circle is no longer green (got "+ear.backgroundColor+")");
+ok(/\.ear-ico\{[^}]*border:2px solid var\(--ink-soft\)[^}]*background-color:transparent/.test(html),"ear circle is a thin ink-soft outline with a transparent fill, not a solid color");
+ok(/\.dir-listen-btn\.playing \.dir-listen-icon\.ear-ico::before\{background-color:var\(--accent\)\}/.test(css),"while playing, the glyph switches to the theme's own accent color (never green), with no color-pulse animation");
 
 /* Listen sits beside its directions */
 var wraps=d.querySelectorAll(".dir-listen-wrap"); bad=0;

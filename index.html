@@ -181,7 +181,6 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .hear-line{display:flex;gap:10px;margin:14px 0 2px;flex-wrap:wrap}
 .rec-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 .rec-btn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:14px 22px;font:inherit;font-weight:600;font-size:17px;cursor:pointer;touch-action:manipulation}
-.rec-btn.rec{background:var(--retry)}
 .rec-dot{width:12px;height:12px;border-radius:50%;background:#fff;display:inline-block}
 .rec-btn.rec .rec-dot{animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
@@ -191,9 +190,9 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .dir-listen-btn{display:inline-flex;flex-direction:column;align-items:center;gap:4px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:12px 22px;font:inherit;cursor:pointer;touch-action:manipulation}
 .dir-listen-btn .dir-listen-icon{font-size:30px;line-height:1}
 .dir-listen-btn .dir-listen-label{font-size:13px;font-weight:700;color:var(--ink-soft)}
-.dir-listen-btn.playing{border-color:var(--accent);background:var(--good-bg)}
+.dir-listen-btn.playing{border-color:var(--accent);background:var(--panel)}
 .dir-listen-btn.playing .dir-listen-icon{animation:pulse 1s infinite}
-.dir-listen-btn.playing .dir-listen-label{color:var(--good)}
+.dir-listen-btn.playing .dir-listen-label{color:var(--accent)}
 /* Mick, 2026-09-29: always shown now (see dirPaintButton) -- grayed out
    and not tappable, same disabled look already used for .play-btn,
    instead of disappearing when nothing's recorded yet. */
@@ -207,15 +206,13 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .icon-btn .icon-glyph{font-size:26px;line-height:1}
 .icon-btn .icon-label{font-size:13px}
 .icon-btn[disabled]{opacity:.45;cursor:default}
-.icon-btn-record{background:var(--retry);min-height:90px;min-width:90px}
+.icon-btn-record{background:var(--ink-soft);min-height:90px;min-width:90px}
 .icon-btn-record .icon-glyph{font-size:36px}
-.icon-btn-record.rec{animation:recGlow 1.5s ease-in-out infinite}
-@keyframes recGlow{0%,100%{box-shadow:0 0 0 0 rgba(180,83,9,.45)}50%{box-shadow:0 0 0 10px rgba(180,83,9,0)}}
-.icon-btn-next{background:var(--good)}
+.icon-btn-next{background:var(--accent)}
 .icon-btn-listen{background:var(--accent)}
-.icon-btn-save{background:var(--good)}
+.icon-btn-save{background:var(--accent)}
 .icon-btn-redo{background:var(--ink-soft)}
-.icon-btn-done{background:var(--good)}
+.icon-btn-done{background:var(--accent)}
 .icon-btn-pause{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
 .rec-status{display:flex;align-items:center;gap:8px;font-size:28px;font-weight:600;color:var(--retry);margin:0 0 8px;min-height:20px}
 .rec-status .rec-status-dot{width:10px;height:10px;border-radius:50%;background:var(--retry);display:inline-block;animation:pulse 1s infinite}
@@ -313,7 +310,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
    (Day 1/2/3). Empties over the one-minute read via a CSS custom
    property JS updates each second. */
 .flu-timer-ring-wrap{display:flex;justify-content:center;margin:4px 0}
-.flu-timer-ring{--flu-pct:100;position:relative;width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:conic-gradient(#d5382e calc(var(--flu-pct)*1%), var(--line) 0);transition:background .2s linear}
+.flu-timer-ring{--flu-pct:100;position:relative;width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:conic-gradient(var(--ink-soft) calc(var(--flu-pct)*1%), var(--line) 0);transition:background .2s linear}
 .flu-timer-ring:before{content:"";position:absolute;inset:6px;background:var(--paper);border-radius:50%}
 .flu-timer-ring .flu-timer{position:relative;z-index:1}
 /* Short "Get ready for Read N" interstitial between Day 2's 3 reads --
@@ -321,22 +318,24 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .flu-getready{text-align:center;padding:16px 10px}
 .flu-getready .lede{margin-bottom:0}
 /* Fluency + Retell's own Record/Play back/Save: three identical rounded
-   squares (16px corners), true red/blue/green -- no brown anywhere.
-   Scoped to these two screens with their own class names (flu-sq-*)
-   rather than touching the shared .icon-btn-record/-listen/-save classes
-   Check 1, Check 2, and Word Practice still use unchanged. */
+   squares (16px corners). MUTED, 2026-09-29 -- STYLE LOCK: no red or
+   green anywhere. Record is a plain ink-soft fill, static whether idle
+   or actually recording (no pulse, matches the Muted mic icon's "stays
+   gray, always" behavior); Play back/Save both use the app's own accent
+   color, matching every other Save button in the app. Scoped to these
+   two screens with their own class names (flu-sq-*) rather than touching
+   the shared .icon-btn-record/-listen/-save classes Check 1, Check 2,
+   and Word Practice still use unchanged. */
 .flu-btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:6px 0}
 .flu-sq-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:80px;height:80px;border:none;border-radius:16px;font:inherit;font-weight:700;color:#fff;cursor:pointer;touch-action:manipulation;padding:4px;flex:0 0 auto}
 .flu-sq-btn .icon-glyph{font-size:26px;line-height:1}
 .flu-sq-btn .icon-label{font-size:12px}
 .flu-sq-btn[disabled]{opacity:.4;cursor:default}
-.flu-sq-record{background:#d5382e}
-.flu-sq-record.rec{animation:fluSqPulse 1.2s ease-in-out infinite}
-@keyframes fluSqPulse{0%,100%{box-shadow:0 0 0 0 rgba(213,56,46,.55)}50%{box-shadow:0 0 0 9px rgba(213,56,46,0)}}
+.flu-sq-record{background:var(--ink-soft)}
 .flu-sq-record.flash{animation:fluSqFlash .3s steps(1) 3}
-@keyframes fluSqFlash{0%,100%{background:#d5382e}50%{background:#7d201a}}
+@keyframes fluSqFlash{0%,100%{background:var(--ink-soft)}50%{background:var(--accent)}}
 .flu-sq-play{background:var(--accent)}
-.flu-sq-save{background:var(--good)}
+.flu-sq-save{background:var(--accent)}
 .flu-sq-redo{background:var(--ink-soft);width:64px;height:64px}
 .flu-sq-redo .icon-glyph{font-size:20px}
 .diag-list .btn{ margin:0 0 10px; }
@@ -371,36 +370,37 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
   footer.mini a:hover{text-decoration:underline}
 }
 
-/* ===== ONE microphone icon, everywhere (Mick, Sept 27 2026) =====
-   Red circle + white mic on every Record button, every "Recording"
-   status line, and every teacher record button. The red circle pulses
-   the WHOLE time a recording is running. Replaces the old brown
-   (#B45309) record buttons and the mixed emoji/red-square icons. */
-.mic-ico{display:inline-block;flex:0 0 auto;box-sizing:border-box;border:2px solid rgba(0,0,0,.28);border-radius:50%;background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:64px;height:64px;font-size:0;line-height:0;color:transparent}
-@keyframes micPulse{0%,100%{box-shadow:0 0 0 0 rgba(229,57,53,.6);transform:scale(1)}50%{box-shadow:0 0 0 14px rgba(229,57,53,0);transform:scale(1.07)}}
-@keyframes micFlash{0%,100%{background-color:#E53935}50%{background-color:#8E1B18}}
+/* ===== MUTED mic icon, everywhere (Mick, 2026-09-29 -- STYLE LOCK): thin
+   var(--ink-soft) circle OUTLINE, no fill, containing a var(--ink-soft)
+   vintage-mic glyph (mesh head on a stand). No red anywhere, including
+   while actually recording -- Muted stays gray, always, per Mick's
+   explicit "no bright red icons" instruction. The glyph is painted with
+   CSS mask-image + background-color so the SAME svg silhouette follows
+   var(--ink-soft) correctly across all 5 themes and light/dark mode,
+   with zero new/hardcoded color values (replaces the old solid-red
+   circle + white handheld-mic silhouette used before this). */
+.mic-ico{position:relative;display:inline-block;flex:0 0 auto;box-sizing:border-box;border:2px solid var(--ink-soft);border-radius:50%;background-color:transparent;width:64px;height:64px;font-size:0;line-height:0;color:transparent}
+.mic-ico::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46%;height:52%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+@keyframes micFlash{0%,100%{background-color:var(--ink-soft)}50%{background-color:var(--accent)}}
 .icon-btn-record,.flu-sq-record{background:transparent !important;color:var(--ink) !important;animation:none !important;box-shadow:none !important}
 .icon-btn-record{min-width:90px;min-height:96px;gap:6px;padding:6px 8px}
 .flu-sq-record{gap:3px;padding:2px}
 .icon-btn-record .icon-label,.flu-sq-record .icon-label{font-size:14px;color:var(--ink)}
 .icon-btn-record[disabled].rec,.flu-sq-record[disabled].rec{opacity:1}
-.icon-btn-record.rec .mic-ico,.flu-sq-record.rec .mic-ico,#flu-done .mic-ico,#ret-done .mic-ico{animation:micPulse 1.2s ease-in-out infinite}
-#flu-done.flash .mic-ico,#ret-done.flash .mic-ico{animation:micFlash .3s steps(1) 3}
+#flu-done.flash .mic-ico::before,#ret-done.flash .mic-ico::before{animation:micFlash .3s steps(1) 3}
 .flu-sq-record .mic-ico{width:54px;height:54px}
 .flu-sq-record .icon-label{font-size:12px}
 /* small versions: the "Recording" status line and the teacher Record buttons */
-.rec-status{color:#C62828}
-.rec-status .rec-status-dot{box-sizing:border-box;border:1px solid rgba(0,0,0,.28);border-radius:50%;background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:44px;height:44px;display:inline-block;flex:0 0 auto}
-.rec-status .rec-status-dot{animation:micPulse 1.2s ease-in-out infinite}
-.rec-status.paused .rec-status-dot{background-color:#9AA3AD;animation:none}
+.rec-status{color:var(--ink-soft)}
+.rec-status .rec-status-dot{position:relative;box-sizing:border-box;border:1px solid var(--ink-soft);border-radius:50%;background-color:transparent;width:44px;height:44px;display:inline-block;flex:0 0 auto}
+.rec-status .rec-status-dot::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46%;height:52%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+.rec-status.paused .rec-status-dot::before{background-color:var(--ink-soft);opacity:.5}
 .mic-ico.mic-ico-tile{width:34px;height:34px}
 .rec-btn.rec{background:var(--accent)}
-/* Teacher Record buttons (Mick, Sept 28 2026): plain/simple white-background
-   mic icon at rest -- pulsing red mic ONLY while actually recording, using
-   the same red-circle-white-mic image as everywhere else the instant it
-   starts, so "recording now" still reads unmistakably. */
-.rec-btn .rec-dot{box-sizing:border-box;border:1px solid rgba(0,0,0,.28);border-radius:50%;background-color:#fff;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='none' stroke='%236b7280' stroke-width='3'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%236b7280' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='%236b7280' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='%236b7280' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");background-position:center;background-size:62%;background-repeat:no-repeat;width:26px;height:26px;display:inline-block;flex:0 0 auto;animation:none}
-.rec-btn.rec .rec-dot{background-color:#E53935;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='17' y='6' width='14' height='24' rx='7' fill='white'/%3E%3Cpath d='M18 13h5M18 17h5M18 21h5' stroke='%23E53935' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M11 22v1a13 13 0 0 0 26 0v-1' fill='none' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M24 36v6M17 42h14' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");animation:micPulse 1.2s ease-in-out infinite}
+/* Teacher Record buttons: same Muted mic, always -- stays gray whether
+   idle or actually recording (no red state at all). */
+.rec-btn .rec-dot{position:relative;box-sizing:border-box;border:1px solid var(--ink-soft);border-radius:50%;background-color:transparent;width:26px;height:26px;display:inline-block;flex:0 0 auto;animation:none}
+.rec-btn .rec-dot::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46%;height:52%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
 
 /* ===== Student View bar: the chosen theme, darker (light mode) or lighter (dark mode) ===== */
 .vas-banner{background:var(--accent-press);background:color-mix(in srgb,var(--accent) 62%,#000);color:#fff}
@@ -421,15 +421,21 @@ html[data-mode="dark"] .vas-banner .vas-exit{background:#111;color:#fff}
 .dir-row .dir-listen-btn .dir-listen-icon{font-size:24px}
 .dir-row > .lede,.dir-row > .mini-note,.dir-row > p,.dir-row > div:not(.dir-listen-wrap){flex:1 1 auto;margin:0}
 
-/* ===== ONE listen icon, everywhere: white ear + sound lines on a green circle =====
-   Same shape family as the red mic. It pulses while the directions play. */
-.ear-ico{display:inline-block;flex:0 0 auto;box-sizing:border-box;border:2px solid rgba(0,0,0,.28);border-radius:50%;background-color:#2E9E4F;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 19C20 11.5 25.5 6 32 6S44 11 44 18C44 23.5 41 26.5 39 29.5C37 32.5 37 35 36 38C35 41 32.5 43 29.5 43C27 43 25.5 41.5 25 40'/%3E%3Cpath d='M26.5 20C26.5 15.5 29 12.5 32 12.5S38 15 38 18.5C38 21.5 35.5 23 34 25'/%3E%3Cpath d='M30.5 29.5C33 29.5 34.5 27.5 34 25C33.5 22.5 30.5 22 29.5 24'/%3E%3Cpath d='M5 13L12 16M4 23H12M5 33L12 30'/%3E%3C/g%3E%3C/svg%3E");background-position:center;background-size:66%;background-repeat:no-repeat;width:52px;height:52px;vertical-align:middle}
+/* ===== MUTED listen icon, everywhere (Mick, 2026-09-29 -- STYLE LOCK):
+   thin var(--ink-soft) circle outline, no fill, containing a var(--ink-soft)
+   speaker/soundwave glyph -- same mask technique as the mic icon above, so
+   it's correct across every theme/light/dark with zero new colors. No
+   green fill anywhere (replaces the old solid-green circle + white ear
+   glyph). While directions are actually playing, the glyph switches to
+   the theme's own var(--accent) color with no pulse -- an existing app
+   color, not a new one, and never red or green. */
+.ear-ico{position:relative;display:inline-block;flex:0 0 auto;box-sizing:border-box;border:2px solid var(--ink-soft);border-radius:50%;background-color:transparent;width:52px;height:52px;vertical-align:middle}
+.ear-ico::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56%;height:56%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M6 18h7l11-9v30l-11-9H6z'/%3E%3Cpath d='M30 16c3 3 3 13 0 16' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M35 11c6 6 6 20 0 26' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M6 18h7l11-9v30l-11-9H6z'/%3E%3Cpath d='M30 16c3 3 3 13 0 16' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M35 11c6 6 6 20 0 26' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
 .ear-ico.ear-sm{width:26px;height:26px;margin-right:6px}
 .ear-ico.ear-tile{width:34px;height:34px}
 .ear-ico.ear-lg{width:84px;height:84px}
-@keyframes earPulse{0%,100%{box-shadow:0 0 0 0 rgba(46,158,79,.6);transform:scale(1)}50%{box-shadow:0 0 0 12px rgba(46,158,79,0);transform:scale(1.07)}}
 .dir-listen-btn .dir-listen-icon.ear-ico{font-size:0}
-.dir-listen-btn.playing .dir-listen-icon.ear-ico{animation:earPulse 1.2s ease-in-out infinite}
+.dir-listen-btn.playing .dir-listen-icon.ear-ico::before{background-color:var(--accent)}
 .dir-row .dir-listen-btn .dir-listen-icon.ear-ico{width:44px;height:44px}
 .hearw,.play-btn{display:inline-flex;align-items:center}
 
@@ -478,10 +484,8 @@ html[data-mode="dark"] #check5 .clean-header,html[data-mode="dark"] #check5Teach
    all, per the locked button rule; the small recording indicator is the
    app's existing 22px status dot, just recolored calm/muted. */
 #check5 .rec-status{color:var(--ink-soft)}
-#check5 .rec-status .rec-status-dot{background-color:var(--ink-soft);animation:none}
 #check5 .dir-listen-btn{border-radius:999px;padding:10px 20px}
-#check5 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px;background-color:var(--ink-soft)}
-#check5 .dir-listen-btn.playing .dir-listen-icon.ear-ico{background-color:var(--accent);animation:none}
+#check5 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px}
 
 /* ===== Check 6 (6A): same Clean/Professional system as Check 5 =====
    Deliberately a SEPARATE copy of the ruleset above (not a widened
@@ -520,10 +524,8 @@ html[data-mode="dark"] #check6 .clean-header,html[data-mode="dark"] #check6Teach
 #check6Teach .speed-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);border-radius:999px;padding:6px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation}
 #check6Teach .speed-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
 #check6 .rec-status{color:var(--ink-soft)}
-#check6 .rec-status .rec-status-dot{background-color:var(--ink-soft);animation:none}
 #check6 .dir-listen-btn{border-radius:999px;padding:10px 20px}
-#check6 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px;background-color:var(--ink-soft)}
-#check6 .dir-listen-btn.playing .dir-listen-icon.ear-ico{background-color:var(--accent);animation:none}
+#check6 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px}
 
 /* ===== Check 7 (Multisyllabic Word Analysis): same Clean/Professional
    system, a SEPARATE copy again -- Checks 1-6 (including 6A/6B/6C) are
@@ -557,10 +559,8 @@ html[data-mode="dark"] #check7 .clean-header,html[data-mode="dark"] #check7Teach
 #check7Teach .speed-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);border-radius:999px;padding:6px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation}
 #check7Teach .speed-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
 #check7 .rec-status{color:var(--ink-soft)}
-#check7 .rec-status .rec-status-dot{background-color:var(--ink-soft);animation:none}
 #check7 .dir-listen-btn{border-radius:999px;padding:10px 20px}
-#check7 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px;background-color:var(--ink-soft)}
-#check7 .dir-listen-btn.playing .dir-listen-icon.ear-ico{background-color:var(--accent);animation:none}
+#check7 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px}
 
 /* ===== Check 6B (Understand It): same Clean/Professional system, a
    SEPARATE copy again -- 6A is locked and this build never touches a
@@ -660,15 +660,19 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
   background:transparent !important;border:1.5px solid var(--ink-soft);color:var(--ink-soft) !important}
 #check1 .icon-btn[disabled],#check2 .icon-btn[disabled],#check3 .icon-btn[disabled],#check4 .icon-btn[disabled]{opacity:.45}
 
+/* ---- Go Back pill (added after the restyle above -- checks 1-4 never
+   had .pill-btn CSS at all, so it rendered as an unstyled default
+   button; scoped here to match Checks 5-7's own .pill-btn look). ---- */
+#check1 .pill-btn,#check2 .pill-btn,#check3 .pill-btn,#check4 .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#check1 .pill-btn-secondary,#check2 .pill-btn-secondary,#check3 .pill-btn-secondary,#check4 .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+
 /* ---- Recording status line + Listen-to-directions button: same muted,
    non-pulsing treatment already established for Checks 5-7 (identical
    markup, confirmed) -- a small static dot/ear instead of a large
    colored pulsing circle. ---- */
 #check1 .rec-status,#check2 .rec-status,#check3 .rec-status,#check4 .rec-status{color:var(--ink-soft)}
-#check1 .rec-status .rec-status-dot,#check2 .rec-status .rec-status-dot,#check3 .rec-status .rec-status-dot,#check4 .rec-status .rec-status-dot{background-color:var(--ink-soft);animation:none}
 #check1 .dir-listen-btn,#check2 .dir-listen-btn,#check3 .dir-listen-btn,#check4 .dir-listen-btn{border-radius:999px;padding:10px 20px}
-#check1 .dir-listen-btn .dir-listen-icon.ear-ico,#check2 .dir-listen-btn .dir-listen-icon.ear-ico,#check3 .dir-listen-btn .dir-listen-icon.ear-ico,#check4 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px;background-color:var(--ink-soft)}
-#check1 .dir-listen-btn.playing .dir-listen-icon.ear-ico,#check2 .dir-listen-btn.playing .dir-listen-icon.ear-ico,#check3 .dir-listen-btn.playing .dir-listen-icon.ear-ico,#check4 .dir-listen-btn.playing .dir-listen-icon.ear-ico{background-color:var(--accent);animation:none}
+#check1 .dir-listen-btn .dir-listen-icon.ear-ico,#check2 .dir-listen-btn .dir-listen-icon.ear-ico,#check3 .dir-listen-btn .dir-listen-icon.ear-ico,#check4 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px}
 
 /* ---- The big printed letter/word display: same calmer sizing Checks
    5-7 use (with a defensive word-break for Check 3/4's longer scored
@@ -929,7 +933,6 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
        upload file (per spec). -->
   <section class="screen" id="check1">
     <div class="wrap">
-      <p class="crumb">Check 1</p>
       <p class="step-eyebrow">Check 1</p>
       <h2 class="scr-title">Say the name of each letter</h2>
       <div class="lede" id="c1-intro">Say each letter's name out loud. Tap Next after each one.</div>
@@ -974,7 +977,6 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
        2A (21 consonants) + 2B (5 short vowels) + 2C (5 long vowels) = 31 items -->
   <section class="screen" id="check2">
     <div class="wrap">
-      <p class="crumb">Check 2</p>
       <p class="step-eyebrow">Check 2</p>
       <h2 class="scr-title">Letter sounds</h2>
 
@@ -1122,7 +1124,6 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
        (per spec) -- collects pilot timing data only. -->
   <section class="screen" id="check3">
     <div class="wrap">
-      <p class="crumb">Check 3</p>
       <p class="step-eyebrow">Check 3</p>
       <h2 class="scr-title">Listen and answer</h2>
 
@@ -1248,7 +1249,6 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
        plus the Done-early icon button already used in Word Practice. -->
   <section class="screen" id="check4">
     <div class="wrap">
-      <p class="crumb">Check 4</p>
       <p class="step-eyebrow">Check 4</p>
       <h2 class="scr-title">Read each word</h2>
       <div class="lede" id="c4-intro">Read each word out loud. Tap Next after each one.</div>
@@ -1302,7 +1302,6 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
        apply to whole printed words). -->
   <section class="screen" id="check5">
     <div class="wrap">
-      <p class="crumb">Check 5</p>
       <p class="step-eyebrow">Check 5</p>
       <h2 class="scr-title">Read each word</h2>
       <div class="lede" id="c5-intro">Read each word out loud. Tap Next after each one. If you don&rsquo;t know it, tap Skip.</div>
@@ -1355,7 +1354,6 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
        2026-09-28 analysis. Clean/Professional style throughout. -->
   <section class="screen" id="check6">
     <div class="wrap">
-      <p class="crumb">Check 6</p>
       <p class="step-eyebrow">Check 6</p>
       <h2 class="scr-title">Read each word</h2>
       <div class="lede" id="c6-intro">Read each word out loud. Tap Next after each one.</div>
@@ -1407,7 +1405,6 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
        a read-only results view. 6A above is untouched/locked. -->
   <section class="screen" id="check6b">
     <div class="wrap">
-      <p class="crumb">Check 6B</p>
       <p class="step-eyebrow">Check 6B</p>
       <h2 class="scr-title">Choose the best answer</h2>
       <div class="lede" id="c6b-intro">Choose the best answer.</div>
@@ -1456,7 +1453,6 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
        required tap lands. 6A/6B above are untouched/locked. -->
   <section class="screen" id="check6c">
     <div class="wrap">
-      <p class="crumb">Check 6C</p>
       <p class="step-eyebrow">Check 6C</p>
       <h2 class="scr-title">Build the word</h2>
       <div class="lede" id="c6c-intro">Build, take away, or change each word.</div>
@@ -1501,7 +1497,6 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
        untouched by this build. -->
   <section class="screen" id="check7">
     <div class="wrap">
-      <p class="crumb">Check 7</p>
       <p class="step-eyebrow">Check 7</p>
       <h2 class="scr-title">Read each word</h2>
       <div class="lede" id="c7-intro">Read each word out loud. Tap Next after each one.</div>

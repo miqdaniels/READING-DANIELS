@@ -46,13 +46,14 @@ var c2setupBtn=d.getElementById("c2-setup-btn");
 var cs2=w.getComputedStyle(c2setupBtn);
 ok(cs2.borderRadius==="999px","Check 2's camera-setup button is fully pill-shaped (got "+cs2.borderRadius+")");
 
-/* ---- Check 2: rec-status / dir-listen are muted, no pulse (matches Check5-7) ---- */
+/* ---- Check 2: rec-status / dir-listen are muted, no pulse (matches Check5-7).
+   The Muted icon system (2026-09-29) makes this the base/default look for
+   EVERY screen, not just a per-check override, so Checks 1-4 no longer
+   need (or have) their own scoped copy of this rule -- confirm the base
+   rule itself is the static/no-pulse Muted style. ---- */
 var recStatusCss=Array.prototype.map.call(d.querySelectorAll("style"),function(s){return s.textContent;}).join("\n");
-var recDotRule=recStatusCss.match(/#check1 \.rec-status \.rec-status-dot[^{]*\{background-color:var\(--ink-soft\);animation:none\}/);
-ok(!!recDotRule,"the scoped recording-status-dot rule exists");
-ok(!!recDotRule && recDotRule[0].indexOf("#check2 .rec-status .rec-status-dot")>-1,"Check 2's recording status dot is included in the muted/static scoped rule");
-ok(!!recDotRule && recDotRule[0].indexOf("#check3 .rec-status .rec-status-dot")>-1,"Check 3's recording status dot is included in the muted/static scoped rule");
-ok(!!recDotRule && recDotRule[0].indexOf("#check4 .rec-status .rec-status-dot")>-1,"Check 4's recording status dot is included in the muted/static scoped rule");
+ok(recStatusCss.indexOf("micPulse")===-1,"no red micPulse animation exists anywhere -- the recording-status dot is static everywhere, including Checks 1-4");
+ok(/\.rec-status \.rec-status-dot\{[^}]*border:1px solid var\(--ink-soft\)[^}]*background-color:transparent/.test(recStatusCss),"the base recording-status dot is a plain ink-soft outline, which Checks 1-4 correctly inherit with no override needed");
 
 /* ---- Check 3: the ear-icon-only item display still renders (font-size change to .c1-letter must not break the ear-lg icon, which is absolutely sized) ---- */
 w.go("check3");

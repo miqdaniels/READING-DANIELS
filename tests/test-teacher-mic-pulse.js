@@ -2,14 +2,11 @@ const fs=require('fs');
 const {JSDOM}=require('jsdom');
 const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js" defer></script>','<script>'+fs.readFileSync('./clips.js','utf8')+'</script>');
 
-/* Teacher prompt-recorder mic icon (Mick, Sept 28 2026): plain/white at
-   rest, switches to the red pulsing mic the instant actual recording
-   starts, on the real s-teachC2/s-teachC3 prompt-recorder screens
-   (using the app's own c2tToggle/c3tToggle -- not just a CSS-source
-   regex check). This behavior was accidentally disabled for these two
-   screens during the same night's Check 2/3 student-screen restyle
-   (which scoped an animation:none rule too broadly); this test locks
-   in the fix so it can't silently regress again. */
+/* Teacher prompt-recorder mic icon (Mick, 2026-09-29 -- STYLE LOCK): the
+   Muted mic stays the SAME thin ink-soft outline whether idle or
+   actually recording -- no red, ever -- on the real s-teachC2/s-teachC3
+   prompt-recorder screens (using the app's own c2tToggle/c3tToggle --
+   not just a CSS-source regex check). */
 const dom=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/?teacher",runScripts:"dangerously",pretendToBeVisual:true,
   beforeParse(w){
     w.HTMLElement.prototype.scrollIntoView=function(){};
@@ -38,12 +35,14 @@ setTimeout(function(){
   var key=w.C2_PROMPT_DEFS[0].promptKey;
   var recBtn=d.getElementById("c2t-rec-"+key);
   var dot=recBtn.querySelector(".rec-dot");
-  ok(w.getComputedStyle(dot).backgroundColor==="rgb(255, 255, 255)","mic is plain white before recording starts");
+  ok(w.getComputedStyle(dot).backgroundColor==="rgba(0, 0, 0, 0)" || w.getComputedStyle(dot).backgroundColor==="transparent","mic is a transparent outline before recording starts");
 
   w.c2tToggle(key);
   setTimeout(function(){
     ok(recBtn.className==="rec-btn rec","the button picks up the .rec class once recording actually starts");
-    ok(w.getComputedStyle(dot).backgroundColor==="rgb(229, 57, 53)","mic turns red the instant recording starts");
+    var bg=w.getComputedStyle(dot).backgroundColor;
+    ok(bg!=="rgb(229, 57, 53)","mic does NOT turn red once recording starts (got "+bg+")");
+    ok(bg==="rgba(0, 0, 0, 0)" || bg==="transparent","mic stays the same transparent outline while recording -- no color change at all");
 
     w.c3tToggle ? testC3() : finish();
 
@@ -52,11 +51,12 @@ setTimeout(function(){
       var key3=w.C3_PROMPT_DEFS[0].promptKey;
       var recBtn3=d.getElementById("c3t-rec-"+key3);
       var dot3=recBtn3.querySelector(".rec-dot");
-      ok(w.getComputedStyle(dot3).backgroundColor==="rgb(255, 255, 255)","Check 3 Prompts: mic is plain white before recording starts");
+      ok(w.getComputedStyle(dot3).backgroundColor==="rgba(0, 0, 0, 0)" || w.getComputedStyle(dot3).backgroundColor==="transparent","Check 3 Prompts: mic is a transparent outline before recording starts");
       w.c3tToggle(key3);
       setTimeout(function(){
         ok(recBtn3.className==="rec-btn rec","Check 3 Prompts: button picks up .rec once recording starts");
-        ok(w.getComputedStyle(dot3).backgroundColor==="rgb(229, 57, 53)","Check 3 Prompts: mic turns red the instant recording starts");
+        var bg3=w.getComputedStyle(dot3).backgroundColor;
+        ok(bg3!=="rgb(229, 57, 53)","Check 3 Prompts: mic does NOT turn red once recording starts (got "+bg3+")");
         finish();
       },30);
     }

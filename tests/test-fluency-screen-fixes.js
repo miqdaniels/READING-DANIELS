@@ -141,7 +141,7 @@ setTimeout(function(){
   ck(recCss.width===playCss.width && playCss.width===saveCss.width,"all three buttons are the exact same width (got "+recCss.width+"/"+playCss.width+"/"+saveCss.width+")");
   ck(recCss.height===playCss.height && playCss.height===saveCss.height,"...and the exact same height");
   ck(recCss.borderRadius===playCss.borderRadius && playCss.borderRadius===saveCss.borderRadius,"...and the same rounded-square corners");
-  var recMic=w.getComputedStyle(d.querySelector("#flu-rec .mic-ico")); ck(recMic.backgroundColor==="rgb(229, 57, 53)","Record is the one red-circle mic (got "+recMic.backgroundColor+")");
+  var recMic=w.getComputedStyle(d.querySelector("#flu-rec .mic-ico")); ck(recMic.backgroundColor!=="rgb(229, 57, 53)","Record is the Muted outline mic, not red (got "+recMic.backgroundColor+")");
   ck(recCss.backgroundColor!=="rgb(180, 83, 9)","...and is NOT the old brown (--retry)");
   ck(playCss.backgroundColor!=="rgb(180, 83, 9)" && saveCss.backgroundColor!=="rgb(180, 83, 9)","no brown on Play back or Save either");
   ck(!/\.flu-sq-record\{[^}]*var\(--retry\)/.test(html) && !/\.flu-sq-play\{[^}]*var\(--retry\)/.test(html) && !/\.flu-sq-save\{[^}]*var\(--retry\)/.test(html),"none of the three buttons' CSS references the brown --retry color at all");
@@ -187,7 +187,7 @@ setTimeout(function(){
         var rRec=wR.getComputedStyle(retRec), rPlay=wR.getComputedStyle(retPlay), rSave=wR.getComputedStyle(retSave);
         ck(rRec.width===rPlay.width && rPlay.width===rSave.width,"Retell's three buttons are the same size as each other");
         ck(rRec.width===recCss.width,"...and the SAME size as Fluency's (one shared button system)");
-        ck(w.getComputedStyle(d.querySelector("#ret-rec .mic-ico")).backgroundColor==="rgb(229, 57, 53)","Retell's Record is the same red-circle mic");
+        ck(w.getComputedStyle(d.querySelector("#ret-rec .mic-ico")).backgroundColor!=="rgb(229, 57, 53)","Retell's Record is the same Muted outline mic, not red");
         ck(retPlay.disabled===true && retSave.disabled===true,"Retell's Play back/Save start disabled too");
 
         /* ================= 3) LOCK FLUENCY UNTIL DIAGNOSTICS DONE ================= */
