@@ -178,6 +178,23 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .pacer .knob{position:absolute;top:50%;left:0;width:38px;height:38px;margin-left:-19px;transform:translateY(-50%);background:var(--accent);border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
 .pacer .knob:after{content:"\261E";font-size:18px}
 .pacer-hint{font-size:13px;color:var(--ink-soft);margin:8px 0 0;text-align:center}
+/* ---- Mick, 2026-09-30: Read 1 (one slider under EACH WORD) and Read 2
+   (one slider under each Fry-style PHRASE CHUNK) -- a smaller version of
+   the same finger-slider idea as the Read 3/whole-sentence pacer above,
+   just one per segment instead of one for the whole line. Quiet Square
+   shape (rounded rectangle track, not a pill) since this is new UI; the
+   round drag knob matches every slider's own established convention. */
+.mini-seg-row{display:flex;flex-wrap:wrap;gap:10px 14px;margin:10px 0 4px}
+.mini-seg-row-chunks{flex-direction:column;gap:8px}
+.mini-seg{flex:1 1 90px;min-width:90px}
+.mini-seg-row-chunks .mini-seg{flex:1 1 100%}
+.mini-seg-text{font-size:15px;font-weight:700;text-align:center;margin:0 0 4px;padding:3px 5px;border-radius:8px;transition:background .12s,color .12s;-webkit-user-select:none;user-select:none}
+.mini-seg-text.active{background:var(--hl);color:var(--hl-ink)}
+.mini-seg-text.mini-done{color:var(--past)}
+.mini-pacer{position:relative;height:28px;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;touch-action:none;cursor:pointer;overflow:hidden}
+.mini-pacer.mini-done{border-color:var(--accent)}
+.mini-pacer .mini-pfill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent);opacity:.16}
+.mini-knob{position:absolute;top:50%;left:0;width:20px;height:20px;margin-left:-10px;transform:translateY(-50%);background:var(--accent);border-radius:50%;box-shadow:0 2px 5px rgba(0,0,0,.22)}
 .hear-line{display:flex;gap:10px;margin:14px 0 2px;flex-wrap:wrap}
 .rec-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 .rec-btn{display:inline-flex;align-items:center;gap:9px;background:var(--accent);color:#fff;border:none;border-radius:12px;padding:14px 22px;font:inherit;font-weight:600;font-size:17px;cursor:pointer;touch-action:manipulation}
@@ -1752,14 +1769,6 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
   <section id="s-settings" class="screen" data-teacher="1">
     <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; Settings</p>
     <h2>Settings</h2>
-    <div class="setting-row">
-      <div><strong>Practice reads before recording</strong><br><span class="mini-note">How many times the student slides and reads on their own before the read that records.</span></div>
-      <div class="seg" id="seg-reads">
-        <button data-n="1" onclick="setReads(1)">1</button>
-        <button data-n="2" onclick="setReads(2)">2</button>
-        <button data-n="3" onclick="setReads(3)">3</button>
-      </div>
-    </div>
     <div class="setting-row" style="display:block">
       <div style="margin-bottom:8px"><strong>Pacer on the final read</strong><br><span class="mini-note">Default is <strong>Tap</strong>: the student taps to move the yellow phrase along at their own speed. Switch a student to <strong>Pacer</strong> when they read accurately and are ready to build speed &mdash; the phrases advance on their own, and a Pause button lets them catch a breath.</span></div>
       <div id="pacer-list"></div>
@@ -2338,8 +2347,6 @@ var Settings=(function(){
   function save(o){ try{ window.localStorage.setItem(KEY,JSON.stringify(o)); }catch(e){} }
   var cur=load();
   return {
-    reads:function(){ return cur.reads?cur.reads:2; },
-    setReads:function(n){ cur.reads=n; save(cur); },
     palette:function(){ return cur.palette?cur.palette:"navy"; },
     mode:function(){ return cur.mode?cur.mode:"light"; },
     setPalette:function(p){ cur.palette=p; save(cur); },
@@ -2409,12 +2416,6 @@ function paintSwatches(){
   }
 }
 function toggleMode(){ Settings.setMode(Settings.mode()==="dark"?"light":"dark"); applyTeacherDarkClass(curScreenId()); }
-function setReads(n){ Settings.setReads(n); paintReadsSeg(); }
-function paintReadsSeg(){
-  var seg=document.getElementById("seg-reads"); if(!seg) return;
-  var btns=seg.getElementsByTagName("button"), i, n=Settings.reads();
-  for(i=0;i<btns.length;i++){ btns[i].className=(parseInt(btns[i].getAttribute("data-n"),10)===n)?"on":""; }
-}
 function setPacer(id,on){ Settings.setPacer(id,on); paintPacerList(); Sync.pushPacer(id,on); }
 function paintPacerList(){
   var box=document.getElementById("pacer-list"); if(!box){ return; }
@@ -3501,7 +3502,7 @@ function go(id){
   if(id==="s-score"){ paintScore(); }
   if(id==="s-board"){ paintBoard(); boardSync(); allStuInit(); }
   if(id==="s-teach"){ enterTeach(); }
-  if(id==="s-settings"){ paintReadsSeg(); paintPacerList(); paintTeamList(); paintCodeList(); }
+  if(id==="s-settings"){ paintPacerList(); paintTeamList(); paintCodeList(); }
   if(id==="fluencyPassage"){ fluEnter(); }
   if(id==="fluencyRetell"){ retEnter(); }
   if(id==="s-fluteach"){ flutEnter(); }
@@ -3620,12 +3621,17 @@ function rStart(){
   document.getElementById("read-who").textContent=READER.name;
   go("s-read"); rEnterSentence();
 }
-function buildStages(){
-  var reads=Settings.reads(), arr=["listen"], i;
-  for(i=0;i<reads;i++){ arr.push("read"); }
-  arr.push("record");
-  return arr;
-}
+/* Mick, 2026-09-30: replaces the old "N identical whole-sentence reads"
+   (Settings' 1-3 Practice-reads count, now removed) with a fixed
+   3-read progression, each a different slider granularity so a
+   student's focus narrows from word, to phrase chunk, to the whole
+   sentence, before the read that records:
+     Read 1 -- one small slider under EACH WORD (word-by-word focus)
+     Read 2 -- one slider under each Fry-style PHRASE CHUNK (reuses the
+               same FCHUNKS phrase groups the final read already uses)
+     Read 3 -- the original single slider across the WHOLE sentence
+   Then Record, unchanged. */
+function buildStages(){ return ["listen","read1","read2","read3","record"]; }
 function rEnterSentence(){
   rStages=buildStages(); rStage=0; rRecBlob=null;
   var s=SENTENCES[rIndex];
@@ -3690,6 +3696,60 @@ function positionKnob(ratio){
 }
 function setCurIdx(i){ if(i<0)i=0; if(i>TN-1)i=TN-1; curIdx=i; updateWordClasses(); }
 
+/* ---- Read 1/Read 2 mini-sliders: one small slider per segment (a word,
+   or a Fry-style phrase chunk) instead of one slider for the whole
+   sentence. rMiniApply is the pure, directly-testable piece (given a
+   ratio 0-1, paints the fill/knob/done state); the pixel/touch math that
+   produces that ratio lives only in setupOneMiniSlider, same split the
+   whole-sentence pacer already uses (ratioFromEvent vs toIdx). ---- */
+function miniSegHTML(idPrefix,i,text){
+  return '<div class="mini-seg">'
+    +'<div class="mini-seg-text" id="'+idPrefix+'-text-'+i+'">'+escapeHtml(text)+'</div>'
+    +'<div class="mini-pacer" id="'+idPrefix+'-pacer-'+i+'"><div class="mini-pfill" id="'+idPrefix+'-pfill-'+i+'"></div><div class="mini-knob" id="'+idPrefix+'-knob-'+i+'"></div></div>'
+    +"</div>";
+}
+function miniRowHTML(idPrefix,segs,rowClass){
+  var html='<div class="mini-seg-row '+rowClass+'">', i;
+  for(i=0;i<segs.length;i++){ html+=miniSegHTML(idPrefix,i,segs[i]); }
+  return html+"</div>";
+}
+var rMiniDone={};
+function rMiniApply(idPrefix,idx,ratio){
+  if(ratio<0){ ratio=0; } if(ratio>1){ ratio=1; }
+  var pf=document.getElementById(idPrefix+"-pfill-"+idx);
+  var kn=document.getElementById(idPrefix+"-knob-"+idx);
+  var tx=document.getElementById(idPrefix+"-text-"+idx);
+  var pac=document.getElementById(idPrefix+"-pacer-"+idx);
+  if(pf){ pf.style.width=(ratio*100)+"%"; }
+  if(kn && pac){ kn.style.left=(ratio*pac.offsetWidth)+"px"; }
+  if(!rMiniDone[idPrefix]){ rMiniDone[idPrefix]={}; }
+  if(ratio>=0.97){ rMiniDone[idPrefix][idx]=true; }
+  var done=!!rMiniDone[idPrefix][idx];
+  if(tx){ tx.className="mini-seg-text"+(done?" mini-done":(ratio>0.02?" active":"")); }
+  if(pac){ pac.className="mini-pacer"+(done?" mini-done":""); }
+}
+function setupMiniSliders(idPrefix,count){
+  rMiniDone[idPrefix]={};
+  var i; for(i=0;i<count;i++){ setupOneMiniSlider(idPrefix,i); }
+}
+function setupOneMiniSlider(idPrefix,idx){
+  var pac=document.getElementById(idPrefix+"-pacer-"+idx); if(!pac) return;
+  var dragging=false;
+  function ratioFromEvent(clientX){
+    var rect=pac.getBoundingClientRect();
+    var x=clientX-rect.left; if(x<0)x=0; if(x>rect.width)x=rect.width;
+    return rect.width?(x/rect.width):0;
+  }
+  pac.addEventListener("mousedown",function(e){ dragging=true; rMiniApply(idPrefix,idx,ratioFromEvent(e.clientX)); e.preventDefault(); });
+  document.addEventListener("mousemove",function(e){ if(dragging){ rMiniApply(idPrefix,idx,ratioFromEvent(e.clientX)); } });
+  document.addEventListener("mouseup",function(){ dragging=false; });
+  pac.addEventListener("touchstart",function(e){ if(e.touches&&e.touches[0]){ rMiniApply(idPrefix,idx,ratioFromEvent(e.touches[0].clientX)); } },{passive:true});
+  pac.addEventListener("touchmove",function(e){ if(e.touches&&e.touches[0]){ rMiniApply(idPrefix,idx,ratioFromEvent(e.touches[0].clientX)); } },{passive:true});
+}
+function rChunksForCurrent(){
+  var s=SENTENCES[rIndex];
+  return (window.FCHUNKS&&FCHUNKS[s.word])?FCHUNKS[s.word]:[s.sentence];
+}
 function rRenderStage(){
   stopAllAudio(); rRecBlob=null;
   var s=SENTENCES[rIndex];
@@ -3701,7 +3761,11 @@ function rRenderStage(){
   var sent='<p class="sentence" id="sent-line">'+sentenceHTML()+'</p>';
   var pacer='<div class="pacer-wrap"><div class="pacer" id="pacer"><div class="pfill" id="pfill"></div><div class="knob" id="knob"></div></div>'
           +'<p class="pacer-hint" id="pacer-hint">Slide your finger across &mdash; the word you&rsquo;re on lights up.</p></div>';
-  var body="";
+  var hearRow='<div class="nav-row">'
+    +'<button class="btn" onclick="hearSentence()"><span class="ear-ico ear-sm"></span>Hear it again</button><button class="btn" id="pause-btn" onclick="togglePause()">&#10073;&#10073;&nbsp; Pause</button>'
+    +'<button class="btn primary" onclick="rAdvance()">I read it &rarr;</button>'
+    +'</div>';
+  var body="", chunks=null;
 
   if(stage==="listen"){
     body=head
@@ -3714,17 +3778,31 @@ function rRenderStage(){
       +(gPos>0?'<button class="btn" onclick="rPrevSentence()">&larr; Previous word</button>':'')
       +'<button class="btn primary" onclick="rAdvance()">I heard it &rarr;</button>'
       +'</div>';
-  } else if(stage==="read"){
-    var readNo=rStage; /* listen is 0, so first read is stage 1 */
+  } else if(stage==="read1"){
+    var words=TOK.map(function(t){ return t.text; });
+    body=head
+      +'<div class="card">'
+      +chip+sent
+      +'<p class="mini-note">Read 1: slide under each word, then read it out loud.</p>'
+      +miniRowHTML("r1",words,"mini-seg-row-words")
+      +'</div>'
+      +hearRow;
+  } else if(stage==="read2"){
+    chunks=rChunksForCurrent();
+    body=head
+      +'<div class="card">'
+      +chip+sent
+      +'<p class="mini-note">Read 2: slide under each phrase, then read it out loud.</p>'
+      +miniRowHTML("r2",chunks,"mini-seg-row-chunks")
+      +'</div>'
+      +hearRow;
+  } else if(stage==="read3"){
     body=head
       +'<div class="card">'
       +chip+sent+pacer
-      +'<p class="mini-note">Read <strong>'+readNo+'</strong>: slide and read it out loud. Tap a word if you get stuck.</p>'
+      +'<p class="mini-note">Read 3: slide across the whole sentence, then read it out loud.</p>'
       +'</div>'
-      +'<div class="nav-row">'
-      +'<button class="btn" onclick="hearSentence()"><span class="ear-ico ear-sm"></span>Hear it again</button><button class="btn" id="pause-btn" onclick="togglePause()">&#10073;&#10073;&nbsp; Pause</button>'
-      +'<button class="btn primary" onclick="rAdvance()">I read it &rarr;</button>'
-      +'</div>';
+      +hearRow;
   } else { /* record */
     body=head
       +'<div class="card">'
@@ -3745,8 +3823,14 @@ function rRenderStage(){
       +'</div>';
   }
   document.getElementById("read-body").innerHTML=body;
-  curIdx=0; updateWordClasses();
-  setupPacer();
+  if(stage==="read1"){
+    setupMiniSliders("r1",TN);
+  } else if(stage==="read2"){
+    setupMiniSliders("r2",(chunks||rChunksForCurrent()).length);
+  } else {
+    curIdx=0; updateWordClasses();
+    setupPacer();
+  }
 }
 function rAdvance(){ if(rStage<rStages.length-1){ rStage++; rRenderStage(); window.scrollTo(0,0); } }
 function rToFinal(){
