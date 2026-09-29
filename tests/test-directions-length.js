@@ -118,9 +118,12 @@ setTimeout(function(){
   /* ---- Check 5's on-screen directions text ---- */
   w.go("check5");
   var c5Text=d.getElementById("c5-intro").textContent;
-  ck(sentenceCount(c5Text)<=2,"Check 5's on-screen directions are at most 2 sentences (got \""+c5Text+"\")");
+  /* Mick, 2026-09-29: added a 3rd short sentence ("If you don't know it,
+     tap Skip.") for the new Skip button -- explicitly requested, so the
+     usual 2-sentence cap is raised to 3 for Check 5 only. */
+  ck(sentenceCount(c5Text)<=3,"Check 5's on-screen directions are at most 3 sentences (got \""+c5Text+"\")");
   ck(!/\bconsonants?\b/i.test(c5Text),"Check 5's on-screen directions never say \"consonant\"");
-  ck(c5Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="Read each word out loud. Tap Next after each one.","Check 5's on-screen opening text matches exactly");
+  ck(c5Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="Read each word out loud. Tap Next after each one. If you don’t know it, tap Skip.","Check 5's on-screen opening text matches exactly");
 
   /* ---- Check 6's on-screen directions text ---- */
   w.go("check6");

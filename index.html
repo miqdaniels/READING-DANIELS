@@ -1304,7 +1304,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <p class="crumb">Check 5</p>
       <p class="step-eyebrow">Check 5</p>
       <h2 class="scr-title">Read each word</h2>
-      <div class="lede" id="c5-intro">Read each word out loud. Tap Next after each one.</div>
+      <div class="lede" id="c5-intro">Read each word out loud. Tap Next after each one. If you don&rsquo;t know it, tap Skip.</div>
       <div class="dir-listen-wrap" id="dl-dir_check5" style="display:none">
         <button class="dir-listen-btn" id="dl-dir_check5-btn" onclick="dirToggle('dir_check5')">
           <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
@@ -1318,6 +1318,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <button class="pill-btn pill-btn-primary" id="c5-start" onclick="c5Start()">Start Recording</button>
       <div class="clean-icon-row" id="c5-active-row" style="display:none">
         <button class="pill-btn pill-btn-primary" id="c5-next" onclick="c5NextTap()"><span id="c5-next-lbl">Next</span></button>
+        <button class="pill-btn pill-btn-secondary" id="c5-skip" onclick="c5SkipTap()">Skip</button>
         <button class="pill-btn pill-btn-secondary" id="c5-done" onclick="c5DoneTap()">Done</button>
       </div>
       <p class="state-line none" id="c5-state"></p>
@@ -6874,8 +6875,20 @@ var C5Review=rfReviewStore("rf_check5_attempts");
    Teacher controls how far the student goes via the same Done-early
    button Check 4 uses -- Check 5 never forces all 120 items. ---------- */
 var c5Idx=-1, c5Blob=null, c5YesUsed=false, c5NextLock=false, c5Playing=false, c5StartAt=0;
+/* Mick, 2026-09-29: Skip + hidden 5s auto-skip timer + set-ending skip
+   streak. c5Timestamps logs one {idx,action,atMs} entry every time the
+   student taps Next/Skip/Done or times out -- atMs is elapsed time since
+   the recording started, so it lines up with the audio file's own
+   timeline for the teacher's "jump to this word" feature. c5NotReachedIdx
+   collects the indices skipped OVER when a 5-in-a-row streak jumps ahead
+   to the next set -- a real gap in the middle of the sequence, which the
+   old single reachedCount number can't represent on its own. */
+var c5SkipStreak=0, c5Timestamps=[], c5NotReachedIdx=[], c5AutoTimer=null;
+function c5ClearAutoTimer(){ if(c5AutoTimer){ clearTimeout(c5AutoTimer); c5AutoTimer=null; } }
+function c5LogEvent(action){ c5Timestamps.push({ idx:c5Idx, action:action, atMs:(new Date().getTime()-c5StartAt) }); }
 function c5Enter(){
   c5Idx=-1; c5Blob=null; c5YesUsed=false; c5NextLock=false; c5Playing=false; c5StoppedByDone=false;
+  c5ClearAutoTimer(); c5SkipStreak=0; c5Timestamps=[]; c5NotReachedIdx=[]; c5EndedViaFinalStreak=false;
   document.getElementById("c5-intro").style.display="block";
   document.getElementById("c5-mic-note").style.display="block";
   var sl=document.getElementById("c5-section-label"); sl.style.display="none"; sl.textContent="";
@@ -6900,6 +6913,11 @@ function c5PaintItem(){
   document.getElementById("c5-progress").textContent="Item "+(c5Idx+1)+" of "+C5_ITEMS.length;
   var nlbl=document.getElementById("c5-next-lbl");
   nlbl.textContent = (c5Idx===C5_ITEMS.length-1) ? "Finish" : "Next";
+  /* Hidden 5-second-per-word timer -- no countdown ever shows. If the
+     student just sits on a word, it's logged and treated exactly like a
+     tapped Skip. */
+  c5ClearAutoTimer();
+  c5AutoTimer=setTimeout(c5AutoSkip,5000);
 }
 function c5Start(){
   var sb=document.getElementById("c5-start"), st=document.getElementById("c5-state");
@@ -6932,12 +6950,55 @@ function c5NextTap(){
   c5NextLock=true;
   if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c5NextLock=false; }); }
   else { setTimeout(function(){ c5NextLock=false; },16); }
+  c5ClearAutoTimer();
+  c5LogEvent("next");
+  c5SkipStreak=0; // an actual attempt resets the streak
   c5DoAdvance();
+}
+var c5EndedViaFinalStreak=false;
+/* 5 skips in a row (tapped Skip, or timed out) ends THAT SET only --
+   its remaining words are marked Not Reached (never counted as wrong,
+   same idea as Check 2's existing Not Reached handling) and the walk
+   jumps straight to the next set. On the very last set there's no next
+   set to jump to, so the check just finishes instead. */
+function c5JumpToNextSet(){
+  var i, setIdx=-1;
+  for(i=0;i<C5_SETS.length;i++){ if(c5Idx>=C5_SET_START[i] && c5Idx<C5_SET_START[i]+C5_SETS[i].words.length){ setIdx=i; break; } }
+  if(setIdx<0){ c5DoAdvance(); return; }
+  var setEnd=C5_SET_START[setIdx]+C5_SETS[setIdx].words.length-1, j;
+  for(j=c5Idx+1;j<=setEnd;j++){ c5NotReachedIdx.push(j); }
+  if(setIdx<C5_SETS.length-1){
+    c5Idx=C5_SET_START[setIdx+1];
+    c5PaintItem();
+  } else {
+    c5EndedViaFinalStreak=true;
+    c5Idx=setEnd;
+    stopRec();
+  }
+}
+function c5RegisterSkip(action){
+  c5ClearAutoTimer();
+  c5LogEvent(action);
+  c5SkipStreak++;
+  if(c5SkipStreak>=5){ c5SkipStreak=0; c5JumpToNextSet(); }
+  else { c5DoAdvance(); }
+}
+function c5SkipTap(){
+  if(c5NextLock){ return; }
+  c5NextLock=true;
+  if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c5NextLock=false; }); }
+  else { setTimeout(function(){ c5NextLock=false; },16); }
+  c5RegisterSkip("skip");
+}
+/* Hidden -- no countdown or timer ever shows on the student screen. */
+function c5AutoSkip(){
+  c5AutoTimer=null;
+  c5RegisterSkip("timeout");
 }
 /* Teacher-controlled early stop, at any item -- "do not force all 120
    items on every student" */
 var c5StoppedByDone=false;
-function c5DoneTap(){ c5StoppedByDone=true; stopRec(); }
+function c5DoneTap(){ c5ClearAutoTimer(); c5LogEvent("done"); c5StoppedByDone=true; stopRec(); }
 function c5Review(){
   c5Playing=false;
   document.getElementById("c5-start").style.display="none";
@@ -6948,7 +7009,7 @@ function c5Review(){
   var rs=document.getElementById("c5-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("c5-state");
   st.className="state-line saved";
-  st.textContent="Recording complete.";
+  st.textContent=c5EndedViaFinalStreak?"Great work! You’re done.":"Recording complete.";
   rfBackBar("c5-back",true);
   var rv=document.getElementById("c5-review");
   rv.innerHTML='<div class="clean-icon-row">'
@@ -6986,12 +7047,13 @@ function c5Finish(){
   downloadBlob(c5Blob,fname);
   var reached=c5Idx+1;
   C5Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
-    totalTimeMs:(new Date().getTime()-c5StartAt), reachedCount:reached, stoppedByDone:c5StoppedByDone, scores:null, flags:null, note:null,
+    totalTimeMs:(new Date().getTime()-c5StartAt), reachedCount:reached, stoppedByDone:c5StoppedByDone,
+    timestamps:c5Timestamps.slice(0), notReachedIdx:c5NotReachedIdx.slice(0), scores:null, flags:null, note:null,
     setCorrect:null, immediateCount:null, laboredCount:null, incorrectCount:null, selfCorrectedCount:null, skipCount:null, targets:null });
   document.getElementById("c5-review").innerHTML="";
   var st=document.getElementById("c5-state");
   st.className="state-line saved";
-  st.innerHTML="&#9989; All done! Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
+  st.innerHTML="&#9989; "+(c5EndedViaFinalStreak?"Great work! You’re done.":"All done! Nice work!")+" Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
     +'<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
     +"<li>Open today’s Check 5 assignment in Canvas.</li>"
     +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
@@ -7020,7 +7082,7 @@ function c5ConfirmSubmitted(){
    Adds a playback-speed control (persisted on this device only, never
    touching the original recording or the student's timing) and
    keyboard shortcuts -- both new for Check 5. */
-var C5T_CLS=0, C5T_STU=null, C5T_ATTEMPT=null, c5tFileUrl=null, c5tScores=[], c5tFlags=[];
+var C5T_CLS=0, C5T_STU=null, C5T_ATTEMPT=null, c5tFileUrl=null, c5tScores=[], c5tFlags=[], c5tTimestamps=[];
 var C5T_ORDER=["","lab","err","sc","skip","nr"];
 var C5T_LABELS={"":"Correct — Immediate","lab":"Correct — Labored/Decoded","err":"Incorrect","sc":"Self-Corrected","skip":"No Response / Skip","nr":"Not Reached"};
 var C5T_CSS_CLASS={"":"","lab":"state-lab","err":"state-err","sc":"state-sc","skip":"state-skip","nr":"state-skip"};
@@ -7066,9 +7128,13 @@ function c5tOpenAttempt(id){
   var a=C5Review.get(id);
   var n=C5_ITEMS.length, i;
   c5tScores=(a.scores&&a.scores.length===n)?a.scores.slice(0):[];
-  if(!c5tScores.length){ for(i=0;i<n;i++){ c5tScores.push(i>=(a.reachedCount||0)?"nr":""); } }
+  if(!c5tScores.length){
+    for(i=0;i<n;i++){ c5tScores.push(i>=(a.reachedCount||0)?"nr":""); }
+    if(a.notReachedIdx&&a.notReachedIdx.length){ for(i=0;i<a.notReachedIdx.length;i++){ c5tScores[a.notReachedIdx[i]]="nr"; } }
+  }
   c5tFlags=(a.flags&&a.flags.length===n)?a.flags.slice(0):[];
   if(!c5tFlags.length){ for(i=0;i<n;i++){ c5tFlags.push(false); } }
+  c5tTimestamps=(a.timestamps&&a.timestamps.length)?a.timestamps.slice(0):[];
   var host=document.getElementById("c5t-body"); if(!host){ return; }
   var gridsHtml="";
   for(i=0;i<C5_SETS.length;i++){
@@ -7121,6 +7187,14 @@ function c5tSetSpeed(v){
   var btns=document.querySelectorAll("#c5t-body .speed-btn"), i;
   for(i=0;i<btns.length;i++){ btns[i].className="speed-btn"+(parseFloat(btns[i].textContent)===v?" on":""); }
 }
+function c5tSecondsForIdx(i){
+  var j, prevAt=0;
+  for(j=0;j<c5tTimestamps.length;j++){
+    if(c5tTimestamps[j].idx===i){ return { sec:Math.round((c5tTimestamps[j].atMs-prevAt)/100)/10, action:c5tTimestamps[j].action, startMs:prevAt, endMs:c5tTimestamps[j].atMs }; }
+    prevAt=c5tTimestamps[j].atMs;
+  }
+  return null;
+}
 function c5tPaintGrid(hostId,startIdx,count){
   var box=document.getElementById(hostId); if(!box){ return; }
   var html="", i, gi;
@@ -7129,8 +7203,10 @@ function c5tPaintGrid(hostId,startIdx,count){
     var st=c5tScores[gi]||"";
     var cls=C5T_CSS_CLASS[st]||"";
     var flagOn=!!c5tFlags[gi];
+    var timeInfo=c5tSecondsForIdx(gi);
+    var timeHtml=timeInfo?('<br><span class="mini-note">'+timeInfo.sec+"s"+(timeInfo.action==="timeout"?" — timed out":"")+"</span>"):"";
     html+='<button class="clean-tile'+(cls?" "+cls:"")+'" onclick="c5tTap('+gi+')" title="'+C5T_LABELS[st]+(flagOn?" + flagged for an error pattern":"")+'">'
-      +escapeHtml(C5_ITEMS[gi].word)
+      +escapeHtml(C5_ITEMS[gi].word)+timeHtml
       +'<span class="c2-obs'+(flagOn?" on":"")+'" onclick="c5tToggleFlag(event,'+gi+')" title="Flag an error pattern to describe in the note below">◆</span>'
       +"</button>";
   }
@@ -7142,6 +7218,11 @@ function c5tPaintAllGrids(){
 function c5tTap(i){
   var idx=C5T_ORDER.indexOf(c5tScores[i]);
   c5tScores[i]=C5T_ORDER[(idx+1)%C5T_ORDER.length];
+  var timeInfo=c5tSecondsForIdx(i);
+  if(timeInfo){
+    var player=document.getElementById("c5t-player");
+    if(player){ try{ player.currentTime=timeInfo.startMs/1000; }catch(e){} }
+  }
   c5tPaintAllGrids();
   c5tPaintResults();
 }

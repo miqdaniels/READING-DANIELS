@@ -267,7 +267,110 @@ setTimeout(function(){
     ck(saved.targets.indexOf("because")>-1,"a skipped word is a needs-instruction target");
     ck(saved.targets.indexOf("but")===-1,"a self-corrected word is NOT treated as needing instruction");
 
-    regressionScreens();
+    skipTimeoutFlow();
+  }
+
+  function skipTimeoutFlow(){
+    /* ---- Section 6: Skip button, hidden auto-skip timer, 5-skip-streak set-jump,
+       final-set finish, timestamp logging, and the matching teacher-side display ---- */
+    w.go("diagLanding");
+    var diagBtns3=d.querySelectorAll("#diagLanding .btn"), c5Btn2=null, mm;
+    for(mm=0;mm<diagBtns3.length;mm++){ if(diagBtns3[mm].textContent.indexOf("Check 5")>-1){ c5Btn2=diagBtns3[mm]; } }
+    click(c5Btn2);
+    ck(activeId()==="check5","Check 5 re-opens for the skip/timeout pass");
+    ck(q("#c5-skip")&&q("#c5-skip").textContent==="Skip","a Skip button is present next to Next");
+    ck(q("#c5-skip").className.indexOf("pill-btn")>-1,"Skip uses the clean pill-button style");
+    ck(d.getElementById("c5-intro").textContent.indexOf("If you don’t know it, tap Skip.")>-1,"directions mention Skip");
+
+    w.c5Start();
+    setTimeout(function(){
+      ck(w.c5Idx===0,"skip/timeout pass starts fresh at item 0");
+
+      /* ---- a single tapped Skip just advances, like Next, and counts toward the streak.
+         (the rapid-double-tap-protection lock is a per-physical-tap debounce, already
+         covered above -- reset it between these deliberately separate taps so it doesn't
+         swallow them, exactly as a real animation frame boundary would.) ---- */
+      w.c5SkipTap();
+      w.c5NextLock=false;
+      ck(w.c5Idx===1,"a single Skip tap advances to the next item");
+      ck(w.c5SkipStreak===1,"skip streak is now 1");
+      w.c5NextTap();
+      w.c5NextLock=false;
+      ck(w.c5SkipStreak===0,"a real Next tap resets the skip streak back to 0");
+      ck(w.c5Idx===2,"Next still advances normally after a skip");
+
+      /* ---- the hidden 5-second auto-skip timer behaves exactly like a tapped Skip
+         (simulated directly -- no need to block the test on a real 5-second wait) ---- */
+      var idxBefore=w.c5Idx;
+      w.c5ClearAutoTimer();
+      w.c5AutoSkip();
+      ck(w.c5Idx===idxBefore+1,"an auto-skip (simulated timeout) advances exactly like a tapped Skip");
+      ck(w.c5Timestamps[w.c5Timestamps.length-1].action==="timeout","the timeout is logged as its own distinct action, not 'skip'");
+      ck(w.c5Timestamps[w.c5Timestamps.length-1].idx===idxBefore,"the timeout is logged against the item that timed out");
+
+      /* ---- 5 skips in a row mid-check ends THAT SET only, jumps to the next set ---- */
+      w.c5Idx=5; w.c5PaintItem(); w.c5SkipStreak=0;
+      w.c5SkipTap(); w.c5NextLock=false;
+      w.c5SkipTap(); w.c5NextLock=false;
+      w.c5SkipTap(); w.c5NextLock=false;
+      w.c5SkipTap(); w.c5NextLock=false;
+      ck(w.c5Idx===9,"four skips in a row just advance one at a time (streak below 5)");
+      ck(w.c5SkipStreak===4,"skip streak is 4 just before the 5th");
+      w.c5SkipTap(); w.c5NextLock=false; // 5th skip in a row -> ends set 5A, jumps to 5B
+      ck(w.c5SkipStreak===0,"the streak resets to 0 once it triggers the set-jump");
+      ck(w.c5Idx===w.C5_SET_START[1],"5 skips in a row jumps straight to the first item of the next set (5B), skipping the rest of 5A");
+      ck(w.c5NotReachedIdx.indexOf(10)>-1 && w.c5NotReachedIdx.indexOf(19)>-1,
+        "every remaining un-reached item in 5A (10 through 19) is recorded as Not Reached (got: "+w.c5NotReachedIdx.join(",")+")");
+      ck(w.c5NotReachedIdx.length===10,"exactly the 10 remaining 5A items (indices 10-19) are marked Not Reached so far, no more no less");
+
+      /* ---- 5 skips in a row on the VERY LAST set ends the whole check, not just the set ---- */
+      w.c5Idx=110; w.c5PaintItem(); w.c5SkipStreak=0;
+      w.c5SkipTap(); w.c5NextLock=false;
+      w.c5SkipTap(); w.c5NextLock=false;
+      w.c5SkipTap(); w.c5NextLock=false;
+      w.c5SkipTap(); w.c5NextLock=false;
+      w.c5SkipTap(); w.c5NextLock=false;
+      setTimeout(function(){
+        ck(w.c5EndedViaFinalStreak===true,"5 skips in a row on the final set ends the WHOLE check (no next set to jump to)");
+        ck(d.getElementById("c5-state").textContent==="Great work! You’re done.","the final-set streak shows the special finishing message, not the generic one");
+        ck(w.c5NotReachedIdx.length===15,"Not Reached now totals the earlier 5A gap (10) plus the final 5F gap (5) = 15 (got "+w.c5NotReachedIdx.length+")");
+
+        w.c5Finish();
+        var attempts2=w.C5Attempts.forStudent(w.READER.id);
+        var lastAttempt=attempts2[attempts2.length-1];
+        ck(lastAttempt.notReachedIdx.length===15,"the saved attempt records all 15 Not Reached items from both gaps");
+        ck(lastAttempt.notReachedIdx.indexOf(115)>-1 && lastAttempt.notReachedIdx.indexOf(119)>-1,"the final-set gap (115-119) is in the saved Not Reached list");
+        ck(Array.isArray(lastAttempt.timestamps) && lastAttempt.timestamps.length>0,"every Next/Skip/Done/timeout tap is logged with a timestamp in the saved attempt");
+
+        /* ---- teacher screen: seconds-per-word, timeout marking, Not-Reached pre-fill, click-to-seek ---- */
+        w.go("check5Teach");
+        w.c5tPick(0);
+        var studentBtns2=d.querySelectorAll("#c5t-roster .btn"), target2=null, kk;
+        for(kk=0;kk<studentBtns2.length;kk++){ if(studentBtns2[kk].textContent.indexOf(w.READER.name)===0){ target2=studentBtns2[kk]; } }
+        click(target2);
+        var openBtns=d.querySelectorAll("#c5t-body .mini-btn");
+        click(openBtns[openBtns.length-1]); // open the most recently saved attempt
+        ck(w.C5T_ATTEMPT===lastAttempt.id,"the teacher opened the most recently saved attempt");
+
+        ck(w.c5tScores[10]==="nr" && w.c5tScores[19]==="nr","the mid-check 5A gap pre-fills as Not Reached on the teacher screen too");
+        ck(w.c5tScores[115]==="nr" && w.c5tScores[119]==="nr","the final 5F gap also pre-fills as Not Reached");
+        ck(w.c5tScores[9]!=="nr","an item that was actually reached (just skipped) is NOT marked Not Reached");
+
+        var cell0=q("#c5t-grid-5A .clean-tile");
+        ck(cell0.innerHTML.indexOf("mini-note")>-1,"the first tile shows a grayed seconds-per-word helper line");
+        var timeoutCell=d.querySelectorAll("#c5t-grid-5A .clean-tile")[2];
+        ck(!!timeoutCell && timeoutCell.innerHTML.indexOf("timed out")>-1,"the item that auto-skipped via the hidden timer is marked as timed out on the teacher screen");
+
+        var player2=d.getElementById("c5t-player");
+        player2.currentTime=0;
+        var allTiles=d.querySelectorAll("#c5t-body .clean-tile");
+        click(allTiles[0]); // item 0 has a logged timestamp -- tapping should seek the player, alongside cycling its score
+        ck(typeof player2.currentTime==="number","tapping a word with a logged timestamp seeks the player with no crash");
+        ck(player2.playbackRate===1.5,"the existing playback-speed control is untouched by the new seek behavior");
+
+        regressionScreens();
+      },30);
+    },30);
   }
 
   function regressionScreens(){
