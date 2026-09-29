@@ -379,7 +379,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
    var(--ink-soft) correctly across all 5 themes and light/dark mode,
    with zero new/hardcoded color values (replaces the old solid-red
    circle + white handheld-mic silhouette used before this). */
-.mic-ico{position:relative;display:inline-block;flex:0 0 auto;box-sizing:border-box;border:2px solid var(--ink-soft);border-radius:50%;background-color:transparent;width:64px;height:64px;font-size:0;line-height:0;color:transparent}
+.mic-ico{position:relative;display:inline-block;flex:0 0 auto;box-sizing:border-box;border:2px solid var(--ink-soft);border-radius:20%;background-color:transparent;width:64px;height:64px;font-size:0;line-height:0;color:transparent}
 .mic-ico::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46%;height:52%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
 @keyframes micFlash{0%,100%{background-color:var(--ink-soft)}50%{background-color:var(--accent)}}
 .icon-btn-record,.flu-sq-record{background:transparent !important;color:var(--ink) !important;animation:none !important;box-shadow:none !important}
@@ -392,14 +392,14 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .flu-sq-record .icon-label{font-size:12px}
 /* small versions: the "Recording" status line and the teacher Record buttons */
 .rec-status{color:var(--ink-soft)}
-.rec-status .rec-status-dot{position:relative;box-sizing:border-box;border:1px solid var(--ink-soft);border-radius:50%;background-color:transparent;width:44px;height:44px;display:inline-block;flex:0 0 auto}
+.rec-status .rec-status-dot{position:relative;box-sizing:border-box;border:1px solid var(--ink-soft);border-radius:20%;background-color:transparent;width:44px;height:44px;display:inline-block;flex:0 0 auto}
 .rec-status .rec-status-dot::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46%;height:52%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
 .rec-status.paused .rec-status-dot::before{background-color:var(--ink-soft);opacity:.5}
 .mic-ico.mic-ico-tile{width:34px;height:34px}
 .rec-btn.rec{background:var(--accent)}
 /* Teacher Record buttons: same Muted mic, always -- stays gray whether
    idle or actually recording (no red state at all). */
-.rec-btn .rec-dot{position:relative;box-sizing:border-box;border:1px solid var(--ink-soft);border-radius:50%;background-color:transparent;width:26px;height:26px;display:inline-block;flex:0 0 auto;animation:none}
+.rec-btn .rec-dot{position:relative;box-sizing:border-box;border:1px solid var(--ink-soft);border-radius:20%;background-color:transparent;width:26px;height:26px;display:inline-block;flex:0 0 auto;animation:none}
 .rec-btn .rec-dot::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46%;height:52%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
 
 /* ===== Student View bar: the chosen theme, darker (light mode) or lighter (dark mode) ===== */
@@ -429,7 +429,7 @@ html[data-mode="dark"] .vas-banner .vas-exit{background:#111;color:#fff}
    glyph). While directions are actually playing, the glyph switches to
    the theme's own var(--accent) color with no pulse -- an existing app
    color, not a new one, and never red or green. */
-.ear-ico{position:relative;display:inline-block;flex:0 0 auto;box-sizing:border-box;border:2px solid var(--ink-soft);border-radius:50%;background-color:transparent;width:52px;height:52px;vertical-align:middle}
+.ear-ico{position:relative;display:inline-block;flex:0 0 auto;box-sizing:border-box;border:2px solid var(--ink-soft);border-radius:20%;background-color:transparent;width:52px;height:52px;vertical-align:middle}
 .ear-ico::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56%;height:56%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M6 18h7l11-9v30l-11-9H6z'/%3E%3Cpath d='M30 16c3 3 3 13 0 16' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M35 11c6 6 6 20 0 26' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M6 18h7l11-9v30l-11-9H6z'/%3E%3Cpath d='M30 16c3 3 3 13 0 16' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M35 11c6 6 6 20 0 26' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
 .ear-ico.ear-sm{width:26px;height:26px;margin-right:6px}
 .ear-ico.ear-tile{width:34px;height:34px}
@@ -451,11 +451,11 @@ html[data-mode="dark"] .vas-banner .vas-exit{background:#111;color:#fff}
    with zero extra color rules. Scoped under #check5/#check5Teach only:
    Checks 1-4 keep their current look untouched. Rolling this forward to
    earlier checks later is just widening these same selectors. */
-#check5 .pill-btn,#check5Teach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#check5 .pill-btn,#check5Teach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
 #check5 .pill-btn-primary,#check5Teach .pill-btn-primary{background:var(--accent);border:none;color:#fff}
 #check5 .pill-btn-secondary,#check5Teach .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
 #check5 .pill-btn[disabled],#check5Teach .pill-btn[disabled]{opacity:.45;cursor:default}
-#check5 .clean-icon,#check5Teach .clean-icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink-soft);color:var(--ink-soft);background:var(--panel);flex:0 0 auto;cursor:pointer;touch-action:manipulation}
+#check5 .clean-icon,#check5Teach .clean-icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:20%;border:1.5px solid var(--ink-soft);color:var(--ink-soft);background:var(--panel);flex:0 0 auto;cursor:pointer;touch-action:manipulation}
 #check5 .clean-icon svg,#check5Teach .clean-icon svg{width:18px;height:18px}
 #check5 .clean-icon.active,#check5Teach .clean-icon.active{border-color:var(--accent);color:var(--accent)}
 #check5 .clean-icon[disabled],#check5Teach .clean-icon[disabled]{opacity:.45;cursor:default}
@@ -475,7 +475,7 @@ html[data-mode="dark"] #check5 .clean-header,html[data-mode="dark"] #check5Teach
 #check5Teach .clean-tile.state-sc{background:var(--good-bg);border-color:var(--good);color:var(--good)}
 #check5Teach .clean-tile.state-skip{background:var(--unsure-bg);border-color:var(--unsure);color:var(--unsure)}
 #check5Teach .speed-row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px}
-#check5Teach .speed-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);border-radius:999px;padding:6px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation}
+#check5Teach .speed-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);border-radius:8px;padding:6px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation}
 #check5Teach .speed-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
 /* Check 5 reuses the exact same proven mic/ear artwork (never invents a
    new icon), just muted and never pulsing/animated -- scoped so Checks
@@ -484,18 +484,18 @@ html[data-mode="dark"] #check5 .clean-header,html[data-mode="dark"] #check5Teach
    all, per the locked button rule; the small recording indicator is the
    app's existing 22px status dot, just recolored calm/muted. */
 #check5 .rec-status{color:var(--ink-soft)}
-#check5 .dir-listen-btn{border-radius:999px;padding:10px 20px}
+#check5 .dir-listen-btn{border-radius:10px;padding:10px 20px}
 #check5 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px}
 
 /* ===== Check 6 (6A): same Clean/Professional system as Check 5 =====
    Deliberately a SEPARATE copy of the ruleset above (not a widened
    selector on Check 5's rules) so this build never touches a single
    line Check 5 depends on -- zero risk of altering Checks 1-5. */
-#check6 .pill-btn,#check6Teach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#check6 .pill-btn,#check6Teach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
 #check6 .pill-btn-primary,#check6Teach .pill-btn-primary{background:var(--accent);border:none;color:#fff}
 #check6 .pill-btn-secondary,#check6Teach .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
 #check6 .pill-btn[disabled],#check6Teach .pill-btn[disabled]{opacity:.45;cursor:default}
-#check6 .clean-icon,#check6Teach .clean-icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink-soft);color:var(--ink-soft);background:var(--panel);flex:0 0 auto;cursor:pointer;touch-action:manipulation}
+#check6 .clean-icon,#check6Teach .clean-icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:20%;border:1.5px solid var(--ink-soft);color:var(--ink-soft);background:var(--panel);flex:0 0 auto;cursor:pointer;touch-action:manipulation}
 #check6 .clean-icon svg,#check6Teach .clean-icon svg{width:18px;height:18px}
 #check6 .clean-icon.active,#check6Teach .clean-icon.active{border-color:var(--accent);color:var(--accent)}
 #check6 .clean-icon[disabled],#check6Teach .clean-icon[disabled]{opacity:.45;cursor:default}
@@ -521,20 +521,20 @@ html[data-mode="dark"] #check6 .clean-header,html[data-mode="dark"] #check6Teach
 #check6Teach .clean-tile.state-sc{background:var(--good-bg);border-color:var(--good);color:var(--good)}
 #check6Teach .clean-tile.state-skip{background:var(--unsure-bg);border-color:var(--unsure);color:var(--unsure)}
 #check6Teach .speed-row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px}
-#check6Teach .speed-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);border-radius:999px;padding:6px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation}
+#check6Teach .speed-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);border-radius:8px;padding:6px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation}
 #check6Teach .speed-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
 #check6 .rec-status{color:var(--ink-soft)}
-#check6 .dir-listen-btn{border-radius:999px;padding:10px 20px}
+#check6 .dir-listen-btn{border-radius:10px;padding:10px 20px}
 #check6 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px}
 
 /* ===== Check 7 (Multisyllabic Word Analysis): same Clean/Professional
    system, a SEPARATE copy again -- Checks 1-6 (including 6A/6B/6C) are
    locked and this build never touches a line any of them depends on. */
-#check7 .pill-btn,#check7Teach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#check7 .pill-btn,#check7Teach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
 #check7 .pill-btn-primary,#check7Teach .pill-btn-primary{background:var(--accent);border:none;color:#fff}
 #check7 .pill-btn-secondary,#check7Teach .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
 #check7 .pill-btn[disabled],#check7Teach .pill-btn[disabled]{opacity:.45;cursor:default}
-#check7 .clean-icon,#check7Teach .clean-icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink-soft);color:var(--ink-soft);background:var(--panel);flex:0 0 auto;cursor:pointer;touch-action:manipulation}
+#check7 .clean-icon,#check7Teach .clean-icon{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:20%;border:1.5px solid var(--ink-soft);color:var(--ink-soft);background:var(--panel);flex:0 0 auto;cursor:pointer;touch-action:manipulation}
 #check7 .clean-icon svg,#check7Teach .clean-icon svg{width:18px;height:18px}
 #check7 .clean-icon.active,#check7Teach .clean-icon.active{border-color:var(--accent);color:var(--accent)}
 #check7 .clean-icon[disabled],#check7Teach .clean-icon[disabled]{opacity:.45;cursor:default}
@@ -556,17 +556,17 @@ html[data-mode="dark"] #check7 .clean-header,html[data-mode="dark"] #check7Teach
 #check7Teach .clean-tile.state-sc{background:var(--good-bg);border-color:var(--good);color:var(--good)}
 #check7Teach .clean-tile.state-skip{background:var(--unsure-bg);border-color:var(--unsure);color:var(--unsure)}
 #check7Teach .speed-row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 4px}
-#check7Teach .speed-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);border-radius:999px;padding:6px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation}
+#check7Teach .speed-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);border-radius:8px;padding:6px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer;touch-action:manipulation}
 #check7Teach .speed-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
 #check7 .rec-status{color:var(--ink-soft)}
-#check7 .dir-listen-btn{border-radius:999px;padding:10px 20px}
+#check7 .dir-listen-btn{border-radius:10px;padding:10px 20px}
 #check7 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px}
 
 /* ===== Check 6B (Understand It): same Clean/Professional system, a
    SEPARATE copy again -- 6A is locked and this build never touches a
    line it depends on. New here: the stem text and the 3 stacked
    full-width answer-choice pills (selected-response, no recording). ===== */
-#check6b .pill-btn,#check6bTeach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#check6b .pill-btn,#check6bTeach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
 #check6b .pill-btn-primary,#check6bTeach .pill-btn-primary{background:var(--accent);border:none;color:#fff}
 #check6b .pill-btn-secondary,#check6bTeach .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
 #check6b .pill-btn[disabled],#check6bTeach .pill-btn[disabled]{opacity:.45;cursor:default}
@@ -577,7 +577,7 @@ html[data-mode="dark"] #check6b .clean-header,html[data-mode="dark"] #check6bTea
 #check6b .clean-stem{font-size:3rem;font-weight:700;line-height:1.4;margin:10px 0 14px;text-align:center;word-wrap:break-word;overflow-wrap:break-word}
 #check6b .dir-row,#check6c .dir-row{margin:6px 0 8px}
 @media(max-width:520px){#check6b .clean-stem{font-size:2.2rem}}
-#check6b .choice-pill{display:block;width:100%;box-sizing:border-box;text-align:center;border-radius:999px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:600;font-size:2rem;padding:14px 20px;margin:0 0 12px;cursor:pointer;touch-action:manipulation;word-wrap:break-word;overflow-wrap:break-word}
+#check6b .choice-pill{display:block;width:100%;box-sizing:border-box;text-align:center;border-radius:10px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:600;font-size:2rem;padding:14px 20px;margin:0 0 12px;cursor:pointer;touch-action:manipulation;word-wrap:break-word;overflow-wrap:break-word}
 #check6b .choice-pill:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 /* ---- Mick, 2026-09-29 (Check 6B only): every item has exactly 3 answers
    -- two side by side on top, one centered below -- each about half the
@@ -597,7 +597,7 @@ html[data-mode="dark"] #check6b .clean-header,html[data-mode="dark"] #check6bTea
    line either depends on. New here: word-part tiles (tap-to-build) and a
    plain building-area preview -- no drag-and-drop, no animation, no
    game-show effects, per the explicit "this is an assessment" rule. ===== */
-#check6c .pill-btn,#check6cTeach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#check6c .pill-btn,#check6cTeach .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
 #check6c .pill-btn-primary,#check6cTeach .pill-btn-primary{background:var(--accent);border:none;color:#fff}
 #check6c .pill-btn-secondary,#check6cTeach .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
 #check6c .pill-btn[disabled],#check6cTeach .pill-btn[disabled]{opacity:.45;cursor:default}
@@ -645,7 +645,7 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
 #check1 .icon-row,#check2 .icon-row,#check3 .icon-row,#check4 .icon-row{gap:10px;flex-wrap:wrap}
 #check1 .icon-btn,#check2 .icon-btn,#check3 .icon-btn,#check4 .icon-btn{
   display:inline-flex;align-items:center;justify-content:center;min-width:0;min-height:0;
-  border-radius:999px;background:var(--accent) !important;color:#fff !important;
+  border-radius:10px;background:var(--accent) !important;color:#fff !important;
   padding:12px 26px;font:inherit;font-weight:700;font-size:15px;border:none;
   touch-action:manipulation;animation:none !important;box-shadow:none !important}
 #check1 .icon-btn .icon-glyph,#check2 .icon-btn .icon-glyph,#check3 .icon-btn .icon-glyph,#check4 .icon-btn .icon-glyph{display:none}
@@ -663,7 +663,7 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
 /* ---- Go Back pill (added after the restyle above -- checks 1-4 never
    had .pill-btn CSS at all, so it rendered as an unstyled default
    button; scoped here to match Checks 5-7's own .pill-btn look). ---- */
-#check1 .pill-btn,#check2 .pill-btn,#check3 .pill-btn,#check4 .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#check1 .pill-btn,#check2 .pill-btn,#check3 .pill-btn,#check4 .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
 #check1 .pill-btn-secondary,#check2 .pill-btn-secondary,#check3 .pill-btn-secondary,#check4 .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
 
 /* ---- Recording status line + Listen-to-directions button: same muted,
@@ -671,7 +671,7 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
    markup, confirmed) -- a small static dot/ear instead of a large
    colored pulsing circle. ---- */
 #check1 .rec-status,#check2 .rec-status,#check3 .rec-status,#check4 .rec-status{color:var(--ink-soft)}
-#check1 .dir-listen-btn,#check2 .dir-listen-btn,#check3 .dir-listen-btn,#check4 .dir-listen-btn{border-radius:999px;padding:10px 20px}
+#check1 .dir-listen-btn,#check2 .dir-listen-btn,#check3 .dir-listen-btn,#check4 .dir-listen-btn{border-radius:10px;padding:10px 20px}
 #check1 .dir-listen-btn .dir-listen-icon.ear-ico,#check2 .dir-listen-btn .dir-listen-icon.ear-ico,#check3 .dir-listen-btn .dir-listen-icon.ear-ico,#check4 .dir-listen-btn .dir-listen-icon.ear-ico{width:40px;height:40px}
 
 /* ---- The big printed letter/word display: same calmer sizing Checks
@@ -710,15 +710,15 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
    these four screens -- the Word Practice recorder (#s-teach) and the
    Directions recorder (#s-teachDir) also use .rec-btn/.play-btn and are
    explicitly NOT part of this restyle. ---- */
-#check2 .rec-btn,#check3 .rec-btn,#s-teachC2 .rec-btn,#s-teachC3 .rec-btn{border-radius:999px}
-#check2 .play-btn,#check3 .play-btn,#s-teachC2 .play-btn,#s-teachC3 .play-btn{border-radius:999px}
+#check2 .rec-btn,#check3 .rec-btn,#s-teachC2 .rec-btn,#s-teachC3 .rec-btn{border-radius:10px}
+#check2 .play-btn,#check3 .play-btn,#s-teachC2 .play-btn,#s-teachC3 .play-btn{border-radius:10px}
 #check2 .rec-btn .rec-dot,#check3 .rec-btn .rec-dot{animation:none}
 
 /* ===== Teacher Instructional Groups: same Clean/Professional system as
    Checks 5-7 -- clean cards, pill buttons, restrained color, generous
    whitespace. A brand-new screen (not a restyle of anything existing),
    so it gets the .pill-btn/.clean-card family directly like Check 5. ===== */
-#instrGroups .pill-btn,#instrGroupDetail .pill-btn,#instrFuture .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#instrGroups .pill-btn,#instrGroupDetail .pill-btn,#instrFuture .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
 #instrGroups .pill-btn-primary,#instrGroupDetail .pill-btn-primary{background:var(--accent);border:none;color:#fff}
 #instrGroups .pill-btn-secondary,#instrGroupDetail .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
 #instrGroups .clean-card,#instrGroupDetail .clean-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin:0 0 16px}
@@ -734,7 +734,7 @@ html[data-mode="dark"] #instrGroups .clean-header,html[data-mode="dark"] #instrG
 /* ===== Teacher Data Management (Workstream C: export/import): same
    Clean/Professional system, scoped to its own screen and to the
    Settings screen (which links into it). ===== */
-#dataMgmt .pill-btn,#s-settings .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
+#dataMgmt .pill-btn,#s-settings .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:12px 26px;cursor:pointer;touch-action:manipulation}
 #dataMgmt .pill-btn-primary,#s-settings .pill-btn-primary{background:var(--accent);border:none;color:#fff}
 #dataMgmt .pill-btn-secondary,#s-settings .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
 #dataMgmt .clean-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin:0 0 16px}

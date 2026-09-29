@@ -17,11 +17,13 @@ function ok(c,m){ if(c){pass++;} else {fail++; console.log("FAIL:",m);} }
 
 w.READER=w.CLASSES[0].students[0]; w.CURCLASS=w.CLASSES[0];
 
-/* ---- Check 1: Record button is a pill, solid accent, no icon glyph ---- */
+/* ---- Check 1: Record button is a rounded rectangle, solid accent, no icon glyph
+   (Mick, 2026-09-29 -- STYLE LOCK v2: rounded rectangle, not a full pill, to
+   match the "Personal Narrative 1" box style she pointed to) ---- */
 w.go("check1");
 var c1start=d.getElementById("c1-start");
 var cs=w.getComputedStyle(c1start);
-ok(cs.borderRadius==="999px","Check 1 Record button is fully pill-shaped (got "+cs.borderRadius+")");
+ok(cs.borderRadius==="10px","Check 1 Record button is a rounded rectangle, not a full pill (got "+cs.borderRadius+")");
 ok(cs.color==="rgb(255, 255, 255)","Check 1 Record button text is white (got "+cs.color+")");
 ok(w.getComputedStyle(c1start.querySelector(".icon-glyph")).display==="none","Check 1 Record button's icon glyph is hidden (text-only, matching Check 5-7)");
 ok(c1start.querySelector(".icon-label").textContent==="Record","Check 1 Record button still reads 'Record' (label untouched)");
@@ -44,7 +46,7 @@ ok(w.document.getElementById("check1Teach").className.indexOf("active")>-1,"Chec
 w.go("check2");
 var c2setupBtn=d.getElementById("c2-setup-btn");
 var cs2=w.getComputedStyle(c2setupBtn);
-ok(cs2.borderRadius==="999px","Check 2's camera-setup button is fully pill-shaped (got "+cs2.borderRadius+")");
+ok(cs2.borderRadius==="10px","Check 2's camera-setup button is a rounded rectangle, not a full pill (got "+cs2.borderRadius+")");
 
 /* ---- Check 2: rec-status / dir-listen are muted, no pulse (matches Check5-7).
    The Muted icon system (2026-09-29) makes this the base/default look for
