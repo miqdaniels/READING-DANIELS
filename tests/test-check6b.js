@@ -101,7 +101,7 @@ setTimeout(function(){
 
   /* ---- Mick, 2026-09-29: Back bar hidden while questions show (it looked
      like a 4th answer choice) ---- */
-  ck(d.getElementById("c6b-backbar").style.display==="none","the Back bar is hidden while a question is showing (it read like a 4th answer choice)");
+  ck(d.getElementById("c6b-back").style.display==="none","the Go Back button is hidden while a question is showing (it read like a 4th answer choice)");
 
   /* ---- layout: two answer buttons side by side, one centered below ---- */
   var rows=d.querySelectorAll("#c6b-choices .c6b-choice-row");

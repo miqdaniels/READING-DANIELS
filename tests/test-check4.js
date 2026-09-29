@@ -88,6 +88,9 @@ setTimeout(function(){
   ck(activeId()==="check4","Check 4 opens");
   ck(d.getElementById("c4-current").style.display==="none","no word shown before Record is tapped");
   ck(!q("#check4 video"),"Check 4 is audio-only -- no camera preview element at all");
+  ck(d.getElementById("c4-back").style.display!=="none","Go Back is available on the pre-start screen (Mick, 2026-09-29)");
+  ck(d.getElementById("c4-back").className.indexOf("pill-btn-secondary")>-1 && d.getElementById("c4-back").textContent==="Go Back",
+    "Go Back uses the clean pill-secondary style and exact wording, not the old plain-bar look");
 
   w.c4Start();
   setTimeout(function(){
@@ -96,7 +99,8 @@ setTimeout(function(){
     ck(d.getElementById("c4-progress").textContent==="Item 1 of 142","progress reads Item 1 of 142");
     ck(d.getElementById("c4-section-label").textContent==="4A","section label reads 4A for the first item");
     ck(d.getElementById("c4-pseudo-note").style.display==="none","no made-up-word note on a real word");
-    ck(d.getElementById("c4-done").style.display!=="none","the Done-early icon button is available from the start");
+    ck(d.getElementById("c4-done").style.display!=="none","the Done-early icon button is available from the start (kept per Mick, 2026-09-29)");
+    ck(d.getElementById("c4-back").style.display==="none","Go Back is hidden once the check is actively in progress");
 
     /* ---- rapid double-tap protection: two synchronous taps only advance once ---- */
     w.c4NextTap(); w.c4NextTap();
@@ -119,6 +123,7 @@ setTimeout(function(){
       w.c4DoneTap();
       setTimeout(function(){
         ck(!!d.getElementById("c4-review").innerHTML,"Done finalizes the recording straight into review, even mid-check");
+        ck(d.getElementById("c4-back").style.display!=="none","Go Back reappears once the check has ended (review/save stage)");
         ck(d.getElementById("c4-review").innerHTML.indexOf("Play back")>-1,"a Play back control is offered");
         ck(d.getElementById("c4-review").innerHTML.indexOf("Redo")===-1,"no student Redo on a check -- only View as Student may restart one");
         ck(d.getElementById("c4-review").innerHTML.indexOf("Save")>-1,"a Save control is offered");
@@ -141,6 +146,7 @@ setTimeout(function(){
         var attempts=w.C4Attempts.forStudent(w.READER.id);
         ck(attempts.length===1,"one Check 4 attempt saved");
         ck(attempts[0].reachedCount===51,"the saved attempt records how far the student actually got (51 of 142, stopped mid-4E)");
+        ck(attempts[0].stoppedByDone===true,"the attempt records that the student stopped via Done, not by reaching the end (Mick, 2026-09-29)");
 
         click(yesBtn);
         ck(activeId()==="diagLanding","YES returns straight to the Reading Checks dashboard");
@@ -172,9 +178,11 @@ setTimeout(function(){
     ck(!!target && /\(1\)/.test(target.textContent),"roster shows the attempt count next to the student's name");
     click(target);
     ck(d.getElementById("c4t-body").textContent.indexOf("Reached 51 of 142")>-1,"teacher sees how far the student actually got");
+    ck(d.getElementById("c4t-body").textContent.indexOf("Tapped Done")>-1,"the attempt list itself flags that Done was tapped (Mick, 2026-09-29)");
     var openBtn=q("#c4t-body .mini-btn");
     ck(!!openBtn,"attempt list shows an Open button");
     click(openBtn);
+    ck(d.getElementById("c4t-body").textContent.indexOf("Tapped Done at item 51 of 142")>-1,"the opened attempt says exactly where the student tapped Done (Mick, 2026-09-29)");
 
     var totalCells=0, bandIds=[], b;
     for(b=0;b<w.C4_BANDS.length;b++){

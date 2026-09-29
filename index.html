@@ -935,7 +935,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <p class="state-line none" id="c1-state"></p>
       <div id="c1-review"></div>
       <div class="nav-row" style="margin-top:14px">
-        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+        <button class="pill-btn pill-btn-secondary" id="c1-back" onclick="go('diagLanding')">Go Back</button>
       </div>
     </div>
   </section>
@@ -1024,7 +1024,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div id="c2-review"></div>
 
       <div class="nav-row" style="margin-top:14px">
-        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+        <button class="pill-btn pill-btn-secondary" id="c2-back" onclick="go('diagLanding')">Go Back</button>
       </div>
     </div>
   </section>
@@ -1184,7 +1184,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div id="c3-review"></div>
 
       <div class="nav-row" style="margin-top:14px">
-        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+        <button class="pill-btn pill-btn-secondary" id="c3-back" onclick="go('diagLanding')">Go Back</button>
       </div>
     </div>
   </section>
@@ -1257,7 +1257,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <p class="state-line none" id="c4-state"></p>
       <div id="c4-review"></div>
       <div class="nav-row" style="margin-top:14px">
-        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+        <button class="pill-btn pill-btn-secondary" id="c4-back" onclick="go('diagLanding')">Go Back</button>
       </div>
     </div>
   </section>
@@ -1310,7 +1310,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <p class="state-line none" id="c5-state"></p>
       <div id="c5-review"></div>
       <div class="nav-row" style="margin-top:14px">
-        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+        <button class="pill-btn pill-btn-secondary" id="c5-back" onclick="go('diagLanding')">Go Back</button>
       </div>
     </div>
   </section>
@@ -1362,7 +1362,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <p class="state-line none" id="c6-state"></p>
       <div id="c6-review"></div>
       <div class="nav-row" style="margin-top:14px">
-        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+        <button class="pill-btn pill-btn-secondary" id="c6-back" onclick="go('diagLanding')">Go Back</button>
       </div>
     </div>
   </section>
@@ -1406,7 +1406,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div id="c6b-choices"></div>
       <div id="c6b-done"></div>
       <div class="nav-row" style="margin-top:14px" id="c6b-backbar">
-        <button class="btn" id="c6b-back" onclick="go('diagLanding')">&#8592; Back</button>
+        <button class="pill-btn pill-btn-secondary" id="c6b-back" onclick="go('diagLanding')">Go Back</button>
       </div>
     </div>
   </section>
@@ -1456,7 +1456,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="word-part-row" id="c6c-pieces"></div>
       <div id="c6c-done"></div>
       <div class="nav-row" style="margin-top:14px">
-        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+        <button class="pill-btn pill-btn-secondary" id="c6c-back" onclick="go('diagLanding')">Go Back</button>
       </div>
     </div>
   </section>
@@ -1509,7 +1509,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <p class="state-line none" id="c7-state"></p>
       <div id="c7-review"></div>
       <div class="nav-row" style="margin-top:14px">
-        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+        <button class="pill-btn pill-btn-secondary" id="c7-back" onclick="go('diagLanding')">Go Back</button>
       </div>
     </div>
   </section>
@@ -3645,6 +3645,12 @@ function sentenceHTML(){
   return html;
 }
 function escapeHtml(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+/* Mick, 2026-09-29: the Go Back pill shows only before a check starts and
+   again after it ends (review/save/finish) -- never while it's actually
+   in progress, so a student can't accidentally back out mid-check. The
+   Done button is untouched by this (kept everywhere, see the c*DoneTap
+   functions) -- this only ever toggles the bottom nav-row button. */
+function rfBackBar(id,show){ var el=document.getElementById(id); if(el){ el.style.display = show ? "" : "none"; } }
 function updateWordClasses(){
   var box=document.getElementById("sent-line"); if(!box) return;
   var sp=box.getElementsByClassName("w-tok"), i;
@@ -4848,6 +4854,7 @@ function c1Enter(){
   var rs=document.getElementById("c1-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("c1-state"); st.className="state-line none"; st.textContent="";
   var rv=document.getElementById("c1-review"); if(rv){ rv.innerHTML=""; }
+  rfBackBar("c1-back",true);
   dirPaintButton("dir_check1");
 }
 function c1PaintLetter(){
@@ -4876,6 +4883,7 @@ function c1Start(){
     sb.disabled=true; sb.className="icon-btn icon-btn-record rec";
     var rs=document.getElementById("c1-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
     document.getElementById("c1-next").style.display="inline-flex";
+    rfBackBar("c1-back",false);
     st.className="state-line none"; st.textContent="Recording. Say each letter, then tap Next.";
   }).catch(function(err){
     st.className="state-line err"; st.textContent=micErrorText(err);
@@ -4898,6 +4906,7 @@ function c1Review(){
   var st=document.getElementById("c1-state");
   st.className="state-line saved";
   st.textContent="Recording complete.";
+  rfBackBar("c1-back",true);
   var rv=document.getElementById("c1-review");
   /* No student Redo on a check -- only View as Student (the teacher's own
      demo mode) may restart one; a real student's Check 1 review only
@@ -4996,6 +5005,7 @@ function c2Enter(){
   var startBtn=document.getElementById("c2-start-real"); if(startBtn){ startBtn.style.display="none"; }
   var tm=document.getElementById("c2-timer"); if(tm){ tm.textContent=c2FmtTime(C2_TIME_LIMIT_MS); }
   var trans=document.getElementById("c2-transition"); if(trans){ trans.style.display="none"; }
+  rfBackBar("c2-back",true);
   dirPaintButton("dir_check2_open");
   dirAutoPlayOnce("dir_check2_open");
 }
@@ -5056,6 +5066,7 @@ function c2StartCheck(){
 function c2BeginWalk(){
   var setup=document.getElementById("c2-setup"); if(setup){ setup.style.display="none"; }
   var assess=document.getElementById("c2-assess"); if(assess){ assess.style.display="block"; }
+  rfBackBar("c2-back",false);
   c2Idx=-1; c2WarnShown=false; c2HardStopped=false; c2NotReachedFrom=-1;
   c2StartAt=new Date().getTime();
   if(c2TimerHandle){ clearInterval(c2TimerHandle); }
@@ -5187,6 +5198,7 @@ function c2OnRecordingStopped(){
 function c2Review(){
   c2Playing=false;
   var assess=document.getElementById("c2-assess"); if(assess){ assess.style.display="none"; }
+  rfBackBar("c2-back",true);
   var rv=document.getElementById("c2-review"); if(!rv){ return; }
   if(c2ReviewUrl){ try{ URL.revokeObjectURL(c2ReviewUrl); }catch(e){} }
   c2ReviewUrl=URL.createObjectURL(c2Blob);
@@ -5831,6 +5843,7 @@ function c3Enter(){
   var ss=document.getElementById("c3-setup-state"); if(ss){ ss.className="state-line none"; ss.textContent=""; }
   var startBtn=document.getElementById("c3-start-real"); if(startBtn){ startBtn.style.display="none"; }
   var trans=document.getElementById("c3-transition"); if(trans){ trans.style.display="none"; }
+  rfBackBar("c3-back",true);
   dirPaintButton("dir_check3_open");
   dirAutoPlayOnce("dir_check3_open");
 }
@@ -5878,6 +5891,7 @@ function c3StartCheck(){
 }
 function c3BeginWalk(){
   var setup=document.getElementById("c3-setup"); if(setup){ setup.style.display="none"; }
+  rfBackBar("c3-back",false);
   c3Idx=-1;
   c3StartAt=new Date().getTime();
   c3DoAdvance();
@@ -5983,6 +5997,7 @@ function c3OnRecordingStopped(){
 function c3Review(){
   c3Playing=false;
   var assess=document.getElementById("c3-assess"); if(assess){ assess.style.display="none"; }
+  rfBackBar("c3-back",true);
   var rv=document.getElementById("c3-review"); if(!rv){ return; }
   if(c3ReviewUrl){ try{ URL.revokeObjectURL(c3ReviewUrl); }catch(e){} }
   c3ReviewUrl=URL.createObjectURL(c3Blob);
@@ -6462,7 +6477,7 @@ var C4Review=rfReviewStore("rf_check4_attempts");
    all 142 items on every student. ---------- */
 var c4Idx=-1, c4Blob=null, c4YesUsed=false, c4NextLock=false, c4Playing=false, c4StartAt=0;
 function c4Enter(){
-  c4Idx=-1; c4Blob=null; c4YesUsed=false; c4NextLock=false; c4Playing=false;
+  c4Idx=-1; c4Blob=null; c4YesUsed=false; c4NextLock=false; c4Playing=false; c4StoppedByDone=false;
   document.getElementById("c4-intro").style.display="block";
   document.getElementById("c4-mic-note").style.display="block";
   var sl=document.getElementById("c4-section-label"); sl.style.display="none"; sl.textContent="";
@@ -6476,6 +6491,7 @@ function c4Enter(){
   var rs=document.getElementById("c4-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("c4-state"); st.className="state-line none"; st.textContent="";
   var rv=document.getElementById("c4-review"); if(rv){ rv.innerHTML=""; }
+  rfBackBar("c4-back",true);
   dirPaintButton("dir_check4");
 }
 function c4PaintItem(){
@@ -6505,6 +6521,7 @@ function c4Start(){
     var rs=document.getElementById("c4-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
     document.getElementById("c4-next").style.display="inline-flex";
     document.getElementById("c4-done").style.display="inline-flex";
+    rfBackBar("c4-back",false);
     st.className="state-line none"; st.textContent="Recording. Read each word, then tap Next.";
   }).catch(function(err){
     st.className="state-line err"; st.textContent=micErrorText(err);
@@ -6526,7 +6543,11 @@ function c4NextTap(){
 }
 /* Teacher-controlled early stop, at any item -- "do not force all 142
    items on every student" */
-function c4DoneTap(){ stopRec(); }
+var c4StoppedByDone=false;
+/* Mick, 2026-09-29: Done is kept on every check -- a student can still
+   stop early -- but now the teacher report says exactly where, instead
+   of that fact being silently indistinguishable from reaching the end. */
+function c4DoneTap(){ c4StoppedByDone=true; stopRec(); }
 function c4Review(){
   c4Playing=false;
   var sb=document.getElementById("c4-start"); sb.style.display="none";
@@ -6540,6 +6561,7 @@ function c4Review(){
   var st=document.getElementById("c4-state");
   st.className="state-line saved";
   st.textContent="Recording complete.";
+  rfBackBar("c4-back",true);
   var rv=document.getElementById("c4-review");
   rv.innerHTML='<div class="icon-row">'
     +'<button class="icon-btn icon-btn-listen" id="c4-listen-btn" onclick="c4ToggleListen()"><span class="icon-glyph">&#9654;</span><span class="icon-label" id="c4-listen-lbl">Play back</span></button>'
@@ -6576,7 +6598,7 @@ function c4Finish(){
   downloadBlob(c4Blob,fname);
   var reached=c4Idx+1;
   C4Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
-    totalTimeMs:(new Date().getTime()-c4StartAt), reachedCount:reached, scores:null, flags:null, note:null, bandCorrect:null, realWordsCorrect:null, pseudoCorrect:null, targets:null });
+    totalTimeMs:(new Date().getTime()-c4StartAt), reachedCount:reached, stoppedByDone:c4StoppedByDone, scores:null, flags:null, note:null, bandCorrect:null, realWordsCorrect:null, pseudoCorrect:null, targets:null });
   document.getElementById("c4-review").innerHTML="";
   var st=document.getElementById("c4-state");
   st.className="state-line saved";
@@ -6634,7 +6656,7 @@ function c4tPaintAttemptList(){
   for(i=0;i<list.length;i++){
     (function(a){
       var scored=(a.realWordsCorrect!==null&&a.realWordsCorrect!==undefined) ? " — scored ("+(a.realWordsCorrect+a.pseudoCorrect)+"/"+C4_ITEMS.length+")" : " — not scored yet";
-      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small> Reached '+(a.reachedCount||0)+" of "+C4_ITEMS.length+scored+'</small></div>'
+      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small> Reached '+(a.reachedCount||0)+" of "+C4_ITEMS.length+(a.stoppedByDone?" \u2014 Tapped Done":"")+scored+'</small></div>'
         +'<button class="mini-btn" onclick="c4tOpenAttempt(\''+a.id+'\')">Open</button></div>';
     })(list[i]);
   }
@@ -6660,7 +6682,7 @@ function c4tOpenAttempt(id){
   host.innerHTML =
      '<div class="card">'
     +'<p class="step-eyebrow">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+"</p>"
-    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+" &nbsp; Reached "+(a.reachedCount||0)+" of "+n+" items</p>"
+    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+" &nbsp; Reached "+(a.reachedCount||0)+" of "+n+" items"+(a.stoppedByDone?" \u2014 Tapped Done at item "+(a.reachedCount||0)+" of "+n:"")+"</p>"
     +'<label class="btn" for="c4t-file">Open the recording from Canvas</label>'
     +'<input type="file" id="c4t-file" style="display:none" accept="audio/*,video/webm,.webm,.ogg" onchange="c4tOpenFile(this)">'
     +'<audio id="c4t-player" controls style="width:100%;margin:10px 0"></audio>'
@@ -6809,7 +6831,7 @@ var C5Review=rfReviewStore("rf_check5_attempts");
    button Check 4 uses -- Check 5 never forces all 120 items. ---------- */
 var c5Idx=-1, c5Blob=null, c5YesUsed=false, c5NextLock=false, c5Playing=false, c5StartAt=0;
 function c5Enter(){
-  c5Idx=-1; c5Blob=null; c5YesUsed=false; c5NextLock=false; c5Playing=false;
+  c5Idx=-1; c5Blob=null; c5YesUsed=false; c5NextLock=false; c5Playing=false; c5StoppedByDone=false;
   document.getElementById("c5-intro").style.display="block";
   document.getElementById("c5-mic-note").style.display="block";
   var sl=document.getElementById("c5-section-label"); sl.style.display="none"; sl.textContent="";
@@ -6820,6 +6842,7 @@ function c5Enter(){
   var rs=document.getElementById("c5-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("c5-state"); st.className="state-line none"; st.textContent="";
   var rv=document.getElementById("c5-review"); if(rv){ rv.innerHTML=""; }
+  rfBackBar("c5-back",true);
   dirPaintButton("dir_check5");
 }
 function c5PaintItem(){
@@ -6846,6 +6869,7 @@ function c5Start(){
     c5StartAt=new Date().getTime();
     sb.style.display="none";
     document.getElementById("c5-active-row").style.display="flex";
+    rfBackBar("c5-back",false);
     var rs=document.getElementById("c5-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
     st.className="state-line none"; st.textContent="Recording. Read each word, then tap Next.";
   }).catch(function(err){
@@ -6868,7 +6892,8 @@ function c5NextTap(){
 }
 /* Teacher-controlled early stop, at any item -- "do not force all 120
    items on every student" */
-function c5DoneTap(){ stopRec(); }
+var c5StoppedByDone=false;
+function c5DoneTap(){ c5StoppedByDone=true; stopRec(); }
 function c5Review(){
   c5Playing=false;
   document.getElementById("c5-start").style.display="none";
@@ -6880,6 +6905,7 @@ function c5Review(){
   var st=document.getElementById("c5-state");
   st.className="state-line saved";
   st.textContent="Recording complete.";
+  rfBackBar("c5-back",true);
   var rv=document.getElementById("c5-review");
   rv.innerHTML='<div class="clean-icon-row">'
     +'<button class="pill-btn pill-btn-secondary" id="c5-listen-btn" onclick="c5ToggleListen()">Play back</button>'
@@ -6916,7 +6942,7 @@ function c5Finish(){
   downloadBlob(c5Blob,fname);
   var reached=c5Idx+1;
   C5Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
-    totalTimeMs:(new Date().getTime()-c5StartAt), reachedCount:reached, scores:null, flags:null, note:null,
+    totalTimeMs:(new Date().getTime()-c5StartAt), reachedCount:reached, stoppedByDone:c5StoppedByDone, scores:null, flags:null, note:null,
     setCorrect:null, immediateCount:null, laboredCount:null, incorrectCount:null, selfCorrectedCount:null, skipCount:null, targets:null });
   document.getElementById("c5-review").innerHTML="";
   var st=document.getElementById("c5-state");
@@ -6984,7 +7010,7 @@ function c5tPaintAttemptList(){
   for(i=0;i<list.length;i++){
     (function(a){
       var scored=(a.immediateCount!==null&&a.immediateCount!==undefined) ? " — scored" : " — not scored yet";
-      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small> Reached '+(a.reachedCount||0)+" of "+C5_ITEMS.length+scored+'</small></div>'
+      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small> Reached '+(a.reachedCount||0)+" of "+C5_ITEMS.length+(a.stoppedByDone?" \u2014 Tapped Done":"")+scored+'</small></div>'
         +'<button class="mini-btn" onclick="c5tOpenAttempt(\''+a.id+'\')">Open</button></div>';
     })(list[i]);
   }
@@ -7014,7 +7040,7 @@ function c5tOpenAttempt(id){
   host.innerHTML =
      '<div class="clean-card"><div class="clean-header">'
     +'<p class="step-eyebrow" style="margin:0">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+"</p>"
-    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+" &nbsp; Reached "+(a.reachedCount||0)+" of "+n+" items</p>"
+    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+" &nbsp; Reached "+(a.reachedCount||0)+" of "+n+" items"+(a.stoppedByDone?" \u2014 Tapped Done at item "+(a.reachedCount||0)+" of "+n:"")+"</p>"
     +"</div><div class=\"clean-card-body\">"
     +'<label class="pill-btn pill-btn-secondary" for="c5t-file">Open the recording from Canvas</label>'
     +'<input type="file" id="c5t-file" style="display:none" accept="audio/*,video/webm,.webm,.ogg" onchange="c5tOpenFile(this)">'
@@ -7201,7 +7227,7 @@ var C6Review=rfReviewStore("rf_check6_attempts");
    student goes via the same Done-early button Check 4/5 use. ---------- */
 var c6Idx=-1, c6Blob=null, c6YesUsed=false, c6NextLock=false, c6Playing=false, c6StartAt=0;
 function c6Enter(){
-  c6Idx=-1; c6Blob=null; c6YesUsed=false; c6NextLock=false; c6Playing=false;
+  c6Idx=-1; c6Blob=null; c6YesUsed=false; c6NextLock=false; c6Playing=false; c6StoppedByDone=false;
   document.getElementById("c6-intro").style.display="block";
   document.getElementById("c6-mic-note").style.display="block";
   var sl=document.getElementById("c6-section-label"); sl.style.display="none"; sl.textContent="";
@@ -7212,6 +7238,7 @@ function c6Enter(){
   var rs=document.getElementById("c6-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("c6-state"); st.className="state-line none"; st.textContent="";
   var rv=document.getElementById("c6-review"); if(rv){ rv.innerHTML=""; }
+  rfBackBar("c6-back",true);
   dirPaintButton("dir_check6");
 }
 function c6PaintItem(){
@@ -7238,6 +7265,7 @@ function c6Start(){
     c6StartAt=new Date().getTime();
     sb.style.display="none";
     document.getElementById("c6-active-row").style.display="flex";
+    rfBackBar("c6-back",false);
     var rs=document.getElementById("c6-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
     st.className="state-line none"; st.textContent="Recording. Read each word, then tap Next.";
   }).catch(function(err){
@@ -7260,7 +7288,8 @@ function c6NextTap(){
 }
 /* Teacher-controlled early stop, at any item -- "do not force all 50
    items on every student" */
-function c6DoneTap(){ stopRec(); }
+var c6StoppedByDone=false;
+function c6DoneTap(){ c6StoppedByDone=true; stopRec(); }
 function c6Review(){
   c6Playing=false;
   document.getElementById("c6-start").style.display="none";
@@ -7272,6 +7301,7 @@ function c6Review(){
   var st=document.getElementById("c6-state");
   st.className="state-line saved";
   st.textContent="Recording complete.";
+  rfBackBar("c6-back",true);
   var rv=document.getElementById("c6-review");
   rv.innerHTML='<div class="clean-icon-row">'
     +'<button class="pill-btn pill-btn-secondary" id="c6-listen-btn" onclick="c6ToggleListen()">Play back</button>'
@@ -7308,7 +7338,7 @@ function c6Finish(){
   downloadBlob(c6Blob,fname);
   var reached=c6Idx+1;
   C6Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
-    totalTimeMs:(new Date().getTime()-c6StartAt), reachedCount:reached, scores:null, note:null,
+    totalTimeMs:(new Date().getTime()-c6StartAt), reachedCount:reached, stoppedByDone:c6StoppedByDone, scores:null, note:null,
     setCorrect:null, targets:null });
   document.getElementById("c6-review").innerHTML="";
   var st=document.getElementById("c6-state");
@@ -7373,7 +7403,7 @@ function c6tPaintAttemptList(){
   for(i=0;i<list.length;i++){
     (function(a){
       var scored=(a.setCorrect!==null&&a.setCorrect!==undefined) ? " — scored" : " — not scored yet";
-      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small> Reached '+(a.reachedCount||0)+" of "+C6_ITEMS.length+scored+'</small></div>'
+      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small> Reached '+(a.reachedCount||0)+" of "+C6_ITEMS.length+(a.stoppedByDone?" \u2014 Tapped Done":"")+scored+'</small></div>'
         +'<button class="mini-btn" onclick="c6tOpenAttempt(\''+a.id+'\')">Open</button></div>';
     })(list[i]);
   }
@@ -7401,7 +7431,7 @@ function c6tOpenAttempt(id){
   host.innerHTML =
      '<div class="clean-card"><div class="clean-header">'
     +'<p class="step-eyebrow" style="margin:0">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+"</p>"
-    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+" &nbsp; Reached "+(a.reachedCount||0)+" of "+n+" items</p>"
+    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+" &nbsp; Reached "+(a.reachedCount||0)+" of "+n+" items"+(a.stoppedByDone?" \u2014 Tapped Done at item "+(a.reachedCount||0)+" of "+n:"")+"</p>"
     +"</div><div class=\"clean-card-body\">"
     +'<label class="pill-btn pill-btn-secondary" for="c6t-file">Open the recording from Canvas</label>'
     +'<input type="file" id="c6t-file" style="display:none" accept="audio/*,video/webm,.webm,.ogg" onchange="c6tOpenFile(this)">'
@@ -7596,9 +7626,10 @@ function c6bEnter(){
   /* Mick, 2026-09-29: 6B has no separate pre-start setup screen -- item 1
      shows the instant this screen opens -- and the Back bar looked like a
      4th answer choice sitting right under the real ones, so it's hidden
-     the whole time questions are showing. The "All done!" screen's own
-     Continue button (in c6bFinish) is still the way out once finished. */
-  var bb=document.getElementById("c6b-backbar"); if(bb){ bb.style.display="none"; }
+     the whole time questions are showing. It reappears in c6bReview(),
+     once the questions are actually over (same "before starts / after
+     ends, never during" rule every other check follows). */
+  rfBackBar("c6b-back",false);
   dirPaintButton("dir_check6b");
   c6bIdx=0;
   c6bPaintItem();
@@ -7698,6 +7729,7 @@ function c6bReview(){
   document.getElementById("c6b-stem").style.display="none";
   document.getElementById("c6b-choices").innerHTML="";
   document.getElementById("c6b-progress").textContent="";
+  rfBackBar("c6b-back",true);
   document.getElementById("c6b-done").innerHTML =
     '<p class="state-line saved">&#9989; All done! Nice work!</p>'
     +'<button class="pill-btn pill-btn-primary" onclick="c6bFinish()">Save &amp; Finish</button>';
@@ -7921,6 +7953,9 @@ function c6cEnter(){
   var ba=document.getElementById("c6c-build"); ba.style.display="none"; ba.innerHTML="&nbsp;";
   document.getElementById("c6c-pieces").innerHTML="";
   document.getElementById("c6c-done").innerHTML="";
+  /* Mick, 2026-09-29: same as 6B -- no separate pre-start setup screen, so
+     Back is hidden from the first paint and reappears in c6cReview(). */
+  rfBackBar("c6c-back",false);
   dirPaintButton("dir_check6c");
   c6cIdx=0;
   c6cPaintItem();
@@ -7989,6 +8024,7 @@ function c6cReview(){
   document.getElementById("c6c-build").style.display="none";
   document.getElementById("c6c-pieces").innerHTML="";
   document.getElementById("c6c-progress").textContent="";
+  rfBackBar("c6c-back",true);
   document.getElementById("c6c-done").innerHTML =
     '<p class="state-line saved">&#9989; All done! Nice work!</p>'
     +'<button class="pill-btn pill-btn-primary" onclick="c6cFinish()">Save &amp; Finish</button>';
@@ -8179,7 +8215,7 @@ var C7Review=rfReviewStore("rf_check7_attempts");
    reaches 7F. ---------- */
 var c7Idx=-1, c7Blob=null, c7YesUsed=false, c7NextLock=false, c7Playing=false, c7StartAt=0;
 function c7Enter(){
-  c7Idx=-1; c7Blob=null; c7YesUsed=false; c7NextLock=false; c7Playing=false;
+  c7Idx=-1; c7Blob=null; c7YesUsed=false; c7NextLock=false; c7Playing=false; c7StoppedByDone=false;
   document.getElementById("c7-intro").style.display="block";
   document.getElementById("c7-mic-note").style.display="block";
   var sl=document.getElementById("c7-section-label"); sl.style.display="none"; sl.textContent="";
@@ -8191,6 +8227,7 @@ function c7Enter(){
   var rs=document.getElementById("c7-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("c7-state"); st.className="state-line none"; st.textContent="";
   var rv=document.getElementById("c7-review"); if(rv){ rv.innerHTML=""; }
+  rfBackBar("c7-back",true);
   dirPaintButton("dir_check7");
 }
 function c7PaintItem(){
@@ -8218,6 +8255,7 @@ function c7Start(){
     c7StartAt=new Date().getTime();
     sb.style.display="none";
     document.getElementById("c7-active-row").style.display="flex";
+    rfBackBar("c7-back",false);
     var rs=document.getElementById("c7-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
     st.className="state-line none"; st.textContent="Recording. Read each word, then tap Next.";
   }).catch(function(err){
@@ -8240,7 +8278,8 @@ function c7NextTap(){
 }
 /* Teacher-controlled early stop, at any item -- "do not force all 90
    items on every student" */
-function c7DoneTap(){ stopRec(); }
+var c7StoppedByDone=false;
+function c7DoneTap(){ c7StoppedByDone=true; stopRec(); }
 function c7Review(){
   c7Playing=false;
   document.getElementById("c7-start").style.display="none";
@@ -8253,6 +8292,7 @@ function c7Review(){
   var st=document.getElementById("c7-state");
   st.className="state-line saved";
   st.textContent="Recording complete.";
+  rfBackBar("c7-back",true);
   var rv=document.getElementById("c7-review");
   rv.innerHTML='<div class="clean-icon-row">'
     +'<button class="pill-btn pill-btn-secondary" id="c7-listen-btn" onclick="c7ToggleListen()">Play back</button>'
@@ -8289,7 +8329,7 @@ function c7Finish(){
   downloadBlob(c7Blob,fname);
   var reached=c7Idx+1;
   C7Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
-    totalTimeMs:(new Date().getTime()-c7StartAt), reachedCount:reached, scores:null, note:null,
+    totalTimeMs:(new Date().getTime()-c7StartAt), reachedCount:reached, stoppedByDone:c7StoppedByDone, scores:null, note:null,
     setCorrect:null, targets:null });
   document.getElementById("c7-review").innerHTML="";
   var st=document.getElementById("c7-state");
@@ -8354,7 +8394,7 @@ function c7tPaintAttemptList(){
   for(i=0;i<list.length;i++){
     (function(a){
       var scored=(a.setCorrect!==null&&a.setCorrect!==undefined) ? " — scored" : " — not scored yet";
-      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small> Reached '+(a.reachedCount||0)+" of "+C7_ITEMS.length+scored+'</small></div>'
+      html+='<div class="trow"><div class="tl">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+'<small> Reached '+(a.reachedCount||0)+" of "+C7_ITEMS.length+(a.stoppedByDone?" \u2014 Tapped Done":"")+scored+'</small></div>'
         +'<button class="mini-btn" onclick="c7tOpenAttempt(\''+a.id+'\')">Open</button></div>';
     })(list[i]);
   }
@@ -8382,7 +8422,7 @@ function c7tOpenAttempt(id){
   host.innerHTML =
      '<div class="clean-card"><div class="clean-header">'
     +'<p class="step-eyebrow" style="margin:0">'+escapeHtml(a.date)+" &mdash; "+escapeHtml(a.fileName||"")+"</p>"
-    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+" &nbsp; Reached "+(a.reachedCount||0)+" of "+n+" items</p>"
+    +'<p class="mini-note">Total time: '+mins+":"+(secs<10?"0":"")+secs+" &nbsp; Reached "+(a.reachedCount||0)+" of "+n+" items"+(a.stoppedByDone?" \u2014 Tapped Done at item "+(a.reachedCount||0)+" of "+n:"")+"</p>"
     +"</div><div class=\"clean-card-body\">"
     +'<label class="pill-btn pill-btn-secondary" for="c7t-file">Open the recording from Canvas</label>'
     +'<input type="file" id="c7t-file" style="display:none" accept="audio/*,video/webm,.webm,.ogg" onchange="c7tOpenFile(this)">'
