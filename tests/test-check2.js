@@ -313,38 +313,60 @@ setTimeout(function(){
     ck(saved.targets.indexOf("t")>-1 && saved.targets.indexOf("f")>-1,"missed/needs-instruction targets saved (incorrect, letter-name-sub, skip) -- not the self-corrected or acceptable-alternate ones");
     ck(saved.targets.indexOf("s")===-1 && saved.targets.indexOf("p")===-1,"self-corrected and acceptable-alternate items are NOT treated as needing instruction");
 
-    /* ---- Job 3: Listen button hidden when nothing is recorded, on every
-       directions screen; never present on an assessment-item screen ---- */
+    /* ---- Job 3 (updated Mick, 2026-09-29): the Listen button now always
+       shows beside the directions, on every directions screen -- grayed
+       out and not tappable while nothing is recorded, instead of
+       disappearing entirely; never present on an assessment-item screen.
+       dirPaintButton resolves via a promise (AudioStore.get), so each
+       screen gets a tick before its button state is checked. ---- */
     w.READER=w.CLASSES[0].students[2]; w.CURCLASS=w.CLASSES[0];
     w.go("check1");
-    ck(d.getElementById("dl-dir_check1").style.display==="none","Check 1: no Listen button until a directions clip is recorded");
+    setTimeout(function(){
+    ck(d.getElementById("dl-dir_check1").style.display==="inline-flex","Check 1: Listen button always shows");
+    ck(d.getElementById("dl-dir_check1-btn").disabled===true,"Check 1: Listen button is grayed out/disabled until a directions clip is recorded");
     w.go("check2");
-    ck(d.getElementById("dl-dir_check2_open").style.display==="none","Check 2 opening: no Listen button until recorded");
+    setTimeout(function(){
+    ck(d.getElementById("dl-dir_check2_open").style.display==="inline-flex","Check 2 opening: Listen button always shows");
+    ck(d.getElementById("dl-dir_check2_open-btn").disabled===true,"Check 2 opening: Listen button disabled until recorded");
     w.CURGROUP=w.GROUPS[0];
     w.go("s-groups");
-    ck(d.getElementById("dl-dir_vocab").style.display==="none","Vocabulary: no Listen button until recorded");
+    setTimeout(function(){
+    ck(d.getElementById("dl-dir_vocab").style.display==="inline-flex","Vocabulary: Listen button always shows");
+    ck(d.getElementById("dl-dir_vocab-btn").disabled===true,"Vocabulary: Listen button disabled until recorded");
     w.fluPassage=w.findPassage(w.LEVELS[0],0);
     w.go("fluencyPassage");
-    ck(d.getElementById("dl-dir_fluency").style.display==="none","Fluency: no Listen button until recorded");
+    setTimeout(function(){
+    ck(d.getElementById("dl-dir_fluency").style.display==="inline-flex","Fluency: Listen button always shows");
+    ck(d.getElementById("dl-dir_fluency-btn").disabled===true,"Fluency: Listen button disabled until recorded");
     w.go("fluencyRetell");
-    ck(d.getElementById("dl-dir_retell").style.display==="none","Retell: no Listen button until recorded");
+    setTimeout(function(){
+    ck(d.getElementById("dl-dir_retell").style.display==="inline-flex","Retell: Listen button always shows");
+    ck(d.getElementById("dl-dir_retell-btn").disabled===true,"Retell: Listen button disabled until recorded");
     ck(d.querySelectorAll("#c1-current .dir-listen-wrap, #c2-current .dir-listen-wrap").length===0,"the speaker never appears attached to the letter/item display itself");
+
+    /* tapping a disabled Listen button must never attempt playback --
+       verified directly against dirToggle's own recording check rather
+       than a synthetic click, since a scripted dispatchEvent doesn't
+       reliably respect the native disabled state the way a real tap does */
+    var beforeAudio=w.currentAudio;
+    w.dirToggle("dir_check1");
+    ck(w.currentAudio===beforeAudio,"tapping a disabled (not-yet-recorded) Listen button does nothing");
 
     /* ---- now fake a recorded clip (a real recording would come from
        Miq's teacher recorder + bake, same as every other clip) and prove
-       it appears, plays, and Job 2's auto-play fires on the 3 Check 2
-       directions screens ---- */
+       it plays, is no longer disabled, and Job 2's auto-play fires on the
+       3 Check 2 directions screens ---- */
     w.window.BAKED_CLIPS=w.window.BAKED_CLIPS||{};
     w.window.BAKED_CLIPS["dir_fluency"]="data:audio/webm;base64,AAAA";
     w.window.BAKED_CLIPS["dir_check2_open"]="data:audio/webm;base64,AAAA";
     w.go("fluencyPassage");
     setTimeout(function(){
-      ck(d.getElementById("dl-dir_fluency").style.display==="inline-flex","Fluency: Listen button appears once a recording exists");
+      ck(d.getElementById("dl-dir_fluency-btn").disabled===false,"Fluency: Listen button is enabled once a recording exists");
       ck(d.getElementById("dl-dir_fluency-btn").className.indexOf("playing")===-1,"Fluency has no auto-play (only the 3 Check 2 directions screens do) -- not shown as playing on open");
 
       w.go("check2");
       setTimeout(function(){
-        ck(d.getElementById("dl-dir_check2_open").style.display==="inline-flex","Check 2 opening: Listen button appears once recorded");
+        ck(d.getElementById("dl-dir_check2_open-btn").disabled===false,"Check 2 opening: Listen button is enabled once recorded");
         ck(d.getElementById("dl-dir_check2_open-btn").className.indexOf("playing")>-1,"Job 2: the opening directions recording auto-plays once when the screen opens");
         ck(w.currentAudio!==null,"an Audio element is actually playing");
 
@@ -363,6 +385,11 @@ setTimeout(function(){
         },30);
       },30);
     },30);
+    },20); // closes fluencyRetell tick
+    },20); // closes fluencyPassage tick
+    },20); // closes s-groups tick
+    },20); // closes check2 tick
+    },20); // closes check1 tick
   }
 
   function directionsRegressionScreens(){

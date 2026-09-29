@@ -186,6 +186,10 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .dir-listen-btn.playing{border-color:var(--accent);background:var(--good-bg)}
 .dir-listen-btn.playing .dir-listen-icon{animation:pulse 1s infinite}
 .dir-listen-btn.playing .dir-listen-label{color:var(--good)}
+/* Mick, 2026-09-29: always shown now (see dirPaintButton) -- grayed out
+   and not tappable, same disabled look already used for .play-btn,
+   instead of disappearing when nothing's recorded yet. */
+.dir-listen-btn[disabled]{opacity:.45;cursor:default}
 /* Big icon+word student buttons (Record/Next/Play back/Save/Redo/Done).
    Separate from .rec-btn/.play-btn on purpose -- those classes are still
    used by the teacher recorder screens (s-teach/s-teachC2/s-teachDir),
@@ -2514,9 +2518,16 @@ function dirSetPlayingState(key,playing){
   btn.className="dir-listen-btn"+(playing?" playing":"");
   var lbl=btn.querySelector(".dir-listen-label"); if(lbl){ lbl.textContent=playing?"Playing…":"Listen"; }
 }
+/* Mick, 2026-09-29: the Listen button used to be hidden entirely until a
+   directions clip existed. Now it always shows right beside the
+   directions (same ear style) -- grayed out and not tappable when
+   nothing's recorded yet, instead of just disappearing. */
 function dirPaintButton(key){
   var wrap=document.getElementById("dl-"+key); if(!wrap){ return; }
-  dirHasRecording(key,function(has){ wrap.style.display=has?"inline-flex":"none"; });
+  dirHasRecording(key,function(has){
+    wrap.style.display="inline-flex";
+    var btn=document.getElementById("dl-"+key+"-btn"); if(btn){ btn.disabled=!has; }
+  });
 }
 function dirPlay(key){
   stopAllAudio();
@@ -2534,7 +2545,7 @@ function dirPlay(key){
 /* tap to play; tap again (while it's the one playing) to replay from the start */
 function dirToggle(key){
   if(dirPlayingKey===key){ stopAllAudio(); return; }
-  dirPlay(key);
+  dirHasRecording(key,function(has){ if(has){ dirPlay(key); } });
 }
 function dirAutoPlayOnce(key){ dirHasRecording(key,function(has){ if(has){ dirPlay(key); } }); }
 
