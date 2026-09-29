@@ -562,10 +562,18 @@ html[data-mode="dark"] #check7 .clean-header,html[data-mode="dark"] #check7Teach
 html[data-mode="dark"] #check6b .clean-header,html[data-mode="dark"] #check6bTeach .clean-header{background:color-mix(in srgb,var(--accent) 22%,var(--panel))}
 #check6b .clean-card,#check6bTeach .clean-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);margin:0 0 16px}
 #check6b .clean-card-body,#check6bTeach .clean-card-body{padding:18px}
-#check6b .clean-stem{font-size:1.6rem;font-weight:700;line-height:1.4;margin:28px 0 22px;text-align:center}
-@media(max-width:520px){#check6b .clean-stem{font-size:1.3rem}}
-#check6b .choice-pill{display:block;width:100%;box-sizing:border-box;text-align:center;border-radius:999px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:600;font-size:16px;padding:14px 20px;margin:0 0 12px;cursor:pointer;touch-action:manipulation}
+#check6b .clean-stem{font-size:3rem;font-weight:700;line-height:1.4;margin:28px 0 22px;text-align:center;word-wrap:break-word;overflow-wrap:break-word}
+@media(max-width:520px){#check6b .clean-stem{font-size:2.2rem}}
+#check6b .choice-pill{display:block;width:100%;box-sizing:border-box;text-align:center;border-radius:999px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-weight:600;font-size:2rem;padding:14px 20px;margin:0 0 12px;cursor:pointer;touch-action:manipulation;word-wrap:break-word;overflow-wrap:break-word}
 #check6b .choice-pill:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+/* ---- Mick, 2026-09-29 (Check 6B only): every item has exactly 3 answers
+   -- two side by side on top, one centered below -- each about half the
+   width the old full-width stacked buttons were. ---- */
+#check6b .c6b-choice-row{display:flex;gap:14px;margin:0 0 12px}
+#check6b .c6b-choice-row .choice-pill{flex:1 1 0;min-width:0;margin:0}
+#check6b .c6b-choice-row.c6b-choice-single{justify-content:center}
+#check6b .c6b-choice-row.c6b-choice-single .choice-pill{flex:0 0 auto;width:50%}
+@media(max-width:520px){#check6b .c6b-choice-row.c6b-choice-single .choice-pill{width:100%}}
 #check6bTeach .clean-tile{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:14px;color:var(--ink);background:var(--panel)}
 #check6bTeach .clean-tile.state-err{background:var(--retry-bg);border-color:var(--retry);color:var(--retry)}
 #check6bTeach .clean-tile.state-ok{background:var(--good-bg);border-color:var(--good);color:var(--good)}
@@ -1393,8 +1401,8 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="clean-stem" id="c6b-stem" style="display:none">&nbsp;</div>
       <div id="c6b-choices"></div>
       <div id="c6b-done"></div>
-      <div class="nav-row" style="margin-top:14px">
-        <button class="btn" onclick="go('diagLanding')">&#8592; Back</button>
+      <div class="nav-row" style="margin-top:14px" id="c6b-backbar">
+        <button class="btn" id="c6b-back" onclick="go('diagLanding')">&#8592; Back</button>
       </div>
     </div>
   </section>
@@ -7543,7 +7551,7 @@ var C6BReview=rfReviewStore("rf_check6b_attempts");
    response and advances immediately (no separate Next button, no
    correctness feedback of any kind, matching "record response ->
    advance"). Category is never shown to the student. ---------- */
-var c6bIdx=-1, c6bStartAt=0, c6bResponses=[], c6bNextLock=false;
+var c6bIdx=-1, c6bStartAt=0, c6bResponses=[], c6bNextLock=false, c6bOrder=[];
 function c6bEnter(){
   c6bIdx=-1; c6bStartAt=new Date().getTime(); c6bResponses=[]; c6bNextLock=false;
   document.getElementById("c6b-intro").style.display="block";
@@ -7551,32 +7559,68 @@ function c6bEnter(){
   var st=document.getElementById("c6b-stem"); st.style.display="none"; st.textContent="";
   document.getElementById("c6b-choices").innerHTML="";
   document.getElementById("c6b-done").innerHTML="";
+  /* Mick, 2026-09-29: 6B has no separate pre-start setup screen -- item 1
+     shows the instant this screen opens -- and the Back bar looked like a
+     4th answer choice sitting right under the real ones, so it's hidden
+     the whole time questions are showing. The "All done!" screen's own
+     Continue button (in c6bFinish) is still the way out once finished. */
+  var bb=document.getElementById("c6b-backbar"); if(bb){ bb.style.display="none"; }
   dirPaintButton("dir_check6b");
   c6bIdx=0;
   c6bPaintItem();
+}
+/* Short questions like the "un-" example read about 3rem; longer
+   full-sentence stems step down so nothing forces scrolling on a small
+   (1366x768) screen. Length tiers, not live text measurement, so this
+   stays simple, ES5, and deterministic for testing. */
+function c6bStemFontRem(text){
+  var len=text.length, rem;
+  if(len<=45){ rem=3; }
+  else if(len<=65){ rem=2.4; }
+  else if(len<=85){ rem=2; }
+  else { rem=1.7; }
+  if(window.innerWidth && window.innerWidth<=520){ rem=rem*0.75; }
+  return rem;
 }
 function c6bPaintItem(){
   document.getElementById("c6b-intro").style.display="none";
   var dl=document.getElementById("dl-dir_check6b"); if(dl){ dl.style.display="none"; }
   var item=C6B_ITEMS[c6bIdx];
   var st=document.getElementById("c6b-stem"); st.style.display="block"; st.textContent=item.stem;
+  st.style.fontSize=c6bStemFontRem(item.stem)+"rem";
   document.getElementById("c6b-progress").textContent="Item "+(c6bIdx+1)+" of "+C6B_ITEMS.length;
-  var box=document.getElementById("c6b-choices"), html="", i;
-  for(i=0;i<item.choices.length;i++){
-    html+='<button class="choice-pill" onclick="c6bChoose('+i+')">'+escapeHtml(item.choices[i])+"</button>";
-  }
-  box.innerHTML=html;
+  /* Shuffle this item's answer order -- independently per item, and
+     differently per student since each student's run reshuffles fresh.
+     c6bOrder[displayed position] = the REAL choices[] index, so scoring
+     and saved-response text below still read item.correct/item.choices
+     by that real index -- shuffling the display never changes what gets
+     saved or how correctness is judged. */
+  var n=item.choices.length, i, j, tmp;
+  c6bOrder=[]; for(i=0;i<n;i++){ c6bOrder.push(i); }
+  for(i=n-1;i>0;i--){ j=Math.floor(Math.random()*(i+1)); tmp=c6bOrder[i]; c6bOrder[i]=c6bOrder[j]; c6bOrder[j]=tmp; }
+  /* Every item has exactly 3 answers: two side by side on top, one
+     centered below (Mick, 2026-09-29). */
+  var box=document.getElementById("c6b-choices");
+  box.innerHTML =
+     '<div class="c6b-choice-row">'
+    +'<button class="choice-pill" onclick="c6bChoose(0)">'+escapeHtml(item.choices[c6bOrder[0]])+"</button>"
+    +'<button class="choice-pill" onclick="c6bChoose(1)">'+escapeHtml(item.choices[c6bOrder[1]])+"</button>"
+    +"</div>"
+    +'<div class="c6b-choice-row c6b-choice-single">'
+    +'<button class="choice-pill" onclick="c6bChoose(2)">'+escapeHtml(item.choices[c6bOrder[2]])+"</button>"
+    +"</div>";
 }
 /* Rapid-tap protection: a frame-paced lock absorbs a duplicate event for
    the same physical tap (the screen repaints to the NEXT item almost
    immediately, so a fast double-tap could otherwise land on the next
    item's first choice and silently record a second, unintended answer). */
-function c6bChoose(choiceIdx){
+function c6bChoose(displayPos){
   if(c6bNextLock){ return; }
   c6bNextLock=true;
   if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c6bNextLock=false; }); }
   else { setTimeout(function(){ c6bNextLock=false; },16); }
   var item=C6B_ITEMS[c6bIdx];
+  var choiceIdx=c6bOrder[displayPos]; // map the shuffled on-screen position back to the real answer
   /* Save the chosen AND correct answers by their words, not their list
      position (Mick, 2026-09-29) -- a position-only record is meaningless
      to a teacher reading it back, and would silently misreport history if

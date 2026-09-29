@@ -86,19 +86,58 @@ setTimeout(function(){
   ck(q("#c6b-progress").textContent==="Item 1 of 24","progress reads Item 1 of 24");
   ck(!q("#c6b-stem").parentNode.textContent.match(/6B-Prefix|Prefix Meaning/),"the category is never shown to the student");
 
+  /* ---- Mick, 2026-09-29: Back bar hidden while questions show (it looked
+     like a 4th answer choice) ---- */
+  ck(d.getElementById("c6b-backbar").style.display==="none","the Back bar is hidden while a question is showing (it read like a 4th answer choice)");
+
+  /* ---- layout: two answer buttons side by side, one centered below ---- */
+  var rows=d.querySelectorAll("#c6b-choices .c6b-choice-row");
+  ck(rows.length===2,"answers render as two rows (a pair, then a single)");
+  ck(rows[0].querySelectorAll(".choice-pill").length===2,"the first row holds exactly 2 answer buttons, side by side");
+  ck(rows[1].querySelectorAll(".choice-pill").length===1,"the second row holds exactly 1 answer button, centered below");
+  ck(rows[1].className.indexOf("c6b-choice-single")>-1,"the single centered row carries its own layout class");
+
+  /* ---- question text size: short question ~3rem, and it actually
+     shrinks for a known long sentence-style stem so nothing is forced to
+     scroll on a small screen ---- */
+  ck(q("#c6b-stem").style.fontSize==="3rem","a short question (<=45 chars) renders at 3rem (got '"+q("#c6b-stem").style.fontSize+"' for '"+w.C6B_ITEMS[0].stem+"')");
+  var longIdx=-1, li; for(li=0;li<w.C6B_ITEMS.length;li++){ if(w.C6B_ITEMS[li].stem.length>65){ longIdx=li; break; } }
+  ck(longIdx>-1,"the item bank actually contains a long sentence-style stem to test against");
+  w.c6bIdx=longIdx; w.c6bPaintItem();
+  ck(parseFloat(q("#c6b-stem").style.fontSize)<3,"a long sentence question renders smaller than the short-question size (got '"+q("#c6b-stem").style.fontSize+"' for a "+w.C6B_ITEMS[longIdx].stem.length+"-char stem)");
+  w.c6bIdx=0; w.c6bPaintItem(); // restore, since the real run below expects to start at item 0
+
+  /* ---- answers are shuffled per item, not always in the same order ---- */
+  var seenOrders={}, ri;
+  for(ri=0;ri<20;ri++){
+    w.c6bPaintItem();
+    seenOrders[w.c6bOrder.join(",")]=true;
+  }
+  ck(Object.keys(seenOrders).length>1,"answer order actually varies across repaints, not fixed (saw "+Object.keys(seenOrders).length+" distinct order(s) in 20 tries)");
+  w.c6bIdx=0; w.c6bPaintItem(); // repaint item 0 fresh before the real run starts
+
   /* ---- rapid double-tap protection: a second synchronous tap on the
-     same physical spot must not register a second, unintended answer ---- */
-  var firstChoiceBtn=d.querySelectorAll("#c6b-choices .choice-pill")[0];
+     same physical spot must not register a second, unintended answer.
+     Answers are shuffled now, so tap the CORRECT one by its text -- every
+     later assertion in this test assumes a run that answered everything
+     correctly. ---- */
+  var firstItem=w.C6B_ITEMS[0], firstBtns=d.querySelectorAll("#c6b-choices .choice-pill"), fk, firstChoiceBtn=null;
+  for(fk=0;fk<firstBtns.length;fk++){ if(firstBtns[fk].textContent===firstItem.choices[firstItem.correct]){ firstChoiceBtn=firstBtns[fk]; } }
   click(firstChoiceBtn);
   var secondItemBtns=d.querySelectorAll("#c6b-choices .choice-pill");
-  click(secondItemBtns[0]); // synchronous second click, same tick -- should be swallowed by the lock
+  click(secondItemBtns[0]); // synchronous second click, same tick -- should be swallowed by the lock regardless of which button
   ck(w.c6bResponses.length===1,"a rapid second tap right after the first does not record a second response (got "+w.c6bResponses.length+")");
 
+  /* Answers are shuffled on screen now (Mick, 2026-09-29), so "the correct
+     button" has to be found by its actual text, never by position. */
   function answerRemaining(cb){
     var btns=d.querySelectorAll("#c6b-choices .choice-pill");
     if(btns.length===0){ cb(); return; }
     var item=w.C6B_ITEMS[w.c6bIdx];
-    click(btns[item.correct]); // answer every remaining item correctly
+    var correctText=item.choices[item.correct], k, target=null;
+    for(k=0;k<btns.length;k++){ if(btns[k].textContent===correctText){ target=btns[k]; } }
+    ck(!!target,"the correct answer's text is findable among the (possibly reordered) on-screen buttons for item "+w.c6bIdx);
+    click(target); // answer every remaining item correctly
     setTimeout(function(){ answerRemaining(cb); },20);
   }
 
