@@ -62,7 +62,7 @@ setTimeout(function(){
     {label:"Scoreboard",        cat:"cat-reports",    kind:"go",      target:"s-board"},
     {label:"Instructional Groups", cat:"cat-reports", kind:"go",      target:"instrGroups"},
     {label:"Settings",          cat:"cat-settings",   kind:"go",      target:"s-settings"},
-    {label:"Reset Demo Data",   cat:"cat-settings",   kind:"fn",      target:"vasReset"}
+    {label:"Reset Student View", cat:"cat-settings",  kind:"fn",      target:"vasReset"}
   ];
   var tiles=d.querySelectorAll("#teacher-doors .teach-tile");
   ck(tiles.length===21,"exactly 21 tiles (20 previous + Instructional Groups, nothing else lost or invented) -- got "+tiles.length);
@@ -92,14 +92,14 @@ setTimeout(function(){
   for(i=0;i<tiles.length;i++){
     var lbl=tiles[i].querySelector(".teach-tile-label").textContent;
     if(lbl==="Student View"){ svTile=tiles[i]; }
-    if(lbl==="Reset Demo Data"){ rdTile=tiles[i]; }
+    if(lbl==="Reset Student View"){ rdTile=tiles[i]; }
   }
   click(w,svTile);
   ck(w.VIEW_AS_STUDENT===true,"Student View tile still calls enterViewAsStudent()");
   w.exitViewAsStudent();
   w.go("s-home");
   click(w,rdTile);
-  ck(/Cleared/.test(d.getElementById("vas-reset-msg").textContent),"Reset Demo Data tile still calls vasReset()");
+  ck(/Cleared/.test(d.getElementById("vas-reset-msg").textContent),"Reset Student View tile still calls vasReset()");
 
   /* ---- categories are grouped under their own small headers, in the
      required order, and are wrapped so they can sit side by side ---- */

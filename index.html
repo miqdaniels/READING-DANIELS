@@ -810,7 +810,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
           <h3 class="teach-cat-title">Students</h3>
           <div class="teach-tile-grid">
             <button class="teach-tile cat-students" onclick="go('s-teachStudents')" title="Activate a placeholder slot with a real name"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span><span class="teach-tile-label">Add Student</span></button>
-            <button class="teach-tile cat-students" onclick="enterViewAsStudent()" title="Demo the full student experience -- nothing you do here counts for a real student"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></span><span class="teach-tile-label">Student View</span></button>
+            <button class="teach-tile cat-students" onclick="enterViewAsStudent()" title="See exactly what a student sees and does, as Test Student -- nothing here counts for a real student"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></span><span class="teach-tile-label">Student View</span></button>
           </div>
         </div>
 
@@ -859,7 +859,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
           <h3 class="teach-cat-title">Settings</h3>
           <div class="teach-tile-grid">
             <button class="teach-tile cat-settings" onclick="go('s-settings')" title="Practice reads, pacer, and teams"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.5 5.5l-2.1 2.1M7.6 16.4l-2.1 2.1M18.5 18.5l-2.1-2.1M7.6 7.6L5.5 5.5"/></svg></span><span class="teach-tile-label">Settings</span></button>
-            <button class="teach-tile cat-settings" onclick="vasReset()" title="Clear everything from past demos before modeling for a new class"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/></svg></span><span class="teach-tile-label">Reset Demo Data</span></button>
+            <button class="teach-tile cat-settings" onclick="vasReset()" title="Clear everything from past Student View sessions before modeling for a new class"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/></svg></span><span class="teach-tile-label">Reset Student View</span></button>
           </div>
         </div>
       </div>
@@ -2052,7 +2052,6 @@ var CLASSES=[
     {id:"stu_sugishitarico_p1",name:"Rico S."},
     {id:"spare_p1_1",name:"Student 1"},
     {id:"spare_p1_2",name:"Student 2"},
-    {id:"spare_p1_3",name:"Student 3"},
   ]},
   {id:"p3",label:"Third hour",students:[
     {id:"stu_barrerayoselin_p3",name:"Yoselin B."},
@@ -2072,7 +2071,6 @@ var CLASSES=[
     {id:"stu_rodriguezgeorgia_p3",name:"Georgia R."},
     {id:"spare_p3_1",name:"Student 1"},
     {id:"spare_p3_2",name:"Student 2"},
-    {id:"spare_p3_3",name:"Student 3"},
   ]},
   {id:"p7",label:"Seventh hour",students:[
     {id:"stu_alvarezkeyla_p7",name:"Keyla A."},
@@ -2095,7 +2093,6 @@ var CLASSES=[
     {id:"stu_zeferinokeyla_p7",name:"Keyla Z."},
     {id:"spare_p7_1",name:"Student 1"},
     {id:"spare_p7_2",name:"Student 2"},
-    {id:"spare_p7_3",name:"Student 3"},
   ]},
 ];
 var CURCLASS=null;

@@ -29,7 +29,7 @@ names[1].click();
 names=w.document.querySelectorAll('#c3t-roster button');
 ok(names[1].className.indexOf("primary")>-1,"review: picked name highlighted");
 ok(w.document.getElementById("c3t-body").textContent.indexOf("No Check 3 video")>-1,"review: clear empty message");
-/* placeholder Student 1-3 clickable too */
+/* placeholder Student 1-2 clickable too */
 var s1=null; for(i=0;i<names.length;i++){ if(/^Student 1/.test(names[i].textContent)){ s1=names[i]; } }
 if(s1){ s1.click(); ok(w.document.getElementById("c3t-body").textContent.indexOf("Student 1")>-1,"review: Student 1 opens"); }
 

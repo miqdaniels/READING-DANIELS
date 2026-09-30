@@ -69,7 +69,7 @@ setTimeout(function(){
   ck(d.getElementById("vas-banner").style.display!=="none","banner still showing on the roster screen");
 
   /* ---- Test Student sits at the top, the only tappable row; every real
-     student AND every placeholder (Student 1/2/3) is grayed out, so a
+     student AND every placeholder (Student 1/2) is grayed out, so a
      demo can never land on a real kid by accident ---- */
   var realStudent=w.CLASSES[0].students[0];
   var rosterBtns=d.querySelectorAll("#roster-list .btn");
