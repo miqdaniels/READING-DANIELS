@@ -316,7 +316,90 @@ setTimeout(function(){
     click(q("#preview-banner .vas-exit"));
     ck(activeId()==="check7Teach","exiting preview returns to Check 7 Review");
 
-    regressionScreens();
+    skipTimeoutFlow();
+  }
+
+  function skipTimeoutFlow(){
+    /* ---- Skip button, hidden auto-skip timer, 5-skip-streak set-jump,
+       final-set finish, timestamp logging (ported from Check 5, Mick 2026-09-30,
+       mirrors test-check5.js's own "Section 6" block exactly -- 7A is also a
+       20-item set like Check 5's 5A, so the same index math carries over). ---- */
+    w.go("diagLanding");
+    var diagBtns3=d.querySelectorAll("#diagLanding .btn"), c7Btn2=null, mm;
+    for(mm=0;mm<diagBtns3.length;mm++){ if(diagBtns3[mm].textContent.indexOf("Check 7")>-1){ c7Btn2=diagBtns3[mm]; } }
+    click(c7Btn2);
+    ck(activeId()==="check7","Check 7 re-opens for the skip/timeout pass");
+    ck(q("#c7-skip")&&q("#c7-skip").textContent==="Skip","a Skip button is present next to Next");
+    ck(q("#c7-skip").className.indexOf("pill-btn")>-1,"Skip uses the clean pill-button style");
+    ck(d.getElementById("c7-intro").textContent.indexOf("If you do not know it, tap Skip.")>-1,"directions mention Skip");
+
+    w.c7Start();
+    setTimeout(function(){
+      ck(w.c7Idx===0,"skip/timeout pass starts fresh at item 0");
+
+      w.c7SkipTap();
+      w.c7NextLock=false;
+      ck(w.c7Idx===1,"a single Skip tap advances to the next item");
+      ck(w.c7SkipStreak===1,"skip streak is now 1");
+      w.c7NextTap();
+      w.c7NextLock=false;
+      ck(w.c7SkipStreak===0,"a real Next tap resets the skip streak back to 0");
+      ck(w.c7Idx===2,"Next still advances normally after a skip");
+
+      var idxBefore=w.c7Idx;
+      w.c7ClearAutoTimer();
+      w.c7AutoSkip();
+      ck(w.c7Idx===idxBefore+1,"an auto-skip (simulated timeout) advances exactly like a tapped Skip");
+      ck(w.c7Timestamps[w.c7Timestamps.length-1].action==="timeout","the timeout is logged as its own distinct action, not 'skip'");
+      ck(w.c7Timestamps[w.c7Timestamps.length-1].idx===idxBefore,"the timeout is logged against the item that timed out");
+
+      /* ---- 5 skips in a row mid-check ends THAT SET only, jumps to the next set ---- */
+      w.c7Idx=5; w.c7PaintItem(); w.c7SkipStreak=0;
+      w.c7SkipTap(); w.c7NextLock=false;
+      w.c7SkipTap(); w.c7NextLock=false;
+      w.c7SkipTap(); w.c7NextLock=false;
+      w.c7SkipTap(); w.c7NextLock=false;
+      ck(w.c7Idx===9,"four skips in a row just advance one at a time (streak below 5)");
+      ck(w.c7SkipStreak===4,"skip streak is 4 just before the 5th");
+      w.c7SkipTap(); w.c7NextLock=false; // 5th skip in a row -> ends set 7A, jumps to 7B
+      ck(w.c7SkipStreak===0,"the streak resets to 0 once it triggers the set-jump");
+      ck(w.c7Idx===w.C7_SET_START[1],"5 skips in a row jumps straight to the first item of the next set (7B), skipping the rest of 7A");
+      ck(w.c7NotReachedIdx.indexOf(10)>-1 && w.c7NotReachedIdx.indexOf(19)>-1,
+        "every remaining un-reached item in 7A (10 through 19) is recorded as Not Reached (got: "+w.c7NotReachedIdx.join(",")+")");
+      ck(w.c7NotReachedIdx.length===10,"exactly the 10 remaining 7A items (indices 10-19) are marked Not Reached so far, no more no less");
+
+      /* ---- 5 skips in a row on the VERY LAST set (7F, 78-89) ends the whole check ---- */
+      w.c7Idx=83; w.c7PaintItem(); w.c7SkipStreak=0;
+      w.c7SkipTap(); w.c7NextLock=false;
+      w.c7SkipTap(); w.c7NextLock=false;
+      w.c7SkipTap(); w.c7NextLock=false;
+      w.c7SkipTap(); w.c7NextLock=false;
+      w.c7SkipTap(); w.c7NextLock=false;
+      setTimeout(function(){
+        ck(w.c7EndedViaFinalStreak===true,"5 skips in a row on the final set ends the WHOLE check (no next set to jump to)");
+        ck(d.getElementById("c7-state").textContent==="Great work! You’re done.","the final-set streak shows the special finishing message, not the generic one");
+        ck(w.c7NotReachedIdx.length===12,"Not Reached now totals the earlier 7A gap (10) plus the final 7F gap (2) = 12 (got "+w.c7NotReachedIdx.length+")");
+
+        w.c7Finish();
+        var attempts2=w.C7Attempts.forStudent(w.READER.id);
+        var lastAttempt=attempts2[attempts2.length-1];
+        ck(lastAttempt.notReachedIdx.length===12,"the saved attempt records all 12 Not Reached items from both gaps");
+        ck(lastAttempt.notReachedIdx.indexOf(88)>-1 && lastAttempt.notReachedIdx.indexOf(89)>-1,"the final-set gap (88-89) is in the saved Not Reached list");
+        ck(Array.isArray(lastAttempt.timestamps) && lastAttempt.timestamps.length>0,"every Next/Skip/Done/timeout tap is logged with a timestamp in the saved attempt");
+
+        /* ---- teacher review correctly pre-fills the mid-sequence gap as Not Reached, not blank ---- */
+        w.go("check7Teach");
+        w.c7tPick(0);
+        var stuBtns=d.querySelectorAll("#c7t-roster .btn"), tgt=null, kk;
+        for(kk=0;kk<stuBtns.length;kk++){ if(stuBtns[kk].textContent.indexOf(w.READER.name)===0){ tgt=stuBtns[kk]; } }
+        click(tgt);
+        var openBtns=d.querySelectorAll("#c7t-body .mini-btn");
+        click(openBtns[openBtns.length-1]);
+        ck(w.c7tScores[10]==="nr" && w.c7tScores[19]==="nr" && w.c7tScores[89]==="nr","both mid-sequence skip-streak gaps pre-fill as Not Reached, not blank");
+
+        regressionScreens();
+      },30);
+    },30);
   }
 
   function regressionScreens(){

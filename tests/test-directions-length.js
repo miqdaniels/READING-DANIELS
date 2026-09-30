@@ -24,9 +24,10 @@ setTimeout(function(){
   /* ---- every recorded directions script is <=2 sentences, EXCEPT a few
      screens that carry an explicit, exact, longer wording per an explicit
      later specification (Check 2's before-2B/before-2C transitions, Check
-     3's opening directions + its before-3C one-liner, and Check 5's
-     Skip-button sentence, added 2026-09-29) ---- */
-  var LONGER_OK={dir_check2_before2b:true, dir_check2_before2c:true, dir_check3_open:true, dir_check3_3c:true, dir_check5:true};
+     3's opening directions + its before-3C one-liner, and Check 5/4/7's
+     Skip-button sentence -- 5 added 2026-09-29, 4 and 7 added 2026-09-30
+     when the same Skip/timeout system was ported to them) ---- */
+  var LONGER_OK={dir_check2_before2b:true, dir_check2_before2c:true, dir_check3_open:true, dir_check3_3c:true, dir_check4:true, dir_check5:true, dir_check7:true};
   var defs=w.DIRECTIONS_DEFS, i;
   ck(defs.length===18,"all 18 directions scripts are present (got "+defs.length+")");
   for(i=0;i<defs.length;i++){
@@ -48,12 +49,12 @@ setTimeout(function(){
   ck(defs.filter(function(x){return x.key==="dir_check3_3b";})[0].script==="Tell me the last sound.","Check 3 before-3B script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check3_3c";})[0].script==="Listen to the sounds. Put them together. Say the word.","Check 3 before-3C script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check3_3d";})[0].script==="Listen to the word. Say every sound you hear.","Check 3 before-3D script matches exactly");
-  ck(defs.filter(function(x){return x.key==="dir_check4";})[0].script==="You will see a list of words to read out loud. Tap Next after each one.","Check 4 script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check4";})[0].script==="You will see a list of words to read out loud. Tap Next after each one. If you do not know it, tap Skip.","Check 4 script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check5";})[0].script==="You will see a list of words to read out loud. Tap Next after each one. If you do not know it, tap Skip.","Check 5 script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check6";})[0].script==="You will see a list of words to read out loud. Tap Next after each one.","Check 6 script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check6b";})[0].script==="Choose the best answer.","Check 6B script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check6c";})[0].script==="Build, take away, or change each word.","Check 6C script matches exactly");
-  ck(defs.filter(function(x){return x.key==="dir_check7";})[0].script==="You will see a list of words to read out loud. Tap Next after each one.","Check 7 script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check7";})[0].script==="You will see a list of words to read out loud. Tap Next after each one. If you do not know it, tap Skip.","Check 7 script matches exactly");
 
   /* ---- on-screen directions text (not just the recorded scripts) ---- */
   w.READER=w.CLASSES[0].students[0]; w.CURCLASS=w.CLASSES[0]; w.CURGROUP=w.GROUPS[0];
@@ -109,9 +110,12 @@ setTimeout(function(){
   /* ---- Check 4's on-screen directions text ---- */
   w.go("check4");
   var c4Text=d.getElementById("c4-intro").textContent;
-  ck(sentenceCount(c4Text)<=2,"Check 4's on-screen directions are at most 2 sentences (got \""+c4Text+"\")");
+  /* Mick, 2026-09-30: added a 3rd short sentence ("If you do not know
+     it, tap Skip.") when the Skip/timeout system was ported from Check
+     5 -- same 3-sentence exception as Check 5's own directions. */
+  ck(sentenceCount(c4Text)<=3,"Check 4's on-screen directions are at most 3 sentences (got \""+c4Text+"\")");
   ck(!/\bconsonants?\b/i.test(c4Text),"Check 4's on-screen directions never say \"consonant\"");
-  ck(c4Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="You will see a list of words to read out loud. Tap Next after each one.","Check 4's on-screen opening text matches exactly");
+  ck(c4Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="You will see a list of words to read out loud. Tap Next after each one. If you do not know it, tap Skip.","Check 4's on-screen opening text matches exactly");
   var c4PseudoText=d.getElementById("c4-pseudo-note").textContent;
   ck(sentenceCount(c4PseudoText)<=2,"Check 4's pseudoword point-of-need text is at most 2 sentences (got \""+c4PseudoText+"\")");
   ck(c4PseudoText==="This is a made-up word. Read it out loud.","Check 4's pseudoword text matches exactly");
@@ -150,9 +154,12 @@ setTimeout(function(){
   /* ---- Check 7's on-screen directions text ---- */
   w.go("check7");
   var c7Text=d.getElementById("c7-intro").textContent;
-  ck(sentenceCount(c7Text)<=2,"Check 7's on-screen directions are at most 2 sentences (got \""+c7Text+"\")");
+  /* Mick, 2026-09-30: added a 3rd short sentence ("If you do not know
+     it, tap Skip.") when the Skip/timeout system was ported from Check
+     5 -- same 3-sentence exception as Check 5's own directions. */
+  ck(sentenceCount(c7Text)<=3,"Check 7's on-screen directions are at most 3 sentences (got \""+c7Text+"\")");
   ck(!/\bconsonants?\b/i.test(c7Text),"Check 7's on-screen directions never say \"consonant\"");
-  ck(c7Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="You will see a list of words to read out loud. Tap Next after each one.","Check 7's on-screen opening text matches exactly");
+  ck(c7Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="You will see a list of words to read out loud. Tap Next after each one. If you do not know it, tap Skip.","Check 7's on-screen opening text matches exactly");
   var c7PseudoText=d.getElementById("c7-pseudo-note").textContent;
   ck(sentenceCount(c7PseudoText)<=2,"Check 7's pseudoword transition text is at most 2 sentences (got \""+c7PseudoText+"\")");
   ck(c7PseudoText==="These are made-up words. Read each one out loud.","Check 7's pseudoword transition text matches exactly");

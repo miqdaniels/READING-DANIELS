@@ -238,7 +238,88 @@ setTimeout(function(){
     ck(saved.targets.indexOf("am")>-1 && saved.targets.indexOf("if")>-1,"missed/needs-instruction targets saved (incorrect + skip)");
     ck(saved.targets.indexOf("us")===-1,"a self-corrected item is NOT treated as needing instruction");
 
-    regressionScreens();
+    skipTimeoutFlow();
+  }
+
+  function skipTimeoutFlow(){
+    /* ---- Skip button, hidden auto-skip timer, 5-skip-streak band-jump,
+       final-band finish, timestamp logging (ported from Check 5, Mick 2026-09-30,
+       mirrors test-check5.js's own "Section 6" block exactly) ---- */
+    w.go("diagLanding");
+    var diagBtns3=d.querySelectorAll("#diagLanding .btn"), c4Btn2=null, mm;
+    for(mm=0;mm<diagBtns3.length;mm++){ if(diagBtns3[mm].textContent.indexOf("Check 4")>-1){ c4Btn2=diagBtns3[mm]; } }
+    click(c4Btn2);
+    ck(activeId()==="check4","Check 4 re-opens for the skip/timeout pass");
+    ck(d.getElementById("c4-intro").textContent.indexOf("If you do not know it, tap Skip.")>-1,"directions mention Skip");
+
+    w.c4Start();
+    setTimeout(function(){
+      ck(w.c4Idx===0,"skip/timeout pass starts fresh at item 0");
+      ck(d.getElementById("c4-skip").style.display!=="none","a Skip button is available once recording starts");
+
+      w.c4SkipTap();
+      w.c4NextLock=false;
+      ck(w.c4Idx===1,"a single Skip tap advances to the next item");
+      ck(w.c4SkipStreak===1,"skip streak is now 1");
+      w.c4NextTap();
+      w.c4NextLock=false;
+      ck(w.c4SkipStreak===0,"a real Next tap resets the skip streak back to 0");
+      ck(w.c4Idx===2,"Next still advances normally after a skip");
+
+      var idxBefore=w.c4Idx;
+      w.c4ClearAutoTimer();
+      w.c4AutoSkip();
+      ck(w.c4Idx===idxBefore+1,"an auto-skip (simulated timeout) advances exactly like a tapped Skip");
+      ck(w.c4Timestamps[w.c4Timestamps.length-1].action==="timeout","the timeout is logged as its own distinct action, not 'skip'");
+      ck(w.c4Timestamps[w.c4Timestamps.length-1].idx===idxBefore,"the timeout is logged against the item that timed out");
+
+      /* ---- 5 skips in a row mid-check ends THAT BAND only, jumps to the next band.
+         4A has only 10 items (0-9, unlike Check 5's 20-item sets), so start at
+         index 2 to leave real items (7,8,9) unreached when the streak triggers. ---- */
+      w.c4Idx=2; w.c4PaintItem(); w.c4SkipStreak=0;
+      w.c4SkipTap(); w.c4NextLock=false;
+      w.c4SkipTap(); w.c4NextLock=false;
+      w.c4SkipTap(); w.c4NextLock=false;
+      w.c4SkipTap(); w.c4NextLock=false;
+      ck(w.c4Idx===6,"four skips in a row just advance one at a time (streak below 5)");
+      ck(w.c4SkipStreak===4,"skip streak is 4 just before the 5th");
+      w.c4SkipTap(); w.c4NextLock=false; // 5th skip in a row -> ends band 4A, jumps to 4B
+      ck(w.c4SkipStreak===0,"the streak resets to 0 once it triggers the band-jump");
+      ck(w.c4Idx===w.C4_BAND_START[1],"5 skips in a row jumps straight to the first item of the next band (4B), skipping the rest of 4A");
+      ck(w.c4NotReachedIdx.indexOf(7)>-1 && w.c4NotReachedIdx.indexOf(9)>-1,
+        "every remaining un-reached item in 4A (7,8,9) is recorded as Not Reached (got: "+w.c4NotReachedIdx.join(",")+")");
+      ck(w.c4NotReachedIdx.length===3,"exactly the 3 remaining 4A items (indices 7-9) are marked Not Reached so far, no more no less");
+
+      /* ---- 5 skips in a row on the VERY LAST band (4L) ends the whole check ---- */
+      w.c4Idx=137; w.c4PaintItem(); w.c4SkipStreak=0;
+      w.c4SkipTap(); w.c4NextLock=false;
+      w.c4SkipTap(); w.c4NextLock=false;
+      w.c4SkipTap(); w.c4NextLock=false;
+      w.c4SkipTap(); w.c4NextLock=false;
+      w.c4SkipTap(); w.c4NextLock=false;
+      setTimeout(function(){
+        ck(w.c4EndedViaFinalStreak===true,"5 skips in a row on the final band ends the WHOLE check (no next band to jump to)");
+        ck(d.getElementById("c4-state").textContent==="Great work! You’re done.","the final-band streak shows the special finishing message, not the generic one");
+
+        w.c4Finish();
+        var attempts2=w.C4Attempts.forStudent(w.READER.id);
+        var lastAttempt=attempts2[attempts2.length-1];
+        ck(lastAttempt.notReachedIdx.length===3,"the saved attempt records exactly the 3 Not Reached items from the mid-check 4A gap (the final-band jump left none, since it landed exactly on the last item)");
+        ck(Array.isArray(lastAttempt.timestamps) && lastAttempt.timestamps.length>0,"every Next/Skip/Done/timeout tap is logged with a timestamp in the saved attempt");
+
+        /* ---- teacher review correctly pre-fills the mid-sequence gap as Not Reached, not blank ---- */
+        w.go("check4Teach");
+        w.c4tPick(0);
+        var stuBtns=d.querySelectorAll("#c4t-roster .btn"), tgt=null, kk;
+        for(kk=0;kk<stuBtns.length;kk++){ if(stuBtns[kk].textContent.indexOf(w.READER.name)===0){ tgt=stuBtns[kk]; } }
+        click(tgt);
+        var openBtns=d.querySelectorAll("#c4t-body .mini-btn");
+        click(openBtns[openBtns.length-1]);
+        ck(w.c4tScores[7]==="nr" && w.c4tScores[9]==="nr","the mid-sequence skip-streak gap (items 8-10, indices 7-9) pre-fills as Not Reached, not blank");
+
+        regressionScreens();
+      },30);
+    },30);
   }
 
   function regressionScreens(){

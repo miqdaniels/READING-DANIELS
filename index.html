@@ -230,6 +230,7 @@ p.lede{color:var(--ink-soft);margin:0 0 22px}
 .icon-btn-save{background:var(--accent)}
 .icon-btn-redo{background:var(--ink-soft)}
 .icon-btn-done{background:var(--accent)}
+.icon-btn-skip{background:var(--accent)}
 .icon-btn-pause{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
 .rec-status{display:flex;align-items:center;gap:8px;font-size:28px;font-weight:600;color:var(--retry);margin:0 0 8px;min-height:20px}
 .rec-status .rec-status-dot{width:10px;height:10px;border-radius:50%;background:var(--retry);display:inline-block;animation:pulse 1s infinite}
@@ -680,7 +681,7 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
 #check1 .icon-btn-next,#check2 .icon-btn-next,#check3 .icon-btn-next,#check4 .icon-btn-next,
 #check1 .icon-btn-listen,#check2 .icon-btn-listen,#check3 .icon-btn-listen,#check4 .icon-btn-listen,
 #check1 .icon-btn-save,#check2 .icon-btn-save,#check3 .icon-btn-save,#check4 .icon-btn-save,
-#check4 .icon-btn-done{
+#check4 .icon-btn-done,#check4 .icon-btn-skip{
   background:transparent !important;border:1.5px solid var(--accent);color:var(--accent) !important}
 #check1 .icon-btn-redo,#check2 .icon-btn-redo,#check3 .icon-btn-redo,#check4 .icon-btn-redo{
   background:transparent !important;border:1.5px solid var(--ink-soft);color:var(--ink-soft) !important}
@@ -1277,7 +1278,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
     <div class="wrap">
       <p class="step-eyebrow">Check 4</p>
       <h2 class="scr-title">Read each word</h2>
-      <div class="lede" id="c4-intro">You will see a list of words to read out loud. Tap Next after each one.</div>
+      <div class="lede" id="c4-intro">You will see a list of words to read out loud. Tap Next after each one. If you do not know it, tap Skip.</div>
       <div class="dir-listen-wrap" id="dl-dir_check4" style="display:none">
         <button class="dir-listen-btn" id="dl-dir_check4-btn" onclick="dirToggle('dir_check4')">
           <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
@@ -1292,6 +1293,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="icon-row">
         <button class="icon-btn icon-btn-record" id="c4-start" onclick="c4Start()"><span class="icon-glyph mic-ico"></span><span class="icon-label" id="c4-start-lbl">Record</span></button>
         <button class="icon-btn icon-btn-next" id="c4-next" onclick="c4NextTap()" style="display:none"><span class="icon-glyph">&#8594;</span><span class="icon-label" id="c4-next-lbl">Next</span></button>
+        <button class="icon-btn icon-btn-skip" id="c4-skip" onclick="c4SkipTap()" style="display:none"><span class="icon-glyph">&#8677;</span><span class="icon-label">Skip</span></button>
         <button class="icon-btn icon-btn-done" id="c4-done" onclick="c4DoneTap()" style="display:none"><span class="icon-glyph">&#9209;</span><span class="icon-label">Done</span></button>
       </div>
       <p class="state-line none" id="c4-state"></p>
@@ -1525,7 +1527,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
     <div class="wrap">
       <p class="step-eyebrow">Check 7</p>
       <h2 class="scr-title">Read each word</h2>
-      <div class="lede" id="c7-intro">You will see a list of words to read out loud. Tap Next after each one.</div>
+      <div class="lede" id="c7-intro">You will see a list of words to read out loud. Tap Next after each one. If you do not know it, tap Skip.</div>
       <div class="dir-listen-wrap" id="dl-dir_check7" style="display:none">
         <button class="dir-listen-btn" id="dl-dir_check7-btn" onclick="dirToggle('dir_check7')">
           <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
@@ -1540,6 +1542,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <button class="pill-btn pill-btn-primary" id="c7-start" onclick="c7Start()">Start Recording</button>
       <div class="clean-icon-row" id="c7-active-row" style="display:none">
         <button class="pill-btn pill-btn-primary" id="c7-next" onclick="c7NextTap()"><span id="c7-next-lbl">Next</span></button>
+        <button class="pill-btn pill-btn-secondary" id="c7-skip" onclick="c7SkipTap()">Skip</button>
         <button class="pill-btn pill-btn-secondary" id="c7-done" onclick="c7DoneTap()">Done</button>
       </div>
       <p class="state-line none" id="c7-state"></p>
@@ -2521,12 +2524,12 @@ var DIRECTIONS_DEFS=[
   {key:"dir_check3_3b", label:"Check 3 -- before 3B (final sound)", script:"Tell me the last sound."},
   {key:"dir_check3_3c", label:"Check 3 -- before 3C (blending)", script:"Listen to the sounds. Put them together. Say the word."},
   {key:"dir_check3_3d", label:"Check 3 -- before 3D (segmentation)", script:"Listen to the word. Say every sound you hear."},
-  {key:"dir_check4", label:"Check 4 directions", script:"You will see a list of words to read out loud. Tap Next after each one."},
+  {key:"dir_check4", label:"Check 4 directions", script:"You will see a list of words to read out loud. Tap Next after each one. If you do not know it, tap Skip."},
   {key:"dir_check5", label:"Check 5 directions", script:"You will see a list of words to read out loud. Tap Next after each one. If you do not know it, tap Skip."},
   {key:"dir_check6", label:"Check 6 directions", script:"You will see a list of words to read out loud. Tap Next after each one."},
   {key:"dir_check6b", label:"Check 6B directions", script:"Choose the best answer."},
   {key:"dir_check6c", label:"Check 6C directions", script:"Build, take away, or change each word."},
-  {key:"dir_check7", label:"Check 7 directions", script:"You will see a list of words to read out loud. Tap Next after each one."},
+  {key:"dir_check7", label:"Check 7 directions", script:"You will see a list of words to read out loud. Tap Next after each one. If you do not know it, tap Skip."},
   {key:"dir_fluency", label:"Fluency directions", script:"Read the passage out loud."},
   {key:"dir_retell", label:"Retell directions", script:"Tell what you read, in your own words. You have one minute."},
   {key:"dir_vocab", label:"Vocabulary (Word Practice) directions", script:"Pick a group. Hear the word, then read it."}
@@ -6609,8 +6612,16 @@ var C4Review=rfReviewStore("rf_check4_attempts");
    button (same one Word Practice already uses) -- Check 4 never forces
    all 142 items on every student. ---------- */
 var c4Idx=-1, c4Blob=null, c4YesUsed=false, c4NextLock=false, c4Playing=false, c4StartAt=0;
+/* Mick, 2026-09-30: same Skip + hidden 5s auto-skip timer + band-ending
+   skip streak Check 5 has (2026-09-29), ported so a stuck kid is never
+   forced through all 142 items -- see c5's own comment block for the
+   full rationale, unchanged here. */
+var c4SkipStreak=0, c4Timestamps=[], c4NotReachedIdx=[], c4AutoTimer=null;
+function c4ClearAutoTimer(){ if(c4AutoTimer){ clearTimeout(c4AutoTimer); c4AutoTimer=null; } }
+function c4LogEvent(action){ c4Timestamps.push({ idx:c4Idx, action:action, atMs:(new Date().getTime()-c4StartAt) }); }
 function c4Enter(){
   c4Idx=-1; c4Blob=null; c4YesUsed=false; c4NextLock=false; c4Playing=false; c4StoppedByDone=false;
+  c4ClearAutoTimer(); c4SkipStreak=0; c4Timestamps=[]; c4NotReachedIdx=[]; c4EndedViaFinalStreak=false;
   document.getElementById("c4-intro").style.display="block";
   document.getElementById("c4-mic-note").style.display="block";
   var sl=document.getElementById("c4-section-label"); sl.style.display="none"; sl.textContent="";
@@ -6620,6 +6631,7 @@ function c4Enter(){
   var sb=document.getElementById("c4-start"); sb.style.display="inline-flex"; sb.disabled=false; sb.className="icon-btn icon-btn-record";
   document.getElementById("c4-start-lbl").textContent="Record";
   document.getElementById("c4-next").style.display="none";
+  document.getElementById("c4-skip").style.display="none";
   document.getElementById("c4-done").style.display="none";
   var rs=document.getElementById("c4-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("c4-state"); st.className="state-line none"; st.textContent="";
@@ -6640,6 +6652,11 @@ function c4PaintItem(){
   document.getElementById("c4-progress").textContent="Item "+(c4Idx+1)+" of "+C4_ITEMS.length;
   var nlbl=document.getElementById("c4-next-lbl");
   nlbl.textContent = (c4Idx===C4_ITEMS.length-1) ? "Finish" : "Next";
+  /* Hidden 5-second-per-word timer -- no countdown ever shows. If the
+     student just sits on a word, it's logged and treated exactly like a
+     tapped Skip. */
+  c4ClearAutoTimer();
+  c4AutoTimer=setTimeout(c4AutoSkip,5000);
 }
 function c4Start(){
   var sb=document.getElementById("c4-start"), st=document.getElementById("c4-state");
@@ -6654,6 +6671,7 @@ function c4Start(){
     sb.disabled=true; sb.className="icon-btn icon-btn-record rec";
     var rs=document.getElementById("c4-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML='<span class="rec-status-dot"></span>Recording'; }
     document.getElementById("c4-next").style.display="inline-flex";
+    document.getElementById("c4-skip").style.display="inline-flex";
     document.getElementById("c4-done").style.display="inline-flex";
     rfBackBar("c4-back",false);
     st.className="state-line none"; st.textContent="Recording. Read each word, then tap Next.";
@@ -6673,7 +6691,50 @@ function c4NextTap(){
   c4NextLock=true;
   if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c4NextLock=false; }); }
   else { setTimeout(function(){ c4NextLock=false; },16); }
+  c4ClearAutoTimer();
+  c4LogEvent("next");
+  c4SkipStreak=0; // an actual attempt resets the streak
   c4DoAdvance();
+}
+var c4EndedViaFinalStreak=false;
+/* 5 skips in a row (tapped Skip, or timed out) ends THAT BAND only --
+   its remaining words are marked Not Reached (never counted as wrong)
+   and the walk jumps straight to the next band. On the very last band
+   there's no next band to jump to, so the check just finishes instead.
+   Mirrors c5JumpToNextSet exactly. */
+function c4JumpToNextBand(){
+  var i, bandIdx=-1;
+  for(i=0;i<C4_BANDS.length;i++){ if(c4Idx>=C4_BAND_START[i] && c4Idx<C4_BAND_START[i]+C4_BANDS[i].words.length){ bandIdx=i; break; } }
+  if(bandIdx<0){ c4DoAdvance(); return; }
+  var bandEnd=C4_BAND_START[bandIdx]+C4_BANDS[bandIdx].words.length-1, j;
+  for(j=c4Idx+1;j<=bandEnd;j++){ c4NotReachedIdx.push(j); }
+  if(bandIdx<C4_BANDS.length-1){
+    c4Idx=C4_BAND_START[bandIdx+1];
+    c4PaintItem();
+  } else {
+    c4EndedViaFinalStreak=true;
+    c4Idx=bandEnd;
+    stopRec();
+  }
+}
+function c4RegisterSkip(action){
+  c4ClearAutoTimer();
+  c4LogEvent(action);
+  c4SkipStreak++;
+  if(c4SkipStreak>=5){ c4SkipStreak=0; c4JumpToNextBand(); }
+  else { c4DoAdvance(); }
+}
+function c4SkipTap(){
+  if(c4NextLock){ return; }
+  c4NextLock=true;
+  if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c4NextLock=false; }); }
+  else { setTimeout(function(){ c4NextLock=false; },16); }
+  c4RegisterSkip("skip");
+}
+/* Hidden -- no countdown or timer ever shows on the student screen. */
+function c4AutoSkip(){
+  c4AutoTimer=null;
+  c4RegisterSkip("timeout");
 }
 /* Teacher-controlled early stop, at any item -- "do not force all 142
    items on every student" */
@@ -6681,7 +6742,7 @@ var c4StoppedByDone=false;
 /* Mick, 2026-09-29: Done is kept on every check -- a student can still
    stop early -- but now the teacher report says exactly where, instead
    of that fact being silently indistinguishable from reaching the end. */
-function c4DoneTap(){ c4StoppedByDone=true; stopRec(); }
+function c4DoneTap(){ c4ClearAutoTimer(); c4LogEvent("done"); c4StoppedByDone=true; stopRec(); }
 function c4Review(){
   c4Playing=false;
   var sb=document.getElementById("c4-start"); sb.style.display="none";
@@ -6690,11 +6751,12 @@ function c4Review(){
   document.getElementById("c4-pseudo-note").style.display="none";
   document.getElementById("c4-progress").textContent="";
   document.getElementById("c4-next").style.display="none";
+  document.getElementById("c4-skip").style.display="none";
   document.getElementById("c4-done").style.display="none";
   var rs=document.getElementById("c4-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("c4-state");
   st.className="state-line saved";
-  st.textContent="Recording complete.";
+  st.textContent=c4EndedViaFinalStreak?"Great work! You’re done.":"Recording complete.";
   rfBackBar("c4-back",true);
   var rv=document.getElementById("c4-review");
   rv.innerHTML='<div class="icon-row">'
@@ -6732,11 +6794,13 @@ function c4Finish(){
   downloadBlob(c4Blob,fname);
   var reached=c4Idx+1;
   C4Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
-    totalTimeMs:(new Date().getTime()-c4StartAt), reachedCount:reached, stoppedByDone:c4StoppedByDone, scores:null, flags:null, note:null, bandCorrect:null, realWordsCorrect:null, pseudoCorrect:null, targets:null });
+    totalTimeMs:(new Date().getTime()-c4StartAt), reachedCount:reached, stoppedByDone:c4StoppedByDone,
+    timestamps:c4Timestamps.slice(0), notReachedIdx:c4NotReachedIdx.slice(0),
+    scores:null, flags:null, note:null, bandCorrect:null, realWordsCorrect:null, pseudoCorrect:null, targets:null });
   document.getElementById("c4-review").innerHTML="";
   var st=document.getElementById("c4-state");
   st.className="state-line saved";
-  st.innerHTML="&#9989; All done! Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
+  st.innerHTML="&#9989; "+(c4EndedViaFinalStreak?"Great work! You’re done.":"All done! Nice work!")+" Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
     +'<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
     +"<li>Open today’s Check 4 assignment in Canvas.</li>"
     +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
@@ -6802,7 +6866,10 @@ function c4tOpenAttempt(id){
   var a=C4Review.get(id);
   var n=C4_ITEMS.length, i;
   c4tScores=(a.scores&&a.scores.length===n)?a.scores.slice(0):[];
-  if(!c4tScores.length){ for(i=0;i<n;i++){ c4tScores.push(i>=(a.reachedCount||0)?"nr":""); } }
+  if(!c4tScores.length){
+    for(i=0;i<n;i++){ c4tScores.push(i>=(a.reachedCount||0)?"nr":""); }
+    if(a.notReachedIdx&&a.notReachedIdx.length){ for(i=0;i<a.notReachedIdx.length;i++){ c4tScores[a.notReachedIdx[i]]="nr"; } }
+  }
   c4tFlags=(a.flags&&a.flags.length===n)?a.flags.slice(0):[];
   if(!c4tFlags.length){ for(i=0;i<n;i++){ c4tFlags.push(false); } }
   var host=document.getElementById("c4t-body"); if(!host){ return; }
@@ -8426,8 +8493,16 @@ var C7Review=rfReviewStore("rf_check7_attempts");
    pattern as Check 4's 4L pseudoword note) appears once the student
    reaches 7F. ---------- */
 var c7Idx=-1, c7Blob=null, c7YesUsed=false, c7NextLock=false, c7Playing=false, c7StartAt=0;
+/* Mick, 2026-09-30: same Skip + hidden 5s auto-skip timer + set-ending
+   skip streak Check 5 has (2026-09-29), ported so a stuck kid is never
+   forced through all 90 items -- see c5's own comment block for the
+   full rationale, unchanged here. */
+var c7SkipStreak=0, c7Timestamps=[], c7NotReachedIdx=[], c7AutoTimer=null;
+function c7ClearAutoTimer(){ if(c7AutoTimer){ clearTimeout(c7AutoTimer); c7AutoTimer=null; } }
+function c7LogEvent(action){ c7Timestamps.push({ idx:c7Idx, action:action, atMs:(new Date().getTime()-c7StartAt) }); }
 function c7Enter(){
   c7Idx=-1; c7Blob=null; c7YesUsed=false; c7NextLock=false; c7Playing=false; c7StoppedByDone=false;
+  c7ClearAutoTimer(); c7SkipStreak=0; c7Timestamps=[]; c7NotReachedIdx=[]; c7EndedViaFinalStreak=false;
   document.getElementById("c7-intro").style.display="block";
   document.getElementById("c7-mic-note").style.display="block";
   var sl=document.getElementById("c7-section-label"); sl.style.display="none"; sl.textContent="";
@@ -8455,6 +8530,11 @@ function c7PaintItem(){
   var pn=document.getElementById("c7-pseudo-note"); if(pn){ pn.style.display=item.isPseudo?"block":"none"; }
   var nlbl=document.getElementById("c7-next-lbl");
   nlbl.textContent = (c7Idx===C7_ITEMS.length-1) ? "Finish" : "Next";
+  /* Hidden 5-second-per-word timer -- no countdown ever shows. If the
+     student just sits on a word, it's logged and treated exactly like a
+     tapped Skip. */
+  c7ClearAutoTimer();
+  c7AutoTimer=setTimeout(c7AutoSkip,5000);
 }
 function c7Start(){
   var sb=document.getElementById("c7-start"), st=document.getElementById("c7-state");
@@ -8487,12 +8567,55 @@ function c7NextTap(){
   c7NextLock=true;
   if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c7NextLock=false; }); }
   else { setTimeout(function(){ c7NextLock=false; },16); }
+  c7ClearAutoTimer();
+  c7LogEvent("next");
+  c7SkipStreak=0; // an actual attempt resets the streak
   c7DoAdvance();
+}
+var c7EndedViaFinalStreak=false;
+/* 5 skips in a row (tapped Skip, or timed out) ends THAT SET only --
+   its remaining words are marked Not Reached (never counted as wrong)
+   and the walk jumps straight to the next set. On the very last set
+   there's no next set to jump to, so the check just finishes instead.
+   Mirrors c5JumpToNextSet exactly. */
+function c7JumpToNextSet(){
+  var i, setIdx=-1;
+  for(i=0;i<C7_SETS.length;i++){ if(c7Idx>=C7_SET_START[i] && c7Idx<C7_SET_START[i]+C7_SETS[i].words.length){ setIdx=i; break; } }
+  if(setIdx<0){ c7DoAdvance(); return; }
+  var setEnd=C7_SET_START[setIdx]+C7_SETS[setIdx].words.length-1, j;
+  for(j=c7Idx+1;j<=setEnd;j++){ c7NotReachedIdx.push(j); }
+  if(setIdx<C7_SETS.length-1){
+    c7Idx=C7_SET_START[setIdx+1];
+    c7PaintItem();
+  } else {
+    c7EndedViaFinalStreak=true;
+    c7Idx=setEnd;
+    stopRec();
+  }
+}
+function c7RegisterSkip(action){
+  c7ClearAutoTimer();
+  c7LogEvent(action);
+  c7SkipStreak++;
+  if(c7SkipStreak>=5){ c7SkipStreak=0; c7JumpToNextSet(); }
+  else { c7DoAdvance(); }
+}
+function c7SkipTap(){
+  if(c7NextLock){ return; }
+  c7NextLock=true;
+  if(window.requestAnimationFrame){ requestAnimationFrame(function(){ c7NextLock=false; }); }
+  else { setTimeout(function(){ c7NextLock=false; },16); }
+  c7RegisterSkip("skip");
+}
+/* Hidden -- no countdown or timer ever shows on the student screen. */
+function c7AutoSkip(){
+  c7AutoTimer=null;
+  c7RegisterSkip("timeout");
 }
 /* Teacher-controlled early stop, at any item -- "do not force all 90
    items on every student" */
 var c7StoppedByDone=false;
-function c7DoneTap(){ c7StoppedByDone=true; stopRec(); }
+function c7DoneTap(){ c7ClearAutoTimer(); c7LogEvent("done"); c7StoppedByDone=true; stopRec(); }
 function c7Review(){
   c7Playing=false;
   document.getElementById("c7-start").style.display="none";
@@ -8504,7 +8627,7 @@ function c7Review(){
   var rs=document.getElementById("c7-rec-status"); if(rs){ rs.className="rec-status"; rs.innerHTML=""; }
   var st=document.getElementById("c7-state");
   st.className="state-line saved";
-  st.textContent="Recording complete.";
+  st.textContent=c7EndedViaFinalStreak?"Great work! You’re done.":"Recording complete.";
   rfBackBar("c7-back",true);
   var rv=document.getElementById("c7-review");
   rv.innerHTML='<div class="clean-icon-row">'
@@ -8542,12 +8665,13 @@ function c7Finish(){
   downloadBlob(c7Blob,fname);
   var reached=c7Idx+1;
   C7Attempts.add({ id:rfUid(), studentId:READER.id, studentName:READER.name, date:azDateStr(), fileName:fname,
-    totalTimeMs:(new Date().getTime()-c7StartAt), reachedCount:reached, stoppedByDone:c7StoppedByDone, scores:null, note:null,
+    totalTimeMs:(new Date().getTime()-c7StartAt), reachedCount:reached, stoppedByDone:c7StoppedByDone,
+    timestamps:c7Timestamps.slice(0), notReachedIdx:c7NotReachedIdx.slice(0), scores:null, note:null,
     setCorrect:null, targets:null });
   document.getElementById("c7-review").innerHTML="";
   var st=document.getElementById("c7-state");
   st.className="state-line saved";
-  st.innerHTML="&#9989; All done! Nice work! Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
+  st.innerHTML="&#9989; "+(c7EndedViaFinalStreak?"Great work! You’re done.":"All done! Nice work!")+" Your file downloaded: <strong>"+escapeHtml(fname)+"</strong>."
     +'<div class="canvas-steps"><h4>Now turn it in on Canvas</h4><ol>'
     +"<li>Open today’s Check 7 assignment in Canvas.</li>"
     +"<li>Choose <strong>Upload</strong> — not Record — and pick that file.</li>"
@@ -8619,7 +8743,10 @@ function c7tOpenAttempt(id){
   var a=C7Review.get(id);
   var n=C7_ITEMS.length, i;
   c7tScores=(a.scores&&a.scores.length===n)?a.scores.slice(0):[];
-  if(!c7tScores.length){ for(i=0;i<n;i++){ c7tScores.push(i>=(a.reachedCount||0)?"nr":""); } }
+  if(!c7tScores.length){
+    for(i=0;i<n;i++){ c7tScores.push(i>=(a.reachedCount||0)?"nr":""); }
+    if(a.notReachedIdx&&a.notReachedIdx.length){ for(i=0;i<a.notReachedIdx.length;i++){ c7tScores[a.notReachedIdx[i]]="nr"; } }
+  }
   var host=document.getElementById("c7t-body"); if(!host){ return; }
   var gridsHtml="";
   for(i=0;i<C7_SETS.length;i++){
