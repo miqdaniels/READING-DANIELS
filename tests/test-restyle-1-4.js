@@ -48,14 +48,15 @@ var c2setupBtn=d.getElementById("c2-setup-btn");
 var cs2=w.getComputedStyle(c2setupBtn);
 ok(cs2.borderRadius==="10px","Check 2's camera-setup button is a rounded rectangle, not a full pill (got "+cs2.borderRadius+")");
 
-/* ---- Check 2: rec-status / dir-listen are muted, no pulse (matches Check5-7).
+/* ---- Check 2: rec-status / dir-listen are muted at rest, matches Check5-7.
    The Muted icon system (2026-09-29) makes this the base/default look for
    EVERY screen, not just a per-check override, so Checks 1-4 no longer
    need (or have) their own scoped copy of this rule -- confirm the base
-   rule itself is the static/no-pulse Muted style. ---- */
+   rule itself is the ink-soft Muted style at rest (it turns the approved
+   soft red #c0392b while actually recording, per Mick's 2026-09-30
+   correction -- see test-mic-ear-banner.js for that assertion). ---- */
 var recStatusCss=Array.prototype.map.call(d.querySelectorAll("style"),function(s){return s.textContent;}).join("\n");
-ok(recStatusCss.indexOf("micPulse")===-1,"no red micPulse animation exists anywhere -- the recording-status dot is static everywhere, including Checks 1-4");
-ok(/\.rec-status \.rec-status-dot\{[^}]*border:1px solid var\(--ink-soft\)[^}]*background-color:transparent/.test(recStatusCss),"the base recording-status dot is a plain ink-soft outline, which Checks 1-4 correctly inherit with no override needed");
+ok(/\.rec-status \.rec-status-dot\{[^}]*border:1px solid var\(--ink-soft\)[^}]*background-color:transparent/.test(recStatusCss),"the base recording-status dot is a plain ink-soft outline at rest, which Checks 1-4 correctly inherit with no override needed");
 
 /* ---- Check 3: the ear-icon-only item display still renders (font-size change to .c1-letter must not break the ear-lg icon, which is absolutely sized) ---- */
 w.go("check3");

@@ -2,11 +2,14 @@ const fs=require('fs');
 const {JSDOM}=require('jsdom');
 const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js" defer></script>','<script>'+fs.readFileSync('./clips.js','utf8')+'</script>');
 
-/* Teacher prompt-recorder mic icon (Mick, 2026-09-29 -- STYLE LOCK): the
-   Muted mic stays the SAME thin ink-soft outline whether idle or
-   actually recording -- no red, ever -- on the real s-teachC2/s-teachC3
-   prompt-recorder screens (using the app's own c2tToggle/c3tToggle --
-   not just a CSS-source regex check). */
+/* Teacher prompt-recorder mic icon: the Muted mic is a thin ink-soft
+   outline while idle, and turns a soft red (#c0392b, pulsing ring) the
+   instant recording actually starts, back to plain ink-soft gray once
+   it stops -- confirmed by Mick 2026-09-30 ("when it's recording, I do
+   like it to turn red. And then it can go back to gray"), correcting
+   the earlier 2026-09-29 "stays gray always" STYLE LOCK entry -- on the
+   real s-teachC2/s-teachC3 prompt-recorder screens (using the app's own
+   c2tToggle/c3tToggle, not just a CSS-source regex check). */
 const dom=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/?teacher",runScripts:"dangerously",pretendToBeVisual:true,
   beforeParse(w){
     w.HTMLElement.prototype.scrollIntoView=function(){};
@@ -41,8 +44,13 @@ setTimeout(function(){
   setTimeout(function(){
     ok(recBtn.className==="rec-btn rec","the button picks up the .rec class once recording actually starts");
     var bg=w.getComputedStyle(dot).backgroundColor;
-    ok(bg!=="rgb(229, 57, 53)","mic does NOT turn red once recording starts (got "+bg+")");
-    ok(bg==="rgba(0, 0, 0, 0)" || bg==="transparent","mic stays the same transparent outline while recording -- no color change at all");
+    ok(bg==="rgba(0, 0, 0, 0)" || bg==="transparent","mic's own fill stays transparent while recording (the ring is border/glyph color, not a fill)");
+    var border=w.getComputedStyle(dot).borderColor;
+    ok(border==="rgb(192, 57, 43)","mic ring turns the approved soft red #c0392b once recording starts (got "+border+")");
+
+    w.c2tToggle(key);
+    var borderAfter=w.getComputedStyle(dot).borderColor;
+    ok(borderAfter!=="rgb(192, 57, 43)","mic ring goes back to plain gray once recording stops (got "+borderAfter+")");
 
     w.c3tToggle ? testC3() : finish();
 
@@ -55,8 +63,8 @@ setTimeout(function(){
       w.c3tToggle(key3);
       setTimeout(function(){
         ok(recBtn3.className==="rec-btn rec","Check 3 Prompts: button picks up .rec once recording starts");
-        var bg3=w.getComputedStyle(dot3).backgroundColor;
-        ok(bg3!=="rgb(229, 57, 53)","Check 3 Prompts: mic does NOT turn red once recording starts (got "+bg3+")");
+        var border3=w.getComputedStyle(dot3).borderColor;
+        ok(border3==="rgb(192, 57, 43)","Check 3 Prompts: mic ring turns soft red once recording starts (got "+border3+")");
         finish();
       },30);
     }

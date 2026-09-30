@@ -397,7 +397,7 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
    with zero new/hardcoded color values (replaces the old solid-red
    circle + white handheld-mic silhouette used before this). */
 .mic-ico{position:relative;display:inline-block;flex:0 0 auto;box-sizing:border-box;border:2px solid var(--ink-soft);border-radius:20%;background-color:transparent;width:64px;height:64px;font-size:0;line-height:0;color:transparent}
-.mic-ico::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46%;height:52%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+.mic-ico::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56%;height:56%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 2.5h6a1 1 0 0 1 1 1V9a4 4 0 0 1-8 0V3.5a1 1 0 0 1 1-1Z'/%3E%3Cpath d='M9 5.5h6M9 8h6'/%3E%3Cpath d='M6 11v.5a6 6 0 0 0 12 0V11'/%3E%3Cpath d='M12 17.5v3M8.5 20.5h7'/%3E%3C/g%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 2.5h6a1 1 0 0 1 1 1V9a4 4 0 0 1-8 0V3.5a1 1 0 0 1 1-1Z'/%3E%3Cpath d='M9 5.5h6M9 8h6'/%3E%3Cpath d='M6 11v.5a6 6 0 0 0 12 0V11'/%3E%3Cpath d='M12 17.5v3M8.5 20.5h7'/%3E%3C/g%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
 @keyframes micFlash{0%,100%{background-color:var(--ink-soft)}50%{background-color:var(--accent)}}
 .icon-btn-record,.flu-sq-record{background:transparent !important;color:var(--ink) !important;animation:none !important;box-shadow:none !important}
 .icon-btn-record{min-width:90px;min-height:96px;gap:6px;padding:6px 8px}
@@ -410,14 +410,26 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 /* small versions: the "Recording" status line and the teacher Record buttons */
 .rec-status{color:var(--ink-soft)}
 .rec-status .rec-status-dot{position:relative;box-sizing:border-box;border:1px solid var(--ink-soft);border-radius:20%;background-color:transparent;width:44px;height:44px;display:inline-block;flex:0 0 auto}
-.rec-status .rec-status-dot::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46%;height:52%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+.rec-status .rec-status-dot::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56%;height:56%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 2.5h6a1 1 0 0 1 1 1V9a4 4 0 0 1-8 0V3.5a1 1 0 0 1 1-1Z'/%3E%3Cpath d='M9 5.5h6M9 8h6'/%3E%3Cpath d='M6 11v.5a6 6 0 0 0 12 0V11'/%3E%3Cpath d='M12 17.5v3M8.5 20.5h7'/%3E%3C/g%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 2.5h6a1 1 0 0 1 1 1V9a4 4 0 0 1-8 0V3.5a1 1 0 0 1 1-1Z'/%3E%3Cpath d='M9 5.5h6M9 8h6'/%3E%3Cpath d='M6 11v.5a6 6 0 0 0 12 0V11'/%3E%3Cpath d='M12 17.5v3M8.5 20.5h7'/%3E%3C/g%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
 .rec-status.paused .rec-status-dot::before{background-color:var(--ink-soft);opacity:.5}
 .mic-ico.mic-ico-tile{width:34px;height:34px}
 .rec-btn.rec{background:var(--accent)}
-/* Teacher Record buttons: same Muted mic, always -- stays gray whether
-   idle or actually recording (no red state at all). */
+/* Teacher Record buttons: same Muted mic, stays gray while idle. */
 .rec-btn .rec-dot{position:relative;box-sizing:border-box;border:1px solid var(--ink-soft);border-radius:20%;background-color:transparent;width:26px;height:26px;display:inline-block;flex:0 0 auto;animation:none}
-.rec-btn .rec-dot::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:46%;height:52%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cellipse cx='24' cy='15' rx='10' ry='13'/%3E%3Crect x='22.5' y='27' width='3' height='12'/%3E%3Crect x='13' y='39' width='22' height='3' rx='1.5'/%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+.rec-btn .rec-dot::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56%;height:56%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 2.5h6a1 1 0 0 1 1 1V9a4 4 0 0 1-8 0V3.5a1 1 0 0 1 1-1Z'/%3E%3Cpath d='M9 5.5h6M9 8h6'/%3E%3Cpath d='M6 11v.5a6 6 0 0 0 12 0V11'/%3E%3Cpath d='M12 17.5v3M8.5 20.5h7'/%3E%3C/g%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 2.5h6a1 1 0 0 1 1 1V9a4 4 0 0 1-8 0V3.5a1 1 0 0 1 1-1Z'/%3E%3Cpath d='M9 5.5h6M9 8h6'/%3E%3Cpath d='M6 11v.5a6 6 0 0 0 12 0V11'/%3E%3Cpath d='M12 17.5v3M8.5 20.5h7'/%3E%3C/g%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+/* Actively recording: soft red ring + red glyph (matches the approved
+   artifact's #c0392b), back to plain ink-soft gray the instant it stops.
+   Confirmed by Mick 2026-09-30, correcting the earlier "always gray,
+   never red" rule -- applies everywhere a mic icon can be recording:
+   student Record buttons, the "Recording" status line, and every
+   teacher Record button. */
+@keyframes micRecPulse{0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.35)}50%{box-shadow:0 0 0 8px rgba(192,57,43,0)}}
+.icon-btn-record.rec .mic-ico,.flu-sq-record.rec .mic-ico{border-color:#c0392b;animation:micRecPulse 1.3s ease-in-out infinite}
+.icon-btn-record.rec .mic-ico::before,.flu-sq-record.rec .mic-ico::before{background-color:#c0392b}
+.rec-status:not(.paused) .rec-status-dot{border-color:#c0392b;animation:micRecPulse 1.3s ease-in-out infinite}
+.rec-status:not(.paused) .rec-status-dot::before{background-color:#c0392b}
+.rec-btn.rec .rec-dot{border-color:#c0392b;animation:micRecPulse 1.3s ease-in-out infinite}
+.rec-btn.rec .rec-dot::before{background-color:#c0392b}
 
 /* ===== Student View bar: the chosen theme, darker (light mode) or lighter (dark mode) ===== */
 .vas-banner{background:var(--accent-press);background:color-mix(in srgb,var(--accent) 62%,#000);color:#fff}
@@ -436,7 +448,7 @@ html[data-mode="dark"] .vas-banner .vas-exit{background:#111;color:#fff}
 .dir-row .dir-listen-wrap{margin:0;flex:0 0 auto}
 .dir-row .dir-listen-btn{padding:8px 14px}
 .dir-row .dir-listen-btn .dir-listen-icon{font-size:24px}
-.dir-row > .lede,.dir-row > .mini-note,.dir-row > p,.dir-row > div:not(.dir-listen-wrap){flex:1 1 auto;margin:0}
+.dir-row > .lede,.dir-row > .mini-note,.dir-row > p,.dir-row > div:not(.dir-listen-wrap){flex:1 1 auto;margin:0;min-width:0}
 
 /* ===== MUTED listen icon, everywhere (Mick, 2026-09-29 -- STYLE LOCK):
    thin var(--ink-soft) circle outline, no fill, containing a var(--ink-soft)
@@ -447,7 +459,7 @@ html[data-mode="dark"] .vas-banner .vas-exit{background:#111;color:#fff}
    the theme's own var(--accent) color with no pulse -- an existing app
    color, not a new one, and never red or green. */
 .ear-ico{position:relative;display:inline-block;flex:0 0 auto;box-sizing:border-box;border:2px solid var(--ink-soft);border-radius:20%;background-color:transparent;width:52px;height:52px;vertical-align:middle}
-.ear-ico::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56%;height:56%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M6 18h7l11-9v30l-11-9H6z'/%3E%3Cpath d='M30 16c3 3 3 13 0 16' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M35 11c6 6 6 20 0 26' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M6 18h7l11-9v30l-11-9H6z'/%3E%3Cpath d='M30 16c3 3 3 13 0 16' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M35 11c6 6 6 20 0 26' fill='none' stroke='black' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+.ear-ico::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56%;height:56%;background-color:var(--ink-soft);-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 8a4 4 0 0 1 0 8'/%3E%3Cpath d='M17.5 5.5a8 8 0 0 1 0 13'/%3E%3Cpath d='M4 10v4h3l5 4V6l-5 4H4Z'/%3E%3C/g%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 8a4 4 0 0 1 0 8'/%3E%3Cpath d='M17.5 5.5a8 8 0 0 1 0 13'/%3E%3Cpath d='M4 10v4h3l5 4V6l-5 4H4Z'/%3E%3C/g%3E%3C/svg%3E");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
 .ear-ico.ear-sm{width:26px;height:26px;margin-right:6px}
 .ear-ico.ear-tile{width:34px;height:34px}
 .ear-ico.ear-lg{width:84px;height:84px}
@@ -1265,7 +1277,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
     <div class="wrap">
       <p class="step-eyebrow">Check 4</p>
       <h2 class="scr-title">Read each word</h2>
-      <div class="lede" id="c4-intro">Read each word out loud. Tap Next after each one.</div>
+      <div class="lede" id="c4-intro">You&rsquo;ll see a list of words to read out loud. Tap Next after each one.</div>
       <div class="dir-listen-wrap" id="dl-dir_check4" style="display:none">
         <button class="dir-listen-btn" id="dl-dir_check4-btn" onclick="dirToggle('dir_check4')">
           <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
@@ -1318,7 +1330,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
     <div class="wrap">
       <p class="step-eyebrow">Check 5</p>
       <h2 class="scr-title">Read each word</h2>
-      <div class="lede" id="c5-intro">Read each word out loud. Tap Next after each one. If you don&rsquo;t know it, tap Skip.</div>
+      <div class="lede" id="c5-intro">You&rsquo;ll see a list of words to read out loud. Tap Next after each one. If you don&rsquo;t know it, tap Skip.</div>
       <div class="dir-listen-wrap" id="dl-dir_check5" style="display:none">
         <button class="dir-listen-btn" id="dl-dir_check5-btn" onclick="dirToggle('dir_check5')">
           <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
@@ -1370,7 +1382,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
     <div class="wrap">
       <p class="step-eyebrow">Check 6</p>
       <h2 class="scr-title">Read each word</h2>
-      <div class="lede" id="c6-intro">Read each word out loud. Tap Next after each one.</div>
+      <div class="lede" id="c6-intro">You&rsquo;ll see a list of words to read out loud. Tap Next after each one.</div>
       <div class="dir-listen-wrap" id="dl-dir_check6" style="display:none">
         <button class="dir-listen-btn" id="dl-dir_check6-btn" onclick="dirToggle('dir_check6')">
           <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
@@ -1513,7 +1525,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
     <div class="wrap">
       <p class="step-eyebrow">Check 7</p>
       <h2 class="scr-title">Read each word</h2>
-      <div class="lede" id="c7-intro">Read each word out loud. Tap Next after each one.</div>
+      <div class="lede" id="c7-intro">You&rsquo;ll see a list of words to read out loud. Tap Next after each one.</div>
       <div class="dir-listen-wrap" id="dl-dir_check7" style="display:none">
         <button class="dir-listen-btn" id="dl-dir_check7-btn" onclick="dirToggle('dir_check7')">
           <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
@@ -2509,12 +2521,12 @@ var DIRECTIONS_DEFS=[
   {key:"dir_check3_3b", label:"Check 3 -- before 3B (final sound)", script:"Tell me the last sound."},
   {key:"dir_check3_3c", label:"Check 3 -- before 3C (blending)", script:"Listen to the sounds. Put them together. Say the word."},
   {key:"dir_check3_3d", label:"Check 3 -- before 3D (segmentation)", script:"Listen to the word. Say every sound you hear."},
-  {key:"dir_check4", label:"Check 4 directions", script:"Read each word out loud."},
-  {key:"dir_check5", label:"Check 5 directions", script:"Read each word out loud."},
-  {key:"dir_check6", label:"Check 6 directions", script:"Read each word out loud."},
+  {key:"dir_check4", label:"Check 4 directions", script:"You’ll see a list of words to read out loud. Tap Next after each one."},
+  {key:"dir_check5", label:"Check 5 directions", script:"You’ll see a list of words to read out loud. Tap Next after each one. If you don’t know it, tap Skip."},
+  {key:"dir_check6", label:"Check 6 directions", script:"You’ll see a list of words to read out loud. Tap Next after each one."},
   {key:"dir_check6b", label:"Check 6B directions", script:"Choose the best answer."},
   {key:"dir_check6c", label:"Check 6C directions", script:"Build, take away, or change each word."},
-  {key:"dir_check7", label:"Check 7 directions", script:"Read each word out loud."},
+  {key:"dir_check7", label:"Check 7 directions", script:"You’ll see a list of words to read out loud. Tap Next after each one."},
   {key:"dir_fluency", label:"Fluency directions", script:"Read the passage out loud."},
   {key:"dir_retell", label:"Retell directions", script:"Tell what you read, in your own words. You have one minute."},
   {key:"dir_vocab", label:"Vocabulary (Word Practice) directions", script:"Pick a group. Hear the word, then read it."}

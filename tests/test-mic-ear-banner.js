@@ -16,12 +16,18 @@ ok(mic.backgroundColor!=="rgb(229, 57, 53)","mic circle is no longer red (got "+
 ok(/\.mic-ico\{[^}]*border:2px solid var\(--ink-soft\)[^}]*background-color:transparent/.test(html),"mic circle is a thin ink-soft outline with a transparent fill, not a solid color");
 ok(/\.mic-ico::before\{[^}]*mask-image:url\("data:image\/svg\+xml/.test(html),"mic glyph is drawn via a mask so it follows var(--ink-soft), not a hardcoded color");
 ok(w.getComputedStyle(d.getElementById("c1-start")).backgroundColor!=="rgb(180, 83, 9)","Check 1 Record is not brown");
-/* static while recording -- no red pulse anywhere, per Mick's explicit "no bright red icons" (2026-09-29) */
+/* gray at rest, soft red pulse while actually recording (Mick corrected
+   this 2026-09-30: "when it's recording, I do like it to turn red...
+   then it goes back to gray" -- the old bright #E53935 solid-fill red
+   is still gone for good; the new #c0392b ring is a deliberate, approved
+   return of red for the recording state specifically). */
 var css=Array.prototype.map.call(d.querySelectorAll("style"),function(s){return s.textContent;}).join("\n");
-ok(css.indexOf("micPulse")===-1,"the red micPulse animation no longer exists anywhere in the stylesheet");
-ok(css.indexOf("earPulse")===-1,"the green earPulse animation no longer exists anywhere in the stylesheet");
+ok(css.indexOf("earPulse")===-1,"the old green earPulse animation no longer exists anywhere in the stylesheet");
 ok(/\.rec-btn \.rec-dot\{[^}]*border:1px solid var\(--ink-soft\)[^}]*background-color:transparent[^}]*animation:none\}/.test(css),"teacher record mic is a plain ink-soft outline at rest, never pulsing");
-ok(css.indexOf(".rec-btn.rec .rec-dot{background-color:#E53935")===-1,"teacher record mic no longer turns red once recording starts");
+ok(css.indexOf(".rec-btn.rec .rec-dot{background-color:#E53935")===-1,"teacher record mic never uses the old solid bright-red fill");
+ok(/\.rec-btn\.rec \.rec-dot\{border-color:#c0392b;animation:micRecPulse/.test(css),"teacher record mic turns the approved soft red #c0392b with a pulsing ring while actually recording");
+ok(/\.icon-btn-record\.rec \.mic-ico,\.flu-sq-record\.rec \.mic-ico\{border-color:#c0392b;animation:micRecPulse/.test(css),"student Record buttons turn the same soft red while actually recording");
+ok(/\.rec-status:not\(\.paused\) \.rec-status-dot\{border-color:#c0392b;animation:micRecPulse/.test(css),"the 'Recording' status-line dot turns the same soft red while actually recording");
 
 /* MUTED listen icon: thin ink-soft outline on every Listen button, no green anywhere */
 ok(html.indexOf("&#128266;")===-1,"no old speaker emoji anywhere");
