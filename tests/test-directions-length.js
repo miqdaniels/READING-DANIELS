@@ -43,17 +43,17 @@ setTimeout(function(){
   ck(defs.filter(function(x){return x.key==="dir_check2_before2c";})[0].script==="Last part. Look at the letter. Listen to the word. Say the sound it makes in that word.","before-2C script matches exactly");
 
   /* ---- exact wording for the 5 Check 3 directions scripts, as specified ---- */
-  ck(defs.filter(function(x){return x.key==="dir_check3_open";})[0].script==="Listen carefully. Answer out loud. You can listen one more time if you need to. Tap Next when you’re ready.","Check 3 opening script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check3_open";})[0].script==="Listen carefully. Answer out loud. You can listen one more time if you need to. Tap Next when you are ready.","Check 3 opening script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check3_3a";})[0].script==="Tell me the first sound.","Check 3 before-3A script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check3_3b";})[0].script==="Tell me the last sound.","Check 3 before-3B script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check3_3c";})[0].script==="Listen to the sounds. Put them together. Say the word.","Check 3 before-3C script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check3_3d";})[0].script==="Listen to the word. Say every sound you hear.","Check 3 before-3D script matches exactly");
-  ck(defs.filter(function(x){return x.key==="dir_check4";})[0].script==="You’ll see a list of words to read out loud. Tap Next after each one.","Check 4 script matches exactly");
-  ck(defs.filter(function(x){return x.key==="dir_check5";})[0].script==="You’ll see a list of words to read out loud. Tap Next after each one. If you don’t know it, tap Skip.","Check 5 script matches exactly");
-  ck(defs.filter(function(x){return x.key==="dir_check6";})[0].script==="You’ll see a list of words to read out loud. Tap Next after each one.","Check 6 script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check4";})[0].script==="You will see a list of words to read out loud. Tap Next after each one.","Check 4 script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check5";})[0].script==="You will see a list of words to read out loud. Tap Next after each one. If you do not know it, tap Skip.","Check 5 script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check6";})[0].script==="You will see a list of words to read out loud. Tap Next after each one.","Check 6 script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check6b";})[0].script==="Choose the best answer.","Check 6B script matches exactly");
   ck(defs.filter(function(x){return x.key==="dir_check6c";})[0].script==="Build, take away, or change each word.","Check 6C script matches exactly");
-  ck(defs.filter(function(x){return x.key==="dir_check7";})[0].script==="You’ll see a list of words to read out loud. Tap Next after each one.","Check 7 script matches exactly");
+  ck(defs.filter(function(x){return x.key==="dir_check7";})[0].script==="You will see a list of words to read out loud. Tap Next after each one.","Check 7 script matches exactly");
 
   /* ---- on-screen directions text (not just the recorded scripts) ---- */
   w.READER=w.CLASSES[0].students[0]; w.CURCLASS=w.CLASSES[0]; w.CURGROUP=w.GROUPS[0];
@@ -78,7 +78,7 @@ setTimeout(function(){
      transitions/Fluency above -- these are exact, later-specified wording) ---- */
   w.go("check3");
   var c3Text=d.querySelector("#c3-setup .lede").textContent;
-  ck(c3Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="Listen carefully. Answer out loud. You can listen one more time if you need to. Tap Next when you’re ready.","Check 3's on-screen opening text matches exactly");
+  ck(c3Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="Listen carefully. Answer out loud. You can listen one more time if you need to. Tap Next when you are ready.","Check 3's on-screen opening text matches exactly");
   ck(!/\bconsonants?\b/i.test(c3Text),"Check 3's opening on-screen directions never say \"consonant\"");
   ck(w.C3_SECTIONS[0].introText==="Tell me the first sound." && w.C3_SECTIONS[1].introText==="Tell me the last sound."
     && w.C3_SECTIONS[2].introText==="Listen to the sounds. Put them together. Say the word." && w.C3_SECTIONS[3].introText==="Listen to the word. Say every sound you hear.",
@@ -111,7 +111,7 @@ setTimeout(function(){
   var c4Text=d.getElementById("c4-intro").textContent;
   ck(sentenceCount(c4Text)<=2,"Check 4's on-screen directions are at most 2 sentences (got \""+c4Text+"\")");
   ck(!/\bconsonants?\b/i.test(c4Text),"Check 4's on-screen directions never say \"consonant\"");
-  ck(c4Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="You’ll see a list of words to read out loud. Tap Next after each one.","Check 4's on-screen opening text matches exactly");
+  ck(c4Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="You will see a list of words to read out loud. Tap Next after each one.","Check 4's on-screen opening text matches exactly");
   var c4PseudoText=d.getElementById("c4-pseudo-note").textContent;
   ck(sentenceCount(c4PseudoText)<=2,"Check 4's pseudoword point-of-need text is at most 2 sentences (got \""+c4PseudoText+"\")");
   ck(c4PseudoText==="This is a made-up word. Read it out loud.","Check 4's pseudoword text matches exactly");
@@ -124,14 +124,14 @@ setTimeout(function(){
      usual 2-sentence cap is raised to 3 for Check 5 only. */
   ck(sentenceCount(c5Text)<=3,"Check 5's on-screen directions are at most 3 sentences (got \""+c5Text+"\")");
   ck(!/\bconsonants?\b/i.test(c5Text),"Check 5's on-screen directions never say \"consonant\"");
-  ck(c5Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="You’ll see a list of words to read out loud. Tap Next after each one. If you don’t know it, tap Skip.","Check 5's on-screen opening text matches exactly");
+  ck(c5Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="You will see a list of words to read out loud. Tap Next after each one. If you do not know it, tap Skip.","Check 5's on-screen opening text matches exactly");
 
   /* ---- Check 6's on-screen directions text ---- */
   w.go("check6");
   var c6Text=d.getElementById("c6-intro").textContent;
   ck(sentenceCount(c6Text)<=2,"Check 6's on-screen directions are at most 2 sentences (got \""+c6Text+"\")");
   ck(!/\bconsonants?\b/i.test(c6Text),"Check 6's on-screen directions never say \"consonant\"");
-  ck(c6Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="You’ll see a list of words to read out loud. Tap Next after each one.","Check 6's on-screen opening text matches exactly");
+  ck(c6Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="You will see a list of words to read out loud. Tap Next after each one.","Check 6's on-screen opening text matches exactly");
 
   /* ---- Check 6B's on-screen directions text ---- */
   w.go("check6b");
@@ -152,7 +152,7 @@ setTimeout(function(){
   var c7Text=d.getElementById("c7-intro").textContent;
   ck(sentenceCount(c7Text)<=2,"Check 7's on-screen directions are at most 2 sentences (got \""+c7Text+"\")");
   ck(!/\bconsonants?\b/i.test(c7Text),"Check 7's on-screen directions never say \"consonant\"");
-  ck(c7Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="You’ll see a list of words to read out loud. Tap Next after each one.","Check 7's on-screen opening text matches exactly");
+  ck(c7Text.replace(/\s+/g," ").replace(/^\s+|\s+$/g,"")==="You will see a list of words to read out loud. Tap Next after each one.","Check 7's on-screen opening text matches exactly");
   var c7PseudoText=d.getElementById("c7-pseudo-note").textContent;
   ck(sentenceCount(c7PseudoText)<=2,"Check 7's pseudoword transition text is at most 2 sentences (got \""+c7PseudoText+"\")");
   ck(c7PseudoText==="These are made-up words. Read each one out loud.","Check 7's pseudoword transition text matches exactly");

@@ -280,7 +280,7 @@ setTimeout(function(){
     ck(activeId()==="check5","Check 5 re-opens for the skip/timeout pass");
     ck(q("#c5-skip")&&q("#c5-skip").textContent==="Skip","a Skip button is present next to Next");
     ck(q("#c5-skip").className.indexOf("pill-btn")>-1,"Skip uses the clean pill-button style");
-    ck(d.getElementById("c5-intro").textContent.indexOf("If you don’t know it, tap Skip.")>-1,"directions mention Skip");
+    ck(d.getElementById("c5-intro").textContent.indexOf("If you do not know it, tap Skip.")>-1,"directions mention Skip");
 
     w.c5Start();
     setTimeout(function(){
