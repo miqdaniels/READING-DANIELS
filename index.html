@@ -741,6 +741,43 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
 #check2 .play-btn,#check3 .play-btn,#s-teachC2 .play-btn,#s-teachC3 .play-btn{border-radius:10px}
 #check2 .rec-btn .rec-dot,#check3 .rec-btn .rec-dot{animation:none}
 
+/* ===== Check 1 "What to Teach Next" (teacher-only). Quiet Square: rounded
+   rectangles (10px), --ink-soft/--accent only, no red/green. ===== */
+#c1Next .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:11px 20px;cursor:pointer;touch-action:manipulation;text-decoration:none;box-sizing:border-box}
+#c1Next .pill-btn-primary{background:var(--accent);border:1.5px solid var(--accent);color:#fff}
+#c1Next .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+#c1Next .pill-btn[disabled]{opacity:.4;cursor:default}
+#c1Next .c1n-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px 18px;margin:0 0 16px}
+#c1Next .c1n-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+#c1Next .c1n-sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:0 0 16px}
+#c1Next .c1n-sets .c1n-card{margin:0}
+#c1Next #c1n-viewer{width:min(96vw,1180px);position:relative;left:50%;transform:translateX(-50%);box-sizing:border-box}
+#c1Next .c1n-stage{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;text-align:center}
+#c1Next .c1n-stage img{display:block;width:100%;height:auto;max-height:78vh;object-fit:contain;margin:0 auto;background:#fff}
+#c1Next .c1n-stage:fullscreen{display:flex;align-items:center;justify-content:center;background:#fff;border:0;border-radius:0}
+#c1Next .c1n-stage:fullscreen img{max-height:100vh;height:100vh;width:100%}
+#c1Next .c1n-pairs{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+#c1Next .c1n-pair{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;touch-action:manipulation}
+#c1Next .c1n-pair.on{border-color:var(--accent);background:var(--accent);color:#fff}
+#c1Next .c1n-steps{margin:6px 0 10px 20px;padding:0;line-height:1.6}
+#c1Next .c1n-foot{margin:22px 0 4px;font-size:13px;color:var(--ink-soft)}
+#c1n-print{display:none}
+@media print{
+  html,body{background:#fff!important}
+  body *{visibility:hidden!important}
+  .screen{display:none!important}
+  #c1Next.screen.active{display:block!important}
+  #c1Next .wrap>*:not(#c1n-print){display:none!important}
+  #c1n-print,#c1n-print *{visibility:visible!important}
+  #c1n-print{display:block!important;color:#000;background:#fff}
+  #c1n-print h1{font-size:20pt;margin:0 0 4pt}
+  #c1n-print .c1np-case{font-size:13pt;font-weight:700;margin:16pt 0 6pt}
+  #c1n-print .c1np-row{display:flex;flex-wrap:wrap;gap:14pt}
+  #c1n-print .c1np-cell{width:1.5in;page-break-inside:avoid}
+  #c1n-print .c1np-big{font-size:84pt;line-height:1;text-align:center;font-weight:700}
+  #c1n-print .c1np-line{height:30pt;border-bottom:1.2pt solid #000}
+}
+
 /* ===== Teacher Instructional Groups: same Clean/Professional system as
    Checks 5-7 -- clean cards, pill buttons, restrained color, generous
    whitespace. A brand-new screen (not a restyle of anything existing),
@@ -844,6 +881,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
           <h3 class="teach-cat-title">Practice</h3>
           <div class="teach-tile-grid">
             <button class="teach-tile cat-practice" onclick="go('s-teachGroupLocks')" title="Lock or unlock any group for any student"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span class="teach-tile-label">Group Locks</span></button>
+            <button class="teach-tile cat-practice" onclick="c1nGo(null)" title="What to Teach Next after Check 1: letter-name slides, how-to, and paper practice"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span class="teach-tile-label">Teach Next</span></button>
           </div>
         </div>
 
@@ -996,7 +1034,85 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="seg" id="c1t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c1t-roster" style="margin-bottom:14px"></div>
       <div id="c1t-body"></div>
+      <button class="btn" onclick="c1nGo(C1T_STU)" style="margin-top:14px">What to Teach Next</button>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <!-- CHECK 1: "What to Teach Next" -- teacher-only page that serves the
+       two approved letter-name slideshows (check1-slides/). Opened from the
+       Check 1 Review screen or from Practice on the teacher menu: SAME page. -->
+  <section class="screen" data-teacher="1" id="c1Next">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; What to Teach Next (Check 1)</p>
+      <h2>What to Teach Next &mdash; Letter Names</h2>
+      <p class="lede">Short next step after Check 1. Open the slides, teach only the letters the student missed, then decide what to do next.</p>
+
+      <div class="c1n-card">
+        <p class="step-eyebrow">Student (optional)</p>
+        <div class="seg" id="c1n-class" style="margin:6px 0;flex-wrap:wrap"></div>
+        <div class="grid" id="c1n-roster" style="margin-bottom:8px"></div>
+        <div id="c1n-student-note"></div>
+      </div>
+
+      <div id="c1n-practice"></div>
+
+      <div class="c1n-sets">
+        <div class="c1n-card">
+          <p class="step-eyebrow">Uppercase</p>
+          <h3 style="margin:2px 0 4px">Uppercase Letter Recognition (A&ndash;Z)</h3>
+          <p class="mini-note">13 slides</p>
+          <div class="c1n-row">
+            <button class="pill-btn pill-btn-primary" id="c1n-open-upper" onclick="c1nOpenSet('upper',0)">Open Slides</button>
+            <a class="pill-btn pill-btn-secondary" id="c1n-dl-upper" href="check1-slides/Reading_Foundations_Uppercase_A-Z_13_Approved_Slides.pptx" download>Download PowerPoint</a>
+          </div>
+        </div>
+        <div class="c1n-card">
+          <p class="step-eyebrow">Lowercase</p>
+          <h3 style="margin:2px 0 4px">Lowercase Letter Recognition (a&ndash;z)</h3>
+          <p class="mini-note">13 slides</p>
+          <div class="c1n-row">
+            <button class="pill-btn pill-btn-primary" id="c1n-open-lower" onclick="c1nOpenSet('lower',0)">Open Slides</button>
+            <a class="pill-btn pill-btn-secondary" id="c1n-dl-lower" href="check1-slides/Reading_Foundations_Approved_Lowercase_A_to_Z_13_Slides.pptx" download>Download PowerPoint</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="c1n-card" id="c1n-viewer" style="display:none">
+        <div class="c1n-row" style="justify-content:space-between;margin-top:0">
+          <p class="step-eyebrow" id="c1n-viewer-title" style="margin:0"></p>
+          <button class="pill-btn pill-btn-secondary" id="c1n-close" onclick="c1nCloseViewer()">Close slides</button>
+        </div>
+        <div class="c1n-stage" id="c1n-stage"><img id="c1n-img" alt=""></div>
+        <div class="c1n-row" style="justify-content:center">
+          <button class="pill-btn pill-btn-secondary" id="c1n-prev" onclick="c1nStep(-1)">&#8592; Previous</button>
+          <span class="mini-note" id="c1n-count"></span>
+          <button class="pill-btn pill-btn-primary" id="c1n-next" onclick="c1nStep(1)">Next &#8594;</button>
+          <button class="pill-btn pill-btn-secondary" id="c1n-full" onclick="c1nFullscreen()">Full screen</button>
+        </div>
+        <div class="c1n-pairs" id="c1n-pairs"></div>
+      </div>
+
+      <div class="c1n-card">
+        <h3 style="margin:0 0 6px">How to use these slides</h3>
+        <ol class="c1n-steps">
+          <li>Look at which letters the student missed.</li>
+          <li>Open Uppercase or Lowercase and jump to that letter.</li>
+          <li>Point to the letter and say its name.</li>
+          <li>Have the student say the name, then find it in the practice row.</li>
+          <li>Fix mistakes right away. Keep it quick.</li>
+        </ol>
+        <p>Teach only the letters the student missed, not all 26. These slides teach letter NAMES. Letter sounds are Check 2.</p>
+        <h3 style="margin:14px 0 6px">Paper practice (optional)</h3>
+        <p>Write the letters the student missed on a sheet of paper. The student copies each letter a few times on the page and says its name every time they write it.</p>
+      </div>
+
+      <p class="c1n-foot">&copy; 2026 Miquela Daniels / AI Academy LLC. All rights reserved.</p>
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('check1Teach')">&#8592; Check 1 review</button>
+        <button class="btn" onclick="go('s-home')">Back to start</button>
+      </div>
+      <div id="c1n-print" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -3484,6 +3600,7 @@ function go(id){
   if(id==="check1Preview"){ check1PreviewEnter(); }
   if(id==="check1"){ c1Enter(); }
   if(id==="check1Teach"){ check1TeachEnter(); }
+  if(id==="c1Next"){ c1nEnter(); }
   if(id==="check2"){ c2Enter(); }
   if(id==="s-teachC2"){ c2tPromptsEnter(); }
   if(id==="check2Teach"){ check2TeachEnter(); }
@@ -5637,6 +5754,166 @@ function c1tSave(){
   var n=document.getElementById("c1t-save-note");
   if(n){ n.className="mini-note"; n.style.color="var(--good)"; n.textContent="✓ Saved."; }
 }
+
+/* ---------- Check 1: "What to Teach Next" (teacher-only) ----------
+   Serves the two approved letter-name slideshows (check1-slides/, 13 PNG
+   slides each, exported straight from the original .pptx files), plus a
+   "Letters to practice" list built ONLY from letters the teacher actually
+   scored as missed in Check 1 Review. Read-only: nothing here writes to
+   storage, changes a score, marks mastery, or unlocks anything. */
+var C1N_CLS=0, C1N_STU=null, C1N_SET=null, C1N_IDX=0;
+var C1N_PPTX={upper:"check1-slides/Reading_Foundations_Uppercase_A-Z_13_Approved_Slides.pptx", lower:"check1-slides/Reading_Foundations_Approved_Lowercase_A_to_Z_13_Slides.pptx"};
+var C1N_NAME={upper:"Uppercase", lower:"Lowercase"};
+function c1nPairLabel(set,i){
+  var base=(set==="upper"?65:97)+i*2, a=String.fromCharCode(base), b=String.fromCharCode(base+1);
+  return a+"\u2013"+b;
+}
+function c1nSlideFor(set,letter){ return Math.floor((letter.charCodeAt(0)-(set==="upper"?65:97))/2); }
+function c1nSlidePath(set,i){ return "check1-slides/"+set+"/"+(i<9?"0":"")+(i+1)+".png"; }
+function c1nGo(sid){
+  C1N_STU=sid||null;
+  if(C1N_STU){ C1N_CLS=c1nClassOf(C1N_STU); }
+  go("c1Next");
+}
+function c1nClassOf(sid){
+  var i, j; for(i=0;i<CLASSES.length;i++){ for(j=0;j<CLASSES[i].students.length;j++){ if(CLASSES[i].students[j].id===sid){ return i; } } }
+  return C1N_CLS;
+}
+function c1nEnter(){
+  C1N_SET=null; C1N_IDX=0;
+  var v=document.getElementById("c1n-viewer"); if(v){ v.style.display="none"; }
+  c1nPaintClasses(); c1nPaintRoster(); c1nPaintStudent();
+}
+function c1nPaintClasses(){
+  var seg=document.getElementById("c1n-class"); if(!seg){ return; }
+  var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="c1nPickClass('+i+')" class="'+(i===C1N_CLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function c1nPickClass(i){ C1N_CLS=i; C1N_STU=null; c1nPaintClasses(); c1nPaintRoster(); c1nPaintStudent(); }
+function c1nPaintRoster(){
+  rfReviewRoster("c1n-roster", CLASSES[C1N_CLS], C1Review, C1N_STU, function(id){ C1N_STU=(id===C1N_STU)?null:id; c1nPaintRoster(); c1nPaintStudent(); });
+}
+/* The student's newest SAVED scoring (an attempt only counts once the
+   teacher saved scores for it). Returns null if none -- never guesses. */
+function c1nScoredAttempt(sid){
+  var list=C1Review.forStudent(sid), i;
+  for(i=0;i<list.length;i++){ if(list[i].scores && list[i].scores.length===52){ return list[i]; } }
+  return null;
+}
+/* Missed = Incorrect or Skip, exactly the rule Check 1 Review itself uses
+   (a self-correction counts as correct). Upper and lower stay separate. */
+function c1nMissed(sid){
+  var a=sid?c1nScoredAttempt(sid):null; if(!a){ return null; }
+  var out={upper:[], lower:[]}, i, st;
+  for(i=0;i<52;i++){
+    st=a.scores[i];
+    if(st==="err"||st==="skip"){ (i<26?out.upper:out.lower).push(C1_ALL[i]); }
+  }
+  out.upper.sort(); out.lower.sort();
+  return out;
+}
+function c1nSlidesFor(set,letters){
+  var map={}, order=[], i, k;
+  for(i=0;i<letters.length;i++){ k=c1nSlideFor(set,letters[i]); if(!map[k]){ map[k]=[]; order.push(k); } map[k].push(letters[i]); }
+  order.sort(function(a,b){ return a-b; });
+  var out=[]; for(i=0;i<order.length;i++){ out.push({slide:order[i], letters:map[order[i]]}); }
+  return out;
+}
+function c1nPrintName(sid){
+  var n=rfStuName(sid);
+  return sid===TEST_STUDENT.id ? n : rfShortName(n);
+}
+function c1nPaintStudent(){
+  var note=document.getElementById("c1n-student-note"), host=document.getElementById("c1n-practice");
+  if(!note||!host){ return; }
+  var pr=document.getElementById("c1n-print"); if(pr){ pr.innerHTML=""; }
+  if(!C1N_STU){ note.innerHTML='<p class="mini-note">No student picked. Pick one above to see their missed letters, or open any slide below.</p>'; host.innerHTML=""; return; }
+  var name=escapeHtml(rfStuName(C1N_STU)), m=c1nMissed(C1N_STU);
+  if(!m){
+    note.innerHTML='<p class="mini-note"><strong>'+name+'</strong> &mdash; Not scored yet. Score Check 1 in Check 1 Review first. You can still pick any slide below.</p>';
+    host.innerHTML=""; return;
+  }
+  note.innerHTML='<p class="mini-note"><strong>'+name+'</strong> &mdash; scored. Showing only letters you scored as missed.</p>';
+  var html='<div class="c1n-card"><h3 style="margin:0 0 6px">Letters to practice</h3>', total=m.upper.length+m.lower.length, sets=["upper","lower"], si, i, group, lt;
+  if(!total){
+    html+='<p>No missed letters. Nothing to teach for letter names.</p></div>'; host.innerHTML=html; return;
+  }
+  for(si=0;si<2;si++){
+    lt=sets[si]; group=c1nSlidesFor(lt,m[lt]);
+    html+='<p class="step-eyebrow" style="margin-top:10px">'+C1N_NAME[lt]+'</p>';
+    if(!group.length){ html+='<p class="mini-note">None missed.</p>'; continue; }
+    html+='<div class="c1n-row">';
+    for(i=0;i<group.length;i++){
+      html+='<button class="pill-btn pill-btn-secondary c1n-prac" data-set="'+lt+'" data-slide="'+(group[i].slide+1)+'" onclick="c1nOpenSet(\''+lt+'\','+group[i].slide+')">Slide '+(group[i].slide+1)+' ('+c1nPairLabel(lt,group[i].slide)+') &mdash; missed '+escapeHtml(group[i].letters.join(" "))+'</button>';
+    }
+    html+='</div>';
+  }
+  html+='<div class="c1n-row"><button class="pill-btn pill-btn-primary" id="c1n-print-btn" onclick="c1nPrint()">Print letters to practice</button></div></div>';
+  host.innerHTML=html;
+  c1nBuildPrint(m);
+}
+function c1nBuildPrint(m){
+  var pr=document.getElementById("c1n-print"); if(!pr){ return; }
+  var html='<h1>'+escapeHtml(c1nPrintName(C1N_STU))+' &mdash; Letters to practice</h1><p>Say the letter name every time you write it.</p>', sets=["upper","lower"], si, i, j, lt;
+  for(si=0;si<2;si++){
+    lt=sets[si]; if(!m[lt].length){ continue; }
+    html+='<div class="c1np-case">'+C1N_NAME[lt]+'</div><div class="c1np-row">';
+    for(i=0;i<m[lt].length;i++){
+      html+='<div class="c1np-cell"><div class="c1np-big">'+escapeHtml(m[lt][i])+'</div>';
+      for(j=0;j<3;j++){ html+='<div class="c1np-line"></div>'; }
+      html+='</div>';
+    }
+    html+='</div>';
+  }
+  pr.innerHTML=html;
+}
+function c1nPrint(){ try{ window.print(); }catch(e){} }
+
+/* ----- slide viewer ----- */
+function c1nOpenSet(set,idx){
+  C1N_SET=set; C1N_IDX=idx||0;
+  var v=document.getElementById("c1n-viewer"); if(v){ v.style.display="block"; }
+  var html="", i;
+  for(i=0;i<13;i++){ html+='<button class="c1n-pair" id="c1n-pair-'+i+'" onclick="c1nShow('+i+')">'+c1nPairLabel(set,i)+'</button>'; }
+  document.getElementById("c1n-pairs").innerHTML=html;
+  c1nShow(C1N_IDX);
+  try{ v.scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){}
+}
+function c1nShow(i){
+  if(!C1N_SET){ return; }
+  if(i<0){ i=0; } if(i>12){ i=12; }
+  C1N_IDX=i;
+  var img=document.getElementById("c1n-img");
+  img.src=c1nSlidePath(C1N_SET,i);
+  img.alt=C1N_NAME[C1N_SET]+" letters "+c1nPairLabel(C1N_SET,i)+", slide "+(i+1)+" of 13";
+  document.getElementById("c1n-viewer-title").textContent=C1N_NAME[C1N_SET]+" Letter Recognition";
+  document.getElementById("c1n-count").textContent="Slide "+(i+1)+" of 13 \u2022 "+c1nPairLabel(C1N_SET,i);
+  document.getElementById("c1n-prev").disabled=(i===0);
+  document.getElementById("c1n-next").disabled=(i===12);
+  var k; for(k=0;k<13;k++){ var b=document.getElementById("c1n-pair-"+k); if(b){ b.className="c1n-pair"+(k===i?" on":""); } }
+}
+function c1nStep(d){ c1nShow(C1N_IDX+d); }
+function c1nCloseViewer(){
+  C1N_SET=null;
+  var v=document.getElementById("c1n-viewer"); if(v){ v.style.display="none"; }
+  try{ if(document.fullscreenElement && document.exitFullscreen){ document.exitFullscreen(); } }catch(e){}
+}
+function c1nFullscreen(){
+  var el=document.getElementById("c1n-stage"); if(!el){ return; }
+  try{
+    if(document.fullscreenElement && document.exitFullscreen){ document.exitFullscreen(); }
+    else if(el.requestFullscreen){ el.requestFullscreen(); }
+    else if(el.webkitRequestFullscreen){ el.webkitRequestFullscreen(); }
+  }catch(e){}
+}
+document.addEventListener("keydown",function(e){
+  if(!C1N_SET){ return; }
+  var sc=document.getElementById("c1Next"); if(!sc || !/active/.test(sc.className)){ return; }
+  var t=e.target, tag=t&&t.tagName?t.tagName.toLowerCase():"";
+  if(tag==="input"||tag==="textarea"||tag==="select"){ return; }
+  if(e.key==="ArrowRight"){ c1nStep(1); e.preventDefault(); }
+  else if(e.key==="ArrowLeft"){ c1nStep(-1); e.preventDefault(); }
+});
 
 /* ---------- Check 2: teacher scoring ----------
    Same local-file pattern as Check 1's teacher scoring (teacher opens the

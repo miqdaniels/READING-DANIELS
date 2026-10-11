@@ -59,13 +59,14 @@ setTimeout(function(){
     {label:"Check 3 Prompts",   cat:"cat-recordings", kind:"go",      target:"s-teachC3"},
     {label:"Directions Audio",  cat:"cat-recordings", kind:"go",      target:"s-teachDir"},
     {label:"Group Locks",       cat:"cat-practice",   kind:"go",      target:"s-teachGroupLocks"},
+    {label:"Teach Next",        cat:"cat-practice",   kind:"go",      target:"c1Next"},
     {label:"Scoreboard",        cat:"cat-reports",    kind:"go",      target:"s-board"},
     {label:"Instructional Groups", cat:"cat-reports", kind:"go",      target:"instrGroups"},
     {label:"Settings",          cat:"cat-settings",   kind:"go",      target:"s-settings"},
     {label:"Reset Student View", cat:"cat-settings",  kind:"fn",      target:"vasReset"}
   ];
   var tiles=d.querySelectorAll("#teacher-doors .teach-tile");
-  ck(tiles.length===21,"exactly 21 tiles (20 previous + Instructional Groups, nothing else lost or invented) -- got "+tiles.length);
+  ck(tiles.length===22,"exactly 22 tiles (21 previous + Teach Next, nothing else lost or invented) -- got "+tiles.length);
 
   var i;
   for(i=0;i<tiles.length;i++){
