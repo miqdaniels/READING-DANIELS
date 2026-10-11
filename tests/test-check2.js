@@ -74,7 +74,10 @@ setTimeout(function(){
 
   /* ---- 2026-09-26 keyword corrections: short O -> ox, long E -> me ---- */
   var wholeSrc=fs.readFileSync("./index.html","utf8");
-  ck(wholeSrc.indexOf("octopus")===-1,"'octopus' is no longer used anywhere for Check 2's short-O item");
+  /* "octopus" legitimately appears in the separate 44-sound TEACHING slideshow data (the approved deck's
+     short-o keyword); the rule is that the Check 2 ASSESSMENT never uses it */
+  var c2Assess=JSON.stringify([w.C2_ITEMS,w.C2_ANSWER_KEY,w.C2_PROMPT_DEFS,w.C2_SHORT_VOWELS,w.C2_LONG_VOWELS]);
+  ck(c2Assess.indexOf("octopus")===-1,"'octopus' is not used anywhere in Check 2's ASSESSMENT items, prompts, or answer key");
   ck(wholeSrc.indexOf("eagle")===-1,"'eagle' is no longer used anywhere for Check 2's long-E item");
   ck(!/keyword:"even"/.test(wholeSrc),"'even' was NOT introduced as the long-E replacement");
   ck(w.C2_ITEMS[24].letter==="o" && w.C2_ITEMS[24].keyword==="ox" && w.C2_ITEMS[24].promptKey==="c2_short_o","short O now uses the keyword 'ox' (same c2_short_o recording slot)");

@@ -1,0 +1,2565 @@
+{
+ "slideCount": 45,
+ "slides": [
+  {
+   "index": 1,
+   "file": "slide1.xml",
+   "notes": "",
+   "kind": "menu",
+   "menu": [
+    {
+     "label": "/b/",
+     "box": [
+      0.06825,
+      0.35333333333333333,
+      0.108,
+      0.08
+     ],
+     "jump": 2
+    },
+    {
+     "label": "/k/",
+     "box": [
+      0.184125,
+      0.35333333333333333,
+      0.108,
+      0.08
+     ],
+     "jump": 3
+    },
+    {
+     "label": "/d/",
+     "box": [
+      0.3,
+      0.35333333333333333,
+      0.108,
+      0.08
+     ],
+     "jump": 4
+    },
+    {
+     "label": "/f/",
+     "box": [
+      0.415875,
+      0.35333333333333333,
+      0.108,
+      0.08
+     ],
+     "jump": 5
+    },
+    {
+     "label": "/g/",
+     "box": [
+      0.06825,
+      0.44359988334791484,
+      0.108,
+      0.08
+     ],
+     "jump": 6
+    },
+    {
+     "label": "/h/",
+     "box": [
+      0.184125,
+      0.44359988334791484,
+      0.108,
+      0.08
+     ],
+     "jump": 7
+    },
+    {
+     "label": "/j/",
+     "box": [
+      0.3,
+      0.44359988334791484,
+      0.108,
+      0.08
+     ],
+     "jump": 8
+    },
+    {
+     "label": "/l/",
+     "box": [
+      0.415875,
+      0.44359988334791484,
+      0.108,
+      0.08
+     ],
+     "jump": 9
+    },
+    {
+     "label": "/m/",
+     "box": [
+      0.06825,
+      0.5338665791776028,
+      0.108,
+      0.08
+     ],
+     "jump": 10
+    },
+    {
+     "label": "/n/",
+     "box": [
+      0.184125,
+      0.5338665791776028,
+      0.108,
+      0.08
+     ],
+     "jump": 11
+    },
+    {
+     "label": "/p/",
+     "box": [
+      0.3,
+      0.5338665791776028,
+      0.108,
+      0.08
+     ],
+     "jump": 12
+    },
+    {
+     "label": "/r/",
+     "box": [
+      0.415875,
+      0.5338665791776028,
+      0.108,
+      0.08
+     ],
+     "jump": 13
+    },
+    {
+     "label": "/s/",
+     "box": [
+      0.06825,
+      0.6241332750072908,
+      0.108,
+      0.08
+     ],
+     "jump": 14
+    },
+    {
+     "label": "/t/",
+     "box": [
+      0.184125,
+      0.6241332750072908,
+      0.108,
+      0.08
+     ],
+     "jump": 15
+    },
+    {
+     "label": "/v/",
+     "box": [
+      0.3,
+      0.6241332750072908,
+      0.108,
+      0.08
+     ],
+     "jump": 16
+    },
+    {
+     "label": "/w/",
+     "box": [
+      0.415875,
+      0.6241332750072908,
+      0.108,
+      0.08
+     ],
+     "jump": 17
+    },
+    {
+     "label": "/y/",
+     "box": [
+      0.06825,
+      0.7143999708369787,
+      0.108,
+      0.08
+     ],
+     "jump": 18
+    },
+    {
+     "label": "/z/",
+     "box": [
+      0.184125,
+      0.7143999708369787,
+      0.108,
+      0.08
+     ],
+     "jump": 19
+    },
+    {
+     "label": "/ch/",
+     "box": [
+      0.3,
+      0.7143999708369787,
+      0.108,
+      0.08
+     ],
+     "jump": 20
+    },
+    {
+     "label": "/sh/",
+     "box": [
+      0.415875,
+      0.7143999708369787,
+      0.108,
+      0.08
+     ],
+     "jump": 21
+    },
+    {
+     "label": "/th/no voice",
+     "box": [
+      0.06825,
+      0.8046666666666666,
+      0.108,
+      0.08
+     ],
+     "jump": 22
+    },
+    {
+     "label": "/th/voiced",
+     "box": [
+      0.184125,
+      0.8046666666666666,
+      0.108,
+      0.08
+     ],
+     "jump": 23
+    },
+    {
+     "label": "/ng/",
+     "box": [
+      0.3,
+      0.8046666666666666,
+      0.108,
+      0.08
+     ],
+     "jump": 24
+    },
+    {
+     "label": "/zh/",
+     "box": [
+      0.415875,
+      0.8046666666666666,
+      0.108,
+      0.08
+     ],
+     "jump": 25
+    },
+    {
+     "label": "/ă/",
+     "box": [
+      0.5715,
+      0.336,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 26
+    },
+    {
+     "label": "/ĕ/",
+     "box": [
+      0.6450749671916011,
+      0.336,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 27
+    },
+    {
+     "label": "/ĭ/",
+     "box": [
+      0.7186499343832021,
+      0.336,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 28
+    },
+    {
+     "label": "/ŏ/",
+     "box": [
+      0.7922249835958005,
+      0.336,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 29
+    },
+    {
+     "label": "/ŭ/",
+     "box": [
+      0.8657999507874016,
+      0.336,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 30
+    },
+    {
+     "label": "/ā/",
+     "box": [
+      0.5715,
+      0.492,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 31
+    },
+    {
+     "label": "/ē/",
+     "box": [
+      0.6450749671916011,
+      0.492,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 32
+    },
+    {
+     "label": "/ī/",
+     "box": [
+      0.7186499343832021,
+      0.492,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 33
+    },
+    {
+     "label": "/ō/",
+     "box": [
+      0.7922249835958005,
+      0.492,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 34
+    },
+    {
+     "label": "/yoo/",
+     "box": [
+      0.8657999507874016,
+      0.492,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 35
+    },
+    {
+     "label": "/oo/",
+     "box": [
+      0.5715,
+      0.6493333333333333,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 36
+    },
+    {
+     "label": "/ʊ/",
+     "box": [
+      0.6450749671916011,
+      0.6493333333333333,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 37
+    },
+    {
+     "label": "/oi/",
+     "box": [
+      0.7186499343832021,
+      0.6493333333333333,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 38
+    },
+    {
+     "label": "/ow/",
+     "box": [
+      0.7922249835958005,
+      0.6493333333333333,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 39
+    },
+    {
+     "label": "/ər/",
+     "box": [
+      0.8657999507874016,
+      0.6493333333333333,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 40
+    },
+    {
+     "label": "/ar/",
+     "box": [
+      0.5715,
+      0.7466666666666667,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 41
+    },
+    {
+     "label": "/or/",
+     "box": [
+      0.6450749671916011,
+      0.7466666666666667,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 42
+    },
+    {
+     "label": "/aw/",
+     "box": [
+      0.7186499343832021,
+      0.7466666666666667,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 43
+    },
+    {
+     "label": "/air/",
+     "box": [
+      0.7922249835958005,
+      0.7466666666666667,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 44
+    },
+    {
+     "label": "/ə/schwa",
+     "box": [
+      0.8657999507874016,
+      0.7466666666666667,
+      0.067875,
+      0.07466666666666667
+     ],
+     "jump": 45
+    }
+   ]
+  },
+  {
+   "index": 2,
+   "file": "slide2.xml",
+   "notes": "1",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/b/",
+   "spelling": "b",
+   "keyword": "bat",
+   "cue": "Lips together. Voice on.",
+   "counter": "01 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 3
+   },
+   "audio": {
+    "box": [
+     0.5998406332020997,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /b/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 3,
+   "file": "slide3.xml",
+   "notes": "2",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/k/",
+   "spelling": "c, k, ck",
+   "keyword": "cat",
+   "cue": "Back of tongue up. Quick puff.",
+   "counter": "02 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 2
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 4
+   },
+   "audio": {
+    "box": [
+     0.5967887959317585,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /k/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 4,
+   "file": "slide4.xml",
+   "notes": "3",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/d/",
+   "spelling": "d",
+   "keyword": "dog",
+   "cue": "Tongue taps behind teeth. Voice on.",
+   "counter": "03 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 3
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 5
+   },
+   "audio": {
+    "box": [
+     0.5941642880577428,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /d/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 5,
+   "file": "slide5.xml",
+   "notes": "4",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/f/",
+   "spelling": "f, ph",
+   "keyword": "fan",
+   "cue": "Top teeth touch bottom lip. Blow air.",
+   "counter": "04 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 4
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 6
+   },
+   "audio": {
+    "box": [
+     0.5815483923884515,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /f/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 6,
+   "file": "slide6.xml",
+   "notes": "5",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/g/",
+   "spelling": "g",
+   "keyword": "go",
+   "cue": "Back of tongue up. Voice on.",
+   "counter": "05 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 5
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 7
+   },
+   "audio": {
+    "box": [
+     0.5935661909448819,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /g/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 7,
+   "file": "slide7.xml",
+   "notes": "6",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/h/",
+   "spelling": "h",
+   "keyword": "hat",
+   "cue": "Open mouth. Push air out.",
+   "counter": "06 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 6
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 8
+   },
+   "audio": {
+    "box": [
+     0.599901656824147,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /h/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 8,
+   "file": "slide8.xml",
+   "notes": "7",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/j/",
+   "spelling": "j, g",
+   "keyword": "jam",
+   "cue": "Start with /d/, release to /zh/. Voice on.",
+   "counter": "07 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 7
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 9
+   },
+   "audio": {
+    "box": [
+     0.5819694881889764,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /j/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 9,
+   "file": "slide9.xml",
+   "notes": "8",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/l/",
+   "spelling": "l",
+   "keyword": "leg",
+   "cue": "Tongue lifts to ridge behind teeth.",
+   "counter": "08 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 8
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 10
+   },
+   "audio": {
+    "box": [
+     0.5809502132545932,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /l/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 10,
+   "file": "slide10.xml",
+   "notes": "9",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/m/",
+   "spelling": "m",
+   "keyword": "man",
+   "cue": "Lips together. Hum. Voice on.",
+   "counter": "09 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 9
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 11
+   },
+   "audio": {
+    "box": [
+     0.6172905183727034,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /m/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 11,
+   "file": "slide11.xml",
+   "notes": "10",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/n/",
+   "spelling": "n",
+   "keyword": "net",
+   "cue": "Tongue up. Air through nose.",
+   "counter": "10 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 10
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 12
+   },
+   "audio": {
+    "box": [
+     0.600914780183727,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /n/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 12,
+   "file": "slide12.xml",
+   "notes": "11",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/p/",
+   "spelling": "p",
+   "keyword": "pig",
+   "cue": "Lips together. Quick puff. Voice off.",
+   "counter": "11 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 11
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 13
+   },
+   "audio": {
+    "box": [
+     0.5996025262467192,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /p/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 13,
+   "file": "slide13.xml",
+   "notes": "12",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/r/",
+   "spelling": "r",
+   "keyword": "red",
+   "cue": "Lips round a bit. Tongue pulls back.",
+   "counter": "12 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 12
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 14
+   },
+   "audio": {
+    "box": [
+     0.5879997539370079,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /r/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 14,
+   "file": "slide14.xml",
+   "notes": "13",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/s/",
+   "spelling": "s, c",
+   "keyword": "sun",
+   "cue": "Teeth close. Air snakes out.",
+   "counter": "13 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 13
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 15
+   },
+   "audio": {
+    "box": [
+     0.5927239173228347,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /s/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 15,
+   "file": "slide15.xml",
+   "notes": "14",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/t/",
+   "spelling": "t",
+   "keyword": "top",
+   "cue": "Tongue taps behind teeth. Voice off.",
+   "counter": "14 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 14
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 16
+   },
+   "audio": {
+    "box": [
+     0.584960219816273,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /t/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 16,
+   "file": "slide16.xml",
+   "notes": "15",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/v/",
+   "spelling": "v",
+   "keyword": "van",
+   "cue": "Top teeth touch bottom lip. Voice on.",
+   "counter": "15 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 15
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 17
+   },
+   "audio": {
+    "box": [
+     0.5928459645669292,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /v/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 17,
+   "file": "slide17.xml",
+   "notes": "16",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/w/",
+   "spelling": "w",
+   "keyword": "web",
+   "cue": "Round lips, then open.",
+   "counter": "16 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 16
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 18
+   },
+   "audio": {
+    "box": [
+     0.6036064632545932,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /w/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 18,
+   "file": "slide18.xml",
+   "notes": "17",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/y/",
+   "spelling": "y",
+   "keyword": "yes",
+   "cue": "Middle of tongue lifts. Voice on.",
+   "counter": "17 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 17
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 19
+   },
+   "audio": {
+    "box": [
+     0.5945793963254593,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /y/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 19,
+   "file": "slide19.xml",
+   "notes": "18",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/z/",
+   "spelling": "z, s",
+   "keyword": "zip",
+   "cue": "Like /s/ but voice on.",
+   "counter": "18 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 18
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 20
+   },
+   "audio": {
+    "box": [
+     0.5938042158792651,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /z/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 20,
+   "file": "slide20.xml",
+   "notes": "19",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/ch/",
+   "spelling": "ch, tch",
+   "keyword": "chip",
+   "cue": "Tongue near ridge. Quick stop + push.",
+   "counter": "19 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 19
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 21
+   },
+   "audio": {
+    "box": [
+     0.6227349081364829,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ch/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 21,
+   "file": "slide21.xml",
+   "notes": "20",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/sh/",
+   "spelling": "sh, ti, ci",
+   "keyword": "ship",
+   "cue": "Lips a bit round. Air pushes out.",
+   "counter": "20 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 20
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 22
+   },
+   "audio": {
+    "box": [
+     0.6247612368766404,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /sh/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 22,
+   "file": "slide22.xml",
+   "notes": "21",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/th/ voiceless",
+   "spelling": "th",
+   "keyword": "thumb",
+   "cue": "Tongue between teeth. Blow air.",
+   "counter": "21 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 21
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 23
+   },
+   "audio": {
+    "box": [
+     0.7190056594488189,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /th/ voiceless — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 23,
+   "file": "slide23.xml",
+   "notes": "22",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/th/ voiced",
+   "spelling": "th",
+   "keyword": "this",
+   "cue": "Tongue between teeth. Voice on.",
+   "counter": "22 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 22
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 24
+   },
+   "audio": {
+    "box": [
+     0.6826774934383202,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /th/ voiced — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 24,
+   "file": "slide24.xml",
+   "notes": "23",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/ng/",
+   "spelling": "ng, n",
+   "keyword": "ring",
+   "cue": "Back of tongue up. Air through nose.",
+   "counter": "23 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 23
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 25
+   },
+   "audio": {
+    "box": [
+     0.6325920275590551,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ng/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 25,
+   "file": "slide25.xml",
+   "notes": "24",
+   "kind": "sound",
+   "category": "CONSONANT SOUND",
+   "symbol": "/zh/",
+   "spelling": "s, si, ge",
+   "keyword": "vision",
+   "cue": "Tongue near ridge. Voice on.",
+   "counter": "24 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 24
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 26
+   },
+   "audio": {
+    "box": [
+     0.6258415354330709,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /zh/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 26,
+   "file": "slide26.xml",
+   "notes": "25",
+   "kind": "sound",
+   "category": "SHORT VOWEL SOUND",
+   "symbol": "/ă/",
+   "spelling": "a",
+   "keyword": "apple",
+   "cue": "Mouth open. Jaw relaxed.",
+   "counter": "25 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 25
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 27
+   },
+   "audio": {
+    "box": [
+     0.5939262631233596,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ă/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 27,
+   "file": "slide27.xml",
+   "notes": "26",
+   "kind": "sound",
+   "category": "SHORT VOWEL SOUND",
+   "symbol": "/ĕ/",
+   "spelling": "e",
+   "keyword": "egg",
+   "cue": "Mouth slightly open. Short sound.",
+   "counter": "26 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 26
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 28
+   },
+   "audio": {
+    "box": [
+     0.5918327591863517,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ĕ/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 28,
+   "file": "slide28.xml",
+   "notes": "27",
+   "kind": "sound",
+   "category": "SHORT VOWEL SOUND",
+   "symbol": "/ĭ/",
+   "spelling": "i",
+   "keyword": "itch",
+   "cue": "Lips relaxed. Short sound.",
+   "counter": "27 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 27
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 29
+   },
+   "audio": {
+    "box": [
+     0.5814934383202099,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ĭ/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 29,
+   "file": "slide29.xml",
+   "notes": "28",
+   "kind": "sound",
+   "category": "SHORT VOWEL SOUND",
+   "symbol": "/ŏ/",
+   "spelling": "o",
+   "keyword": "octopus",
+   "cue": "Jaw open. Lips relaxed.",
+   "counter": "28 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 28
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 30
+   },
+   "audio": {
+    "box": [
+     0.5994804790026247,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ŏ/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 30,
+   "file": "slide30.xml",
+   "notes": "29",
+   "kind": "sound",
+   "category": "SHORT VOWEL SOUND",
+   "symbol": "/ŭ/",
+   "spelling": "u",
+   "keyword": "up",
+   "cue": "Jaw relaxed. Short sound.",
+   "counter": "29 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 29
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 31
+   },
+   "audio": {
+    "box": [
+     0.59840625,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ŭ/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 31,
+   "file": "slide31.xml",
+   "notes": "30",
+   "kind": "sound",
+   "category": "LONG VOWEL SOUND",
+   "symbol": "/ā/",
+   "spelling": "a, a_e, ai, ay",
+   "keyword": "apron",
+   "cue": "Say the long name of a.",
+   "counter": "30 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 30
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 32
+   },
+   "audio": {
+    "box": [
+     0.5987053805774278,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ā/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 32,
+   "file": "slide32.xml",
+   "notes": "31",
+   "kind": "sound",
+   "category": "LONG VOWEL SOUND",
+   "symbol": "/ē/",
+   "spelling": "e, e_e, ee, ea",
+   "keyword": "even",
+   "cue": "Say the long name of e.",
+   "counter": "31 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 31
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 33
+   },
+   "audio": {
+    "box": [
+     0.5918327591863517,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ē/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 33,
+   "file": "slide33.xml",
+   "notes": "32",
+   "kind": "sound",
+   "category": "LONG VOWEL SOUND",
+   "symbol": "/ī/",
+   "spelling": "i, i_e, igh, y",
+   "keyword": "item",
+   "cue": "Say the long name of i.",
+   "counter": "32 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 32
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 34
+   },
+   "audio": {
+    "box": [
+     0.5814934383202099,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ī/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 34,
+   "file": "slide34.xml",
+   "notes": "33",
+   "kind": "sound",
+   "category": "LONG VOWEL SOUND",
+   "symbol": "/ō/",
+   "spelling": "o, o_e, oa, ow",
+   "keyword": "open",
+   "cue": "Round lips lightly.",
+   "counter": "33 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 33
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 35
+   },
+   "audio": {
+    "box": [
+     0.5994804790026247,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ō/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 35,
+   "file": "slide35.xml",
+   "notes": "34",
+   "kind": "sound",
+   "category": "LONG VOWEL SOUND",
+   "symbol": "/yoo/",
+   "spelling": "u, u_e, ew",
+   "keyword": "music",
+   "cue": "Start with /y/, glide to /oo/.",
+   "counter": "34 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 34
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 36
+   },
+   "audio": {
+    "box": [
+     0.6569145341207349,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /yoo/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 36,
+   "file": "slide36.xml",
+   "notes": "35",
+   "kind": "sound",
+   "category": "ADDITIONAL VOWEL SOUND",
+   "symbol": "/oo/",
+   "spelling": "oo, u, ew",
+   "keyword": "moon",
+   "cue": "Lips round tight.",
+   "counter": "35 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 35
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 37
+   },
+   "audio": {
+    "box": [
+     0.6310967027559055,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /oo/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 37,
+   "file": "slide37.xml",
+   "notes": "36",
+   "kind": "sound",
+   "category": "ADDITIONAL VOWEL SOUND",
+   "symbol": "/ʊ/",
+   "spelling": "oo, u",
+   "keyword": "book",
+   "cue": "Lips round, but shorter.",
+   "counter": "36 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 36
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 38
+   },
+   "audio": {
+    "box": [
+     0.5979851541994751,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ʊ/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 38,
+   "file": "slide38.xml",
+   "notes": "37",
+   "kind": "sound",
+   "category": "ADDITIONAL VOWEL SOUND",
+   "symbol": "/oi/",
+   "spelling": "oi, oy",
+   "keyword": "coin",
+   "cue": "Open then round lips.",
+   "counter": "37 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 37
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 39
+   },
+   "audio": {
+    "box": [
+     0.6130486384514435,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /oi/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 39,
+   "file": "slide39.xml",
+   "notes": "38",
+   "kind": "sound",
+   "category": "ADDITIONAL VOWEL SOUND",
+   "symbol": "/ow/",
+   "spelling": "ou, ow",
+   "keyword": "cloud",
+   "cue": "Open then round lips.",
+   "counter": "38 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 38
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 40
+   },
+   "audio": {
+    "box": [
+     0.6347466371391076,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ow/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 40,
+   "file": "slide40.xml",
+   "notes": "39",
+   "kind": "sound",
+   "category": "ADDITIONAL VOWEL SOUND",
+   "symbol": "/ər/",
+   "spelling": "er, ir, ur",
+   "keyword": "her",
+   "cue": "Tongue pulls back. R-colored.",
+   "counter": "39 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 39
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 41
+   },
+   "audio": {
+    "box": [
+     0.6181206528871391,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ər/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 41,
+   "file": "slide41.xml",
+   "notes": "40",
+   "kind": "sound",
+   "category": "ADDITIONAL VOWEL SOUND",
+   "symbol": "/ar/",
+   "spelling": "ar",
+   "keyword": "car",
+   "cue": "Open mouth, then /r/.",
+   "counter": "40 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 40
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 42
+   },
+   "audio": {
+    "box": [
+     0.6128654855643044,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ar/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 42,
+   "file": "slide42.xml",
+   "notes": "41",
+   "kind": "sound",
+   "category": "ADDITIONAL VOWEL SOUND",
+   "symbol": "/or/",
+   "spelling": "or, ore, oar",
+   "keyword": "fork",
+   "cue": "Round lips, then /r/.",
+   "counter": "41 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 41
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 43
+   },
+   "audio": {
+    "box": [
+     0.6196159776902888,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /or/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 43,
+   "file": "slide43.xml",
+   "notes": "42",
+   "kind": "sound",
+   "category": "ADDITIONAL VOWEL SOUND",
+   "symbol": "/aw/",
+   "spelling": "aw, au, al",
+   "keyword": "saw",
+   "cue": "Jaw open. Lips round lightly.",
+   "counter": "42 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 42
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 44
+   },
+   "audio": {
+    "box": [
+     0.6284721948818898,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /aw/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 44,
+   "file": "slide44.xml",
+   "notes": "43",
+   "kind": "sound",
+   "category": "ADDITIONAL VOWEL SOUND",
+   "symbol": "/air/",
+   "spelling": "air, are, ear",
+   "keyword": "chair",
+   "cue": "Open to /air/.",
+   "counter": "43 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 43
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 45
+   },
+   "audio": {
+    "box": [
+     0.6264336450131234,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /air/ — attach a teacher-recorded sound file later"
+   }
+  },
+  {
+   "index": 45,
+   "file": "slide45.xml",
+   "notes": "44",
+   "kind": "sound",
+   "category": "ADDITIONAL VOWEL SOUND",
+   "symbol": "/ə/ schwa",
+   "spelling": "a, e, i, o, u",
+   "keyword": "about",
+   "cue": "Relaxed, quick /uh/.",
+   "counter": "44 / 44",
+   "prev": {
+    "box": [
+     0.309,
+     0.932,
+     0.12,
+     0.05333333333333334
+    ],
+    "jump": 44
+   },
+   "menuBtn": {
+    "box": [
+     0.44325,
+     0.932,
+     0.1185,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "next": {
+    "box": [
+     0.576,
+     0.932,
+     0.11925,
+     0.05333333333333334
+    ],
+    "jump": 1
+   },
+   "audio": {
+    "box": [
+     0.696160187007874,
+     0.26666666666666666,
+     0.036,
+     0.064
+    ],
+    "name": "Audio icon placeholder for /ə/ schwa — attach a teacher-recorded sound file later"
+   }
+  }
+ ]
+}

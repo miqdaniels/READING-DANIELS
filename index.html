@@ -728,31 +728,65 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
 
 /* ===== Check 1 "What to Teach Next" (teacher-only). Quiet Square: rounded
    rectangles (10px), --ink-soft/--accent only, no red/green. ===== */
-#c1Next .pill-btn,#c2Next .pill-btn,#teachNext .pill-btn,#tnCheck .pill-btn,#s-home .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:11px 20px;cursor:pointer;touch-action:manipulation;text-decoration:none;box-sizing:border-box}
-#c1Next .pill-btn-primary,#c2Next .pill-btn-primary,#teachNext .pill-btn-primary,#tnCheck .pill-btn-primary,#s-home .pill-btn-primary{background:var(--accent);border:1.5px solid var(--accent);color:#fff}
-#c1Next .pill-btn-secondary,#c2Next .pill-btn-secondary,#teachNext .pill-btn-secondary,#tnCheck .pill-btn-secondary,#s-home .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
-#c1Next .pill-btn[disabled],#c2Next .pill-btn[disabled],#teachNext .pill-btn[disabled],#tnCheck .pill-btn[disabled],#s-home .pill-btn[disabled]{opacity:.4;cursor:default}
-#c1Next .c1n-card,#c2Next .c1n-card,#teachNext .c1n-card,#tnCheck .c1n-card,#s-home .c1n-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px 18px;margin:0 0 16px}
-#c1Next .c1n-row,#c2Next .c1n-row,#teachNext .c1n-row,#tnCheck .c1n-row,#s-home .c1n-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
-#c1Next .c1n-sets,#c2Next .c1n-sets,#teachNext .c1n-sets,#tnCheck .c1n-sets,#s-home .c1n-sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:0 0 16px}
-#c1Next .c1n-sets .c1n-card,#c2Next .c1n-sets .c1n-card,#teachNext .c1n-sets .c1n-card,#tnCheck .c1n-sets .c1n-card,#s-home .c1n-sets .c1n-card{margin:0}
+#c1Next .pill-btn,#c2Next .pill-btn,#teachNext .pill-btn,#tnCheck .pill-btn,#s-home .pill-btn,#c2Show .pill-btn,#c2Studio .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:11px 20px;cursor:pointer;touch-action:manipulation;text-decoration:none;box-sizing:border-box}
+#c1Next .pill-btn-primary,#c2Next .pill-btn-primary,#teachNext .pill-btn-primary,#tnCheck .pill-btn-primary,#s-home .pill-btn-primary,#c2Show .pill-btn-primary,#c2Studio .pill-btn-primary{background:var(--accent);border:1.5px solid var(--accent);color:#fff}
+#c1Next .pill-btn-secondary,#c2Next .pill-btn-secondary,#teachNext .pill-btn-secondary,#tnCheck .pill-btn-secondary,#s-home .pill-btn-secondary,#c2Show .pill-btn-secondary,#c2Studio .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+#c1Next .pill-btn[disabled],#c2Next .pill-btn[disabled],#teachNext .pill-btn[disabled],#tnCheck .pill-btn[disabled],#s-home .pill-btn[disabled],#c2Show .pill-btn[disabled],#c2Studio .pill-btn[disabled]{opacity:.4;cursor:default}
+#c1Next .c1n-card,#c2Next .c1n-card,#teachNext .c1n-card,#tnCheck .c1n-card,#s-home .c1n-card,#c2Show .c1n-card,#c2Studio .c1n-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px 18px;margin:0 0 16px}
+#c1Next .c1n-row,#c2Next .c1n-row,#teachNext .c1n-row,#tnCheck .c1n-row,#s-home .c1n-row,#c2Show .c1n-row,#c2Studio .c1n-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+#c1Next .c1n-sets,#c2Next .c1n-sets,#teachNext .c1n-sets,#tnCheck .c1n-sets,#s-home .c1n-sets,#c2Show .c1n-sets,#c2Studio .c1n-sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:0 0 16px}
+#c1Next .c1n-sets .c1n-card,#c2Next .c1n-sets .c1n-card,#teachNext .c1n-sets .c1n-card,#tnCheck .c1n-sets .c1n-card,#s-home .c1n-sets .c1n-card,#c2Show .c1n-sets .c1n-card,#c2Studio .c1n-sets .c1n-card{margin:0}
 #c1Next #c1n-viewer{width:min(96vw,1180px);position:relative;left:50%;transform:translateX(-50%);box-sizing:border-box}
-#c1Next .c1n-stage,#c2Next .c1n-stage,#teachNext .c1n-stage,#tnCheck .c1n-stage,#s-home .c1n-stage{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;text-align:center}
-#c1Next .c1n-stage img,#c2Next .c1n-stage img,#teachNext .c1n-stage img,#tnCheck .c1n-stage img,#s-home .c1n-stage img{display:block;width:100%;height:auto;max-height:78vh;object-fit:contain;margin:0 auto;background:#fff}
-#c1Next .c1n-stage:fullscreen,#c2Next .c1n-stage:fullscreen,#teachNext .c1n-stage:fullscreen,#tnCheck .c1n-stage:fullscreen,#s-home .c1n-stage:fullscreen{display:flex;align-items:center;justify-content:center;background:#fff;border:0;border-radius:0}
-#c1Next .c1n-stage:fullscreen img,#c2Next .c1n-stage:fullscreen img,#teachNext .c1n-stage:fullscreen img,#tnCheck .c1n-stage:fullscreen img,#s-home .c1n-stage:fullscreen img{max-height:100vh;height:100vh;width:100%}
-#c1Next .c1n-pairs,#c2Next .c1n-pairs,#teachNext .c1n-pairs,#tnCheck .c1n-pairs,#s-home .c1n-pairs{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
-#c1Next .c1n-pair,#c2Next .c1n-pair,#teachNext .c1n-pair,#tnCheck .c1n-pair,#s-home .c1n-pair{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;touch-action:manipulation}
-#c1Next .c1n-pair.on,#c2Next .c1n-pair.on,#teachNext .c1n-pair.on,#tnCheck .c1n-pair.on,#s-home .c1n-pair.on{border-color:var(--accent);background:var(--accent);color:#fff}
-#c1Next .c1n-steps,#c2Next .c1n-steps,#teachNext .c1n-steps,#tnCheck .c1n-steps,#s-home .c1n-steps{margin:6px 0 10px 20px;padding:0;line-height:1.6}
-#c1Next .c1n-foot,#c2Next .c1n-foot,#teachNext .c1n-foot,#tnCheck .c1n-foot,#s-home .c1n-foot{margin:22px 0 4px;font-size:13px;color:var(--ink-soft)}
-#c1Next .c1n-ml-row,#c2Next .c1n-ml-row,#teachNext .c1n-ml-row,#tnCheck .c1n-ml-row,#s-home .c1n-ml-row{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
-#c1Next .c1n-ml-letter,#c2Next .c1n-ml-letter,#teachNext .c1n-ml-letter,#tnCheck .c1n-ml-letter,#s-home .c1n-ml-letter{font-size:34px;font-weight:700;min-width:44px;text-align:center}
-#c1Next .c1n-ml-kind,#c2Next .c1n-ml-kind,#teachNext .c1n-ml-kind,#tnCheck .c1n-ml-kind,#s-home .c1n-ml-kind{font-size:12px;color:var(--ink-soft);display:block;text-align:center}
-#c1Next .c1n-mark,#c2Next .c1n-mark,#teachNext .c1n-mark,#tnCheck .c1n-mark,#s-home .c1n-mark{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;touch-action:manipulation}
-#c1Next .c1n-mark.on,#c2Next .c1n-mark.on,#teachNext .c1n-mark.on,#tnCheck .c1n-mark.on,#s-home .c1n-mark.on{border-color:var(--accent);background:var(--accent);color:#fff}
-#c1Next .c1n-pickgrid,#c2Next .c1n-pickgrid,#teachNext .c1n-pickgrid,#tnCheck .c1n-pickgrid,#s-home .c1n-pickgrid{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
-#c1Next .c1n-pickgrid .c1n-pair,#c2Next .c1n-pickgrid .c1n-pair,#teachNext .c1n-pickgrid .c1n-pair,#tnCheck .c1n-pickgrid .c1n-pair,#s-home .c1n-pickgrid .c1n-pair{min-width:40px;padding:8px 10px}
+#c1Next .c1n-stage,#c2Next .c1n-stage,#teachNext .c1n-stage,#tnCheck .c1n-stage,#s-home .c1n-stage,#c2Show .c1n-stage,#c2Studio .c1n-stage{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;text-align:center}
+#c1Next .c1n-stage img,#c2Next .c1n-stage img,#teachNext .c1n-stage img,#tnCheck .c1n-stage img,#s-home .c1n-stage img,#c2Show .c1n-stage img,#c2Studio .c1n-stage img{display:block;width:100%;height:auto;max-height:78vh;object-fit:contain;margin:0 auto;background:#fff}
+#c1Next .c1n-stage:fullscreen,#c2Next .c1n-stage:fullscreen,#teachNext .c1n-stage:fullscreen,#tnCheck .c1n-stage:fullscreen,#s-home .c1n-stage:fullscreen,#c2Show .c1n-stage:fullscreen,#c2Studio .c1n-stage:fullscreen{display:flex;align-items:center;justify-content:center;background:#fff;border:0;border-radius:0}
+#c1Next .c1n-stage:fullscreen img,#c2Next .c1n-stage:fullscreen img,#teachNext .c1n-stage:fullscreen img,#tnCheck .c1n-stage:fullscreen img,#s-home .c1n-stage:fullscreen img,#c2Show .c1n-stage:fullscreen img,#c2Studio .c1n-stage:fullscreen img{max-height:100vh;height:100vh;width:100%}
+#c1Next .c1n-pairs,#c2Next .c1n-pairs,#teachNext .c1n-pairs,#tnCheck .c1n-pairs,#s-home .c1n-pairs,#c2Show .c1n-pairs,#c2Studio .c1n-pairs{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+#c1Next .c1n-pair,#c2Next .c1n-pair,#teachNext .c1n-pair,#tnCheck .c1n-pair,#s-home .c1n-pair,#c2Show .c1n-pair,#c2Studio .c1n-pair{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;touch-action:manipulation}
+#c1Next .c1n-pair.on,#c2Next .c1n-pair.on,#teachNext .c1n-pair.on,#tnCheck .c1n-pair.on,#s-home .c1n-pair.on,#c2Show .c1n-pair.on,#c2Studio .c1n-pair.on{border-color:var(--accent);background:var(--accent);color:#fff}
+#c1Next .c1n-steps,#c2Next .c1n-steps,#teachNext .c1n-steps,#tnCheck .c1n-steps,#s-home .c1n-steps,#c2Show .c1n-steps,#c2Studio .c1n-steps{margin:6px 0 10px 20px;padding:0;line-height:1.6}
+#c1Next .c1n-foot,#c2Next .c1n-foot,#teachNext .c1n-foot,#tnCheck .c1n-foot,#s-home .c1n-foot,#c2Show .c1n-foot,#c2Studio .c1n-foot{margin:22px 0 4px;font-size:13px;color:var(--ink-soft)}
+#c1Next .c1n-ml-row,#c2Next .c1n-ml-row,#teachNext .c1n-ml-row,#tnCheck .c1n-ml-row,#s-home .c1n-ml-row,#c2Show .c1n-ml-row,#c2Studio .c1n-ml-row{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+#c1Next .c1n-ml-letter,#c2Next .c1n-ml-letter,#teachNext .c1n-ml-letter,#tnCheck .c1n-ml-letter,#s-home .c1n-ml-letter,#c2Show .c1n-ml-letter,#c2Studio .c1n-ml-letter{font-size:34px;font-weight:700;min-width:44px;text-align:center}
+#c1Next .c1n-ml-kind,#c2Next .c1n-ml-kind,#teachNext .c1n-ml-kind,#tnCheck .c1n-ml-kind,#s-home .c1n-ml-kind,#c2Show .c1n-ml-kind,#c2Studio .c1n-ml-kind{font-size:12px;color:var(--ink-soft);display:block;text-align:center}
+#c1Next .c1n-mark,#c2Next .c1n-mark,#teachNext .c1n-mark,#tnCheck .c1n-mark,#s-home .c1n-mark,#c2Show .c1n-mark,#c2Studio .c1n-mark{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;touch-action:manipulation}
+#c1Next .c1n-mark.on,#c2Next .c1n-mark.on,#teachNext .c1n-mark.on,#tnCheck .c1n-mark.on,#s-home .c1n-mark.on,#c2Show .c1n-mark.on,#c2Studio .c1n-mark.on{border-color:var(--accent);background:var(--accent);color:#fff}
+#c1Next .c1n-pickgrid,#c2Next .c1n-pickgrid,#teachNext .c1n-pickgrid,#tnCheck .c1n-pickgrid,#s-home .c1n-pickgrid,#c2Show .c1n-pickgrid,#c2Studio .c1n-pickgrid{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+#c1Next .c1n-pickgrid .c1n-pair,#c2Next .c1n-pickgrid .c1n-pair,#teachNext .c1n-pickgrid .c1n-pair,#tnCheck .c1n-pickgrid .c1n-pair,#s-home .c1n-pickgrid .c1n-pair,#c2Show .c1n-pickgrid .c1n-pair,#c2Studio .c1n-pickgrid .c1n-pair{min-width:40px;padding:8px 10px}
+/* ===== Check 2 slideshow + recording studio ===== */
+#c2Show .wrap,#c2Studio .wrap{max-width:1180px}
+.c2sh-fswrap{display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.c2sh-stage{position:relative;width:100%;aspect-ratio:16/9;background:#2a1260}
+.c2sh-stage img{position:absolute;left:0;top:0;width:100%;height:100%;display:block}
+.c2sh-hot{position:absolute;background:transparent;border:0;padding:0;margin:0;cursor:pointer;border-radius:8px;touch-action:manipulation}
+.c2sh-hot:hover{background:rgba(255,255,255,.12)}
+.c2sh-hot:focus-visible{outline:3px solid #ffe08a;outline-offset:1px}
+.c2sh-fswrap{width:min(96vw,1180px,max(520px,calc((100vh - 330px)*1.7778)));position:relative;left:50%;transform:translateX(-50%);box-sizing:border-box}
+.c2st-layout{width:min(96vw,1180px);position:relative;left:50%;transform:translateX(-50%);box-sizing:border-box}
+.c2sh-fswrap:fullscreen{background:#000;border:0;border-radius:0;width:100vw;height:100vh;left:0;transform:none}
+.c2sh-fswrap:fullscreen .c2sh-stage{width:min(100vw,177.78vh);height:min(100vh,56.25vw);aspect-ratio:auto}
+.c2st-layout{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:16px;align-items:start}
+.c2st-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px;max-height:640px;overflow:auto;padding:2px}
+.c2st-item{display:flex;flex-direction:column;align-items:center;gap:1px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:6px 4px;font:inherit;cursor:pointer;min-height:54px;touch-action:manipulation}
+.c2st-item.on{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 35%,transparent)}
+.c2st-item.done{background:color-mix(in srgb,var(--accent) 10%,var(--panel))}
+.c2st-item.draft{border-style:dashed}
+.c2st-item:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.c2st-num{font-size:11px;color:var(--ink-soft)}
+.c2st-sym{font-size:16px;font-weight:700;text-align:center;line-height:1.15}
+.c2st-stat{font-size:12px;color:var(--accent);min-height:14px}
+.c2st-confirm{margin:6px 0 4px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);font-size:14px;word-break:break-word}
+.c2st-big.long{font-size:40px}
+.c2st-big{font-size:64px;font-weight:700;line-height:1.1;margin:4px 0 8px}
+.c2st-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:0 0 12px}
+.c2st-facts div{border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--panel)}
+.c2st-facts span{display:block;font-size:12px;color:var(--ink-soft)}
+.c2st-facts strong{font-size:18px}
+.c2st-cue{grid-column:1/-1}
+.c2st-status{margin:8px 0}
+.c2st-recdot{display:inline-block;width:12px;height:12px;border-radius:50%;background:#c0392b;margin-right:8px;box-shadow:0 0 0 0 rgba(192,57,43,.35);animation:c2stpulse 1.3s ease-in-out infinite;vertical-align:middle}
+@keyframes c2stpulse{0%{box-shadow:0 0 0 0 rgba(192,57,43,.35)}100%{box-shadow:0 0 0 8px rgba(192,57,43,0)}}
+@media (max-width:760px){.c2st-layout{grid-template-columns:1fr}.c2st-list{max-height:260px}}
 #c1n-print{display:none}
 @media print{
   html,body{background:#fff!important}
@@ -1058,6 +1092,54 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
     </div>
   </section>
 
+  <!-- CHECK 2: interactive 44-sound slideshow (approved deck, teacher-only) -->
+  <section class="screen" data-teacher="1" id="c2Show">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Teacher Dashboard</a> &nbsp;/&nbsp; <a onclick="go('teachNext')">What to Teach Next</a> &nbsp;/&nbsp; <a onclick="go('c2Next')">Check 2</a> &nbsp;/&nbsp; Interactive 44-Sound Slideshow</p>
+      <h2>Interactive 44-Sound Slideshow</h2>
+      <div class="c2sh-fswrap" id="c2sh-fswrap"><div class="c2sh-stage" id="c2sh-stage"><img id="c2sh-img" alt=""><div id="c2sh-hot"></div></div></div>
+      <p class="mini-note" id="c2sh-msg" role="status" aria-live="polite" style="min-height:20px;margin:8px 0 0"></p>
+      <div class="c1n-row" style="justify-content:center">
+        <button class="pill-btn pill-btn-secondary" id="c2sh-prev" onclick="c2shStep(-1)">&#8592; Previous</button>
+        <button class="pill-btn pill-btn-secondary" id="c2sh-menu" onclick="c2shOpen(1)">Sound Menu</button>
+        <span class="mini-note" id="c2sh-count"></span>
+        <button class="pill-btn pill-btn-primary" id="c2sh-next" onclick="c2shStep(1)">Next &#8594;</button>
+        <button class="pill-btn pill-btn-secondary" id="c2sh-full" onclick="c2shFullscreen()">Full screen</button>
+      </div>
+      <p class="mini-note">Click the small speaker icon on a sound slide to hear your recording of that sound. Slides never play audio or move on by themselves.</p>
+      <div class="tn-nav"><button class="pill-btn pill-btn-secondary" onclick="go('c2Next')">Back to Check 2 resources</button><button class="pill-btn pill-btn-secondary" onclick="go('c2Studio')">Open Sound Recording Studio</button></div>
+    </div>
+  </section>
+
+  <!-- CHECK 2: teacher Sound Recording Studio (teacher-only) -->
+  <section class="screen" data-teacher="1" id="c2Studio">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Teacher Dashboard</a> &nbsp;/&nbsp; <a onclick="go('teachNext')">What to Teach Next</a> &nbsp;/&nbsp; <a onclick="go('c2Next')">Check 2</a> &nbsp;/&nbsp; Sound Recording Studio</p>
+      <h2>Teacher Sound Recording Studio</h2>
+      <p class="lede">Record your own voice saying each of the 44 sounds. Pick any sound, in any order.</p>
+      <div class="tn-info"><strong>Say the sound by itself.</strong> Do not add a vowel to consonants (say /b/, not &ldquo;buh&rdquo;). Do not say the letter name. Recording starts only when you click Record.</div>
+      <div class="c1n-row" style="margin-top:0"><strong id="c2st-progress" role="status">0 of 44 Sounds Recorded.</strong></div>
+      <div class="c2st-layout">
+        <div class="c1n-card" style="margin:0"><div class="c2st-list" id="c2st-list"></div></div>
+        <div class="c1n-card" style="margin:0" id="c2st-panel"></div>
+      </div>
+      <div class="c1n-card" style="margin-top:16px">
+        <h3 style="margin:0 0 6px">Keep your recordings safe</h3>
+        <p class="mini-note" id="c2st-storage"></p>
+        <p class="mini-note">Recordings are kept only in this browser on this computer. Clearing browser data or using another computer can remove them unless you export them. Drafts you have not saved are lost when you leave this page.</p>
+        <p class="mini-note" id="c2st-format"></p>
+        <div class="c1n-row">
+          <button class="pill-btn pill-btn-primary" id="c2st-export" onclick="c2stExport()">Export all recordings (ZIP)</button>
+          <label class="pill-btn pill-btn-secondary" for="c2st-import-file" id="c2st-import-label" style="margin:0">Import recordings (ZIP)</label>
+          <input type="file" id="c2st-import-file" accept=".zip,application/zip" style="display:none" onchange="c2stImportPick(this)">
+        </div>
+        <div id="c2st-import-confirm"></div>
+        <p class="mini-note">The ZIP holds one audio file per sound plus a manifest that lists which sound each file belongs to. To use the audio inside PowerPoint, the ZIP&rsquo;s README explains the conversion step (WebM does not play in every PowerPoint).</p>
+      </div>
+      <div class="tn-nav"><button class="pill-btn pill-btn-secondary" onclick="go('c2Next')">Back to Check 2 resources</button><button class="pill-btn pill-btn-secondary" onclick="go('c2Show')">Open Slideshow</button></div>
+    </div>
+  </section>
+
   <!-- CHECK 1: "What to Teach Next" -- teacher-only page that serves the
        two approved letter-name slideshows (check1-slides/). Opened from the
        Check 1 Review screen or from Practice on the teacher menu: SAME page. -->
@@ -1337,6 +1419,28 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
         <div class="grid" id="c2n-roster" style="margin-bottom:8px"></div>
         <div id="c2n-student-note"></div>
         <div id="c2n-targets"></div>
+      </div>
+
+      <div class="c1n-card" id="c2n-slideshow">
+        <p class="step-eyebrow">Interactive Sound Slideshow and Recording Studio</p>
+        <div class="c1n-sets" style="margin-top:8px">
+          <div class="c1n-card">
+            <h3 style="margin:0 0 4px">Interactive 44-Sound Slideshow</h3>
+            <p class="mini-note">45 slides: a sound menu and one slide for each of the 44 sounds</p>
+            <div class="c1n-row">
+              <button class="pill-btn pill-btn-primary" id="c2n-open-slideshow" onclick="c2shOpen(1)">Open Slideshow</button>
+              <a class="pill-btn pill-btn-secondary" id="c2n-dl-pptx" href="check2-slides/Reading_Foundations_Check_2_Royal_Purple_44_Sounds_Audio_Ready.pptx" download>Download PowerPoint</a>
+            </div>
+          </div>
+          <div class="c1n-card">
+            <h3 style="margin:0 0 4px">Teacher Sound Recording Studio</h3>
+            <p class="mini-note" id="c2n-studio-progress"></p>
+            <div class="c1n-row">
+              <button class="pill-btn pill-btn-primary" id="c2n-open-studio" onclick="go('c2Studio')">Record or manage sound audio</button>
+            </div>
+            <p class="mini-note">Record your voice for each sound, check progress, and export or restore recordings.</p>
+          </div>
+        </div>
       </div>
 
       <div class="c1n-card" id="c2n-resources">
@@ -3730,6 +3834,7 @@ function fCanvasSteps(fname){
 function go(id){
   var s=document.getElementsByClassName("screen"), i, wasActive=null;
   for(i=0;i<s.length;i++){ if(/active/.test(s[i].className)){ wasActive=s[i].id; } s[i].className="screen"; }
+  if((wasActive==="c2Studio" && id!=="c2Studio") && typeof c2stStop==="function"){ c2stStopForLeave(); }
   if(wasActive==="check2" && id!=="check2"){ c2StopMedia(); }
   if(wasActive==="check3" && id!=="check3"){ c3StopMedia(); }
   document.getElementById(id).className="screen active";
@@ -3750,6 +3855,8 @@ function go(id){
   if(id==="check2Teach"){ check2TeachEnter(); }
   if(id==="c2Next"){ c2nEnter(); }
   if(id==="teachNext"){ tnHubEnter(); }
+  if(id==="c2Show"){ c2shEnter(); }
+  if(id==="c2Studio"){ c2stEnter(); }
   if(id==="tnCheck"){ tnCheckEnter(); }
   if(id==="check3"){ c3Enter(); }
   if(id==="s-teachC3"){ c3tPromptsEnter(); }
@@ -5911,7 +6018,7 @@ function c1tSave(){
 var TN_FROM=null, TN_STU=null, TN_N=0;
 var TN_CHECKS=[
   {n:1,name:"Letter Identification",desc:"Letter-name slideshows, 5-minute mini-lesson, and printable targeted rechecks.",ready:true,go:"c1Next",reviews:[["Check 1 Review","check1Teach"]]},
-  {n:2,name:"Letter-Sound Knowledge",desc:"Teacher and student sound cards (44 sounds) with letter-sound teaching steps.",ready:true,go:"c2Next",reviews:[["Check 2 Review","check2Teach"]]},
+  {n:2,name:"Letter-Sound Knowledge",desc:"Interactive 44-sound slideshow, sound recording studio, and printable teacher and student sound cards.",ready:true,go:"c2Next",reviews:[["Check 2 Review","check2Teach"]]},
   {n:3,name:"Phonemic Awareness",desc:"",ready:false,reviews:[["Check 3 Review","check3Teach"]]},
   {n:4,name:"Decoding",desc:"",ready:false,reviews:[["Check 4 Review","check4Teach"]]},
   {n:5,name:"Automatic Word Recognition",desc:"",ready:false,reviews:[["Check 5 Review","check5Teach"]]},
@@ -5979,6 +6086,391 @@ function tnCheckEnter(){
   for(i=0;i<c.reviews.length;i++){ html+='<button class="pill-btn pill-btn-secondary" onclick="go(\''+c.reviews[i][1]+'\')">'+c.reviews[i][0]+'</button>'; }
   document.getElementById("tn-check-reviews").innerHTML=html+'</div>';
   tnPaintNav();
+}
+
+/* ======================================================================
+   Check 2: 44-Sound Slideshow + Teacher Sound Recording Studio (teacher-only)
+   ======================================================================
+   The slideshow shows the approved royal-purple deck (check2-slides/slides/
+   01..45.png, rendered from the untouched .pptx with Comic Neue) with
+   clickable regions laid over the pictures at the exact positions the deck
+   itself uses for its menu, Previous / Sound Menu / Next buttons and speaker
+   icons. The sound list below is read straight from that deck's slides
+   (tools/extract-c2-slideshow.py), in slide order -- it is the authoritative
+   sound-to-slide mapping. Recordings are the teacher's own voice, captured
+   only when she clicks Record, kept in the browser's IndexedDB under a
+   separate database (rf_c2_sound_studio) and exported/imported as a ZIP.
+   Nothing here touches student data, the 31-target Check 2 assessment,
+   scoring, mastery, unlocks, or the Data Management backup. No text-to-
+   speech, ever: a missing recording says so and plays nothing. */
+var C2S_DATA={"master":"check2-slides/sound-mapping.json","sounds":[{"id":"01","slide":2,"symbol":"/b/","category":"CONSONANT SOUND","spelling":"b","keyword":"bat","cue":"Lips together. Voice on.","audio":[0.59984,0.26667,0.036,0.064],"file":"c2_sound_01_b","recheck":"b"},{"id":"02","slide":3,"symbol":"/k/","category":"CONSONANT SOUND","spelling":"c, k, ck","keyword":"cat","cue":"Back of tongue up. Quick puff.","audio":[0.59679,0.26667,0.036,0.064],"file":"c2_sound_02_k","recheck":"c"},{"id":"03","slide":4,"symbol":"/d/","category":"CONSONANT SOUND","spelling":"d","keyword":"dog","cue":"Tongue taps behind teeth. Voice on.","audio":[0.59416,0.26667,0.036,0.064],"file":"c2_sound_03_d","recheck":"d"},{"id":"04","slide":5,"symbol":"/f/","category":"CONSONANT SOUND","spelling":"f, ph","keyword":"fan","cue":"Top teeth touch bottom lip. Blow air.","audio":[0.58155,0.26667,0.036,0.064],"file":"c2_sound_04_f","recheck":"f"},{"id":"05","slide":6,"symbol":"/g/","category":"CONSONANT SOUND","spelling":"g","keyword":"go","cue":"Back of tongue up. Voice on.","audio":[0.59357,0.26667,0.036,0.064],"file":"c2_sound_05_g","recheck":"g"},{"id":"06","slide":7,"symbol":"/h/","category":"CONSONANT SOUND","spelling":"h","keyword":"hat","cue":"Open mouth. Push air out.","audio":[0.5999,0.26667,0.036,0.064],"file":"c2_sound_06_h","recheck":"h"},{"id":"07","slide":8,"symbol":"/j/","category":"CONSONANT SOUND","spelling":"j, g","keyword":"jam","cue":"Start with /d/, release to /zh/. Voice on.","audio":[0.58197,0.26667,0.036,0.064],"file":"c2_sound_07_j","recheck":"j"},{"id":"08","slide":9,"symbol":"/l/","category":"CONSONANT SOUND","spelling":"l","keyword":"leg","cue":"Tongue lifts to ridge behind teeth.","audio":[0.58095,0.26667,0.036,0.064],"file":"c2_sound_08_l","recheck":"l"},{"id":"09","slide":10,"symbol":"/m/","category":"CONSONANT SOUND","spelling":"m","keyword":"man","cue":"Lips together. Hum. Voice on.","audio":[0.61729,0.26667,0.036,0.064],"file":"c2_sound_09_m","recheck":"m"},{"id":"10","slide":11,"symbol":"/n/","category":"CONSONANT SOUND","spelling":"n","keyword":"net","cue":"Tongue up. Air through nose.","audio":[0.60091,0.26667,0.036,0.064],"file":"c2_sound_10_n","recheck":"n"},{"id":"11","slide":12,"symbol":"/p/","category":"CONSONANT SOUND","spelling":"p","keyword":"pig","cue":"Lips together. Quick puff. Voice off.","audio":[0.5996,0.26667,0.036,0.064],"file":"c2_sound_11_p","recheck":"p"},{"id":"12","slide":13,"symbol":"/r/","category":"CONSONANT SOUND","spelling":"r","keyword":"red","cue":"Lips round a bit. Tongue pulls back.","audio":[0.588,0.26667,0.036,0.064],"file":"c2_sound_12_r","recheck":"r"},{"id":"13","slide":14,"symbol":"/s/","category":"CONSONANT SOUND","spelling":"s, c","keyword":"sun","cue":"Teeth close. Air snakes out.","audio":[0.59272,0.26667,0.036,0.064],"file":"c2_sound_13_s","recheck":"s"},{"id":"14","slide":15,"symbol":"/t/","category":"CONSONANT SOUND","spelling":"t","keyword":"top","cue":"Tongue taps behind teeth. Voice off.","audio":[0.58496,0.26667,0.036,0.064],"file":"c2_sound_14_t","recheck":"t"},{"id":"15","slide":16,"symbol":"/v/","category":"CONSONANT SOUND","spelling":"v","keyword":"van","cue":"Top teeth touch bottom lip. Voice on.","audio":[0.59285,0.26667,0.036,0.064],"file":"c2_sound_15_v","recheck":"v"},{"id":"16","slide":17,"symbol":"/w/","category":"CONSONANT SOUND","spelling":"w","keyword":"web","cue":"Round lips, then open.","audio":[0.60361,0.26667,0.036,0.064],"file":"c2_sound_16_w","recheck":"w"},{"id":"17","slide":18,"symbol":"/y/","category":"CONSONANT SOUND","spelling":"y","keyword":"yes","cue":"Middle of tongue lifts. Voice on.","audio":[0.59458,0.26667,0.036,0.064],"file":"c2_sound_17_y","recheck":"y"},{"id":"18","slide":19,"symbol":"/z/","category":"CONSONANT SOUND","spelling":"z, s","keyword":"zip","cue":"Like /s/ but voice on.","audio":[0.5938,0.26667,0.036,0.064],"file":"c2_sound_18_z","recheck":"z"},{"id":"19","slide":20,"symbol":"/ch/","category":"CONSONANT SOUND","spelling":"ch, tch","keyword":"chip","cue":"Tongue near ridge. Quick stop + push.","audio":[0.62273,0.26667,0.036,0.064],"file":"c2_sound_19_ch","recheck":"ch"},{"id":"20","slide":21,"symbol":"/sh/","category":"CONSONANT SOUND","spelling":"sh, ti, ci","keyword":"ship","cue":"Lips a bit round. Air pushes out.","audio":[0.62476,0.26667,0.036,0.064],"file":"c2_sound_20_sh","recheck":"sh"},{"id":"21","slide":22,"symbol":"/th/ voiceless","category":"CONSONANT SOUND","spelling":"th","keyword":"thumb","cue":"Tongue between teeth. Blow air.","audio":[0.71901,0.26667,0.036,0.064],"file":"c2_sound_21_th-voiceless","recheck":"th"},{"id":"22","slide":23,"symbol":"/th/ voiced","category":"CONSONANT SOUND","spelling":"th","keyword":"this","cue":"Tongue between teeth. Voice on.","audio":[0.68268,0.26667,0.036,0.064],"file":"c2_sound_22_th-voiced","recheck":"th"},{"id":"23","slide":24,"symbol":"/ng/","category":"CONSONANT SOUND","spelling":"ng, n","keyword":"ring","cue":"Back of tongue up. Air through nose.","audio":[0.63259,0.26667,0.036,0.064],"file":"c2_sound_23_ng","recheck":"ng"},{"id":"24","slide":25,"symbol":"/zh/","category":"CONSONANT SOUND","spelling":"s, si, ge","keyword":"vision","cue":"Tongue near ridge. Voice on.","audio":[0.62584,0.26667,0.036,0.064],"file":"c2_sound_24_zh","recheck":"si"},{"id":"25","slide":26,"symbol":"/ă/","category":"SHORT VOWEL SOUND","spelling":"a","keyword":"apple","cue":"Mouth open. Jaw relaxed.","audio":[0.59393,0.26667,0.036,0.064],"file":"c2_sound_25_short-a","recheck":"a"},{"id":"26","slide":27,"symbol":"/ĕ/","category":"SHORT VOWEL SOUND","spelling":"e","keyword":"egg","cue":"Mouth slightly open. Short sound.","audio":[0.59183,0.26667,0.036,0.064],"file":"c2_sound_26_short-e","recheck":"e"},{"id":"27","slide":28,"symbol":"/ĭ/","category":"SHORT VOWEL SOUND","spelling":"i","keyword":"itch","cue":"Lips relaxed. Short sound.","audio":[0.58149,0.26667,0.036,0.064],"file":"c2_sound_27_short-i","recheck":"i"},{"id":"28","slide":29,"symbol":"/ŏ/","category":"SHORT VOWEL SOUND","spelling":"o","keyword":"octopus","cue":"Jaw open. Lips relaxed.","audio":[0.59948,0.26667,0.036,0.064],"file":"c2_sound_28_short-o","recheck":"o"},{"id":"29","slide":30,"symbol":"/ŭ/","category":"SHORT VOWEL SOUND","spelling":"u","keyword":"up","cue":"Jaw relaxed. Short sound.","audio":[0.59841,0.26667,0.036,0.064],"file":"c2_sound_29_short-u","recheck":"u"},{"id":"30","slide":31,"symbol":"/ā/","category":"LONG VOWEL SOUND","spelling":"a, a_e, ai, ay","keyword":"apron","cue":"Say the long name of a.","audio":[0.59871,0.26667,0.036,0.064],"file":"c2_sound_30_long-a","recheck":"ai"},{"id":"31","slide":32,"symbol":"/ē/","category":"LONG VOWEL SOUND","spelling":"e, e_e, ee, ea","keyword":"even","cue":"Say the long name of e.","audio":[0.59183,0.26667,0.036,0.064],"file":"c2_sound_31_long-e","recheck":"ee"},{"id":"32","slide":33,"symbol":"/ī/","category":"LONG VOWEL SOUND","spelling":"i, i_e, igh, y","keyword":"item","cue":"Say the long name of i.","audio":[0.58149,0.26667,0.036,0.064],"file":"c2_sound_32_long-i","recheck":"igh"},{"id":"33","slide":34,"symbol":"/ō/","category":"LONG VOWEL SOUND","spelling":"o, o_e, oa, ow","keyword":"open","cue":"Round lips lightly.","audio":[0.59948,0.26667,0.036,0.064],"file":"c2_sound_33_long-o","recheck":"oa"},{"id":"34","slide":35,"symbol":"/yoo/","category":"LONG VOWEL SOUND","spelling":"u, u_e, ew","keyword":"music","cue":"Start with /y/, glide to /oo/.","audio":[0.65691,0.26667,0.036,0.064],"file":"c2_sound_34_yoo","recheck":"u_e"},{"id":"35","slide":36,"symbol":"/oo/","category":"ADDITIONAL VOWEL SOUND","spelling":"oo, u, ew","keyword":"moon","cue":"Lips round tight.","audio":[0.6311,0.26667,0.036,0.064],"file":"c2_sound_35_oo-long","recheck":"oo"},{"id":"36","slide":37,"symbol":"/ʊ/","category":"ADDITIONAL VOWEL SOUND","spelling":"oo, u","keyword":"book","cue":"Lips round, but shorter.","audio":[0.59799,0.26667,0.036,0.064],"file":"c2_sound_36_oo-short","recheck":"oo"},{"id":"37","slide":38,"symbol":"/oi/","category":"ADDITIONAL VOWEL SOUND","spelling":"oi, oy","keyword":"coin","cue":"Open then round lips.","audio":[0.61305,0.26667,0.036,0.064],"file":"c2_sound_37_oi","recheck":"oi"},{"id":"38","slide":39,"symbol":"/ow/","category":"ADDITIONAL VOWEL SOUND","spelling":"ou, ow","keyword":"cloud","cue":"Open then round lips.","audio":[0.63475,0.26667,0.036,0.064],"file":"c2_sound_38_ow","recheck":"ou"},{"id":"39","slide":40,"symbol":"/ər/","category":"ADDITIONAL VOWEL SOUND","spelling":"er, ir, ur","keyword":"her","cue":"Tongue pulls back. R-colored.","audio":[0.61812,0.26667,0.036,0.064],"file":"c2_sound_39_er","recheck":"er"},{"id":"40","slide":41,"symbol":"/ar/","category":"ADDITIONAL VOWEL SOUND","spelling":"ar","keyword":"car","cue":"Open mouth, then /r/.","audio":[0.61287,0.26667,0.036,0.064],"file":"c2_sound_40_ar","recheck":"ar"},{"id":"41","slide":42,"symbol":"/or/","category":"ADDITIONAL VOWEL SOUND","spelling":"or, ore, oar","keyword":"fork","cue":"Round lips, then /r/.","audio":[0.61962,0.26667,0.036,0.064],"file":"c2_sound_41_or","recheck":"or"},{"id":"42","slide":43,"symbol":"/aw/","category":"ADDITIONAL VOWEL SOUND","spelling":"aw, au, al","keyword":"saw","cue":"Jaw open. Lips round lightly.","audio":[0.62847,0.26667,0.036,0.064],"file":"c2_sound_42_aw","recheck":"aw"},{"id":"43","slide":44,"symbol":"/air/","category":"ADDITIONAL VOWEL SOUND","spelling":"air, are, ear","keyword":"chair","cue":"Open to /air/.","audio":[0.62643,0.26667,0.036,0.064],"file":"c2_sound_43_air","recheck":"air"},{"id":"44","slide":45,"symbol":"/ə/ schwa","category":"ADDITIONAL VOWEL SOUND","spelling":"a, e, i, o, u","keyword":"about","cue":"Relaxed, quick /uh/.","audio":[0.69616,0.26667,0.036,0.064],"file":"c2_sound_44_schwa","recheck":"a"}],"menu":[[0.06825,0.35333,0.108,0.08],[0.18413,0.35333,0.108,0.08],[0.3,0.35333,0.108,0.08],[0.41587,0.35333,0.108,0.08],[0.06825,0.4436,0.108,0.08],[0.18413,0.4436,0.108,0.08],[0.3,0.4436,0.108,0.08],[0.41587,0.4436,0.108,0.08],[0.06825,0.53387,0.108,0.08],[0.18413,0.53387,0.108,0.08],[0.3,0.53387,0.108,0.08],[0.41587,0.53387,0.108,0.08],[0.06825,0.62413,0.108,0.08],[0.18413,0.62413,0.108,0.08],[0.3,0.62413,0.108,0.08],[0.41587,0.62413,0.108,0.08],[0.06825,0.7144,0.108,0.08],[0.18413,0.7144,0.108,0.08],[0.3,0.7144,0.108,0.08],[0.41587,0.7144,0.108,0.08],[0.06825,0.80467,0.108,0.08],[0.18413,0.80467,0.108,0.08],[0.3,0.80467,0.108,0.08],[0.41587,0.80467,0.108,0.08],[0.5715,0.336,0.06788,0.07467],[0.64507,0.336,0.06788,0.07467],[0.71865,0.336,0.06788,0.07467],[0.79222,0.336,0.06788,0.07467],[0.8658,0.336,0.06788,0.07467],[0.5715,0.492,0.06788,0.07467],[0.64507,0.492,0.06788,0.07467],[0.71865,0.492,0.06788,0.07467],[0.79222,0.492,0.06788,0.07467],[0.8658,0.492,0.06788,0.07467],[0.5715,0.64933,0.06788,0.07467],[0.64507,0.64933,0.06788,0.07467],[0.71865,0.64933,0.06788,0.07467],[0.79222,0.64933,0.06788,0.07467],[0.8658,0.64933,0.06788,0.07467],[0.5715,0.74667,0.06788,0.07467],[0.64507,0.74667,0.06788,0.07467],[0.71865,0.74667,0.06788,0.07467],[0.79222,0.74667,0.06788,0.07467],[0.8658,0.74667,0.06788,0.07467]],"nav":{"prev":[0.309,0.932,0.12,0.05333],"menu":[0.44325,0.932,0.1185,0.05333],"next":[0.576,0.932,0.11925,0.05333]}};
+var C2S_FLAGS={
+  1:"Stop consonant: say /b/ alone, not “buh.”",2:"Stop consonant: say /k/ alone, not “kuh.”",3:"Stop consonant: say /d/ alone, not “duh.”",
+  5:"Stop consonant: say hard /g/ alone, not “guh.”",7:"Starts like /d/ and releases to /zh/. Keep it one quick sound, not “juh.”",
+  11:"Stop consonant, voice off: say /p/ alone, not “puh.”",14:"Stop consonant, voice off: say /t/ alone, not “tuh.”",
+  4:"Pair with /v/: /f/ has no voice.",15:"Pair with /f/: /v/ has voice.",13:"Pair with /z/: /s/ has no voice.",18:"Pair with /s/: /z/ has voice.",
+  19:"Quick stop plus push. One sound, not “chuh.”",
+  21:"Voiceless th: air only, tongue between teeth. Do not say “thuh.”",22:"Voiced th: voice on, tongue between teeth. Do not say “thuh.”",
+  23:"/ng/ (ring) is one sound. It does not start words in English.",24:"No simple single-letter spelling (the s in vision). Check the keyword before recording.",
+  34:"A glide: /y/ then /oo/ in one smooth sound, not a pure vowel.",35:"Long /oo/ (moon). Keep it clearly different from short /ʊ/.",
+  36:"Short /ʊ/ (book). The slide uses the IPA symbol ʊ. Keep it clearly different from /oo/.",
+  37:"This mouth cue is the same as /ow/. Review it before recording.",38:"This mouth cue is the same as /oi/. Review it before recording.",
+  39:"R-colored vowel. Say it as one sound.",44:"Schwa is a quick, relaxed “uh.” It is hard to say alone. Review it before recording.",
+  30:"Long vowels say the letter’s name (/ā/ = A).",31:"Long vowels say the letter’s name (/ē/ = E).",32:"Long vowels say the letter’s name (/ī/ = I).",33:"Long vowels say the letter’s name (/ō/ = O)."
+};
+function c2sPad(n){ return (n<10?"0":"")+n; }
+function c2sBase(n){ return C2S_DATA.sounds[n-1].file; }
+function c2sId(n){ return C2S_DATA.sounds[n-1].id; }
+function c2sExt(mime){
+  mime=(mime||"").toLowerCase();
+  if(mime.indexOf("webm")>-1){ return "webm"; }
+  if(mime.indexOf("ogg")>-1){ return "ogg"; }
+  if(mime.indexOf("mp4")>-1||mime.indexOf("aac")>-1){ return "m4a"; }
+  if(mime.indexOf("wav")>-1){ return "wav"; }
+  return "webm";
+}
+function c2sLabel(n){ var s=C2S_DATA.sounds[n-1]; return s.symbol; }
+
+/* ---------- storage: separate IndexedDB, in-memory fallback (and says so) ---------- */
+var C2SStore=(function(){
+  var DB="rf_c2_sound_studio", ST="sounds", mem={}, useMem=false, dbp=null;
+  function open(){
+    if(dbp){ return dbp; }
+    dbp=new Promise(function(res){
+      var r;
+      if(typeof indexedDB==="undefined" || !indexedDB){ useMem=true; res(null); return; }
+      try{ r=indexedDB.open(DB,1); }catch(e){ useMem=true; res(null); return; }
+      r.onupgradeneeded=function(){ r.result.createObjectStore(ST,{keyPath:"n"}); };
+      r.onsuccess=function(){ res(r.result); };
+      r.onerror=function(){ useMem=true; res(null); };
+      r.onblocked=function(){ useMem=true; res(null); };
+    });
+    return dbp;
+  }
+  function tx(mode,fn){
+    return open().then(function(db){
+      if(!db){ return fn(null); }
+      return new Promise(function(res,rej){
+        var t=db.transaction(ST,mode), store=t.objectStore(ST), out=fn(store);
+        t.oncomplete=function(){ res(out&&out.result!==undefined?out.result:out); };
+        t.onerror=function(){ rej(t.error); }; t.onabort=function(){ rej(t.error); };
+      });
+    });
+  }
+  function put(rec){ return tx("readwrite",function(s){ if(!s){ mem[rec.n]=rec; return; } s.put(rec); }); }
+  function remove(n){ return tx("readwrite",function(s){ if(!s){ delete mem[n]; return; } s["delete"](n); }); }
+  function get(n){ return tx("readonly",function(s){ if(!s){ return mem[n]||null; } return s.get(n); }).then(function(v){ return v||null; }); }
+  function all(){
+    return open().then(function(db){
+      if(!db){ var k, out=[]; for(k in mem){ if(mem.hasOwnProperty(k)){ out.push(mem[k]); } } return out; }
+      return new Promise(function(res,rej){ var r=db.transaction(ST,"readonly").objectStore(ST).getAll(); r.onsuccess=function(){ res(r.result||[]); }; r.onerror=function(){ rej(r.error); }; });
+    });
+  }
+  return { put:put, get:get, remove:remove, all:all, ready:open, persistent:function(){ return !useMem; } };
+})();
+
+/* ---------- minimal ZIP writer/reader (stored, no compression) ---------- */
+var C2Z_TABLE=null;
+function c2zCrc(bytes){
+  var c, n, k, crc=0xFFFFFFFF;
+  if(!C2Z_TABLE){ C2Z_TABLE=[]; for(n=0;n<256;n++){ c=n; for(k=0;k<8;k++){ c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1); } C2Z_TABLE[n]=c>>>0; } }
+  for(n=0;n<bytes.length;n++){ crc=C2Z_TABLE[(crc^bytes[n])&0xFF]^(crc>>>8); }
+  return (crc^0xFFFFFFFF)>>>0;
+}
+function c2zUtf8(str){
+  var out=[], i, c;
+  str=unescape(encodeURIComponent(str));
+  for(i=0;i<str.length;i++){ c=str.charCodeAt(i); out.push(c); }
+  return new Uint8Array(out);
+}
+function c2zBuild(files){
+  var parts=[], central=[], offset=0, i, f, name, crc, lh, dv, ch, total=0;
+  for(i=0;i<files.length;i++){
+    f=files[i]; name=c2zUtf8(f.name); crc=c2zCrc(f.data);
+    lh=new Uint8Array(30+name.length); dv=new DataView(lh.buffer);
+    dv.setUint32(0,0x04034b50,true); dv.setUint16(4,20,true); dv.setUint16(6,0x0800,true); dv.setUint16(8,0,true);
+    dv.setUint16(10,0,true); dv.setUint16(12,0x21,true); dv.setUint32(14,crc,true); dv.setUint32(18,f.data.length,true); dv.setUint32(22,f.data.length,true);
+    dv.setUint16(26,name.length,true); dv.setUint16(28,0,true); lh.set(name,30);
+    parts.push(lh); parts.push(f.data);
+    ch=new Uint8Array(46+name.length); dv=new DataView(ch.buffer);
+    dv.setUint32(0,0x02014b50,true); dv.setUint16(4,20,true); dv.setUint16(6,20,true); dv.setUint16(8,0x0800,true); dv.setUint16(10,0,true);
+    dv.setUint16(12,0,true); dv.setUint16(14,0x21,true); dv.setUint32(16,crc,true); dv.setUint32(20,f.data.length,true); dv.setUint32(24,f.data.length,true);
+    dv.setUint16(28,name.length,true); dv.setUint32(42,offset,true); ch.set(name,46);
+    central.push(ch); offset+=lh.length+f.data.length;
+  }
+  for(i=0;i<central.length;i++){ total+=central[i].length; }
+  var end=new Uint8Array(22); dv=new DataView(end.buffer);
+  dv.setUint32(0,0x06054b50,true); dv.setUint16(8,files.length,true); dv.setUint16(10,files.length,true); dv.setUint32(12,total,true); dv.setUint32(16,offset,true);
+  return new Blob(parts.concat(central).concat([end]),{type:"application/zip"});
+}
+/* returns {files:[{name,data}], error:""}; only the "stored" method (what this app writes) is read */
+function c2zParse(buf){
+  var u=new Uint8Array(buf), dv=new DataView(buf), i, eocd=-1, files=[], count, off, k, nlen, elen, clen, method, csize, nameBytes, name, lo, dstart, p;
+  for(i=u.length-22;i>=0&&i>=u.length-70000;i--){ if(dv.getUint32(i,true)===0x06054b50){ eocd=i; break; } }
+  if(eocd<0){ return { files:[], error:"This is not a ZIP file." }; }
+  count=dv.getUint16(eocd+10,true); off=dv.getUint32(eocd+16,true); p=off;
+  for(k=0;k<count;k++){
+    if(dv.getUint32(p,true)!==0x02014b50){ return { files:[], error:"The ZIP file looks damaged." }; }
+    method=dv.getUint16(p+10,true); csize=dv.getUint32(p+20,true); nlen=dv.getUint16(p+28,true); elen=dv.getUint16(p+30,true); clen=dv.getUint16(p+32,true); lo=dv.getUint32(p+42,true);
+    nameBytes=u.subarray(p+46,p+46+nlen); name=decodeURIComponent(escape(String.fromCharCode.apply(null,nameBytes)));
+    if(method!==0){ return { files:[], error:"This ZIP uses compression this app cannot read. Use a ZIP exported from the Sound Recording Studio." }; }
+    dstart=lo+30+dv.getUint16(lo+26,true)+dv.getUint16(lo+28,true);
+    files.push({ name:name, data:u.slice(dstart,dstart+csize) });
+    p+=46+nlen+elen+clen;
+  }
+  return { files:files, error:"" };
+}
+function c2sBytesToText(bytes){ return decodeURIComponent(escape(String.fromCharCode.apply(null,bytes))); }
+
+/* ---------- Slideshow viewer ---------- */
+var C2SH_IDX=1;
+function c2shOpen(idx){ C2SH_IDX=idx||1; go("c2Show"); }
+function c2shEnter(){ c2shRender(); }
+function c2shHot(box,label,onclick,cls){
+  return '<button class="c2sh-hot'+(cls?" "+cls:"")+'" style="left:'+(box[0]*100).toFixed(3)+'%;top:'+(box[1]*100).toFixed(3)+'%;width:'+(box[2]*100).toFixed(3)+'%;height:'+(box[3]*100).toFixed(3)+'%" aria-label="'+label+'" title="'+label+'" onclick="'+onclick+'"></button>';
+}
+function c2shRender(){
+  var img=document.getElementById("c2sh-img"), hot=document.getElementById("c2sh-hot"), i=C2SH_IDX, html="", n, d, s;
+  if(!img||!hot){ return; }
+  img.src="check2-slides/slides/"+c2sPad(i)+".png";
+  document.getElementById("c2sh-msg").textContent="";
+  if(i===1){
+    img.alt="Choose a sound. Slide 1 of 45, sound menu with 44 sounds.";
+    for(n=1;n<=44;n++){ html+=c2shHot(C2S_DATA.menu[n-1],"Open slide for "+c2sLabel(n),"c2shOpen("+(n+1)+")","c2sh-menu"); }
+    document.getElementById("c2sh-count").textContent="Slide 1 of 45 • Sound menu";
+  } else {
+    n=i-1; s=C2S_DATA.sounds[n-1]; d=C2S_DATA.nav;
+    img.alt="Slide "+i+" of 45: "+s.symbol+", as in "+s.keyword+".";
+    html+=c2shHot(d.prev,"Previous","c2shOpen("+(i-1)+")");
+    html+=c2shHot(d.menu,"Sound Menu","c2shOpen(1)");
+    html+=c2shHot(d.next,"Next","c2shOpen("+(i===45?1:i+1)+")");
+    html+=c2shHot(s.audio,"Play the recording for "+s.symbol,"c2shPlay("+n+")","c2sh-speaker");
+    document.getElementById("c2sh-count").textContent="Slide "+i+" of 45 • sound "+s.id+" "+s.symbol;
+  }
+  hot.innerHTML=html;
+  document.getElementById("c2sh-prev").disabled=(i===1);
+}
+function c2shStep(d){ var n=C2SH_IDX+d; if(n<1){ n=1; } if(n>45){ n=1; } stopAllAudio(); C2SH_IDX=n; c2shRender(); }
+function c2shPlay(n){
+  var msg=document.getElementById("c2sh-msg");
+  stopAllAudio();
+  C2SStore.get(n).then(function(rec){
+    if(rec && rec.blob && rec.n===n){ msg.textContent="Playing "+c2sLabel(n)+" (sound "+c2sId(n)+")."; playBlob(rec.blob); }
+    else { msg.textContent="Audio not recorded yet for "+c2sLabel(n)+"."; }
+  },function(){ msg.textContent="Audio not recorded yet for "+c2sLabel(n)+"."; });
+}
+function c2shFullscreen(){
+  var el=document.getElementById("c2sh-fswrap"); if(!el){ return; }
+  try{
+    if(document.fullscreenElement && document.exitFullscreen){ document.exitFullscreen(); }
+    else if(el.requestFullscreen){ el.requestFullscreen(); }
+    else if(el.webkitRequestFullscreen){ el.webkitRequestFullscreen(); }
+  }catch(e){}
+}
+document.addEventListener("keydown",function(e){
+  var sc=document.getElementById("c2Show"); if(!sc || !/active/.test(sc.className)){ return; }
+  var t=e.target, tag=t&&t.tagName?t.tagName.toLowerCase():"";
+  if(tag==="input"||tag==="textarea"||tag==="select"){ return; }
+  if(e.key==="ArrowRight"){ c2shStep(1); e.preventDefault(); }
+  else if(e.key==="ArrowLeft"){ c2shStep(-1); e.preventDefault(); }
+});
+
+/* ---------- Teacher Sound Recording Studio ---------- */
+var C2ST_SEL=1, C2ST_SAVED={}, C2ST_DRAFT={}, C2ST_REC=null, C2ST_STREAM=null, C2ST_CHUNKS=[], C2ST_TIMER=null, C2ST_T0=0, C2ST_PENDING=null, C2ST_NOTE="", C2ST_LASTMIME="";
+function c2stMimePick(){
+  var c=["audio/webm;codecs=opus","audio/webm","audio/ogg;codecs=opus","audio/mp4"], i;
+  if(typeof window.MediaRecorder==="undefined" || typeof MediaRecorder.isTypeSupported!=="function"){ return ""; }
+  for(i=0;i<c.length;i++){ try{ if(MediaRecorder.isTypeSupported(c[i])){ return c[i]; } }catch(e){} }
+  return "";
+}
+function c2stEnter(){
+  C2ST_PENDING=null; C2ST_NOTE=""; C2ST_DRAFT={};
+  c2stStopStream();
+  C2SStore.all().then(function(list){
+    var i; C2ST_SAVED={};
+    for(i=0;i<list.length;i++){ C2ST_SAVED[list[i].n]={ n:list[i].n, type:list[i].type, size:list[i].size, savedAt:list[i].savedAt }; }
+    c2stRender();
+  },function(){ c2stRender(); });
+  c2stRender();
+}
+function c2stCount(){ var k, n=0; for(k in C2ST_SAVED){ if(C2ST_SAVED.hasOwnProperty(k)){ n++; } } return n; }
+function c2stStatus(n){
+  if(C2ST_REC && C2ST_SEL===n){ return "Recording…"; }
+  if(C2ST_DRAFT[n]){ return "Draft (not saved yet)"; }
+  if(C2ST_SAVED[n]){ return "Recorded"; }
+  return "Not recorded";
+}
+function c2stRender(){
+  var list=document.getElementById("c2st-list"), panel=document.getElementById("c2st-panel"); if(!list||!panel){ return; }
+  var html="", n, s, st, cls, rec=!!C2ST_REC, has=!!C2ST_SAVED[C2ST_SEL], dr=C2ST_DRAFT[C2ST_SEL];
+  for(n=1;n<=44;n++){
+    s=C2S_DATA.sounds[n-1]; st=c2stStatus(n);
+    cls="c2st-item"+(n===C2ST_SEL?" on":"")+(C2ST_SAVED[n]?" done":"")+(C2ST_DRAFT[n]?" draft":"");
+    html+='<button class="'+cls+'" data-n="'+n+'" onclick="c2stSelect('+n+')" aria-label="Sound '+n+', '+escapeHtml(s.symbol)+', '+st+'"><span class="c2st-num">'+c2sPad(n)+'</span><span class="c2st-sym">'+escapeHtml(s.symbol)+'</span><span class="c2st-stat">'+(C2ST_SAVED[n]?"&#10003;":(C2ST_DRAFT[n]?"&bull;":""))+'</span></button>';
+  }
+  list.innerHTML=html;
+  s=C2S_DATA.sounds[C2ST_SEL-1];
+  var h='<p class="step-eyebrow" style="margin-top:0">Sound '+C2ST_SEL+' of 44 &bull; '+escapeHtml(s.category)+'</p>'
+    +'<p class="c2st-confirm" id="c2st-confirm"><strong>Recording for:</strong> Sound ID '+s.id+' &bull; '+escapeHtml(s.symbol)+' &bull; as in &ldquo;'+escapeHtml(s.keyword)+'&rdquo; &bull; PowerPoint slide '+s.slide+' of 45 &bull; file '+escapeHtml(s.file)+'</p>'
+    +'<div class="c2st-big'+(s.symbol.length>6?' long':'')+'">'+escapeHtml(s.symbol)+'</div>'
+    +'<div class="c2st-facts"><div><span>Spelling</span><strong>'+escapeHtml(s.spelling)+'</strong></div><div><span>Keyword</span><strong>'+escapeHtml(s.keyword)+'</strong></div><div class="c2st-cue"><span>Teacher articulation cue</span><strong>'+escapeHtml(s.cue)+'</strong></div></div>'
+    +(C2S_FLAGS[C2ST_SEL]?'<div class="tn-info c2st-flag" id="c2st-flag"><strong>Review before recording:</strong> '+escapeHtml(C2S_FLAGS[C2ST_SEL])+'</div>':'')
+    +'<p class="c2st-status" id="c2st-status">'+(rec?'<span class="c2st-recdot" aria-hidden="true"></span><strong>Recording… <span id="c2st-time">0:00</span></strong>':'<strong>Status:</strong> '+c2stStatus(C2ST_SEL))+'</p>'
+    +'<div class="c1n-row">'
+    +'<button class="pill-btn pill-btn-primary" id="c2st-record" onclick="c2stRecord()"'+(rec?' disabled':'')+'>Record</button>'
+    +'<button class="pill-btn pill-btn-secondary" id="c2st-stop" onclick="c2stStop()"'+(rec?'':' disabled')+'>Stop</button>'
+    +'<button class="pill-btn pill-btn-secondary" id="c2st-listen" onclick="c2stListen()"'+((!rec&&(dr||has))?'':' disabled')+'>Listen</button>'
+    +'<button class="pill-btn pill-btn-primary" id="c2st-save" onclick="c2stSave()"'+((!rec&&dr)?'':' disabled')+'>Save Recording</button>'
+    +'<button class="pill-btn pill-btn-secondary" id="c2st-again" onclick="c2stAgain()"'+((!rec&&(dr||has))?'':' disabled')+'>Record Again</button>'
+    +'</div>'
+    +'<div class="c1n-row"><button class="pill-btn pill-btn-secondary" id="c2st-prev" onclick="c2stSelect('+(C2ST_SEL-1)+')"'+(C2ST_SEL===1?' disabled':'')+'>&#8592; Previous Sound</button><button class="pill-btn pill-btn-secondary" id="c2st-next" onclick="c2stSelect('+(C2ST_SEL+1)+')"'+(C2ST_SEL===44?' disabled':'')+'>Next Sound &#8594;</button></div>'
+    +'<p class="mini-note" id="c2st-note" role="status" aria-live="polite">'+escapeHtml(C2ST_NOTE)+'</p>';
+  panel.innerHTML=h;
+  document.getElementById("c2st-progress").textContent=c2stCount()+" of 44 Sounds Recorded.";
+  var fmt=document.getElementById("c2st-format"), mime=C2ST_LASTMIME||c2stMimePick();
+  fmt.textContent=mime?("Recording format in this browser: "+mime+(C2ST_LASTMIME?" (actual format of your last recording)":" (expected)")+"."):"This browser cannot record audio with MediaRecorder.";
+  document.getElementById("c2st-storage").textContent=C2SStore.persistent()?"Recordings are saved in this browser on this device.":"Warning: this browser cannot keep recordings between visits. Export your recordings before leaving.";
+}
+function c2stSelect(n){
+  if(n<1||n>44){ return; }
+  if(C2ST_REC){ C2ST_NOTE="Stop the recording before choosing another sound."; var nt=document.getElementById("c2st-note"); if(nt){ nt.textContent=C2ST_NOTE; } return; }
+  stopAllAudio(); C2ST_SEL=n; C2ST_NOTE=""; c2stRender();
+}
+function c2stStopStream(){
+  if(C2ST_TIMER){ clearInterval(C2ST_TIMER); C2ST_TIMER=null; }
+  if(C2ST_STREAM){ try{ var t=C2ST_STREAM.getTracks(), i; for(i=0;i<t.length;i++){ t[i].stop(); } }catch(e){} C2ST_STREAM=null; }
+  C2ST_REC=null;
+}
+function c2stRecord(){
+  var n=C2ST_SEL;
+  if(C2ST_REC){ return; }
+  stopAllAudio();
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof window.MediaRecorder==="undefined"){
+    C2ST_NOTE="This browser cannot record audio. Use Chrome or Edge on a computer with a microphone."; c2stRender(); return;
+  }
+  C2ST_NOTE="Allow the microphone when your browser asks."; c2stRender();
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    var mime=c2stMimePick(), rec;
+    try{ rec=mime?new MediaRecorder(stream,{mimeType:mime}):new MediaRecorder(stream); }catch(e){ stream.getTracks().forEach(function(t){ t.stop(); }); C2ST_NOTE="Could not start the recorder in this browser."; c2stRender(); return; }
+    C2ST_STREAM=stream; C2ST_REC=rec; C2ST_CHUNKS=[]; C2ST_NOTE="";
+    rec.ondataavailable=function(ev){ if(ev.data && ev.data.size){ C2ST_CHUNKS.push(ev.data); } };
+    rec.onstop=function(){
+      var type=rec.mimeType||mime||"audio/webm", blob=new Blob(C2ST_CHUNKS,{type:type});
+      c2stStopStream(); C2ST_LASTMIME=type;
+      if(!blob.size){ C2ST_NOTE="Nothing was recorded. Try again."; }
+      else { C2ST_DRAFT[n]={ blob:blob, type:type }; C2ST_NOTE="Recorded. Press Listen to check it, then Save Recording."; }
+      c2stRender();
+    };
+    C2ST_T0=new Date().getTime();
+    rec.start();
+    c2stRender();
+    C2ST_TIMER=setInterval(function(){ var el=document.getElementById("c2st-time"); if(el){ var sec=Math.floor((new Date().getTime()-C2ST_T0)/1000); el.textContent=Math.floor(sec/60)+":"+(sec%60<10?"0":"")+(sec%60); } },250);
+  },function(err){
+    var name=err&&err.name?err.name:"";
+    if(name==="NotAllowedError"||name==="SecurityError"||name==="PermissionDeniedError"){ C2ST_NOTE="The microphone is blocked. Click the lock icon in the address bar, allow the microphone, then press Record again."; }
+    else if(name==="NotFoundError"||name==="DevicesNotFoundError"){ C2ST_NOTE="No microphone was found. Plug one in and press Record again."; }
+    else { C2ST_NOTE="The microphone could not be started. Check that no other app is using it."; }
+    c2stRender();
+  });
+}
+function c2stStopForLeave(){ if(C2ST_REC && C2ST_REC.state!=="inactive"){ try{ C2ST_REC.stop(); }catch(e){} } c2stStopStream(); }
+function c2stStop(){ if(C2ST_REC && C2ST_REC.state!=="inactive"){ try{ C2ST_REC.stop(); }catch(e){} } }
+function c2stListen(){
+  var n=C2ST_SEL, d=C2ST_DRAFT[n];
+  if(d){ playBlob(d.blob); return; }
+  C2SStore.get(n).then(function(rec){ if(rec&&rec.blob){ playBlob(rec.blob); } });
+}
+function c2stSave(){
+  var n=C2ST_SEL, d=C2ST_DRAFT[n]; if(!d){ return; }
+  C2SStore.put({ n:n, soundId:c2sId(n), recordingId:c2sBase(n), type:d.type, blob:d.blob, size:d.blob.size, savedAt:new Date().toISOString() }).then(function(){
+    C2ST_SAVED[n]={ n:n, type:d.type, size:d.blob.size, savedAt:new Date().toISOString() }; delete C2ST_DRAFT[n];
+    C2ST_NOTE="Saved sound "+c2sId(n)+" "+c2sLabel(n)+" (slide "+C2S_DATA.sounds[n-1].slide+") as "+c2sBase(n)+"."+c2sExt(d.type); c2stRender();
+  },function(){ C2ST_NOTE="Could not save this recording in the browser. Try again."; c2stRender(); });
+}
+function c2stAgain(){ var n=C2ST_SEL; stopAllAudio(); delete C2ST_DRAFT[n]; C2ST_NOTE=""; c2stRecord(); }
+
+/* ----- export / import ----- */
+function c2stReadme(){
+  return "READING FOUNDATIONS - CHECK 2 SOUND AUDIO\r\n\r\nThese are the teacher's own recordings of the 44 Check 2 sounds.\r\n"
+   +"manifest.json lists each sound, its slide number, and its audio file in the audio folder.\r\n\r\n"
+   +"TO USE IN POWERPOINT (separate step, nothing is embedded for you):\r\n"
+   +"1. Convert each file to M4A or MP3 with ffmpeg (WebM does not play in every PowerPoint):\r\n"
+   +"   ffmpeg -i c2_sound_01_b.webm -c:a aac -b:a 128k c2_sound_01_b.m4a\r\n"
+   +"2. In PowerPoint, open the approved deck, go to the sound's slide, choose Insert > Audio > Audio on My PC, pick the matching file.\r\n"
+   +"3. Set Playback > Start: On Click, move the audio icon over the small speaker icon, and keep the slide's existing menu buttons.\r\n\r\n"
+   +"TO RESTORE IN THE APP: Teacher Dashboard > What to Teach Next > Check 2 > Sound Recording Studio > Import recordings (ZIP).\r\n";
+}
+function c2stExport(){
+  C2SStore.all().then(function(list){
+    var note=document.getElementById("c2st-note");
+    if(!list.length){ C2ST_NOTE="Nothing to export yet. Record and save at least one sound."; if(note){ note.textContent=C2ST_NOTE; } return; }
+    var files=[], man=[], byN={}, i, n, r, loads=0, ready=0;
+    for(i=0;i<list.length;i++){ byN[list[i].n]=list[i]; }
+    function finish(){
+      var s, k, doc;
+      for(n=1;n<=44;n++){
+        s=C2S_DATA.sounds[n-1]; r=byN[n];
+        man.push({ soundId:s.id, number:n, slide:s.slide, symbol:s.symbol, spelling:s.spelling, keyword:s.keyword, recordingId:s.file, recorded:!!r, file:r?("audio/"+c2sBase(n)+"."+c2sExt(r.type)):null, mimeType:r?r.type:null, bytes:r?r.size:0 });
+      }
+      doc={ app:"reading-foundations-check2-sound-audio", manifestVersion:2, masterMapping:"check2-slides/sound-mapping.json", exportedAt:new Date().toISOString(), deck:"Reading_Foundations_Check_2_Royal_Purple_44_Sounds_Audio_Ready.pptx", slideCount:45, soundCount:44, recordedCount:list.length, sounds:man };
+      files.push({ name:"manifest.json", data:c2zUtf8(JSON.stringify(doc,null,2)) });
+      files.push({ name:"README.txt", data:c2zUtf8(c2stReadme()) });
+      downloadBlob(c2zBuild(files),"Reading_Foundations_Check2_Sound_Audio_"+azDateUnderscored()+".zip");
+      C2ST_NOTE="Exported "+list.length+" of 44 recordings as a ZIP with a manifest. Keep that file safe: clearing browser data or switching computers can remove recordings that are only stored in the browser.";
+      if(note){ note.textContent=C2ST_NOTE; }
+    }
+    for(i=0;i<list.length;i++){ (function(rec){
+      var fr=new FileReader();
+      fr.onload=function(){ files.push({ name:"audio/"+c2sBase(rec.n)+"."+c2sExt(rec.type), data:new Uint8Array(fr.result) }); ready++; if(ready===list.length){ finish(); } };
+      fr.onerror=function(){ ready++; if(ready===list.length){ finish(); } };
+      fr.readAsArrayBuffer(rec.blob);
+    })(list[i]); }
+  });
+}
+function c2stImportPick(input){
+  var f=input.files&&input.files[0]; if(!f){ return; }
+  var note=document.getElementById("c2st-note"), fr=new FileReader();
+  fr.onload=function(){
+    input.value="";
+    var z=c2zParse(fr.result), man=null, i, byName={}, items=[], bad=0, mf, n, entry, m;
+    if(z.error){ C2ST_NOTE=z.error; c2stRender(); return; }
+    for(i=0;i<z.files.length;i++){ byName[z.files[i].name]=z.files[i]; }
+    if(byName["manifest.json"]){ try{ man=JSON.parse(c2sBytesToText(byName["manifest.json"].data)); }catch(e){ man=null; } }
+    if(!man || man.app!=="reading-foundations-check2-sound-audio" || !man.sounds){ C2ST_NOTE="This ZIP is not a Check 2 sound-audio export (no valid manifest)."; c2stRender(); return; }
+    for(i=0;i<man.sounds.length;i++){
+      m=man.sounds[i]; if(!m.recorded || !m.file){ continue; }
+      n=m.number; entry=byName[m.file];
+      /* the number, symbol, and file name must all agree with the approved inventory */
+      if(!entry || typeof n!=="number" || n<1 || n>44 || m.symbol!==C2S_DATA.sounds[n-1].symbol || m.file.indexOf("audio/"+c2sBase(n)+".")!==0
+         || (m.soundId!==undefined && m.soundId!==c2sId(n)) || (m.slide!==undefined && m.slide!==C2S_DATA.sounds[n-1].slide) || (m.recordingId!==undefined && m.recordingId!==c2sBase(n))){ bad++; continue; }
+      items.push({ n:n, type:m.mimeType||"audio/webm", data:entry.data });
+    }
+    if(!items.length){ C2ST_NOTE="No usable recordings were found in that ZIP."+(bad?" ("+bad+" entries did not match the sound list.)":""); c2stRender(); return; }
+    var replace=0; for(i=0;i<items.length;i++){ if(C2ST_SAVED[items[i].n]){ replace++; } }
+    C2ST_PENDING=items;
+    C2ST_NOTE="Found "+items.length+" recordings"+(bad?" ("+bad+" skipped: did not match the sound list)":"")+". "+replace+" would replace recordings you already have. ";
+    c2stRender();
+    var host=document.getElementById("c2st-import-confirm");
+    if(host){ host.innerHTML='<div class="c1n-row"><button class="pill-btn pill-btn-primary" id="c2st-import-go" onclick="c2stImportGo()">Restore these recordings</button><button class="pill-btn pill-btn-secondary" id="c2st-import-cancel" onclick="c2stImportCancel()">Cancel</button></div>'; }
+  };
+  fr.onerror=function(){ C2ST_NOTE="Could not read that file."; c2stRender(); };
+  fr.readAsArrayBuffer(f);
+}
+function c2stImportCancel(){ C2ST_PENDING=null; C2ST_NOTE="Import cancelled. Nothing changed."; var h=document.getElementById("c2st-import-confirm"); if(h){ h.innerHTML=""; } c2stRender(); }
+function c2stImportGo(){
+  var items=C2ST_PENDING, i, done=0, total; if(!items){ return; }
+  C2ST_PENDING=null; total=items.length;
+  for(i=0;i<items.length;i++){ (function(it){
+    var blob=new Blob([it.data],{type:it.type});
+    C2SStore.put({ n:it.n, soundId:c2sId(it.n), recordingId:c2sBase(it.n), type:it.type, blob:blob, size:blob.size, savedAt:new Date().toISOString() }).then(function(){
+      C2ST_SAVED[it.n]={ n:it.n, type:it.type, size:blob.size, savedAt:new Date().toISOString() }; done++;
+      if(done===total){ C2ST_NOTE="Restored "+total+" recordings."; var h=document.getElementById("c2st-import-confirm"); if(h){ h.innerHTML=""; } c2stRender(); }
+    });
+  })(items[i]); }
+}
+function c2nStudioProgress(){
+  var el=document.getElementById("c2n-studio-progress"); if(!el){ return; }
+  C2SStore.all().then(function(list){ el.textContent=list.length+" of 44 sounds recorded"; },function(){ el.textContent="Recording progress unavailable"; });
 }
 
 /* ---------- Check 1: "What to Teach Next" (teacher-only) ----------
@@ -6248,7 +6740,7 @@ var C2N_CARD={
 };
 var C2N_NOCARD={"2A:c":"c has two possible target sounds, so no single card is assumed","2A:q":"q (/kw/) has no card in this set","2A:x":"x (/ks/) has no card in this set"};
 var C2N_CLS=0, C2N_STU=null;
-function c2nEnter(){ tnPaintNav(); c2nPaintClasses(); c2nPaintRoster(); c2nPaintStudent(); }
+function c2nEnter(){ tnPaintNav(); c2nStudioProgress(); c2nPaintClasses(); c2nPaintRoster(); c2nPaintStudent(); }
 function c2nPaintClasses(){
   var seg=document.getElementById("c2n-class"); if(!seg){ return; }
   var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="c2nPickClass('+i+')" class="'+(i===C2N_CLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
