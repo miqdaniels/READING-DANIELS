@@ -761,6 +761,13 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
 #c1Next .c1n-pair.on{border-color:var(--accent);background:var(--accent);color:#fff}
 #c1Next .c1n-steps{margin:6px 0 10px 20px;padding:0;line-height:1.6}
 #c1Next .c1n-foot{margin:22px 0 4px;font-size:13px;color:var(--ink-soft)}
+#c1Next .c1n-ml-row{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+#c1Next .c1n-ml-letter{font-size:34px;font-weight:700;min-width:44px;text-align:center}
+#c1Next .c1n-ml-kind{font-size:12px;color:var(--ink-soft);display:block;text-align:center}
+#c1Next .c1n-mark{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;touch-action:manipulation}
+#c1Next .c1n-mark.on{border-color:var(--accent);background:var(--accent);color:#fff}
+#c1Next .c1n-pickgrid{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+#c1Next .c1n-pickgrid .c1n-pair{min-width:40px;padding:8px 10px}
 #c1n-print{display:none}
 @media print{
   html,body{background:#fff!important}
@@ -1056,6 +1063,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       </div>
 
       <div id="c1n-practice"></div>
+      <div id="c1n-ml"></div>
 
       <div class="c1n-sets">
         <div class="c1n-card">
@@ -5780,7 +5788,7 @@ function c1nClassOf(sid){
   return C1N_CLS;
 }
 function c1nEnter(){
-  C1N_SET=null; C1N_IDX=0;
+  C1N_SET=null; C1N_IDX=0; C1N_ML_OPEN=false; C1N_PICK_OPEN=false; C1N_ML_ANON={manual:[],marks:{}};
   var v=document.getElementById("c1n-viewer"); if(v){ v.style.display="none"; }
   c1nPaintClasses(); c1nPaintRoster(); c1nPaintStudent();
 }
@@ -5823,7 +5831,7 @@ function c1nPrintName(sid){
   var n=rfStuName(sid);
   return sid===TEST_STUDENT.id ? n : rfShortName(n);
 }
-function c1nPaintStudent(){
+function c1nPaintStudentInner(){
   var note=document.getElementById("c1n-student-note"), host=document.getElementById("c1n-practice");
   if(!note||!host){ return; }
   var pr=document.getElementById("c1n-print"); if(pr){ pr.innerHTML=""; }
@@ -5851,6 +5859,95 @@ function c1nPaintStudent(){
   html+='<div class="c1n-row"><button class="pill-btn pill-btn-primary" id="c1n-print-btn" onclick="c1nPrint()">Print letters to practice</button></div></div>';
   host.innerHTML=html;
   c1nBuildPrint(m);
+}
+function c1nPaintStudent(){ c1nPaintStudentInner(); c1nPaintML(); }
+
+/* ---------- 5-Minute Letter Identification Mini-Lesson ----------
+   Optional, teacher-controlled routine on top of the approved slides.
+   Targets = letters the teacher scored as missed in Check 1 (read-only)
+   plus any letters the teacher picks by hand. Observations
+   (Correct / Needs More Practice / Not Yet Checked) are stored under their
+   OWN key, rf_c1_minilesson -- never in the Check 1 attempt records, so
+   official scores, mastery, and unlocks cannot be touched from here. */
+var C1ML_KEY="rf_c1_minilesson";
+var C1N_ML_OPEN=false, C1N_PICK_OPEN=false, C1N_ML_ANON={manual:[],marks:{}};
+var C1ML_MARKS=[["correct","Correct"],["needs","Needs More Practice"],["none","Not Yet Checked"]];
+function c1mlAll(){ try{ var r=window.localStorage.getItem(C1ML_KEY); return r?JSON.parse(r):{}; }catch(e){ return {}; } }
+function c1mlGet(sid){
+  if(!sid){ return C1N_ML_ANON; }
+  var rec=c1mlAll()[sid];
+  return { manual:(rec&&rec.manual)?rec.manual.slice(0):[], marks:(rec&&rec.marks)?rec.marks:{} };
+}
+function c1mlPut(sid,rec){
+  if(!sid){ C1N_ML_ANON=rec; return; }
+  var all=c1mlAll(); all[sid]={ manual:rec.manual, marks:rec.marks, updated:new Date().toISOString() };
+  try{ window.localStorage.setItem(C1ML_KEY,JSON.stringify(all)); }catch(e){}
+}
+/* key = "U:B" or "L:p" so uppercase and lowercase never merge */
+function c1mlKey(set,letter){ return (set==="upper"?"U:":"L:")+letter; }
+function c1mlTargets(rec){
+  var out=[], seen={}, m=C1N_STU?c1nMissed(C1N_STU):null, si, i, lt, sets=["upper","lower"], k, parts;
+  if(m){ for(si=0;si<2;si++){ lt=sets[si]; for(i=0;i<m[lt].length;i++){ k=c1mlKey(lt,m[lt][i]); seen[k]=1; out.push({set:lt,letter:m[lt][i],key:k,source:"Check 1"}); } } }
+  for(i=0;i<rec.manual.length;i++){
+    k=rec.manual[i]; if(seen[k]){ continue; }
+    parts=k.split(":"); lt=parts[0]==="U"?"upper":"lower";
+    seen[k]=1; out.push({set:lt,letter:parts[1],key:k,source:"picked by you"});
+  }
+  return out;
+}
+function c1nToggleML(){ C1N_ML_OPEN=!C1N_ML_OPEN; c1nPaintML(); }
+function c1nTogglePick(){ C1N_PICK_OPEN=!C1N_PICK_OPEN; c1nPaintML(); }
+function c1nPickLetter(set,letter){
+  var rec=c1mlGet(C1N_STU), k=c1mlKey(set,letter), i=rec.manual.indexOf(k);
+  if(i>-1){ rec.manual.splice(i,1); } else { rec.manual.push(k); }
+  c1mlPut(C1N_STU,rec); c1nPaintML();
+}
+function c1nMark(key,mark){
+  var rec=c1mlGet(C1N_STU);
+  if(mark==="none"){ delete rec.marks[key]; } else { rec.marks[key]=mark; }
+  c1mlPut(C1N_STU,rec); c1nPaintML();
+}
+function c1nPaintML(){
+  var host=document.getElementById("c1n-ml"); if(!host){ return; }
+  var html='<div class="c1n-card"><div class="c1n-row" style="margin-top:0"><button class="pill-btn pill-btn-'+(C1N_ML_OPEN?"secondary":"primary")+'" id="c1n-ml-toggle" onclick="c1nToggleML()">5-Minute Letter Identification Mini-Lesson</button></div>';
+  if(!C1N_ML_OPEN){ host.innerHTML=html+'<p class="mini-note">Optional. A short teacher-led routine for the letters this student still needs to learn the names of.</p></div>'; return; }
+  var rec=c1mlGet(C1N_STU), targets=c1mlTargets(rec), i, j, t, mk, sets=["upper","lower"], si, lt, needs=[];
+  html+='<p class="mini-note" style="margin-top:8px">Goal: the student names the specific letters they have not yet mastered. This is about letter NAMES only &mdash; letter sounds are Check 2. Not knowing English letter names is not a reading disability.</p>';
+  html+='<h3 style="margin:10px 0 4px">The routine (about 5 minutes)</h3><ol class="c1n-steps" id="c1n-ml-steps">'
+    +'<li><strong>Model (1 min).</strong> Open the slide. Point to the target letter and say its name clearly. The student repeats the name.</li>'
+    +'<li><strong>Guided practice (2 min).</strong> Ask the student to find the target letter in the slide&rsquo;s practice row. Give feedback right away. Model again if needed.</li>'
+    +'<li><strong>Independent practice (1 min).</strong> Show the letter in a different arrangement (a different spot or a handwritten card) without saying its name first. The student names it on their own.</li>'
+    +'<li><strong>Quick review (1 min).</strong> Ask for the target letters again. Mark below which were correct and which need more practice.</li></ol>'
+    +'<p class="mini-note">Start with about 2&ndash;4 target letters and adjust the number and time to the student. Five minutes is a suggested routine, not a required or research-validated dose. You can open any slide, any time.</p>';
+  html+='<h3 style="margin:12px 0 4px">Target letters</h3>';
+  if(!C1N_STU){ html+='<p class="mini-note">No student picked. Choose the letters yourself below. (Marks stay on this screen only. Pick a student to save them.)</p>'; }
+  else if(!c1nMissed(C1N_STU)){ html+='<p class="mini-note">This student has no saved Check 1 scores yet, so nothing is assumed. Choose the letters yourself below.</p>'; }
+  if(!targets.length){ html+='<p class="mini-note" id="c1n-ml-none">No target letters yet.</p>'; }
+  if(targets.length>4){ html+='<p class="mini-note">That is more than 4 letters. Consider starting with 2&ndash;4 and saving the rest for another session.</p>'; }
+  for(i=0;i<targets.length;i++){
+    t=targets[i]; mk=rec.marks[t.key]||"none"; if(mk==="needs"){ needs.push(t.letter); }
+    html+='<div class="c1n-ml-row c1n-ml-target" data-key="'+t.key+'"><div><span class="c1n-ml-letter">'+escapeHtml(t.letter)+'</span><span class="c1n-ml-kind">'+C1N_NAME[t.set]+'</span></div>'
+      +'<button class="pill-btn pill-btn-secondary c1n-ml-slide" onclick="c1nOpenSet(\''+t.set+'\','+c1nSlideFor(t.set,t.letter)+')">Slide '+(c1nSlideFor(t.set,t.letter)+1)+': '+c1nPairLabel(t.set,c1nSlideFor(t.set,t.letter))+'</button>'
+      +'<span class="mini-note">'+t.source+'</span><div class="c1n-row" style="margin:0">';
+    for(j=0;j<3;j++){
+      html+='<button class="c1n-mark'+(mk===C1ML_MARKS[j][0]?" on":"")+'" data-mark="'+C1ML_MARKS[j][0]+'" onclick="c1nMark(\''+t.key+'\',\''+C1ML_MARKS[j][0]+'\')">'+C1ML_MARKS[j][1]+'</button>';
+    }
+    html+='</div></div>';
+  }
+  html+='<p class="mini-note" id="c1n-ml-summary" style="margin-top:8px"><strong>Still need practice:</strong> '+(needs.length?escapeHtml(needs.join(" ")):"none marked")+'</p>';
+  html+='<p class="mini-note">These notes are your lesson observations only. They never change Check 1 scores, mastery, or unlock anything.</p>';
+  html+='<div class="c1n-row"><button class="pill-btn pill-btn-secondary" id="c1n-pick-toggle" onclick="c1nTogglePick()">'+(C1N_PICK_OPEN?"Hide letter picker":"Pick letters myself")+'</button></div>';
+  if(C1N_PICK_OPEN){
+    for(si=0;si<2;si++){
+      lt=sets[si]; html+='<p class="step-eyebrow">'+C1N_NAME[lt]+'</p><div class="c1n-pickgrid">';
+      for(i=0;i<26;i++){
+        var L=String.fromCharCode((lt==="upper"?65:97)+i), on=rec.manual.indexOf(c1mlKey(lt,L))>-1;
+        html+='<button class="c1n-pair'+(on?" on":"")+'" data-pick="'+c1mlKey(lt,L)+'" onclick="c1nPickLetter(\''+lt+'\',\''+L+'\')">'+L+'</button>';
+      }
+      html+='</div>';
+    }
+  }
+  host.innerHTML=html+'</div>';
 }
 function c1nBuildPrint(m){
   var pr=document.getElementById("c1n-print"); if(!pr){ return; }
