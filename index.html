@@ -9749,6 +9749,8 @@ function tdBuildBackup(){
       groupCount+=(ov.customGroups||[]).length;
     }
   }
+  var miniLesson=tdRawGet("rf_c1_minilesson")||{}, miniCount=0, mk;
+  for(mk in miniLesson){ if(miniLesson.hasOwnProperty(mk)){ miniCount++; } }
   var studentCount=0, sid; for(sid in studentIds){ if(studentIds.hasOwnProperty(sid)){ studentCount++; } }
   return {
     rfBackupId: RF_BACKUP_ID,
@@ -9756,13 +9758,18 @@ function tdBuildBackup(){
     schemaVersion: RF_SCHEMA_VERSION,
     exportedAt: new Date().toISOString(),
     exportedDateLabel: azDateStr(),
-    counts: { students:studentCount, diagnosticRecords:recordCount, groups:groupCount },
+    counts: { students:studentCount, diagnosticRecords:recordCount, groups:groupCount, miniLessonStudents:miniCount },
     data: {
       attempts: attempts,
       groupOverrides: groupOverrides,
       settings: tdRawGet("slider_settings")||{},
       fluencyPlacement: tdRawGet("rf_fluency_place")||{},
       fluencyCycle: tdRawGet("rf_fluency_cycle")||{},
+      /* Check 1 "5-Minute Letter Identification Mini-Lesson" observations
+         (rf_c1_minilesson). Optional field: backups made before it existed
+         simply lack it and still import normally. Kept apart from the
+         Check 1 attempt records on purpose. */
+      miniLesson: miniLesson,
       teacherPrefs: {
         rf_teacher_dark: window.localStorage.getItem("rf_teacher_dark"),
         rf_c5_playback_rate: window.localStorage.getItem("rf_c5_playback_rate"),
@@ -9846,6 +9853,26 @@ function tdMergeKeyedById(localKey, incomingObj){
   tdRawSet(localKey, cur);
   return { added:added, skippedDup:skippedDup, conflicts:conflicts };
 }
+/* Mini-lesson observations, keyed by student id. Same never-overwrite rule
+   as everything else: a student with no local record is added; an
+   identical record (ignoring its "updated" stamp) is a no-op; a student
+   whose local record differs is skipped and reported. Malformed entries
+   are ignored. Writes ONLY rf_c1_minilesson -- never Check 1 attempts. */
+function tdMiniSame(a,b){ return JSON.stringify([a.manual,a.marks])===JSON.stringify([b.manual,b.marks]); }
+function tdMergeMiniLesson(incoming){
+  var cur=tdRawGet("rf_c1_minilesson")||{}, added=0, skippedDup=0, conflicts=0, skippedBad=0, k, rec;
+  if(!incoming || typeof incoming!=="object"){ return { added:0, skippedDup:0, conflicts:0, skippedBad:0 }; }
+  for(k in incoming){
+    if(!incoming.hasOwnProperty(k)){ continue; }
+    rec=incoming[k];
+    if(!rec || typeof rec!=="object" || !Array.isArray(rec.manual) || !rec.marks || typeof rec.marks!=="object"){ skippedBad++; continue; }
+    if(cur[k]===undefined){ cur[k]=rec; added++; }
+    else if(tdMiniSame(cur[k],rec)){ skippedDup++; }
+    else { conflicts++; }
+  }
+  if(added){ tdRawSet("rf_c1_minilesson", cur); }
+  return { added:added, skippedDup:skippedDup, conflicts:conflicts, skippedBad:skippedBad };
+}
 function tdMergeSettings(incoming){
   var cur=tdRawGet("slider_settings")||{}, added=0, conflicts=0, skippedDup=0, k, sk;
   for(k in incoming){
@@ -9874,7 +9901,7 @@ function tdRunImport(backup){
   var safety=tdBuildBackup();
   var safetyBlob=new Blob([JSON.stringify(safety,null,2)],{type:"application/json"});
   downloadBlob(safetyBlob, "Reading_Foundations_SAFETY_BEFORE_IMPORT_"+tdBackupFilename());
-  var summary={ attempts:{}, groupOverrides:null, settings:null, fluencyPlacement:null, fluencyCycle:null };
+  var summary={ attempts:{}, groupOverrides:null, settings:null, fluencyPlacement:null, fluencyCycle:null, miniLesson:null };
   var i;
   for(i=0;i<TEACHER_ATTEMPT_KEYS.length;i++){
     var key=TEACHER_ATTEMPT_KEYS[i];
@@ -9885,6 +9912,7 @@ function tdRunImport(backup){
   summary.settings=tdMergeSettings(backup.data.settings||{});
   summary.fluencyPlacement=tdMergeKeyedById("rf_fluency_place", backup.data.fluencyPlacement||{});
   summary.fluencyCycle=tdMergeKeyedById("rf_fluency_cycle", backup.data.fluencyCycle||{});
+  summary.miniLesson=tdMergeMiniLesson(backup.data.miniLesson||{});
   return summary;
 }
 
@@ -9906,6 +9934,7 @@ function dmDoExport(){
     +'<p class="mini-note">Students: '+backup.counts.students+'</p>'
     +'<p class="mini-note">Diagnostic records: '+backup.counts.diagnosticRecords+'</p>'
     +'<p class="mini-note">Groups: '+backup.counts.groups+'</p>'
+    +(backup.counts.miniLessonStudents!==undefined?'<p class="mini-note">Mini-lesson notes (students): '+backup.counts.miniLessonStudents+'</p>':"")
     +"</div></div>";
 }
 function dmFileSelected(input){
@@ -9931,6 +9960,7 @@ function dmFileSelected(input){
       +'<p class="mini-note">Students: '+obj.counts.students+'</p>'
       +'<p class="mini-note">Diagnostic records: '+obj.counts.diagnosticRecords+'</p>'
       +'<p class="mini-note">Groups: '+obj.counts.groups+'</p>'
+      +(obj.counts.miniLessonStudents!==undefined?'<p class="mini-note">Mini-lesson notes (students): '+obj.counts.miniLessonStudents+'</p>':"")
       +'<p class="mini-note">A safety backup of your CURRENT data downloads automatically first. New records are added; anything already identical is left alone; anything that conflicts with a record you already have is skipped and reported here, never overwritten.</p>'
       +'<div class="clean-icon-row">'
       +'<button class="pill-btn pill-btn-primary" onclick="dmContinueImport()">Continue Import</button>'
@@ -9958,6 +9988,7 @@ function dmContinueImport(){
     +'<p class="mini-note">A safety backup of your data from just before this import also downloaded to this device.</p>'
     +'<p class="mini-note"><strong>Diagnostic records:</strong> '+tot.added+" added, "+tot.skippedDup+" already had, "+tot.conflicts+" conflicts skipped (not overwritten)</p>"
     +'<p class="mini-note"><strong>Groups:</strong> '+gTot.added+" added, "+gTot.skippedDup+" already had, "+gTot.conflicts+" conflicts skipped</p>"
+    +(summary.miniLesson?'<p class="mini-note"><strong>Mini-lesson notes:</strong> '+summary.miniLesson.added+" added, "+summary.miniLesson.skippedDup+" already had, "+summary.miniLesson.conflicts+" conflicts skipped</p>":"")
     +'<p class="mini-note"><strong>Settings:</strong> '+summary.settings.added+" added, "+summary.settings.skippedDup+" already had, "+summary.settings.conflicts+" conflicts skipped</p>"
     +"</div></div>";
   var f=document.getElementById("dm-import-file"); if(f){ f.value=""; }
