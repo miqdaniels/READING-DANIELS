@@ -889,7 +889,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
           <div class="teach-tile-grid">
             <button class="teach-tile cat-practice" onclick="go('s-teachGroupLocks')" title="Lock or unlock any group for any student"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span class="teach-tile-label">Group Locks</span></button>
             <button class="teach-tile cat-practice" onclick="c1nGo(null)" title="What to Teach Next after Check 1: letter-name slides, how-to, and paper practice"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span class="teach-tile-label">Teach Next</span></button>
-            <button class="teach-tile cat-practice" onclick="go('c2Next')" title="Check 2 What to Teach Next: printable teacher and student sound cards"><span class="teach-tile-icon"><span class="ear-ico ear-tile"></span></span><span class="teach-tile-label">Sound Cards</span></button>
+            <button class="teach-tile cat-practice" onclick="c2nGo(null)" title="Check 2 What to Teach Next: printable teacher and student sound cards"><span class="teach-tile-icon"><span class="ear-ico ear-tile"></span></span><span class="teach-tile-label">Sound Cards</span></button>
           </div>
         </div>
 
@@ -1309,7 +1309,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="seg" id="c2t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c2t-roster" style="margin-bottom:14px"></div>
       <div id="c2t-body"></div>
-      <button class="btn" onclick="go('c2Next')" style="margin-top:14px">What to Teach Next</button>
+      <button class="btn" onclick="c2nGo(C2T_STU)" style="margin-top:14px">What to Teach Next</button>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -1322,6 +1322,14 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; What to Teach Next (Check 2)</p>
       <h2>What to Teach Next &mdash; Letter Sounds</h2>
       <p class="lede">Printable sound cards for teaching the letter sounds a student still needs after Check 2. No student needs to be picked.</p>
+
+      <div class="c1n-card" id="c2n-student">
+        <p class="step-eyebrow">Student (optional)</p>
+        <div class="seg" id="c2n-class" style="margin:6px 0;flex-wrap:wrap"></div>
+        <div class="grid" id="c2n-roster" style="margin-bottom:8px"></div>
+        <div id="c2n-student-note"></div>
+        <div id="c2n-targets"></div>
+      </div>
 
       <div class="c1n-card" id="c2n-resources">
         <p class="step-eyebrow">Letter-Sound Teaching and Practice</p>
@@ -1361,6 +1369,11 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
           <li>Correct right away and give more practice when needed.</li>
         </ol>
         <p>Pick only the sounds that fit this student&rsquo;s needs. The full set of cards is not a required sequence that every student must complete.</p>
+      </div>
+
+      <div class="c1n-card" id="c2n-ml">
+        <h3 style="margin:0 0 6px">Students learning English</h3>
+        <p>Students learning English may produce certain sounds differently because of their first-language background. Model English sounds explicitly, provide opportunities for listening and repetition, and distinguish language development from demonstrated gaps in letter-sound knowledge.</p>
       </div>
 
       <div class="c1n-card" id="c2n-note">
@@ -3723,6 +3736,7 @@ function go(id){
   if(id==="check2"){ c2Enter(); }
   if(id==="s-teachC2"){ c2tPromptsEnter(); }
   if(id==="check2Teach"){ check2TeachEnter(); }
+  if(id==="c2Next"){ c2nEnter(); }
   if(id==="check3"){ c3Enter(); }
   if(id==="s-teachC3"){ c3tPromptsEnter(); }
   if(id==="check3Teach"){ check3TeachEnter(); }
@@ -6122,6 +6136,66 @@ document.addEventListener("keydown",function(e){
   if(e.key==="ArrowRight"){ c1nStep(1); e.preventDefault(); }
   else if(e.key==="ArrowLeft"){ c1nStep(-1); e.preventDefault(); }
 });
+
+/* ---------- Check 2: "What to Teach Next" (teacher-only, read-only) ----------
+   Printable sound cards (check2-cards/). The 44 cards are a TEACHING library,
+   not the 31-target assessment. A missed Check 2 target is linked to a card
+   only where letter -> sound -> card is unambiguous. NOT mapped (left to the
+   teacher): c (target /k/ but /s/ is also accepted, two cards could apply),
+   q (/kw/) and x (/ks/) (no card exists). Card numbers are the order in BOTH
+   PDFs (identical, 8 per page). Reads saved scores only; writes nothing. */
+var C2N_CARD={
+  "2A:b":[1,"b /b/"],"2A:k":[2,"c, k, ck /k/"],"2A:d":[3,"d /d/"],"2A:f":[4,"f, ph /f/"],"2A:g":[5,"g /g/ (hard g)"],"2A:h":[6,"h /h/"],
+  "2A:j":[7,"j, g /j/"],"2A:l":[8,"l /l/"],"2A:m":[9,"m /m/"],"2A:n":[10,"n /n/"],"2A:p":[11,"p /p/"],"2A:r":[12,"r /r/"],
+  "2A:s":[13,"s, c /s/"],"2A:t":[14,"t /t/"],"2A:v":[15,"v /v/"],"2A:w":[16,"w /w/"],"2A:y":[17,"y /y/"],"2A:z":[18,"z, s /z/"],
+  "2B:a":[25,"a /ă/ (short a)"],"2B:e":[26,"e /ĕ/ (short e)"],"2B:i":[27,"i /ĭ/ (short i)"],"2B:o":[28,"o /ŏ/ (short o)"],"2B:u":[29,"u /ŭ/ (short u)"],
+  "2C:a":[30,"a, a_e, ai, ay /ā/ (long a)"],"2C:e":[31,"e, e_e, ee, ea /ē/ (long e)"],"2C:i":[32,"i, i_e, igh, y /ī/ (long i)"],
+  "2C:o":[33,"o, o_e, oa, ow /ō/ (long o)"],"2C:u":[34,"u, u_e, ew /yoo/ (long u)"]
+};
+var C2N_NOCARD={"2A:c":"c has two possible target sounds, so no single card is assumed","2A:q":"q (/kw/) has no card in this set","2A:x":"x (/ks/) has no card in this set"};
+var C2N_CLS=0, C2N_STU=null;
+function c2nEnter(){ c2nPaintClasses(); c2nPaintRoster(); c2nPaintStudent(); }
+function c2nPaintClasses(){
+  var seg=document.getElementById("c2n-class"); if(!seg){ return; }
+  var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="c2nPickClass('+i+')" class="'+(i===C2N_CLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }
+  seg.innerHTML=html;
+}
+function c2nPickClass(i){ C2N_CLS=i; C2N_STU=null; c2nPaintClasses(); c2nPaintRoster(); c2nPaintStudent(); }
+function c2nPaintRoster(){
+  rfReviewRoster("c2n-roster", CLASSES[C2N_CLS], C2Review, C2N_STU, function(id){ C2N_STU=(id===C2N_STU)?null:id; c2nPaintRoster(); c2nPaintStudent(); });
+}
+function c2nScoredAttempt(sid){
+  var list=C2Review.forStudent(sid), i;
+  for(i=0;i<list.length;i++){ if(list[i].scores && list[i].scores.length===C2_ITEMS.length && list[i].c2aCorrect!==null && list[i].c2aCorrect!==undefined){ return list[i]; } }
+  return null;
+}
+function c2nItemLabel(it){
+  if(it.section==="2A"){ return "Letter "+it.letter; }
+  return (it.section==="2B"?"Short ":"Long ")+it.letter+" ("+it.keyword+")";
+}
+function c2nGo(sid){ C2N_STU=sid||null; if(C2N_STU){ var i, j; for(i=0;i<CLASSES.length;i++){ for(j=0;j<CLASSES[i].students.length;j++){ if(CLASSES[i].students[j].id===C2N_STU){ C2N_CLS=i; } } } } go("c2Next"); }
+function c2nPaintStudent(){
+  var note=document.getElementById("c2n-student-note"), host=document.getElementById("c2n-targets"); if(!note||!host){ return; }
+  host.innerHTML="";
+  if(!C2N_STU){ note.innerHTML='<p class="mini-note">No student picked. The full card library below is always available.</p>'; return; }
+  var name=escapeHtml(rfStuName(C2N_STU)), a=c2nScoredAttempt(C2N_STU);
+  if(!a){ note.innerHTML='<p class="mini-note"><strong>'+name+'</strong> &mdash; Not scored yet. Score Check 2 in Check 2 Review first, or pick cards by hand from the library below.</p>'; return; }
+  note.innerHTML='<p class="mini-note"><strong>'+name+'</strong> &mdash; scored. Showing only targets you scored as missed (Incorrect, Letter-name substitution, or Skip). Not Reached items are not treated as missed.</p>';
+  var html='<h3 style="margin:6px 0 4px">Sounds to teach</h3>', none='', n=0, i, it, st, key, c;
+  for(i=0;i<C2_ITEMS.length;i++){
+    st=a.scores[i]; if(st!=="err" && st!=="lns" && st!=="skip"){ continue; }
+    it=C2_ITEMS[i]; key=it.section+":"+it.letter; n++;
+    if(C2N_CARD[key]){
+      c=C2N_CARD[key];
+      html+='<div class="c1n-ml-row c2n-target" data-key="'+key+'"><div class="c1n-ml-letter" style="min-width:auto;text-align:left;font-size:20px">'+escapeHtml(c2nItemLabel(it))+'</div><span class="mini-note">Card '+c[0]+': '+escapeHtml(c[1])+' &mdash; page '+(Math.floor((c[0]-1)/8)+1)+' of 6 in both sets</span></div>';
+    } else {
+      none+='<div class="c1n-ml-row c2n-nocard" data-key="'+key+'"><div class="c1n-ml-letter" style="min-width:auto;text-align:left;font-size:20px">'+escapeHtml(c2nItemLabel(it))+'</div><span class="mini-note">'+escapeHtml(C2N_NOCARD[key]||"No single matching card")+'. Choose a card by hand if you want one.</span></div>';
+    }
+  }
+  if(!n){ html+='<p class="mini-note">No missed targets in the saved scores.</p>'; }
+  if(none){ html+='<h3 style="margin:10px 0 4px">Missed, but no single matching card</h3>'+none; }
+  host.innerHTML=html;
+}
 
 /* ---------- Check 2: teacher scoring ----------
    Same local-file pattern as Check 1's teacher scoring (teacher opens the
