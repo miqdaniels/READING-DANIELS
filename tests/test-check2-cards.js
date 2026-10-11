@@ -12,9 +12,9 @@ var L={"teacher-view":"check2-cards/"+T+".pdf","teacher-pdf":"check2-cards/"+T+"
 w.localStorage.setItem("rf_check2_attempts",JSON.stringify([{id:"c2a",studentId:"stu_gomezmiriam_p1",date:"2026-10-01",fileName:"x",scores:["err"]}]));
 var before=snap();
 w.go("s-home");
-var tile=Array.prototype.filter.call(d.querySelectorAll("#s-home .teach-tile"),function(b){ return /Sound Cards/.test(b.textContent); })[0];
-ok(!!tile && tile.closest(".teach-cat-block").querySelector(".teach-cat-title").textContent==="Practice","Sound Cards tile under Practice");
-tile.click(); ok(/active/.test($("c2Next").className),"tile opens Check 2 What to Teach Next with no student picked");
+var tile=Array.prototype.filter.call(d.querySelectorAll("#s-home .teach-tile"),function(b){ return /Teach Next/.test(b.textContent); })[0];
+ok(!!tile && tile.closest(".teach-cat-block").querySelector(".teach-cat-title").textContent==="Practice","Teach Next tile under Practice");
+tile.click(); d.querySelector('.tn-card[data-check="2"]').click(); ok(/active/.test($("c2Next").className),"hub Check 2 card opens Check 2 resources with no student picked");
 var t=$("c2n-resources").textContent;
 ok(/Letter-Sound Teaching and Practice/.test(t),"section labeled Letter-Sound Teaching and Practice");
 ok(/Teacher Sound Cards — 44 Sounds/.test(t)&&/Student Practice Sound Cards — 44 Sounds/.test(t),"both sets labeled");

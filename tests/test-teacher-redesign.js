@@ -58,16 +58,15 @@ setTimeout(function(){
     {label:"Check 2 Prompts",   cat:"cat-recordings", kind:"go",      target:"s-teachC2"},
     {label:"Check 3 Prompts",   cat:"cat-recordings", kind:"go",      target:"s-teachC3"},
     {label:"Directions Audio",  cat:"cat-recordings", kind:"go",      target:"s-teachDir"},
-    {label:"Group Locks",       cat:"cat-practice",   kind:"go",      target:"s-teachGroupLocks"},
-    {label:"Teach Next",        cat:"cat-practice",   kind:"go",      target:"c1Next"},
-    {label:"Sound Cards",       cat:"cat-practice",   kind:"go",      target:"c2Next"},
     {label:"Scoreboard",        cat:"cat-reports",    kind:"go",      target:"s-board"},
     {label:"Instructional Groups", cat:"cat-reports", kind:"go",      target:"instrGroups"},
+    {label:"Group Locks",       cat:"cat-practice",   kind:"go",      target:"s-teachGroupLocks"},
+    {label:"Teach Next",        cat:"cat-practice",   kind:"go",      target:"teachNext"},
     {label:"Settings",          cat:"cat-settings",   kind:"go",      target:"s-settings"},
     {label:"Reset Student View", cat:"cat-settings",  kind:"fn",      target:"vasReset"}
   ];
   var tiles=d.querySelectorAll("#teacher-doors .teach-tile");
-  ck(tiles.length===23,"exactly 23 tiles (22 previous + Sound Cards, nothing else lost or invented) -- got "+tiles.length);
+  ck(tiles.length===22,"exactly 22 tiles (every original action kept; Sound Cards now lives in the What to Teach Next hub) -- got "+tiles.length);
 
   var i;
   for(i=0;i<tiles.length;i++){
@@ -107,12 +106,12 @@ setTimeout(function(){
      required order, and are wrapped so they can sit side by side ---- */
   var headers=d.querySelectorAll("#teacher-doors .teach-cat-title");
   var headerText=[]; for(i=0;i<headers.length;i++){ headerText.push(headers[i].textContent); }
-  ck(headerText.join("|")==="Students|Scoring|Recordings|Practice|Reports|Settings","all 6 category headers present, in the requested order (got: "+headerText.join(", ")+")");
+  ck(headerText.join("|")==="Students|Assessment & Scoring|Recordings|Reports|Practice|Settings","all 6 category headers present, in the requested order (got: "+headerText.join(", ")+")");
   var catBlocks=d.querySelectorAll("#teacher-doors .teach-cat-block");
   ck(catBlocks.length===6,"each category is its own block (for side-by-side layout), got "+catBlocks.length);
   var catsWrap=d.querySelector("#teacher-doors .teach-cats-wrap");
   ck(!!catsWrap && catsWrap.contains(catBlocks[0]) && catsWrap.contains(catBlocks[5]),"all 6 category blocks sit inside one flex-wrap container");
-  ck(w.getComputedStyle(catsWrap).display==="flex" && w.getComputedStyle(catsWrap).flexWrap==="wrap","that container is a flex-wrap row, so categories flow side by side where there's room");
+  ck(/\.teach-cats-wrap\{[^}]*columns:2 320px/.test(html) && /\.teach-cat-block\{[^}]*break-inside:avoid/.test(html),"that container is a balanced two-column flow that collapses to one column on narrow screens");
 
   /* ---- hover/tap only darkens the border, no shadow, no big color swing
      (jsdom can't simulate a real :hover, so this checks the rule exists
@@ -121,40 +120,33 @@ setTimeout(function(){
   ck(/body\.teacher-dark \.teach-tile:hover,[^{]*\{border-color:[^;]+;?\}/.test(html),"a dark-mode hover/active rule darkens the tile border too");
   ck(!/\.teach-tile:hover[^}]*box-shadow/.test(html) && !/\.teach-tile:active[^}]*box-shadow/.test(html),"no shadow added on hover/tap");
 
-  /* ---- 2) tiles: white with dark text on every theme, thicker (2px)
-     border in a darker shade of whichever theme is picked, category
-     color lives only on the icon -- default boot theme is navy/light ---- */
+  /* ---- 2) Professional refresh: tiles are white (--panel) cards with a thin
+     --line border and a single slate icon color, section headings use the
+     theme accent -- all token-based so every palette + dark mode follows.
+     (jsdom can't resolve var() through deep cascades, so the rules are checked
+     in the stylesheet source.) ---- */
   ck(d.documentElement.getAttribute("data-palette")==="navy","boots on the navy theme by default");
   ck(d.documentElement.getAttribute("data-mode")==="light","boots in light mode by default");
-  var iconPalette={
-    "cat-students":"#3b74c9", "cat-scoring":"#1f8a4c", "cat-recordings":"#7c4fc4",
-    "cat-practice":"#c96a2e", "cat-reports":"#a8860a", "cat-settings":"#6b7280"
-  };
-  var cat;
-  for(cat in iconPalette){
-    var el=d.querySelector("."+cat);
-    ck(!!el,"a tile with category "+cat+" exists");
-    var cs=w.getComputedStyle(el);
-    ck(cs.backgroundColor==="rgb(255, 255, 255)",cat+" tile is white on the navy theme, not a pastel fill (got "+cs.backgroundColor+")");
-    ck(cs.borderWidth==="2px","2px border on "+cat+" (thicker than before, got "+cs.borderWidth+")");
-    ck(cs.borderColor===rgb("#16304F"),cat+"'s border is navy's own darker shade (accentPress) in light mode (got "+cs.borderColor+")");
-    ck(cs.borderRadius==="12px","12px rounded corners on "+cat);
-    var iconColor=w.getComputedStyle(el.querySelector(".teach-tile-icon")).color;
-    ck(iconColor===rgb(iconPalette[cat]),cat+"'s icon carries the category color (got "+iconColor+")");
-    var textColor=w.getComputedStyle(el.querySelector(".teach-tile-label")).color;
-    ck(textColor!==iconColor,cat+"'s text is a different color than its icon (label text is NOT category-colored)");
+  ck(/\.teach-tile\{[^}]*background:var\(--panel\)[^}]*border:1px solid var\(--line\)[^}]*border-radius:10px/.test(html),"tiles: panel background, thin --line border, 10px radius");
+  ck(/\.teach-tile-icon\{[^}]*color:var\(--ink-soft\)/.test(html),"tile icons use one slate color (--ink-soft)");
+  ck(!/\.cat-(students|scoring|recordings|practice|reports|settings) \.teach-tile-icon\{color:#/.test(html),"no per-category rainbow icon colors remain");
+  ck(!/html\[data-palette="navy"\] \.teach-tile\{border-color/.test(html),"no heavy per-palette tile outlines remain");
+  ck(/\.teach-cat-title\{[^}]*color:var\(--accent\)/.test(html),"section headings use the theme accent color");
+  ck(/\.teach-cat-block\{[^}]*background:var\(--panel\)[^}]*border:1px solid var\(--line\)[^}]*border-radius:14px/.test(html),"each section is a white rounded card");
+  ck(/\.tn-info\{[^}]*color-mix\(in srgb,var\(--accent\)/.test(html),"pale-blue information panel style exists");
+  ck(!!d.getElementById("tn-feature") && /What to Teach Next/.test(d.getElementById("tn-feature").textContent),"What to Teach Next is featured at the top");
+  ck(/Teacher Dashboard/.test(d.querySelector(".teach-topbar h2").textContent),"heading says Teacher Dashboard");
+  var cat, cats=["cat-students","cat-scoring","cat-recordings","cat-practice","cat-reports","cat-settings"];
+  for(var ci=0;ci<cats.length;ci++){
+    cat=cats[ci]; var el=d.querySelector("."+cat); ck(!!el,"a tile with category "+cat+" exists");
     var labelFontPx=parseFloat(w.getComputedStyle(el.querySelector(".teach-tile-label")).fontSize);
     ck(labelFontPx>=14,cat+"'s label text is at least 14px (got "+labelFontPx+"px)");
+    ck(parseFloat(w.getComputedStyle(el).minHeight)>=44,cat+" tile is at least 44px tall (touch target)");
   }
   var anyTile=d.querySelector(".teach-tile");
-  var lightModeColor=w.getComputedStyle(anyTile).color;
-  ck(lightModeColor==="rgb(51, 54, 60)","tile text is a dark gray ink color in light mode, on every theme (got "+lightModeColor+")");
-  /* category header color comes from var(--ink-soft), which is restored/
-     driven by the theme picker -- jsdom won't resolve that var() this many
-     elements deep (a jsdom gap, see the top-of-file note), so this checks
-     the same thing applyTheme() itself sets: the variable's actual value */
   ck(d.querySelector(".teach-cat-title").getAttribute("class").indexOf("teach-cat-title")>-1,"category headers use the shared .teach-cat-title style");
   ck(d.documentElement.style.getPropertyValue("--ink-soft")===w.PALETTES.navy.light.inkSoft,"...whose color variable is the theme's own readable ink-soft (navy/light)");
+  ck(/\.teach-tile:focus-visible[^{]*\{[^}]*outline:2px solid var\(--accent\)/.test(html),"visible keyboard focus indicator on tiles");
 
   /* ---- 3) RESTORE THE THEME PICKER: tapping a swatch really does change
      the page theme (documentElement's own CSS variables + attributes),
@@ -165,10 +157,7 @@ setTimeout(function(){
   click(w,swBtns[roseIdx]);
   ck(d.documentElement.getAttribute("data-palette")==="rose","tapping the Dusty Rose swatch actually changes the theme (data-palette)");
   ck(d.documentElement.style.getPropertyValue("--paper")===w.PALETTES.rose.light.paper,"the page background variable updates to Dusty Rose's own paper color");
-  ck(w.getComputedStyle(anyTile).borderColor===rgb("#8E4A5B"),"tile borders switch to Dusty Rose's own darker shade too (got "+w.getComputedStyle(anyTile).borderColor+")");
   ck(JSON.parse(w.localStorage.getItem("slider_settings")).palette==="rose","the theme choice is saved (localStorage)");
-  ck(w.getComputedStyle(anyTile).backgroundColor==="rgb(255, 255, 255)","tiles stay white even on the Dusty Rose theme");
-  ck(w.getComputedStyle(anyTile).color==="rgb(51, 54, 60)","tile text stays dark gray even on the Dusty Rose theme");
 
   /* the global Dark/Light button (pre-existing, shared with every screen
      in the app) also still works, independently of the teacher-only
@@ -200,19 +189,8 @@ setTimeout(function(){
   ck(d.documentElement.style.getPropertyValue("--paper")===w.PALETTES.navy.dark.paper,"...using navy's own dark colors (not a separate fixed scheme)");
 
   var studentsTileDark=d.querySelector(".cat-students");
-  var csDark=w.getComputedStyle(studentsTileDark);
-  ck(csDark.backgroundColor===rgb("#1d222b"),"Students tile turns dark gray in tile-dark mode (got "+csDark.backgroundColor+")");
-  ck(csDark.backgroundColor!=="rgb(255, 255, 255)","the dark tile is NOT still white");
-  ck(csDark.borderColor===rgb("#4F7FB8"),"the tile border becomes navy's own LIGHTER shade in dark mode (got "+csDark.borderColor+")");
-  var darkIconColor=w.getComputedStyle(studentsTileDark.querySelector(".teach-tile-icon")).color;
-  ck(darkIconColor===rgb("#7fb0ef"),"the icon still carries its (brighter, dark-mode) category color (got "+darkIconColor+")");
-  var darkTileTextColor=w.getComputedStyle(studentsTileDark.querySelector(".teach-tile-label")).color;
-  ck(/rgb\(2[0-4][0-9], 2[0-4][0-9], 2[0-5][0-9]\)/.test(darkTileTextColor),"tile text turns light-colored in dark mode (got "+darkTileTextColor+")");
-
-  /* switching the theme WHILE the teacher toggle is on keeps following
-     the new theme's own dark colors, not the old one's */
+  ck(d.body.className.indexOf("teacher-dark")>-1,"(tile-dark body class is on)");
   click(w,swBtns[roseIdx]);
-  ck(w.getComputedStyle(studentsTileDark).borderColor===rgb("#C77E8E"),"switching themes while tile-dark is on re-follows the NEW theme's dark border shade (got "+w.getComputedStyle(studentsTileDark).borderColor+")");
   ck(d.documentElement.style.getPropertyValue("--paper")===w.PALETTES.rose.dark.paper,"...and the page background follows too");
   click(w,swBtns[navyIdx]); // back to navy
 

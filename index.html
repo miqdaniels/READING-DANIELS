@@ -67,54 +67,39 @@ header.app .tag{font-size:13px;color:var(--ink-soft)}
 /* Category blocks flow side by side wherever there's room (a category
    with just one or two tiles doesn't need its own full-width row), and
    wrap to a new line once they don't fit -- no fixed breakpoints needed. */
-.teach-cats-wrap{display:flex;flex-wrap:wrap;align-items:flex-start;gap:2px 20px}
-.teach-cat-block{flex:1 1 200px;min-width:180px}
-.teach-cat-title{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin:8px 0 4px}
-.teach-tile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:6px;margin:0 0 4px}
-/* Professional look: a plain white card with a thin gray border, not a
-   pastel fill -- only the icon itself carries the category's color. The
-   border color itself comes from the CURRENT palette (see the
-   html[data-palette=...] rules below), a darker shade of that theme's
-   own accent color in light mode. */
-.teach-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:#ffffff;border:2px solid #9aa1ab;border-radius:12px;padding:6px 4px;min-height:60px;cursor:pointer;font:inherit;font-size:14px;font-weight:700;color:#33363c;text-align:center;line-height:1.15;touch-action:manipulation;transition:border-color .15s}
-.teach-tile-icon{font-size:18px;line-height:1;display:inline-flex}
+/* ===== Teacher dashboard (Professional refresh): white rounded cards on the
+   theme's own page color, thin --line borders, accent-blue uppercase section
+   headings, one slate (--ink-soft) icon color, pale-blue information panels.
+   Everything is token-based (--paper/--panel/--line/--ink/--ink-soft/--accent),
+   so all 5 palettes and light/dark follow automatically. ===== */
+.teach-cats-wrap{display:block;columns:2 320px;column-gap:16px}
+.teach-cat-block{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:0 0 16px;break-inside:avoid;-webkit-column-break-inside:avoid}
+.teach-cat-title{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+.teach-tile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:0}
+.teach-tile{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:46px;cursor:pointer;font:inherit;font-size:14px;font-weight:600;color:var(--ink);text-align:left;line-height:1.2;touch-action:manipulation;transition:border-color .15s}
+.teach-tile-icon{font-size:18px;line-height:1;display:inline-flex;color:var(--ink-soft);flex:0 0 auto}
 .teach-tile-icon svg{display:block}
 .teach-tile-label{display:block;font-size:14px}
-.cat-students .teach-tile-icon{color:#3b74c9}
-.cat-scoring .teach-tile-icon{color:#1f8a4c}
-.cat-recordings .teach-tile-icon{color:#7c4fc4}
-.cat-practice .teach-tile-icon{color:#c96a2e}
-.cat-reports .teach-tile-icon{color:#a8860a}
-.cat-settings .teach-tile-icon{color:#6b7280}
-
-/* Tile border = a darker shade of whichever theme is currently picked
-   (light mode) or a lighter shade of it (dark mode) -- taken directly
-   from that palette's own accentPress/accent colors, so the border is
-   always visibly "the same family" as the chosen theme. */
-html[data-palette="navy"] .teach-tile{border-color:#16304F}
-html[data-palette="bluegray"] .teach-tile{border-color:#345F8B}
-html[data-palette="aqua"] .teach-tile{border-color:#0B717D}
-html[data-palette="rose"] .teach-tile{border-color:#8E4A5B}
-html[data-palette="gold"] .teach-tile{border-color:#7E6416}
-/* Hover/tap darkens just the border (a touch further than the theme's
-   own shade), no shadows, no other color change. The extra data-palette
-   attribute-presence selector keeps this ranked above the palette rules
-   above regardless of source order, so it still visibly applies. */
-html[data-palette] .teach-tile:hover,html[data-palette] .teach-tile:active,html[data-palette] .teach-tile:focus-visible{border-color:#5c6470}
-
-body.teacher-dark .teach-tile{background:#1d222b;color:#e8e8ec}
-html[data-palette="navy"] body.teacher-dark .teach-tile{border-color:#4F7FB8}
-html[data-palette="bluegray"] body.teacher-dark .teach-tile{border-color:#5A8CC0}
-html[data-palette="aqua"] body.teacher-dark .teach-tile{border-color:#22B0C2}
-html[data-palette="rose"] body.teacher-dark .teach-tile{border-color:#C77E8E}
-html[data-palette="gold"] body.teacher-dark .teach-tile{border-color:#C9A227}
-html[data-palette] body.teacher-dark .teach-tile:hover,html[data-palette] body.teacher-dark .teach-tile:active,html[data-palette] body.teacher-dark .teach-tile:focus-visible{border-color:#8791a0}
-body.teacher-dark .cat-students .teach-tile-icon{color:#7fb0ef}
-body.teacher-dark .cat-scoring .teach-tile-icon{color:#6bd39a}
-body.teacher-dark .cat-recordings .teach-tile-icon{color:#b79ae8}
-body.teacher-dark .cat-practice .teach-tile-icon{color:#f0a86a}
-body.teacher-dark .cat-reports .teach-tile-icon{color:#e0c04a}
-body.teacher-dark .cat-settings .teach-tile-icon{color:#a7adb8}
+.teach-tile:hover,.teach-tile:active,.teach-tile:focus-visible{border-color:var(--accent)}
+.teach-tile:focus-visible,.tn-card:focus-visible,.pill-btn:focus-visible,.teach-theme-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+body.teacher-dark .teach-tile:hover,body.teacher-dark .teach-tile:active,body.teacher-dark .teach-tile:focus-visible{border-color:var(--accent)}
+.tn-sub{color:var(--ink-soft);margin:0 0 4px;font-size:15px}
+.tn-feature{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;background:color-mix(in srgb,var(--accent) 9%,var(--panel));border:1px solid color-mix(in srgb,var(--accent) 28%,var(--line));border-radius:14px;padding:16px 18px;margin:12px 0 16px}
+.tn-feature h3{margin:0 0 2px;font-size:18px;color:var(--ink)}
+.tn-feature p{margin:0;color:var(--ink-soft);font-size:14px;max-width:440px}
+.c1n-card.tn-panel{background:color-mix(in srgb,var(--accent) 7%,var(--panel));border-color:color-mix(in srgb,var(--accent) 24%,var(--line))}
+#c1n-roster,#c2n-roster{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))!important}
+#c1n-roster .btn,#c2n-roster .btn{padding:10px 12px;font-size:14px}
+.tn-info{background:color-mix(in srgb,var(--accent) 9%,var(--panel));border:1px solid color-mix(in srgb,var(--accent) 28%,var(--line));border-radius:12px;padding:12px 16px;color:var(--ink);margin:0 0 16px}
+.tn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:0 0 16px}
+.tn-card{display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;cursor:pointer;font:inherit;color:var(--ink);text-align:left;touch-action:manipulation;transition:border-color .15s;min-height:44px}
+.tn-card:hover{border-color:var(--accent)}
+.tn-card .tn-num{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.tn-card .tn-title{font-size:17px;font-weight:700;margin:0}
+.tn-card .tn-desc{font-size:14px;color:var(--ink-soft);margin:0}
+.tn-chip{display:inline-block;font-size:12px;font-weight:700;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--ink-soft);background:var(--paper)}
+.tn-chip.on{border-color:var(--accent);color:var(--accent)}
+.tn-nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .theming{display:flex;align-items:center;gap:8px}
 .swatches{display:flex;gap:6px}
 .sw{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0;touch-action:manipulation}
@@ -743,31 +728,31 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
 
 /* ===== Check 1 "What to Teach Next" (teacher-only). Quiet Square: rounded
    rectangles (10px), --ink-soft/--accent only, no red/green. ===== */
-#c1Next .pill-btn,#c2Next .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:11px 20px;cursor:pointer;touch-action:manipulation;text-decoration:none;box-sizing:border-box}
-#c1Next .pill-btn-primary,#c2Next .pill-btn-primary{background:var(--accent);border:1.5px solid var(--accent);color:#fff}
-#c1Next .pill-btn-secondary,#c2Next .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
-#c1Next .pill-btn[disabled],#c2Next .pill-btn[disabled]{opacity:.4;cursor:default}
-#c1Next .c1n-card,#c2Next .c1n-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px 18px;margin:0 0 16px}
-#c1Next .c1n-row,#c2Next .c1n-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
-#c1Next .c1n-sets,#c2Next .c1n-sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:0 0 16px}
-#c1Next .c1n-sets .c1n-card,#c2Next .c1n-sets .c1n-card{margin:0}
+#c1Next .pill-btn,#c2Next .pill-btn,#teachNext .pill-btn,#tnCheck .pill-btn,#s-home .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:11px 20px;cursor:pointer;touch-action:manipulation;text-decoration:none;box-sizing:border-box}
+#c1Next .pill-btn-primary,#c2Next .pill-btn-primary,#teachNext .pill-btn-primary,#tnCheck .pill-btn-primary,#s-home .pill-btn-primary{background:var(--accent);border:1.5px solid var(--accent);color:#fff}
+#c1Next .pill-btn-secondary,#c2Next .pill-btn-secondary,#teachNext .pill-btn-secondary,#tnCheck .pill-btn-secondary,#s-home .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+#c1Next .pill-btn[disabled],#c2Next .pill-btn[disabled],#teachNext .pill-btn[disabled],#tnCheck .pill-btn[disabled],#s-home .pill-btn[disabled]{opacity:.4;cursor:default}
+#c1Next .c1n-card,#c2Next .c1n-card,#teachNext .c1n-card,#tnCheck .c1n-card,#s-home .c1n-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px 18px;margin:0 0 16px}
+#c1Next .c1n-row,#c2Next .c1n-row,#teachNext .c1n-row,#tnCheck .c1n-row,#s-home .c1n-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+#c1Next .c1n-sets,#c2Next .c1n-sets,#teachNext .c1n-sets,#tnCheck .c1n-sets,#s-home .c1n-sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:0 0 16px}
+#c1Next .c1n-sets .c1n-card,#c2Next .c1n-sets .c1n-card,#teachNext .c1n-sets .c1n-card,#tnCheck .c1n-sets .c1n-card,#s-home .c1n-sets .c1n-card{margin:0}
 #c1Next #c1n-viewer{width:min(96vw,1180px);position:relative;left:50%;transform:translateX(-50%);box-sizing:border-box}
-#c1Next .c1n-stage,#c2Next .c1n-stage{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;text-align:center}
-#c1Next .c1n-stage img,#c2Next .c1n-stage img{display:block;width:100%;height:auto;max-height:78vh;object-fit:contain;margin:0 auto;background:#fff}
-#c1Next .c1n-stage:fullscreen,#c2Next .c1n-stage:fullscreen{display:flex;align-items:center;justify-content:center;background:#fff;border:0;border-radius:0}
-#c1Next .c1n-stage:fullscreen img,#c2Next .c1n-stage:fullscreen img{max-height:100vh;height:100vh;width:100%}
-#c1Next .c1n-pairs,#c2Next .c1n-pairs{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
-#c1Next .c1n-pair,#c2Next .c1n-pair{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;touch-action:manipulation}
-#c1Next .c1n-pair.on,#c2Next .c1n-pair.on{border-color:var(--accent);background:var(--accent);color:#fff}
-#c1Next .c1n-steps,#c2Next .c1n-steps{margin:6px 0 10px 20px;padding:0;line-height:1.6}
-#c1Next .c1n-foot,#c2Next .c1n-foot{margin:22px 0 4px;font-size:13px;color:var(--ink-soft)}
-#c1Next .c1n-ml-row,#c2Next .c1n-ml-row{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
-#c1Next .c1n-ml-letter,#c2Next .c1n-ml-letter{font-size:34px;font-weight:700;min-width:44px;text-align:center}
-#c1Next .c1n-ml-kind,#c2Next .c1n-ml-kind{font-size:12px;color:var(--ink-soft);display:block;text-align:center}
-#c1Next .c1n-mark,#c2Next .c1n-mark{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;touch-action:manipulation}
-#c1Next .c1n-mark.on,#c2Next .c1n-mark.on{border-color:var(--accent);background:var(--accent);color:#fff}
-#c1Next .c1n-pickgrid,#c2Next .c1n-pickgrid{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
-#c1Next .c1n-pickgrid .c1n-pair,#c2Next .c1n-pickgrid .c1n-pair{min-width:40px;padding:8px 10px}
+#c1Next .c1n-stage,#c2Next .c1n-stage,#teachNext .c1n-stage,#tnCheck .c1n-stage,#s-home .c1n-stage{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;text-align:center}
+#c1Next .c1n-stage img,#c2Next .c1n-stage img,#teachNext .c1n-stage img,#tnCheck .c1n-stage img,#s-home .c1n-stage img{display:block;width:100%;height:auto;max-height:78vh;object-fit:contain;margin:0 auto;background:#fff}
+#c1Next .c1n-stage:fullscreen,#c2Next .c1n-stage:fullscreen,#teachNext .c1n-stage:fullscreen,#tnCheck .c1n-stage:fullscreen,#s-home .c1n-stage:fullscreen{display:flex;align-items:center;justify-content:center;background:#fff;border:0;border-radius:0}
+#c1Next .c1n-stage:fullscreen img,#c2Next .c1n-stage:fullscreen img,#teachNext .c1n-stage:fullscreen img,#tnCheck .c1n-stage:fullscreen img,#s-home .c1n-stage:fullscreen img{max-height:100vh;height:100vh;width:100%}
+#c1Next .c1n-pairs,#c2Next .c1n-pairs,#teachNext .c1n-pairs,#tnCheck .c1n-pairs,#s-home .c1n-pairs{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+#c1Next .c1n-pair,#c2Next .c1n-pair,#teachNext .c1n-pair,#tnCheck .c1n-pair,#s-home .c1n-pair{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;touch-action:manipulation}
+#c1Next .c1n-pair.on,#c2Next .c1n-pair.on,#teachNext .c1n-pair.on,#tnCheck .c1n-pair.on,#s-home .c1n-pair.on{border-color:var(--accent);background:var(--accent);color:#fff}
+#c1Next .c1n-steps,#c2Next .c1n-steps,#teachNext .c1n-steps,#tnCheck .c1n-steps,#s-home .c1n-steps{margin:6px 0 10px 20px;padding:0;line-height:1.6}
+#c1Next .c1n-foot,#c2Next .c1n-foot,#teachNext .c1n-foot,#tnCheck .c1n-foot,#s-home .c1n-foot{margin:22px 0 4px;font-size:13px;color:var(--ink-soft)}
+#c1Next .c1n-ml-row,#c2Next .c1n-ml-row,#teachNext .c1n-ml-row,#tnCheck .c1n-ml-row,#s-home .c1n-ml-row{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+#c1Next .c1n-ml-letter,#c2Next .c1n-ml-letter,#teachNext .c1n-ml-letter,#tnCheck .c1n-ml-letter,#s-home .c1n-ml-letter{font-size:34px;font-weight:700;min-width:44px;text-align:center}
+#c1Next .c1n-ml-kind,#c2Next .c1n-ml-kind,#teachNext .c1n-ml-kind,#tnCheck .c1n-ml-kind,#s-home .c1n-ml-kind{font-size:12px;color:var(--ink-soft);display:block;text-align:center}
+#c1Next .c1n-mark,#c2Next .c1n-mark,#teachNext .c1n-mark,#tnCheck .c1n-mark,#s-home .c1n-mark{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;touch-action:manipulation}
+#c1Next .c1n-mark.on,#c2Next .c1n-mark.on,#teachNext .c1n-mark.on,#tnCheck .c1n-mark.on,#s-home .c1n-mark.on{border-color:var(--accent);background:var(--accent);color:#fff}
+#c1Next .c1n-pickgrid,#c2Next .c1n-pickgrid,#teachNext .c1n-pickgrid,#tnCheck .c1n-pickgrid,#s-home .c1n-pickgrid{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+#c1Next .c1n-pickgrid .c1n-pair,#c2Next .c1n-pickgrid .c1n-pair,#teachNext .c1n-pickgrid .c1n-pair,#tnCheck .c1n-pickgrid .c1n-pair,#s-home .c1n-pickgrid .c1n-pair{min-width:40px;padding:8px 10px}
 #c1n-print{display:none}
 @media print{
   html,body{background:#fff!important}
@@ -845,8 +830,13 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
   <section id="s-home" class="screen" data-teacher="1">
     <div id="teacher-doors" style="display:none">
       <div class="teach-topbar">
-        <h2>Teacher</h2>
+        <div><h2>Teacher Dashboard</h2><p class="tn-sub">Assessment review, recordings, reports, and instructional resources.</p></div>
         <button class="teach-theme-btn" id="teach-theme-btn" onclick="toggleTeacherDark()" title="Switch light/dark"><span id="teach-theme-icon">&#9728;&#65039;</span></button>
+      </div>
+
+      <div class="tn-feature" id="tn-feature">
+        <div><h3>What to Teach Next</h3><p>Instructional resources, practice materials, and targeted rechecks for each of the seven reading checks.</p></div>
+        <button class="pill-btn pill-btn-primary" id="tn-feature-btn" onclick="tnHub()">Open What to Teach Next</button>
       </div>
 
       <div class="teach-cats-wrap">
@@ -859,7 +849,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
         </div>
 
         <div class="teach-cat-block">
-          <h3 class="teach-cat-title">Scoring</h3>
+          <h3 class="teach-cat-title">Assessment &amp; Scoring</h3>
           <div class="teach-tile-grid">
             <button class="teach-tile cat-scoring" onclick="go('check1Teach')" title="Score letter identification recordings"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg></span><span class="teach-tile-label">Check 1 Review</span></button>
             <button class="teach-tile cat-scoring" onclick="go('check2Teach')" title="Score letter-sound videos"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg></span><span class="teach-tile-label">Check 2 Review</span></button>
@@ -885,19 +875,18 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
         </div>
 
         <div class="teach-cat-block">
-          <h3 class="teach-cat-title">Practice</h3>
-          <div class="teach-tile-grid">
-            <button class="teach-tile cat-practice" onclick="go('s-teachGroupLocks')" title="Lock or unlock any group for any student"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span class="teach-tile-label">Group Locks</span></button>
-            <button class="teach-tile cat-practice" onclick="c1nGo(null)" title="What to Teach Next after Check 1: letter-name slides, how-to, and paper practice"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span class="teach-tile-label">Teach Next</span></button>
-            <button class="teach-tile cat-practice" onclick="c2nGo(null)" title="Check 2 What to Teach Next: printable teacher and student sound cards"><span class="teach-tile-icon"><span class="ear-ico ear-tile"></span></span><span class="teach-tile-label">Sound Cards</span></button>
-          </div>
-        </div>
-
-        <div class="teach-cat-block">
           <h3 class="teach-cat-title">Reports</h3>
           <div class="teach-tile-grid">
             <button class="teach-tile cat-reports" onclick="go('s-board')" title="Show today's team standings at the end of class"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 5H5a2 2 0 0 0 2 4"/><path d="M17 5h2a2 2 0 0 1-2 4"/><path d="M12 13v4"/><path d="M9 20h6"/></svg></span><span class="teach-tile-label">Scoreboard</span></button>
             <button class="teach-tile cat-reports" onclick="go('instrGroups')" title="Provisional skill-based groups computed from Checks 1-7"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M12 20V4"/><path d="M20 20v-7"/><path d="M2 20h20"/></svg></span><span class="teach-tile-label">Instructional Groups</span></button>
+          </div>
+        </div>
+
+        <div class="teach-cat-block">
+          <h3 class="teach-cat-title">Practice</h3>
+          <div class="teach-tile-grid">
+            <button class="teach-tile cat-practice" onclick="go('s-teachGroupLocks')" title="Lock or unlock any group for any student"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span class="teach-tile-label">Group Locks</span></button>
+            <button class="teach-tile cat-practice" onclick="tnHub()" title="Instructional resources for all seven checks"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span class="teach-tile-label">Teach Next</span></button>
           </div>
         </div>
 
@@ -1042,8 +1031,30 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="seg" id="c1t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c1t-roster" style="margin-bottom:14px"></div>
       <div id="c1t-body"></div>
-      <button class="btn" onclick="c1nGo(C1T_STU)" style="margin-top:14px">What to Teach Next</button>
+      <button class="btn" onclick="tnFromReview('check1Teach',C1T_STU)" style="margin-top:14px">What to Teach Next</button>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <!-- WHAT TO TEACH NEXT: hub for all seven checks (teacher-only) -->
+  <section class="screen" data-teacher="1" id="teachNext">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Teacher Dashboard</a> &nbsp;/&nbsp; What to Teach Next</p>
+      <h2>What to Teach Next</h2>
+      <p class="lede">Select a reading check to access instructional resources, practice materials, and targeted rechecks.</p>
+      <div class="tn-grid" id="tn-hub-grid"></div>
+      <div class="tn-nav" id="tn-hub-nav"><button class="pill-btn pill-btn-secondary" onclick="go('s-home')">Back to Teacher Dashboard</button></div>
+    </div>
+  </section>
+
+  <!-- Checks 3-7: instructional-resource landing page (no resources built yet) -->
+  <section class="screen" data-teacher="1" id="tnCheck">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Teacher Dashboard</a> &nbsp;/&nbsp; <a onclick="go('teachNext')">What to Teach Next</a> &nbsp;/&nbsp; <span id="tn-check-crumb"></span></p>
+      <h2 id="tn-check-title"></h2>
+      <div class="tn-info" id="tn-check-status">Instructional resources are being developed for this check.</div>
+      <div class="c1n-card" id="tn-check-reviews"></div>
+      <div class="tn-nav" id="tn-check-nav"></div>
     </div>
   </section>
 
@@ -1052,7 +1063,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
        Check 1 Review screen or from Practice on the teacher menu: SAME page. -->
   <section class="screen" data-teacher="1" id="c1Next">
     <div class="wrap">
-      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; What to Teach Next (Check 1)</p>
+      <p class="crumb"><a onclick="go('s-home')">Teacher Dashboard</a> &nbsp;/&nbsp; <a onclick="go('teachNext')">What to Teach Next</a> &nbsp;/&nbsp; Check 1</p>
       <h2>What to Teach Next &mdash; Letter Names</h2>
       <p class="lede">Short next step after Check 1. Open the slides, teach only the letters the student missed, then decide what to do next.</p>
 
@@ -1149,7 +1160,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
         <div class="c1n-pairs" id="c1n-pairs"></div>
       </div>
 
-      <div class="c1n-card">
+      <div class="c1n-card tn-panel">
         <h3 style="margin:0 0 6px">How to use these slides</h3>
         <ol class="c1n-steps">
           <li>Look at which letters the student missed.</li>
@@ -1164,10 +1175,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       </div>
 
       <p class="c1n-foot">&copy; 2026 Miquela Daniels / AI Academy LLC. All rights reserved.</p>
-      <div class="nav-row" style="margin-top:14px">
-        <button class="btn" onclick="go('check1Teach')">&#8592; Check 1 review</button>
-        <button class="btn" onclick="go('s-home')">Back to start</button>
-      </div>
+      <div class="tn-nav"></div>
       <div id="c1n-print" aria-hidden="true"></div>
     </div>
   </section>
@@ -1309,7 +1317,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="seg" id="c2t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c2t-roster" style="margin-bottom:14px"></div>
       <div id="c2t-body"></div>
-      <button class="btn" onclick="c2nGo(C2T_STU)" style="margin-top:14px">What to Teach Next</button>
+      <button class="btn" onclick="tnFromReview('check2Teach',C2T_STU)" style="margin-top:14px">What to Teach Next</button>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -1319,7 +1327,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
        NOT the 31-target Check 2 assessment and changes nothing about it. -->
   <section class="screen" data-teacher="1" id="c2Next">
     <div class="wrap">
-      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; What to Teach Next (Check 2)</p>
+      <p class="crumb"><a onclick="go('s-home')">Teacher Dashboard</a> &nbsp;/&nbsp; <a onclick="go('teachNext')">What to Teach Next</a> &nbsp;/&nbsp; Check 2</p>
       <h2>What to Teach Next &mdash; Letter Sounds</h2>
       <p class="lede">Printable sound cards for teaching the letter sounds a student still needs after Check 2. No student needs to be picked.</p>
 
@@ -1355,7 +1363,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
         </div>
       </div>
 
-      <div class="c1n-card" id="c2n-howto">
+      <div class="c1n-card tn-panel" id="c2n-howto">
         <h3 style="margin:0 0 6px">How to Use the Check 2 Sound Cards</h3>
         <ol class="c1n-steps">
           <li>Review the student&rsquo;s Check 2 results.</li>
@@ -1371,21 +1379,18 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
         <p>Pick only the sounds that fit this student&rsquo;s needs. The full set of cards is not a required sequence that every student must complete.</p>
       </div>
 
-      <div class="c1n-card" id="c2n-ml">
+      <div class="c1n-card tn-panel" id="c2n-ml">
         <h3 style="margin:0 0 6px">Students learning English</h3>
         <p>Students learning English may produce certain sounds differently because of their first-language background. Model English sounds explicitly, provide opportunities for listening and repetition, and distinguish language development from demonstrated gaps in letter-sound knowledge.</p>
       </div>
 
-      <div class="c1n-card" id="c2n-note">
+      <div class="c1n-card tn-panel" id="c2n-note">
         <h3 style="margin:0 0 6px">31 assessment targets vs. 44 teaching cards</h3>
         <p>The Check 2 assessment checks 31 targets: consonant letter sounds, short vowels, and long vowels. The 44 cards are a wider teaching library of English sounds and spelling patterns. They are two different lists. The cards do not change Check 2, its scoring, accepted answers, or what unlocks next.</p>
       </div>
 
       <p class="c1n-foot">&copy; 2026 Miquela Daniels / AI Academy LLC. All rights reserved.</p>
-      <div class="nav-row" style="margin-top:14px">
-        <button class="btn" onclick="go('check2Teach')">&#8592; Check 2 review</button>
-        <button class="btn" onclick="go('s-home')">Back to start</button>
-      </div>
+      <div class="tn-nav"></div>
     </div>
   </section>
 
@@ -1512,6 +1517,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="seg" id="c3t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c3t-roster" style="margin-bottom:14px"></div>
       <div id="c3t-body"></div>
+      <button class="btn" onclick="tnFromReview('check3Teach',C3T_STU)" style="margin-top:14px">What to Teach Next</button>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -1562,6 +1568,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="seg" id="c4t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c4t-roster" style="margin-bottom:14px"></div>
       <div id="c4t-body"></div>
+      <button class="btn" onclick="tnFromReview('check4Teach',C4T_STU)" style="margin-top:14px">What to Teach Next</button>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -1617,6 +1624,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="seg" id="c5t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c5t-roster" style="margin-bottom:14px"></div>
       <div id="c5t-body"></div>
+      <button class="btn" onclick="tnFromReview('check5Teach',C5T_STU)" style="margin-top:14px">What to Teach Next</button>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -1669,6 +1677,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="seg" id="c6t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c6t-roster" style="margin-bottom:14px"></div>
       <div id="c6t-body"></div>
+      <button class="btn" onclick="tnFromReview('check6Teach',C6T_STU)" style="margin-top:14px">What to Teach Next</button>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -1715,6 +1724,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="seg" id="c6bt-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c6bt-roster" style="margin-bottom:14px"></div>
       <div id="c6bt-body"></div>
+      <button class="btn" onclick="tnFromReview('check6bTeach',C6BT_STU)" style="margin-top:14px">What to Teach Next</button>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -1764,6 +1774,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="seg" id="c6ct-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c6ct-roster" style="margin-bottom:14px"></div>
       <div id="c6ct-body"></div>
+      <button class="btn" onclick="tnFromReview('check6cTeach',C6CT_STU)" style="margin-top:14px">What to Teach Next</button>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -1814,6 +1825,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="seg" id="c7t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c7t-roster" style="margin-bottom:14px"></div>
       <div id="c7t-body"></div>
+      <button class="btn" onclick="tnFromReview('check7Teach',C7T_STU)" style="margin-top:14px">What to Teach Next</button>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -3737,6 +3749,8 @@ function go(id){
   if(id==="s-teachC2"){ c2tPromptsEnter(); }
   if(id==="check2Teach"){ check2TeachEnter(); }
   if(id==="c2Next"){ c2nEnter(); }
+  if(id==="teachNext"){ tnHubEnter(); }
+  if(id==="tnCheck"){ tnCheckEnter(); }
   if(id==="check3"){ c3Enter(); }
   if(id==="s-teachC3"){ c3tPromptsEnter(); }
   if(id==="check3Teach"){ check3TeachEnter(); }
@@ -5888,6 +5902,85 @@ function c1tSave(){
   if(n){ n.className="mini-note"; n.style.color="var(--good)"; n.textContent="✓ Saved."; }
 }
 
+/* ---------- What to Teach Next: hub for all seven checks ----------
+   Navigation only. Opens the existing Check 1 / Check 2 resource pages, or a
+   landing page for Checks 3-7 (no resources exist yet, and none are
+   invented). Entering from an assessment review remembers that review and
+   its student so "Return to Student Review" can put the teacher back
+   exactly there. Writes nothing to storage. */
+var TN_FROM=null, TN_STU=null, TN_N=0;
+var TN_CHECKS=[
+  {n:1,name:"Letter Identification",desc:"Letter-name slideshows, 5-minute mini-lesson, and printable targeted rechecks.",ready:true,go:"c1Next",reviews:[["Check 1 Review","check1Teach"]]},
+  {n:2,name:"Letter-Sound Knowledge",desc:"Teacher and student sound cards (44 sounds) with letter-sound teaching steps.",ready:true,go:"c2Next",reviews:[["Check 2 Review","check2Teach"]]},
+  {n:3,name:"Phonemic Awareness",desc:"",ready:false,reviews:[["Check 3 Review","check3Teach"]]},
+  {n:4,name:"Decoding",desc:"",ready:false,reviews:[["Check 4 Review","check4Teach"]]},
+  {n:5,name:"Automatic Word Recognition",desc:"",ready:false,reviews:[["Check 5 Review","check5Teach"]]},
+  {n:6,name:"Morphological Awareness & Word Analysis",desc:"",ready:false,reviews:[["Check 6 Review","check6Teach"],["Check 6B Review","check6bTeach"],["Check 6C Review","check6cTeach"]]},
+  {n:7,name:"Multisyllabic Word Analysis",desc:"",ready:false,reviews:[["Check 7 Review","check7Teach"]]}
+];
+var TN_REVIEW_PREFIX={check1Teach:"1",check2Teach:"2",check3Teach:"3",check4Teach:"4",check5Teach:"5",check6Teach:"6",check6bTeach:"6B",check6cTeach:"6C",check7Teach:"7"};
+var TN_REVIEW_CHECK={check1Teach:1,check2Teach:2,check3Teach:3,check4Teach:4,check5Teach:5,check6Teach:6,check6bTeach:6,check6cTeach:6,check7Teach:7};
+function tnHub(){ TN_FROM=null; TN_STU=null; go("teachNext"); }
+function tnHubEnter(){
+  var host=document.getElementById("tn-hub-grid"); if(!host){ return; }
+  var html="", i, c;
+  for(i=0;i<TN_CHECKS.length;i++){
+    c=TN_CHECKS[i];
+    html+='<button class="tn-card" data-check="'+c.n+'" onclick="tnPick('+c.n+')"><span class="tn-num">Check '+c.n+'</span><span class="tn-title">Check '+c.n+' &mdash; '+escapeHtml(c.name)+'</span>'
+      +'<span class="tn-desc">'+(c.ready?escapeHtml(c.desc):"Instructional resources are being developed for this check.")+'</span>'
+      +'<span class="tn-chip'+(c.ready?" on":"")+'">'+(c.ready?"Resources available":"In development")+'</span></button>';
+  }
+  host.innerHTML=html;
+}
+/* choosing a check from the hub: not "from a review", but the page keeps
+   whatever student/class that page already had selected */
+function tnPick(n){ TN_FROM=null; TN_STU=null; tnOpenCheck(n); }
+function tnOpenCheck(n){
+  var c=TN_CHECKS[n-1]; TN_N=n;
+  if(c.ready){ go(c.go); } else { go("tnCheck"); }
+}
+function tnClassOf(sid){
+  var i, j; for(i=0;i<CLASSES.length;i++){ for(j=0;j<CLASSES[i].students.length;j++){ if(CLASSES[i].students[j].id===sid){ return i; } } }
+  return -1;
+}
+/* from an assessment review: open that check's page, carrying the student */
+function tnFromReview(reviewId,sid){
+  TN_FROM=reviewId; TN_STU=sid||null;
+  var n=TN_REVIEW_CHECK[reviewId];
+  if(n===1){ C1N_STU=TN_STU; if(TN_STU&&tnClassOf(TN_STU)>-1){ C1N_CLS=tnClassOf(TN_STU); } }
+  if(n===2){ C2N_STU=TN_STU; if(TN_STU&&tnClassOf(TN_STU)>-1){ C2N_CLS=tnClassOf(TN_STU); } }
+  tnOpenCheck(n);
+}
+/* back to the same review with the same class + student selected */
+function tnReturnToReview(){
+  var from=TN_FROM, sid=TN_STU; if(!from){ return; }
+  go(from);
+  var P=TN_REVIEW_PREFIX[from], lo=P.toLowerCase();
+  if(sid){
+    var ci=tnClassOf(sid);
+    if(ci>-1){ window["C"+P+"T_CLS"]=ci; }
+    window["C"+P+"T_STU"]=sid;
+    if(typeof window["C"+P+"T_ATTEMPT"]!=="undefined"){ window["C"+P+"T_ATTEMPT"]=null; }
+    window["c"+lo+"tPaintClasses"](); window["c"+lo+"tPaintRoster"](); window["c"+lo+"tPaintAttemptList"]();
+  }
+}
+function tnPaintNav(){
+  var navs=document.getElementsByClassName("tn-nav"), i, html;
+  html='<button class="pill-btn pill-btn-secondary" onclick="go(\'teachNext\')">Back to What to Teach Next</button>'
+    +'<button class="pill-btn pill-btn-secondary" onclick="go(\'s-home\')">Back to Teacher Dashboard</button>'
+    +(TN_FROM?'<button class="pill-btn pill-btn-primary" onclick="tnReturnToReview()">Return to Student Review</button>':"");
+  for(i=0;i<navs.length;i++){ if(navs[i].id!=="" && navs[i].id!=="tn-check-nav"){ continue; } navs[i].innerHTML=html; }
+}
+function tnCheckEnter(){
+  var c=TN_CHECKS[TN_N-1]; if(!c){ return; }
+  document.getElementById("tn-check-title").textContent="Check "+c.n+" — "+c.name;
+  document.getElementById("tn-check-crumb").textContent="Check "+c.n;
+  var html='<p class="step-eyebrow" style="margin-top:0">Assessment review</p><div class="c1n-row">', i;
+  for(i=0;i<c.reviews.length;i++){ html+='<button class="pill-btn pill-btn-secondary" onclick="go(\''+c.reviews[i][1]+'\')">'+c.reviews[i][0]+'</button>'; }
+  document.getElementById("tn-check-reviews").innerHTML=html+'</div>';
+  tnPaintNav();
+}
+
 /* ---------- Check 1: "What to Teach Next" (teacher-only) ----------
    Serves the two approved letter-name slideshows (check1-slides/, 13 PNG
    slides each, exported straight from the original .pptx files), plus a
@@ -5913,6 +6006,7 @@ function c1nClassOf(sid){
   return C1N_CLS;
 }
 function c1nEnter(){
+  tnPaintNav();
   C1N_SET=null; C1N_IDX=0; C1N_ML_OPEN=false; C1N_PICK_OPEN=false; C1N_ML_ANON={manual:[],marks:{}};
   var v=document.getElementById("c1n-viewer"); if(v){ v.style.display="none"; }
   c1nPaintClasses(); c1nPaintRoster(); c1nPaintStudent();
@@ -6154,7 +6248,7 @@ var C2N_CARD={
 };
 var C2N_NOCARD={"2A:c":"c has two possible target sounds, so no single card is assumed","2A:q":"q (/kw/) has no card in this set","2A:x":"x (/ks/) has no card in this set"};
 var C2N_CLS=0, C2N_STU=null;
-function c2nEnter(){ c2nPaintClasses(); c2nPaintRoster(); c2nPaintStudent(); }
+function c2nEnter(){ tnPaintNav(); c2nPaintClasses(); c2nPaintRoster(); c2nPaintStudent(); }
 function c2nPaintClasses(){
   var seg=document.getElementById("c2n-class"); if(!seg){ return; }
   var html="", i; for(i=0;i<CLASSES.length;i++){ html+='<button onclick="c2nPickClass('+i+')" class="'+(i===C2N_CLS?"on":"")+'">'+escapeHtml(CLASSES[i].label)+"</button>"; }

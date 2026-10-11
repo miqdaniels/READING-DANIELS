@@ -16,7 +16,8 @@ w.localStorage.setItem("rf_check1_attempts",JSON.stringify([{id:"a1",studentId:"
 var before=snap();
 w.go("s-home");
 Array.prototype.filter.call(d.querySelectorAll("#s-home .teach-tile"),function(b){ return /Teach Next/.test(b.textContent); })[0].click();
-ok(/active/.test($("c1Next").className),"reachable from Practice > Teach Next with no student picked");
+d.querySelector('.tn-card[data-check="1"]').click();
+ok(/active/.test($("c1Next").className),"reachable from Practice > Teach Next > Check 1 with no student picked");
 ok(!!$("c1n-recheck") && /Targeted Recheck/.test($("c1n-recheck").textContent),"Targeted Recheck section present with no student");
 Object.keys(F).forEach(function(id){
   var a=$("c1n-"+id), href=a&&a.getAttribute("href");

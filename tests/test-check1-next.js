@@ -32,7 +32,9 @@ var tile=Array.prototype.filter.call(d.querySelectorAll("#s-home .teach-tile"),f
 ok(!!tile,"Practice section has the Teach Next tile");
 ok(tile && tile.closest(".teach-cat-block").querySelector(".teach-cat-title").textContent==="Practice","tile sits under Practice");
 tile.click();
-ok(/active/.test($("c1Next").className),"tile opens the What to Teach Next page");
+ok(/active/.test($("teachNext").className),"Teach Next tile opens the seven-check hub");
+d.querySelector('.tn-card[data-check="1"]').click();
+ok(/active/.test($("c1Next").className),"Check 1 card opens the Check 1 resources");
 ok(/No student picked/.test($("c1n-student-note").textContent),"no student: says none picked");
 ok($("c1n-practice").innerHTML==="","no student: no Letters-to-practice list");
 ok(!$("c1n-print-btn"),"no student: no print button");
