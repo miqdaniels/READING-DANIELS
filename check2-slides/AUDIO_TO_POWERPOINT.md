@@ -5,7 +5,7 @@ Recording Studio. Its small speaker icons are placeholders. The web slideshow pl
 the speaker icon; the PowerPoint does not contain any audio until you add it yourself.
 
 ## 1. Export your recordings
-Teacher Dashboard > What to Teach Next > Check 2 > Teacher Sound Recording Studio > **Export all recordings (ZIP)**.
+Teacher Dashboard > What to Teach Next > Check 2 > Teacher Sound Recording Studio > **Export All Sound Recordings**.
 The ZIP has `manifest.json` (which sound goes with which file and slide), `README.txt`, and an `audio/` folder with
 files named like `c2_sound_01_b.webm`.
 

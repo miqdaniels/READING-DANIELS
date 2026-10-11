@@ -1126,11 +1126,11 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="c1n-card" style="margin-top:16px">
         <h3 style="margin:0 0 6px">Keep your recordings safe</h3>
         <p class="mini-note" id="c2st-storage"></p>
-        <p class="mini-note">Recordings are kept only in this browser on this computer. Clearing browser data or using another computer can remove them unless you export them. Drafts you have not saved are lost when you leave this page.</p>
+        <p class="mini-note">Your saved recordings belong to this browser on this computer until you export them. They do not sync to other computers. Clearing browser data, or using another computer, can remove them unless you export them first. Drafts you have not saved are lost when you leave this page.</p>
         <p class="mini-note" id="c2st-format"></p>
         <div class="c1n-row">
-          <button class="pill-btn pill-btn-primary" id="c2st-export" onclick="c2stExport()">Export all recordings (ZIP)</button>
-          <label class="pill-btn pill-btn-secondary" for="c2st-import-file" id="c2st-import-label" style="margin:0">Import recordings (ZIP)</label>
+          <button class="pill-btn pill-btn-primary" id="c2st-export" onclick="c2stExport()">Export All Sound Recordings</button>
+          <label class="pill-btn pill-btn-secondary" for="c2st-import-file" id="c2st-import-label" style="margin:0">Import Sound Recordings</label>
           <input type="file" id="c2st-import-file" accept=".zip,application/zip" style="display:none" onchange="c2stImportPick(this)">
         </div>
         <div id="c2st-import-confirm"></div>
