@@ -743,31 +743,31 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
 
 /* ===== Check 1 "What to Teach Next" (teacher-only). Quiet Square: rounded
    rectangles (10px), --ink-soft/--accent only, no red/green. ===== */
-#c1Next .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:11px 20px;cursor:pointer;touch-action:manipulation;text-decoration:none;box-sizing:border-box}
-#c1Next .pill-btn-primary{background:var(--accent);border:1.5px solid var(--accent);color:#fff}
-#c1Next .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
-#c1Next .pill-btn[disabled]{opacity:.4;cursor:default}
-#c1Next .c1n-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px 18px;margin:0 0 16px}
-#c1Next .c1n-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
-#c1Next .c1n-sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:0 0 16px}
-#c1Next .c1n-sets .c1n-card{margin:0}
+#c1Next .pill-btn,#c2Next .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:11px 20px;cursor:pointer;touch-action:manipulation;text-decoration:none;box-sizing:border-box}
+#c1Next .pill-btn-primary,#c2Next .pill-btn-primary{background:var(--accent);border:1.5px solid var(--accent);color:#fff}
+#c1Next .pill-btn-secondary,#c2Next .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+#c1Next .pill-btn[disabled],#c2Next .pill-btn[disabled]{opacity:.4;cursor:default}
+#c1Next .c1n-card,#c2Next .c1n-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px 18px;margin:0 0 16px}
+#c1Next .c1n-row,#c2Next .c1n-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+#c1Next .c1n-sets,#c2Next .c1n-sets{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:0 0 16px}
+#c1Next .c1n-sets .c1n-card,#c2Next .c1n-sets .c1n-card{margin:0}
 #c1Next #c1n-viewer{width:min(96vw,1180px);position:relative;left:50%;transform:translateX(-50%);box-sizing:border-box}
-#c1Next .c1n-stage{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;text-align:center}
-#c1Next .c1n-stage img{display:block;width:100%;height:auto;max-height:78vh;object-fit:contain;margin:0 auto;background:#fff}
-#c1Next .c1n-stage:fullscreen{display:flex;align-items:center;justify-content:center;background:#fff;border:0;border-radius:0}
-#c1Next .c1n-stage:fullscreen img{max-height:100vh;height:100vh;width:100%}
-#c1Next .c1n-pairs{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
-#c1Next .c1n-pair{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;touch-action:manipulation}
-#c1Next .c1n-pair.on{border-color:var(--accent);background:var(--accent);color:#fff}
-#c1Next .c1n-steps{margin:6px 0 10px 20px;padding:0;line-height:1.6}
-#c1Next .c1n-foot{margin:22px 0 4px;font-size:13px;color:var(--ink-soft)}
-#c1Next .c1n-ml-row{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
-#c1Next .c1n-ml-letter{font-size:34px;font-weight:700;min-width:44px;text-align:center}
-#c1Next .c1n-ml-kind{font-size:12px;color:var(--ink-soft);display:block;text-align:center}
-#c1Next .c1n-mark{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;touch-action:manipulation}
-#c1Next .c1n-mark.on{border-color:var(--accent);background:var(--accent);color:#fff}
-#c1Next .c1n-pickgrid{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
-#c1Next .c1n-pickgrid .c1n-pair{min-width:40px;padding:8px 10px}
+#c1Next .c1n-stage,#c2Next .c1n-stage{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;text-align:center}
+#c1Next .c1n-stage img,#c2Next .c1n-stage img{display:block;width:100%;height:auto;max-height:78vh;object-fit:contain;margin:0 auto;background:#fff}
+#c1Next .c1n-stage:fullscreen,#c2Next .c1n-stage:fullscreen{display:flex;align-items:center;justify-content:center;background:#fff;border:0;border-radius:0}
+#c1Next .c1n-stage:fullscreen img,#c2Next .c1n-stage:fullscreen img{max-height:100vh;height:100vh;width:100%}
+#c1Next .c1n-pairs,#c2Next .c1n-pairs{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+#c1Next .c1n-pair,#c2Next .c1n-pair{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;touch-action:manipulation}
+#c1Next .c1n-pair.on,#c2Next .c1n-pair.on{border-color:var(--accent);background:var(--accent);color:#fff}
+#c1Next .c1n-steps,#c2Next .c1n-steps{margin:6px 0 10px 20px;padding:0;line-height:1.6}
+#c1Next .c1n-foot,#c2Next .c1n-foot{margin:22px 0 4px;font-size:13px;color:var(--ink-soft)}
+#c1Next .c1n-ml-row,#c2Next .c1n-ml-row{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+#c1Next .c1n-ml-letter,#c2Next .c1n-ml-letter{font-size:34px;font-weight:700;min-width:44px;text-align:center}
+#c1Next .c1n-ml-kind,#c2Next .c1n-ml-kind{font-size:12px;color:var(--ink-soft);display:block;text-align:center}
+#c1Next .c1n-mark,#c2Next .c1n-mark{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;touch-action:manipulation}
+#c1Next .c1n-mark.on,#c2Next .c1n-mark.on{border-color:var(--accent);background:var(--accent);color:#fff}
+#c1Next .c1n-pickgrid,#c2Next .c1n-pickgrid{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+#c1Next .c1n-pickgrid .c1n-pair,#c2Next .c1n-pickgrid .c1n-pair{min-width:40px;padding:8px 10px}
 #c1n-print{display:none}
 @media print{
   html,body{background:#fff!important}
@@ -889,6 +889,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
           <div class="teach-tile-grid">
             <button class="teach-tile cat-practice" onclick="go('s-teachGroupLocks')" title="Lock or unlock any group for any student"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><span class="teach-tile-label">Group Locks</span></button>
             <button class="teach-tile cat-practice" onclick="c1nGo(null)" title="What to Teach Next after Check 1: letter-name slides, how-to, and paper practice"><span class="teach-tile-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span class="teach-tile-label">Teach Next</span></button>
+            <button class="teach-tile cat-practice" onclick="go('c2Next')" title="Check 2 What to Teach Next: printable teacher and student sound cards"><span class="teach-tile-icon"><span class="ear-ico ear-tile"></span></span><span class="teach-tile-label">Sound Cards</span></button>
           </div>
         </div>
 
@@ -1308,7 +1309,70 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <div class="seg" id="c2t-class" style="margin:10px 0;flex-wrap:wrap"></div>
       <div class="grid" id="c2t-roster" style="margin-bottom:14px"></div>
       <div id="c2t-body"></div>
+      <button class="btn" onclick="go('c2Next')" style="margin-top:14px">What to Teach Next</button>
       <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
+    </div>
+  </section>
+
+  <!-- CHECK 2: "What to Teach Next" -- teacher-only. Two approved printable
+       44-card sound-card sets (check2-cards/). A teaching library only: it is
+       NOT the 31-target Check 2 assessment and changes nothing about it. -->
+  <section class="screen" data-teacher="1" id="c2Next">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Home</a> &nbsp;/&nbsp; What to Teach Next (Check 2)</p>
+      <h2>What to Teach Next &mdash; Letter Sounds</h2>
+      <p class="lede">Printable sound cards for teaching the letter sounds a student still needs after Check 2. No student needs to be picked.</p>
+
+      <div class="c1n-card" id="c2n-resources">
+        <p class="step-eyebrow">Letter-Sound Teaching and Practice</p>
+        <div class="c1n-sets" style="margin-top:8px">
+          <div class="c1n-card">
+            <h3 style="margin:0 0 4px">Teacher Sound Cards &mdash; 44 Sounds</h3>
+            <p class="mini-note">6 pages, 8 cards per page, with cutting lines</p>
+            <div class="c1n-row">
+              <a class="pill-btn pill-btn-primary" id="c2n-teacher-view" href="check2-cards/Reading_Foundations_Check2_Teacher_Sound_Cards_44_Comic_Neue_Only.pdf" target="_blank" rel="noopener">View Printable PDF</a>
+              <a class="pill-btn pill-btn-secondary" id="c2n-teacher-pdf" href="check2-cards/Reading_Foundations_Check2_Teacher_Sound_Cards_44_Comic_Neue_Only.pdf" download>Download PDF</a>
+              <a class="pill-btn pill-btn-secondary" id="c2n-teacher-docx" href="check2-cards/Reading_Foundations_Check2_Teacher_Sound_Cards_44_Comic_Neue_Only.docx" download>Download Editable Word</a>
+            </div>
+          </div>
+          <div class="c1n-card">
+            <h3 style="margin:0 0 4px">Student Practice Sound Cards &mdash; 44 Sounds</h3>
+            <p class="mini-note">6 pages, 8 cards per page, with cutting lines</p>
+            <div class="c1n-row">
+              <a class="pill-btn pill-btn-primary" id="c2n-student-view" href="check2-cards/Reading_Foundations_Check2_Student_Practice_Cards_44_Comic_Neue_Only.pdf" target="_blank" rel="noopener">View Printable PDF</a>
+              <a class="pill-btn pill-btn-secondary" id="c2n-student-pdf" href="check2-cards/Reading_Foundations_Check2_Student_Practice_Cards_44_Comic_Neue_Only.pdf" download>Download PDF</a>
+              <a class="pill-btn pill-btn-secondary" id="c2n-student-docx" href="check2-cards/Reading_Foundations_Check2_Student_Practice_Cards_44_Comic_Neue_Only.docx" download>Download Editable Word</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="c1n-card" id="c2n-howto">
+        <h3 style="margin:0 0 6px">How to Use the Check 2 Sound Cards</h3>
+        <ol class="c1n-steps">
+          <li>Review the student&rsquo;s Check 2 results.</li>
+          <li>Identify the letter sounds that need more instruction.</li>
+          <li>Select the matching teacher and student sound cards.</li>
+          <li>Sit facing the student and clearly model the target sound.</li>
+          <li>Let the student watch your mouth as you make the sound.</li>
+          <li>Ask the student to make the sound.</li>
+          <li>Show the printed letter or spelling that goes with the sound.</li>
+          <li>Ask the student to make the sound on their own.</li>
+          <li>Correct right away and give more practice when needed.</li>
+        </ol>
+        <p>Pick only the sounds that fit this student&rsquo;s needs. The full set of cards is not a required sequence that every student must complete.</p>
+      </div>
+
+      <div class="c1n-card" id="c2n-note">
+        <h3 style="margin:0 0 6px">31 assessment targets vs. 44 teaching cards</h3>
+        <p>The Check 2 assessment checks 31 targets: consonant letter sounds, short vowels, and long vowels. The 44 cards are a wider teaching library of English sounds and spelling patterns. They are two different lists. The cards do not change Check 2, its scoring, accepted answers, or what unlocks next.</p>
+      </div>
+
+      <p class="c1n-foot">&copy; 2026 Miquela Daniels / AI Academy LLC. All rights reserved.</p>
+      <div class="nav-row" style="margin-top:14px">
+        <button class="btn" onclick="go('check2Teach')">&#8592; Check 2 review</button>
+        <button class="btn" onclick="go('s-home')">Back to start</button>
+      </div>
     </div>
   </section>
 
