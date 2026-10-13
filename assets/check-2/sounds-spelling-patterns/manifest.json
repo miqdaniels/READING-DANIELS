@@ -1,0 +1,1863 @@
+{
+ "schema": 1,
+ "title": "Sounds & Spelling Patterns",
+ "source": {"filename": "Reading_Foundations_Original_v6.pptx", "sha256": "8d645a15e7d640beec1a7058a76c891c723bbf067bf59e1cee674d62ad2a256d", "bytes": 66534181, "slides": 60, "slideWidthEmu": 12192000, "slideHeightEmu": 6858000, "note": "The source deck (66.5 MB) is not stored in the repository; this block identifies it. Order and links below were read from its presentation.xml and slide relationships."},
+ "images": {"dir": "slides", "pattern": "slide-NN.webp", "format": "WebP, lossless", "width": 2560, "height": 1440, "aspect": "16:9", "totalBytes": 78295204},
+ "counts": {
+  "slides": 60,
+  "instructional": 51,
+  "navigation": 9,
+  "categories": {"consonants": 18, "digraphs": 8, "short-vowels": 5, "long-vowels": 7, "diphthongs": 3, "r-controlled": 6, "other-vowels": 4}
+ },
+ "categories": [
+  {"key": "consonants", "title": "Consonants", "deckHeading": "CONSONANTS", "menu": "menu-consonants", "menuSlide": 54, "count": 18, "firstSlide": 3, "lastSlide": 20, "entries": ["sound-01", "sound-02", "sound-03", "sound-04", "sound-05", "sound-06", "sound-07", "sound-08", "sound-09", "sound-10", "sound-11", "sound-12", "sound-13", "sound-14", "sound-15", "sound-16", "sound-17", "sound-18"]},
+  {"key": "digraphs", "title": "Consonant Digraphs & Alternative Spellings", "deckHeading": "CONSONANT DIGRAPHS & ALTERNATIVE SPELLINGS", "menu": "menu-digraphs", "menuSlide": 55, "count": 8, "firstSlide": 21, "lastSlide": 28, "entries": ["sound-19", "sound-20", "sound-21", "sound-22", "sound-23", "sound-24", "sound-25", "sound-26"]},
+  {"key": "short-vowels", "title": "Short Vowels", "deckHeading": "SHORT VOWELS", "menu": "menu-short-vowels", "menuSlide": 56, "count": 5, "firstSlide": 29, "lastSlide": 33, "entries": ["sound-27", "sound-28", "sound-29", "sound-30", "sound-31"]},
+  {"key": "long-vowels", "title": "Long Vowels & Vowel Teams", "deckHeading": "LONG VOWELS & VOWEL TEAMS", "menu": "menu-long-vowels", "menuSlide": 57, "count": 7, "firstSlide": 34, "lastSlide": 40, "entries": ["sound-32", "sound-33", "sound-34", "sound-35", "sound-36", "sound-37", "sound-38"]},
+  {"key": "diphthongs", "title": "Diphthongs", "deckHeading": "DIPHTHONGS", "menu": "menu-diphthongs", "menuSlide": 58, "count": 3, "firstSlide": 41, "lastSlide": 43, "entries": ["sound-39", "sound-40", "sound-41"]},
+  {"key": "r-controlled", "title": "R-Controlled Vowels", "deckHeading": "R-CONTROLLED VOWELS", "menu": "menu-r-controlled", "menuSlide": 59, "count": 6, "firstSlide": 44, "lastSlide": 49, "entries": ["sound-42", "sound-43", "sound-44", "sound-45", "sound-46", "sound-47"]},
+  {"key": "other-vowels", "title": "Other Vowel Sounds & Patterns", "deckHeading": "OTHER VOWEL SOUNDS & PATTERNS", "menu": "menu-other-vowels", "menuSlide": 60, "count": 4, "firstSlide": 50, "lastSlide": 53, "entries": ["sound-48", "sound-49", "sound-50", "sound-51"]}
+ ],
+ "slides": [
+  {
+   "n": 1,
+   "id": "cover",
+   "kind": "cover",
+   "title": "Cover",
+   "image": "slide-01.webp",
+   "deckPart": "slide2.xml",
+   "alt": "Slide 1 of 60. Cover.",
+   "controls": [
+    {"role": "enter", "label": "Explore the Sounds", "aria": "Explore the sounds: Choose a sound category", "to": "menu-main", "slide": 2}
+   ],
+   "hotspots": [
+    {"role": "enter", "label": "Explore the Sounds", "aria": "Explore the sounds: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.26625, 0.78133, 0.465, 0.12667], "via": "invisible"}
+   ]
+  },
+  {
+   "n": 2,
+   "id": "menu-main",
+   "kind": "main-menu",
+   "title": "Choose a sound category",
+   "image": "slide-02.webp",
+   "deckPart": "slide3.xml",
+   "alt": "Slide 2 of 60. Choose a sound category.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Cover", "to": "cover", "slide": 1},
+    {"role": "home", "label": "Home", "aria": "Home: Cover", "to": "cover", "slide": 1},
+    {"role": "sound-list", "label": "Sound List", "aria": "Sound List: Consonants menu", "to": "menu-consonants", "slide": 54},
+    {"role": "next", "label": "Next", "aria": "Next: Consonants menu", "to": "menu-consonants", "slide": 54}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Cover", "to": "cover", "slide": 1, "rect": [0.05475, 0.88933, 0.201, 0.07067], "via": "visible"},
+    {"role": "home", "label": "Home", "aria": "Home: Cover", "to": "cover", "slide": 1, "rect": [0.2685, 0.88933, 0.201, 0.07067], "via": "visible"},
+    {"role": "sound-list", "label": "Sound List", "aria": "Sound List: Consonants menu", "to": "menu-consonants", "slide": 54, "rect": [0.486, 0.88933, 0.201, 0.07067], "via": "visible"},
+    {"role": "next", "label": "Next", "aria": "Next: Consonants menu", "to": "menu-consonants", "slide": 54, "rect": [0.7035, 0.88933, 0.234, 0.07067], "via": "visible"},
+    {"role": "category", "label": "Consonants", "aria": "Open the Consonants menu (18 sounds)", "to": "menu-consonants", "slide": 54, "rect": [0.0585, 0.26933, 0.43125, 0.132], "via": "visible"},
+    {"role": "category", "label": "Consonant Digraphs & Alternative Spellings", "aria": "Open the Consonant Digraphs & Alternative Spellings menu (8 sounds)", "to": "menu-digraphs", "slide": 55, "rect": [0.50925, 0.26933, 0.43125, 0.132], "via": "visible"},
+    {"role": "category", "label": "Short Vowels", "aria": "Open the Short Vowels menu (5 sounds)", "to": "menu-short-vowels", "slide": 56, "rect": [0.0585, 0.42267, 0.43125, 0.132], "via": "visible"},
+    {"role": "category", "label": "Long Vowels & Vowel Teams", "aria": "Open the Long Vowels & Vowel Teams menu (7 sounds)", "to": "menu-long-vowels", "slide": 57, "rect": [0.50925, 0.42267, 0.43125, 0.132], "via": "visible"},
+    {"role": "category", "label": "Diphthongs", "aria": "Open the Diphthongs menu (3 sounds)", "to": "menu-diphthongs", "slide": 58, "rect": [0.0585, 0.576, 0.43125, 0.132], "via": "visible"},
+    {"role": "category", "label": "R-Controlled Vowels", "aria": "Open the R-Controlled Vowels menu (6 sounds)", "to": "menu-r-controlled", "slide": 59, "rect": [0.50925, 0.576, 0.43125, 0.132], "via": "visible"},
+    {"role": "category", "label": "Other Vowel Sounds & Patterns", "aria": "Open the Other Vowel Sounds & Patterns menu (4 sounds)", "to": "menu-other-vowels", "slide": 60, "rect": [0.285, 0.728, 0.43125, 0.132], "via": "visible"}
+   ],
+   "count": 7
+  },
+  {
+   "n": 3,
+   "id": "sound-01",
+   "kind": "sound",
+   "title": "Sound 1: /b/ as in bat",
+   "image": "slide-03.webp",
+   "deckPart": "slide4.xml",
+   "alt": "Slide 3 of 60. Sound 1: /b/ as in bat.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Consonants menu", "to": "menu-consonants", "slide": 54},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 2: /k/ as in cat", "to": "sound-02", "slide": 4}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Consonants menu", "to": "menu-consonants", "slide": 54, "rect": [0.02417, 0.90936, 0.20416, 0.06107], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25416, 0.06107], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23666, 0.06107], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 2: /k/ as in cat", "to": "sound-02", "slide": 4, "rect": [0.75917, 0.90936, 0.2175, 0.06107], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 1,
+   "symbol": "/b/",
+   "word": "bat",
+   "menuText": "01 /b/ · bat",
+   "indexInCategory": 1,
+   "categoryCount": 18
+  },
+  {
+   "n": 4,
+   "id": "sound-02",
+   "kind": "sound",
+   "title": "Sound 2: /k/ as in cat",
+   "image": "slide-04.webp",
+   "deckPart": "slide5.xml",
+   "alt": "Slide 4 of 60. Sound 2: /k/ as in cat.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 1: /b/ as in bat", "to": "sound-01", "slide": 3},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 3: /d/ as in dog", "to": "sound-03", "slide": 5}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 1: /b/ as in bat", "to": "sound-01", "slide": 3, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 3: /d/ as in dog", "to": "sound-03", "slide": 5, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 2,
+   "symbol": "/k/",
+   "word": "cat",
+   "menuText": "02 /k/ · cat",
+   "indexInCategory": 2,
+   "categoryCount": 18
+  },
+  {
+   "n": 5,
+   "id": "sound-03",
+   "kind": "sound",
+   "title": "Sound 3: /d/ as in dog",
+   "image": "slide-05.webp",
+   "deckPart": "slide6.xml",
+   "alt": "Slide 5 of 60. Sound 3: /d/ as in dog.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 2: /k/ as in cat", "to": "sound-02", "slide": 4},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 4: /f/ as in fan", "to": "sound-04", "slide": 6}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 2: /k/ as in cat", "to": "sound-02", "slide": 4, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 4: /f/ as in fan", "to": "sound-04", "slide": 6, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 3,
+   "symbol": "/d/",
+   "word": "dog",
+   "menuText": "03 /d/ · dog",
+   "indexInCategory": 3,
+   "categoryCount": 18
+  },
+  {
+   "n": 6,
+   "id": "sound-04",
+   "kind": "sound",
+   "title": "Sound 4: /f/ as in fan",
+   "image": "slide-06.webp",
+   "deckPart": "slide7.xml",
+   "alt": "Slide 6 of 60. Sound 4: /f/ as in fan.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 3: /d/ as in dog", "to": "sound-03", "slide": 5},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 5: /g/ as in go", "to": "sound-05", "slide": 7}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 3: /d/ as in dog", "to": "sound-03", "slide": 5, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 5: /g/ as in go", "to": "sound-05", "slide": 7, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 4,
+   "symbol": "/f/",
+   "word": "fan",
+   "menuText": "04 /f/ · fan",
+   "indexInCategory": 4,
+   "categoryCount": 18
+  },
+  {
+   "n": 7,
+   "id": "sound-05",
+   "kind": "sound",
+   "title": "Sound 5: /g/ as in go",
+   "image": "slide-07.webp",
+   "deckPart": "slide8.xml",
+   "alt": "Slide 7 of 60. Sound 5: /g/ as in go.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 4: /f/ as in fan", "to": "sound-04", "slide": 6},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 6: /h/ as in hat", "to": "sound-06", "slide": 8}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 4: /f/ as in fan", "to": "sound-04", "slide": 6, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 6: /h/ as in hat", "to": "sound-06", "slide": 8, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 5,
+   "symbol": "/g/",
+   "word": "go",
+   "menuText": "05 /g/ · go",
+   "indexInCategory": 5,
+   "categoryCount": 18
+  },
+  {
+   "n": 8,
+   "id": "sound-06",
+   "kind": "sound",
+   "title": "Sound 6: /h/ as in hat",
+   "image": "slide-08.webp",
+   "deckPart": "slide9.xml",
+   "alt": "Slide 8 of 60. Sound 6: /h/ as in hat.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 5: /g/ as in go", "to": "sound-05", "slide": 7},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 7: /j/ as in jam", "to": "sound-07", "slide": 9}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 5: /g/ as in go", "to": "sound-05", "slide": 7, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 7: /j/ as in jam", "to": "sound-07", "slide": 9, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 6,
+   "symbol": "/h/",
+   "word": "hat",
+   "menuText": "06 /h/ · hat",
+   "indexInCategory": 6,
+   "categoryCount": 18
+  },
+  {
+   "n": 9,
+   "id": "sound-07",
+   "kind": "sound",
+   "title": "Sound 7: /j/ as in jam",
+   "image": "slide-09.webp",
+   "deckPart": "slide10.xml",
+   "alt": "Slide 9 of 60. Sound 7: /j/ as in jam.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 6: /h/ as in hat", "to": "sound-06", "slide": 8},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 8: /l/ as in leg", "to": "sound-08", "slide": 10}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 6: /h/ as in hat", "to": "sound-06", "slide": 8, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 8: /l/ as in leg", "to": "sound-08", "slide": 10, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 7,
+   "symbol": "/j/",
+   "word": "jam",
+   "menuText": "07 /j/ · jam",
+   "indexInCategory": 7,
+   "categoryCount": 18
+  },
+  {
+   "n": 10,
+   "id": "sound-08",
+   "kind": "sound",
+   "title": "Sound 8: /l/ as in leg",
+   "image": "slide-10.webp",
+   "deckPart": "slide11.xml",
+   "alt": "Slide 10 of 60. Sound 8: /l/ as in leg.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 7: /j/ as in jam", "to": "sound-07", "slide": 9},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 9: /m/ as in man", "to": "sound-09", "slide": 11}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 7: /j/ as in jam", "to": "sound-07", "slide": 9, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 9: /m/ as in man", "to": "sound-09", "slide": 11, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 8,
+   "symbol": "/l/",
+   "word": "leg",
+   "menuText": "08 /l/ · leg",
+   "indexInCategory": 8,
+   "categoryCount": 18
+  },
+  {
+   "n": 11,
+   "id": "sound-09",
+   "kind": "sound",
+   "title": "Sound 9: /m/ as in man",
+   "image": "slide-11.webp",
+   "deckPart": "slide12.xml",
+   "alt": "Slide 11 of 60. Sound 9: /m/ as in man.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 8: /l/ as in leg", "to": "sound-08", "slide": 10},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 10: /n/ as in nest", "to": "sound-10", "slide": 12}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 8: /l/ as in leg", "to": "sound-08", "slide": 10, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 10: /n/ as in nest", "to": "sound-10", "slide": 12, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 9,
+   "symbol": "/m/",
+   "word": "man",
+   "menuText": "09 /m/ · man",
+   "indexInCategory": 9,
+   "categoryCount": 18
+  },
+  {
+   "n": 12,
+   "id": "sound-10",
+   "kind": "sound",
+   "title": "Sound 10: /n/ as in nest",
+   "image": "slide-12.webp",
+   "deckPart": "slide13.xml",
+   "alt": "Slide 12 of 60. Sound 10: /n/ as in nest.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 9: /m/ as in man", "to": "sound-09", "slide": 11},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 11: /p/ as in Paul", "to": "sound-11", "slide": 13}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 9: /m/ as in man", "to": "sound-09", "slide": 11, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 11: /p/ as in Paul", "to": "sound-11", "slide": 13, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 10,
+   "symbol": "/n/",
+   "word": "nest",
+   "menuText": "10 /n/ · nest",
+   "indexInCategory": 10,
+   "categoryCount": 18
+  },
+  {
+   "n": 13,
+   "id": "sound-11",
+   "kind": "sound",
+   "title": "Sound 11: /p/ as in Paul",
+   "image": "slide-13.webp",
+   "deckPart": "slide14.xml",
+   "alt": "Slide 13 of 60. Sound 11: /p/ as in Paul.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 10: /n/ as in nest", "to": "sound-10", "slide": 12},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 12: /r/ as in Rachel", "to": "sound-12", "slide": 14}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 10: /n/ as in nest", "to": "sound-10", "slide": 12, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 12: /r/ as in Rachel", "to": "sound-12", "slide": 14, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 11,
+   "symbol": "/p/",
+   "word": "Paul",
+   "menuText": "11 /p/ · Paul",
+   "indexInCategory": 11,
+   "categoryCount": 18
+  },
+  {
+   "n": 14,
+   "id": "sound-12",
+   "kind": "sound",
+   "title": "Sound 12: /r/ as in Rachel",
+   "image": "slide-14.webp",
+   "deckPart": "slide15.xml",
+   "alt": "Slide 14 of 60. Sound 12: /r/ as in Rachel.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 11: /p/ as in Paul", "to": "sound-11", "slide": 13},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 13: /s/ as in Selena", "to": "sound-13", "slide": 15}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 11: /p/ as in Paul", "to": "sound-11", "slide": 13, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 13: /s/ as in Selena", "to": "sound-13", "slide": 15, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 12,
+   "symbol": "/r/",
+   "word": "Rachel",
+   "menuText": "12 /r/ · Rachel",
+   "indexInCategory": 12,
+   "categoryCount": 18
+  },
+  {
+   "n": 15,
+   "id": "sound-13",
+   "kind": "sound",
+   "title": "Sound 13: /s/ as in Selena",
+   "image": "slide-15.webp",
+   "deckPart": "slide16.xml",
+   "alt": "Slide 15 of 60. Sound 13: /s/ as in Selena.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 12: /r/ as in Rachel", "to": "sound-12", "slide": 14},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 14: /t/ as in top", "to": "sound-14", "slide": 16}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 12: /r/ as in Rachel", "to": "sound-12", "slide": 14, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 14: /t/ as in top", "to": "sound-14", "slide": 16, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 13,
+   "symbol": "/s/",
+   "word": "Selena",
+   "menuText": "13 /s/ · Selena",
+   "indexInCategory": 13,
+   "categoryCount": 18
+  },
+  {
+   "n": 16,
+   "id": "sound-14",
+   "kind": "sound",
+   "title": "Sound 14: /t/ as in top",
+   "image": "slide-16.webp",
+   "deckPart": "slide17.xml",
+   "alt": "Slide 16 of 60. Sound 14: /t/ as in top.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 13: /s/ as in Selena", "to": "sound-13", "slide": 15},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 15: /v/ as in van", "to": "sound-15", "slide": 17}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 13: /s/ as in Selena", "to": "sound-13", "slide": 15, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 15: /v/ as in van", "to": "sound-15", "slide": 17, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 14,
+   "symbol": "/t/",
+   "word": "top",
+   "menuText": "14 /t/ · top",
+   "indexInCategory": 14,
+   "categoryCount": 18
+  },
+  {
+   "n": 17,
+   "id": "sound-15",
+   "kind": "sound",
+   "title": "Sound 15: /v/ as in van",
+   "image": "slide-17.webp",
+   "deckPart": "slide18.xml",
+   "alt": "Slide 17 of 60. Sound 15: /v/ as in van.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 14: /t/ as in top", "to": "sound-14", "slide": 16},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 16: /w/ as in web", "to": "sound-16", "slide": 18}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 14: /t/ as in top", "to": "sound-14", "slide": 16, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 16: /w/ as in web", "to": "sound-16", "slide": 18, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 15,
+   "symbol": "/v/",
+   "word": "van",
+   "menuText": "15 /v/ · van",
+   "indexInCategory": 15,
+   "categoryCount": 18
+  },
+  {
+   "n": 18,
+   "id": "sound-16",
+   "kind": "sound",
+   "title": "Sound 16: /w/ as in web",
+   "image": "slide-18.webp",
+   "deckPart": "slide19.xml",
+   "alt": "Slide 18 of 60. Sound 16: /w/ as in web.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 15: /v/ as in van", "to": "sound-15", "slide": 17},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 17: /y/ as in yes", "to": "sound-17", "slide": 19}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 15: /v/ as in van", "to": "sound-15", "slide": 17, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 17: /y/ as in yes", "to": "sound-17", "slide": 19, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 16,
+   "symbol": "/w/",
+   "word": "web",
+   "menuText": "16 /w/ · web",
+   "indexInCategory": 16,
+   "categoryCount": 18
+  },
+  {
+   "n": 19,
+   "id": "sound-17",
+   "kind": "sound",
+   "title": "Sound 17: /y/ as in yes",
+   "image": "slide-19.webp",
+   "deckPart": "slide20.xml",
+   "alt": "Slide 19 of 60. Sound 17: /y/ as in yes.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 16: /w/ as in web", "to": "sound-16", "slide": 18},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 18: /z/ as in zipper", "to": "sound-18", "slide": 20}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 16: /w/ as in web", "to": "sound-16", "slide": 18, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 18: /z/ as in zipper", "to": "sound-18", "slide": 20, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 17,
+   "symbol": "/y/",
+   "word": "yes",
+   "menuText": "17 /y/ · yes",
+   "indexInCategory": 17,
+   "categoryCount": 18
+  },
+  {
+   "n": 20,
+   "id": "sound-18",
+   "kind": "sound",
+   "title": "Sound 18: /z/ as in zipper",
+   "image": "slide-20.webp",
+   "deckPart": "slide21.xml",
+   "alt": "Slide 20 of 60. Sound 18: /z/ as in zipper.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 17: /y/ as in yes", "to": "sound-17", "slide": 19},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Consonants menu", "to": "menu-consonants", "slide": 54}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 17: /y/ as in yes", "to": "sound-17", "slide": 19, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonants", "to": "menu-consonants", "slide": 54, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Consonants menu", "to": "menu-consonants", "slide": 54, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "entry": 18,
+   "symbol": "/z/",
+   "word": "zipper",
+   "menuText": "18 /z/ · zipper",
+   "indexInCategory": 18,
+   "categoryCount": 18
+  },
+  {
+   "n": 21,
+   "id": "sound-19",
+   "kind": "sound",
+   "title": "Sound 19: /ch/ as in chip",
+   "image": "slide-21.webp",
+   "deckPart": "slide22.xml",
+   "alt": "Slide 21 of 60. Sound 19: /ch/ as in chip.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Consonant Digraphs & Alternative Spellings menu", "to": "menu-digraphs", "slide": 55},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 20: /sh/ as in ship", "to": "sound-20", "slide": 22}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Consonant Digraphs & Alternative Spellings menu", "to": "menu-digraphs", "slide": 55, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 20: /sh/ as in ship", "to": "sound-20", "slide": 22, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "digraphs",
+   "categoryTitle": "Consonant Digraphs & Alternative Spellings",
+   "entry": 19,
+   "symbol": "/ch/",
+   "word": "chip",
+   "menuText": "19 /ch/ · chip",
+   "indexInCategory": 1,
+   "categoryCount": 8
+  },
+  {
+   "n": 22,
+   "id": "sound-20",
+   "kind": "sound",
+   "title": "Sound 20: /sh/ as in ship",
+   "image": "slide-22.webp",
+   "deckPart": "slide23.xml",
+   "alt": "Slide 22 of 60. Sound 20: /sh/ as in ship.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 19: /ch/ as in chip", "to": "sound-19", "slide": 21},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 21: /sh/, spelled ti, as in station", "to": "sound-21", "slide": 23}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 19: /ch/ as in chip", "to": "sound-19", "slide": 21, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 21: /sh/, spelled ti, as in station", "to": "sound-21", "slide": 23, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "digraphs",
+   "categoryTitle": "Consonant Digraphs & Alternative Spellings",
+   "entry": 20,
+   "symbol": "/sh/",
+   "word": "ship",
+   "menuText": "20 /sh/ · ship",
+   "indexInCategory": 2,
+   "categoryCount": 8
+  },
+  {
+   "n": 23,
+   "id": "sound-21",
+   "kind": "sound",
+   "title": "Sound 21: /sh/, spelled ti, as in station",
+   "image": "slide-23.webp",
+   "deckPart": "slide24.xml",
+   "alt": "Slide 23 of 60. Sound 21: /sh/, spelled ti, as in station.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 20: /sh/ as in ship", "to": "sound-20", "slide": 22},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 22: /sh/, spelled ci, as in special", "to": "sound-22", "slide": 24}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 20: /sh/ as in ship", "to": "sound-20", "slide": 22, "rect": [0.02417, 0.90936, 0.20416, 0.06107], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55, "rect": [0.24167, 0.90936, 0.25416, 0.06107], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23666, 0.06107], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 22: /sh/, spelled ci, as in special", "to": "sound-22", "slide": 24, "rect": [0.75917, 0.90936, 0.2175, 0.06107], "via": "visible+invisible"}
+   ],
+   "category": "digraphs",
+   "categoryTitle": "Consonant Digraphs & Alternative Spellings",
+   "entry": 21,
+   "symbol": "/sh/",
+   "word": "station",
+   "menuText": "21 /sh/ · ti · station",
+   "indexInCategory": 3,
+   "categoryCount": 8
+  },
+  {
+   "n": 24,
+   "id": "sound-22",
+   "kind": "sound",
+   "title": "Sound 22: /sh/, spelled ci, as in special",
+   "image": "slide-24.webp",
+   "deckPart": "slide25.xml",
+   "alt": "Slide 24 of 60. Sound 22: /sh/, spelled ci, as in special.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 21: /sh/, spelled ti, as in station", "to": "sound-21", "slide": 23},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 23: /th/ as in thumb", "to": "sound-23", "slide": 25}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 21: /sh/, spelled ti, as in station", "to": "sound-21", "slide": 23, "rect": [0.02417, 0.90936, 0.20416, 0.06107], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55, "rect": [0.24167, 0.90936, 0.25416, 0.06107], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23666, 0.06107], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 23: /th/ as in thumb", "to": "sound-23", "slide": 25, "rect": [0.75917, 0.90936, 0.2175, 0.06107], "via": "visible+invisible"}
+   ],
+   "category": "digraphs",
+   "categoryTitle": "Consonant Digraphs & Alternative Spellings",
+   "entry": 22,
+   "symbol": "/sh/",
+   "word": "special",
+   "menuText": "22 /sh/ · ci · special",
+   "indexInCategory": 4,
+   "categoryCount": 8
+  },
+  {
+   "n": 25,
+   "id": "sound-23",
+   "kind": "sound",
+   "title": "Sound 23: /th/ as in thumb",
+   "image": "slide-25.webp",
+   "deckPart": "slide26.xml",
+   "alt": "Slide 25 of 60. Sound 23: /th/ as in thumb.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 22: /sh/, spelled ci, as in special", "to": "sound-22", "slide": 24},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 24: /th/ as in this", "to": "sound-24", "slide": 26}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 22: /sh/, spelled ci, as in special", "to": "sound-22", "slide": 24, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 24: /th/ as in this", "to": "sound-24", "slide": 26, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "digraphs",
+   "categoryTitle": "Consonant Digraphs & Alternative Spellings",
+   "entry": 23,
+   "symbol": "/th/",
+   "word": "thumb",
+   "menuText": "23 /th/ · thumb",
+   "indexInCategory": 5,
+   "categoryCount": 8
+  },
+  {
+   "n": 26,
+   "id": "sound-24",
+   "kind": "sound",
+   "title": "Sound 24: /th/ as in this",
+   "image": "slide-26.webp",
+   "deckPart": "slide27.xml",
+   "alt": "Slide 26 of 60. Sound 24: /th/ as in this.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 23: /th/ as in thumb", "to": "sound-23", "slide": 25},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 25: /ng/ as in ring", "to": "sound-25", "slide": 27}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 23: /th/ as in thumb", "to": "sound-23", "slide": 25, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 25: /ng/ as in ring", "to": "sound-25", "slide": 27, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "digraphs",
+   "categoryTitle": "Consonant Digraphs & Alternative Spellings",
+   "entry": 24,
+   "symbol": "/th/",
+   "word": "this",
+   "menuText": "24 /th/ · this",
+   "indexInCategory": 6,
+   "categoryCount": 8
+  },
+  {
+   "n": 27,
+   "id": "sound-25",
+   "kind": "sound",
+   "title": "Sound 25: /ng/ as in ring",
+   "image": "slide-27.webp",
+   "deckPart": "slide28.xml",
+   "alt": "Slide 27 of 60. Sound 25: /ng/ as in ring.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 24: /th/ as in this", "to": "sound-24", "slide": 26},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 26: /zh/ as in vision", "to": "sound-26", "slide": 28}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 24: /th/ as in this", "to": "sound-24", "slide": 26, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 26: /zh/ as in vision", "to": "sound-26", "slide": 28, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "digraphs",
+   "categoryTitle": "Consonant Digraphs & Alternative Spellings",
+   "entry": 25,
+   "symbol": "/ng/",
+   "word": "ring",
+   "menuText": "25 /ng/ · ring",
+   "indexInCategory": 7,
+   "categoryCount": 8
+  },
+  {
+   "n": 28,
+   "id": "sound-26",
+   "kind": "sound",
+   "title": "Sound 26: /zh/ as in vision",
+   "image": "slide-28.webp",
+   "deckPart": "slide29.xml",
+   "alt": "Slide 28 of 60. Sound 26: /zh/ as in vision.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 25: /ng/ as in ring", "to": "sound-25", "slide": 27},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Consonant Digraphs & Alternative Spellings menu", "to": "menu-digraphs", "slide": 55}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 25: /ng/ as in ring", "to": "sound-25", "slide": 27, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Consonant Digraphs & Alternative Spellings", "to": "menu-digraphs", "slide": 55, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Consonant Digraphs & Alternative Spellings menu", "to": "menu-digraphs", "slide": 55, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "digraphs",
+   "categoryTitle": "Consonant Digraphs & Alternative Spellings",
+   "entry": 26,
+   "symbol": "/zh/",
+   "word": "vision",
+   "menuText": "26 /zh/ · vision",
+   "indexInCategory": 8,
+   "categoryCount": 8
+  },
+  {
+   "n": 29,
+   "id": "sound-27",
+   "kind": "sound",
+   "title": "Sound 27: short a as in apple",
+   "image": "slide-29.webp",
+   "deckPart": "slide30.xml",
+   "alt": "Slide 29 of 60. Sound 27: short a as in apple.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Short Vowels menu", "to": "menu-short-vowels", "slide": 56},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Short Vowels", "to": "menu-short-vowels", "slide": 56},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 28: short e as in egg", "to": "sound-28", "slide": 30}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Short Vowels menu", "to": "menu-short-vowels", "slide": 56, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Short Vowels", "to": "menu-short-vowels", "slide": 56, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 28: short e as in egg", "to": "sound-28", "slide": 30, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "short-vowels",
+   "categoryTitle": "Short Vowels",
+   "entry": 27,
+   "symbol": "short a",
+   "word": "apple",
+   "menuText": "27 short a · apple",
+   "indexInCategory": 1,
+   "categoryCount": 5
+  },
+  {
+   "n": 30,
+   "id": "sound-28",
+   "kind": "sound",
+   "title": "Sound 28: short e as in egg",
+   "image": "slide-30.webp",
+   "deckPart": "slide31.xml",
+   "alt": "Slide 30 of 60. Sound 28: short e as in egg.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 27: short a as in apple", "to": "sound-27", "slide": 29},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Short Vowels", "to": "menu-short-vowels", "slide": 56},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 29: short i as in igloo", "to": "sound-29", "slide": 31}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 27: short a as in apple", "to": "sound-27", "slide": 29, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Short Vowels", "to": "menu-short-vowels", "slide": 56, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 29: short i as in igloo", "to": "sound-29", "slide": 31, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "short-vowels",
+   "categoryTitle": "Short Vowels",
+   "entry": 28,
+   "symbol": "short e",
+   "word": "egg",
+   "menuText": "28 short e · egg",
+   "indexInCategory": 2,
+   "categoryCount": 5
+  },
+  {
+   "n": 31,
+   "id": "sound-29",
+   "kind": "sound",
+   "title": "Sound 29: short i as in igloo",
+   "image": "slide-31.webp",
+   "deckPart": "slide32.xml",
+   "alt": "Slide 31 of 60. Sound 29: short i as in igloo.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 28: short e as in egg", "to": "sound-28", "slide": 30},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Short Vowels", "to": "menu-short-vowels", "slide": 56},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 30: short o as in octopus", "to": "sound-30", "slide": 32}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 28: short e as in egg", "to": "sound-28", "slide": 30, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Short Vowels", "to": "menu-short-vowels", "slide": 56, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 30: short o as in octopus", "to": "sound-30", "slide": 32, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "short-vowels",
+   "categoryTitle": "Short Vowels",
+   "entry": 29,
+   "symbol": "short i",
+   "word": "igloo",
+   "menuText": "29 short i · igloo",
+   "indexInCategory": 3,
+   "categoryCount": 5
+  },
+  {
+   "n": 32,
+   "id": "sound-30",
+   "kind": "sound",
+   "title": "Sound 30: short o as in octopus",
+   "image": "slide-32.webp",
+   "deckPart": "slide33.xml",
+   "alt": "Slide 32 of 60. Sound 30: short o as in octopus.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 29: short i as in igloo", "to": "sound-29", "slide": 31},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Short Vowels", "to": "menu-short-vowels", "slide": 56},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 31: short u as in umbrella", "to": "sound-31", "slide": 33}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 29: short i as in igloo", "to": "sound-29", "slide": 31, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Short Vowels", "to": "menu-short-vowels", "slide": 56, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 31: short u as in umbrella", "to": "sound-31", "slide": 33, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "short-vowels",
+   "categoryTitle": "Short Vowels",
+   "entry": 30,
+   "symbol": "short o",
+   "word": "octopus",
+   "menuText": "30 short o · octopus",
+   "indexInCategory": 4,
+   "categoryCount": 5
+  },
+  {
+   "n": 33,
+   "id": "sound-31",
+   "kind": "sound",
+   "title": "Sound 31: short u as in umbrella",
+   "image": "slide-33.webp",
+   "deckPart": "slide34.xml",
+   "alt": "Slide 33 of 60. Sound 31: short u as in umbrella.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 30: short o as in octopus", "to": "sound-30", "slide": 32},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Short Vowels", "to": "menu-short-vowels", "slide": 56},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Short Vowels menu", "to": "menu-short-vowels", "slide": 56}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 30: short o as in octopus", "to": "sound-30", "slide": 32, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Short Vowels", "to": "menu-short-vowels", "slide": 56, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Short Vowels menu", "to": "menu-short-vowels", "slide": 56, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "short-vowels",
+   "categoryTitle": "Short Vowels",
+   "entry": 31,
+   "symbol": "short u",
+   "word": "umbrella",
+   "menuText": "31 short u · umbrella",
+   "indexInCategory": 5,
+   "categoryCount": 5
+  },
+  {
+   "n": 34,
+   "id": "sound-32",
+   "kind": "sound",
+   "title": "Sound 32: long a as in apron",
+   "image": "slide-34.webp",
+   "deckPart": "slide35.xml",
+   "alt": "Slide 34 of 60. Sound 32: long a as in apron.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Long Vowels & Vowel Teams menu", "to": "menu-long-vowels", "slide": 57},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 33: long e as in even", "to": "sound-33", "slide": 35}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Long Vowels & Vowel Teams menu", "to": "menu-long-vowels", "slide": 57, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 33: long e as in even", "to": "sound-33", "slide": 35, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "long-vowels",
+   "categoryTitle": "Long Vowels & Vowel Teams",
+   "entry": 32,
+   "symbol": "long a",
+   "word": "apron",
+   "menuText": "32 long a · apron",
+   "indexInCategory": 1,
+   "categoryCount": 7
+  },
+  {
+   "n": 35,
+   "id": "sound-33",
+   "kind": "sound",
+   "title": "Sound 33: long e as in even",
+   "image": "slide-35.webp",
+   "deckPart": "slide36.xml",
+   "alt": "Slide 35 of 60. Sound 33: long e as in even.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 32: long a as in apron", "to": "sound-32", "slide": 34},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 34: long i as in item", "to": "sound-34", "slide": 36}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 32: long a as in apron", "to": "sound-32", "slide": 34, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 34: long i as in item", "to": "sound-34", "slide": 36, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "long-vowels",
+   "categoryTitle": "Long Vowels & Vowel Teams",
+   "entry": 33,
+   "symbol": "long e",
+   "word": "even",
+   "menuText": "33 long e · even",
+   "indexInCategory": 2,
+   "categoryCount": 7
+  },
+  {
+   "n": 36,
+   "id": "sound-34",
+   "kind": "sound",
+   "title": "Sound 34: long i as in item",
+   "image": "slide-36.webp",
+   "deckPart": "slide37.xml",
+   "alt": "Slide 36 of 60. Sound 34: long i as in item.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 33: long e as in even", "to": "sound-33", "slide": 35},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 35: long o as in open", "to": "sound-35", "slide": 37}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 33: long e as in even", "to": "sound-33", "slide": 35, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 35: long o as in open", "to": "sound-35", "slide": 37, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "long-vowels",
+   "categoryTitle": "Long Vowels & Vowel Teams",
+   "entry": 34,
+   "symbol": "long i",
+   "word": "item",
+   "menuText": "34 long i · item",
+   "indexInCategory": 3,
+   "categoryCount": 7
+  },
+  {
+   "n": 37,
+   "id": "sound-35",
+   "kind": "sound",
+   "title": "Sound 35: long o as in open",
+   "image": "slide-37.webp",
+   "deckPart": "slide38.xml",
+   "alt": "Slide 37 of 60. Sound 35: long o as in open.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 34: long i as in item", "to": "sound-34", "slide": 36},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 36: long u as in uniform", "to": "sound-36", "slide": 38}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 34: long i as in item", "to": "sound-34", "slide": 36, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 36: long u as in uniform", "to": "sound-36", "slide": 38, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "long-vowels",
+   "categoryTitle": "Long Vowels & Vowel Teams",
+   "entry": 35,
+   "symbol": "long o",
+   "word": "open",
+   "menuText": "35 long o · open",
+   "indexInCategory": 4,
+   "categoryCount": 7
+  },
+  {
+   "n": 38,
+   "id": "sound-36",
+   "kind": "sound",
+   "title": "Sound 36: long u as in uniform",
+   "image": "slide-38.webp",
+   "deckPart": "slide39.xml",
+   "alt": "Slide 38 of 60. Sound 36: long u as in uniform.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 35: long o as in open", "to": "sound-35", "slide": 37},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 37: long u as in cube", "to": "sound-37", "slide": 39}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 35: long o as in open", "to": "sound-35", "slide": 37, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 37: long u as in cube", "to": "sound-37", "slide": 39, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "long-vowels",
+   "categoryTitle": "Long Vowels & Vowel Teams",
+   "entry": 36,
+   "symbol": "long u",
+   "word": "uniform",
+   "menuText": "36 long u · uniform",
+   "indexInCategory": 5,
+   "categoryCount": 7
+  },
+  {
+   "n": 39,
+   "id": "sound-37",
+   "kind": "sound",
+   "title": "Sound 37: long u as in cube",
+   "image": "slide-39.webp",
+   "deckPart": "slide40.xml",
+   "alt": "Slide 39 of 60. Sound 37: long u as in cube.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 36: long u as in uniform", "to": "sound-36", "slide": 38},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 38: ey as in key", "to": "sound-38", "slide": 40}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 36: long u as in uniform", "to": "sound-36", "slide": 38, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 38: ey as in key", "to": "sound-38", "slide": 40, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "long-vowels",
+   "categoryTitle": "Long Vowels & Vowel Teams",
+   "entry": 37,
+   "symbol": "long u",
+   "word": "cube",
+   "menuText": "37 long u · cube",
+   "indexInCategory": 6,
+   "categoryCount": 7
+  },
+  {
+   "n": 40,
+   "id": "sound-38",
+   "kind": "sound",
+   "title": "Sound 38: ey as in key",
+   "image": "slide-40.webp",
+   "deckPart": "slide54.xml",
+   "alt": "Slide 40 of 60. Sound 38: ey as in key.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 37: long u as in cube", "to": "sound-37", "slide": 39},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Long Vowels & Vowel Teams menu", "to": "menu-long-vowels", "slide": 57}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 37: long u as in cube", "to": "sound-37", "slide": 39, "rect": [0.02417, 0.90936, 0.20416, 0.06107], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Long Vowels & Vowel Teams", "to": "menu-long-vowels", "slide": 57, "rect": [0.24167, 0.90936, 0.25416, 0.06107], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23666, 0.06107], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Long Vowels & Vowel Teams menu", "to": "menu-long-vowels", "slide": 57, "rect": [0.75917, 0.90936, 0.2175, 0.06107], "via": "visible+invisible"}
+   ],
+   "category": "long-vowels",
+   "categoryTitle": "Long Vowels & Vowel Teams",
+   "entry": 38,
+   "symbol": "ey",
+   "word": "key",
+   "menuText": "38 ey · key",
+   "indexInCategory": 7,
+   "categoryCount": 7
+  },
+  {
+   "n": 41,
+   "id": "sound-39",
+   "kind": "sound",
+   "title": "Sound 39: ow as in cow",
+   "image": "slide-41.webp",
+   "deckPart": "slide43.xml",
+   "alt": "Slide 41 of 60. Sound 39: ow as in cow.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Diphthongs menu", "to": "menu-diphthongs", "slide": 58},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Diphthongs", "to": "menu-diphthongs", "slide": 58},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 40: oi as in coin", "to": "sound-40", "slide": 42}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Diphthongs menu", "to": "menu-diphthongs", "slide": 58, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Diphthongs", "to": "menu-diphthongs", "slide": 58, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 40: oi as in coin", "to": "sound-40", "slide": 42, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "diphthongs",
+   "categoryTitle": "Diphthongs",
+   "entry": 39,
+   "symbol": "ow",
+   "word": "cow",
+   "menuText": "39 ow · cow",
+   "indexInCategory": 1,
+   "categoryCount": 3
+  },
+  {
+   "n": 42,
+   "id": "sound-40",
+   "kind": "sound",
+   "title": "Sound 40: oi as in coin",
+   "image": "slide-42.webp",
+   "deckPart": "slide44.xml",
+   "alt": "Slide 42 of 60. Sound 40: oi as in coin.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 39: ow as in cow", "to": "sound-39", "slide": 41},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Diphthongs", "to": "menu-diphthongs", "slide": 58},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 41: oy as in toy", "to": "sound-41", "slide": 43}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 39: ow as in cow", "to": "sound-39", "slide": 41, "rect": [0.02417, 0.90936, 0.20416, 0.06107], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Diphthongs", "to": "menu-diphthongs", "slide": 58, "rect": [0.24167, 0.90936, 0.25416, 0.06107], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23666, 0.06107], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 41: oy as in toy", "to": "sound-41", "slide": 43, "rect": [0.75917, 0.90936, 0.2175, 0.06107], "via": "visible+invisible"}
+   ],
+   "category": "diphthongs",
+   "categoryTitle": "Diphthongs",
+   "entry": 40,
+   "symbol": "oi",
+   "word": "coin",
+   "menuText": "40 oi · coin",
+   "indexInCategory": 2,
+   "categoryCount": 3
+  },
+  {
+   "n": 43,
+   "id": "sound-41",
+   "kind": "sound",
+   "title": "Sound 41: oy as in toy",
+   "image": "slide-43.webp",
+   "deckPart": "slide45.xml",
+   "alt": "Slide 43 of 60. Sound 41: oy as in toy.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 40: oi as in coin", "to": "sound-40", "slide": 42},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Diphthongs", "to": "menu-diphthongs", "slide": 58},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Diphthongs menu", "to": "menu-diphthongs", "slide": 58}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 40: oi as in coin", "to": "sound-40", "slide": 42, "rect": [0.02417, 0.90936, 0.20416, 0.06107], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Diphthongs", "to": "menu-diphthongs", "slide": 58, "rect": [0.24167, 0.90936, 0.25416, 0.06107], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23666, 0.06107], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Diphthongs menu", "to": "menu-diphthongs", "slide": 58, "rect": [0.75917, 0.90936, 0.2175, 0.06107], "via": "visible+invisible"}
+   ],
+   "category": "diphthongs",
+   "categoryTitle": "Diphthongs",
+   "entry": 41,
+   "symbol": "oy",
+   "word": "toy",
+   "menuText": "41 oy · toy",
+   "indexInCategory": 3,
+   "categoryCount": 3
+  },
+  {
+   "n": 44,
+   "id": "sound-42",
+   "kind": "sound",
+   "title": "Sound 42: er as in her",
+   "image": "slide-44.webp",
+   "deckPart": "slide46.xml",
+   "alt": "Slide 44 of 60. Sound 42: er as in her.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: R-Controlled Vowels menu", "to": "menu-r-controlled", "slide": 59},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: R-Controlled Vowels", "to": "menu-r-controlled", "slide": 59},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 43: ir as in bird", "to": "sound-43", "slide": 45}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: R-Controlled Vowels menu", "to": "menu-r-controlled", "slide": 59, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: R-Controlled Vowels", "to": "menu-r-controlled", "slide": 59, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 43: ir as in bird", "to": "sound-43", "slide": 45, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "r-controlled",
+   "categoryTitle": "R-Controlled Vowels",
+   "entry": 42,
+   "symbol": "er",
+   "word": "her",
+   "menuText": "42 er · her",
+   "indexInCategory": 1,
+   "categoryCount": 6
+  },
+  {
+   "n": 45,
+   "id": "sound-43",
+   "kind": "sound",
+   "title": "Sound 43: ir as in bird",
+   "image": "slide-45.webp",
+   "deckPart": "slide47.xml",
+   "alt": "Slide 45 of 60. Sound 43: ir as in bird.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 42: er as in her", "to": "sound-42", "slide": 44},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: R-Controlled Vowels", "to": "menu-r-controlled", "slide": 59},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 44: ur as in curl", "to": "sound-44", "slide": 46}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 42: er as in her", "to": "sound-42", "slide": 44, "rect": [0.02417, 0.90936, 0.20416, 0.06107], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: R-Controlled Vowels", "to": "menu-r-controlled", "slide": 59, "rect": [0.24167, 0.90936, 0.25416, 0.06107], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23666, 0.06107], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 44: ur as in curl", "to": "sound-44", "slide": 46, "rect": [0.75917, 0.90936, 0.2175, 0.06107], "via": "visible+invisible"}
+   ],
+   "category": "r-controlled",
+   "categoryTitle": "R-Controlled Vowels",
+   "entry": 43,
+   "symbol": "ir",
+   "word": "bird",
+   "menuText": "43 ir · bird",
+   "indexInCategory": 2,
+   "categoryCount": 6
+  },
+  {
+   "n": 46,
+   "id": "sound-44",
+   "kind": "sound",
+   "title": "Sound 44: ur as in curl",
+   "image": "slide-46.webp",
+   "deckPart": "slide48.xml",
+   "alt": "Slide 46 of 60. Sound 44: ur as in curl.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 43: ir as in bird", "to": "sound-43", "slide": 45},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: R-Controlled Vowels", "to": "menu-r-controlled", "slide": 59},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 45: ar as in car", "to": "sound-45", "slide": 47}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 43: ir as in bird", "to": "sound-43", "slide": 45, "rect": [0.02417, 0.90936, 0.20416, 0.06107], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: R-Controlled Vowels", "to": "menu-r-controlled", "slide": 59, "rect": [0.24167, 0.90936, 0.25416, 0.06107], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23666, 0.06107], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 45: ar as in car", "to": "sound-45", "slide": 47, "rect": [0.75917, 0.90936, 0.2175, 0.06107], "via": "visible+invisible"}
+   ],
+   "category": "r-controlled",
+   "categoryTitle": "R-Controlled Vowels",
+   "entry": 44,
+   "symbol": "ur",
+   "word": "curl",
+   "menuText": "44 ur · curl",
+   "indexInCategory": 3,
+   "categoryCount": 6
+  },
+  {
+   "n": 47,
+   "id": "sound-45",
+   "kind": "sound",
+   "title": "Sound 45: ar as in car",
+   "image": "slide-47.webp",
+   "deckPart": "slide49.xml",
+   "alt": "Slide 47 of 60. Sound 45: ar as in car.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 44: ur as in curl", "to": "sound-44", "slide": 46},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: R-Controlled Vowels", "to": "menu-r-controlled", "slide": 59},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 46: or as in horn", "to": "sound-46", "slide": 48}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 44: ur as in curl", "to": "sound-44", "slide": 46, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: R-Controlled Vowels", "to": "menu-r-controlled", "slide": 59, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 46: or as in horn", "to": "sound-46", "slide": 48, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "r-controlled",
+   "categoryTitle": "R-Controlled Vowels",
+   "entry": 45,
+   "symbol": "ar",
+   "word": "car",
+   "menuText": "45 ar · car",
+   "indexInCategory": 4,
+   "categoryCount": 6
+  },
+  {
+   "n": 48,
+   "id": "sound-46",
+   "kind": "sound",
+   "title": "Sound 46: or as in horn",
+   "image": "slide-48.webp",
+   "deckPart": "slide50.xml",
+   "alt": "Slide 48 of 60. Sound 46: or as in horn.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 45: ar as in car", "to": "sound-45", "slide": 47},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: R-Controlled Vowels", "to": "menu-r-controlled", "slide": 59},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 47: air as in chair", "to": "sound-47", "slide": 49}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 45: ar as in car", "to": "sound-45", "slide": 47, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: R-Controlled Vowels", "to": "menu-r-controlled", "slide": 59, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 47: air as in chair", "to": "sound-47", "slide": 49, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "r-controlled",
+   "categoryTitle": "R-Controlled Vowels",
+   "entry": 46,
+   "symbol": "or",
+   "word": "horn",
+   "menuText": "46 or · horn",
+   "indexInCategory": 5,
+   "categoryCount": 6
+  },
+  {
+   "n": 49,
+   "id": "sound-47",
+   "kind": "sound",
+   "title": "Sound 47: air as in chair",
+   "image": "slide-49.webp",
+   "deckPart": "slide52.xml",
+   "alt": "Slide 49 of 60. Sound 47: air as in chair.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 46: or as in horn", "to": "sound-46", "slide": 48},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: R-Controlled Vowels", "to": "menu-r-controlled", "slide": 59},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: R-Controlled Vowels menu", "to": "menu-r-controlled", "slide": 59}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 46: or as in horn", "to": "sound-46", "slide": 48, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: R-Controlled Vowels", "to": "menu-r-controlled", "slide": 59, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: R-Controlled Vowels menu", "to": "menu-r-controlled", "slide": 59, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "r-controlled",
+   "categoryTitle": "R-Controlled Vowels",
+   "entry": 47,
+   "symbol": "air",
+   "word": "chair",
+   "menuText": "47 air · chair",
+   "indexInCategory": 6,
+   "categoryCount": 6
+  },
+  {
+   "n": 50,
+   "id": "sound-48",
+   "kind": "sound",
+   "title": "Sound 48: oo as in moon",
+   "image": "slide-50.webp",
+   "deckPart": "slide41.xml",
+   "alt": "Slide 50 of 60. Sound 48: oo as in moon.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Other Vowel Sounds & Patterns menu", "to": "menu-other-vowels", "slide": 60},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Other Vowel Sounds & Patterns", "to": "menu-other-vowels", "slide": 60},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 49: oo as in book", "to": "sound-49", "slide": 51}
+   ],
+   "hotspots": [],
+   "category": "other-vowels",
+   "categoryTitle": "Other Vowel Sounds & Patterns",
+   "entry": 48,
+   "symbol": "oo",
+   "word": "moon",
+   "menuText": "48 oo · moon",
+   "indexInCategory": 1,
+   "categoryCount": 4,
+   "footerObstructed": true
+  },
+  {
+   "n": 51,
+   "id": "sound-49",
+   "kind": "sound",
+   "title": "Sound 49: oo as in book",
+   "image": "slide-51.webp",
+   "deckPart": "slide42.xml",
+   "alt": "Slide 51 of 60. Sound 49: oo as in book.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 48: oo as in moon", "to": "sound-48", "slide": 50},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Other Vowel Sounds & Patterns", "to": "menu-other-vowels", "slide": 60},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 50: aw as in paw", "to": "sound-50", "slide": 52}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 48: oo as in moon", "to": "sound-48", "slide": 50, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Other Vowel Sounds & Patterns", "to": "menu-other-vowels", "slide": 60, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 50: aw as in paw", "to": "sound-50", "slide": 52, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "other-vowels",
+   "categoryTitle": "Other Vowel Sounds & Patterns",
+   "entry": 49,
+   "symbol": "oo",
+   "word": "book",
+   "menuText": "49 oo · book",
+   "indexInCategory": 2,
+   "categoryCount": 4
+  },
+  {
+   "n": 52,
+   "id": "sound-50",
+   "kind": "sound",
+   "title": "Sound 50: aw as in paw",
+   "image": "slide-52.webp",
+   "deckPart": "slide51.xml",
+   "alt": "Slide 52 of 60. Sound 50: aw as in paw.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 49: oo as in book", "to": "sound-49", "slide": 51},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Other Vowel Sounds & Patterns", "to": "menu-other-vowels", "slide": 60},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 51: schwa as in sofa", "to": "sound-51", "slide": 53}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 49: oo as in book", "to": "sound-49", "slide": 51, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Other Vowel Sounds & Patterns", "to": "menu-other-vowels", "slide": 60, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Sound 51: schwa as in sofa", "to": "sound-51", "slide": 53, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "other-vowels",
+   "categoryTitle": "Other Vowel Sounds & Patterns",
+   "entry": 50,
+   "symbol": "aw",
+   "word": "paw",
+   "menuText": "50 aw · paw",
+   "indexInCategory": 3,
+   "categoryCount": 4
+  },
+  {
+   "n": 53,
+   "id": "sound-51",
+   "kind": "sound",
+   "title": "Sound 51: schwa as in sofa",
+   "image": "slide-53.webp",
+   "deckPart": "slide53.xml",
+   "alt": "Slide 53 of 60. Sound 51: schwa as in sofa.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 50: aw as in paw", "to": "sound-50", "slide": 52},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Other Vowel Sounds & Patterns", "to": "menu-other-vowels", "slide": 60},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Other Vowel Sounds & Patterns menu", "to": "menu-other-vowels", "slide": 60}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Sound 50: aw as in paw", "to": "sound-50", "slide": 52, "rect": [0.02417, 0.90936, 0.20417, 0.06108], "via": "visible+invisible"},
+    {"role": "category", "label": "Category Menu", "aria": "Category menu: Other Vowel Sounds & Patterns", "to": "menu-other-vowels", "slide": 60, "rect": [0.24167, 0.90936, 0.25417, 0.06108], "via": "visible+invisible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.50917, 0.90936, 0.23667, 0.06108], "via": "visible+invisible"},
+    {"role": "next", "label": "Next", "aria": "Next: Other Vowel Sounds & Patterns menu", "to": "menu-other-vowels", "slide": 60, "rect": [0.75917, 0.90936, 0.2175, 0.06108], "via": "visible+invisible"}
+   ],
+   "category": "other-vowels",
+   "categoryTitle": "Other Vowel Sounds & Patterns",
+   "entry": 51,
+   "symbol": "schwa",
+   "word": "sofa",
+   "menuText": "51 schwa · sofa",
+   "indexInCategory": 4,
+   "categoryCount": 4
+  },
+  {
+   "n": 54,
+   "id": "menu-consonants",
+   "kind": "menu",
+   "title": "Consonants menu",
+   "image": "slide-54.webp",
+   "deckPart": "slide55.xml",
+   "alt": "Slide 54 of 60. Consonants menu.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Consonant Digraphs & Alternative Spellings menu", "to": "menu-digraphs", "slide": 55}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.0525, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.2655, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.4785, 0.88533, 0.23025, 0.07333], "via": "visible"},
+    {"role": "next", "label": "Next", "aria": "Next: Consonant Digraphs & Alternative Spellings menu", "to": "menu-digraphs", "slide": 55, "rect": [0.7245, 0.88533, 0.2205, 0.07333], "via": "visible"},
+    {"role": "sound", "label": "01 /b/ · bat", "aria": "Open sound 1: /b/ as in bat", "to": "sound-01", "slide": 3, "entry": 1, "rect": [0.0495, 0.252, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "02 /k/ · cat", "aria": "Open sound 2: /k/ as in cat", "to": "sound-02", "slide": 4, "entry": 2, "rect": [0.27756, 0.252, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "03 /d/ · dog", "aria": "Open sound 3: /d/ as in dog", "to": "sound-03", "slide": 5, "entry": 3, "rect": [0.50561, 0.252, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "04 /f/ · fan", "aria": "Open sound 4: /f/ as in fan", "to": "sound-04", "slide": 6, "entry": 4, "rect": [0.73367, 0.252, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "05 /g/ · go", "aria": "Open sound 5: /g/ as in go", "to": "sound-05", "slide": 7, "entry": 5, "rect": [0.0495, 0.364, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "06 /h/ · hat", "aria": "Open sound 6: /h/ as in hat", "to": "sound-06", "slide": 8, "entry": 6, "rect": [0.27756, 0.364, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "07 /j/ · jam", "aria": "Open sound 7: /j/ as in jam", "to": "sound-07", "slide": 9, "entry": 7, "rect": [0.50561, 0.364, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "08 /l/ · leg", "aria": "Open sound 8: /l/ as in leg", "to": "sound-08", "slide": 10, "entry": 8, "rect": [0.73367, 0.364, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "09 /m/ · man", "aria": "Open sound 9: /m/ as in man", "to": "sound-09", "slide": 11, "entry": 9, "rect": [0.0495, 0.476, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "10 /n/ · nest", "aria": "Open sound 10: /n/ as in nest", "to": "sound-10", "slide": 12, "entry": 10, "rect": [0.27756, 0.476, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "11 /p/ · Paul", "aria": "Open sound 11: /p/ as in Paul", "to": "sound-11", "slide": 13, "entry": 11, "rect": [0.50561, 0.476, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "12 /r/ · Rachel", "aria": "Open sound 12: /r/ as in Rachel", "to": "sound-12", "slide": 14, "entry": 12, "rect": [0.73367, 0.476, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "13 /s/ · Selena", "aria": "Open sound 13: /s/ as in Selena", "to": "sound-13", "slide": 15, "entry": 13, "rect": [0.0495, 0.588, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "14 /t/ · top", "aria": "Open sound 14: /t/ as in top", "to": "sound-14", "slide": 16, "entry": 14, "rect": [0.27756, 0.588, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "15 /v/ · van", "aria": "Open sound 15: /v/ as in van", "to": "sound-15", "slide": 17, "entry": 15, "rect": [0.50561, 0.588, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "16 /w/ · web", "aria": "Open sound 16: /w/ as in web", "to": "sound-16", "slide": 18, "entry": 16, "rect": [0.73367, 0.588, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "17 /y/ · yes", "aria": "Open sound 17: /y/ as in yes", "to": "sound-17", "slide": 19, "entry": 17, "rect": [0.0495, 0.7, 0.21681, 0.096], "via": "visible"},
+    {"role": "sound", "label": "18 /z/ · zipper", "aria": "Open sound 18: /z/ as in zipper", "to": "sound-18", "slide": 20, "entry": 18, "rect": [0.27756, 0.7, 0.21681, 0.096], "via": "visible"}
+   ],
+   "category": "consonants",
+   "categoryTitle": "Consonants",
+   "count": 18,
+   "firstSlide": 3,
+   "lastSlide": 20
+  },
+  {
+   "n": 55,
+   "id": "menu-digraphs",
+   "kind": "menu",
+   "title": "Consonant Digraphs & Alternative Spellings menu",
+   "image": "slide-55.webp",
+   "deckPart": "slide60.xml",
+   "alt": "Slide 55 of 60. Consonant Digraphs & Alternative Spellings menu.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Consonants menu", "to": "menu-consonants", "slide": 54},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Short Vowels menu", "to": "menu-short-vowels", "slide": 56}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Consonants menu", "to": "menu-consonants", "slide": 54, "rect": [0.0525, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.2655, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.4785, 0.88533, 0.23025, 0.07333], "via": "visible"},
+    {"role": "next", "label": "Next", "aria": "Next: Short Vowels menu", "to": "menu-short-vowels", "slide": 56, "rect": [0.7245, 0.88533, 0.2205, 0.07333], "via": "visible"},
+    {"role": "sound", "label": "19 /ch/ · chip", "aria": "Open sound 19: /ch/ as in chip", "to": "sound-19", "slide": 21, "entry": 19, "rect": [0.075, 0.26533, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "20 /sh/ · ship", "aria": "Open sound 20: /sh/ as in ship", "to": "sound-20", "slide": 22, "entry": 20, "rect": [0.51199, 0.26533, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "21 /sh/ · ti · station", "aria": "Open sound 21: /sh/, spelled ti, as in station", "to": "sound-21", "slide": 23, "entry": 21, "rect": [0.075, 0.39733, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "22 /sh/ · ci · special", "aria": "Open sound 22: /sh/, spelled ci, as in special", "to": "sound-22", "slide": 24, "entry": 22, "rect": [0.51199, 0.39733, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "23 /th/ · thumb", "aria": "Open sound 23: /th/ as in thumb", "to": "sound-23", "slide": 25, "entry": 23, "rect": [0.075, 0.52933, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "24 /th/ · this", "aria": "Open sound 24: /th/ as in this", "to": "sound-24", "slide": 26, "entry": 24, "rect": [0.51199, 0.52933, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "25 /ng/ · ring", "aria": "Open sound 25: /ng/ as in ring", "to": "sound-25", "slide": 27, "entry": 25, "rect": [0.075, 0.66133, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "26 /zh/ · vision", "aria": "Open sound 26: /zh/ as in vision", "to": "sound-26", "slide": 28, "entry": 26, "rect": [0.51199, 0.66133, 0.41299, 0.10667], "via": "visible"}
+   ],
+   "category": "digraphs",
+   "categoryTitle": "Consonant Digraphs & Alternative Spellings",
+   "count": 8,
+   "firstSlide": 21,
+   "lastSlide": 28
+  },
+  {
+   "n": 56,
+   "id": "menu-short-vowels",
+   "kind": "menu",
+   "title": "Short Vowels menu",
+   "image": "slide-56.webp",
+   "deckPart": "slide56.xml",
+   "alt": "Slide 56 of 60. Short Vowels menu.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Consonant Digraphs & Alternative Spellings menu", "to": "menu-digraphs", "slide": 55},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Long Vowels & Vowel Teams menu", "to": "menu-long-vowels", "slide": 57}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Consonant Digraphs & Alternative Spellings menu", "to": "menu-digraphs", "slide": 55, "rect": [0.0525, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.2655, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.4785, 0.88533, 0.23025, 0.07333], "via": "visible"},
+    {"role": "next", "label": "Next", "aria": "Next: Long Vowels & Vowel Teams menu", "to": "menu-long-vowels", "slide": 57, "rect": [0.7245, 0.88533, 0.2205, 0.07333], "via": "visible"},
+    {"role": "sound", "label": "27 short a · apple", "aria": "Open sound 27: short a as in apple", "to": "sound-27", "slide": 29, "entry": 27, "rect": [0.075, 0.26533, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "28 short e · egg", "aria": "Open sound 28: short e as in egg", "to": "sound-28", "slide": 30, "entry": 28, "rect": [0.51199, 0.26533, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "29 short i · igloo", "aria": "Open sound 29: short i as in igloo", "to": "sound-29", "slide": 31, "entry": 29, "rect": [0.075, 0.39733, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "30 short o · octopus", "aria": "Open sound 30: short o as in octopus", "to": "sound-30", "slide": 32, "entry": 30, "rect": [0.51199, 0.39733, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "31 short u · umbrella", "aria": "Open sound 31: short u as in umbrella", "to": "sound-31", "slide": 33, "entry": 31, "rect": [0.075, 0.52933, 0.41299, 0.10667], "via": "visible"}
+   ],
+   "category": "short-vowels",
+   "categoryTitle": "Short Vowels",
+   "count": 5,
+   "firstSlide": 29,
+   "lastSlide": 33
+  },
+  {
+   "n": 57,
+   "id": "menu-long-vowels",
+   "kind": "menu",
+   "title": "Long Vowels & Vowel Teams menu",
+   "image": "slide-57.webp",
+   "deckPart": "slide57.xml",
+   "alt": "Slide 57 of 60. Long Vowels & Vowel Teams menu.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Short Vowels menu", "to": "menu-short-vowels", "slide": 56},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Diphthongs menu", "to": "menu-diphthongs", "slide": 58}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Short Vowels menu", "to": "menu-short-vowels", "slide": 56, "rect": [0.0525, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.2655, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.4785, 0.88533, 0.23025, 0.07333], "via": "visible"},
+    {"role": "next", "label": "Next", "aria": "Next: Diphthongs menu", "to": "menu-diphthongs", "slide": 58, "rect": [0.7245, 0.88533, 0.2205, 0.07333], "via": "visible"},
+    {"role": "sound", "label": "32 long a · apron", "aria": "Open sound 32: long a as in apron", "to": "sound-32", "slide": 34, "entry": 32, "rect": [0.075, 0.26533, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "33 long e · even", "aria": "Open sound 33: long e as in even", "to": "sound-33", "slide": 35, "entry": 33, "rect": [0.51199, 0.26533, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "34 long i · item", "aria": "Open sound 34: long i as in item", "to": "sound-34", "slide": 36, "entry": 34, "rect": [0.075, 0.39733, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "35 long o · open", "aria": "Open sound 35: long o as in open", "to": "sound-35", "slide": 37, "entry": 35, "rect": [0.51199, 0.39733, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "36 long u · uniform", "aria": "Open sound 36: long u as in uniform", "to": "sound-36", "slide": 38, "entry": 36, "rect": [0.075, 0.52933, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "37 long u · cube", "aria": "Open sound 37: long u as in cube", "to": "sound-37", "slide": 39, "entry": 37, "rect": [0.51199, 0.52933, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "38 ey · key", "aria": "Open sound 38: ey as in key", "to": "sound-38", "slide": 40, "entry": 38, "rect": [0.075, 0.66133, 0.41299, 0.10667], "via": "visible"}
+   ],
+   "category": "long-vowels",
+   "categoryTitle": "Long Vowels & Vowel Teams",
+   "count": 7,
+   "firstSlide": 34,
+   "lastSlide": 40
+  },
+  {
+   "n": 58,
+   "id": "menu-diphthongs",
+   "kind": "menu",
+   "title": "Diphthongs menu",
+   "image": "slide-58.webp",
+   "deckPart": "slide58.xml",
+   "alt": "Slide 58 of 60. Diphthongs menu.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Long Vowels & Vowel Teams menu", "to": "menu-long-vowels", "slide": 57},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: R-Controlled Vowels menu", "to": "menu-r-controlled", "slide": 59}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Long Vowels & Vowel Teams menu", "to": "menu-long-vowels", "slide": 57, "rect": [0.0525, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.2655, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.4785, 0.88533, 0.23025, 0.07333], "via": "visible"},
+    {"role": "next", "label": "Next", "aria": "Next: R-Controlled Vowels menu", "to": "menu-r-controlled", "slide": 59, "rect": [0.7245, 0.88533, 0.2205, 0.07333], "via": "visible"},
+    {"role": "sound", "label": "39 ow · cow", "aria": "Open sound 39: ow as in cow", "to": "sound-39", "slide": 41, "entry": 39, "rect": [0.0765, 0.27067, 0.41074, 0.12], "via": "visible"},
+    {"role": "sound", "label": "40 oi · coin", "aria": "Open sound 40: oi as in coin", "to": "sound-40", "slide": 42, "entry": 40, "rect": [0.51274, 0.27067, 0.41074, 0.12], "via": "visible"},
+    {"role": "sound", "label": "41 oy · toy", "aria": "Open sound 41: oy as in toy", "to": "sound-41", "slide": 43, "entry": 41, "rect": [0.0765, 0.42267, 0.41074, 0.12], "via": "visible"}
+   ],
+   "category": "diphthongs",
+   "categoryTitle": "Diphthongs",
+   "count": 3,
+   "firstSlide": 41,
+   "lastSlide": 43
+  },
+  {
+   "n": 59,
+   "id": "menu-r-controlled",
+   "kind": "menu",
+   "title": "R-Controlled Vowels menu",
+   "image": "slide-59.webp",
+   "deckPart": "slide1.xml",
+   "alt": "Slide 59 of 60. R-Controlled Vowels menu.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Diphthongs menu", "to": "menu-diphthongs", "slide": 58},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Other Vowel Sounds & Patterns menu", "to": "menu-other-vowels", "slide": 60}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: Diphthongs menu", "to": "menu-diphthongs", "slide": 58, "rect": [0.0525, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.2655, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.4785, 0.88533, 0.23025, 0.07333], "via": "visible"},
+    {"role": "next", "label": "Next", "aria": "Next: Other Vowel Sounds & Patterns menu", "to": "menu-other-vowels", "slide": 60, "rect": [0.7245, 0.88533, 0.2205, 0.07333], "via": "visible"},
+    {"role": "sound", "label": "42 er · her", "aria": "Open sound 42: er as in her", "to": "sound-42", "slide": 44, "entry": 42, "rect": [0.075, 0.26533, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "43 ir · bird", "aria": "Open sound 43: ir as in bird", "to": "sound-43", "slide": 45, "entry": 43, "rect": [0.51199, 0.26533, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "44 ur · curl", "aria": "Open sound 44: ur as in curl", "to": "sound-44", "slide": 46, "entry": 44, "rect": [0.075, 0.39733, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "45 ar · car", "aria": "Open sound 45: ar as in car", "to": "sound-45", "slide": 47, "entry": 45, "rect": [0.51199, 0.39733, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "46 or · horn", "aria": "Open sound 46: or as in horn", "to": "sound-46", "slide": 48, "entry": 46, "rect": [0.075, 0.52933, 0.41299, 0.10667], "via": "visible"},
+    {"role": "sound", "label": "47 air · chair", "aria": "Open sound 47: air as in chair", "to": "sound-47", "slide": 49, "entry": 47, "rect": [0.51199, 0.52933, 0.41299, 0.10667], "via": "visible"}
+   ],
+   "category": "r-controlled",
+   "categoryTitle": "R-Controlled Vowels",
+   "count": 6,
+   "firstSlide": 44,
+   "lastSlide": 49
+  },
+  {
+   "n": 60,
+   "id": "menu-other-vowels",
+   "kind": "menu",
+   "title": "Other Vowel Sounds & Patterns menu",
+   "image": "slide-60.webp",
+   "deckPart": "slide59.xml",
+   "alt": "Slide 60 of 60. Other Vowel Sounds & Patterns menu.",
+   "controls": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: R-Controlled Vowels menu", "to": "menu-r-controlled", "slide": 59},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2},
+    {"role": "next", "label": "Next", "aria": "Next: Choose a sound category", "to": "menu-main", "slide": 2}
+   ],
+   "hotspots": [
+    {"role": "previous", "label": "Previous", "aria": "Previous: R-Controlled Vowels menu", "to": "menu-r-controlled", "slide": 59, "rect": [0.0525, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "home", "label": "Home", "aria": "Home: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.2655, 0.88533, 0.19875, 0.07333], "via": "visible"},
+    {"role": "all-categories", "label": "All Categories", "aria": "All Categories: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.4785, 0.88533, 0.23025, 0.07333], "via": "visible"},
+    {"role": "next", "label": "Next", "aria": "Next: Choose a sound category", "to": "menu-main", "slide": 2, "rect": [0.7245, 0.88533, 0.2205, 0.07333], "via": "visible"},
+    {"role": "sound", "label": "48 oo · moon", "aria": "Open sound 48: oo as in moon", "to": "sound-48", "slide": 50, "entry": 48, "rect": [0.0765, 0.27067, 0.41074, 0.12], "via": "visible"},
+    {"role": "sound", "label": "49 oo · book", "aria": "Open sound 49: oo as in book", "to": "sound-49", "slide": 51, "entry": 49, "rect": [0.51274, 0.27067, 0.41074, 0.12], "via": "visible"},
+    {"role": "sound", "label": "50 aw · paw", "aria": "Open sound 50: aw as in paw", "to": "sound-50", "slide": 52, "entry": 50, "rect": [0.0765, 0.42267, 0.41074, 0.12], "via": "visible"},
+    {"role": "sound", "label": "51 schwa · sofa", "aria": "Open sound 51: schwa as in sofa", "to": "sound-51", "slide": 53, "entry": 51, "rect": [0.51274, 0.42267, 0.41074, 0.12], "via": "visible"}
+   ],
+   "category": "other-vowels",
+   "categoryTitle": "Other Vowel Sounds & Patterns",
+   "count": 4,
+   "firstSlide": 50,
+   "lastSlide": 53
+  }
+ ],
+ "qa": {
+  "unusedMedia": ["ppt/media/image18.png"],
+  "layeredPictures": [
+   {"slide": 22, "id": "sound-20", "pictures": ["image25.png", "image26.png", "image24.png"], "visibleTop": "image24.png", "hiddenUnderneath": ["image25.png", "image26.png"], "allSameFrame": true, "topIsFullyOpaque": true}
+  ],
+  "obstructedFooters": [
+   {"slide": 50, "id": "sound-48", "buttons": ["previous", "category", "home", "next"], "coveredBy": "Google Shape;545;p36", "pictureIsFullyOpaque": true, "effect": "the artwork picture is stacked above the deck's own Previous / category / Home / Next buttons and no link sits above it, so those buttons are neither visible nor clickable on the slide itself"}
+  ],
+  "printedCategoryLabelMismatches": [
+   {"slide": 39, "id": "sound-37", "printedLabel": "DIPHTHONGS", "category": "long-vowels", "categoryTitle": "Long Vowels & Vowel Teams", "buttonLinksTo": "menu-long-vowels"},
+   {"slide": 40, "id": "sound-38", "printedLabel": "OTHER VOWEL SOUNDS", "category": "long-vowels", "categoryTitle": "Long Vowels & Vowel Teams", "buttonLinksTo": "menu-long-vowels"},
+   {"slide": 44, "id": "sound-42", "printedLabel": "OTHER VOWEL SOUNDS", "category": "r-controlled", "categoryTitle": "R-Controlled Vowels", "buttonLinksTo": "menu-r-controlled"},
+   {"slide": 45, "id": "sound-43", "printedLabel": "OTHER VOWEL SOUNDS", "category": "r-controlled", "categoryTitle": "R-Controlled Vowels", "buttonLinksTo": "menu-r-controlled"},
+   {"slide": 46, "id": "sound-44", "printedLabel": "OTHER VOWEL SOUNDS", "category": "r-controlled", "categoryTitle": "R-Controlled Vowels", "buttonLinksTo": "menu-r-controlled"},
+   {"slide": 47, "id": "sound-45", "printedLabel": "OTHER VOWEL SOUNDS", "category": "r-controlled", "categoryTitle": "R-Controlled Vowels", "buttonLinksTo": "menu-r-controlled"},
+   {"slide": 48, "id": "sound-46", "printedLabel": "OTHER VOWEL SOUNDS", "category": "r-controlled", "categoryTitle": "R-Controlled Vowels", "buttonLinksTo": "menu-r-controlled"},
+   {"slide": 49, "id": "sound-47", "printedLabel": "OTHER VOWEL SOUNDS", "category": "r-controlled", "categoryTitle": "R-Controlled Vowels", "buttonLinksTo": "menu-r-controlled"}
+  ],
+  "footerStyleOutliers": [
+   {
+    "category": "digraphs",
+    "slides": [21, 22, 23, 24, 25, 26, 27, 28],
+    "categoryButtonTextStyle": {"b": "1", "color": null, "sz": "1800", "typeface": "Comic Neue"},
+    "styleOnMostSlides": {"b": "1", "color": "0B3723", "sz": "961", "typeface": "Comic Neue"},
+    "note": "no explicit text colour in the file (inherits a light default) and a different size, so the label renders pale on a pale button"
+   }
+  ],
+  "linkDeviations": [],
+  "menuButtonLettering": [
+   {
+    "slide": 54,
+    "id": "menu-consonants",
+    "buttons": 18,
+    "sizesPt": {"17.0": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]},
+    "identicalLettering": true,
+    "otherSettings": {"b": "1", "color": "004F2A", "typeface": "Comic Neue"}
+   },
+   {
+    "slide": 55,
+    "id": "menu-digraphs",
+    "buttons": 8,
+    "sizesPt": {"20.0": [19, 20, 21, 22, 23, 24, 25, 26]},
+    "identicalLettering": true,
+    "otherSettings": {"b": "1", "color": "004F2A", "typeface": "Comic Neue"}
+   },
+   {
+    "slide": 56,
+    "id": "menu-short-vowels",
+    "buttons": 5,
+    "sizesPt": {"20.0": [27, 28, 29, 30, 31]},
+    "identicalLettering": true,
+    "otherSettings": {"b": "1", "color": "004F2A", "typeface": "Comic Neue"}
+   },
+   {
+    "slide": 57,
+    "id": "menu-long-vowels",
+    "buttons": 7,
+    "sizesPt": {"19.0": [32, 36], "20.0": [33, 34, 35, 37, 38]},
+    "identicalLettering": false,
+    "otherSettings": {"b": "1", "color": "004F2A", "typeface": "Comic Neue"}
+   },
+   {
+    "slide": 58,
+    "id": "menu-diphthongs",
+    "buttons": 3,
+    "sizesPt": {"22.0": [39, 40, 41]},
+    "identicalLettering": true,
+    "otherSettings": {"b": "1", "color": "004F2A", "typeface": "Comic Neue"}
+   },
+   {
+    "slide": 59,
+    "id": "menu-r-controlled",
+    "buttons": 6,
+    "sizesPt": {"20.0": [42, 43, 44, 45, 46, 47]},
+    "identicalLettering": true,
+    "otherSettings": {"b": "1", "color": "004F2A", "typeface": "Comic Neue"}
+   },
+   {
+    "slide": 60,
+    "id": "menu-other-vowels",
+    "buttons": 4,
+    "sizesPt": {"22.0": [48, 49, 50, 51]},
+    "identicalLettering": true,
+    "otherSettings": {"b": "1", "color": "004F2A", "typeface": "Comic Neue"}
+   }
+  ],
+  "mainMenuCategoryTitleSizesPt": {"Consonants": 22.5, "Consonant Digraphs & Alternative Spellings": 17.2, "Short Vowels": 22.5, "Long Vowels & Vowel Teams": 17.2, "Diphthongs": 22.5, "R-Controlled Vowels": 22.5, "Other Vowel Sounds & Patterns": 17.2}
+ }
+}
