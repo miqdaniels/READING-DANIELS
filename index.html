@@ -787,6 +787,47 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
 .c2st-recdot{display:inline-block;width:12px;height:12px;border-radius:50%;background:#c0392b;margin-right:8px;box-shadow:0 0 0 0 rgba(192,57,43,.35);animation:c2stpulse 1.3s ease-in-out infinite;vertical-align:middle}
 @keyframes c2stpulse{0%{box-shadow:0 0 0 0 rgba(192,57,43,.35)}100%{box-shadow:0 0 0 8px rgba(192,57,43,0)}}
 @media (max-width:760px){.c2st-layout{grid-template-columns:1fr}.c2st-list{max-height:260px}}
+/* ===== Check 2: Sounds & Spelling Patterns (60-slide deck as lossless images + native HTML navigation) =====
+   Comic Neue Bold is self-hosted here and used ONLY inside this one screen (the app's other screens keep their own fonts). */
+@font-face{font-family:"Comic Neue";font-weight:700;font-style:normal;font-display:swap;src:url("assets/check-2/sounds-spelling-patterns/fonts/ComicNeue-Bold.ttf") format("truetype")}
+#c2Ssp .wrap{max-width:1180px}
+#c2Ssp .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:15px;padding:11px 20px;cursor:pointer;touch-action:manipulation;text-decoration:none;box-sizing:border-box}
+#c2Ssp .pill-btn-primary{background:var(--accent);border:1.5px solid var(--accent);color:#fff}
+#c2Ssp .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+#c2Ssp .pill-btn[disabled]{opacity:.4;cursor:default}
+.ssp-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:4px 0 12px}
+.ssp-head h2{margin:0;font-family:"Comic Neue",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-weight:700}
+.ssp-viewer{width:min(96vw,1180px,max(min(96vw,560px),calc((100vh - 380px)*1.7778)));position:relative;left:50%;transform:translateX(-50%);box-sizing:border-box}
+.ssp-stage{position:relative;width:100%;aspect-ratio:16/9;background:#fff;box-shadow:0 0 0 1px var(--line);border-radius:12px;overflow:hidden;box-sizing:border-box}
+.ssp-stage:focus{outline:none}
+.ssp-stage img{position:absolute;left:0;top:0;width:100%;height:100%;display:block;-webkit-user-select:none;user-select:none}
+.ssp-hot{position:absolute;background:transparent;border:0;padding:0;margin:0;cursor:pointer;border-radius:8px;touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,.12)}
+.ssp-hot:hover{background:rgba(0,0,0,.06)}
+.ssp-hot:active{background:rgba(0,0,0,.14)}
+.ssp-hot:focus-visible{outline:3px solid #111;outline-offset:2px;box-shadow:0 0 0 2px #fff}
+.ssp-busy .ssp-hot,.ssp-busy .ssp-bar .pill-btn{pointer-events:none}
+.ssp-msg{position:absolute;left:0;top:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:20px;background:#fff;color:#1c1c1c;font-size:17px;font-weight:700;box-sizing:border-box;z-index:2}
+.ssp-msg[hidden]{display:none}
+.ssp-msg small{display:block;font-weight:400;font-size:14px;max-width:46em}
+.ssp-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin:12px 0 4px}
+.ssp-ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+#c2Ssp .ssp-bar .pill-btn{font-family:"Comic Neue",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:17px;min-height:48px;min-width:104px}
+#c2Ssp .ssp-bar .pill-btn:focus-visible{outline:3px solid #111;outline-offset:2px;box-shadow:0 0 0 2px #fff}
+.ssp-list{display:none}
+.ssp-info{margin:10px 0 0;text-align:center;font-size:15px}
+.ssp-note{margin:8px 0 0;text-align:center;font-size:14px;color:var(--ink-soft)}
+.ssp-note[hidden]{display:none}
+.ssp-viewer:fullscreen{background:#fff;width:100vw;height:100vh;left:0;transform:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;box-sizing:border-box}
+.ssp-viewer:fullscreen .ssp-stage{width:min(100vw,calc((100vh - 150px)*1.7778));flex:0 0 auto;border-radius:0;box-shadow:none}
+.ssp-viewer:fullscreen .ssp-info,.ssp-viewer:fullscreen .ssp-note{color:#222}
+@media (max-width:640px){
+  #c2Ssp .ssp-bar .pill-btn{flex:1 1 42%;min-width:0;padding:11px 10px}.ssp-ctl{width:100%}
+  .ssp-list:not(:empty){display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0 0}
+  .ssp-list-title{grid-column:1/-1;margin:0;font-size:14px;color:var(--ink-soft);text-align:center}
+  #c2Ssp .ssp-list .pill-btn{font-family:"Comic Neue",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:16px;min-height:48px;padding:8px 6px;line-height:1.2;text-align:center}
+  #c2Ssp .ssp-list .pill-btn:focus-visible{outline:3px solid #111;outline-offset:2px;box-shadow:0 0 0 2px #fff}
+  .ssp-viewer:fullscreen .ssp-list{display:none}
+}
 #c1n-print{display:none}
 @media print{
   html,body{background:#fff!important}
@@ -1140,6 +1181,35 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
     </div>
   </section>
 
+  <!-- CHECK 2: Sounds & Spelling Patterns -- the approved 60-slide deck shown as lossless slide images
+       with native HTML navigation (teacher-only). Teaching slides only: nothing here is an assessment,
+       and nothing here reads or writes student data, scores, placement, recordings or unlocks. -->
+  <section class="screen" data-teacher="1" id="c2Ssp">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Teacher Dashboard</a> &nbsp;/&nbsp; <a onclick="go('teachNext')">What to Teach Next</a> &nbsp;/&nbsp; <a onclick="go('c2Next')">Check 2</a> &nbsp;/&nbsp; Sounds &amp; Spelling Patterns</p>
+      <div class="ssp-head">
+        <button type="button" class="pill-btn pill-btn-secondary" id="ssp-back" onclick="go('c2Next')">&#8592; Back to Check 2</button>
+        <h2>Sounds &amp; Spelling Patterns</h2>
+      </div>
+      <div class="ssp-viewer" id="ssp-viewer">
+        <div class="ssp-stage" id="ssp-stage" tabindex="-1">
+          <img id="ssp-img" alt="" draggable="false">
+          <div id="ssp-hot"></div>
+          <div class="ssp-msg" id="ssp-msg" role="status" aria-live="polite" hidden></div>
+        </div>
+        <p class="ssp-info" id="ssp-info" role="status" aria-live="polite"></p>
+        <p class="ssp-note" id="ssp-note" hidden></p>
+        <nav class="ssp-bar" id="ssp-nav" aria-label="Slide navigation">
+          <div class="ssp-ctl" id="ssp-ctl"></div>
+          <button type="button" class="pill-btn pill-btn-secondary" id="ssp-full" onclick="sspFullscreen()">Full screen</button>
+        </nav>
+        <div class="ssp-list" id="ssp-list" role="group" aria-label="Choose from this menu"></div>
+      </div>
+      <p class="mini-note">Teaching slides only. Browsing them does not change any assessment, score, or placement. The speaker and camera icons printed on the slides are placeholders for recordings that do not exist yet; they do not play or record anything.</p>
+      <div class="tn-nav" id="ssp-bottom-nav"><button type="button" class="pill-btn pill-btn-secondary" id="ssp-back-bottom" onclick="go('c2Next')">&#8592; Back to Check 2</button></div>
+    </div>
+  </section>
+
   <!-- CHECK 1: "What to Teach Next" -- teacher-only page that serves the
        two approved letter-name slideshows (check1-slides/). Opened from the
        Check 1 Review screen or from Practice on the teacher menu: SAME page. -->
@@ -1439,6 +1509,20 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
               <button class="pill-btn pill-btn-primary" id="c2n-open-studio" onclick="go('c2Studio')">Record or manage sound audio</button>
             </div>
             <p class="mini-note">Record your voice for each sound, check progress, and export or restore recordings.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="c1n-card" id="c2n-ssp">
+        <p class="step-eyebrow">Sounds &amp; Spelling Patterns</p>
+        <div class="c1n-sets" style="margin-top:8px">
+          <div class="c1n-card">
+            <h3 style="margin:0 0 4px">Sounds &amp; Spelling Patterns</h3>
+            <p class="mini-note">60 slides: a menu for each of 7 categories and 51 sound and spelling-pattern slides</p>
+            <div class="c1n-row">
+              <button type="button" class="pill-btn pill-btn-primary" id="c2n-open-ssp" onclick="sspOpen()">Open Sounds &amp; Spelling Patterns</button>
+            </div>
+            <p class="mini-note">Teaching slides only. Browsing them does not change any assessment, score, or placement. The speaker and camera icons on the slides are placeholders; no recordings exist for this deck yet.</p>
           </div>
         </div>
       </div>
@@ -3835,6 +3919,7 @@ function go(id){
   var s=document.getElementsByClassName("screen"), i, wasActive=null;
   for(i=0;i<s.length;i++){ if(/active/.test(s[i].className)){ wasActive=s[i].id; } s[i].className="screen"; }
   if((wasActive==="c2Studio" && id!=="c2Studio") && typeof c2stStop==="function"){ c2stStopForLeave(); }
+  if(wasActive==="c2Ssp" && id!=="c2Ssp"){ sspLeave(); }
   if(wasActive==="check2" && id!=="check2"){ c2StopMedia(); }
   if(wasActive==="check3" && id!=="check3"){ c3StopMedia(); }
   document.getElementById(id).className="screen active";
@@ -3856,6 +3941,7 @@ function go(id){
   if(id==="c2Next"){ c2nEnter(); }
   if(id==="teachNext"){ tnHubEnter(); }
   if(id==="c2Show"){ c2shEnter(); }
+  if(id==="c2Ssp"){ sspEnter(); }
   if(id==="c2Studio"){ c2stEnter(); }
   if(id==="tnCheck"){ tnCheckEnter(); }
   if(id==="check3"){ c3Enter(); }
@@ -6472,6 +6558,233 @@ function c2nStudioProgress(){
   var el=document.getElementById("c2n-studio-progress"); if(!el){ return; }
   C2SStore.all().then(function(list){ el.textContent=list.length+" of 44 sounds recorded"; },function(){ el.textContent="Recording progress unavailable"; });
 }
+
+/* ======================================================================
+   Check 2: Sounds & Spelling Patterns (teacher-only)
+   ======================================================================
+   The approved 60-slide deck (Reading_Foundations_Original_v6.pptx) shown as 60 LOSSLESS WebP slide
+   images (assets/check-2/sounds-spelling-patterns/slides/, 2560x1440, rendered from the untouched deck
+   with the real Comic Neue Bold). Navigation is native HTML: transparent <button>s laid over the
+   deck's own visible controls at the deck's own normalized positions, plus a control bar BELOW the
+   artwork that mirrors the same destinations, so a slide whose artwork hides its own footer
+   (oo / moon) is still navigable. Every destination, label and rectangle comes from manifest.js,
+   which tools/build-c2-ssp-manifest.py reads from the deck's presentation order and hyperlink
+   relationships -- nothing here is guessed from file names. The manifest and the pictures load only
+   when this screen opens, and only the slides one step away are preloaded.
+   Nothing here reads or writes student data, scores, placement, recordings, unlocks or any storage.
+   The speaker / camera icons printed on the slides are placeholders and are NOT clickable.
+   Browser Back works exactly as on every other screen (the app keeps no history entries); the
+   in-app "Back to Check 2" button returns to the same Check 2 page, selection intact. */
+var SSP_BASE="assets/check-2/sounds-spelling-patterns/";
+var SSP_LOCK_POINTER=500, SSP_LOCK_KEY=120, SSP_CACHE_MAX=8;
+var SSP={ cur:"cover", data:null, byId:null, load:"idle", tries:0, waiters:[], cache:{}, order:[], lockUntil:0, lockTimer:null, token:0 };
+var SSP_ICON={
+  previous:'<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M13.5 8H3M7 3.8 2.8 8 7 12.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  next:'<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M2.5 8H13M9 3.8 13.2 8 9 12.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  home:'<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M2 8.2 8 2.8l6 5.4M3.8 7v6.2h3V9.6h2.4v3.6h3V7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+};
+function sspEl(id){ return document.getElementById(id); }
+function sspEsc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function sspActive(){ var s=sspEl("c2Ssp"); return !!(s && /active/.test(s.className)); }
+function sspOpen(){ SSP.cur="cover"; go("c2Ssp"); }
+function sspEnter(){
+  sspHideMsg();
+  sspEnsure(function(ok){
+    if(!sspActive()){ return; }
+    if(!ok){ sspShowMsg("fatal"); return; }
+    if(!SSP.byId[SSP.cur]){ SSP.cur="cover"; }
+    sspShow(SSP.cur,true);
+  });
+}
+function sspLeave(){
+  try{ if(document.fullscreenElement && document.exitFullscreen){ document.exitFullscreen(); } }catch(e){}
+  if(SSP.lockTimer){ clearTimeout(SSP.lockTimer); }
+  SSP.lockUntil=0; sspUnlock(); sspHideMsg();
+}
+/* the slide list loads the first time the screen opens (a <script>, so it also works from file://) */
+function sspEnsure(cb){
+  var s;
+  if(window.RF_C2_SSP && window.RF_C2_SSP.slides){ if(!SSP.byId){ sspIndex(window.RF_C2_SSP); } SSP.load="ready"; cb(true); return; }
+  SSP.waiters.push(cb);
+  if(SSP.load==="loading"){ return; }
+  SSP.load="loading";
+  s=document.createElement("script"); s.charset="utf-8";
+  s.onload=function(){
+    var ok=!!(window.RF_C2_SSP && window.RF_C2_SSP.slides);
+    if(ok){ sspIndex(window.RF_C2_SSP); }
+    SSP.load=ok?"ready":"error"; sspFlush(ok);
+  };
+  s.onerror=function(){ if(s.parentNode){ s.parentNode.removeChild(s); } SSP.load="error"; sspFlush(false); };
+  s.src=SSP_BASE+"manifest.js"+(SSP.tries?"?retry="+SSP.tries:"");
+  document.getElementsByTagName("head")[0].appendChild(s);
+}
+function sspFlush(ok){ var w=SSP.waiters, i; SSP.waiters=[]; for(i=0;i<w.length;i++){ w[i](ok); } }
+function sspIndex(d){ var i; SSP.data=d; SSP.byId={}; for(i=0;i<d.slides.length;i++){ SSP.byId[d.slides[i].id]=d.slides[i]; } }
+function sspUrl(sl){ return SSP_BASE+SSP.data.images.dir+"/"+sl.image; }
+function sspCtl(sl,role){ var i; for(i=0;i<sl.controls.length;i++){ if(sl.controls[i].role===role){ return sl.controls[i]; } } return null; }
+
+/* one navigation = one step: a brief lock swallows the second tap of a double tap, so it can never
+   land on the control that sits in the same spot on the slide that just opened */
+function sspLock(ms){
+  var v=sspEl("ssp-viewer");
+  SSP.lockUntil=(new Date()).getTime()+ms;
+  if(v && !/ssp-busy/.test(v.className)){ v.className+=" ssp-busy"; }
+  if(SSP.lockTimer){ clearTimeout(SSP.lockTimer); }
+  SSP.lockTimer=setTimeout(sspUnlock,ms);
+}
+function sspUnlock(){ var v=sspEl("ssp-viewer"); SSP.lockTimer=null; if(v){ v.className=v.className.replace(/\s*ssp-busy/g,""); } }
+function sspGo(id,byKey){
+  var sl=SSP.byId?SSP.byId[id]:null;
+  if(!sl || (new Date()).getTime()<SSP.lockUntil){ return false; }
+  sspLock(byKey?SSP_LOCK_KEY:SSP_LOCK_POINTER);
+  sspShow(id,false);
+  return true;
+}
+function sspClick(e){
+  var t=e.target, to="", sc=sspEl("c2Ssp");
+  while(t && t!==sc){ if(t.getAttribute && t.getAttribute("data-to")){ to=t.getAttribute("data-to"); break; } t=t.parentNode; }
+  if(to){ sspGo(to,e.detail===0); }
+}
+
+function sspShow(id,fresh){
+  var sl=SSP.byId[id], img=sspEl("ssp-img"), v=sspEl("ssp-viewer"), ae=document.activeElement, keep=null, tok;
+  if(!sl || !img){ return; }
+  if(!fresh && ae && ae!==document.body && v && v.contains(ae)){
+    keep={ role:ae.getAttribute?(ae.getAttribute("data-role")||""):"", inBar:!!(sspEl("ssp-ctl") && sspEl("ssp-ctl").contains(ae)) };
+  }
+  SSP.cur=id; tok=++SSP.token;
+  sspPaint(sl);
+  sspHideMsg();
+  if(SSP.cache[sl.image] && SSP.cache[sl.image].ssp==="ok"){ img.src=sspUrl(sl); sspPreload(sl); }
+  else {
+    sspShowMsg("loading",sl);
+    sspLoadImage(sl,function(ok){
+      if(tok!==SSP.token){ return; }
+      if(ok){ img.src=sspUrl(sl); sspHideMsg(); sspPreload(sl); } else { sspShowMsg("fail",sl); }
+    });
+  }
+  if(keep){ if(!(keep.inBar && keep.role && sspFocusRole(keep.role))){ sspFocus(sspEl("ssp-stage")); } }
+}
+function sspFocus(el){ if(!el){ return; } try{ el.focus({preventScroll:true}); }catch(e){ try{ el.focus(); }catch(e2){} } }
+function sspFocusRole(role){
+  var b=sspEl("ssp-ctl").getElementsByTagName("button"), i;
+  for(i=0;i<b.length;i++){ if(b[i].getAttribute("data-role")===role){ sspFocus(b[i]); return true; } }
+  return false;
+}
+function sspInfo(sl){
+  var t="Slide "+sl.n+" of "+SSP.data.counts.slides+" · ";
+  if(sl.kind==="sound"){ t+="Sound "+sl.entry+" of "+SSP.data.counts.instructional+" · "+sl.categoryTitle+" ("+sl.indexInCategory+" of "+sl.categoryCount+")"; }
+  else if(sl.kind==="menu"){ t+=sl.title+" · "+sl.count+" sounds"; }
+  else { t+=sl.title; }
+  return t;
+}
+/* narrow screens only (CSS shows it below 640px): big buttons for the menu's own entries, same labels and destinations */
+function sspList(sl){
+  var out="", i, h, want=(sl.kind==="menu")?"sound":((sl.kind==="main-menu")?"category":"");
+  if(!want){ return ""; }
+  for(i=0;i<sl.hotspots.length;i++){
+    h=sl.hotspots[i];
+    if(h.role===want){ out+='<button type="button" class="pill-btn pill-btn-secondary" data-role="pick" data-to="'+h.to+'" aria-label="'+sspEsc(h.aria)+'">'+sspEsc(h.label)+'</button>'; }
+  }
+  return out?('<p class="ssp-list-title">'+(want==="sound"?"Choose a sound":"Choose a category")+'</p>'+out):"";
+}
+function sspPaint(sl){
+  var hot="", ctl="", i, h, c, note=sspEl("ssp-note"), stage=sspEl("ssp-stage");
+  for(i=0;i<sl.hotspots.length;i++){
+    h=sl.hotspots[i];
+    hot+='<button type="button" class="ssp-hot" data-role="'+h.role+'" data-to="'+h.to+'" aria-label="'+sspEsc(h.aria)+'" style="left:'+(h.rect[0]*100).toFixed(3)+'%;top:'+(h.rect[1]*100).toFixed(3)+'%;width:'+(h.rect[2]*100).toFixed(3)+'%;height:'+(h.rect[3]*100).toFixed(3)+'%"></button>';
+  }
+  sspEl("ssp-hot").innerHTML=hot;
+  for(i=0;i<sl.controls.length;i++){
+    c=sl.controls[i];
+    ctl+='<button type="button" class="pill-btn '+((c.role==="next"||c.role==="enter")?"pill-btn-primary":"pill-btn-secondary")+'" data-role="'+c.role+'" data-to="'+c.to+'" aria-label="'+sspEsc(c.aria)+'">'
+      +((c.role==="previous"||c.role==="home")?SSP_ICON[c.role]:"")+'<span>'+sspEsc(c.label)+'</span>'+((c.role==="next"||c.role==="enter")?SSP_ICON.next:"")+'</button>';
+  }
+  sspEl("ssp-ctl").innerHTML=ctl;
+  sspEl("ssp-list").innerHTML=sspList(sl);
+  sspEl("ssp-img").alt=sl.alt;
+  sspEl("ssp-info").textContent=sspInfo(sl);
+  stage.setAttribute("data-slide",sl.id); stage.setAttribute("data-n",String(sl.n));
+  if(sl.footerObstructed){ note.textContent="On this slide the picture covers the deck’s own Previous, category, Home and Next buttons, so use the buttons below the slide."; note.hidden=false; }
+  else { note.textContent=""; note.hidden=true; }
+}
+
+/* pictures: loaded on demand, the few slides one step away are preloaded, a small cache keeps memory low */
+function sspLoadImage(sl,cb){
+  var f=sl.image, im=SSP.cache[f];
+  if(im && im.ssp==="ok"){ if(cb){ cb(true); } return; }
+  if(!im){
+    im=new Image(); im.ssp="loading"; im.cbs=[]; SSP.cache[f]=im; SSP.order.push(f);
+    im.onload=function(){ var l=im.cbs, k; im.ssp="ok"; im.cbs=[]; for(k=0;k<l.length;k++){ l[k](true); } };
+    im.onerror=function(){ var l=im.cbs, k, p; im.ssp="fail"; im.cbs=[]; delete SSP.cache[f]; p=SSP.order.indexOf(f); if(p>-1){ SSP.order.splice(p,1); } for(k=0;k<l.length;k++){ l[k](false); } };
+    im.src=sspUrl(sl);
+  }
+  if(cb){ im.cbs.push(cb); }
+}
+function sspPreload(sl){
+  var keep={}, seen={}, i, t, n=0;
+  keep[sl.image]=1;
+  if(!(window.navigator && navigator.connection && navigator.connection.saveData)){
+    for(i=0;i<sl.controls.length && n<4;i++){
+      t=SSP.byId[sl.controls[i].to];
+      if(t && !seen[t.id]){ seen[t.id]=1; keep[t.image]=1; n++; sspLoadImage(t,null); }
+    }
+  }
+  i=0;
+  while(SSP.order.length>SSP_CACHE_MAX && i<SSP.order.length){
+    t=SSP.order[i];
+    if(keep[t] || (SSP.cache[t] && SSP.cache[t].ssp==="loading")){ i++; continue; }
+    SSP.order.splice(i,1); delete SSP.cache[t];
+  }
+}
+
+/* loading / failure messages sit INSIDE the stage; the control bar below stays usable */
+function sspShowMsg(kind,sl){
+  var m=sspEl("ssp-msg"), retry='<button type="button" class="pill-btn pill-btn-primary" onclick="sspRetry()">Try again</button>', h;
+  if(!m){ return; }
+  if(kind==="loading"){ h="Loading slide "+sl.n+" of "+SSP.data.counts.slides+"…"; }
+  else if(kind==="fail"){ h="This slide picture could not be loaded.<small>"+sspEsc(sspUrl(sl))+" is missing or the connection was interrupted. The buttons below the slide still work.</small>"+retry; }
+  else {
+    h="The slides could not be loaded.<small>"+sspEsc(SSP_BASE+"manifest.js")+" is missing or the connection was interrupted. Check that the assets folder was uploaded with the app, then try again.</small>"+retry;
+    sspEl("ssp-hot").innerHTML=""; sspEl("ssp-ctl").innerHTML=""; sspEl("ssp-list").innerHTML=""; sspEl("ssp-info").textContent=""; sspEl("ssp-note").hidden=true;   /* no stale buttons left behind */
+  }
+  m.innerHTML=h; m.hidden=false;
+  m.setAttribute("data-kind",kind);
+}
+function sspHideMsg(){ var m=sspEl("ssp-msg"); if(m){ m.hidden=true; m.innerHTML=""; m.removeAttribute("data-kind"); } }
+function sspRetry(){
+  var sl;
+  if(!SSP.byId){ SSP.load="idle"; SSP.tries++; sspEnter(); return; }
+  sl=SSP.byId[SSP.cur];
+  if(sl){ delete SSP.cache[sl.image]; sspShow(SSP.cur,true); }
+}
+function sspFullscreen(){
+  var el=sspEl("ssp-viewer"); if(!el){ return; }
+  try{
+    if(document.fullscreenElement && document.exitFullscreen){ document.exitFullscreen(); }
+    else if(el.requestFullscreen){ el.requestFullscreen(); }
+    else if(el.webkitRequestFullscreen){ el.webkitRequestFullscreen(); }
+  }catch(e){}
+}
+(function(){
+  var sc=sspEl("c2Ssp"), img=sspEl("ssp-img");
+  if(sc){ sc.addEventListener("click",sspClick); }
+  if(img){ img.onerror=function(){ var sl=SSP.byId?SSP.byId[SSP.cur]:null; if(sl && img.getAttribute("src")){ delete SSP.cache[sl.image]; sspShowMsg("fail",sl); } }; }
+})();
+document.addEventListener("keydown",function(e){
+  var t=e.target, tag=t&&t.tagName?t.tagName.toLowerCase():"", role, sl, c;
+  if(!sspActive() || !SSP.byId){ return; }
+  if(e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey || e.shiftKey){ return; }
+  if(tag==="input"||tag==="textarea"||tag==="select"||(t && t.isContentEditable)){ return; }
+  if(e.key==="ArrowRight"||e.key==="Right"){ role="next"; }
+  else if(e.key==="ArrowLeft"||e.key==="Left"){ role="previous"; }
+  else { return; }
+  sl=SSP.byId[SSP.cur]; c=sl?(sspCtl(sl,role)||(role==="next"?sspCtl(sl,"enter"):null)):null;
+  if(!c){ return; }
+  e.preventDefault();
+  if(e.repeat){ return; }
+  sspGo(c.to,true);
+});
 
 /* ---------- Check 1: "What to Teach Next" (teacher-only) ----------
    Serves the two approved letter-name slideshows (check1-slides/, 13 PNG
