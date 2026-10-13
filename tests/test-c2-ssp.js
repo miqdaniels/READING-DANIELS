@@ -131,7 +131,10 @@ const sleepLock=function(){ return tick(560); };
 
   /* ---- Check 2 page: new card, existing resources untouched ---- */
   w.go("teachNext"); d.querySelector('.tn-card[data-check="2"]').click();
-  ok(active()==="c2Next" && !!$("c2n-ssp") && $("c2n-ssp").querySelector(".step-eyebrow").textContent==="Sounds & Spelling Patterns" && $("c2n-open-ssp").textContent==="Open Sounds & Spelling Patterns","What to Teach Next > Check 2 shows the new \"Sounds & Spelling Patterns\" card");
+  ok(active()==="c2Next" && !!$("c2n-ssp") && $("c2n-ssp").querySelector("h3").textContent==="Sounds & Spelling Patterns" && $("c2n-open-ssp").textContent==="Open Sounds & Spelling Patterns","What to Teach Next > Check 2 shows the new \"Sounds & Spelling Patterns\" card");
+  const purpleCard=$("c2n-open-slideshow").closest(".c1n-card");
+  ok($("c2n-ssp").parentNode===purpleCard.parentNode && $("c2n-ssp").previousElementSibling===purpleCard && /60 slides with a picture for each sound/.test($("c2n-ssp").textContent) && /Interactive 44-Sound Slideshow/.test(purpleCard.textContent),"the purple 44-sound slideshow card is kept and the pictures deck sits right beside it in the same row (not further down the page, where it was easy to miss)");
+  ok(/Teaching slideshows and printable sound cards/.test(d.querySelector("#c2Next .lede").textContent),"the page intro says slideshows are here");
   const cardText=$("c2n-ssp").textContent.replace(/\s+/g," ");
   ok(/Teaching slides only/.test(cardText) && /does not change any assessment, score, or placement/.test(cardText) && /placeholders/.test(cardText),"card says: teaching slides only, changes no assessment, audio/camera icons are placeholders");
   ok(!!$("c2n-student") && !!$("c2n-slideshow") && !!$("c2n-open-slideshow") && !!$("c2n-dl-pptx") && !!$("c2n-open-studio") && !!$("c2n-resources") && !!$("c2n-teacher-pdf") && !!$("c2n-student-docx") && !!$("c2n-howto"),"existing Check 2 cards (student picker, 44-sound slideshow, studio, printable cards, directions) are all still there");

@@ -43,6 +43,11 @@ const sleep=function(ms){ return new Promise(function(r){ setTimeout(r,ms); }); 
  await p.evaluate(function(){ go('teachNext'); }); await p.click('.tn-card[data-check="2"]'); await sleep(300);
  ok(b.reqs.filter(function(u){ return /sounds-spelling-patterns/.test(u); }).length===0,"opening the app and the Check 2 page requests nothing from the new resource (no images, no slide list, no font)");
  ok(await p.isVisible('#c2n-ssp') && (await p.innerText('#c2n-open-ssp'))==='Open Sounds & Spelling Patterns',"Check 2 page shows the \"Sounds & Spelling Patterns\" card");
+ /* the two slideshows are neighbours: same row, so the pictures deck is not hidden below the purple one */
+ const rowGeo=await p.evaluate(function(){ function bx(e){ var r=e.getBoundingClientRect(); return [r.left,r.top+window.scrollY,r.width,r.height]; }
+   return { purple:bx(document.getElementById('c2n-open-slideshow').closest('.c1n-card')), ssp:bx(document.getElementById('c2n-ssp')), sspTitle:bx(document.querySelector('#c2n-ssp h3')), vh:window.innerHeight }; });
+ ok(Math.abs(rowGeo.purple[1]-rowGeo.ssp[1])<2 && rowGeo.ssp[0]>=rowGeo.purple[0]+rowGeo.purple[2]-1,"desktop: the purple 44-sound card and the Sounds & Spelling Patterns card sit side by side on one row (tops "+Math.round(rowGeo.purple[1])+" / "+Math.round(rowGeo.ssp[1])+")");
+ ok(rowGeo.sspTitle[1]+rowGeo.sspTitle[3]<rowGeo.vh,"desktop 1366x768: the Sounds & Spelling Patterns title is on the first screen without scrolling (title bottom "+Math.round(rowGeo.sspTitle[1]+rowGeo.sspTitle[3])+" < "+rowGeo.vh+")");
  await p.screenshot({path:out+'/check2-page.png',fullPage:true});
  /* pick a student first so we can prove the selection survives */
  await p.click('#c2n-roster button:has-text("Miriam")'); const selBefore=await p.evaluate(function(){ return [C2N_STU,C2N_CLS]; });

@@ -1475,13 +1475,16 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
   </section>
 
   <!-- CHECK 2: "What to Teach Next" -- teacher-only. Two approved printable
-       44-card sound-card sets (check2-cards/). A teaching library only: it is
-       NOT the 31-target Check 2 assessment and changes nothing about it. -->
+       44-card sound-card sets (check2-cards/) and two teaching slideshows
+       (the purple 44-sound deck and the 60-slide Sounds & Spelling Patterns
+       deck, kept side by side in ONE row so neither sits below the fold). A
+       teaching library only: it is NOT the 31-target Check 2 assessment and
+       changes nothing about it. -->
   <section class="screen" data-teacher="1" id="c2Next">
     <div class="wrap">
       <p class="crumb"><a onclick="go('s-home')">Teacher Dashboard</a> &nbsp;/&nbsp; <a onclick="go('teachNext')">What to Teach Next</a> &nbsp;/&nbsp; Check 2</p>
       <h2>What to Teach Next &mdash; Letter Sounds</h2>
-      <p class="lede">Printable sound cards for teaching the letter sounds a student still needs after Check 2. No student needs to be picked.</p>
+      <p class="lede">Teaching slideshows and printable sound cards for the letter sounds a student still needs after Check 2. No student needs to be picked.</p>
 
       <div class="c1n-card" id="c2n-student">
         <p class="step-eyebrow">Student (optional)</p>
@@ -1492,7 +1495,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       </div>
 
       <div class="c1n-card" id="c2n-slideshow">
-        <p class="step-eyebrow">Interactive Sound Slideshow and Recording Studio</p>
+        <p class="step-eyebrow">Teaching Slideshows and Recording Studio</p>
         <div class="c1n-sets" style="margin-top:8px">
           <div class="c1n-card">
             <h3 style="margin:0 0 4px">Interactive 44-Sound Slideshow</h3>
@@ -1502,6 +1505,14 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
               <a class="pill-btn pill-btn-secondary" id="c2n-dl-pptx" href="check2-slides/Reading_Foundations_Check_2_Royal_Purple_44_Sounds_Audio_Ready.pptx" download>Download PowerPoint</a>
             </div>
           </div>
+          <div class="c1n-card" id="c2n-ssp">
+            <h3 style="margin:0 0 4px">Sounds &amp; Spelling Patterns</h3>
+            <p class="mini-note">60 slides with a picture for each sound: a menu for each of 7 categories and 51 sound and spelling-pattern slides</p>
+            <div class="c1n-row">
+              <button type="button" class="pill-btn pill-btn-primary" id="c2n-open-ssp" onclick="sspOpen()">Open Sounds &amp; Spelling Patterns</button>
+            </div>
+            <p class="mini-note">Teaching slides only. Browsing them does not change any assessment, score, or placement. The speaker and camera icons on the slides are placeholders; no recordings exist for this deck yet.</p>
+          </div>
           <div class="c1n-card">
             <h3 style="margin:0 0 4px">Teacher Sound Recording Studio</h3>
             <p class="mini-note" id="c2n-studio-progress"></p>
@@ -1509,20 +1520,6 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
               <button class="pill-btn pill-btn-primary" id="c2n-open-studio" onclick="go('c2Studio')">Record or manage sound audio</button>
             </div>
             <p class="mini-note">Record your voice for each sound, check progress, and export or restore recordings.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="c1n-card" id="c2n-ssp">
-        <p class="step-eyebrow">Sounds &amp; Spelling Patterns</p>
-        <div class="c1n-sets" style="margin-top:8px">
-          <div class="c1n-card">
-            <h3 style="margin:0 0 4px">Sounds &amp; Spelling Patterns</h3>
-            <p class="mini-note">60 slides: a menu for each of 7 categories and 51 sound and spelling-pattern slides</p>
-            <div class="c1n-row">
-              <button type="button" class="pill-btn pill-btn-primary" id="c2n-open-ssp" onclick="sspOpen()">Open Sounds &amp; Spelling Patterns</button>
-            </div>
-            <p class="mini-note">Teaching slides only. Browsing them does not change any assessment, score, or placement. The speaker and camera icons on the slides are placeholders; no recordings exist for this deck yet.</p>
           </div>
         </div>
       </div>
