@@ -833,46 +833,45 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
    no red/green. The lesson screen draws every section from ONE data object
    (C3BS) so the on-screen view and the printed pages can never differ. ===== */
 #c3Next .pill-btn,#c3Bs .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:16px;min-height:48px;padding:11px 20px;cursor:pointer;touch-action:manipulation;text-decoration:none;box-sizing:border-box}
-#c3Next .pill-btn-primary,#c3Bs .pill-btn-primary{background:var(--accent);border:1.5px solid var(--accent);color:#fff}
+#c3Next .pill-btn-primary,#c3Bs .pill-btn-primary{background:var(--accent);border:1.5px solid var(--accent);color:var(--panel)}
 #c3Next .pill-btn-secondary,#c3Bs .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
 #c3Next .c1n-card,#c3Bs .c1n-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px 18px;margin:0 0 16px}
 #c3Next .c1n-row,#c3Bs .c1n-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
 #c3Next .c1n-foot,#c3Bs .c1n-foot{margin:22px 0 4px;font-size:13px;color:var(--ink-soft)}
-#c3Bs{--bs-navy:#183758;--bs-mid:#2B5A83;--bs-blue:#E1EFF9;--bs-blue2:#F4F9FD;--bs-line:#b7d3ea;--bs-text:#243548}
-body.teacher-dark #c3Bs{--bs-navy:#a9cdee;--bs-mid:#8fb8dc;--bs-blue:rgba(120,170,220,.18);--bs-blue2:rgba(120,170,220,.08);--bs-line:rgba(143,184,220,.35);--bs-text:var(--ink)}
-#c3Bs .c3bs-title{font-family:Arial,Helvetica,sans-serif;color:var(--bs-navy);font-size:30px;letter-spacing:.01em;margin:6px 0 4px}
+#c3Bs{--bs-head:color-mix(in srgb,var(--accent) 58%,var(--ink));--bs-head2:color-mix(in srgb,var(--accent) 45%,var(--ink));--bs-navy:var(--accent);--bs-mid:var(--accent);--bs-on:var(--panel);--bs-blue:color-mix(in srgb,var(--accent) 16%,var(--panel));--bs-blue2:color-mix(in srgb,var(--accent) 7%,var(--panel));--bs-line:color-mix(in srgb,var(--accent) 32%,var(--panel));--bs-text:var(--ink)}
+#c3Bs .c3bs-title{font-family:Arial,Helvetica,sans-serif;color:var(--bs-head);font-size:30px;letter-spacing:.01em;margin:6px 0 4px}
 #c3Bs .c3bs-tabs{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 8px}
-#c3Bs .c3bs-tab{flex:1 1 200px;display:flex;align-items:center;gap:10px;min-height:56px;padding:10px 16px;border:2px solid var(--bs-navy);border-radius:10px;background:transparent;color:var(--bs-navy);font:inherit;font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:700;text-align:left;cursor:pointer;touch-action:manipulation}
-#c3Bs .c3bs-tab .c3bs-tabnum{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:var(--bs-blue);color:var(--bs-navy);font-size:16px;flex:0 0 auto}
-#c3Bs .c3bs-tab[aria-selected="true"]{background:var(--bs-navy);color:#fff}
-#c3Bs .c3bs-tab[aria-selected="true"] .c3bs-tabnum{background:#fff;color:var(--bs-navy)}
+#c3Bs .c3bs-tab{flex:1 1 200px;display:flex;align-items:center;gap:10px;min-height:56px;padding:10px 16px;border:2px solid var(--bs-navy);border-radius:10px;background:transparent;color:var(--bs-head);font:inherit;font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:700;text-align:left;cursor:pointer;touch-action:manipulation}
+#c3Bs .c3bs-tab .c3bs-tabnum{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:var(--bs-blue);color:var(--bs-head);font-size:16px;flex:0 0 auto}
+#c3Bs .c3bs-tab[aria-selected="true"]{background:var(--bs-navy);color:var(--bs-on)}
+#c3Bs .c3bs-tab[aria-selected="true"] .c3bs-tabnum{background:var(--bs-on);color:var(--bs-head)}
 #c3Bs .c3bs-tab:focus-visible,#c3Bs .pill-btn:focus-visible{outline:3px solid var(--bs-mid);outline-offset:2px}
 #c3Bs .c3bs-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 18px}
 #c3Bs .c3bs-panel{font-family:Arial,Helvetica,sans-serif;color:var(--bs-text)}
 #c3Bs .c3bs-panel[hidden]{display:none}
-#c3Bs .c3bs-meta{margin:0 0 14px;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--bs-mid)}
-#c3Bs .c3bs-notice{margin:0 0 16px;padding:10px 14px;border-left:5px solid var(--bs-navy);background:var(--bs-blue);font-size:16px;font-weight:700;color:var(--bs-navy)}
-.c3bs-h3{font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:700;letter-spacing:.02em;color:var(--bs-navy);margin:28px 0 10px;text-transform:none}
+#c3Bs .c3bs-meta{margin:0 0 14px;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--bs-head2)}
+#c3Bs .c3bs-notice{margin:0 0 16px;padding:10px 14px;border-left:5px solid var(--bs-navy);background:var(--bs-blue);font-size:16px;font-weight:700;color:var(--bs-head)}
+.c3bs-h3{font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:700;letter-spacing:.02em;color:var(--bs-head);margin:28px 0 10px;text-transform:none}
 .c3bs-glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;background:var(--bs-blue);border-radius:10px;overflow:hidden;margin:0 0 6px}
 .c3bs-glance>div{padding:14px 18px}
 .c3bs-glance>div+div{border-left:2px solid var(--bs-blue2)}
-.c3bs-glance .c3bs-gl{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--bs-navy);margin:0 0 4px}
+.c3bs-glance .c3bs-gl{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--bs-head);margin:0 0 4px}
 .c3bs-glance .c3bs-gv{font-size:19px;line-height:1.4;margin:0}
 .c3bs-table{width:100%;border-collapse:collapse;font-size:19px;line-height:1.45;text-align:left;margin:0}
-.c3bs-table th{background:#183758;color:#fff;text-align:left;font-size:14px;letter-spacing:.06em;font-weight:700;padding:11px 16px}
+.c3bs-table th{background:var(--bs-navy);color:var(--bs-on);text-align:left;font-size:14px;letter-spacing:.06em;font-weight:700;padding:11px 16px}
 .c3bs-table td{font-size:19px;padding:13px 16px;vertical-align:top;border-bottom:1px solid var(--bs-line);text-align:left}
 .c3bs-table tbody tr:nth-child(even) td{background:var(--bs-blue2)}
 .c3bs-table tbody tr:nth-child(odd) td{background:var(--bs-blue)}
-.c3bs-table td.c3bs-key{font-weight:700;color:var(--bs-navy);white-space:nowrap}
+.c3bs-table td.c3bs-key{font-weight:700;color:var(--bs-head);white-space:nowrap}
 .c3bs-table td.c3bs-time{white-space:nowrap}
 .c3bs-table.c3bs-words td{font-size:26px;padding:14px 16px}
-.c3bs-table.c3bs-words td.c3bs-snd{font-size:26px;font-weight:700;color:var(--bs-navy)}
+.c3bs-table.c3bs-words td.c3bs-snd{font-size:26px;font-weight:700;color:var(--bs-head)}
 .c3bs-table.c3bs-obs td{height:50px}
 .c3bs-table.c3bs-obs td.c3bs-cmn{width:16%;border-left:1px solid var(--bs-line);border-right:1px solid var(--bs-line)}
 .c3bs-remind p{font-size:19px;line-height:1.5;margin:0 0 8px}
 .c3bs-fill{display:flex;flex-wrap:wrap;gap:12px 40px;font-size:19px;margin:0 0 10px}
 .c3bs-blank{display:inline-block;border-bottom:2px solid var(--bs-navy);height:1.1em;vertical-align:baseline}
-.c3bs-legend{font-size:17px;color:var(--bs-mid);margin:0 0 14px}
+.c3bs-legend{font-size:17px;color:var(--bs-head2);margin:0 0 14px}
 .c3bs-legend span{margin-right:26px;white-space:nowrap}
 .c3bs-decide{list-style:none;margin:0 0 6px;padding:0;font-size:19px}
 .c3bs-decide li{margin:0 0 8px}
@@ -895,7 +894,7 @@ body.teacher-dark #c3Bs{--bs-navy:#a9cdee;--bs-mid:#8fb8dc;--bs-blue:rgba(120,17
   body>.wrap,#c3Bs>.wrap{padding:0!important;margin:0!important;max-width:none!important}
   #c3Bs.screen.active{display:block!important}
   #c3Bs .wrap>*:not(#c3bs-print){display:none!important}
-  #c3bs-print{display:block!important;page:c3bs;font-family:Arial,Helvetica,sans-serif;color:#243548;background:#fff;--bs-navy:#183758;--bs-mid:#2B5A83;--bs-blue:#E1EFF9;--bs-blue2:#F4F9FD;--bs-line:#b7d3ea;--bs-text:#243548}
+  #c3bs-print{display:block!important;page:c3bs;font-family:Arial,Helvetica,sans-serif;color:#243548;background:#fff;--bs-head:#183758;--bs-head2:#2B5A83;--bs-navy:#183758;--bs-mid:#2B5A83;--bs-blue:#E1EFF9;--bs-blue2:#F4F9FD;--bs-line:#b7d3ea;--bs-text:#243548}
   #c3bs-print *{visibility:visible!important}
   #c3bs-print .c3bs-page{display:flex;flex-direction:column;min-height:9.6in;break-inside:avoid;page-break-inside:avoid}
   #c3bs-print .c3bs-page+.c3bs-page{break-before:page;page-break-before:always}

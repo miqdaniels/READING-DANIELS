@@ -45,13 +45,41 @@ function pdfPage(file,n){ return cp.execFileSync('pdftotext',['-f',String(n),'-l
      ok(m.small.length===0,name+" section "+n+": every control at least 44px tall"+(m.small.length?" -- "+m.small.join("|"):""));
      ok(m.clip===0,name+" section "+n+": no table cut off");
      ok(/Arial/.test(m.ff),name+" section "+n+": Arial font");
-     ok(m.navy==='rgb(24, 55, 88)' && m.thbg==='rgb(24, 55, 88)',name+" section "+n+": navy headings and table headers ("+m.navy+")");
+     ok(m.thbg==='rgb(31, 58, 95)' && /^color\(srgb|^rgb/.test(m.navy),name+" section "+n+": table headers use the theme accent, navy by default ("+m.thbg+")");
      ok(m.left==='left' && m.pad>=10 && m.fs>=(name==='phone'?16:18),name+" section "+n+": left-aligned, padded, large text ("+m.fs+"px / pad "+m.pad+")");
      await p.screenshot({path:out+'/'+name+'-section'+n+'.png',fullPage:true});
    }
    ok(B.errs.length===0,name+": no page errors ("+B.errs.join("; ")+")");
    await B.ctx.close();
  }
+
+ /* ---------- every theme swatch, light and dark ---------- */
+ { const B=await boot(browser,VIEWS.desktop,'?teacher'); const p=B.p; await viaHub(p);
+   const lum=function(c){ var f=/^color\(/.test(c), v=(f?c.match(/[\d.]+/g).slice(-3):c.match(/\d+/g).slice(0,3)).map(function(x){ x=f?+x:x/255; return x<=0.03928?x/12.92:Math.pow((x+0.055)/1.055,2.4); }); return 0.2126*v[0]+0.7152*v[1]+0.0722*v[2]; };
+   const ratio=function(a,b){ var l1=lum(a), l2=lum(b); return (Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05); };
+   for(const pal of ['navy','bluegray','aqua','rose','gold']){ for(const mode of ['light','dark']){
+     await p.evaluate(function(a){ Settings.setPalette(a[0]); Settings.setMode(a[1]); applyTeacherDarkClass(curScreenId()); },[pal,mode]);
+     await p.waitForTimeout(600); /* let the app's own colour fade finish before measuring */
+     const r=await p.evaluate(function(){ var vis=document.getElementById('c3bs-panel-1'), th=vis.querySelector('th'), cs=function(e){ return getComputedStyle(e); }, root=cs(document.documentElement);
+       var tab=document.getElementById('c3bs-tab-1'), td=vis.querySelector('tbody tr:nth-child(1) td');
+       return { accent:root.getPropertyValue('--accent').trim(), pal:document.documentElement.getAttribute('data-palette'), mode:document.documentElement.getAttribute('data-mode'),
+         h3:cs(vis.querySelector('.c3bs-h3')).color, thbg:cs(th).backgroundColor, thfg:cs(th).color, tabbg:cs(tab).backgroundColor, tabfg:cs(tab).color, tdbg:cs(td).backgroundColor, tdfg:cs(td).color,
+         paper:root.getPropertyValue('--paper').trim(), title:cs(document.querySelector('#c3Bs .c3bs-title')).color }; });
+     const px=r.paper.replace('#',''); r.paper='rgb('+parseInt(px.slice(0,2),16)+', '+parseInt(px.slice(2,4),16)+', '+parseInt(px.slice(4,6),16)+')';
+     const hex=r.accent.replace('#',''), rgb='rgb('+parseInt(hex.slice(0,2),16)+', '+parseInt(hex.slice(2,4),16)+', '+parseInt(hex.slice(4,6),16)+')';
+     const tag=pal+'/'+mode;
+     ok(r.pal===pal && r.mode===mode,tag+": theme applied");
+     ok(r.thbg===rgb && r.tabbg===rgb,tag+": table header and active tab use the theme accent ("+rgb+")");
+     ok(ratio(r.thfg,r.thbg)>=3.5 && ratio(r.tabfg,r.tabbg)>=3.5,tag+": text on the accent is readable (header "+ratio(r.thfg,r.thbg).toFixed(1)+":1)");
+     ok(ratio(r.tdfg,r.tdbg)>=4.5,tag+": table label text is readable ("+ratio(r.tdfg,r.tdbg).toFixed(1)+":1)");
+     ok(ratio(r.h3,r.paper)>=4.5 && ratio(r.title,r.paper)>=4.5,tag+": headings readable on the page ("+ratio(r.h3,r.paper).toFixed(1)+":1)");
+     await p.screenshot({path:out+'/theme-'+pal+'-'+mode+'.png'}); } }
+   /* printing is the approved navy document whatever theme is on screen */
+   await p.evaluate(function(){ Settings.setPalette('rose'); Settings.setMode('dark'); applyTeacherDarkClass(curScreenId()); }); await p.emulateMedia({media:'print'});
+   const pc=await p.evaluate(function(){ var th=document.querySelector('#c3bs-print th'); return { bg:getComputedStyle(th).backgroundColor, h1:getComputedStyle(document.querySelector('#c3bs-print h1')).color }; }); await p.emulateMedia({media:'screen'});
+   ok(pc.bg==='rgb(24, 55, 88)' && pc.h1==='rgb(24, 55, 88)',"printed pages stay approved navy even on the Rose dark theme ("+pc.bg+")");
+   await p.evaluate(function(){ Settings.setPalette('navy'); Settings.setMode('light'); applyTeacherDarkClass(curScreenId()); });
+   ok(B.errs.length===0,"themes: no page errors"); await B.ctx.close(); }
 
  /* ---------- navigation by real clicks ---------- */
  { const B=await boot(browser,VIEWS.tabletLandscape,'?teacher'); const p=B.p; await viaHub(p);
