@@ -36,7 +36,12 @@ function card(n){ return d.querySelector('.tn-card[data-check="'+n+'"]'); }
 card(1).click(); ok(active()==="c1Next" && !!$("c1n-forma-pdf") && !!$("c1n-ml-toggle") && !!$("c1n-dl-upper"),"Check 1 card -> Check 1 resources (slides, mini-lesson, rechecks)");
 w.go("teachNext"); card(2).click(); ok(active()==="c2Next" && !!$("c2n-teacher-pdf") && !!$("c2n-student-docx"),"Check 2 card -> Check 2 sound cards");
 var rev={3:["check3Teach"],4:["check4Teach"],5:["check5Teach"],6:["check6Teach","check6bTeach","check6cTeach"],7:["check7Teach"]};
-[3,4,5,6,7].forEach(function(n){
+/* Check 3 now has its first instructional resource (Beginning Sounds) */
+w.go("teachNext"); card(3).click();
+ok(active()==="c3Next" && !!$("c3n-open-bs") && !!$("c3n-bs-docx"),"Check 3 card -> Check 3 resources (Beginning Sounds lesson + Word download)");
+ok(/Resources available/.test(card(3).textContent) && !/being developed/.test(card(3).textContent),"Check 3 card now says resources available");
+ok(/In development/.test(card(4).textContent),"Check 4 card still says in development");
+[4,5,6,7].forEach(function(n){
   w.go("teachNext"); card(n).click();
   ok(active()==="tnCheck","Check "+n+" card -> its own landing page");
   ok($("tn-check-title").textContent.indexOf("Check "+n)===0,"Check "+n+" page titled");
@@ -62,10 +67,10 @@ w.tnHub(); card(1).click(); var nav2=Array.prototype.map.call(d.querySelectorAll
 ok(nav2.join("|")==="Back to What to Teach Next|Back to Teacher Dashboard","from the hub there is no Return to Student Review");
 d.querySelectorAll("#c1Next .tn-nav button")[1].click(); ok(active()==="s-home","Back to Teacher Dashboard works");
 /* every review screen has a working What to Teach Next */
-var map={check1Teach:"c1Next",check2Teach:"c2Next",check3Teach:"tnCheck",check4Teach:"tnCheck",check5Teach:"tnCheck",check6Teach:"tnCheck",check6bTeach:"tnCheck",check6cTeach:"tnCheck",check7Teach:"tnCheck"};
+var map={check1Teach:"c1Next",check2Teach:"c2Next",check3Teach:"c3Next",check4Teach:"tnCheck",check5Teach:"tnCheck",check6Teach:"tnCheck",check6bTeach:"tnCheck",check6cTeach:"tnCheck",check7Teach:"tnCheck"};
 Object.keys(map).forEach(function(r){ w.go(r); var b=Array.prototype.filter.call(d.querySelectorAll("#"+r+" > .wrap > button"),function(x){ return /What to Teach Next/.test(x.textContent); })[0];
   ok(!!b,r+" has a What to Teach Next button"); if(b){ b.click(); ok(active()===map[r],r+" -> "+map[r]);
-    if(r!=="check1Teach"&&r!=="check2Teach"){ d.querySelector("#tnCheck .tn-nav .pill-btn-primary").click(); ok(active()===r,r+": Return to Student Review comes back"); } } });
+    if(r!=="check1Teach"&&r!=="check2Teach"){ d.querySelector("#"+map[r]+" .tn-nav .pill-btn-primary").click(); ok(active()===r,r+": Return to Student Review comes back"); } } });
 /* Check 2 student carry-over */
 var sc2=w.C2_ITEMS.map(function(){ return ""; }); sc2[w.C2_ITEMS.map(function(x){return x.section+x.letter;}).indexOf("2Aq")]="err"; sc2[1]="err";
 w.localStorage.setItem("rf_check2_attempts",JSON.stringify([{id:"c2a",studentId:A,date:"2026-10-02",fileName:"y",scores:sc2,c2aCorrect:1,c2bCorrect:1,c2cCorrect:1}]));

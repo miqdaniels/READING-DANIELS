@@ -828,6 +828,102 @@ html[data-mode="dark"] #check6c .clean-header,html[data-mode="dark"] #check6cTea
   #c2Ssp .ssp-list .pill-btn:focus-visible{outline:3px solid #111;outline-offset:2px;box-shadow:0 0 0 2px #fff}
   .ssp-viewer:fullscreen .ssp-list{display:none}
 }
+/* ===== Check 3 "What to Teach Next" + Beginning Sounds lesson (teacher-only).
+   Approved navy / light-blue palette. Quiet Square: 10px rounded rectangles,
+   no red/green. The lesson screen draws every section from ONE data object
+   (C3BS) so the on-screen view and the printed pages can never differ. ===== */
+#c3Next .pill-btn,#c3Bs .pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:10px;font:inherit;font-weight:700;font-size:16px;min-height:48px;padding:11px 20px;cursor:pointer;touch-action:manipulation;text-decoration:none;box-sizing:border-box}
+#c3Next .pill-btn-primary,#c3Bs .pill-btn-primary{background:var(--accent);border:1.5px solid var(--accent);color:#fff}
+#c3Next .pill-btn-secondary,#c3Bs .pill-btn-secondary{background:transparent;border:1.5px solid var(--accent);color:var(--accent)}
+#c3Next .c1n-card,#c3Bs .c1n-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px 18px;margin:0 0 16px}
+#c3Next .c1n-row,#c3Bs .c1n-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+#c3Next .c1n-foot,#c3Bs .c1n-foot{margin:22px 0 4px;font-size:13px;color:var(--ink-soft)}
+#c3Bs{--bs-navy:#183758;--bs-mid:#2B5A83;--bs-blue:#E1EFF9;--bs-blue2:#F4F9FD;--bs-line:#b7d3ea;--bs-text:#243548}
+body.teacher-dark #c3Bs{--bs-navy:#a9cdee;--bs-mid:#8fb8dc;--bs-blue:rgba(120,170,220,.18);--bs-blue2:rgba(120,170,220,.08);--bs-line:rgba(143,184,220,.35);--bs-text:var(--ink)}
+#c3Bs .c3bs-title{font-family:Arial,Helvetica,sans-serif;color:var(--bs-navy);font-size:30px;letter-spacing:.01em;margin:6px 0 4px}
+#c3Bs .c3bs-tabs{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 8px}
+#c3Bs .c3bs-tab{flex:1 1 200px;display:flex;align-items:center;gap:10px;min-height:56px;padding:10px 16px;border:2px solid var(--bs-navy);border-radius:10px;background:transparent;color:var(--bs-navy);font:inherit;font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:700;text-align:left;cursor:pointer;touch-action:manipulation}
+#c3Bs .c3bs-tab .c3bs-tabnum{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:var(--bs-blue);color:var(--bs-navy);font-size:16px;flex:0 0 auto}
+#c3Bs .c3bs-tab[aria-selected="true"]{background:var(--bs-navy);color:#fff}
+#c3Bs .c3bs-tab[aria-selected="true"] .c3bs-tabnum{background:#fff;color:var(--bs-navy)}
+#c3Bs .c3bs-tab:focus-visible,#c3Bs .pill-btn:focus-visible{outline:3px solid var(--bs-mid);outline-offset:2px}
+#c3Bs .c3bs-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0 18px}
+#c3Bs .c3bs-panel{font-family:Arial,Helvetica,sans-serif;color:var(--bs-text)}
+#c3Bs .c3bs-panel[hidden]{display:none}
+#c3Bs .c3bs-meta{margin:0 0 14px;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--bs-mid)}
+#c3Bs .c3bs-notice{margin:0 0 16px;padding:10px 14px;border-left:5px solid var(--bs-navy);background:var(--bs-blue);font-size:16px;font-weight:700;color:var(--bs-navy)}
+.c3bs-h3{font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:700;letter-spacing:.02em;color:var(--bs-navy);margin:28px 0 10px;text-transform:none}
+.c3bs-glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;background:var(--bs-blue);border-radius:10px;overflow:hidden;margin:0 0 6px}
+.c3bs-glance>div{padding:14px 18px}
+.c3bs-glance>div+div{border-left:2px solid var(--bs-blue2)}
+.c3bs-glance .c3bs-gl{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--bs-navy);margin:0 0 4px}
+.c3bs-glance .c3bs-gv{font-size:19px;line-height:1.4;margin:0}
+.c3bs-table{width:100%;border-collapse:collapse;font-size:19px;line-height:1.45;text-align:left;margin:0}
+.c3bs-table th{background:#183758;color:#fff;text-align:left;font-size:14px;letter-spacing:.06em;font-weight:700;padding:11px 16px}
+.c3bs-table td{font-size:19px;padding:13px 16px;vertical-align:top;border-bottom:1px solid var(--bs-line);text-align:left}
+.c3bs-table tbody tr:nth-child(even) td{background:var(--bs-blue2)}
+.c3bs-table tbody tr:nth-child(odd) td{background:var(--bs-blue)}
+.c3bs-table td.c3bs-key{font-weight:700;color:var(--bs-navy);white-space:nowrap}
+.c3bs-table td.c3bs-time{white-space:nowrap}
+.c3bs-table.c3bs-words td{font-size:26px;padding:14px 16px}
+.c3bs-table.c3bs-words td.c3bs-snd{font-size:26px;font-weight:700;color:var(--bs-navy)}
+.c3bs-table.c3bs-obs td{height:50px}
+.c3bs-table.c3bs-obs td.c3bs-cmn{width:16%;border-left:1px solid var(--bs-line);border-right:1px solid var(--bs-line)}
+.c3bs-remind p{font-size:19px;line-height:1.5;margin:0 0 8px}
+.c3bs-fill{display:flex;flex-wrap:wrap;gap:12px 40px;font-size:19px;margin:0 0 10px}
+.c3bs-blank{display:inline-block;border-bottom:2px solid var(--bs-navy);height:1.1em;vertical-align:baseline}
+.c3bs-legend{font-size:17px;color:var(--bs-mid);margin:0 0 14px}
+.c3bs-legend span{margin-right:26px;white-space:nowrap}
+.c3bs-decide{list-style:none;margin:0 0 6px;padding:0;font-size:19px}
+.c3bs-decide li{margin:0 0 8px}
+.c3bs-lines div{border-bottom:2px solid var(--bs-navy);height:34px;max-width:620px}
+.c3bs-pager{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;margin:26px 0 4px}
+@media (max-width:620px){
+  #c3Bs .c3bs-title{font-size:24px}
+  .c3bs-table td{font-size:17px}
+  .c3bs-table th,.c3bs-table td{padding:10px 10px}
+  .c3bs-table td.c3bs-key,.c3bs-table td.c3bs-time{white-space:normal}
+  .c3bs-table.c3bs-words td,.c3bs-table.c3bs-words td.c3bs-snd{font-size:22px}
+  .c3bs-glance>div+div{border-left:0;border-top:2px solid var(--bs-blue2)}
+}
+/* printed lesson: three Letter pages, fixed navy / light-blue colors, no theme */
+#c3bs-print{display:none}
+@media print{
+  @page c3bs{size:letter;margin:.5in .5in .45in}
+  .screen{display:none!important}
+  body>header.app,body>footer.mini{display:none!important}
+  body>.wrap,#c3Bs>.wrap{padding:0!important;margin:0!important;max-width:none!important}
+  #c3Bs.screen.active{display:block!important}
+  #c3Bs .wrap>*:not(#c3bs-print){display:none!important}
+  #c3bs-print{display:block!important;page:c3bs;font-family:Arial,Helvetica,sans-serif;color:#243548;background:#fff;--bs-navy:#183758;--bs-mid:#2B5A83;--bs-blue:#E1EFF9;--bs-blue2:#F4F9FD;--bs-line:#b7d3ea;--bs-text:#243548}
+  #c3bs-print *{visibility:visible!important}
+  #c3bs-print .c3bs-page{display:flex;flex-direction:column;min-height:9.6in;break-inside:avoid;page-break-inside:avoid}
+  #c3bs-print .c3bs-page+.c3bs-page{break-before:page;page-break-before:always}
+  #c3bs-print.c3bs-m-teach .c3bs-page.c3bs-p3,#c3bs-print.c3bs-m-obs .c3bs-page.c3bs-p1,#c3bs-print.c3bs-m-obs .c3bs-page.c3bs-p2{display:none!important}
+  #c3bs-print .c3bs-hd{text-align:right;font-size:8pt;font-weight:700;letter-spacing:.06em;color:#50667B;margin:0 0 6pt}
+  #c3bs-print h1{font-size:25pt;line-height:1.1;margin:0 0 4pt;color:#183758}
+  #c3bs-print .c3bs-meta{font-size:9.5pt;font-weight:700;letter-spacing:.04em;color:#50667B;margin:0 0 10pt}
+  #c3bs-print .c3bs-notice{font-size:10pt;font-weight:700;color:#2B5A83;margin:0 0 10pt;padding:0;border:0;background:none}
+  #c3bs-print .c3bs-h3{font-size:12pt;margin:15pt 0 6pt;color:#183758}
+  #c3bs-print .c3bs-glance{border-radius:0;margin:0 0 4pt;background:#E1EFF9;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #c3bs-print .c3bs-glance>div{padding:7pt 9pt}
+  #c3bs-print .c3bs-glance>div+div{border-left:2pt solid #F4F9FD}
+  #c3bs-print .c3bs-glance .c3bs-gl{font-size:9pt;margin:0 0 2pt}
+  #c3bs-print .c3bs-glance .c3bs-gv{font-size:11pt;line-height:1.35}
+  #c3bs-print .c3bs-table{line-height:1.3;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #c3bs-print .c3bs-table th{font-size:9pt;padding:7pt 9pt;background:#183758;color:#fff}
+  #c3bs-print .c3bs-table td{font-size:11pt;padding:8pt 9pt}
+  #c3bs-print .c3bs-table tbody tr:nth-child(odd) td{background:#F4F9FD}
+  #c3bs-print .c3bs-table tbody tr:nth-child(even) td{background:#E1EFF9}
+  #c3bs-print .c3bs-table.c3bs-words td,#c3bs-print .c3bs-table.c3bs-words td.c3bs-snd{font-size:14pt;padding:7pt 9pt}
+  #c3bs-print .c3bs-table.c3bs-obs td{height:40pt}
+  #c3bs-print .c3bs-remind p{font-size:11.5pt;margin:0 0 5pt}
+  #c3bs-print .c3bs-fill{font-size:12pt;margin:0 0 7pt}
+  #c3bs-print .c3bs-legend{font-size:10.5pt}
+  #c3bs-print .c3bs-decide{font-size:12pt}
+  #c3bs-print .c3bs-lines div{height:24pt;max-width:4.3in}
+  #c3bs-print .c3bs-ft{margin-top:auto;padding-top:8pt;text-align:center;font-size:7.5pt;letter-spacing:.05em;color:#50667B}
+}
 #c1n-print{display:none}
 @media print{
   html,body{background:#fff!important}
@@ -1576,6 +1672,73 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
 
       <p class="c1n-foot">&copy; 2026 Miquela Daniels / AI Academy LLC. All rights reserved.</p>
       <div class="tn-nav"></div>
+    </div>
+  </section>
+
+  <!-- CHECK 3: "What to Teach Next" -- teacher-only. Phonemic Awareness
+       instructional library. Module 1 of 4: Beginning Sounds (approved
+       Word document v0.6). Teaching material only: it is NOT the scored
+       Check 3 assessment, reads no student results, stores nothing. -->
+  <section class="screen" data-teacher="1" id="c3Next">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Teacher Dashboard</a> &nbsp;/&nbsp; <a onclick="go('teachNext')">What to Teach Next</a> &nbsp;/&nbsp; Check 3</p>
+      <h2>What to Teach Next &mdash; Phonemic Awareness</h2>
+      <p class="lede">Short teaching lessons for students who need more practice with the sounds in spoken words. Informal instruction only; it does not change the scored Check 3 assessment.</p>
+
+      <div class="c1n-card" id="c3n-library">
+        <p class="step-eyebrow">Phonemic Awareness Lessons</p>
+        <div class="c1n-card" id="c3n-bs" style="margin:8px 0 0">
+          <h3 style="margin:0 0 4px">Beginning Sounds</h3>
+          <p class="mini-note" style="margin:0 0 6px">Check 3 / Item 1 &bull; 6&ndash;8 min &bull; 1&ndash;4 students</p>
+          <p style="margin:0 0 6px">Use when a student has difficulty identifying the first sound in a spoken word.</p>
+          <p class="mini-note" style="margin:0">Includes the teaching routine, teacher support, and a printable observation sheet.</p>
+          <div class="c1n-row">
+            <button type="button" class="pill-btn pill-btn-primary" id="c3n-open-bs" onclick="go('c3Bs')">Open Beginning Sounds</button>
+            <a class="pill-btn pill-btn-secondary" id="c3n-bs-docx" href="check3-lessons/Beginning_Sounds_v06_EDITABLE.docx" download>Download Editable Word</a>
+          </div>
+        </div>
+      </div>
+
+      <p class="c1n-foot">&copy; 2026 Miquela Daniels / AI Academy LLC. All rights reserved.</p>
+      <div class="tn-nav"></div>
+    </div>
+  </section>
+
+  <!-- CHECK 3 / Item 1: Beginning Sounds lesson. Three teacher-facing
+       sections (tabs) + three printed pages. Content is drawn from the
+       C3BS data object in the script, which mirrors the approved Word
+       document word for word. Teacher-only: practice words and sounds are
+       answers and are never put on a student screen. -->
+  <section class="screen" data-teacher="1" id="c3Bs">
+    <div class="wrap">
+      <p class="crumb"><a onclick="go('s-home')">Teacher Dashboard</a> &nbsp;/&nbsp; <a onclick="go('teachNext')">What to Teach Next</a> &nbsp;/&nbsp; <a onclick="go('c3Next')">Check 3</a> &nbsp;/&nbsp; Beginning Sounds</p>
+      <h2 class="c3bs-title">Beginning Sounds</h2>
+      <p class="lede" style="margin-bottom:8px">Check 3 / Item 1 &bull; Teacher copy. Do not show this screen to students.</p>
+
+      <div class="c3bs-tabs" role="tablist" aria-label="Beginning Sounds sections">
+        <button type="button" class="c3bs-tab" role="tab" id="c3bs-tab-1" aria-controls="c3bs-panel-1" aria-selected="true" onclick="c3bsShow(1)"><span class="c3bs-tabnum">1</span>Beginning Sounds</button>
+        <button type="button" class="c3bs-tab" role="tab" id="c3bs-tab-2" aria-controls="c3bs-panel-2" aria-selected="false" onclick="c3bsShow(2)"><span class="c3bs-tabnum">2</span>Teacher Support</button>
+        <button type="button" class="c3bs-tab" role="tab" id="c3bs-tab-3" aria-controls="c3bs-panel-3" aria-selected="false" onclick="c3bsShow(3)"><span class="c3bs-tabnum">3</span>Observation and Next Step</button>
+      </div>
+
+      <div class="c3bs-actions" id="c3bs-actions">
+        <button type="button" class="pill-btn pill-btn-primary" id="c3bs-print-all" onclick="c3bsPrint('all')">Print All 3 Pages</button>
+        <button type="button" class="pill-btn pill-btn-secondary" id="c3bs-print-teach" onclick="c3bsPrint('teach')">Print Teaching Pages (1&ndash;2)</button>
+        <button type="button" class="pill-btn pill-btn-secondary" id="c3bs-print-obs" onclick="c3bsPrint('obs')">Print Observation Sheet Only</button>
+        <a class="pill-btn pill-btn-secondary" id="c3bs-docx" href="check3-lessons/Beginning_Sounds_v06_EDITABLE.docx" download>Download Editable Word</a>
+      </div>
+
+      <div class="c3bs-panel" role="tabpanel" id="c3bs-panel-1" aria-labelledby="c3bs-tab-1"></div>
+      <div class="c3bs-panel" role="tabpanel" id="c3bs-panel-2" aria-labelledby="c3bs-tab-2" hidden></div>
+      <div class="c3bs-panel" role="tabpanel" id="c3bs-panel-3" aria-labelledby="c3bs-tab-3" hidden></div>
+
+      <p class="c1n-foot">&copy; 2026 Miquela Daniels / AI Academy LLC. All rights reserved.</p>
+      <div class="tn-nav" id="c3bs-nav">
+        <button type="button" class="pill-btn pill-btn-secondary" id="c3bs-back-check3" onclick="go('c3Next')">Back to Check 3 resources</button>
+        <button type="button" class="pill-btn pill-btn-secondary" onclick="go('teachNext')">Back to What to Teach Next</button>
+        <button type="button" class="pill-btn pill-btn-secondary" onclick="go('s-home')">Back to Teacher Dashboard</button>
+      </div>
+      <div id="c3bs-print" class="c3bs-m-all" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -3941,6 +4104,8 @@ function go(id){
   if(id==="c2Ssp"){ sspEnter(); }
   if(id==="c2Studio"){ c2stEnter(); }
   if(id==="tnCheck"){ tnCheckEnter(); }
+  if(id==="c3Next"){ tnPaintNav(); }
+  if(id==="c3Bs"){ c3bsEnter(); }
   if(id==="check3"){ c3Enter(); }
   if(id==="s-teachC3"){ c3tPromptsEnter(); }
   if(id==="check3Teach"){ check3TeachEnter(); }
@@ -6102,7 +6267,7 @@ var TN_FROM=null, TN_STU=null, TN_N=0;
 var TN_CHECKS=[
   {n:1,name:"Letter Identification",desc:"Letter-name slideshows, 5-minute mini-lesson, and printable targeted rechecks.",ready:true,go:"c1Next",reviews:[["Check 1 Review","check1Teach"]]},
   {n:2,name:"Letter-Sound Knowledge",desc:"Interactive 44-sound slideshow, sound recording studio, and printable teacher and student sound cards.",ready:true,go:"c2Next",reviews:[["Check 2 Review","check2Teach"]]},
-  {n:3,name:"Phonemic Awareness",desc:"",ready:false,reviews:[["Check 3 Review","check3Teach"]]},
+  {n:3,name:"Phonemic Awareness",desc:"Beginning Sounds lesson with teacher support and a printable observation sheet.",ready:true,go:"c3Next",reviews:[["Check 3 Review","check3Teach"]]},
   {n:4,name:"Decoding",desc:"",ready:false,reviews:[["Check 4 Review","check4Teach"]]},
   {n:5,name:"Automatic Word Recognition",desc:"",ready:false,reviews:[["Check 5 Review","check5Teach"]]},
   {n:6,name:"Morphological Awareness & Word Analysis",desc:"",ready:false,reviews:[["Check 6 Review","check6Teach"],["Check 6B Review","check6bTeach"],["Check 6C Review","check6cTeach"]]},
@@ -6169,6 +6334,155 @@ function tnCheckEnter(){
   for(i=0;i<c.reviews.length;i++){ html+='<button class="pill-btn pill-btn-secondary" onclick="go(\''+c.reviews[i][1]+'\')">'+c.reviews[i][0]+'</button>'; }
   document.getElementById("tn-check-reviews").innerHTML=html+'</div>';
   tnPaintNav();
+}
+
+/* ======================================================================
+   Check 3 > What to Teach Next > Beginning Sounds (teacher-only)
+   ======================================================================
+   Module 1 of 4 in the Check 3 Phonemic Awareness library. C3BS mirrors the
+   approved Word document "Beginning Sounds v0.6" word for word, and is the
+   ONE source for both the on-screen sections and the three printed pages.
+   Teaching material only: no student results are read, nothing is written
+   to storage, no audio is played or generated (no text-to-speech), and the
+   practice words are a separate list from the scored Check 3 bank. */
+var C3BS={
+  title:"BEGINNING SOUNDS",
+  header:"AI ACADEMY LLC  |  READING FOUNDATIONS",
+  footer:"READING FOUNDATIONS  •  CHECK 3  •  BEGINNING SOUNDS",
+  sp:"  ",
+  meta1:"CHECK 3  /  ITEM 1     •     LESSON AT A GLANCE     •     PAGE 1 OF 3",
+  glance:[
+    ["TARGET","First sound in a spoken word."],
+    ["TIME & GROUP","6–8 min  •  1–4 students"],
+    ["SETUP","Teacher copy; blank counter optional. No letters, printed words or pictures."]
+  ],
+  teachHead:"TEACH  •  LISTEN → SAY → IDENTIFY",
+  steps:[
+    ["1 Introduce","30 sec","“Listen for the first sound in a word. Say the sound—not the letter name.”"],
+    ["2 Model","1 min","“Moon. Mmmmoon. First sound: /m/.” Next, “Ssssun. /s/.” Do not add “uh.”"],
+    ["3 Together","2 min","“Say park. What is the FIRST sound?” Ask each student to respond."],
+    ["4 Independent","2 min","Say each word naturally; repeat once if needed. Record the actual response."],
+    ["5 Close","30 sec","“Hearing first sounds helps us read and spell words.”"]
+  ],
+  guidedHead:"GUIDED PRACTICE  •  Teacher says each word aloud",
+  guided:[["park","/p/","bus","/b/"],["rain","/r/","fan","/f/"]],
+  indepHead:"INDEPENDENT PRACTICE  •  Do not show the words",
+  indep:[["team","/t/","door","/d/"],["lake","/l/","gum","/g/"],["net","/n/","hat","/h/"]],
+  meta2:"CHECK 3  /  ITEM 1     •     QUICK RESPONSE GUIDE     •     PAGE 2 OF 3",
+  supportTitle:"TEACHER SUPPORT",
+  noticeHead:"IF YOU NOTICE…  •  Do this next",
+  notice:[
+    ["Incorrect sound","Repeat → stretch first sound if possible → model → student repeats → try a NEW word. Example: “Listen to fan: fffan. First sound: /f/. Say /f/. Now, food. First sound?”"],
+    ["Letter name instead","“That is the letter name. Tell me the first sound you HEAR.” Model the sound again."],
+    ["Needs easier practice","Try familiar two-sound words: me, no. A blank counter can mark the first SOUND. Return to three-sound words."],
+    ["Ready for a challenge","Optional: shop starts with /ʃ/ (sh); chair with /tʃ/ (ch); stop with /s/ (not /st/)."]
+  ],
+  mlHead:"MULTILINGUAL LEARNERS  •  Keep the task fair",
+  ml:[
+    ["Word familiarity","Use familiar Tier 1 words. Explain or replace unfamiliar words. Tier 2 and Tier 3 words belong in later vocabulary work."],
+    ["Accent & English sounds","English /h/ or /r/ may be pronounced differently across languages. Record the exact response and check understanding of directions. Consider language and reading evidence; do not diagnose from one response."]
+  ],
+  remindHead:"IMPORTANT REMINDERS",
+  remind:[
+    "Observations guide instruction; they do not replace Check 3 scores or targeted rechecks.",
+    "Keep original diagnostic words OUT of teaching practice."
+  ],
+  obsTitle:"OBSERVATION AND NEXT STEP",
+  meta3:"CHECK 3  /  ITEM 1     •     INFORMAL PRACTICE RECORD     •     PAGE 3 OF 3",
+  informal:"INFORMAL INSTRUCTIONAL RECORD — NOT THE SCORED CHECK 3 DIAGNOSTIC",
+  observeHead:"OBSERVE  •  STUDENT PRACTICE",
+  cmnKey:["C = Correct independently","M = Correct after model","N = Not yet"],
+  obsCols:["WORD","C / M / N","STUDENT SAID / TEACHER NOTICED"],
+  obsWords:["team","door","lake","gum","net","hat"],
+  decideHead:"TEACHER DECISION  •  Choose one or more",
+  decide:[
+    "Ready to connect sounds with letters and word reading",
+    "Needs more oral first-sound practice",
+    "Review word familiarity, directions, or pronunciation differences"
+  ],
+  notesHead:"NOTES / NEXT INSTRUCTIONAL TARGET"
+};
+var C3BS_TAB=1;
+
+function c3bsH3(t){ return '<h3 class="c3bs-h3">'+escapeHtml(t)+'</h3>'; }
+function c3bsGlance(){
+  var html='<div class="c3bs-glance">', i, g;
+  for(i=0;i<C3BS.glance.length;i++){ g=C3BS.glance[i]; html+='<div><p class="c3bs-gl">'+escapeHtml(g[0])+'</p><p class="c3bs-gv">'+escapeHtml(g[1])+'</p></div>'; }
+  return html+'</div>';
+}
+function c3bsSteps(){
+  var html='<table class="c3bs-table c3bs-steps"><thead><tr><th scope="col">STEP</th><th scope="col">TIME</th><th scope="col">TEACHER SAYS / DOES</th></tr></thead><tbody>', i, r;
+  for(i=0;i<C3BS.steps.length;i++){ r=C3BS.steps[i]; html+='<tr><td class="c3bs-key">'+escapeHtml(r[0])+'</td><td class="c3bs-time">'+escapeHtml(r[1])+'</td><td>'+escapeHtml(r[2])+'</td></tr>'; }
+  return html+'</tbody></table>';
+}
+function c3bsWords(rows){
+  var html='<table class="c3bs-table c3bs-words"><thead><tr><th scope="col">SAY</th><th scope="col">SOUND</th><th scope="col">SAY</th><th scope="col">SOUND</th></tr></thead><tbody>', i, r;
+  for(i=0;i<rows.length;i++){ r=rows[i]; html+='<tr><td>'+escapeHtml(r[0])+'</td><td class="c3bs-snd">'+escapeHtml(r[1])+'</td><td>'+escapeHtml(r[2])+'</td><td class="c3bs-snd">'+escapeHtml(r[3])+'</td></tr>'; }
+  return html+'</tbody></table>';
+}
+function c3bsPairs(c1,c2,rows){
+  var html='<table class="c3bs-table c3bs-pairs"><thead><tr><th scope="col">'+escapeHtml(c1)+'</th><th scope="col">'+escapeHtml(c2)+'</th></tr></thead><tbody>', i, r;
+  for(i=0;i<rows.length;i++){ r=rows[i]; html+='<tr><td class="c3bs-key">'+escapeHtml(r[0])+'</td><td>'+escapeHtml(r[1])+'</td></tr>'; }
+  return html+'</tbody></table>';
+}
+/* page bodies: shared by the screen sections and the printed pages */
+function c3bsBody1(){
+  return c3bsGlance()+c3bsH3(C3BS.teachHead)+c3bsSteps()+c3bsH3(C3BS.guidedHead)+c3bsWords(C3BS.guided)+c3bsH3(C3BS.indepHead)+c3bsWords(C3BS.indep);
+}
+function c3bsBody2(){
+  var html=c3bsH3(C3BS.noticeHead)+c3bsPairs("WHEN…","DO THIS",C3BS.notice)+c3bsH3(C3BS.mlHead)+c3bsPairs("CHECK","TEACHER REMINDER",C3BS.ml)+c3bsH3(C3BS.remindHead)+'<div class="c3bs-remind">', i;
+  for(i=0;i<C3BS.remind.length;i++){ html+='<p'+(i===1?' style="font-weight:700"':'')+'>'+escapeHtml(C3BS.remind[i])+'</p>'; }
+  return html+'</div>';
+}
+function c3bsBody3(){
+  var html=c3bsH3(C3BS.observeHead)
+    +'<div class="c3bs-fill"><span>Student: <span class="c3bs-blank" style="width:230px"></span></span><span>Date: <span class="c3bs-blank" style="width:150px"></span></span></div>'
+    +'<p class="c3bs-legend"><span>'+escapeHtml(C3BS.cmnKey[0])+'</span> <span>'+escapeHtml(C3BS.cmnKey[1])+'</span> <span>'+escapeHtml(C3BS.cmnKey[2])+'</span></p>'
+    +'<table class="c3bs-table c3bs-obs"><thead><tr><th scope="col">'+C3BS.obsCols[0]+'</th><th scope="col">'+C3BS.obsCols[1]+'</th><th scope="col">'+C3BS.obsCols[2]+'</th></tr></thead><tbody>', i;
+  for(i=0;i<C3BS.obsWords.length;i++){ html+='<tr><td class="c3bs-key">'+escapeHtml(C3BS.obsWords[i])+'</td><td class="c3bs-cmn"></td><td></td></tr>'; }
+  html+='</tbody></table>'+c3bsH3(C3BS.decideHead)+'<ul class="c3bs-decide">';
+  for(i=0;i<C3BS.decide.length;i++){ html+='<li><span aria-hidden="true">☐</span>  '+escapeHtml(C3BS.decide[i])+'</li>'; }
+  return html+'</ul>'+c3bsH3(C3BS.notesHead)+'<div class="c3bs-lines"><div></div><div></div></div>';
+}
+function c3bsPager(n){
+  var html='<div class="c3bs-pager">';
+  html+= n>1 ? '<button type="button" class="pill-btn pill-btn-secondary" id="c3bs-prev-'+n+'" onclick="c3bsShow('+(n-1)+')">&#8592; Previous section</button>' : '<span></span>';
+  html+= n<3 ? '<button type="button" class="pill-btn pill-btn-primary" id="c3bs-next-'+n+'" onclick="c3bsShow('+(n+1)+')">Next section &#8594;</button>' : '<button type="button" class="pill-btn pill-btn-primary" id="c3bs-print-obs-2" onclick="c3bsPrint(\'obs\')">Print Observation Sheet</button>';
+  return html+'</div>';
+}
+function c3bsPrintPage(n,title,meta,body,notice){
+  return '<div class="c3bs-page c3bs-p'+n+'"><p class="c3bs-hd">'+C3BS.header+'</p><h1>'+escapeHtml(title)+'</h1><p class="c3bs-meta">'+meta+'</p>'
+    +(notice?'<p class="c3bs-notice">'+escapeHtml(notice)+'</p>':'')+body+'<p class="c3bs-ft">'+C3BS.footer+'</p></div>';
+}
+function c3bsBuild(){
+  var p1=document.getElementById("c3bs-panel-1"); if(!p1){ return; }
+  p1.innerHTML='<p class="c3bs-meta">'+C3BS.meta1+'</p>'+c3bsBody1()+c3bsPager(1);
+  document.getElementById("c3bs-panel-2").innerHTML='<h3 class="c3bs-h3" style="font-size:22px;margin-top:6px">'+escapeHtml(C3BS.supportTitle)+'</h3><p class="c3bs-meta">'+C3BS.meta2+'</p>'+c3bsBody2()+c3bsPager(2);
+  document.getElementById("c3bs-panel-3").innerHTML='<h3 class="c3bs-h3" style="font-size:22px;margin-top:6px">'+escapeHtml(C3BS.obsTitle)+'</h3><p class="c3bs-meta">'+C3BS.meta3+'</p><p class="c3bs-notice">'+escapeHtml(C3BS.informal)+'</p>'+c3bsBody3()+c3bsPager(3);
+  document.getElementById("c3bs-print").innerHTML=
+    c3bsPrintPage(1,C3BS.title,C3BS.meta1,c3bsBody1())
+    +c3bsPrintPage(2,C3BS.supportTitle,C3BS.meta2,c3bsBody2())
+    +c3bsPrintPage(3,C3BS.obsTitle,C3BS.meta3,c3bsBody3(),C3BS.informal);
+}
+function c3bsShow(n){
+  var i, on;
+  C3BS_TAB=n;
+  for(i=1;i<=3;i++){
+    on=(i===n);
+    document.getElementById("c3bs-tab-"+i).setAttribute("aria-selected", on?"true":"false");
+    document.getElementById("c3bs-panel-"+i).hidden=!on;
+  }
+  window.scrollTo(0,0);
+}
+function c3bsEnter(){ c3bsBuild(); c3bsShow(1); }
+/* mode: "all" (pages 1-3), "teach" (pages 1-2), "obs" (page 3 only). The
+   printable container reverts to "all" afterwards so a plain Ctrl+P on this
+   screen still prints the full three-page document. */
+function c3bsSetMode(mode){ var el=document.getElementById("c3bs-print"); if(el){ el.className="c3bs-m-"+mode; } }
+function c3bsPrint(mode){
+  c3bsSetMode(mode);
+  try{ window.print(); }catch(e){}
+  c3bsSetMode("all");
 }
 
 /* ======================================================================
