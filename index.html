@@ -3073,8 +3073,24 @@ var AudioStore=(function(){
   function put(id,blob){ return open().then(function(db){ return new Promise(function(res,rej){ var tx=db.transaction(ST,"readwrite"); tx.objectStore(ST).put(blob,id); tx.oncomplete=function(){res(true);}; tx.onerror=function(){rej(tx.error);}; }); }); }
   function bakedBlob(id){ if(window.BAKED_CLIPS && window.BAKED_CLIPS[id]){ try{ return dataURLtoBlob(window.BAKED_CLIPS[id]); }catch(e){ return null; } } return null; }
   function mergeBaked(arr){ var have={},out=[],i,k; for(i=0;i<arr.length;i++){ have[arr[i]]=true; out.push(arr[i]); } if(window.BAKED_CLIPS){ for(k in window.BAKED_CLIPS){ if(window.BAKED_CLIPS.hasOwnProperty(k)&&!have[k]){ out.push(k); } } } return out; }
-  function get(id){ return open().then(function(db){ return new Promise(function(res){ var tx=db.transaction(ST,"readonly"); var r=tx.objectStore(ST).get(id); r.onsuccess=function(){ res(r.result||bakedBlob(id)); }; r.onerror=function(){ res(bakedBlob(id)); }; }); }, function(){ return bakedBlob(id); }); }
-  function keys(){ return open().then(function(db){ return new Promise(function(res){ var tx=db.transaction(ST,"readonly"); var r=tx.objectStore(ST).getAllKeys(); r.onsuccess=function(){ res(mergeBaked(r.result||[])); }; r.onerror=function(){ res(mergeBaked([])); }; }); }, function(){ return mergeBaked([]); }); }
+  /* Mick's voice file in the repo (voice/recordings.json): fetched once, only when a clip is not on this device.
+     Order of wins: recording saved on this device > voice/recordings.json > clips.js. Any fetch problem (offline, file://) falls through to clips.js. */
+  var repoP=null;
+  function repoClips(){
+    if(repoP){ return repoP; }
+    repoP=new Promise(function(res){
+      try{
+        if(!window.fetch){ res({}); return; }
+        window.fetch("voice/recordings.json").then(function(r){ if(!r.ok){ throw new Error("http"); } return r.json(); })
+          .then(function(j){ res((j&&j.clips)||{}); }, function(){ res({}); });
+      }catch(e){ res({}); }
+    });
+    return repoP;
+  }
+  function repoBlob(id){ return repoClips().then(function(c){ var v=c.hasOwnProperty(id)?c[id]:null; if(v&&typeof v==="object"){ v=v.data; } if(v){ try{ return dataURLtoBlob(v); }catch(e){} } return bakedBlob(id); }); }
+  function get(id){ return open().then(function(db){ return new Promise(function(res){ var tx=db.transaction(ST,"readonly"); var r=tx.objectStore(ST).get(id); r.onsuccess=function(){ if(r.result){ res(r.result); } else { res(repoBlob(id)); } }; r.onerror=function(){ res(repoBlob(id)); }; }); }, function(){ return repoBlob(id); }); }
+  function mergeRepo(arr){ return repoClips().then(function(c){ var have={},out=[],i,k; for(i=0;i<arr.length;i++){ have[arr[i]]=true; out.push(arr[i]); } for(k in c){ if(c.hasOwnProperty(k)&&!have[k]){ out.push(k); } } return out; }); }
+  function keys(){ return open().then(function(db){ return new Promise(function(res){ var tx=db.transaction(ST,"readonly"); var r=tx.objectStore(ST).getAllKeys(); r.onsuccess=function(){ res(mergeRepo(mergeBaked(r.result||[]))); }; r.onerror=function(){ res(mergeRepo(mergeBaked([]))); }; }); }, function(){ return mergeRepo(mergeBaked([])); }); }
   return { put:put, get:get, keys:keys };
 })();
 
