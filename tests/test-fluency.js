@@ -111,7 +111,7 @@ function runMain(){
 
   /* ---- data structure ---- */
   ck(w.LEVELS[0]==="PK","LEVELS starts with PK");
-  ck(w.PASSAGES.length===5,"5 PK passages built ("+w.PASSAGES.length+")");
+  ck(w.passagesForLevel("PK").length===5,"5 PK passages built ("+w.passagesForLevel("PK").length+")");
   var p00=w.findPassage("PK",0);
   ck(!!p00 && p00.title==="Phones at School","findPassage PK 0.0 title");
   ck(p00.label==="PK 0.0","label format PK 0.0");

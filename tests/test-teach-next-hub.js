@@ -19,7 +19,7 @@ w.go("s-home");
 ok(/Teacher Dashboard/.test(d.querySelector(".teach-topbar h2").textContent),"dashboard headed Teacher Dashboard");
 ok(/What to Teach Next/.test($("tn-feature").textContent),"What to Teach Next featured on dashboard");
 var titles=Array.prototype.map.call(d.querySelectorAll("#teacher-doors .teach-cat-title"),function(h){ return h.textContent; });
-ok(titles.join("|")==="Students|Assessment & Scoring|Recordings|Reports|Practice|Settings","six dashboard sections in order");
+ok(titles.join("|")==="Students|Assessment & Scoring|Recordings|Reports|Practice|Settings|Teacher Downloads","seven dashboard sections in order");
 var reviews=Array.prototype.map.call(d.querySelectorAll(".cat-scoring .teach-tile-label"),function(l){ return l.textContent; });
 ok(["Check 1 Review","Check 2 Review","Check 3 Review","Check 4 Review","Check 5 Review","Check 6 Review","Check 6B Review","Check 6C Review","Check 7 Review","Fluency Review"].every(function(x){ return reviews.indexOf(x)>-1; }),"every assessment review (incl. 6B, 6C, Fluency) still on the dashboard");
 /* feature button + Teach Next tile both open the hub */
