@@ -42,10 +42,10 @@ LIST.forEach((x,i)=>{
 });
 const byId={}; LIST.forEach(x=>byId[x.id]=x);
 ck(byId.L1_S01_P01.text==="the end of the day","fragment kept lowercase, no period");
-ck(byId.L1_S01_P06.text==="He got a text from his mom.","S01_P06 exactly as the approved list");
+ck(byId.L1_S01_P06.text==="a text from his mom" && byId.L1_S01_P06.type==="fragment","S01_P06 matches the slideshow (Mick, 2026-11-05)");
 ck(byId.L1_S09_P04.text==="She came in first, and they all looked at her.","comma kept");
 ck(byId.L1_S10_P08.text==="When I first came here, I did not know many people.","long phrase exact");
-ck(LIST.filter(x=>x.type==="fragment").length===13,"13 fragments");
+ck(LIST.filter(x=>x.type==="fragment").length===14,"14 fragments");
 
 // ---------- harness ----------
 function make(url){

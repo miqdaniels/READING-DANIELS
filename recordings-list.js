@@ -13,7 +13,7 @@ var RECORDINGS_LIST = [
   {id:"L1_S01_P03",level:1,set:"1.1",text:"He was on the team.",type:"sentence"},
   {id:"L1_S01_P04",level:1,set:"1.1",text:"They are in the car.",type:"sentence"},
   {id:"L1_S01_P05",level:1,set:"1.1",text:"I have to go to class.",type:"sentence"},
-  {id:"L1_S01_P06",level:1,set:"1.1",text:"He got a text from his mom.",type:"sentence"},
+  {id:"L1_S01_P06",level:1,set:"1.1",text:"a text from his mom",type:"fragment"},
   {id:"L1_S01_P07",level:1,set:"1.1",text:"You are at the park.",type:"sentence"},
   {id:"L1_S01_P08",level:1,set:"1.1",text:"This is for the game.",type:"sentence"},
   {id:"L1_S01_P09",level:1,set:"1.1",text:"That was a long day.",type:"sentence"},
