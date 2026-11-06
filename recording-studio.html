@@ -350,10 +350,14 @@ function rsExt(mime){
   if(mime.indexOf("mp4")>-1||mime.indexOf("aac")>-1){ return "m4a"; }
   return "webm";
 }
+/* After Stop (button or Spacebar), keep recording this long so the last word is never cut off.
+   The mic stays red until the recorder really stops; extra taps during the tail are ignored. */
+var RS_STOP_TAIL_MS = 500;
 function rsToggleRecord(){
+  if(RS.stopping){ return; }
   if(RS.recording){ rsStopRecording(false); } else { rsStartRecording(); }
 }
-function rsReRecord(){ if(!RS.recording){ rsStartRecording(); } }
+function rsReRecord(){ if(!RS.recording && !RS.stopping){ rsStartRecording(); } }
 function rsStartRecording(){
   var cur=rsCur(); if(!cur){ return; }
   rsStopPlayback();
@@ -373,12 +377,26 @@ function rsStartRecording(){
     rsSetStatus("The mic is blocked. Click the lock icon in the address bar, allow the microphone, then reload.");
   });
 }
-function rsStopRecording(discard){
-  if(!RS.recorder){ return; }
-  RS.discard=!!discard;
+function rsStopNow(){
+  RS.stopTimer=null;
+  RS.stopping=false;
   RS.recording=false;
   document.getElementById("rs-mic").className="ico ico-mic";
   try{ RS.recorder.stop(); }catch(e){}
+}
+function rsStopRecording(discard){
+  if(!RS.recorder){ return; }
+  if(RS.stopping){
+    /* Stop was already pressed: leaving now keeps that take, just ends the tail early. */
+    if(RS.stopTimer){ clearTimeout(RS.stopTimer); }
+    rsStopNow();
+    return;
+  }
+  RS.discard=!!discard;
+  if(discard || !(RS_STOP_TAIL_MS>0)){ rsStopNow(); return; }
+  RS.stopping=true;
+  rsSetStatus("Finishing...","recording");
+  RS.stopTimer=setTimeout(rsStopNow, RS_STOP_TAIL_MS);
 }
 function rsFinishTake(rec){
   var id=RS.recordingId, mime=(rec.mimeType||"audio/webm"), blob;

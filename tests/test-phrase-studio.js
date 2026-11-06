@@ -27,9 +27,12 @@ const doorsAt=index.indexOf('id="teacher-doors"'), tileAt=index.indexOf('id="til
 ck(doorsAt>-1 && tileAt>doorsAt,"studio tile is inside the teacher-only dashboard");
 
 // ---------- data ----------
-const LIST=require('../recordings-list.js');
+const ALL=require('../recordings-list.js');
+ck(ALL.length===200,"200 phrases total (Level 1 + Level 2)");
+const LIST=ALL.filter(x=>x.level===1), LIST2=ALL.filter(x=>x.level===2);
 ck(LIST.length===100,"100 Level 1 phrases");
-const ids={}; let dup=false; LIST.forEach(x=>{ if(ids[x.id]) dup=true; ids[x.id]=1; });
+ck(LIST2.length===100,"100 Level 2 phrases");
+const ids={}; let dup=false; ALL.forEach(x=>{ if(ids[x.id]) dup=true; ids[x.id]=1; });
 ck(!dup,"ids are unique");
 ck(LIST[0].id==="L1_S01_P01" && LIST[99].id==="L1_S10_P10","ids run L1_S01_P01..L1_S10_P10");
 LIST.forEach((x,i)=>{
@@ -46,6 +49,25 @@ ck(byId.L1_S01_P06.text==="a text from his mom" && byId.L1_S01_P06.type==="fragm
 ck(byId.L1_S09_P04.text==="She came in first, and they all looked at her.","comma kept");
 ck(byId.L1_S10_P08.text==="When I first came here, I did not know many people.","long phrase exact");
 ck(LIST.filter(x=>x.type==="fragment").length===14,"14 fragments");
+// Level 2: approved list (Mick + team review, 2026-11-05)
+ck(LIST2[0].id==="L2_S01_P01" && LIST2[99].id==="L2_S10_P10","ids run L2_S01_P01..L2_S10_P10");
+LIST2.forEach((x,i)=>{
+  const s=Math.floor(i/10)+1, p=i%10+1;
+  const want="L2_S"+(s<10?"0":"")+s+"_P"+(p<10?"0":"")+p;
+  if(x.id!==want||x.set!=="2."+s) ck(false,"L2 id/set order at "+i);
+  const frag=!/[.?!]$/.test(x.text);
+  if(x.type!==(frag?"fragment":"sentence")) ck(false,"L2 type for "+x.id);
+  if(frag && x.text.charAt(0)!==x.text.charAt(0).toLowerCase() && x.text.indexOf("I ")!==0) ck(false,"L2 fragment lowercase "+x.id);
+});
+const b2={}; LIST2.forEach(x=>b2[x.id]=x);
+ck(b2.L2_S01_P01.text==="just the two of us" && b2.L2_S01_P01.type==="fragment","L2 fragment stays lowercase, no period");
+ck(b2.L2_S01_P03.text==="What do you think?","L2 question mark kept");
+ck(b2.L2_S01_P07.text==="an old phone","L2_S01_P07 = an old phone");
+ck(b2.L2_S02_P10.text==="because I said so" && b2.L2_S02_P10.type==="fragment","fragment with I stays a fragment");
+ck(b2.L2_S09_P01.text==="I can hear you, but I cannot see you.","cannot");
+ck(b2.L2_S10_P08.text==="Before I came here, I did not live in a big house.","big house swap");
+ck(b2.L2_S10_P10.text==="Because we play together, we are good friends.","Because opener");
+ck(LIST2.filter(x=>x.type==="fragment").length===24,"24 Level 2 fragments");
 
 // ---------- harness ----------
 function make(url){
@@ -102,9 +124,11 @@ async function readZip(blob,w){
 
   w=make("https://miqdaniels.github.io/READING-DANIELS/recording-studio.html?teacher");
   await w.rsReady; await tick();
+  ck(w.RS_STOP_TAIL_MS===500,"stop keeps recording 0.5 s by default");
+  w.RS_STOP_TAIL_MS=0;   // walkthrough below runs without the tail; tail has its own section
   ck(active(w)==="rs-pick","?teacher -> pick screen");
   ck(txt(w,"rs-progress")==="0 of 100 recorded","progress starts 0 of 100");
-  ck(w.document.querySelectorAll("#rs-levels button").length===1,"one level button (Level 1)");
+  ck(w.document.querySelectorAll("#rs-levels button").length===2,"two level buttons (Level 1, Level 2)");
   ck(w.document.querySelectorAll("#rs-sets button").length===10,"10 set buttons");
   ck(txt(w,"rs-set-1-10").indexOf("Set 1.10")===0,"Set 1.10 sorts last and is labeled");
   ck(w.document.querySelectorAll("#rs-sets button")[9].id==="rs-set-1-10","set order 1.1..1.10");
@@ -224,11 +248,58 @@ async function readZip(blob,w){
   ck(all.name==="Phrase_recordings_all.zip","Export All file name");
   ck(Object.keys(await readZip(all.blob,w)).length===5,"Export All = 4 takes + manifest");
 
+  // ----- Level 2 picker, progress, Export Set name -----
+  click(w,"rs-level-2"); await tick();
+  ck(w.document.querySelectorAll("#rs-sets button").length===10,"Level 2 shows 10 set buttons");
+  ck(w.document.querySelectorAll("#rs-sets button")[0].id==="rs-set-2-1" && w.document.querySelectorAll("#rs-sets button")[9].id==="rs-set-2-10","Level 2 sets 2.1..2.10 in order");
+  ck(txt(w,"rs-progress")==="0 of 100 recorded","Level 2 progress counts only Level 2");
+  click(w,"rs-set-2-1"); await tick();
+  ck(txt(w,"rs-where")==="Set 2.1" && txt(w,"rs-phrase")==="just the two of us","Set 2.1 opens on its first phrase");
+  // ----- the 0.5 s stop tail (real timer) -----
+  w.RS_STOP_TAIL_MS=500;
+  click(w,"rs-mic"); await tick();
+  ck(w.RS.recording===true,"L2 record starts");
+  click(w,"rs-mic"); await tick();
+  ck(w.RS.stopping===true && w.__lastRec.state==="recording","after Stop, still recording during the tail");
+  ck(w.document.getElementById("rs-mic").className.indexOf("rec")>-1,"mic stays red during the tail");
+  ck(/Finishing/.test(txt(w,"rs-status")),"status says Finishing");
+  click(w,"rs-mic"); key(w," ",32); await tick();
+  ck(w.RS.stopping===true && !w.RS.takes.L2_S01_P01,"extra taps during the tail are ignored (no new take)");
+  ck(txt(w,"rs-phrase")==="just the two of us","still on the same phrase during the tail");
+  await new Promise(r=>setTimeout(r,300));
+  ck(w.__lastRec.state==="recording","still recording at 0.3 s");
+  await new Promise(r=>setTimeout(r,300)); await tick();
+  ck(w.RS.recording===false && w.RS.stopping===false && w.__lastRec.state==="inactive","recorder stops after 0.5 s");
+  ck(!!w.RS.takes.L2_S01_P01,"tail take saved as L2_S01_P01");
+  ck(w.document.getElementById("rs-mic").className==="ico ico-mic","mic back to gray after the tail");
+  endPlayback(w); await tick();
+  ck(txt(w,"rs-phrase")==="It went well.","advances to L2_S01_P02 after playback");
+  // Spacebar stop also gets the tail
+  key(w," ",32); await tick(); key(w," ",32); await tick();
+  ck(w.RS.stopping===true && w.__lastRec.state==="recording","Spacebar stop also keeps recording during the tail");
+  await new Promise(r=>setTimeout(r,560)); await tick();
+  ck(!!w.RS.takes.L2_S01_P02,"Spacebar tail take saved");
+  endPlayback(w); await tick();
+  ck(txt(w,"rs-progress")==="2 of 100 recorded","Level 2 progress 2 of 100");
+  // leaving the screen during the tail keeps the take
+  click(w,"rs-mic"); await tick(); click(w,"rs-mic"); await tick();
+  w.document.querySelector("#rs-record .topbar .btn").dispatchEvent(new w.MouseEvent("click",{bubbles:true})); await tick(); await tick();
+  ck(!!w.RS.takes.L2_S01_P03 && w.RS.stopping===false,"leaving during the tail still keeps the take");
+  click(w,"rs-set-2-1"); await tick();
+  click(w,"rs-export-set"); await new Promise(r=>setTimeout(r,30));
+  const dl2=w.__downloads[w.__downloads.length-1];
+  ck(dl2 && dl2.name==="L2_S01_recordings.zip","Level 2 Export Set file name");
+  const z2=await readZip(dl2.blob,w);
+  ck(Object.keys(z2).sort().join(",")==="L2_S01_P01.webm,L2_S01_P02.webm,L2_S01_P03.webm,manifest.json","L2 ZIP = 3 takes + manifest");
+  ck(JSON.parse(z2["manifest.json"]).items[1].text==="It went well.","L2 manifest text exact");
+  ck(!!w.RS.takes.L1_S04_P01 && !!w.RS.takes.L1_S04_P10,"Level 1 takes untouched by Level 2 work");
+  click(w,"rs-level-1"); ck(txt(w,"rs-progress")==="4 of 100 recorded","Level 1 progress still 4 of 100");
+
   // ----- persistence: jsdom has no IndexedDB -> memory fallback, and it warns -----
   ck(w.RSStore.isMemory()===true,"memory fallback used in jsdom");
   ck(w.document.getElementById("rs-memwarn").style.display==="block","warns when storage is not available");
   const got=await w.RSStore.all();
-  ck(got.length===4,"store holds every take");
+  ck(got.length===7,"store holds every take (4 Level 1 + 3 Level 2)");
 
   // ----- persistence with a fake IndexedDB survives a reload -----
   const fakeDB={};
@@ -249,7 +320,7 @@ async function readZip(blob,w){
       MR.prototype.start=function(){}; MR.prototype.stop=function(){ var me=this; me.ondataavailable({data:new x.Blob(["k"])}); setTimeout(function(){me.onstop();},0); };
       x.MediaRecorder=MR; x.Audio=function(){ return {play:function(){return Promise.resolve();},pause:function(){}}; };
       x.URL.createObjectURL=function(){return "blob:y";}; x.URL.revokeObjectURL=function(){}; }}).window; }
-  w2=makeIDB(); await w2.rsReady; await tick();
+  w2=makeIDB(); await w2.rsReady; await tick(); w2.RS_STOP_TAIL_MS=0;
   click(w2,"rs-set-1-7"); await tick();
   click(w2,"rs-mic"); await tick(); click(w2,"rs-mic"); await tick(); await tick(); await tick();
   ck(!!fakeDB.L1_S07_P01 && w2.RSStore.isMemory()===false,"take written to IndexedDB");
