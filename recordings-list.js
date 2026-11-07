@@ -41,7 +41,7 @@ var RECORDINGS_LIST = [
   {id:"L1_S04_P01",level:1,set:"1.4",text:"my phone number",type:"fragment"},
   {id:"L1_S04_P02",level:1,set:"1.4",text:"no way out",type:"fragment"},
   {id:"L1_S04_P03",level:1,set:"1.4",text:"Who called you?",type:"sentence"},
-  {id:"L1_S04_P04",level:1,set:"1.4",text:"Come sit down with us.",type:"sentence"},
+  {id:"L1_S04_P04",level:1,set:"1.4",text:"You can sit by me.",type:"sentence"},
   {id:"L1_S04_P05",level:1,set:"1.4",text:"the first day of school",type:"fragment"},
   {id:"L1_S04_P06",level:1,set:"1.4",text:"a long way from home",type:"fragment"},
   {id:"L1_S04_P07",level:1,set:"1.4",text:"people who get it",type:"fragment"},
