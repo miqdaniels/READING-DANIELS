@@ -193,7 +193,7 @@ async function readZip(blob,w){
   ck(w.RS.takes.L1_S04_P02.blob!==oldBlob,"Re-record replaces the old take");
   ck(Object.keys(w.RS.takes).length===2,"still 2 takes (replaced, not added)");
   endPlayback(w); await tick();
-  click(w,"rs-next"); ck(txt(w,"rs-phrase")==="Sit down right now.","Next button");
+  click(w,"rs-next"); ck(txt(w,"rs-phrase")==="Come sit down with us.","Next button");
 
   // ----- tapping mic during auto-playback cancels advance -----
   click(w,"rs-mic"); await tick(); click(w,"rs-mic"); await tick(); await tick();
@@ -202,7 +202,7 @@ async function readZip(blob,w){
   click(w,"rs-mic"); await tick();            // re-take right away during playback
   ck(w.RS.recording===true && pend.paused,"mic during playback stops playback and records");
   if(pend.onended) pend.onended(); await tick();
-  ck(txt(w,"rs-phrase")==="Sit down right now.","stale playback does not advance");
+  ck(txt(w,"rs-phrase")==="Come sit down with us.","stale playback does not advance");
   click(w,"rs-mic"); await tick(); await tick(); endPlayback(w); await tick();
   ck(txt(w,"rs-phrase")==="the first day of school","advance after the fresh take");
 
