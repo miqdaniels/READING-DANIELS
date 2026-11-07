@@ -1,0 +1,67 @@
+{
+  "updated": "2026-11-07",
+  "note": "Cleaned takes: mono, -16 LUFS. .webm for Canvas, .m4a for PowerPoint.",
+  "base": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/",
+  "items": [
+    {
+      "id": "L1_S01_P01",
+      "text": "the end of the day",
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P01.webm",
+      "m4a": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P01.m4a"
+    },
+    {
+      "id": "L1_S01_P02",
+      "text": "It is for you.",
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P02.webm",
+      "m4a": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P02.m4a"
+    },
+    {
+      "id": "L1_S01_P03",
+      "text": "He was on the team.",
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P03.webm",
+      "m4a": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P03.m4a"
+    },
+    {
+      "id": "L1_S01_P04",
+      "text": "They are in the car.",
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P04.webm",
+      "m4a": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P04.m4a"
+    },
+    {
+      "id": "L1_S01_P05",
+      "text": "I have to go to class.",
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P05.webm",
+      "m4a": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P05.m4a"
+    },
+    {
+      "id": "L1_S01_P06",
+      "text": "a text from his mom",
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P06.webm",
+      "m4a": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P06.m4a"
+    },
+    {
+      "id": "L1_S01_P07",
+      "text": "You are at the park.",
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P07.webm",
+      "m4a": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P07.m4a"
+    },
+    {
+      "id": "L1_S01_P08",
+      "text": "This is for the game.",
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P08.webm",
+      "m4a": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P08.m4a"
+    },
+    {
+      "id": "L1_S01_P09",
+      "text": "That was a long day.",
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P09.webm",
+      "m4a": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P09.m4a"
+    },
+    {
+      "id": "L1_S01_P10",
+      "text": "They have it with them.",
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P10.webm",
+      "m4a": "https://miqdaniels.github.io/READING-DANIELS/audio/L1/L1_S01_P10.m4a"
+    }
+  ]
+}
