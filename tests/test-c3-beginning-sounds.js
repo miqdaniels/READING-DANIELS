@@ -38,7 +38,11 @@ w.go("teachNext"); d.querySelector('.tn-card[data-check="3"]').click();
 ok(active()==="c3Next","hub Check 3 card opens the Check 3 resources page");
 ok(/Beginning Sounds/.test($("c3n-bs").textContent) && /first sound in a spoken word/i.test($("c3n-bs").textContent),"Beginning Sounds card names the target");
 ok($("c3n-bs-docx").getAttribute("href")===DOCX && $("c3n-bs-docx").hasAttribute("download"),"landing card links the approved Word file as a download");
-ok(!/\b(Medial|Ending Sounds|Blending|Segmenting)\b/.test($("c3Next").textContent),"only Beginning Sounds is offered (no other modules built)");
+// 2026-11-08: Items 2-4 (Ending Sounds, Blending, Segmenting) are offered as Word DRAFTS only,
+// waiting for Mick's approval; Beginning Sounds is still the only on-screen lesson.
+ok(d.querySelectorAll('#c3Next [id^="c3n-open-"]').length===1 && !!$("c3n-open-bs"),"only Beginning Sounds has an on-screen lesson");
+ok(["es","bl","sg"].every(function(k){ return /Draft v0\.1/.test($("c3n-"+k).textContent) && $("c3n-"+k+"-docx").hasAttribute("download"); }),"Items 2-4 are marked Draft v0.1 with a Word download");
+ok(!/\bMedial\b/.test($("c3Next").textContent),"no Medial module");
 $("c3n-open-bs").click(); ok(active()==="c3Bs","Open Beginning Sounds opens the lesson");
 ok($("c3bs-docx").getAttribute("href")===DOCX && $("c3bs-docx").hasAttribute("download"),"lesson page links the approved Word file as a download");
 

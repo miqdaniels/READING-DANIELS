@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Mouth Video Studio</title>
+<!-- (c) 2026 Miquela Daniels, AI Academy LLC. Reading Foundations. Proprietary -- do not copy or distribute.
+     Teacher-only. Records short camera + mic clips of the teacher's own mouth making each sound
+     (no TTS, no avatars, ever). Takes live in their own IndexedDB ("rf_video_studio"), never in
+     student data. Same flow as recording-studio.html. ES5 only.
+     Screens are string ids: "vs-locked", "vs-pick", "vs-record". -->
+<style>
+:root{
+  --paper:#F7F9FC;--panel:#FFFFFF;--line:#DCE3EC;--ink:#14202E;--ink-soft:#4A5A6E;
+  --accent:#1F3A5F;--accent-press:#16304F;--rec:#c0392b;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:17px;line-height:1.5}
+header{border-bottom:1px solid var(--line);background:var(--panel)}
+.hwrap{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header h1{font-size:19px;margin:0;font-weight:700}
+.prog{margin-left:auto;font-weight:700;color:var(--accent)}
+.progbar{height:6px;background:var(--line);border-radius:6px;overflow:hidden;width:100%}
+.progbar span{display:block;height:100%;background:var(--accent);width:0}
+.wrap{max-width:1100px;margin:0 auto;padding:18px 16px 72px}
+.screen{display:none}
+.screen.active{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin:0 0 16px}
+h2{font-size:18px;margin:0 0 10px}
+.mini{font-size:14px;color:var(--ink-soft)}
+.grid{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit;font-size:15px;font-weight:600;cursor:pointer;padding:10px 14px;border-radius:10px;min-height:44px}
+.btn:hover{border-color:var(--accent)}
+.btn.sel{border:2px solid var(--accent);color:var(--accent)}
+.btn[disabled]{opacity:.45;cursor:default}
+.setbtn{min-width:150px;flex-direction:column;align-items:flex-start;gap:0}
+.setbtn small{font-weight:500;color:var(--ink-soft)}
+label.field{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:600;color:var(--ink-soft);min-width:240px;flex:1 1 240px}
+select{font:inherit;font-size:15px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);min-height:44px}
+.topbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.topbar .where{font-weight:700}
+.stage{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:16px;align-items:start}
+@media(max-width:820px){.stage{grid-template-columns:1fr}}
+.cam{position:relative;width:100%;aspect-ratio:16/9;background:#0E1621;border-radius:10px;overflow:hidden}
+.cam video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0E1621}
+#vs-preview{transform:scaleX(-1)}
+#vs-playback{display:none}
+.cam.playing #vs-playback{display:block}
+.cam.playing #vs-preview{visibility:hidden}
+.guide{position:absolute;left:30%;right:30%;top:52%;bottom:14%;border:2px dashed rgba(255,255,255,.55);border-radius:40%;pointer-events:none}
+.cam.noguide .guide,.cam.playing .guide{display:none}
+.cam .camnote{position:absolute;left:0;right:0;top:42%;text-align:center;color:#C9D3DF;font-size:15px;padding:0 16px}
+.cam.live .camnote{display:none}
+.cam .recdot{position:absolute;top:10px;left:12px;display:none;color:#fff;font-weight:700;font-size:14px;background:rgba(192,57,43,.9);padding:3px 10px;border-radius:8px}
+.cam.rec .recdot{display:block}
+.side{text-align:center}
+.count{font-size:15px;color:var(--ink-soft);font-weight:600}
+.done-tag{display:inline-block;margin-left:8px;color:var(--accent);font-weight:700}
+.target{font-size:clamp(40px,7vw,76px);line-height:1.15;font-weight:700;margin:14px 0 8px;overflow-wrap:anywhere}
+.say{font-size:17px;color:var(--ink-soft);margin:0 0 16px;min-height:1.5em}
+.say b{color:var(--ink)}
+.controls{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}
+.status{min-height:1.6em;margin-top:12px;font-weight:600;color:var(--ink-soft)}
+.status.recording{color:var(--rec)}
+.keys{margin-top:8px;font-size:13px;color:var(--ink-soft)}
+/* Quiet Square icons: same as the Phrase Recording Studio */
+.ico{position:relative;display:inline-block;width:64px;height:64px;border:2px solid var(--ink-soft);border-radius:20%;background:var(--panel);cursor:pointer;padding:0}
+.ico::before{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56%;height:56%;background-color:var(--ink-soft);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+.ico[disabled]{opacity:.4;cursor:default}
+.ico-cam::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2.5' y='6.5' width='13' height='11' rx='2'/%3E%3Cpath d='M15.5 10.5l6-3.5v10l-6-3.5'/%3E%3C/g%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2.5' y='6.5' width='13' height='11' rx='2'/%3E%3Cpath d='M15.5 10.5l6-3.5v10l-6-3.5'/%3E%3C/g%3E%3C/svg%3E")}
+.ico-play::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 4.5v15l12-7.5Z'/%3E%3C/g%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 4.5v15l12-7.5Z'/%3E%3C/g%3E%3C/svg%3E")}
+/* recording: soft red pulsing ring, back to gray the instant it stops (Hard Rule 8) */
+.ico-cam.rec{border-color:var(--rec);animation:vsPulse 1.3s ease-in-out infinite}
+.ico-cam.rec::before{background-color:var(--rec)}
+.ico-play.playing{border-color:var(--accent)}
+.ico-play.playing::before{background-color:var(--accent)}
+@keyframes vsPulse{0%{box-shadow:0 0 0 0 rgba(192,57,43,.35)}100%{box-shadow:0 0 0 8px rgba(192,57,43,0)}}
+.list{list-style:none;margin:0;padding:0}
+.list button{width:100%;text-align:left;display:flex;gap:10px;align-items:center;border:0;border-bottom:1px solid var(--line);background:none;font:inherit;font-size:16px;padding:9px 6px;cursor:pointer;color:var(--ink)}
+.list button:hover{background:var(--paper)}
+.list button.cur{background:#EEF2F8;font-weight:700}
+.list .chk{width:22px;flex:0 0 22px;text-align:center;color:var(--accent);font-weight:800}
+.list .pid{flex:0 0 40px;color:var(--ink-soft);font-size:13px}
+.list .lsay{color:var(--ink-soft);font-size:14px;font-weight:400}
+.filter{display:flex;align-items:center;gap:8px;font-size:15px;margin:0 0 10px;cursor:pointer}
+.filter input{width:20px;height:20px}
+.warn{border-color:#E6C79C;background:#FFF8EC}
+.note{font-weight:600;color:var(--accent);min-height:1.4em}
+footer{max-width:1100px;margin:0 auto;padding:0 16px 30px;font-size:12px;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<header>
+  <div class="hwrap">
+    <h1>Mouth Video Studio</h1>
+    <span class="prog" id="vs-progress">0 of 0 recorded</span>
+    <div class="progbar"><span id="vs-progbar"></span></div>
+  </div>
+</header>
+<div class="wrap">
+
+  <section id="vs-locked" class="screen">
+    <div class="card"><h2>Teacher only</h2><p>This page opens from the teacher view of Reading Foundations.</p></div>
+  </section>
+
+  <section id="vs-pick" class="screen">
+    <div class="card" id="vs-memwarn" style="display:none"></div>
+    <div class="card">
+      <h2>1. Camera and microphone</h2>
+      <p class="mini">Plug in your webcam first. Tap Turn on camera, allow it, then pick your webcam and mic from the lists. Your picks are remembered on this computer.</p>
+      <div class="grid" style="align-items:flex-end">
+        <button class="btn" id="vs-cam-on" onclick="vsCameraOn()">Turn on camera</button>
+        <label class="field">Camera<select id="vs-cam-select" onchange="vsPickDevice()"><option value="">Default camera</option></select></label>
+        <label class="field">Microphone<select id="vs-mic-select" onchange="vsPickDevice()"><option value="">Default microphone</option></select></label>
+      </div>
+      <p class="note" id="vs-dev-note"></p>
+    </div>
+    <div class="card">
+      <h2>2. Pick a set</h2>
+      <div class="grid" id="vs-sets"></div>
+    </div>
+    <div class="card">
+      <h2>Export</h2>
+      <p class="mini">Saves a ZIP of your videos. Each file is named by its id, like PA_SND_01.webm. Drop the ZIP into your Claude chat to clean and add them.</p>
+      <div class="grid"><button class="btn" id="vs-export-all" onclick="vsExportAll()">Export All (ZIP)</button></div>
+      <p class="note" id="vs-pick-note"></p>
+    </div>
+    <p class="mini"><a href="index.html?teacher">Back to Teacher Dashboard</a></p>
+  </section>
+
+  <section id="vs-record" class="screen">
+    <div class="topbar">
+      <button class="btn" onclick="vsGo('vs-pick')">Sets</button>
+      <span class="where" id="vs-where"></span>
+      <span class="mini" id="vs-setcount"></span>
+      <label class="filter" style="margin:0 0 0 auto"><input type="checkbox" id="vs-guide" checked onchange="vsSetGuide(this.checked)"> Mouth guide</label>
+    </div>
+    <div class="stage">
+      <div class="cam" id="vs-cam">
+        <video id="vs-preview" muted playsinline autoplay></video>
+        <video id="vs-playback" playsinline></video>
+        <div class="guide"></div>
+        <div class="camnote">Camera is off. Tap the camera button to start.</div>
+        <div class="recdot">REC</div>
+      </div>
+      <div class="side">
+        <div class="count"><span id="vs-count">1 of 1</span> <span class="mini" id="vs-pid"></span><span class="done-tag" id="vs-donetag"></span></div>
+        <div class="target" id="vs-target"></div>
+        <p class="say">Say: <b id="vs-say"></b></p>
+        <div class="controls">
+          <button class="btn" id="vs-back" onclick="vsBack()">&larr; Back</button>
+          <button class="ico ico-cam" id="vs-rec" onclick="vsToggleRecord()" title="Record (Spacebar)" aria-label="Record"></button>
+          <button class="ico ico-play" id="vs-watch" onclick="vsWatch()" title="Watch" aria-label="Watch"></button>
+          <button class="btn" id="vs-rerecord" onclick="vsReRecord()">Re-record</button>
+          <button class="btn" id="vs-next" onclick="vsNext()">Next &rarr;</button>
+        </div>
+        <div class="status" id="vs-status">Tap the camera button or press Spacebar to record.</div>
+        <div class="keys">Spacebar = start / stop &middot; Right arrow = next &middot; Left arrow = back</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <label class="filter"><input type="checkbox" id="vs-filter" onchange="vsSetFilter(this.checked)"> Show only not-yet-recorded</label>
+      <ul class="list" id="vs-list"></ul>
+      <div class="grid" style="margin-top:12px">
+        <button class="btn" id="vs-export-set" onclick="vsExportSet()">Export Set (ZIP)</button>
+        <button class="btn" onclick="vsExportAll()">Export All (ZIP)</button>
+      </div>
+      <p class="note" id="vs-note"></p>
+    </div>
+  </section>
+</div>
+<footer>&copy; 2026 Miquela Daniels &middot; AI Academy LLC &middot; Reading Foundations &middot; Proprietary &mdash; do not copy or distribute</footer>
+
+<script src="video-list.js"></script>
+<script>
+/* ================= data ================= */
+var VS_ITEMS = (window.VIDEO_LIST || []);
+var VS = {
+  set: null, idx: 0, filter: false, guide: true,
+  takes: {},          /* id -> {id, blob, mime, savedAt} */
+  stream: null,       /* ONE camera+mic stream, kept open while the page is open */
+  recorder: null, chunks: [], recording: false, stopping: false, stopTimer: null,
+  playing: false, autoNext: false, playUrl: null,
+  camId: "", micId: ""
+};
+var VS_STOP_TAIL_MS = 500;   /* keep recording this long after Stop so the last sound is never cut */
+var VS_PREF_KEY = "rf_video_studio_devices";
+
+function vsSets(){
+  var out=[], seen={}, i;
+  for(i=0;i<VS_ITEMS.length;i++){ if(!seen[VS_ITEMS[i].set]){ seen[VS_ITEMS[i].set]=1; out.push(VS_ITEMS[i].set); } }
+  return out;
+}
+function vsItemsIn(set){
+  var out=[], i;
+  for(i=0;i<VS_ITEMS.length;i++){ if(VS_ITEMS[i].set===set){ out.push(VS_ITEMS[i]); } }
+  return out;
+}
+function vsCountDone(items){ var n=0, i; for(i=0;i<items.length;i++){ if(VS.takes[items[i].id]){ n++; } } return n; }
+function vsCur(){ return vsItemsIn(VS.set)[VS.idx]; }
+function vsEsc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function vsSlug(set){ return String(set).replace(/[^A-Za-z0-9]+/g,"-").replace(/^-|-$/g,""); }
+function vsSetCode(set){ var m=/^(3[A-D])\b/.exec(set); return m ? m[1] : (set==="Sounds" ? "SND" : vsSlug(set)); }
+
+/* ================= storage: own IndexedDB, in-memory fallback (and says so) ================= */
+var VSStore=(function(){
+  var DB="rf_video_studio", ST="takes", useMem=false, dbp=null, mem={};
+  function open(){
+    if(dbp){ return dbp; }
+    dbp=new Promise(function(res){
+      var r;
+      if(typeof indexedDB==="undefined" || !indexedDB){ useMem=true; res(null); return; }
+      try{ r=indexedDB.open(DB,1); }catch(e){ useMem=true; res(null); return; }
+      r.onupgradeneeded=function(){ r.result.createObjectStore(ST,{keyPath:"id"}); };
+      r.onsuccess=function(){ res(r.result); };
+      r.onerror=function(){ useMem=true; res(null); };
+      r.onblocked=function(){ useMem=true; res(null); };
+    });
+    return dbp;
+  }
+  function put(rec){
+    return open().then(function(db){
+      if(!db){ mem[rec.id]=rec; return rec; }
+      return new Promise(function(res,rej){
+        var t=db.transaction(ST,"readwrite"); t.objectStore(ST).put(rec);
+        t.oncomplete=function(){ res(rec); }; t.onerror=function(){ rej(t.error); };
+      });
+    });
+  }
+  function all(){
+    return open().then(function(db){
+      var k, out=[];
+      if(!db){ for(k in mem){ if(mem.hasOwnProperty(k)){ out.push(mem[k]); } } return out; }
+      return new Promise(function(res){
+        var rq=db.transaction(ST,"readonly").objectStore(ST).getAll();
+        rq.onsuccess=function(){ res(rq.result||[]); }; rq.onerror=function(){ res([]); };
+      });
+    });
+  }
+  return { put:put, all:all, isMemory:function(){ return useMem; } };
+})();
+
+/* device picks, remembered on this computer (best effort) */
+function vsLoadPrefs(){
+  try{ var p=JSON.parse(localStorage.getItem(VS_PREF_KEY)||"{}"); VS.camId=p.cam||""; VS.micId=p.mic||""; }catch(e){}
+}
+function vsSavePrefs(){
+  try{ localStorage.setItem(VS_PREF_KEY, JSON.stringify({cam:VS.camId, mic:VS.micId})); }catch(e){}
+}
+
+/* ================= screens ================= */
+function vsGo(id){
+  var s=document.querySelectorAll(".screen"), i;
+  for(i=0;i<s.length;i++){ s[i].className = (s[i].id===id) ? "screen active" : "screen"; }
+  if(id!=="vs-record"){ vsStopPlayback(); if(VS.recording){ vsStopRecording(true); } }
+  if(id==="vs-pick"){ vsPaintPick(); }
+  if(id==="vs-record"){ vsPaintRecord(); vsAttachPreview(); }
+  vsPaintProgress();
+}
+function vsIsTeacher(){ try{ return (window.location.search||"").toLowerCase().indexOf("teacher")>-1; }catch(e){ return false; } }
+function vsPaintProgress(){
+  var n=vsCountDone(VS_ITEMS), t=VS_ITEMS.length;
+  document.getElementById("vs-progress").textContent = n+" of "+t+" recorded";
+  document.getElementById("vs-progbar").style.width = (t ? Math.round(n*100/t) : 0)+"%";
+}
+function vsPaintPick(){
+  var sets=vsSets(), h="", i, items, n;
+  for(i=0;i<sets.length;i++){
+    items=vsItemsIn(sets[i]); n=vsCountDone(items);
+    h+='<button class="btn setbtn" id="vs-set-'+vsSlug(sets[i])+'" onclick="vsPickSet('+i+')">'+vsEsc(sets[i])
+      +'<small>'+(n===items.length?'&#10003; ':'')+n+' of '+items.length+' recorded</small></button>';
+  }
+  document.getElementById("vs-sets").innerHTML=h;
+  var w=document.getElementById("vs-memwarn");
+  if(VSStore.isMemory()){
+    w.style.display="block"; w.className="card warn";
+    w.innerHTML="<strong>Heads up:</strong> this browser is not letting the page save to its storage, so videos only last until you close this tab. Export often.";
+  } else { w.style.display="none"; }
+}
+function vsPickSet(i){
+  VS.set=vsSets()[i]; VS.idx=0;
+  if(VS.filter){ var f=vsFirstUnrecorded(); if(f>-1){ VS.idx=f; } }
+  vsGo("vs-record");
+}
+
+/* ================= record screen ================= */
+function vsVisibleIdx(){
+  var it=vsItemsIn(VS.set), out=[], i;
+  for(i=0;i<it.length;i++){ if(!VS.filter || !VS.takes[it[i].id] || i===VS.idx){ out.push(i); } }
+  return out;
+}
+function vsFirstUnrecorded(){ var it=vsItemsIn(VS.set), i; for(i=0;i<it.length;i++){ if(!VS.takes[it[i].id]){ return i; } } return -1; }
+function vsStep(dir){
+  var it=vsItemsIn(VS.set), i=VS.idx+dir;
+  while(i>=0 && i<it.length){ if(!VS.filter || !VS.takes[it[i].id]){ return i; } i+=dir; }
+  return -1;
+}
+function vsPaintRecord(){
+  var it=vsItemsIn(VS.set), cur=it[VS.idx], i, h="", vis, has, x;
+  if(!cur){ return; }
+  has=!!VS.takes[cur.id];
+  document.getElementById("vs-where").textContent=VS.set;
+  document.getElementById("vs-setcount").textContent=vsCountDone(it)+" of "+it.length+" recorded in this set";
+  document.getElementById("vs-count").textContent=(VS.idx+1)+" of "+it.length;
+  document.getElementById("vs-pid").textContent=cur.id;
+  document.getElementById("vs-donetag").innerHTML= has ? "&#10003; recorded" : "";
+  document.getElementById("vs-target").textContent=cur.text;
+  document.getElementById("vs-say").textContent=cur.say;
+  document.getElementById("vs-watch").disabled = !has || VS.recording;
+  document.getElementById("vs-rerecord").disabled = !has || VS.recording;
+  document.getElementById("vs-back").disabled = VS.recording || vsStep(-1)===-1;
+  document.getElementById("vs-next").disabled = VS.recording || vsStep(1)===-1;
+  vis=vsVisibleIdx();
+  for(i=0;i<vis.length;i++){
+    x=it[vis[i]];
+    h+='<li><button id="vs-row-'+x.id+'" class="'+(vis[i]===VS.idx?'cur':'')+'" onclick="vsJump('+vis[i]+')">'
+      +'<span class="chk">'+(VS.takes[x.id]?'&#10003;':'')+'</span><span class="pid">'+(vis[i]+1)+'</span><span>'+vsEsc(x.text)
+      +' <span class="lsay">&mdash; '+vsEsc(x.say)+'</span></span></button></li>';
+  }
+  if(!vis.length){ h='<li class="mini">Every clip in this set is recorded.</li>'; }
+  document.getElementById("vs-list").innerHTML=h;
+  document.getElementById("vs-filter").checked=VS.filter;
+  vsPaintProgress();
+}
+function vsSetStatus(txt, cls){ var s=document.getElementById("vs-status"); s.textContent=txt; s.className="status"+(cls?" "+cls:""); }
+function vsNext(){
+  if(VS.recording || VS.stopping){ return; }
+  var n=vsStep(1); vsStopPlayback();
+  if(n===-1){ vsSetStatus("That is the end of "+VS.set+"."); return; }
+  VS.idx=n; vsSetStatus("Tap the camera button or press Spacebar to record."); vsPaintRecord();
+}
+function vsBack(){
+  if(VS.recording || VS.stopping){ return; }
+  var n=vsStep(-1); vsStopPlayback();
+  if(n===-1){ return; }
+  VS.idx=n; vsSetStatus("Tap the camera button or press Spacebar to record."); vsPaintRecord();
+}
+function vsJump(i){ if(VS.recording || VS.stopping){ return; } vsStopPlayback(); VS.idx=i; vsSetStatus("Tap the camera button or press Spacebar to record."); vsPaintRecord(); }
+function vsSetFilter(on){ VS.filter=!!on; vsPaintRecord(); }
+function vsSetGuide(on){
+  VS.guide=!!on;
+  var c=document.getElementById("vs-cam");
+  if(on){ c.className=c.className.replace(/\s*noguide/g,""); } else if(c.className.indexOf("noguide")<0){ c.className+=" noguide"; }
+}
+function vsCamClass(name, on){
+  var c=document.getElementById("vs-cam"), re=new RegExp("\\s*\\b"+name+"\\b","g");
+  c.className=c.className.replace(re,"");
+  if(on){ c.className+=" "+name; }
+}
+
+/* ================= camera + mic: ask once, keep the stream open ================= */
+function vsConstraints(){
+  var v={width:{ideal:1280}, height:{ideal:720}, frameRate:{ideal:30}};
+  var a={echoCancellation:false, noiseSuppression:true, autoGainControl:false};
+  if(VS.camId){ v.deviceId={exact:VS.camId}; } else { v.facingMode="user"; }
+  if(VS.micId){ a.deviceId={exact:VS.micId}; }
+  return {video:v, audio:a};
+}
+function vsStopStream(){
+  var t, i;
+  if(VS.stream && VS.stream.getTracks){ t=VS.stream.getTracks(); for(i=0;i<t.length;i++){ try{ t[i].stop(); }catch(e){} } }
+  VS.stream=null; vsCamClass("live", false);
+}
+function vsGetStream(){
+  if(VS.stream){ return Promise.resolve(VS.stream); }
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ return Promise.reject(new Error("no-camera-api")); }
+  return navigator.mediaDevices.getUserMedia(vsConstraints()).then(function(s){
+    VS.stream=s; vsAttachPreview(); vsListDevices(); return s;
+  }, function(err){
+    /* a remembered device that is unplugged: forget it and try the default once */
+    if((VS.camId || VS.micId) && err && (err.name==="OverconstrainedError" || err.name==="NotFoundError")){
+      VS.camId=""; VS.micId=""; vsSavePrefs();
+      return vsGetStream();
+    }
+    throw err;
+  });
+}
+function vsAttachPreview(){
+  var v=document.getElementById("vs-preview");
+  if(!VS.stream){ vsCamClass("live", false); return; }
+  try{ v.srcObject=VS.stream; }catch(e){}
+  try{ var p=v.play && v.play(); if(p && p.then){ p.then(null,function(){}); } }catch(e){}
+  vsCamClass("live", true);
+}
+function vsCameraOn(){
+  var note=document.getElementById("vs-dev-note");
+  note.textContent="Starting the camera...";
+  return vsGetStream().then(function(){ note.textContent="Camera is on. Pick a set to start recording."; },
+    function(){ note.textContent="The camera is blocked or not plugged in. Click the lock icon in the address bar, allow the camera and microphone, then reload."; });
+}
+function vsListDevices(){
+  if(!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices){ return Promise.resolve(); }
+  return navigator.mediaDevices.enumerateDevices().then(function(list){
+    var cams='<option value="">Default camera</option>', mics='<option value="">Default microphone</option>', i, d, n=0, m=0, curCam="", curMic="", tr;
+    if(VS.stream && VS.stream.getVideoTracks){ tr=VS.stream.getVideoTracks()[0]; if(tr && tr.getSettings){ curCam=tr.getSettings().deviceId||""; } }
+    if(VS.stream && VS.stream.getAudioTracks){ tr=VS.stream.getAudioTracks()[0]; if(tr && tr.getSettings){ curMic=tr.getSettings().deviceId||""; } }
+    for(i=0;i<list.length;i++){
+      d=list[i];
+      if(d.kind==="videoinput"){ n++; cams+='<option value="'+vsEsc(d.deviceId)+'"'+((VS.camId||curCam)===d.deviceId?' selected':'')+'>'+vsEsc(d.label||("Camera "+n))+'</option>'; }
+      if(d.kind==="audioinput"){ m++; mics+='<option value="'+vsEsc(d.deviceId)+'"'+((VS.micId||curMic)===d.deviceId?' selected':'')+'>'+vsEsc(d.label||("Microphone "+m))+'</option>'; }
+    }
+    document.getElementById("vs-cam-select").innerHTML=cams;
+    document.getElementById("vs-mic-select").innerHTML=mics;
+  }, function(){});
+}
+function vsPickDevice(){
+  if(VS.recording || VS.stopping){ return Promise.resolve(); }
+  VS.camId=document.getElementById("vs-cam-select").value||"";
+  VS.micId=document.getElementById("vs-mic-select").value||"";
+  vsSavePrefs();
+  vsStopStream();
+  return vsCameraOn();
+}
+function vsPickMime(){
+  var c=["video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm","video/mp4"], i;
+  if(typeof MediaRecorder==="undefined" || !MediaRecorder.isTypeSupported){ return ""; }
+  for(i=0;i<c.length;i++){ if(MediaRecorder.isTypeSupported(c[i])){ return c[i]; } }
+  return "";
+}
+function vsExt(mime){ mime=(mime||"").toLowerCase(); return mime.indexOf("mp4")>-1 ? "mp4" : "webm"; }
+
+function vsToggleRecord(){
+  if(VS.stopping){ return; }
+  if(VS.recording){ vsStopRecording(false); } else { vsStartRecording(); }
+}
+function vsReRecord(){ if(!VS.recording && !VS.stopping){ vsStartRecording(); } }
+function vsStartRecording(){
+  var cur=vsCur(); if(!cur){ return; }
+  vsStopPlayback();
+  vsGetStream().then(function(stream){
+    var mime=vsPickMime(), rec, opts={videoBitsPerSecond:2500000, audioBitsPerSecond:128000};
+    if(mime){ opts.mimeType=mime; }
+    try{ rec=new MediaRecorder(stream, opts); }
+    catch(e){ vsSetStatus("This browser cannot record video. Try Chrome."); return; }
+    VS.recorder=rec; VS.chunks=[]; VS.recordingId=cur.id; VS.discard=false;
+    rec.ondataavailable=function(ev){ if(ev.data && ev.data.size){ VS.chunks.push(ev.data); } };
+    rec.onstop=function(){ vsFinishTake(rec); };
+    rec.start();
+    VS.recording=true;
+    document.getElementById("vs-rec").className="ico ico-cam rec";
+    vsCamClass("rec", true);
+    vsSetStatus("Recording... tap the camera button or press Spacebar to stop.","recording");
+    vsPaintRecord();
+  }, function(){
+    vsSetStatus("The camera is blocked or not plugged in. Click the lock icon in the address bar, allow the camera and microphone, then reload.");
+  });
+}
+function vsStopNow(){
+  VS.stopTimer=null; VS.stopping=false; VS.recording=false;
+  document.getElementById("vs-rec").className="ico ico-cam";
+  vsCamClass("rec", false);
+  try{ VS.recorder.stop(); }catch(e){}
+}
+function vsStopRecording(discard){
+  if(!VS.recorder){ return; }
+  if(VS.stopping){ if(VS.stopTimer){ clearTimeout(VS.stopTimer); } vsStopNow(); return; }
+  VS.discard=!!discard;
+  if(discard || !(VS_STOP_TAIL_MS>0)){ vsStopNow(); return; }
+  VS.stopping=true;
+  vsSetStatus("Finishing...","recording");
+  VS.stopTimer=setTimeout(vsStopNow, VS_STOP_TAIL_MS);
+}
+function vsFinishTake(rec){
+  var id=VS.recordingId, mime=(rec.mimeType||"video/webm"), blob, take;
+  VS.recorder=null;
+  if(VS.discard || !VS.chunks.length){ VS.discard=false; vsPaintRecord(); if(!VS.chunks.length){ vsSetStatus("Nothing was recorded. Try again."); } return; }
+  blob=new Blob(VS.chunks,{type:mime});
+  take={id:id, blob:blob, mime:mime, savedAt:new Date().toISOString()};
+  VS.takes[id]=take;
+  vsSetStatus("Saved. Playing it back...");
+  vsPaintRecord();
+  VSStore.put(take).then(function(){}, function(){ vsSetStatus("Could not save to this browser. Export now so you do not lose it."); });
+  VS.autoNext=true;
+  vsPlay(id);
+}
+
+/* ================= playback (in the same frame as the camera) ================= */
+function vsStopPlayback(){
+  var v=document.getElementById("vs-playback");
+  VS.autoNext=false; VS.playing=false;
+  if(v){ try{ v.pause(); }catch(e){} v.onended=null; try{ v.removeAttribute("src"); }catch(e){} }
+  if(VS.playUrl && window.URL && URL.revokeObjectURL){ try{ URL.revokeObjectURL(VS.playUrl); }catch(e){} }
+  VS.playUrl=null;
+  vsCamClass("playing", false);
+  var b=document.getElementById("vs-watch"); if(b){ b.className="ico ico-play"; }
+}
+function vsWatch(){
+  var cur=vsCur(); if(!cur || !VS.takes[cur.id] || VS.recording){ return; }
+  vsStopPlayback(); vsPlay(cur.id);
+}
+function vsPlay(id){
+  var take=VS.takes[id], v=document.getElementById("vs-playback"), auto=VS.autoNext, url, p;
+  if(!take){ return; }
+  url=URL.createObjectURL(take.blob); VS.playUrl=url;
+  v.src=url; VS.playing=true;
+  vsCamClass("playing", true);
+  document.getElementById("vs-watch").className="ico ico-play playing";
+  v.onended=function(){
+    var go=VS.autoNext;
+    v.onended=null;
+    vsStopPlayback();
+    if(go){ vsAfterAutoPlay(id); }
+  };
+  VS.autoNext=auto;
+  try{ p=v.play(); }catch(e){ p=null; if(v.onended){ v.onended(); } return; }
+  if(p && p.then){ p.then(null,function(){ if(v.onended){ v.onended(); } }); }
+}
+function vsAfterAutoPlay(id){
+  var cur=vsCur(), n, it, left;
+  if(!cur || cur.id!==id){ return; }
+  n=vsStep(1);
+  if(n===-1){
+    it=vsItemsIn(VS.set); left=it.length-vsCountDone(it);
+    vsSetStatus(left ? "End of the set. "+left+" clip"+(left===1?"":"s")+" still need a video." : VS.set+" is all recorded. Nice work!");
+    vsPaintRecord(); return;
+  }
+  VS.idx=n; vsSetStatus("Ready. Tap the camera button or press Spacebar to record."); vsPaintRecord();
+}
+
+/* ================= keyboard ================= */
+document.addEventListener("keydown", function(e){
+  var act=document.getElementById("vs-record"), tag;
+  if(!act || act.className.indexOf("active")===-1){ return; }
+  tag=(e.target && e.target.tagName||"").toLowerCase();
+  if(tag==="input" || tag==="textarea" || tag==="select"){ return; }
+  if(e.repeat){ if(e.key===" "||e.keyCode===32){ e.preventDefault(); } return; }
+  if(e.key===" " || e.keyCode===32){ e.preventDefault(); vsToggleRecord(); }
+  else if(e.key==="ArrowRight" || e.keyCode===39){ e.preventDefault(); vsNext(); }
+  else if(e.key==="ArrowLeft" || e.keyCode===37){ e.preventDefault(); vsBack(); }
+});
+
+/* ================= ZIP export (stored, no compression -- same writer as the Phrase studio) ================= */
+var VSZ_TABLE=null;
+function vsCrc(bytes){
+  var c, n, k, crc=0xFFFFFFFF;
+  if(!VSZ_TABLE){ VSZ_TABLE=[]; for(n=0;n<256;n++){ c=n; for(k=0;k<8;k++){ c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1); } VSZ_TABLE[n]=c>>>0; } }
+  for(n=0;n<bytes.length;n++){ crc=VSZ_TABLE[(crc^bytes[n])&0xFF]^(crc>>>8); }
+  return (crc^0xFFFFFFFF)>>>0;
+}
+function vsUtf8(str){
+  var out=[], i; str=unescape(encodeURIComponent(str));
+  for(i=0;i<str.length;i++){ out.push(str.charCodeAt(i)); }
+  return new Uint8Array(out);
+}
+function vsZipBuild(files){
+  var parts=[], central=[], offset=0, i, f, name, crc, lh, dv, ch, total=0, end;
+  for(i=0;i<files.length;i++){
+    f=files[i]; name=vsUtf8(f.name); crc=vsCrc(f.data);
+    lh=new Uint8Array(30+name.length); dv=new DataView(lh.buffer);
+    dv.setUint32(0,0x04034b50,true); dv.setUint16(4,20,true); dv.setUint16(6,0x0800,true); dv.setUint16(8,0,true);
+    dv.setUint16(10,0,true); dv.setUint16(12,0x21,true); dv.setUint32(14,crc,true); dv.setUint32(18,f.data.length,true); dv.setUint32(22,f.data.length,true);
+    dv.setUint16(26,name.length,true); dv.setUint16(28,0,true); lh.set(name,30);
+    parts.push(lh); parts.push(f.data);
+    ch=new Uint8Array(46+name.length); dv=new DataView(ch.buffer);
+    dv.setUint32(0,0x02014b50,true); dv.setUint16(4,20,true); dv.setUint16(6,20,true); dv.setUint16(8,0x0800,true); dv.setUint16(10,0,true);
+    dv.setUint16(12,0,true); dv.setUint16(14,0x21,true); dv.setUint32(16,crc,true); dv.setUint32(20,f.data.length,true); dv.setUint32(24,f.data.length,true);
+    dv.setUint16(28,name.length,true); dv.setUint32(42,offset,true); ch.set(name,46);
+    central.push(ch); offset+=lh.length+f.data.length;
+  }
+  for(i=0;i<central.length;i++){ total+=central[i].length; }
+  end=new Uint8Array(22); dv=new DataView(end.buffer);
+  dv.setUint32(0,0x06054b50,true); dv.setUint16(8,files.length,true); dv.setUint16(10,files.length,true); dv.setUint32(12,total,true); dv.setUint32(16,offset,true);
+  return new Blob(parts.concat(central).concat([end]),{type:"application/zip"});
+}
+function vsBlobBytes(blob){
+  return new Promise(function(res,rej){
+    if(blob.arrayBuffer){ blob.arrayBuffer().then(function(b){ res(new Uint8Array(b)); }, rej); return; }
+    var fr=new FileReader(); fr.onload=function(){ res(new Uint8Array(fr.result)); }; fr.onerror=rej; fr.readAsArrayBuffer(blob);
+  });
+}
+function vsExportItems(items, zipName, noteId){
+  var have=[], i, manifest=[], files=[], k=0, note=document.getElementById(noteId);
+  for(i=0;i<items.length;i++){ if(VS.takes[items[i].id]){ have.push(items[i]); } }
+  if(!have.length){ note.textContent="Nothing recorded here yet."; return Promise.resolve(null); }
+  note.textContent="Building the ZIP...";
+  function nextOne(){
+    if(k>=have.length){
+      files.push({name:"manifest.json", data:vsUtf8(JSON.stringify({exported:new Date().toISOString(), kind:"mouth-video", count:manifest.length, items:manifest}, null, 2))});
+      var zip=vsZipBuild(files);
+      vsSave(zip, zipName);
+      note.textContent="Exported "+have.length+" of "+items.length+" videos as "+zipName+".";
+      return zip;
+    }
+    var it=have[k], t=VS.takes[it.id];
+    return vsBlobBytes(t.blob).then(function(bytes){
+      var fname=it.id+"."+vsExt(t.mime);
+      files.push({name:fname, data:bytes});
+      manifest.push({id:it.id, set:it.set, text:it.text, say:it.say, file:fname, mime:t.mime});
+      k++; return nextOne();
+    });
+  }
+  return nextOne();
+}
+function vsSave(blob, name){
+  var a=document.createElement("a"), url=URL.createObjectURL(blob);
+  a.href=url; a.download=name; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){ try{ URL.revokeObjectURL(url); }catch(e){} }, 4000);
+}
+function vsExportSet(){ return vsExportItems(vsItemsIn(VS.set), "PA_"+vsSetCode(VS.set)+"_videos.zip", "vs-note"); }
+function vsExportAll(){
+  var onRec=document.getElementById("vs-record").className.indexOf("active")>-1;
+  return vsExportItems(VS_ITEMS, "Mouth_videos_all.zip", onRec ? "vs-note" : "vs-pick-note");
+}
+
+/* ================= boot ================= */
+function vsBoot(){
+  if(!vsIsTeacher()){ vsGo("vs-locked"); return Promise.resolve(); }
+  vsLoadPrefs();
+  return VSStore.all().then(function(list){
+    var i; for(i=0;i<list.length;i++){ if(list[i] && list[i].id){ VS.takes[list[i].id]=list[i]; } }
+    vsGo("vs-pick");
+  });
+}
+window.vsReady = vsBoot();
+</script></body></html>
