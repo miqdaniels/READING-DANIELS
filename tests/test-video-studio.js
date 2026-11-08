@@ -37,11 +37,11 @@ const sets=[]; LIST.forEach(x=>{ if(sets.indexOf(x.set)<0) sets.push(x.set); });
 ck(JSON.stringify(sets)===JSON.stringify(["Sounds","3A Beginning Sounds","3B Ending Sounds","3C Blending","3D Segmenting"]),"5 sets in teaching order");
 ck(LIST.filter(x=>x.set==="Sounds").length===26,"26 single-sound clips");
 // Keep diagnostic words OUT of teaching practice: no Check 3 scored/practice/sample word
-// may be a NEW practice target (3A keeps the approved v0.6 lesson's own model words).
+// may be a practice target in any lesson set (v0.7 / v0.2 lessons are clean).
 const m=index.match(/var C3_SCORED=\[([\s\S]*?)\];/), pr=index.match(/var C3_PRACTICE=\{([\s\S]*?)\};/), sa=index.match(/var C3_SAMPLE=\{([\s\S]*?)\};/);
 const bank={}; [m,pr,sa].forEach(b=>{ (b[1].match(/word:"([a-z]+)"/g)||[]).forEach(w=>{ bank[w.slice(6,-1)]=1; }); });
 ck(Object.keys(bank).length===28,"read all 28 Check 3 words from index.html");
-LIST.filter(x=>x.set!=="Sounds" && x.set!=="3A Beginning Sounds").forEach(x=>{ if(bank[x.text]) ck(false,"test word used as practice: "+x.id+" "+x.text); });
+LIST.filter(x=>x.set!=="Sounds").forEach(x=>{ if(bank[x.text]) ck(false,"test word used as practice: "+x.id+" "+x.text); });
 
 // lesson cards on the Check 3 page
 ["es","bl","sg"].forEach(k=>{

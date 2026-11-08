@@ -8,7 +8,7 @@
 const {chromium}=require('/opt/node-tools/node_modules/playwright'); const fs=require('fs'), crypto=require('crypto'), cp=require('child_process');
 const base=process.argv[2], out=process.argv[3]; fs.mkdirSync(out,{recursive:true});
 let pass=0, fail=0; function ok(c,m){ if(c){pass++; console.log("PASS "+m);} else {fail++; console.log("FAIL "+m);} }
-const SHA="edc19e537a3f48f665b0fd280d086cc96b8ac1737ddd46fb9c65d09f0ed149e9";
+const SHA="c2a2e5e9b3e5451724849b38b1f22ee5e9886f3f38612b5b46e55d7c91348503";
 const VIEWS={ desktop:{width:1366,height:768}, desktopHD:{width:1920,height:1080}, tabletLandscape:{width:1024,height:768}, tabletPortrait:{width:768,height:1024}, phone:{width:390,height:844} };
 
 async function boot(browser, vp, search){
@@ -100,8 +100,8 @@ function pdfPage(file,n){ return cp.execFileSync('pdftotext',['-f',String(n),'-l
  /* ---------- Word download ---------- */
  { const B=await boot(browser,VIEWS.desktop,'?teacher'); const p=B.p; await viaHub(p);
    for(const sel of ['#c3bs-docx']){ const [dl]=await Promise.all([p.waitForEvent('download'),p.click(sel)]); const f=out+'/'+dl.suggestedFilename(); await dl.saveAs(f);
-     ok(dl.suggestedFilename()==='Beginning_Sounds_v06_EDITABLE.docx',"lesson page download is named Beginning_Sounds_v06_EDITABLE.docx");
-     ok(crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex')===SHA,"downloaded .docx is byte-identical to the approved v0.6 file"); }
+     ok(dl.suggestedFilename()==='Beginning_Sounds_v07_EDITABLE.docx',"lesson page download is named Beginning_Sounds_v07_EDITABLE.docx");
+     ok(crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex')===SHA,"downloaded .docx is byte-identical to the v0.7 file"); }
    await p.click('#c3bs-back-check3'); const [dl2]=await Promise.all([p.waitForEvent('download'),p.click('#c3n-bs-docx')]); await dl2.saveAs(out+'/landing.docx');
    ok(crypto.createHash('sha256').update(fs.readFileSync(out+'/landing.docx')).digest('hex')===SHA,"Check 3 resources page download is the same approved file");
    const conv=cp.spawnSync('soffice',['--headless','--convert-to','pdf','--outdir',out+'/docxpdf',out+'/landing.docx']); ok(fs.existsSync(out+'/docxpdf/landing.pdf') && pdfInfo(out+'/docxpdf/landing.pdf').pages===3,"downloaded .docx opens (LibreOffice) as a 3-page document");

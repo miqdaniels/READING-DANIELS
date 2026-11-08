@@ -1,6 +1,6 @@
 /* Check 3 > What to Teach Next > Beginning Sounds (module 1 of 4).
    Content is compared against the approved Word file itself
-   (check3-lessons/Beginning_Sounds_v06_EDITABLE.docx), read straight from its XML. */
+   (check3-lessons/Beginning_Sounds_v07_EDITABLE.docx), read straight from its XML. */
 const fs=require('fs'), crypto=require('crypto'), cp=require('child_process');
 const {JSDOM}=require('jsdom');
 const html=fs.readFileSync('./index.html','utf8').replace('<script src="clips.js" defer></script>','<script>'+fs.readFileSync('./clips.js','utf8')+'</script>');
@@ -16,8 +16,8 @@ function open(search){
 function snap(w){ var o={}, i, k; for(i=0;i<w.localStorage.length;i++){ k=w.localStorage.key(i); o[k]=w.localStorage.getItem(k); } return JSON.stringify(o); }
 
 /* ---- the approved Word file: identity + its text ---- */
-const DOCX='check3-lessons/Beginning_Sounds_v06_EDITABLE.docx';
-ok(crypto.createHash('sha256').update(fs.readFileSync(DOCX)).digest('hex')==="edc19e537a3f48f665b0fd280d086cc96b8ac1737ddd46fb9c65d09f0ed149e9","Word download is the approved v0.6 file, byte for byte");
+const DOCX='check3-lessons/Beginning_Sounds_v07_EDITABLE.docx';
+ok(crypto.createHash('sha256').update(fs.readFileSync(DOCX)).digest('hex')==="c2a2e5e9b3e5451724849b38b1f22ee5e9886f3f38612b5b46e55d7c91348503","Word download is the v0.7 file (test words swapped, (c) + watermark), byte for byte");
 const xml=cp.execFileSync('unzip',['-p',DOCX,'word/document.xml']).toString('utf8');
 const chunks=[]; (xml.match(/<w:p[ >][\s\S]*?<\/w:p>/g)||[]).forEach(function(p){
   var t=(p.match(/<w:t(?: [^>]*)?>[^<]*<\/w:t>/g)||[]).map(function(x){ return x.replace(/<[^>]+>/g,""); }).join("");
@@ -41,7 +41,7 @@ ok($("c3n-bs-docx").getAttribute("href")===DOCX && $("c3n-bs-docx").hasAttribute
 // 2026-11-08: Items 2-4 (Ending Sounds, Blending, Segmenting) are offered as Word DRAFTS only,
 // waiting for Mick's approval; Beginning Sounds is still the only on-screen lesson.
 ok(d.querySelectorAll('#c3Next [id^="c3n-open-"]').length===1 && !!$("c3n-open-bs"),"only Beginning Sounds has an on-screen lesson");
-ok(["es","bl","sg"].every(function(k){ return /Draft v0\.1/.test($("c3n-"+k).textContent) && $("c3n-"+k+"-docx").hasAttribute("download"); }),"Items 2-4 are marked Draft v0.1 with a Word download");
+ok(["es","bl","sg"].every(function(k){ return /Draft v0\.2/.test($("c3n-"+k).textContent) && $("c3n-"+k+"-docx").hasAttribute("download"); }),"Items 2-4 are marked Draft v0.2 with a Word download");
 ok(!/\bMedial\b/.test($("c3Next").textContent),"no Medial module");
 $("c3n-open-bs").click(); ok(active()==="c3Bs","Open Beginning Sounds opens the lesson");
 ok($("c3bs-docx").getAttribute("href")===DOCX && $("c3bs-docx").hasAttribute("download"),"lesson page links the approved Word file as a download");
@@ -120,7 +120,7 @@ ok(T.errors.length===0,"no JavaScript errors ("+T.errors.join("; ")+")");
 const scored=w.C3_SCORED.map(function(x){ return x.word; }).concat(Object.keys(w.C3_PRACTICE).map(function(k){ return w.C3_PRACTICE[k].word; }),Object.keys(w.C3_SAMPLE).map(function(k){ return w.C3_SAMPLE[k].word; }));
 const practice=[].concat.apply([],w.C3BS.guided.concat(w.C3BS.indep).map(function(r){ return [r[0],r[2]]; }));
 ok(practice.length===10,"ten practice words in the module");
-ok(practice.filter(function(x){ return scored.indexOf(x)>-1; }).join()==="bus","only known overlap with the Check 3 bank among practice words is 'bus' (approved document; flagged for review)");
+ok(practice.filter(function(x){ return scored.indexOf(x)>-1; }).join()==="","no practice word is a Check 3 test word (v0.7 swapped bus, sun, me, stop)");
 ok(w.C3_SCORED.length===20 && w.C3_SCORED[0].word==="map","Check 3 scored bank untouched (20 items)");
 
 /* ---- student session: no teacher answers anywhere ---- */
