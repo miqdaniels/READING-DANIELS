@@ -58,8 +58,8 @@ function make(url){
   const dom=new JSDOM(page,{url:url,runScripts:"dangerously",pretendToBeVisual:true,
     beforeParse(w){
       w.__gum=0; w.__played=[]; w.__downloads=[]; w.__takeN=0;
-      w.navigator.mediaDevices={getUserMedia:function(){ w.__gum++; return Promise.resolve({fake:"stream"}); }};
-      function MR(stream,opts){ this.mimeType=(opts&&opts.mimeType)||"audio/webm"; }
+      w.navigator.mediaDevices={getUserMedia:function(c){ w.__gum++; w.__gumArgs=c; return Promise.resolve({fake:"stream"}); }};
+      function MR(stream,opts){ this.mimeType=(opts&&opts.mimeType)||"audio/webm"; w.__mrOpts=opts; }
       MR.isTypeSupported=function(t){ return t==="audio/webm;codecs=opus"||t==="audio/webm"; };
       MR.prototype.start=function(){};
       MR.prototype.stop=function(){ var me=this;
@@ -112,6 +112,8 @@ async function readZip(blob,w){
   ck(txt(w,"ts-say")==="Say the SOUND only" && /Short and crisp/.test(txt(w,"ts-tip")),"says SOUND only + tip");
   ck(w.__gum===0,"no mic request until recording");
   click(w,"ts-mic"); await tick(); await tick();
+  ck(w.__gumArgs.audio.echoCancellation===false && w.__gumArgs.audio.noiseSuppression===false && w.__gumArgs.audio.autoGainControl===false,"mic opened with echoCancellation/noiseSuppression/autoGainControl all false");
+  ck(w.__mrOpts.audioBitsPerSecond>=128000 && /opus/.test(w.__mrOpts.mimeType),"records Opus at 128 kbps or higher");
   ck(w.__gum===1 && /rec/.test(w.document.getElementById("ts-mic").className),"one mic request, mic red");
   click(w,"ts-mic"); await tick(); await tick();
   ck(w.__played.length===1 && txt(w,"ts-progress")==="1 of 88 recorded","take saved and played back");

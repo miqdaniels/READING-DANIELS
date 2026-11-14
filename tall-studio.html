@@ -322,7 +322,7 @@ function tsSetFilter(on){ TS.filter=!!on; tsPaintRecord(); }
 function tsGetStream(){
   if(TS.stream){ return Promise.resolve(TS.stream); }
   if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ return Promise.reject(new Error("no-mic-api")); }
-  return navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:true,autoGainControl:false}}).then(function(s){ TS.stream=s; return s; });
+  return navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}}).then(function(s){ TS.stream=s; return s; });
 }
 function tsPickMime(){
   var c=["audio/webm;codecs=opus","audio/webm","audio/ogg;codecs=opus","audio/mp4"], i;
@@ -339,6 +339,8 @@ function tsExt(mime){
 }
 /* Stop keeps recording 0.5 s so the last word is never clipped. There is NO time limit on a clip. */
 var TS_STOP_TAIL_MS = 500;
+/* Highest practical quality: Opus at 256 kbps (the browser records WebM/Opus, not WAV). */
+var TS_BITRATE = 256000;
 function tsToggleRecord(){
   if(TS.stopping){ return; }
   if(TS.recording){ tsStopRecording(false); } else { tsStartRecording(); }
@@ -349,7 +351,7 @@ function tsStartRecording(){
   tsStopPlayback();
   tsGetStream().then(function(stream){
     var mime=tsPickMime(), rec;
-    try{ rec = mime ? new MediaRecorder(stream,{mimeType:mime}) : new MediaRecorder(stream); }
+    try{ rec = mime ? new MediaRecorder(stream,{mimeType:mime,audioBitsPerSecond:TS_BITRATE}) : new MediaRecorder(stream,{audioBitsPerSecond:TS_BITRATE}); }
     catch(e){ tsSetStatus("This browser cannot record audio. Try Chrome."); return; }
     TS.recorder=rec; TS.chunks=[]; TS.recordingId=cur.id;
     rec.ondataavailable=function(ev){ if(ev.data && ev.data.size){ TS.chunks.push(ev.data); } };
