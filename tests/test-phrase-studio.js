@@ -75,8 +75,8 @@ function make(url){
   const dom=new JSDOM(page,{url:url,runScripts:"dangerously",pretendToBeVisual:true,
     beforeParse(w){
       w.__gum=0; w.__played=[]; w.__downloads=[];
-      w.navigator.mediaDevices={getUserMedia:function(){ w.__gum++; return Promise.resolve({fake:"stream"}); }};
-      function MR(stream,opts){ this.stream=stream; this.mimeType=(opts&&opts.mimeType)||"audio/webm"; this.state="inactive"; }
+      w.navigator.mediaDevices={getUserMedia:function(c){ w.__gum++; w.__gumArgs=c; return Promise.resolve({fake:"stream"}); }};
+      function MR(stream,opts){ this.stream=stream; this.mimeType=(opts&&opts.mimeType)||"audio/webm"; w.__mrOpts=opts; this.state="inactive"; }
       MR.isTypeSupported=function(t){ return t==="audio/webm;codecs=opus"||t==="audio/webm"; };
       MR.prototype.start=function(){ this.state="recording"; w.__lastRec=this; };
       MR.prototype.stop=function(){ var me=this; this.state="inactive";
@@ -176,6 +176,8 @@ async function readZip(blob,w){
   ck(txt(w,"rs-phrase")==="Who called you?","advanced to phrase 3");
   key(w,"ArrowLeft",37); ck(txt(w,"rs-phrase")==="no way out","Left arrow = back");
   key(w,"ArrowRight",39); ck(txt(w,"rs-phrase")==="Who called you?","Right arrow = next");
+  ck(w.__gumArgs.audio.echoCancellation===false && w.__gumArgs.audio.noiseSuppression===false && w.__gumArgs.audio.autoGainControl===false,"mic opened with echoCancellation/noiseSuppression/autoGainControl all false");
+  ck(w.__mrOpts.audioBitsPerSecond===256000 && /opus/.test(w.__mrOpts.mimeType),"records Opus at 256 kbps");
   ck(w.__gum===1,"mic permission asked only ONCE for many takes");
 
   // ----- Back / Next buttons, Listen, Re-record -----

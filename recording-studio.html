@@ -335,7 +335,7 @@ function rsSetFilter(on){ RS.filter=!!on; rsPaintRecord(); }
 function rsGetStream(){
   if(RS.stream){ return Promise.resolve(RS.stream); }
   if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ return Promise.reject(new Error("no-mic-api")); }
-  return navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:true,autoGainControl:false}}).then(function(s){ RS.stream=s; return s; });
+  return navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}}).then(function(s){ RS.stream=s; return s; });
 }
 function rsPickMime(){
   var c=["audio/webm;codecs=opus","audio/webm","audio/ogg;codecs=opus","audio/mp4"], i;
@@ -353,6 +353,8 @@ function rsExt(mime){
 /* After Stop (button or Spacebar), keep recording this long so the last word is never cut off.
    The mic stays red until the recorder really stops; extra taps during the tail are ignored. */
 var RS_STOP_TAIL_MS = 500;
+/* Highest practical quality: Opus at 256 kbps (the browser records WebM/Opus, not WAV). */
+var RS_BITRATE = 256000;
 function rsToggleRecord(){
   if(RS.stopping){ return; }
   if(RS.recording){ rsStopRecording(false); } else { rsStartRecording(); }
@@ -363,7 +365,7 @@ function rsStartRecording(){
   rsStopPlayback();
   rsGetStream().then(function(stream){
     var mime=rsPickMime(), rec;
-    try{ rec = mime ? new MediaRecorder(stream,{mimeType:mime}) : new MediaRecorder(stream); }
+    try{ rec = mime ? new MediaRecorder(stream,{mimeType:mime,audioBitsPerSecond:RS_BITRATE}) : new MediaRecorder(stream,{audioBitsPerSecond:RS_BITRATE}); }
     catch(e){ rsSetStatus("This browser cannot record audio. Try Chrome."); return; }
     RS.recorder=rec; RS.chunks=[]; RS.recordingId=cur.id;
     rec.ondataavailable=function(ev){ if(ev.data && ev.data.size){ RS.chunks.push(ev.data); } };
