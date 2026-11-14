@@ -13,12 +13,46 @@ var S=[
 ["long a","a_e, ai, ay","made","vowel"],["long e","ee, ea, e","team","vowel"],["long i","i_e, igh, y","time","vowel"],["long o","o_e, oa, o","home","vowel"],["long u","u_e","use","vowel"],
 ["long oo","oo","food","vowel"],["short oo","oo","look","vowel"],["/ar/","ar","car","vowel"],["/or/","or","fork","vowel"],["/er/","er, ir, ur","her","vowel"],
 ["/air/","air, ere, eir","hair","vowel"],["/ear/","ear, ere","ear","vowel"],["/aw/","aw, a(ll)","saw","vowel"],["/ow/","ou, ow","out","vowel"],["/oi/","oy, oi","boy","vowel"]];
+
+// Sound-type labels shown small and gray (teachers, not kids). Index = sound number - 1.
+var TAGS=[
+["Stop"],["Stop"],["Stop"],["Stop"],["Stop","Digraph (ck)"],["Stop"],
+["Fricative","Digraph (ph)"],["Fricative"],["Fricative","Digraph (th)"],["Fricative","Digraph (th)"],["Fricative","Soft c (c)"],["Fricative"],
+["Fricative","Digraph (sh)"],["Fricative"],["Affricate","Digraph (ch)","Trigraph (tch)"],["Affricate","Soft g (g)"],["Nasal"],["Nasal"],
+["Nasal","Digraph (ng)"],["Liquid"],["Liquid"],["Glide"],["Glide"],["Breath"],
+["Short vowel"],["Short vowel"],["Short vowel"],["Short vowel"],["Short vowel"],
+["Long vowel","Silent e (a_e)","Vowel team (ai, ay)"],["Long vowel","Vowel team (ee, ea)"],["Long vowel","Silent e (i_e)","Vowel team (igh)"],["Long vowel","Silent e (o_e)","Vowel team (oa)"],["Long vowel","Silent e (u_e)"],
+["Vowel team (oo)"],["Vowel team (oo)"],["R-controlled"],["R-controlled"],["R-controlled"],
+["R-controlled"],["R-controlled"],["Other vowel"],["Diphthong"],["Diphthong"]];
+// Extra key words (clips SND_xx_W2, SND_xx_W3): one word per additional spelling.
+var EXTRA={
+ 5:[["kid","k",["Stop"]],["duck","ck",["Stop","Digraph (ck)"]]],
+ 7:[["graph","ph",["Fricative","Digraph (ph)"]]],
+ 11:[["cell","c",["Fricative","Soft c (c)"]]],
+ 12:[["is","s",["Fricative"]]],
+ 15:[["match","tch",["Affricate","Trigraph (tch)"]]],
+ 16:[["gem","g",["Affricate","Soft g (g)"]]],
+ 30:[["rain","ai",["Long vowel","Vowel team (ai)"]],["day","ay",["Long vowel","Vowel team (ay)"]]],
+ 31:[["feet","ee",["Long vowel","Vowel team (ee)"]],["me","e",["Long vowel"]]],
+ 32:[["night","igh",["Long vowel","Vowel team (igh)"]],["my","y",["Long vowel"]]],
+ 33:[["boat","oa",["Long vowel","Vowel team (oa)"]],["go","o",["Long vowel"]]],
+ 39:[["bird","ir",["R-controlled"]],["turn","ur",["R-controlled"]]],
+ 40:[["where","ere",["R-controlled"]],["their","eir",["R-controlled"]]],
+ 41:[["here","ere",["R-controlled"]]],
+ 42:[["ball","a(ll)",["Other vowel"]]],
+ 43:[["cow","ow",["Diphthong"]]],
+ 44:[["coin","oi",["Diphthong"]]]
+};
 var out=[],i;
 function p2(n){ return (n<10?"0":"")+n; }
 for(i=0;i<S.length;i++){
   var id="SND_"+p2(i+1), s=S[i];
-  out.push({id:id+"_S",set:"TALL Sounds",kind:"sound",label:s[0]+" – sound only",sound:s[0],spell:s[1],key:s[2],tip:T[s[3]],say:"Say the SOUND only"});
-  out.push({id:id+"_W",set:"TALL Sounds",kind:"word",label:s[2]+" – key word ("+s[0]+")",sound:s[0],spell:s[1],key:s[2],tip:T[s[3]],say:"Say the KEY WORD"});
+  out.push({id:id+"_S",set:"TALL Sounds",kind:"sound",label:s[0]+" – sound only",sound:s[0],spell:s[1],key:s[2],tip:T[s[3]],tags:TAGS[i],say:"Say the SOUND only"});
+  out.push({id:id+"_W",set:"TALL Sounds",kind:"word",label:s[2]+" – key word ("+s[0]+")",sound:s[0],spell:s[1],key:s[2],tip:T[s[3]],tags:TAGS[i],say:"Say the KEY WORD"});
+  var ex=EXTRA[i+1]||[], e;
+  for(e=0;e<ex.length;e++){
+    out.push({id:id+"_W"+(e+2),set:"TALL Sounds",kind:"word",label:ex[e][0]+" \u2013 extra key word ("+s[0]+", "+ex[e][1]+")",sound:s[0],spell:ex[e][1],key:ex[e][0],tip:T[s[3]],tags:ex[e][2],say:"Say the KEY WORD",extra:true});
+  }
 }
 var ORDER=["Water","Should School Start Later?","Schools Are Not All the Same","Your Phone","Jobs","Dating","Homework","A Shorter School Day","Who Chooses?","Friends Can Change You","If You Do Nothing"];
 for(i=0;i<ORDER.length;i++){

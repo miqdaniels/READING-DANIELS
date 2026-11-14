@@ -27,7 +27,7 @@ ck(index.indexOf("tall-studio.html?teacher")>-1,"tile opens the studio in teache
 // ---------- data ----------
 const LIST=require('../tall-list.js');
 const sounds=LIST.filter(x=>x.set==="TALL Sounds"), psg=LIST.filter(x=>x.kind==="passage");
-ck(sounds.length===88 && psg.length===11 && LIST.length===99,"88 sound clips + 11 passage clips");
+ck(sounds.length===111 && psg.length===11 && LIST.length===122,"88 original + 23 extra sound clips, + 11 passage clips");
 const ids={}; let dup=false; LIST.forEach(x=>{ if(ids[x.id]) dup=true; ids[x.id]=1; }); ck(!dup,"ids unique");
 for(let i=1;i<=44;i++){ const n=(i<10?"0":"")+i; ck(ids["SND_"+n+"_S"] && ids["SND_"+n+"_W"],"SND_"+n+" has _S and _W"); }
 const by={}; LIST.forEach(x=>by[x.id]=x);
@@ -39,6 +39,25 @@ ck(by.SND_15_S.tip.indexOf("Short and crisp")===0 && by.SND_16_S.tip.indexOf("Sh
 ck(by.SND_30_S.spell==="a_e, ai, ay" && by.SND_36_W.key==="look" && by.SND_42_S.spell==="aw, a(ll)" && by.SND_44_W.key==="boy","spot checks 30/36/42/44");
 ck(by.SND_44_S.tip==="Say it clearly, about 1 second.","vowel tip");
 ck(by.SND_07_S.tip==="Hold the sound about 2 seconds.","hold tip");
+// ---- sound-type labels + extra key words (approved 2026-11-14) ----
+const extras=LIST.filter(x=>x.extra);
+ck(extras.length===23,"23 extra key-word clips to record");
+ck(sounds.filter(x=>/_W[23]$/.test(x.id)).length===23 && extras.every(x=>/^SND_\d\d_W[23]$/.test(x.id)),"extras are SND_xx_W2 / W3 only");
+const EXP={SND_05_W2:"kid",SND_05_W3:"duck",SND_07_W2:"graph",SND_11_W2:"cell",SND_12_W2:"is",SND_15_W2:"match",SND_16_W2:"gem",SND_30_W2:"rain",SND_30_W3:"day",SND_31_W2:"feet",SND_31_W3:"me",SND_32_W2:"night",SND_32_W3:"my",SND_33_W2:"boat",SND_33_W3:"go",SND_39_W2:"bird",SND_39_W3:"turn",SND_40_W2:"where",SND_40_W3:"their",SND_41_W2:"here",SND_42_W2:"ball",SND_43_W2:"cow",SND_44_W2:"coin"};
+Object.keys(EXP).forEach(k=>ck(by[k] && by[k].key===EXP[k] && by[k].say==="Say the KEY WORD","extra "+k+" = "+EXP[k]));
+ck(extras.length===Object.keys(EXP).length,"no unlisted extras");
+["phone","city","play","point"].forEach(wd=>ck(!extras.some(x=>x.key===wd),"rejected word not used: "+wd));
+ck(by.SND_07_W2.spell==="ph" && by.SND_11_W2.spell==="c" && by.SND_44_W2.spell==="oi" && by.SND_15_W2.spell==="tch","extra clip shows the spelling it illustrates");
+ck(by.SND_44_W.key==="boy" && by.SND_01_S.tip==="Short and crisp. No \u2018uh\u2019 after it.","original clips unchanged");
+const has=(id,t)=>(by[id].tags||[]).some(g=>g.indexOf(t)===0);
+ck(has("SND_13_S","Digraph") && has("SND_09_S","Digraph") && has("SND_10_S","Digraph") && has("SND_19_S","Digraph") && has("SND_05_S","Digraph") && has("SND_07_S","Digraph"),"Digraph on sh, th, th, ng, ck, ph sounds");
+ck(has("SND_15_S","Trigraph") && has("SND_15_W2","Trigraph"),"Trigraph (tch)");
+ck(has("SND_11_S","Soft c") && has("SND_11_W2","Soft c") && has("SND_16_S","Soft g") && has("SND_16_W2","Soft g"),"Soft c and Soft g");
+ck(has("SND_30_S","Silent e") && has("SND_30_S","Vowel team") && has("SND_33_S","Silent e") && has("SND_34_S","Silent e"),"Silent e + Vowel team on long a/o/u");
+ck(has("SND_43_S","Diphthong") && has("SND_44_S","Diphthong") && has("SND_37_S","R-controlled") && has("SND_41_S","R-controlled") && has("SND_42_S","Other vowel") && has("SND_25_S","Short vowel"),"Diphthong, R-controlled, Other vowel, Short vowel");
+ck(has("SND_01_S","Stop") && has("SND_07_S","Fricative") && has("SND_15_S","Affricate") && has("SND_17_S","Nasal") && has("SND_20_S","Liquid") && has("SND_22_S","Glide") && has("SND_24_S","Breath"),"consonant types");
+ck(sounds.every(x=>x.tags && x.tags.length),"every sound clip has a type label");
+ck(sounds.every(x=>x.sound&&x.spell&&x.key&&x.tip&&x.say&&x.label),"every sound clip has sound, spellings, key word, tip");
 ck(sounds.every(x=>x.sound&&x.spell&&x.key&&x.tip&&x.say&&x.label),"every sound clip has sound, spellings, key word, tip");
 const order="Water|Should School Start Later?|Schools Are Not All the Same|Your Phone|Jobs|Dating|Homework|A Shorter School Day|Who Chooses?|Friends Can Change You|If You Do Nothing".split("|");
 psg.forEach((p,i)=>{
@@ -99,24 +118,30 @@ async function readZip(blob,w){
   await w.tsReady; await tick();
   w.TS_STOP_TAIL_MS=0;
   ck(active(w)==="ts-pick","?teacher -> pick screen");
-  ck(txt(w,"ts-progress")==="0 of 99 recorded","progress 0 of 99");
+  ck(txt(w,"ts-progress")==="0 of 122 recorded","progress 0 of 122");
   ck(w.document.querySelectorAll("#ts-sets button").length===2,"two set buttons");
-  ck(/88/.test(txt(w,"ts-set-0")) && /11/.test(txt(w,"ts-set-1")),"set buttons show 88 and 11");
+  ck(/111/.test(txt(w,"ts-set-0")) && /11/.test(txt(w,"ts-set-1")),"set buttons show 111 and 11");
   click(w,"ts-export-0"); await tick();
   ck(/Nothing recorded/.test(txt(w,"ts-pick-note")) && !w.__downloads.length,"export with nothing says so");
 
   // ----- Sounds -----
   click(w,"ts-set-0"); ck(active(w)==="ts-record","opens record screen");
-  ck(txt(w,"ts-count")==="1 of 88" && txt(w,"ts-pid")==="SND_01_S","starts at SND_01_S");
+  ck(txt(w,"ts-count")==="1 of 111" && txt(w,"ts-pid")==="SND_01_S","starts at SND_01_S");
   ck(txt(w,"ts-sound")==="/p/" && /p$/.test(txt(w,"ts-spell")) && /pen/.test(txt(w,"ts-key")),"big sound, spellings, key word on screen");
   ck(txt(w,"ts-say")==="Say the SOUND only" && /Short and crisp/.test(txt(w,"ts-tip")),"says SOUND only + tip");
+  ck(txt(w,"ts-type")==="Stop","type label shown on screen (Stop)");
+  w.tsJump(w.TS_ITEMS.map(function(q){return q.id;}).indexOf("SND_44_W2"));
+  ck(txt(w,"ts-pid")==="SND_44_W2" && txt(w,"ts-key").indexOf("coin")>-1 && /oi$/.test(txt(w,"ts-spell")) && txt(w,"ts-type")==="Diphthong","extra word page: coin / oi / Diphthong");
+  w.tsJump(w.TS_ITEMS.map(function(q){return q.id;}).indexOf("SND_15_S"));
+  ck(/Affricate/.test(txt(w,"ts-type")) && /Trigraph \(tch\)/.test(txt(w,"ts-type")) && /Digraph \(ch\)/.test(txt(w,"ts-type")),"/ch/ shows Affricate, Digraph, Trigraph");
+  w.tsJump(0);
   ck(w.__gum===0,"no mic request until recording");
   click(w,"ts-mic"); await tick(); await tick();
   ck(w.__gumArgs.audio.echoCancellation===false && w.__gumArgs.audio.noiseSuppression===false && w.__gumArgs.audio.autoGainControl===false,"mic opened with echoCancellation/noiseSuppression/autoGainControl all false");
   ck(w.__mrOpts.audioBitsPerSecond>=128000 && /opus/.test(w.__mrOpts.mimeType),"records Opus at 128 kbps or higher");
   ck(w.__gum===1 && /rec/.test(w.document.getElementById("ts-mic").className),"one mic request, mic red");
   click(w,"ts-mic"); await tick(); await tick();
-  ck(w.__played.length===1 && txt(w,"ts-progress")==="1 of 88 recorded","take saved and played back");
+  ck(w.__played.length===1 && txt(w,"ts-progress")==="1 of 111 recorded","take saved and played back");
   endPlayback(w); await tick();
   ck(txt(w,"ts-pid")==="SND_01_W" && txt(w,"ts-say")==="Say the KEY WORD" && /pen/.test(txt(w,"ts-key")),"advances to SND_01_W (key word)");
   key(w," ",32); await tick(); await tick(); key(w," ",32); await tick(); await tick();
@@ -126,13 +151,14 @@ async function readZip(blob,w){
   key(w,"ArrowLeft",37); ck(txt(w,"ts-pid")==="SND_01_W","left arrow = back");
   click(w,"ts-listen"); ck(w.__played.length===3,"Listen replays");
   click(w,"ts-rerecord"); await tick(); await tick(); click(w,"ts-mic"); await tick(); await tick();
-  ck(txt(w,"ts-progress")==="2 of 88 recorded","re-record replaces, count stays 2");
+  ck(txt(w,"ts-progress")==="2 of 111 recorded","re-record replaces, count stays 2");
   click(w,"ts-export-set"); await tick(); await tick(); await tick();
   let d=w.__downloads[w.__downloads.length-1];
   ck(d && d.name==="TALL_Sounds_recordings_v1.zip","Sounds ZIP name");
   let z=await readZip(d.blob,w);
   ck(Object.keys(z).sort().join(",")==="SND_01_S.webm,SND_01_W.webm,manifest.json","ZIP = 2 clips + manifest");
   const mf=JSON.parse(z["manifest.json"]);
+  ck(Array.isArray(mf.items[0].types) && mf.items[0].types[0]==="Stop","manifest carries the sound-type labels");
   ck(mf.items.length===2 && mf.items[0].id==="SND_01_S" && mf.items[0].file==="SND_01_S.webm" && !!mf.items[0].label,"manifest lists id, label, file");
 
   // ----- Passages -----
