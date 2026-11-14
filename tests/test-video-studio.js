@@ -31,11 +31,11 @@ ck(index.indexOf("video-studio.html?teacher")>-1,"tile opens the studio in teach
 const LIST=require('../video-list.js');
 const ids={}; let dup=false; LIST.forEach(x=>{ if(ids[x.id]) dup=true; ids[x.id]=1; });
 ck(!dup,"ids unique");
-ck(LIST.every(x=>/^PA_(SND|3A|3B|3C|3D)_\d\d$/.test(x.id)),"ids are PA_<set>_NN");
+ck(LIST.every(x=>/^(SND|PA_3A|PA_3B|PA_3C|PA_3D)_\d\d$/.test(x.id)),"ids are SND_NN or PA_3X_NN");
 ck(LIST.every(x=>x.set && x.text && x.say),"every clip has set, text, say");
 const sets=[]; LIST.forEach(x=>{ if(sets.indexOf(x.set)<0) sets.push(x.set); });
 ck(JSON.stringify(sets)===JSON.stringify(["Sounds","3A Beginning Sounds","3B Ending Sounds","3C Blending","3D Segmenting"]),"5 sets in teaching order");
-ck(LIST.filter(x=>x.set==="Sounds").length===26,"26 single-sound clips");
+ck(LIST.filter(x=>x.set==="Sounds").length===44,"44 single-sound clips");
 // Keep diagnostic words OUT of teaching practice: no Check 3 scored/practice/sample word
 // may be a practice target in any lesson set (v0.7 / v0.2 lessons are clean).
 const m=index.match(/var C3_SCORED=\[([\s\S]*?)\];/), pr=index.match(/var C3_PRACTICE=\{([\s\S]*?)\};/), sa=index.match(/var C3_SAMPLE=\{([\s\S]*?)\};/);
@@ -214,7 +214,7 @@ async function readZip(blob,w){
   click(w,"vs-cam-on"); await tick(); await tick();
   ck(/blocked or not plugged in/.test(txt(w,"vs-dev-note")),"blocked camera explained in plain words");
   click(w,"vs-set-Sounds"); await tick();
-  ck(txt(w,"vs-target")==="/m/","Sounds set starts at /m/");
+  ck(txt(w,"vs-target")==="/p/","Sounds set starts at /p/ (SND_01)");
   click(w,"vs-rec"); await tick(); await tick();
   ck(/blocked/.test(txt(w,"vs-status")) && !w.__lastRec,"no recording when camera is blocked");
 
