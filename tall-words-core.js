@@ -115,7 +115,7 @@ var TW = (function(){
   var CH_K = { school:1, chorus:1, echo:1, ache:1, stomach:1, mechanic:1, chaos:1, character:1 };       /* ch = /k/ */
   var WA_O = { want:1, wash:1, watch:1, swan:1, wand:1, wasp:1, squad:1, wallet:1, swamp:1 };          /* a after w = short o */
   var WOR_ER = { word:1, words:1, work:1, world:1, worm:1, worth:1, worse:1, worry:1 };               /* or after w = /er/ */
-  var OVERRIDE = { tired:["t", "ire", "d"] };                                                         /* spellings the splitter cannot see */
+  var OVERRIDE = { tired:["t", "ire", "d"], scared:["s", "c", "are", "d"] };                                                         /* spellings the splitter cannot see */
   var U_E_OO = { rule:1, june:1, flute:1, prune:1, ruler:1, "rude":1, "tune":0 };
   var OPEN_LONG = { he:"e", me:"e", we:"e", be:"e", she:"e", "he's":"e", go:"o", no:"o", so:"o", hi:"i", my:"y", by:"y", why:"y", fly:"y", try:"y", cry:"y", dry:"y", sky:"y", spy:"y", shy:"y" };
 

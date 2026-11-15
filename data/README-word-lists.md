@@ -25,3 +25,7 @@ SND_xx_S clip exists, 10 Build + 10 Read per pattern. **The Build rule is checke
 Word audio: Miquela's own recordings only (never text-to-speech). Put cleaned `WRD_<word>.webm` clips in `audio/TALL-W/`, then run
 `node tools/build-word-audio-map.js` to refresh `tall-word-audio.js`. Until a word is there the app says "Not recorded yet."
 Roster: `node tools/build-tall-roster.js` refreshes `tall-roster.js` from index.html if the class lists change.
+
+
+## Build chains (2026-11-15)
+Every Build list is a one-tile chain (`node tests/test-tall-word-chains.js`, no exceptions). Where a spelling pair cannot be joined in one step (oi/oy, ey and ee/ea, two-syllable First 100 words) the unjoinable words live in that pattern's Read list.

@@ -2869,6 +2869,12 @@
    "title": "Open syllables (he, go, my: the vowel says its name)",
    "build": [
     {
+     "w": "hi",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
      "w": "he",
      "first100": true,
      "heart": false,
@@ -2921,12 +2927,6 @@
      "first100": false,
      "heart": false,
      "academic": true
-    },
-    {
-     "w": "hi",
-     "first100": false,
-     "heart": false,
-     "academic": false
     }
    ],
    "read": [
@@ -3259,61 +3259,61 @@
    "title": "ey (long e) + long e review",
    "build": [
     {
-     "w": "key",
-     "first100": false,
-     "heart": false,
-     "academic": true
-    },
-    {
-     "w": "keep",
+     "w": "rock",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "peep",
+     "w": "jock",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "peek",
+     "w": "jockey",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "peel",
+     "w": "hockey",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "feel",
+     "w": "honey",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "feet",
+     "w": "money",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "heat",
+     "w": "monkey",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "seat",
+     "w": "monkeys",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "seal",
+     "w": "donkeys",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "donkey",
      "first100": false,
      "heart": false,
      "academic": false
@@ -4039,12 +4039,6 @@
    "title": "oo (long: food)",
    "build": [
     {
-     "w": "school",
-     "first100": true,
-     "heart": false,
-     "academic": false
-    },
-    {
      "w": "cool",
      "first100": false,
      "heart": false,
@@ -4094,6 +4088,12 @@
     },
     {
      "w": "root",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "roof",
      "first100": false,
      "heart": false,
      "academic": false
@@ -4559,6 +4559,36 @@
    "title": "or, ore",
    "build": [
     {
+     "w": "more",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tore",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "core",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "car",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "far",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
      "w": "for",
      "first100": true,
      "heart": false,
@@ -4585,36 +4615,6 @@
     {
      "w": "born",
      "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "torn",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "tore",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "sore",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "more",
-     "first100": true,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "or",
-     "first100": true,
      "heart": false,
      "academic": false
     }
@@ -4689,34 +4689,10 @@
    "title": "er, ir, ur",
    "build": [
     {
-     "w": "fern",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "firm",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "term",
+     "w": "third",
      "first100": false,
      "heart": false,
      "academic": true
-    },
-    {
-     "w": "turn",
-     "first100": true,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "burn",
-     "first100": false,
-     "heart": false,
-     "academic": false
     },
     {
      "w": "bird",
@@ -4725,13 +4701,13 @@
      "academic": false
     },
     {
-     "w": "third",
+     "w": "bid",
      "first100": false,
      "heart": false,
-     "academic": true
+     "academic": false
     },
     {
-     "w": "nerd",
+     "w": "hid",
      "first100": false,
      "heart": false,
      "academic": false
@@ -4744,6 +4720,30 @@
     },
     {
      "w": "her",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "he",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hen",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "ten",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "turn",
      "first100": true,
      "heart": false,
      "academic": false
@@ -4819,13 +4819,13 @@
    "title": "air, are, ere, eir",
    "build": [
     {
-     "w": "hair",
+     "w": "chair",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "fair",
+     "w": "hair",
      "first100": false,
      "heart": false,
      "academic": false
@@ -4837,19 +4837,13 @@
      "academic": false
     },
     {
-     "w": "chair",
+     "w": "fair",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "share",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "care",
+     "w": "fare",
      "first100": false,
      "heart": false,
      "academic": false
@@ -4867,14 +4861,20 @@
      "academic": false
     },
     {
-     "w": "where",
-     "first100": true,
+     "w": "care",
+     "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "there",
-     "first100": true,
+     "w": "scare",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "stare",
+     "first100": false,
      "heart": false,
      "academic": false
     }
@@ -4949,13 +4949,19 @@
    "title": "ear, ere",
    "build": [
     {
-     "w": "ear",
-     "first100": false,
+     "w": "here",
+     "first100": true,
      "heart": false,
      "academic": false
     },
     {
      "w": "hear",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "ear",
      "first100": false,
      "heart": false,
      "academic": false
@@ -4991,7 +4997,7 @@
      "academic": false
     },
     {
-     "w": "tear",
+     "w": "deer",
      "first100": false,
      "heart": false,
      "academic": false
@@ -4999,12 +5005,6 @@
     {
      "w": "cheer",
      "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "here",
-     "first100": true,
      "heart": false,
      "academic": false
     }
@@ -5209,61 +5209,61 @@
    "title": "-ed (says /t/, /d/, or /ed/)",
    "build": [
     {
-     "w": "look",
-     "first100": true,
-     "heart": false,
-     "academic": false
-    },
-    {
      "w": "looked",
      "first100": true,
      "heart": false,
      "academic": false
     },
     {
-     "w": "call",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "called",
+     "w": "look",
      "first100": true,
      "heart": false,
      "academic": false
     },
     {
-     "w": "text",
-     "first100": true,
-     "heart": false,
-     "academic": true
-    },
-    {
-     "w": "texted",
+     "w": "looks",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "jump",
+     "w": "books",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "jumped",
+     "w": "booked",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "play",
+     "w": "cooked",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "played",
+     "w": "hooked",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hooks",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cooks",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cook",
      "first100": false,
      "heart": false,
      "academic": false
@@ -5339,18 +5339,6 @@
    "title": "-ing",
    "build": [
     {
-     "w": "jump",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "jumping",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
      "w": "play",
      "first100": false,
      "heart": false,
@@ -5363,37 +5351,49 @@
      "academic": false
     },
     {
-     "w": "text",
+     "w": "paying",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pay",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "say",
      "first100": true,
      "heart": false,
-     "academic": true
+     "academic": false
     },
     {
-     "w": "texting",
+     "w": "saying",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "read",
-     "first100": false,
-     "heart": false,
-     "academic": true
-    },
-    {
-     "w": "reading",
-     "first100": false,
-     "heart": false,
-     "academic": true
-    },
-    {
-     "w": "sleep",
+     "w": "staying",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "sleeping",
+     "w": "stay",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "stray",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "straying",
      "first100": false,
      "heart": false,
      "academic": false
@@ -5469,8 +5469,14 @@
    "title": "Two-part words (2 syllables)",
    "build": [
     {
-     "w": "after",
-     "first100": true,
+     "w": "never",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "ever",
+     "first100": false,
      "heart": false,
      "academic": false
     },
@@ -5481,49 +5487,43 @@
      "academic": false
     },
     {
-     "w": "number",
-     "first100": true,
-     "heart": false,
-     "academic": true
-    },
-    {
-     "w": "into",
-     "first100": true,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "away",
-     "first100": true,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "before",
-     "first100": true,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "bottle",
-     "first100": true,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "office",
-     "first100": true,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "sunset",
+     "w": "cover",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
-     "w": "napkin",
+     "w": "hover",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "rover",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "river",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "liver",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "diver",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "driver",
      "first100": false,
      "heart": false,
      "academic": false
@@ -5534,36 +5534,6 @@
      "w": "family",
      "first100": true,
      "heart": false,
-     "academic": false
-    },
-    {
-     "w": "ready",
-     "first100": true,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "about",
-     "first100": true,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "people",
-     "first100": true,
-     "heart": true,
-     "academic": false
-    },
-    {
-     "w": "water",
-     "first100": true,
-     "heart": true,
-     "academic": false
-    },
-    {
-     "w": "other",
-     "first100": true,
-     "heart": true,
      "academic": false
     },
     {
@@ -5589,6 +5559,36 @@
      "first100": false,
      "heart": false,
      "academic": true
+    },
+    {
+     "w": "after",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "number",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "into",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bottle",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "office",
+     "first100": true,
+     "heart": false,
+     "academic": false
     }
    ]
   },
@@ -5617,12 +5617,6 @@
      "academic": false
     },
     {
-     "w": "wow",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
      "w": "bow",
      "first100": false,
      "heart": false,
@@ -5636,6 +5630,12 @@
     },
     {
      "w": "brown",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "drown",
      "first100": false,
      "heart": false,
      "academic": false
@@ -5859,49 +5859,13 @@
    "title": "oi, oy (coin, boy)",
    "build": [
     {
-     "w": "boy",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "toy",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "joy",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "join",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "coin",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "coil",
+     "w": "oil",
      "first100": false,
      "heart": false,
      "academic": false
     },
     {
      "w": "boil",
-     "first100": false,
-     "heart": false,
-     "academic": false
-    },
-    {
-     "w": "oil",
      "first100": false,
      "heart": false,
      "academic": false
@@ -5917,6 +5881,42 @@
      "first100": false,
      "heart": false,
      "academic": false
+    },
+    {
+     "w": "toil",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "coil",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "coin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "join",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "joint",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "point",
+     "first100": false,
+     "heart": false,
+     "academic": true
     }
    ],
    "read": [
