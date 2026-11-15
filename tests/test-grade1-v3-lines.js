@@ -5,7 +5,7 @@ var fs=require('fs'), JSDOM=require('jsdom').JSDOM;
 var src=fs.readFileSync('./index.html','utf8');
 var html=src.replace('<script src="clips.js" defer></script>','');
 var FX=JSON.parse(fs.readFileSync('./tests/fixtures/grade1-v3-from-pdf.json','utf8'));
-var TOTALS=[204,225,199,207,228,217,200,204,198,231,226];
+var TOTALS=[204,225,199,207,225,217,200,204,198,231,226];
 var pass=0, fail=0; function ok(c,m){ if(c){ pass++; } else { fail++; console.log("FAIL: "+m); } }
 var w=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/",runScripts:"dangerously",pretendToBeVisual:true,beforeParse:function(win){ win.scrollTo=function(){}; win.HTMLElement.prototype.scrollIntoView=function(){}; }}).window;
 var doc=w.document;

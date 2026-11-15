@@ -8,7 +8,7 @@ function ok(c,m){ if(c){ pass++; } else { fail++; console.log("FAIL: "+m); } }
 function boot(url){
   return new JSDOM(html,{url:url,runScripts:"dangerously",pretendToBeVisual:true,beforeParse:function(w){ w.scrollTo=function(){}; w.HTMLElement.prototype.scrollIntoView=function(){}; }});
 }
-var COUNTS={0:204,1:225,2:199,3:207,4:228,5:217,6:200,7:204,8:198,9:231,10:226}; /* v3 PDF, locked */
+var COUNTS={0:204,1:225,2:199,3:207,4:225,5:217,6:200,7:204,8:198,9:231,10:226}; /* v3 PDF, locked */
 var TITLES={0:"Water",1:"Should School Start Later?",2:"Schools Are Not All the Same",3:"Your Phone",4:"Jobs",5:"Dating",6:"Homework",7:"A Shorter School Day",8:"Who Chooses?",9:"Friends Can Change You",10:"If You Do Nothing"};
 
 ok(/<\/script>\s*<\/body>\s*<\/html>\s*$/.test(src),"file ends with </script></body></html>");

@@ -1410,7 +1410,7 @@
     "para": true
    },
    {
-    "text": "rules, so you can not work all the time. On a school day, you can work",
+    "text": "rules, so you cannot work all the time. On a school day, you can work",
     "bold": [
      0,
      1,
@@ -1426,14 +1426,13 @@
      1,
      1,
      1,
-     1,
      1
     ],
-    "n": 59,
+    "n": 58,
     "para": false
    },
    {
-    "text": "for just three hours. You can not work late at night. You can not do",
+    "text": "for just three hours. You cannot work late at night. You cannot do",
     "bold": [
      1,
      0,
@@ -1442,16 +1441,14 @@
      1,
      1,
      1,
-     1,
      0,
      1,
      0,
-     1,
      1,
      1,
      1
     ],
-    "n": 74,
+    "n": 71,
     "para": false
    },
    {
@@ -1471,7 +1468,7 @@
      0,
      0
     ],
-    "n": 87,
+    "n": 84,
     "para": false
    },
    {
@@ -1482,7 +1479,7 @@
      1,
      1
     ],
-    "n": 91,
+    "n": 88,
     "para": false
    },
    {
@@ -1505,7 +1502,7 @@
      1,
      0
     ],
-    "n": 107,
+    "n": 104,
     "para": true
    },
    {
@@ -1527,7 +1524,7 @@
      1,
      1
     ],
-    "n": 122,
+    "n": 119,
     "para": false
    },
    {
@@ -1544,7 +1541,7 @@
      1,
      0
     ],
-    "n": 132,
+    "n": 129,
     "para": false
    },
    {
@@ -1565,7 +1562,7 @@
      1,
      1
     ],
-    "n": 146,
+    "n": 143,
     "para": true
    },
    {
@@ -1589,7 +1586,7 @@
      0,
      1
     ],
-    "n": 163,
+    "n": 160,
     "para": false
    },
    {
@@ -1608,7 +1605,7 @@
      0,
      1
     ],
-    "n": 175,
+    "n": 172,
     "para": false
    },
    {
@@ -1631,7 +1628,7 @@
      1,
      1
     ],
-    "n": 191,
+    "n": 188,
     "para": true
    },
    {
@@ -1652,7 +1649,7 @@
      0,
      1
     ],
-    "n": 205,
+    "n": 202,
     "para": false
    },
    {
@@ -1664,7 +1661,7 @@
      1,
      1
     ],
-    "n": 210,
+    "n": 207,
     "para": false
    },
    {
@@ -1686,7 +1683,7 @@
      1,
      1
     ],
-    "n": 225,
+    "n": 222,
     "para": true
    },
    {
@@ -1696,10 +1693,11 @@
      1,
      0
     ],
-    "n": 228,
+    "n": 225,
     "para": false
    }
-  ]
+  ],
+  "approvedChange": "2026-11-15 Mick approved: \"can not\" -> \"cannot\" (3 times); 228 -> 225 words. Differs from the PDF on purpose."
  },
  {
   "sub": 5,
