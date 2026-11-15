@@ -1,0 +1,941 @@
+{
+  "updated": "2026-11-15",
+  "note": "Final cleaned TALL Sounds takes (v4): mono Opus .webm. One file per clip id; ids never change.",
+  "base": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/",
+  "items": [
+    {
+      "id": "SND_01_S",
+      "label": "/p/ – sound only",
+      "types": [
+        "Stop"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_01_S.webm"
+    },
+    {
+      "id": "SND_01_W",
+      "label": "pen – key word (/p/)",
+      "types": [
+        "Stop"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_01_W.webm"
+    },
+    {
+      "id": "SND_02_S",
+      "label": "/b/ – sound only",
+      "types": [
+        "Stop"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_02_S.webm"
+    },
+    {
+      "id": "SND_02_W",
+      "label": "bag – key word (/b/)",
+      "types": [
+        "Stop"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_02_W.webm"
+    },
+    {
+      "id": "SND_03_S",
+      "label": "/t/ – sound only",
+      "types": [
+        "Stop"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_03_S.webm"
+    },
+    {
+      "id": "SND_03_W",
+      "label": "ten – key word (/t/)",
+      "types": [
+        "Stop"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_03_W.webm"
+    },
+    {
+      "id": "SND_04_S",
+      "label": "/d/ – sound only",
+      "types": [
+        "Stop"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_04_S.webm"
+    },
+    {
+      "id": "SND_04_W",
+      "label": "dog – key word (/d/)",
+      "types": [
+        "Stop"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_04_W.webm"
+    },
+    {
+      "id": "SND_05_S",
+      "label": "/k/ – sound only",
+      "types": [
+        "Stop",
+        "Digraph (ck)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_05_S.webm"
+    },
+    {
+      "id": "SND_05_W",
+      "label": "cap – key word (/k/)",
+      "types": [
+        "Stop",
+        "Digraph (ck)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_05_W.webm"
+    },
+    {
+      "id": "SND_05_W2",
+      "label": "kid – extra key word (/k/, k)",
+      "types": [
+        "Stop"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_05_W2.webm"
+    },
+    {
+      "id": "SND_05_W3",
+      "label": "duck – extra key word (/k/, ck)",
+      "types": [
+        "Stop",
+        "Digraph (ck)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_05_W3.webm"
+    },
+    {
+      "id": "SND_06_S",
+      "label": "/g/ – sound only",
+      "types": [
+        "Stop"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_06_S.webm"
+    },
+    {
+      "id": "SND_06_W",
+      "label": "gum – key word (/g/)",
+      "types": [
+        "Stop"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_06_W.webm"
+    },
+    {
+      "id": "SND_07_S",
+      "label": "/f/ – sound only",
+      "types": [
+        "Fricative",
+        "Digraph (ph)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_07_S.webm"
+    },
+    {
+      "id": "SND_07_W",
+      "label": "fan – key word (/f/)",
+      "types": [
+        "Fricative",
+        "Digraph (ph)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_07_W.webm"
+    },
+    {
+      "id": "SND_07_W2",
+      "label": "graph – extra key word (/f/, ph)",
+      "types": [
+        "Fricative",
+        "Digraph (ph)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_07_W2.webm"
+    },
+    {
+      "id": "SND_08_S",
+      "label": "/v/ – sound only",
+      "types": [
+        "Fricative"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_08_S.webm"
+    },
+    {
+      "id": "SND_08_W",
+      "label": "van – key word (/v/)",
+      "types": [
+        "Fricative"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_08_W.webm"
+    },
+    {
+      "id": "SND_09_S",
+      "label": "/th/ (quiet) – sound only",
+      "types": [
+        "Fricative",
+        "Digraph (th)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_09_S.webm"
+    },
+    {
+      "id": "SND_09_W",
+      "label": "thin – key word (/th/ (quiet))",
+      "types": [
+        "Fricative",
+        "Digraph (th)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_09_W.webm"
+    },
+    {
+      "id": "SND_10_S",
+      "label": "/th/ (voiced) – sound only",
+      "types": [
+        "Fricative",
+        "Digraph (th)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_10_S.webm"
+    },
+    {
+      "id": "SND_10_W",
+      "label": "that – key word (/th/ (voiced))",
+      "types": [
+        "Fricative",
+        "Digraph (th)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_10_W.webm"
+    },
+    {
+      "id": "SND_11_S",
+      "label": "/s/ – sound only",
+      "types": [
+        "Fricative",
+        "Soft c (c)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_11_S.webm"
+    },
+    {
+      "id": "SND_11_W",
+      "label": "sit – key word (/s/)",
+      "types": [
+        "Fricative",
+        "Soft c (c)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_11_W.webm"
+    },
+    {
+      "id": "SND_11_W2",
+      "label": "cell – extra key word (/s/, c)",
+      "types": [
+        "Fricative",
+        "Soft c (c)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_11_W2.webm"
+    },
+    {
+      "id": "SND_12_S",
+      "label": "/z/ – sound only",
+      "types": [
+        "Fricative"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_12_S.webm"
+    },
+    {
+      "id": "SND_12_W",
+      "label": "zip – key word (/z/)",
+      "types": [
+        "Fricative"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_12_W.webm"
+    },
+    {
+      "id": "SND_12_W2",
+      "label": "is – extra key word (/z/, s)",
+      "types": [
+        "Fricative"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_12_W2.webm"
+    },
+    {
+      "id": "SND_13_S",
+      "label": "/sh/ – sound only",
+      "types": [
+        "Fricative",
+        "Digraph (sh)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_13_S.webm"
+    },
+    {
+      "id": "SND_13_W",
+      "label": "shop – key word (/sh/)",
+      "types": [
+        "Fricative",
+        "Digraph (sh)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_13_W.webm"
+    },
+    {
+      "id": "SND_14_S",
+      "label": "/zh/ – sound only",
+      "types": [
+        "Fricative"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_14_S.webm"
+    },
+    {
+      "id": "SND_14_W",
+      "label": "usually – key word (/zh/)",
+      "types": [
+        "Fricative"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_14_W.webm"
+    },
+    {
+      "id": "SND_15_S",
+      "label": "/ch/ – sound only",
+      "types": [
+        "Affricate",
+        "Digraph (ch)",
+        "Trigraph (tch)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_15_S.webm"
+    },
+    {
+      "id": "SND_15_W",
+      "label": "chat – key word (/ch/)",
+      "types": [
+        "Affricate",
+        "Digraph (ch)",
+        "Trigraph (tch)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_15_W.webm"
+    },
+    {
+      "id": "SND_15_W2",
+      "label": "match – extra key word (/ch/, tch)",
+      "types": [
+        "Affricate",
+        "Trigraph (tch)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_15_W2.webm"
+    },
+    {
+      "id": "SND_16_S",
+      "label": "/j/ – sound only",
+      "types": [
+        "Affricate",
+        "Soft g (g)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_16_S.webm"
+    },
+    {
+      "id": "SND_16_W",
+      "label": "job – key word (/j/)",
+      "types": [
+        "Affricate",
+        "Soft g (g)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_16_W.webm"
+    },
+    {
+      "id": "SND_16_W2",
+      "label": "gem – extra key word (/j/, g)",
+      "types": [
+        "Affricate",
+        "Soft g (g)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_16_W2.webm"
+    },
+    {
+      "id": "SND_17_S",
+      "label": "/m/ – sound only",
+      "types": [
+        "Nasal"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_17_S.webm"
+    },
+    {
+      "id": "SND_17_W",
+      "label": "mom – key word (/m/)",
+      "types": [
+        "Nasal"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_17_W.webm"
+    },
+    {
+      "id": "SND_18_S",
+      "label": "/n/ – sound only",
+      "types": [
+        "Nasal"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_18_S.webm"
+    },
+    {
+      "id": "SND_18_W",
+      "label": "net – key word (/n/)",
+      "types": [
+        "Nasal"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_18_W.webm"
+    },
+    {
+      "id": "SND_19_S",
+      "label": "/ng/ – sound only",
+      "types": [
+        "Nasal",
+        "Digraph (ng)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_19_S.webm"
+    },
+    {
+      "id": "SND_19_W",
+      "label": "long – key word (/ng/)",
+      "types": [
+        "Nasal",
+        "Digraph (ng)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_19_W.webm"
+    },
+    {
+      "id": "SND_20_S",
+      "label": "/l/ – sound only",
+      "types": [
+        "Liquid"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_20_S.webm"
+    },
+    {
+      "id": "SND_20_W",
+      "label": "leg – key word (/l/)",
+      "types": [
+        "Liquid"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_20_W.webm"
+    },
+    {
+      "id": "SND_21_S",
+      "label": "/r/ – sound only",
+      "types": [
+        "Liquid"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_21_S.webm"
+    },
+    {
+      "id": "SND_21_W",
+      "label": "red – key word (/r/)",
+      "types": [
+        "Liquid"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_21_W.webm"
+    },
+    {
+      "id": "SND_22_S",
+      "label": "/w/ – sound only",
+      "types": [
+        "Glide"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_22_S.webm"
+    },
+    {
+      "id": "SND_22_W",
+      "label": "win – key word (/w/)",
+      "types": [
+        "Glide"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_22_W.webm"
+    },
+    {
+      "id": "SND_23_S",
+      "label": "/y/ – sound only",
+      "types": [
+        "Glide"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_23_S.webm"
+    },
+    {
+      "id": "SND_23_W",
+      "label": "yes – key word (/y/)",
+      "types": [
+        "Glide"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_23_W.webm"
+    },
+    {
+      "id": "SND_24_S",
+      "label": "/h/ – sound only",
+      "types": [
+        "Breath"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_24_S.webm"
+    },
+    {
+      "id": "SND_24_W",
+      "label": "hat – key word (/h/)",
+      "types": [
+        "Breath"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_24_W.webm"
+    },
+    {
+      "id": "SND_25_S",
+      "label": "short a – sound only",
+      "types": [
+        "Short vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_25_S.webm"
+    },
+    {
+      "id": "SND_25_W",
+      "label": "at – key word (short a)",
+      "types": [
+        "Short vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_25_W.webm"
+    },
+    {
+      "id": "SND_26_S",
+      "label": "short e – sound only",
+      "types": [
+        "Short vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_26_S.webm"
+    },
+    {
+      "id": "SND_26_W",
+      "label": "egg – key word (short e)",
+      "types": [
+        "Short vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_26_W.webm"
+    },
+    {
+      "id": "SND_27_S",
+      "label": "short i – sound only",
+      "types": [
+        "Short vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_27_S.webm"
+    },
+    {
+      "id": "SND_27_W",
+      "label": "it – key word (short i)",
+      "types": [
+        "Short vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_27_W.webm"
+    },
+    {
+      "id": "SND_28_S",
+      "label": "short o – sound only",
+      "types": [
+        "Short vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_28_S.webm"
+    },
+    {
+      "id": "SND_28_W",
+      "label": "on – key word (short o)",
+      "types": [
+        "Short vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_28_W.webm"
+    },
+    {
+      "id": "SND_29_S",
+      "label": "short u – sound only",
+      "types": [
+        "Short vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_29_S.webm"
+    },
+    {
+      "id": "SND_29_W",
+      "label": "up – key word (short u)",
+      "types": [
+        "Short vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_29_W.webm"
+    },
+    {
+      "id": "SND_30_S",
+      "label": "long a – sound only",
+      "types": [
+        "Long vowel",
+        "Silent e (a_e)",
+        "Vowel team (ai, ay)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_30_S.webm"
+    },
+    {
+      "id": "SND_30_W",
+      "label": "made – key word (long a)",
+      "types": [
+        "Long vowel",
+        "Silent e (a_e)",
+        "Vowel team (ai, ay)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_30_W.webm"
+    },
+    {
+      "id": "SND_30_W2",
+      "label": "rain – extra key word (long a, ai)",
+      "types": [
+        "Long vowel",
+        "Vowel team (ai)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_30_W2.webm"
+    },
+    {
+      "id": "SND_30_W3",
+      "label": "day – extra key word (long a, ay)",
+      "types": [
+        "Long vowel",
+        "Vowel team (ay)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_30_W3.webm"
+    },
+    {
+      "id": "SND_31_S",
+      "label": "long e – sound only",
+      "types": [
+        "Long vowel",
+        "Vowel team (ee, ea)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_31_S.webm"
+    },
+    {
+      "id": "SND_31_W",
+      "label": "team – key word (long e)",
+      "types": [
+        "Long vowel",
+        "Vowel team (ee, ea)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_31_W.webm"
+    },
+    {
+      "id": "SND_31_W2",
+      "label": "feet – extra key word (long e, ee)",
+      "types": [
+        "Long vowel",
+        "Vowel team (ee)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_31_W2.webm"
+    },
+    {
+      "id": "SND_31_W3",
+      "label": "me – extra key word (long e, e)",
+      "types": [
+        "Long vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_31_W3.webm"
+    },
+    {
+      "id": "SND_32_S",
+      "label": "long i – sound only",
+      "types": [
+        "Long vowel",
+        "Silent e (i_e)",
+        "Vowel team (igh)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_32_S.webm"
+    },
+    {
+      "id": "SND_32_W",
+      "label": "time – key word (long i)",
+      "types": [
+        "Long vowel",
+        "Silent e (i_e)",
+        "Vowel team (igh)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_32_W.webm"
+    },
+    {
+      "id": "SND_32_W2",
+      "label": "night – extra key word (long i, igh)",
+      "types": [
+        "Long vowel",
+        "Vowel team (igh)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_32_W2.webm"
+    },
+    {
+      "id": "SND_32_W3",
+      "label": "my – extra key word (long i, y)",
+      "types": [
+        "Long vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_32_W3.webm"
+    },
+    {
+      "id": "SND_33_S",
+      "label": "long o – sound only",
+      "types": [
+        "Long vowel",
+        "Silent e (o_e)",
+        "Vowel team (oa)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_33_S.webm"
+    },
+    {
+      "id": "SND_33_W",
+      "label": "home – key word (long o)",
+      "types": [
+        "Long vowel",
+        "Silent e (o_e)",
+        "Vowel team (oa)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_33_W.webm"
+    },
+    {
+      "id": "SND_33_W2",
+      "label": "boat – extra key word (long o, oa)",
+      "types": [
+        "Long vowel",
+        "Vowel team (oa)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_33_W2.webm"
+    },
+    {
+      "id": "SND_33_W3",
+      "label": "go – extra key word (long o, o)",
+      "types": [
+        "Long vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_33_W3.webm"
+    },
+    {
+      "id": "SND_34_S",
+      "label": "long u – sound only",
+      "types": [
+        "Long vowel",
+        "Silent e (u_e)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_34_S.webm"
+    },
+    {
+      "id": "SND_34_W",
+      "label": "use – key word (long u)",
+      "types": [
+        "Long vowel",
+        "Silent e (u_e)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_34_W.webm"
+    },
+    {
+      "id": "SND_35_S",
+      "label": "long oo – sound only",
+      "types": [
+        "Vowel team (oo)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_35_S.webm"
+    },
+    {
+      "id": "SND_35_W",
+      "label": "food – key word (long oo)",
+      "types": [
+        "Vowel team (oo)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_35_W.webm"
+    },
+    {
+      "id": "SND_36_S",
+      "label": "short oo – sound only",
+      "types": [
+        "Vowel team (oo)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_36_S.webm"
+    },
+    {
+      "id": "SND_36_W",
+      "label": "look – key word (short oo)",
+      "types": [
+        "Vowel team (oo)"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_36_W.webm"
+    },
+    {
+      "id": "SND_37_S",
+      "label": "/ar/ – sound only",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_37_S.webm"
+    },
+    {
+      "id": "SND_37_W",
+      "label": "car – key word (/ar/)",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_37_W.webm"
+    },
+    {
+      "id": "SND_38_S",
+      "label": "/or/ – sound only",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_38_S.webm"
+    },
+    {
+      "id": "SND_38_W",
+      "label": "fork – key word (/or/)",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_38_W.webm"
+    },
+    {
+      "id": "SND_39_S",
+      "label": "/er/ – sound only",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_39_S.webm"
+    },
+    {
+      "id": "SND_39_W",
+      "label": "her – key word (/er/)",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_39_W.webm"
+    },
+    {
+      "id": "SND_39_W2",
+      "label": "bird – extra key word (/er/, ir)",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_39_W2.webm"
+    },
+    {
+      "id": "SND_39_W3",
+      "label": "turn – extra key word (/er/, ur)",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_39_W3.webm"
+    },
+    {
+      "id": "SND_40_S",
+      "label": "/air/ – sound only",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_40_S.webm"
+    },
+    {
+      "id": "SND_40_W",
+      "label": "hair – key word (/air/)",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_40_W.webm"
+    },
+    {
+      "id": "SND_40_W2",
+      "label": "where – extra key word (/air/, ere)",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_40_W2.webm"
+    },
+    {
+      "id": "SND_40_W3",
+      "label": "their – extra key word (/air/, eir)",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_40_W3.webm"
+    },
+    {
+      "id": "SND_41_S",
+      "label": "/ear/ – sound only",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_41_S.webm"
+    },
+    {
+      "id": "SND_41_W",
+      "label": "ear – key word (/ear/)",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_41_W.webm"
+    },
+    {
+      "id": "SND_41_W2",
+      "label": "here – extra key word (/ear/, ere)",
+      "types": [
+        "R-controlled"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_41_W2.webm"
+    },
+    {
+      "id": "SND_42_S",
+      "label": "/aw/ – sound only",
+      "types": [
+        "Other vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_42_S.webm"
+    },
+    {
+      "id": "SND_42_W",
+      "label": "saw – key word (/aw/)",
+      "types": [
+        "Other vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_42_W.webm"
+    },
+    {
+      "id": "SND_42_W2",
+      "label": "ball – extra key word (/aw/, a(ll))",
+      "types": [
+        "Other vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_42_W2.webm"
+    },
+    {
+      "id": "SND_43_S",
+      "label": "/ow/ – sound only",
+      "types": [
+        "Diphthong"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_43_S.webm"
+    },
+    {
+      "id": "SND_43_W",
+      "label": "out – key word (/ow/)",
+      "types": [
+        "Diphthong"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_43_W.webm"
+    },
+    {
+      "id": "SND_43_W2",
+      "label": "cow – extra key word (/ow/, ow)",
+      "types": [
+        "Diphthong"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_43_W2.webm"
+    },
+    {
+      "id": "SND_44_S",
+      "label": "/oi/ – sound only",
+      "types": [
+        "Diphthong"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_44_S.webm"
+    },
+    {
+      "id": "SND_44_W",
+      "label": "boy – key word (/oi/)",
+      "types": [
+        "Diphthong"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_44_W.webm"
+    },
+    {
+      "id": "SND_44_W2",
+      "label": "coin – extra key word (/oi/, oi)",
+      "types": [
+        "Diphthong"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_44_W2.webm"
+    }
+  ]
+}
