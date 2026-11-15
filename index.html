@@ -322,6 +322,9 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .flu-passage.lines .gn{flex:0 0 auto;min-width:3.4em;box-sizing:border-box;text-align:right;padding-left:.9em;border-left:1px solid #0F766E;color:#0F766E;font-size:.7em;display:flex;align-items:center;justify-content:flex-end;font-variant-numeric:tabular-nums}
 .flu-passage.lines strong{font-weight:800}
 .flu-pwords{margin:6px 0 8px;padding:7px 12px;border:1px solid #0F766E;border-radius:6px;text-align:center;font-family:"Atkinson Hyperlegible Next","Atkinson Hyperlegible","Segoe UI",Arial,sans-serif;font-size:15px;line-height:1.4;color:var(--ink)}
+.flu-unlock{margin:2px 0 6px;font-size:14px;color:var(--ink-soft)}
+.flu-unlock input{font:inherit;font-size:15px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;width:11em;margin:0 6px 0 0}
+.flu-unlock .mini-btn{margin-right:6px}
 .flu-pwords b{font-weight:700;color:#0F766E;margin-right:.35em}
 #flu-title.l1{font-family:"Montserrat","Segoe UI",Arial,sans-serif;font-weight:800}
 .flu-timer-row{ display:flex; align-items:center; gap:12px; margin:6px 0; }
@@ -2526,6 +2529,15 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
       <button class="dir-listen-btn" id="flu-model-btn" onclick="fluModelToggle()">
         <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label" id="flu-model-lbl">Listen to the passage</span>
       </button>
+    </div>
+    <div class="flu-unlock" id="flu-unlock" style="display:none">
+      <button class="mini-btn" id="flu-unlock-open" onclick="g1mOpenPin()">Teacher unlock</button>
+      <span id="flu-unlock-form" style="display:none">
+        <input type="password" id="flu-unlock-pin" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Teacher PIN" onkeydown="if(event.key==='Enter'||event.keyCode===13){ g1mSubmitPin(); }">
+        <button class="mini-btn" id="flu-unlock-go" onclick="g1mSubmitPin()">Unlock</button>
+        <button class="mini-btn" onclick="g1mClosePin()">Cancel</button>
+      </span>
+      <span class="mini-note" id="flu-unlock-msg"></span>
     </div>
     <div class="flu-pwords" id="flu-pwords" style="display:none"></div>
     <div class="flu-text-wrap" id="flu-text-wrap"><div class="flu-passage" id="flu-text"></div></div>
@@ -5406,22 +5418,103 @@ function fluFlashTimesUp(btnId,then){
    doesn't fit at 18px, only the passage box itself scrolls (never the
    whole page). No-ops in an environment with no real layout (e.g. this
    file's own jsdom tests), since there's nothing to measure there. */
-/* Mick's cleaned MODEL READ for each Level 1 passage (audio/TALL-G1/PSG_1_xx.webm, ids match the recording
-   studio). Keyed by the passage's whole-number sub. Plays only her recorded voice -- never text-to-speech.
-   A passage with no file here (or a file that will not load) says "Not recorded yet." */
-var FLU_MODEL_AUDIO={
-  0:"audio/TALL-G1/PSG_1_00.webm", 1:"audio/TALL-G1/PSG_1_01.webm", 2:"audio/TALL-G1/PSG_1_02.webm",
-  3:"audio/TALL-G1/PSG_1_03.webm", 4:"audio/TALL-G1/PSG_1_04.webm", 5:"audio/TALL-G1/PSG_1_05.webm",
-  6:"audio/TALL-G1/PSG_1_06.webm", 7:"audio/TALL-G1/PSG_1_07.webm", 8:"audio/TALL-G1/PSG_1_08.webm",
-  9:"audio/TALL-G1/PSG_1_09.webm", 10:"audio/TALL-G1/PSG_1_10.webm"
-};
-var fluModelPlaying=false;
-function fluModelPath(p){ return (p && p.level==="FIRST" && FLU_MODEL_AUDIO[p.sub]) ? FLU_MODEL_AUDIO[p.sub] : ""; }
+/* ===== Level 1 MODEL READ (Mick's own voice, audio/TALL-G1/PSG_1_xx.enc) =====
+   RULES (Mick, 2026-11-15):
+   1. COLD READS ARE COLD. No model-read control exists on a cold-read screen (Day 1 / Day 3), and the
+      clip file itself is LOCKED: it is encrypted with the teacher PIN, so there is no direct link,
+      autoplay or keyboard shortcut that can play it.
+   2. ONLY THE TEACHER UNLOCKS IT. A student can never unlock it: recording, stopping, refreshing, saving
+      or submitting never touch the lock. The teacher types the PIN on the student's screen; that
+      unlocks ONE passage for THAT student (saved on this device, survives a refresh). The teacher view
+      (?teacher) asks for the PIN once per browser session, then plays any passage.
+   File format: salt(16) | iv(12) | AES-256-GCM ciphertext+tag, key = PBKDF2-SHA256(PIN, salt, 200000).
+   A wrong PIN simply fails to decrypt. No text-to-speech. Missing/blocked file -> "Not recorded yet." */
+var G1M_ITER=200000;
+var G1M_PREFIX="audio/TALL-G1/PSG_1_";
+var fluModelPlaying=false, g1mBusy=false;
+function g1mFile(sub){ return G1M_PREFIX+(sub<10?"0":"")+sub+".enc"; }
+function g1mHasSub(p){ return !!(p && p.level==="FIRST" && p.lines); }
+function g1mNorm(pin){ return String(pin||"").toLowerCase().replace(/[^a-z0-9]/g,""); }
+function g1mUtf8(str){ var s=unescape(encodeURIComponent(str)), out=new Uint8Array(s.length), i; for(i=0;i<s.length;i++){ out[i]=s.charCodeAt(i); } return out; }
+function g1mB64(u8){ var s="", i; for(i=0;i<u8.length;i++){ s+=String.fromCharCode(u8[i]); } return window.btoa(s); }
+function g1mFromB64(b){ var s=window.atob(b), out=new Uint8Array(s.length), i; for(i=0;i<s.length;i++){ out[i]=s.charCodeAt(i); } return out; }
+/* unlocks: { "<studentId>|<sub>": base64 key for that ONE passage } -- per student, per passage, per device */
+function g1mAll(){ try{ var r=window.localStorage.getItem(vasK("rf_g1_unlock")); return r?JSON.parse(r):{}; }catch(e){ return {}; } }
+function g1mKeyId(sub){ return (READER?READER.id:"-")+"|"+sub; }
+function g1mUnlocked(sub){ return !!g1mAll()[g1mKeyId(sub)]; }
+function g1mSaveUnlock(sub,keyBytes){ var o=g1mAll(); o[g1mKeyId(sub)]=g1mB64(keyBytes); try{ window.localStorage.setItem(vasK("rf_g1_unlock"),JSON.stringify(o)); }catch(e){} }
+/* wrong-PIN slow-down (no guessing): 3 free tries, then 30 s, 60 s, 120 s ... (max 10 min) */
+function g1mFails(){ try{ var r=window.localStorage.getItem("rf_g1_pin_fails"); return r?JSON.parse(r):{n:0,until:0}; }catch(e){ return {n:0,until:0}; } }
+function g1mSaveFails(o){ try{ window.localStorage.setItem("rf_g1_pin_fails",JSON.stringify(o)); }catch(e){} }
+function g1mWait(){ var f=g1mFails(), now=new Date().getTime(); return f.until>now ? Math.ceil((f.until-now)/1000) : 0; }
+function g1mNoteWrong(){ var f=g1mFails(), n=f.n+1, secs=0; if(n>=3){ secs=30*Math.pow(2,n-3); if(secs>600){ secs=600; } } g1mSaveFails({n:n,until:secs?new Date().getTime()+secs*1000:0}); return secs; }
+function g1mClearFails(){ g1mSaveFails({n:0,until:0}); }
+function g1mTeacherPin(){ try{ return window.sessionStorage.getItem("rf_g1_teacher_pin")||""; }catch(e){ return ""; } }
+function g1mSetTeacherPin(pin){ try{ window.sessionStorage.setItem("rf_g1_teacher_pin",pin); }catch(e){} }
+function g1mFetch(sub){
+  return window.fetch(g1mFile(sub)).then(function(r){
+    if(!r || !r.ok){ throw new Error("missing"); }
+    return r.arrayBuffer();
+  }).then(function(buf){ return new Uint8Array(buf); });
+}
+function g1mSubtle(){ return (window.crypto && window.crypto.subtle) ? window.crypto.subtle : null; }
+/* key bytes -> decrypted audio bytes (rejects if the key is wrong) */
+function g1mOpenWithKey(bytes,keyBytes){
+  var sb=g1mSubtle(), iv=bytes.subarray(16,28), ct=bytes.subarray(28);
+  return sb.importKey("raw",keyBytes,"AES-GCM",false,["decrypt"]).then(function(k){
+    return sb.decrypt({name:"AES-GCM",iv:iv},k,ct);
+  });
+}
+function g1mDeriveKey(pin,salt){
+  var sb=g1mSubtle();
+  return sb.importKey("raw",g1mUtf8(g1mNorm(pin)),"PBKDF2",false,["deriveBits"]).then(function(base){
+    return sb.deriveBits({name:"PBKDF2",salt:salt,iterations:G1M_ITER,hash:"SHA-256"},base,256);
+  }).then(function(bits){ return new Uint8Array(bits); });
+}
+/* PIN -> { key, audio } for this passage, or rejects ("missing" / "wrong") */
+function g1mTryPin(pin,sub){
+  return g1mFetch(sub).then(function(bytes){
+    return g1mDeriveKey(pin,bytes.subarray(0,16)).then(function(key){
+      return g1mOpenWithKey(bytes,key).then(function(audio){ return {key:key,audio:audio}; },function(){ throw new Error("wrong"); });
+    });
+  });
+}
+function g1mMsg(t){ var m=document.getElementById("flu-unlock-msg"); if(m){ m.textContent=t||""; } }
+function g1mOpenPin(){
+  var f=document.getElementById("flu-unlock-form"), o=document.getElementById("flu-unlock-open"), i=document.getElementById("flu-unlock-pin");
+  if(f){ f.style.display="inline"; } if(o){ o.style.display="none"; } if(i){ i.value=""; try{ i.focus(); }catch(e){} }
+  g1mMsg("");
+}
+function g1mClosePin(){
+  var f=document.getElementById("flu-unlock-form"), o=document.getElementById("flu-unlock-open"), i=document.getElementById("flu-unlock-pin");
+  if(f){ f.style.display="none"; } if(o){ o.style.display="inline-block"; } if(i){ i.value=""; }
+  g1mMsg("");
+}
+function g1mSubmitPin(){
+  var inp=document.getElementById("flu-unlock-pin"), pin=inp?inp.value:"", sub=fluPassage?fluPassage.sub:-1, wait=g1mWait();
+  if(g1mBusy || !g1mHasSub(fluPassage)){ return; }
+  if(!g1mSubtle()){ g1mMsg("This browser cannot unlock audio."); return; }
+  if(wait>0){ g1mMsg("Too many tries. Wait "+wait+" seconds."); return; }
+  if(g1mNorm(pin).length<1){ g1mMsg("Type the teacher PIN."); return; }
+  g1mBusy=true; g1mMsg("Checking…");
+  g1mTryPin(pin,sub).then(function(res){
+    g1mBusy=false; g1mClearFails();
+    if(inp){ inp.value=""; }
+    if(isTeacherMode()){ g1mSetTeacherPin(g1mNorm(pin)); g1mClosePin(); fluModelPaint(); g1mPlayBytes(res.audio); }
+    else { g1mSaveUnlock(sub,res.key); g1mClosePin(); fluModelPaint(); }
+  },function(e){
+    g1mBusy=false;
+    if(e && e.message==="missing"){ g1mMsg("Not recorded yet."); return; }
+    var secs=g1mNoteWrong();
+    if(inp){ inp.value=""; }
+    g1mMsg(secs ? "That PIN did not work. Wait "+secs+" seconds." : "That PIN did not work.");
+  });
+}
 function fluModelSetPlaying(on){
   fluModelPlaying=!!on;
   var btn=document.getElementById("flu-model-btn"), lbl=document.getElementById("flu-model-lbl");
   if(btn){ btn.className="dir-listen-btn"+(on?" playing":""); }
-  if(lbl){ lbl.textContent=on?"Playing\u2026":"Listen to the passage"; }
+  if(lbl){ lbl.textContent=on?"Playing…":"Listen to the passage"; }
 }
 /* no clip (or it will not load): the button turns gray and says so, instead of looking broken */
 function fluModelMissing(){
@@ -5430,30 +5523,57 @@ function fluModelMissing(){
   if(btn){ btn.className="dir-listen-btn"; btn.disabled=true; }
   if(lbl){ lbl.textContent="Not recorded yet."; }
 }
-/* show the button on Level 1 passages only */
+/* What shows on the passage screen:
+   - cold-read screens (Day 1 / Day 3) for students: NOTHING (no button, no PIN box)
+   - Day 2 practice screen, locked:   a gray button "Your teacher unlocks this after your cold read" + a small "Teacher unlock"
+   - Day 2 practice screen, unlocked: "Listen to the passage" (as many plays as they want)
+   - teacher view: always the Listen button (PIN asked once per browser session) */
 function fluModelPaint(){
-  var wrap=document.getElementById("flu-model-wrap"), btn=document.getElementById("flu-model-btn");
+  var wrap=document.getElementById("flu-model-wrap"), btn=document.getElementById("flu-model-btn"), lbl=document.getElementById("flu-model-lbl"), box=document.getElementById("flu-unlock");
   if(!wrap){ return; }
   fluModelSetPlaying(false);
-  /* HOLD (Mick, 2026-11-15): a student must never hear the model read before or during a cold read.
-     Until the teacher-unlock flow is built, the button exists in teacher view only. */
-  if(!fluPassage || !fluPassage.lines || !isTeacherMode()){ wrap.style.display="none"; return; }
+  if(box){ box.style.display="none"; } g1mClosePin();
+  if(!g1mHasSub(fluPassage)){ wrap.style.display="none"; return; }
+  var teacher=isTeacherMode();
+  if(!teacher && fluDay!==2){ wrap.style.display="none"; return; }
   wrap.style.display="inline-flex";
-  if(fluModelPath(fluPassage)){ if(btn){ btn.disabled=false; } } else { fluModelMissing(); }
+  if(teacher || g1mUnlocked(fluPassage.sub)){ if(btn){ btn.disabled=false; } return; }
+  if(btn){ btn.className="dir-listen-btn"; btn.disabled=true; }
+  if(lbl){ lbl.textContent="Your teacher unlocks this after your cold read"; }
+  if(box){ box.style.display="block"; }
 }
-function fluModelToggle(){
-  var path=fluModelPath(fluPassage), a, pr;
-  if(!isTeacherMode()){ return; }
-  if(fluModelPlaying){ stopAllAudio(); return; }
-  if(!path){ fluModelMissing(); return; }
+function g1mPlayBytes(audioBuf){
+  var blob=new Blob([audioBuf],{type:"audio/webm"}), url=URL.createObjectURL(blob), a, pr;
   stopAllAudio();
-  a=new Audio(path);
-  currentAudio=a;
+  a=new Audio(url); currentAudio=a;
   fluModelSetPlaying(true);
-  a.onended=function(){ if(currentAudio===a){ currentAudio=null; } fluModelSetPlaying(false); };
-  a.onerror=function(){ if(currentAudio===a){ currentAudio=null; } fluModelMissing(); };
+  a.onended=function(){ if(currentAudio===a){ currentAudio=null; } fluModelSetPlaying(false); try{ URL.revokeObjectURL(url); }catch(e){} };
+  a.onerror=function(){ if(currentAudio===a){ currentAudio=null; } fluModelMissing(); try{ URL.revokeObjectURL(url); }catch(e){} };
   pr=a.play();
   if(pr && pr.then){ pr.then(null,function(){ if(a.onerror){ a.onerror(); } }); }
+}
+function fluModelToggle(){
+  var sub, tp;
+  if(fluModelPlaying){ stopAllAudio(); return; }
+  if(!g1mHasSub(fluPassage) || g1mBusy){ return; }
+  sub=fluPassage.sub;
+  if(!g1mSubtle()){ return; }
+  if(isTeacherMode()){
+    tp=g1mTeacherPin();
+    if(!tp){ var bx=document.getElementById("flu-unlock"); if(bx){ bx.style.display="block"; } g1mOpenPin(); return; }
+    g1mBusy=true;
+    g1mTryPin(tp,sub).then(function(res){ g1mBusy=false; g1mPlayBytes(res.audio); },function(e){
+      g1mBusy=false;
+      if(e && e.message==="missing"){ fluModelMissing(); return; }
+      g1mSetTeacherPin(""); var bx2=document.getElementById("flu-unlock"); if(bx2){ bx2.style.display="block"; } g1mOpenPin(); g1mMsg("Type the teacher PIN.");
+    });
+    return;
+  }
+  /* student: only if the teacher already unlocked THIS passage for THIS student */
+  var k=g1mAll()[g1mKeyId(sub)];
+  if(fluDay!==2 || !k){ return; }
+  g1mBusy=true;
+  g1mFetch(sub).then(function(bytes){ return g1mOpenWithKey(bytes,g1mFromB64(k)); }).then(function(audio){ g1mBusy=false; g1mPlayBytes(audio); },function(){ g1mBusy=false; fluModelMissing(); });
 }
 /* Level 1 passage screens use two more Google fonts (Atkinson Hyperlegible Next, Montserrat). They are
    requested only when a Level 1 passage first opens, not at app start. If they do not load, the CSS

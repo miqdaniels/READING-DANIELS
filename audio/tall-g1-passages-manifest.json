@@ -1,73 +1,73 @@
 {
   "updated": "2026-11-15",
-  "note": "Mick's cleaned model read-alouds for the Level 1 (Grade 1) passages: mono Opus .webm, trimmed and leveled. One file per passage id; ids never change.",
+  "note": "Mick's cleaned model read-alouds for the Level 1 (Grade 1) passages, LOCKED with the teacher PIN (AES-256-GCM, key = PBKDF2-SHA256(PIN, salt, 200000); file = salt16|iv12|ciphertext+tag). Not playable without the PIN. One file per passage id; ids never change.",
   "base": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/",
   "items": [
     {
       "id": "PSG_1_00",
       "label": "1.0 Water",
       "words": 204,
-      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_00.webm"
+      "enc": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_00.enc"
     },
     {
       "id": "PSG_1_01",
       "label": "1.1 Should School Start Later?",
       "words": 225,
-      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_01.webm"
+      "enc": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_01.enc"
     },
     {
       "id": "PSG_1_02",
       "label": "1.2 Schools Are Not All the Same",
       "words": 199,
-      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_02.webm"
+      "enc": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_02.enc"
     },
     {
       "id": "PSG_1_03",
       "label": "1.3 Your Phone",
       "words": 207,
-      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_03.webm"
+      "enc": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_03.enc"
     },
     {
       "id": "PSG_1_04",
       "label": "1.4 Jobs",
       "words": 225,
-      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_04.webm"
+      "enc": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_04.enc"
     },
     {
       "id": "PSG_1_05",
       "label": "1.5 Dating",
       "words": 217,
-      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_05.webm"
+      "enc": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_05.enc"
     },
     {
       "id": "PSG_1_06",
       "label": "1.6 Homework",
       "words": 200,
-      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_06.webm"
+      "enc": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_06.enc"
     },
     {
       "id": "PSG_1_07",
       "label": "1.7 A Shorter School Day",
       "words": 204,
-      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_07.webm"
+      "enc": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_07.enc"
     },
     {
       "id": "PSG_1_08",
       "label": "1.8 Your Brain Can Change",
       "words": 207,
-      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_08.webm"
+      "enc": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_08.enc"
     },
     {
       "id": "PSG_1_09",
       "label": "1.9 Friends Can Change You",
       "words": 231,
-      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_09.webm"
+      "enc": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_09.enc"
     },
     {
       "id": "PSG_1_10",
       "label": "1.10 If You Do Nothing",
       "words": 226,
-      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_10.webm"
+      "enc": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL-G1/PSG_1_10.enc"
     }
   ]
 }
