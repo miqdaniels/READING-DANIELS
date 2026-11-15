@@ -1,0 +1,495 @@
+{
+ "version": "v1 2026-11-15",
+ "passages": [
+  {
+   "id": "1.0",
+   "module": "M0",
+   "title": "Water",
+   "boxes": [
+    {
+     "w": "Who",
+     "q": null
+    },
+    {
+     "w": "What",
+     "q": "What does your body need?",
+     "a": "You need water to live."
+    },
+    {
+     "w": "When",
+     "q": "When should you have a drink?",
+     "a": "before you go out"
+    },
+    {
+     "w": "Where",
+     "q": "Where does it get so hot?",
+     "a": "Here in Arizona"
+    },
+    {
+     "w": "Why",
+     "q": "Why does your body need water?",
+     "a": "It helps keep you cool."
+    },
+    {
+     "w": "How",
+     "q": "How can you tell you need water?",
+     "a": "Your head may hurt."
+    }
+   ],
+   "orderKind": "Cause and effect",
+   "orderDir": "Put the steps in order.",
+   "order": [
+    "When it is hot, you sweat.",
+    "When the sweat dries on your skin, you cool off.",
+    "But each time you sweat, you lose some water.",
+    "So you need to drink water all day."
+   ]
+  },
+  {
+   "id": "1.1",
+   "module": "M1",
+   "title": "Should School Start Later?",
+   "boxes": [
+    {
+     "w": "Who",
+     "q": "Who goes to bed late?",
+     "a": "Many teens"
+    },
+    {
+     "w": "What",
+     "q": "What do some doctors want?",
+     "a": "They want school for teens to start at 8:30 or later."
+    },
+    {
+     "w": "When",
+     "q": "When do some kids get up?",
+     "a": "at six"
+    },
+    {
+     "w": "Where",
+     "q": null
+    },
+    {
+     "w": "Why",
+     "q": "Why are teens not tired at ten at night?",
+     "a": "your body clock is not the same"
+    },
+    {
+     "w": "How",
+     "q": "How much sleep do teens need?",
+     "a": "about nine hours of sleep each night"
+    }
+   ],
+   "orderKind": "Passage order",
+   "orderDir": "Put these sentences in the order they came in the passage.",
+   "order": [
+    "Many teens go to bed late.",
+    "But school starts early.",
+    "Doctors say teens need about nine hours of sleep each night.",
+    "But a later start is not good for each family."
+   ]
+  },
+  {
+   "id": "1.2",
+   "module": "M2",
+   "title": "Schools Are Not All the Same",
+   "boxes": [
+    {
+     "w": "Who",
+     "q": "Who do kids in Arizona have for each class?",
+     "a": "a new teacher"
+    },
+    {
+     "w": "What",
+     "q": "What do many kids in Mexico wear?",
+     "a": "a uniform"
+    },
+    {
+     "w": "When",
+     "q": "When does a new group of kids come in Mexico?",
+     "a": "after lunch"
+    },
+    {
+     "w": "Where",
+     "q": "Where do kids help clean their school?",
+     "a": "In Japan"
+    },
+    {
+     "w": "Why",
+     "q": "Why do kids in Japan clean?",
+     "a": "this helps them work as a team"
+    },
+    {
+     "w": "How",
+     "q": "How do kids in Arizona get to the next class?",
+     "a": "they get up and walk to the next room"
+    }
+   ],
+   "orderKind": "Passage order",
+   "orderDir": "Put these sentences in the order they came in the passage.",
+   "order": [
+    "In Mexico, many kids wear a uniform to school.",
+    "In Japan, kids help clean their school.",
+    "Here in Arizona, kids go from class to class.",
+    "Each school has its own way."
+   ]
+  },
+  {
+   "id": "1.3",
+   "module": "M3",
+   "title": "Your Phone",
+   "boxes": [
+    {
+     "w": "Who",
+     "q": "Who has a phone by the time they are 11?",
+     "a": "Most kids"
+    },
+    {
+     "w": "What",
+     "q": "What did Arizona make?",
+     "a": "a new law"
+    },
+    {
+     "w": "When",
+     "q": "When did Arizona make the law?",
+     "a": "In 2025"
+    },
+    {
+     "w": "Where",
+     "q": "Where does your phone stay in many schools?",
+     "a": "in your bag in class"
+    },
+    {
+     "w": "Why",
+     "q": "Why do some teens not sleep?",
+     "a": "they look at their phone at night"
+    },
+    {
+     "w": "How",
+     "q": "How long do teens use screens for fun?",
+     "a": "about eight hours a day"
+    }
+   ],
+   "orderKind": "Passage order",
+   "orderDir": "Put these sentences in the order they came in the passage.",
+   "order": [
+    "A phone can do a lot.",
+    "But a phone can take up a lot of time.",
+    "In 2025, Arizona made a new law.",
+    "Some kids like the new rules."
+   ]
+  },
+  {
+   "id": "1.4",
+   "module": "M4",
+   "title": "Jobs",
+   "boxes": [
+    {
+     "w": "Who",
+     "q": "Who wants to get a job?",
+     "a": "Some kids"
+    },
+    {
+     "w": "What",
+     "q": "What is a job?",
+     "a": "a way to make your own money"
+    },
+    {
+     "w": "When",
+     "q": "When can you start some jobs?",
+     "a": "at 14"
+    },
+    {
+     "w": "Where",
+     "q": "Where could you work at 14?",
+     "a": "at a store"
+    },
+    {
+     "w": "Why",
+     "q": "Why are there rules for kids?",
+     "a": "to keep kids safe and in school"
+    },
+    {
+     "w": "How",
+     "q": "How long can you work on a school day?",
+     "a": "just three hours"
+    }
+   ],
+   "orderKind": "Passage order",
+   "orderDir": "Put these sentences in the order they came in the passage.",
+   "order": [
+    "Some kids want to get a job.",
+    "But there are rules, so you cannot work all the time.",
+    "At 14, you could work at a store.",
+    "But a job can be hard, too."
+   ]
+  },
+  {
+   "id": "1.5",
+   "module": "M5",
+   "title": "Dating",
+   "boxes": [
+    {
+     "w": "Who",
+     "q": "Who says they have a boyfriend or a girlfriend?",
+     "a": "Some kids in junior high"
+    },
+    {
+     "w": "What",
+     "q": "What do they do after school?",
+     "a": "They may text a lot"
+    },
+    {
+     "w": "When",
+     "q": "Some families want you to wait. Until when?",
+     "a": "until high school"
+    },
+    {
+     "w": "Where",
+     "q": "Where do they sit with each other at lunch?",
+     "a": "At school"
+    },
+    {
+     "w": "Why",
+     "q": "Why do some families want you to wait?",
+     "a": "school has to come first"
+    },
+    {
+     "w": "How",
+     "q": "How can dating help, some families say?",
+     "a": "a way to learn how to be kind to the people you like"
+    }
+   ],
+   "orderKind": "Passage order",
+   "orderDir": "Put these sentences in the order they came in the passage.",
+   "order": [
+    "Some kids in junior high say they have a boyfriend or a girlfriend.",
+    "Some families say this is fine.",
+    "Other families say you are too young.",
+    "Some kids do not want to date at all, and that is fine, too."
+   ]
+  },
+  {
+   "id": "1.6",
+   "module": "M6",
+   "title": "Homework",
+   "boxes": [
+    {
+     "w": "Who",
+     "q": "Who gives homework?",
+     "a": "Many teachers"
+    },
+    {
+     "w": "What",
+     "q": "What is homework?",
+     "a": "school work that you do at home"
+    },
+    {
+     "w": "When",
+     "q": "When can you ask about it?",
+     "a": "the next day"
+    },
+    {
+     "w": "Where",
+     "q": null
+    },
+    {
+     "w": "Why",
+     "q": "Why do some people say homework is good?",
+     "a": "It helps you get ready for a test."
+    },
+    {
+     "w": "How",
+     "q": "How much homework is fine in junior high?",
+     "a": "about one hour a night"
+    }
+   ],
+   "orderKind": "Passage order",
+   "orderDir": "Put these sentences in the order they came in the passage.",
+   "order": [
+    "Many teachers give homework.",
+    "Some people say homework is good for you.",
+    "Other people say it is too much.",
+    "So some schools do not give homework now."
+   ]
+  },
+  {
+   "id": "1.7",
+   "module": "M7",
+   "title": "A Shorter School Day",
+   "boxes": [
+    {
+     "w": "Who",
+     "q": "Who would have no one to be with their kids?",
+     "a": "some parents"
+    },
+    {
+     "w": "What",
+     "q": "What do some kids get at school?",
+     "a": "their best food of the day"
+    },
+    {
+     "w": "When",
+     "q": "When could you go home?",
+     "a": "at lunch"
+    },
+    {
+     "w": "Where",
+     "q": "Where do some schools have school just four days a week?",
+     "a": "in Arizona"
+    },
+    {
+     "w": "Why",
+     "q": "Why could a short day be good?",
+     "a": "kids would not be so tired"
+    },
+    {
+     "w": "How",
+     "q": "How could a short day be bad?",
+     "a": "less time with their teachers"
+    }
+   ],
+   "orderKind": "Passage order",
+   "orderDir": "Put these sentences in the order they came in the passage.",
+   "order": [
+    "What if school was just four hours a day?",
+    "Some people think a short day could be good.",
+    "Other people say kids need more time in school, not less.",
+    "So what do you think?"
+   ]
+  },
+  {
+   "id": "1.8",
+   "module": "M8",
+   "title": "Your Brain Can Change",
+   "boxes": [
+    {
+     "w": "Who",
+     "q": "Who did a study?",
+     "a": "Scientists"
+    },
+    {
+     "w": "What",
+     "q": "What can change at any age?",
+     "a": "Your brain"
+    },
+    {
+     "w": "When",
+     "q": "Until when will the teen brain get better?",
+     "a": "until you are in your 20s"
+    },
+    {
+     "w": "Where",
+     "q": "Where were the women in the study?",
+     "a": "in India"
+    },
+    {
+     "w": "Why",
+     "q": "Why does it get easier?",
+     "a": "When you practice, the path gets stronger."
+    },
+    {
+     "w": "How",
+     "q": "How does your brain learn something new?",
+     "a": "your brain makes a new path"
+    }
+   ],
+   "orderKind": "What happened first",
+   "orderDir": "Put what happened in order.",
+   "order": [
+    "Scientists did a study with a group of women in India.",
+    "For six months, they worked on their reading.",
+    "At the end, they could read like a first grader.",
+    "Then the scientists looked at their brains."
+   ]
+  },
+  {
+   "id": "1.9",
+   "module": "M9",
+   "title": "Friends Can Change You",
+   "boxes": [
+    {
+     "w": "Who",
+     "q": "Who can change you?",
+     "a": "Your friends"
+    },
+    {
+     "w": "What",
+     "q": "What did one study look at?",
+     "a": "what teens do when their friends are with them"
+    },
+    {
+     "w": "When",
+     "q": "When did teens take more risks?",
+     "a": "when their friends were there to see"
+    },
+    {
+     "w": "Where",
+     "q": null
+    },
+    {
+     "w": "Why",
+     "q": "Why did they take more risks?",
+     "a": "They wanted their friends to like them."
+    },
+    {
+     "w": "How",
+     "q": "How should you pick your friends?",
+     "a": "with care"
+    }
+   ],
+   "orderKind": "Passage order",
+   "orderDir": "Put these sentences in the order they came in the passage.",
+   "order": [
+    "If your friends work hard in school, you may want to work hard, too.",
+    "But it can go the other way.",
+    "One study looked at what teens do when their friends are with them.",
+    "That is why some people say you should pick your friends with care."
+   ]
+  },
+  {
+   "id": "1.10",
+   "module": "M10",
+   "title": "If You Do Nothing",
+   "boxes": [
+    {
+     "w": "Who",
+     "q": "Who is this a serious problem for?",
+     "a": "a lot of students"
+    },
+    {
+     "w": "What",
+     "q": "What happens in the next grade?",
+     "a": "the work is harder"
+    },
+    {
+     "w": "When",
+     "q": "When can you come in for help?",
+     "a": "before or after school"
+    },
+    {
+     "w": "Where",
+     "q": null
+    },
+    {
+     "w": "Why",
+     "q": "Why do some kids think school work does not count?",
+     "a": "They move on even if they do not pass their classes."
+    },
+    {
+     "w": "How",
+     "q": "How can you catch up?",
+     "a": "You can ask your teacher for help."
+    }
+   ],
+   "orderKind": "Cause and effect",
+   "orderDir": "Put what happens in order.",
+   "order": [
+    "But what if you do nothing all year?",
+    "When you get to the next grade, the work is harder.",
+    "When they fall behind, it gets harder and harder to catch up.",
+    "After a while, some of them stop trying."
+   ]
+  }
+ ]
+}

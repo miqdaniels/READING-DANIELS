@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>TALL Organizers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;700;800&amp;family=Montserrat:wght@700;800&amp;display=swap">
+<link rel="stylesheet" href="tall-theme.css">
+<!-- (c) 2026 Miquela Daniels, AI Academy LLC. TALL Level 1. Proprietary -- do not copy or distribute.
+     Organizers for passages 1.0-1.10 (data/tall-organizers.json, used as is): 5W+H drag-to-match, Order It, and the 1-Minute Talk boxes.
+     Every clip is Miquela's OWN voice (tall-org-audio.js). NO text-to-speech, ever. Nothing here scores reading. ES5 only.
+     Screens are string ids: og-load, og-pick, og-match, og-order, og-done. -->
+<style>
+:root{--accent:var(--tall-teal,#0F766E);--accent-dark:var(--tall-teal-dark,#0B5A54);--accent-tint:var(--tall-teal-tint,#E6F4F2);--paper:#F6F8F7;--panel:#FFFFFF;--line:#D5DED8;--ink:#16302A;--gray:#5F6B66;--warn:#B45309;--warn-tint:#FDF1E3}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--tall-font-body,"Atkinson Hyperlegible Next","Segoe UI",Arial,sans-serif);font-size:17px;line-height:1.5}
+header{background:var(--accent);color:#fff}
+.hwrap{max-width:1000px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
+header h1{margin:0;font-family:var(--tall-font-head,"Montserrat","Segoe UI",Arial,sans-serif);font-size:22px;font-weight:800}
+.wrap{max-width:1000px;margin:0 auto;padding:16px 16px 56px}
+.screen{display:none}.screen.active{display:block}
+h2{font-family:var(--tall-font-head,"Montserrat","Segoe UI",Arial,sans-serif);font-weight:800;font-size:22px;margin:4px 0 6px}
+.mini{font-size:14px;color:var(--gray)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:9px 18px;border:1.5px solid var(--accent);background:var(--panel);color:var(--accent);font-family:inherit;font-weight:700;font-size:17px;border-radius:10px;cursor:pointer}
+.btn:hover{background:var(--accent-tint)}
+.btn.primary{background:var(--accent);color:#fff}.btn.primary:hover{background:var(--accent-dark)}
+.btn[disabled]{opacity:.55;cursor:default}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.center{text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.pcard{display:flex;flex-direction:column;gap:4px;text-align:left;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font:inherit;color:var(--ink);cursor:pointer;min-height:84px}
+.pcard:hover{border-color:var(--accent);background:var(--accent-tint)}
+.pcard .t{font-family:var(--tall-font-head,"Montserrat",Arial,sans-serif);font-weight:800;font-size:18px;color:var(--accent)}
+.pcard .s{font-size:14px;color:var(--gray)}
+.oboxes{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;margin:12px 0}
+.obox{display:block;width:100%;text-align:left;border:2px dashed var(--line);border-radius:12px;background:var(--panel);padding:10px 12px;font:inherit;color:var(--ink);min-height:104px;cursor:pointer}
+.obox .w{font-family:var(--tall-font-head,"Montserrat",Arial,sans-serif);font-weight:800;font-size:20px;color:var(--accent);text-transform:uppercase}
+.obox .q{font-size:16px;color:var(--ink);margin:2px 0 6px}
+.obox .a{font-weight:800;font-size:19px;min-height:1.4em}
+.obox.filled{border-style:solid;border-color:var(--accent);background:var(--accent-tint);cursor:default}
+.obox.over{border-color:var(--accent-dark);background:var(--accent-tint)}
+.obox.gray{border-style:solid;background:#ECEFED;color:var(--gray);cursor:default}
+.obox.gray .w{color:var(--gray)}
+.cards{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0}
+.acard{min-height:54px;max-width:100%;padding:8px 16px;border:2px solid var(--accent);border-radius:10px;background:var(--panel);color:var(--ink);font:inherit;font-weight:800;font-size:19px;cursor:grab;touch-action:none;user-select:none;text-align:left}
+.acard:hover{background:var(--accent-tint)}
+.acard.armed{background:var(--accent);color:#fff}
+.acard .nr{display:block;font-size:12px;font-weight:700;color:var(--gray);min-height:1.1em}
+.acard.armed .nr{color:#E6F4F2}
+.ghost{position:fixed;pointer-events:none;z-index:50;opacity:.9}
+.note{min-height:1.5em;text-align:center;font-weight:700}
+.note.good{color:var(--accent)}.note.bad{color:var(--warn)}
+.olist{display:grid;gap:10px;max-width:760px;margin:12px auto}
+.oslot{display:flex;gap:12px;align-items:center;border:2px dashed var(--line);border-radius:12px;background:var(--panel);padding:6px 10px}
+.oslot .n{font-family:var(--tall-font-head,"Montserrat",Arial,sans-serif);font-weight:800;font-size:22px;color:var(--accent);min-width:1.4em;text-align:center}
+.oslot .acard{flex:1;cursor:grab}
+.oslot.over{border-color:var(--accent-dark);background:var(--accent-tint)}
+.oslot.right{border-style:solid;border-color:var(--accent);background:var(--accent-tint)}
+.oslot.wrong{border-style:solid;border-color:var(--warn);background:var(--warn-tint)}
+.talk{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;margin:12px 0}
+@media(max-width:620px){.oboxes,.talk{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="hwrap"><h1>TALL Organizers</h1></div></header>
+<div class="wrap">
+  <section id="og-load" class="screen active"><p id="og-load-msg">Loading&hellip;</p></section>
+
+  <section id="og-pick" class="screen">
+    <h2>Pick your passage</h2>
+    <p class="mini">Each passage has two organizers: 5W+H and Put It in Order.</p>
+    <div class="grid" id="og-passages"></div>
+  </section>
+
+  <section id="og-match" class="screen">
+    <div class="row"><button class="btn" onclick="ogBackToPick()">&larr; Passages</button><span class="mini" id="og-match-title"></span></div>
+    <h2>5W+H</h2>
+    <p>Match each question to its answer. Look back at the passage. Drag a card into a box, or tap a card and then tap a box.</p>
+    <div class="oboxes" id="og-boxes"></div>
+    <div class="cards" id="og-cards"></div>
+    <div class="note" id="og-match-note"></div>
+    <div class="center"><button class="btn primary" id="og-match-next" onclick="ogToOrder()" style="display:none">Next: Put It in Order &rarr;</button></div>
+  </section>
+
+  <section id="og-order" class="screen">
+    <div class="row"><button class="btn" onclick="ogBackToPick()">&larr; Passages</button><span class="mini" id="og-order-title"></span></div>
+    <h2>Put It in Order</h2>
+    <p id="og-order-dir"></p>
+    <div class="olist" id="og-order-list"></div>
+    <div class="note" id="og-order-note"></div>
+    <div class="center"><button class="btn primary" id="og-order-check" onclick="ogCheckOrder()">Check</button>
+      <button class="btn primary" id="og-order-next" onclick="ogToDone()" style="display:none">Next &rarr;</button></div>
+    <p class="mini center">Drag a sentence to another spot, or tap one and then tap the spot to swap them.</p>
+  </section>
+
+  <section id="og-done" class="screen">
+    <h2>Use these boxes for your 1-Minute Talk.</h2>
+    <p class="mini" id="og-done-title"></p>
+    <div class="talk" id="og-talk"></div>
+    <div class="center"><button class="btn" onclick="ogBackToPick()">&larr; Passages</button></div>
+  </section>
+</div>
+<script src="tall-org-audio.js"></script>
+<script>
+/* ====== TALL Organizers: ES5 only ====== */
+var DATA = null, P = null, M = null, O = null, AUDIO = null;
+function el(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function go(id){ var s = document.querySelectorAll(".screen"), i; for(i=0;i<s.length;i++){ s[i].className = "screen" + (s[i].id === id ? " active" : ""); } try{ window.scrollTo(0,0); }catch(e){} }
+function shuffle(a){ var i, j, t; for(i=a.length-1;i>0;i--){ j = Math.floor(Math.random()*(i+1)); t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function orgId(p, tail){ return "ORG_" + String(p.id).replace(".", "_").replace(/^(\d+_)(\d)$/, "$10$2") + "_" + tail; }
+function clipPath(id){ return (window.TALL_ORG_AUDIO && window.TALL_ORG_AUDIO[id]) || ""; }
+function stopAudio(){ if(AUDIO){ try{ AUDIO.pause(); }catch(e){} AUDIO = null; } }
+function playClip(id, nrEl){
+  var path = clipPath(id), a, pr;
+  stopAudio();
+  if(!path){ if(nrEl){ nrEl.textContent = "Not recorded yet"; } return false; }
+  if(nrEl){ nrEl.textContent = ""; }
+  a = new Audio(path); AUDIO = a;
+  a.onerror = function(){ if(nrEl){ nrEl.textContent = "Not recorded yet"; } };
+  pr = a.play(); if(pr && pr.then){ pr.then(null, function(){ if(a.onerror){ a.onerror(); } }); }
+  return true;
+}
+function ogLoad(){
+  var raw = window.OG_DATA_RAW, xhr;
+  if(raw){ ogBoot(raw); return; }
+  try{
+    xhr = new XMLHttpRequest(); xhr.open("GET", "data/tall-organizers.json", true);
+    xhr.onreadystatechange = function(){
+      if(xhr.readyState !== 4){ return; }
+      if(xhr.status === 200 || (xhr.status === 0 && xhr.responseText)){ try{ ogBoot(JSON.parse(xhr.responseText)); }catch(e){ el("og-load-msg").textContent = "The organizers could not be read."; } }
+      else { el("og-load-msg").textContent = "The organizers could not be loaded. Try again."; }
+    };
+    xhr.send();
+  }catch(e){ el("og-load-msg").textContent = "The organizers could not be loaded."; }
+}
+function ogBoot(d){ DATA = d; ogShowPick(); }
+function ogShowPick(){
+  var h = "", i, p;
+  stopAudio();
+  for(i=0;i<DATA.passages.length;i++){ p = DATA.passages[i]; h += '<button class="pcard" id="og-p-'+i+'" onclick="ogOpen('+i+')"><span class="t">'+esc(p.id)+' '+esc(p.title)+'</span><span class="s">5W+H + Put It in Order</span></button>'; }
+  el("og-passages").innerHTML = h; go("og-pick");
+}
+function ogBackToPick(){ ogShowPick(); }
+function ogOpen(i){
+  var p = DATA.passages[i], b, k;
+  P = p; M = { cards: [], placed: {}, sel: null, need: 0 };
+  for(k=0;k<p.boxes.length;k++){ b = p.boxes[k]; if(b.q){ M.cards.push({ w: b.w, text: b.a, id: orgId(p, b.w.toLowerCase()) }); M.need++; } }
+  shuffle(M.cards);
+  el("og-match-title").textContent = p.id + " " + p.title;
+  el("og-match-next").style.display = "none"; el("og-match-note").textContent = ""; el("og-match-note").className = "note";
+  matchRender(); go("og-match");
+}
+/* ---------- 5W+H ---------- */
+function matchRender(){
+  var h = "", i, b, c, k;
+  for(i=0;i<P.boxes.length;i++){
+    b = P.boxes[i];
+    if(!b.q){ h += '<div class="obox gray" id="og-box-'+b.w.toLowerCase()+'"><div class="w">'+esc(b.w)+'</div><div class="q">This passage does not tell us '+esc(b.w.toLowerCase())+'.</div></div>'; continue; }
+    h += '<button class="obox'+(M.placed[b.w] ? ' filled' : '')+'" id="og-box-'+b.w.toLowerCase()+'" data-w="'+esc(b.w)+'" data-drop="box" onclick="ogBoxClick(\''+b.w+'\')"><div class="w">'+esc(b.w)+'</div><div class="q">'+esc(b.q)+'</div><div class="a">'+(M.placed[b.w] ? esc(b.a) : "")+'</div></button>';
+  }
+  el("og-boxes").innerHTML = h;
+  h = "";
+  for(k=0;k<M.cards.length;k++){
+    c = M.cards[k]; if(M.placed[c.w]){ continue; }
+    h += '<button class="acard'+(M.sel === c.w ? ' armed' : '')+'" id="og-card-'+c.w.toLowerCase()+'" data-w="'+esc(c.w)+'" onclick="ogCardClick(\''+c.w+'\')" onpointerdown="ogDown(event,\'card\',\''+c.w+'\')"><span class="nr" id="og-nr-'+c.w.toLowerCase()+'"></span>'+esc(c.text)+'</button>';
+  }
+  el("og-cards").innerHTML = h;
+}
+function cardFor(w){ var k; for(k=0;k<M.cards.length;k++){ if(M.cards[k].w === w){ return M.cards[k]; } } return null; }
+function ogCardClick(w){
+  var c;
+  if(SUPPRESS){ SUPPRESS = false; return; }
+  c = cardFor(w); if(!c){ return; }
+  M.sel = w; matchRender();
+  playClip(c.id, el("og-nr-" + w.toLowerCase()));
+  el("og-match-note").textContent = ""; el("og-match-note").className = "note";
+}
+function ogBoxClick(w){ if(SUPPRESS){ SUPPRESS = false; return; } if(M.sel && !M.placed[w]){ matchDrop(M.sel, w); } }
+function matchDrop(cardW, boxW){
+  var n = el("og-match-note");
+  if(M.placed[boxW] || M.placed[cardW]){ return; }
+  if(cardW === boxW){
+    M.placed[boxW] = true; M.sel = null; matchRender(); n.textContent = "Yes!"; n.className = "note good";
+    if(countPlaced() === M.need){ n.textContent = "All matched!"; el("og-match-next").style.display = "inline-flex"; }
+  } else { M.sel = null; matchRender(); n.textContent = "Not that box. Try another."; n.className = "note bad"; }
+}
+function countPlaced(){ var k, n = 0; for(k in M.placed){ if(M.placed[k]){ n++; } } return n; }
+/* ---------- Order It ---------- */
+function ogToOrder(){
+  var i, idx = [], tries = 0, inOrder;
+  O = { order: [], sel: -1, done: false, marks: null };
+  for(i=0;i<P.order.length;i++){ idx.push(i); }
+  do { shuffle(idx); inOrder = true; for(i=0;i<idx.length;i++){ if(idx[i] !== i){ inOrder = false; } } tries++; } while(inOrder && tries < 50);
+  O.order = idx;
+  el("og-order-title").textContent = P.id + " " + P.title; el("og-order-dir").textContent = P.orderDir;
+  el("og-order-note").textContent = ""; el("og-order-note").className = "note";
+  el("og-order-check").style.display = "inline-flex"; el("og-order-next").style.display = "none";
+  orderRender(); go("og-order");
+}
+function orderRender(){
+  var h = "", i, s;
+  for(i=0;i<O.order.length;i++){
+    s = O.order[i];
+    h += '<div class="oslot'+(O.marks ? ' '+O.marks[i] : '')+'" id="og-slot-'+i+'" data-drop="slot" data-i="'+i+'" onclick="ogSlotClick('+i+')"><span class="n">'+(i+1)+'</span><button class="acard'+(O.sel === i ? ' armed' : '')+'" id="og-ocard-'+i+'" data-i="'+i+'" onpointerdown="ogDown(event,\'ocard\','+i+')"><span class="nr" id="og-onr-'+i+'"></span>'+esc(P.order[s])+'</button></div>';
+  }
+  el("og-order-list").innerHTML = h;
+}
+function ogSlotClick(i){
+  var t, n = el("og-order-note");
+  if(SUPPRESS){ SUPPRESS = false; return; }
+  if(O.done){ return; }
+  if(O.sel === -1){
+    O.sel = i; O.marks = null; orderRender(); playClip(orgId(P, "s" + (O.order[i] + 1)), el("og-onr-" + i)); return;
+  }
+  if(O.sel === i){ O.sel = -1; orderRender(); return; }
+  orderMove(O.sel, i);
+}
+function orderMove(a, b){
+  var t = O.order[a]; O.order[a] = O.order[b]; O.order[b] = t; O.sel = -1; O.marks = null;
+  el("og-order-note").textContent = ""; el("og-order-note").className = "note"; orderRender();
+}
+function ogCheckOrder(){
+  var i, wrong = 0, n = el("og-order-note");
+  O.marks = []; O.sel = -1;
+  for(i=0;i<O.order.length;i++){ if(O.order[i] === i){ O.marks.push("right"); } else { O.marks.push("wrong"); wrong++; } }
+  orderRender();
+  if(!wrong){ O.done = true; n.textContent = "That is the order."; n.className = "note good"; el("og-order-check").style.display = "none"; el("og-order-next").style.display = "inline-flex"; }
+  else { n.textContent = (O.order.length - wrong) + " of " + O.order.length + " spots are right. Move the others and check again."; n.className = "note bad"; }
+}
+/* ---------- done ---------- */
+function ogToDone(){
+  var h = "", i, b;
+  el("og-done-title").textContent = P.id + " " + P.title;
+  for(i=0;i<P.boxes.length;i++){
+    b = P.boxes[i];
+    if(!b.q){ h += '<div class="obox gray"><div class="w">'+esc(b.w)+'</div><div class="q">This passage does not tell us '+esc(b.w.toLowerCase())+'.</div></div>'; }
+    else { h += '<div class="obox filled"><div class="w">'+esc(b.w)+'</div><div class="q">'+esc(b.q)+'</div><div class="a">'+esc(b.a)+'</div></div>'; }
+  }
+  el("og-talk").innerHTML = h; go("og-done");
+}
+/* ---------- drag (pointer events: mouse + touch). Drop on a box (5W+H) or a spot (Order It). A tap still works too. ---------- */
+var DRAG = null, SUPPRESS = false;
+function ogDown(ev, kind, key){
+  if(ev.button > 0){ return; }
+  DRAG = { kind: kind, key: key, x: ev.clientX, y: ev.clientY, on: false, ghost: null, src: ev.currentTarget || ev.target };
+  document.addEventListener("pointermove", ogMove); document.addEventListener("pointerup", ogUp);
+}
+function ogMove(ev){
+  var d = DRAG, g;
+  if(!d){ return; }
+  if(!d.on){
+    if(Math.abs(ev.clientX - d.x) + Math.abs(ev.clientY - d.y) < 8){ return; }
+    d.on = true; g = document.createElement("div"); g.className = "acard ghost"; g.textContent = d.src ? d.src.textContent : ""; document.body.appendChild(g); d.ghost = g;
+  }
+  d.ghost.style.left = (ev.clientX - 20) + "px"; d.ghost.style.top = (ev.clientY - 20) + "px";
+}
+function ogUp(ev){
+  var d = DRAG, t, drop, w, i;
+  document.removeEventListener("pointermove", ogMove); document.removeEventListener("pointerup", ogUp);
+  DRAG = null;
+  if(!d || !d.on){ return; }
+  if(d.ghost && d.ghost.parentNode){ d.ghost.parentNode.removeChild(d.ghost); }
+  SUPPRESS = true; setTimeout(function(){ SUPPRESS = false; }, 0);
+  t = document.elementFromPoint(ev.clientX, ev.clientY);
+  drop = t && t.closest ? t.closest("[data-drop]") : null;
+  if(!drop){ return; }
+  if(d.kind === "card" && drop.getAttribute("data-drop") === "box"){ matchDrop(d.key, drop.getAttribute("data-w")); }
+  else if(d.kind === "ocard" && drop.getAttribute("data-drop") === "slot" && !O.done){ i = parseInt(drop.getAttribute("data-i"), 10); if(i !== d.key){ orderMove(d.key, i); } }
+}
+ogLoad();
+</script></body></html>
