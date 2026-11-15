@@ -1,5 +1,7 @@
 # Reading Foundations — Project Handoff
 
+**Before any TALL work, read docs/TALL_Build-Rules.md and follow every rule in it.**
+
 **For:** Mick (Miquela Daniels) — 7th–8th grade ELD teacher, Fremont Junior High, Mesa AZ
 **Purpose of this file:** Bring a fresh Claude (Claude Code or a new chat) fully up to speed so it can keep building this app without re-learning everything.
 **Pro tip:** In Claude Code, save this as `CLAUDE.md` in the repo root. Claude Code reads that file automatically at the start of every session, so the context loads itself.
