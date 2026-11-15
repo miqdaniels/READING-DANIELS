@@ -64,10 +64,12 @@ psg.forEach((p,i)=>{
   const n=(i<10?"0":"")+i;
   ck(p.id==="PSG_1_"+n,"passage id "+i);
   ck(p.title===order[i] && p.label==="1."+i+" "+order[i],"v3 order "+i+" "+p.title);
-  // words must equal the Grade 1 passage text in index.html (matched by title), markers removed
-  const esc=p.title.replace(/[?]/g,"\\?");
-  const m=index.match(new RegExp('buildPassage\\("FIRST",\\d+,"'+esc+'",\\s*"([^"]+)"'));
-  ck(!!m && m[1].replace(/\*\*/g,"")===p.paras.join(" | "),"text identical to app for "+p.title);
+  // words, lines and counts must equal the locked v3 PDF (fixture read straight from the PDF)
+  const fx=JSON.parse(fs.readFileSync('./tests/fixtures/grade1-v3-from-pdf.json','utf8'))[i];
+  ck(fx.title===p.title,"fixture title "+p.title);
+  ck(p.rows.length===fx.lines.length && p.rows.every((r,j)=>r.t===fx.lines[j].text && r.n===fx.lines[j].n && !!r.p===!!fx.lines[j].para),"lines, running numbers and paragraph starts identical to the PDF for "+p.title);
+  ck(p.rows[p.rows.length-1].n===p.words,"last number = word count for "+p.title);
+  ck(p.paras.join(" ")===fx.lines.map(l=>l.text).join(" "),"text identical to the PDF for "+p.title);
   ck(p.paras.join(" ").indexOf("*")===-1,"no asterisks "+i);
 });
 
@@ -167,7 +169,11 @@ async function readZip(blob,w){
   w.tsGo("ts-pick"); click(w,"ts-set-1");
   ck(txt(w,"ts-count")==="1 of 11" && txt(w,"ts-pid")==="PSG_1_00","passages start at PSG_1_00");
   const ps=w.document.getElementById("ts-passage");
-  ck(!!ps && /^1\.0 Water/.test(ps.textContent) && ps.textContent.indexOf("We need water to live.")>-1,"full passage on screen");
+  ck(!!ps && /^1\.0 Water/.test(ps.textContent) && ps.textContent.indexOf("You need water to live.")>-1,"full v3 passage on screen");
+  const rowsEl=w.document.querySelectorAll("#ts-passage .gl");
+  ck(rowsEl.length===17 && rowsEl[0].querySelector(".gn").textContent==="15" && rowsEl[16].querySelector(".gn").textContent==="204","studio shows fixed lines with running counts 15 ... 204");
+  ck(rowsEl[0].querySelector(".gt").textContent==="You need water to live. You can go a long time with no food. But" && rowsEl[0].querySelectorAll("strong").length>0,"line 1 identical to the PDF, First 100 words bold");
+  ck(/Atkinson Hyperlegible Next/.test(html) && /border-left:1px solid #0F766E;color:#0F766E/.test(html),"studio passage: Atkinson + teal counts");
   click(w,"ts-mic"); await tick(); await tick(); click(w,"ts-mic"); await tick(); await tick();
   const playedBefore=w.__played.length;
   ck(/Saved/.test(txt(w,"ts-status")) && txt(w,"ts-pid")==="PSG_1_00" && w.__played.length===playedBefore,"passage take saves, no auto-play, stays put");

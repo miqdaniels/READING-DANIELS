@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>TALL Recording Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;700;800&amp;family=Montserrat:wght@800&amp;display=swap">
 <!-- (c) 2026 Miquela Daniels, AI Academy LLC. Reading Foundations. Proprietary -- do not copy or distribute.
      Teacher-only. Records the teacher's own voice for the TALL Sounds (88 clips) and the TALL Grade 1
      passages read-aloud (11 clips). No TTS, ever. Takes live in their own IndexedDB ("rf_tall_studio");
@@ -80,7 +83,16 @@ footer{max-width:980px;margin:0 auto;padding:0 16px 30px;font-size:12px;color:va
 .stype{margin:8px auto 0;font-size:clamp(14px,1.8vw,18px);font-weight:600;letter-spacing:.02em;color:var(--past)}
 .sayit{display:inline-block;margin:8px 0 4px;padding:6px 16px;border:2px solid var(--accent);border-radius:10px;font-weight:800;font-size:clamp(20px,3.4vw,30px);color:var(--accent)}
 .tip{margin:10px auto 0;max-width:640px;font-size:clamp(18px,2.6vw,24px);font-weight:600;color:var(--ink-soft)}
-.passage{max-width:820px;margin:14px auto 6px;text-align:left}
+.passage{max-width:900px;margin:14px auto 6px;text-align:left;font-family:"Atkinson Hyperlegible Next","Atkinson Hyperlegible","Segoe UI",Arial,sans-serif;overflow-x:auto}
+.passage .ptitle{font-family:"Montserrat","Segoe UI",Arial,sans-serif;font-weight:800}
+.passage .pw{margin:-4px 0 10px;font-size:15px;color:var(--ink-soft)}
+.passage .gl{display:flex;align-items:stretch;white-space:nowrap;font-size:clamp(17px,2.2vw,24px);line-height:1.55}
+.passage .gl.first .gt,.passage .gl.first .gn{padding-top:.4em}
+.passage .gl.first:first-of-type .gt,.passage .gl.first:first-of-type .gn{padding-top:0}
+.passage .gt{flex:1 1 auto}
+.passage .gl.first .gt{padding-left:2em}
+.passage .gn{flex:0 0 auto;min-width:3.4em;text-align:right;padding-left:.9em;border-left:1px solid #0F766E;color:#0F766E;font-size:.7em;display:flex;align-items:center;justify-content:flex-end;font-variant-numeric:tabular-nums}
+.passage strong{font-weight:800}
 .passage h3{margin:0 0 10px;font-size:clamp(22px,3vw,30px)}
 .passage p{font-size:clamp(24px,3.2vw,34px);line-height:1.55;margin:0 0 .8em}
 .list .pid{flex:0 0 60px}
@@ -255,11 +267,20 @@ function tsFirstUnrecorded(){
   for(i=0;i<it.length;i++){ if(!TS.takes[it[i].id]){ return i; } }
   return -1;
 }
+/* escape first, then turn **word** into bold (First 100 words), exactly like the student screen */
+function tsMark(raw){ return tsEsc(raw).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/\*/g,""); }
 function tsShowHtml(c){
   var h="", i;
   if(c.kind==="passage"){
-    h='<div class="passage" id="ts-passage"><h3>'+tsEsc(c.label)+'</h3>';
-    for(i=0;i<c.paras.length;i++){ h+='<p>'+tsEsc(c.paras[i])+'</p>'; }
+    h='<div class="passage" id="ts-passage"><h3 class="ptitle">'+tsEsc(c.label)+'</h3><div class="pw">'+c.words+' words</div>';
+    if(c.rows){
+      /* same fixed lines and running counts as the printed v3 PDF and the student screen */
+      for(i=0;i<c.rows.length;i++){
+        h+='<div class="gl'+(c.rows[i].p?' first':'')+'"><span class="gt">'+tsMark(c.rows[i].m)+'</span><span class="gn">'+c.rows[i].n+'</span></div>';
+      }
+    } else {
+      for(i=0;i<c.paras.length;i++){ h+='<p>'+tsEsc(c.paras[i])+'</p>'; }
+    }
     return h+'</div>';
   }
   h='<div class="sayit" id="ts-say">'+tsEsc(c.say)+'</div>';

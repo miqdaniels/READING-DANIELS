@@ -1,0 +1,3758 @@
+[
+ {
+  "sub": 0,
+  "title": "Water",
+  "lines": [
+   {
+    "text": "You need water to live. You can go a long time with no food. But",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 15,
+    "para": true
+   },
+   {
+    "text": "you can go just a few days with no water.",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 25,
+    "para": false
+   },
+   {
+    "text": "Did you know that your body is more than half water? A baby has",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 39,
+    "para": true
+   },
+   {
+    "text": "more water than you do. Your heart and your brain have a lot of water",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 54,
+    "para": false
+   },
+   {
+    "text": "in them, too. That is a lot of water!",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 63,
+    "para": false
+   },
+   {
+    "text": "Water has many jobs in your body. It helps your food move through",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     0,
+     0,
+     0
+    ],
+    "n": 76,
+    "para": true
+   },
+   {
+    "text": "you. It helps keep you cool. When it is hot, you sweat. When the sweat",
+    "bold": [
+     1,
+     1,
+     0,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     0
+    ],
+    "n": 91,
+    "para": false
+   },
+   {
+    "text": "dries on your skin, you cool off. But each time you sweat, you lose some",
+    "bold": [
+     0,
+     1,
+     1,
+     0,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    "n": 106,
+    "para": false
+   },
+   {
+    "text": "water.",
+    "bold": [
+     1
+    ],
+    "n": 107,
+    "para": false
+   },
+   {
+    "text": "If you do not have water, your body will tell you. It can be hard to",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 123,
+    "para": true
+   },
+   {
+    "text": "think. Your head may hurt. You may feel tired. So you need to drink",
+    "bold": [
+     0,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0
+    ],
+    "n": 137,
+    "para": false
+   },
+   {
+    "text": "water all day.",
+    "bold": [
+     1,
+     1,
+     1
+    ],
+    "n": 140,
+    "para": false
+   },
+   {
+    "text": "Here in Arizona, it gets so hot. In the summer, it can be more than",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 155,
+    "para": true
+   },
+   {
+    "text": "110. On a hot day, you need more water than on a cool day. Do not wait",
+    "bold": [
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 172,
+    "para": false
+   },
+   {
+    "text": "to feel sick. Have a drink before you go out.",
+    "bold": [
+     1,
+     0,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 182,
+    "para": false
+   },
+   {
+    "text": "Look at your water bottle now. Is there water in it? Did you drink it",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 197,
+    "para": true
+   },
+   {
+    "text": "all? If not, take a drink now.",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    "n": 204,
+    "para": false
+   }
+  ]
+ },
+ {
+  "sub": 1,
+  "title": "Should School Start Later?",
+  "lines": [
+   {
+    "text": "Many teens go to bed late. It is not just for fun. When you get to be a",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 18,
+    "para": true
+   },
+   {
+    "text": "teen, your body clock is not the same. You may not be tired at ten at",
+    "bold": [
+     0,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 34,
+    "para": false
+   },
+   {
+    "text": "night. That is how your body works now. It is not your fault.",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 47,
+    "para": false
+   },
+   {
+    "text": "But school starts early. Some kids get up at six to get on the bus.",
+    "bold": [
+     1,
+     1,
+     0,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 62,
+    "para": true
+   },
+   {
+    "text": "Then they come to class tired. It is hard to learn when you are tired. It",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 78,
+    "para": false
+   },
+   {
+    "text": "is hard to like your day, too.",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 85,
+    "para": false
+   },
+   {
+    "text": "Doctors say teens need about nine hours of sleep each night. More",
+    "bold": [
+     0,
+     1,
+     0,
+     0,
+     1,
+     0,
+     0,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    "n": 97,
+    "para": true
+   },
+   {
+    "text": "than half of the kids in junior high do not get that. So what do some",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 113,
+    "para": false
+   },
+   {
+    "text": "doctors want? They want school for teens to start at 8:30 or later. Some",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    "n": 127,
+    "para": false
+   },
+   {
+    "text": "schools have tried it. The kids got more sleep. They were not late to",
+    "bold": [
+     0,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 141,
+    "para": false
+   },
+   {
+    "text": "class as many times.",
+    "bold": [
+     1,
+     0,
+     1,
+     0
+    ],
+    "n": 145,
+    "para": false
+   },
+   {
+    "text": "But a later start is not good for each family. Some moms and dads",
+    "bold": [
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0
+    ],
+    "n": 159,
+    "para": true
+   },
+   {
+    "text": "have to be at work early. They want their kids at school before they go.",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 174,
+    "para": false
+   },
+   {
+    "text": "If school starts later, it will end later, too. Then you have less time for a",
+    "bold": [
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 190,
+    "para": false
+   },
+   {
+    "text": "game, for a job, or for your work at home.",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 200,
+    "para": false
+   },
+   {
+    "text": "There is no one way that is the best for all of us. So what do you",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 217,
+    "para": true
+   },
+   {
+    "text": "think? When would you like school to start?",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 225,
+    "para": false
+   }
+  ]
+ },
+ {
+  "sub": 2,
+  "title": "Schools Are Not All the Same",
+  "lines": [
+   {
+    "text": "Not all schools are the same. Kids go to school in many ways. Here",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 14,
+    "para": true
+   },
+   {
+    "text": "are three of them.",
+    "bold": [
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 18,
+    "para": false
+   },
+   {
+    "text": "In Mexico, many kids wear a uniform to school. Each school picks its",
+    "bold": [
+     1,
+     0,
+     1,
+     0,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    "n": 31,
+    "para": true
+   },
+   {
+    "text": "own colors. Some kids have the name of their school on their shirt.",
+    "bold": [
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 44,
+    "para": false
+   },
+   {
+    "text": "Many schools in Mexico have two times of day. Some kids come in the",
+    "bold": [
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 58,
+    "para": false
+   },
+   {
+    "text": "morning. Then a new group of kids comes after lunch. That way, more",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 71,
+    "para": false
+   },
+   {
+    "text": "kids can use the same school.",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 77,
+    "para": false
+   },
+   {
+    "text": "In Japan, kids help clean their school. Each day, they sweep the",
+    "bold": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 89,
+    "para": true
+   },
+   {
+    "text": "floor. They clean the desks and the halls. The kids do a lot of the work.",
+    "bold": [
+     0,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 105,
+    "para": false
+   },
+   {
+    "text": "At lunch, kids get the food for their class. They say this helps them",
+    "bold": [
+     1,
+     0,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 119,
+    "para": false
+   },
+   {
+    "text": "work as a team.",
+    "bold": [
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 123,
+    "para": false
+   },
+   {
+    "text": "Here in Arizona, kids go from class to class. When the bell rings,",
+    "bold": [
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    "n": 136,
+    "para": true
+   },
+   {
+    "text": "they get up and walk to the next room. They may have a new teacher",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 151,
+    "para": false
+   },
+   {
+    "text": "for each class. At some schools, kids can wear what they want. At",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 164,
+    "para": false
+   },
+   {
+    "text": "other schools, they have to wear a uniform.",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0
+    ],
+    "n": 172,
+    "para": false
+   },
+   {
+    "text": "Each school has its own way. Which way do you like the best?",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 185,
+    "para": true
+   },
+   {
+    "text": "Would you want to clean your school? Would you want to wear a",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 198,
+    "para": false
+   },
+   {
+    "text": "uniform?",
+    "bold": [
+     0
+    ],
+    "n": 199,
+    "para": false
+   }
+  ]
+ },
+ {
+  "sub": 3,
+  "title": "Your Phone",
+  "lines": [
+   {
+    "text": "Most kids have a phone by the time they are 11. A phone can do a",
+    "bold": [
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 16,
+    "para": true
+   },
+   {
+    "text": "lot. You can call and text your family and friends. You can look up",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 30,
+    "para": false
+   },
+   {
+    "text": "words. You can take pictures. You can play games, too.",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     0,
+     1,
+     0
+    ],
+    "n": 40,
+    "para": false
+   },
+   {
+    "text": "But a phone can take up a lot of time. Some people looked at how",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 55,
+    "para": true
+   },
+   {
+    "text": "kids use their phones. They found that teens use phones and other",
+    "bold": [
+     0,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 67,
+    "para": false
+   },
+   {
+    "text": "screens about eight hours a day for fun. That is more time than one",
+    "bold": [
+     0,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 81,
+    "para": false
+   },
+   {
+    "text": "whole day of school!",
+    "bold": [
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 85,
+    "para": false
+   },
+   {
+    "text": "Many teens say it is too much. Some say they look at their phone",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 99,
+    "para": true
+   },
+   {
+    "text": "at night, so they do not sleep. Some say they want to put it down, but it",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 116,
+    "para": false
+   },
+   {
+    "text": "is hard.",
+    "bold": [
+     1,
+     0
+    ],
+    "n": 118,
+    "para": false
+   },
+   {
+    "text": "In 2025, Arizona made a new law. Now each school has to have",
+    "bold": [
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 131,
+    "para": true
+   },
+   {
+    "text": "rules about phones. Each school can make its own rules. In many",
+    "bold": [
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 143,
+    "para": false
+   },
+   {
+    "text": "schools, your phone has to stay in your bag in class. But if there is a big",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 160,
+    "para": false
+   },
+   {
+    "text": "problem, you can still use your phone to call home.",
+    "bold": [
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 170,
+    "para": false
+   },
+   {
+    "text": "Some kids like the new rules. They say they talk with their friends",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 183,
+    "para": true
+   },
+   {
+    "text": "more. Other kids do not like the rules. They want their phones back.",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    "n": 196,
+    "para": false
+   },
+   {
+    "text": "What would you do with no phone for one whole day?",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 207,
+    "para": false
+   }
+  ]
+ },
+ {
+  "sub": 4,
+  "title": "Jobs",
+  "lines": [
+   {
+    "text": "Some kids want to get a job. A job is a way to make your own",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 16,
+    "para": true
+   },
+   {
+    "text": "money, and then you can use it to get the things you want.",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 29,
+    "para": false
+   },
+   {
+    "text": "Did you know that you can start some jobs at 14? But there are",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 43,
+    "para": true
+   },
+   {
+    "text": "rules, so you can not work all the time. On a school day, you can work",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 59,
+    "para": false
+   },
+   {
+    "text": "for just three hours. You can not work late at night. You can not do",
+    "bold": [
+     1,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 74,
+    "para": false
+   },
+   {
+    "text": "dangerous work that could hurt you. These rules are there to keep kids",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    "n": 87,
+    "para": false
+   },
+   {
+    "text": "safe and in school.",
+    "bold": [
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 91,
+    "para": false
+   },
+   {
+    "text": "At 14, you could work at a store. You could work at a place that sells",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0
+    ],
+    "n": 107,
+    "para": true
+   },
+   {
+    "text": "food, or you could help at a park in the summer. Some kids work for",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 122,
+    "para": false
+   },
+   {
+    "text": "their family, too. Others babysit or clean yards for neighbors.",
+    "bold": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     1,
+     0,
+     0,
+     1,
+     0
+    ],
+    "n": 132,
+    "para": false
+   },
+   {
+    "text": "A job can be good for you. You can make money, and you can",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 146,
+    "para": true
+   },
+   {
+    "text": "learn a lot. You can find out what you like to do, and you can meet new",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 163,
+    "para": false
+   },
+   {
+    "text": "people. You can learn to get to work on time, every time.",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 175,
+    "para": false
+   },
+   {
+    "text": "But a job can be hard, too. It can take time away from school. It can",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 191,
+    "para": true
+   },
+   {
+    "text": "take time away from your friends and family. If you work at night, you",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 205,
+    "para": false
+   },
+   {
+    "text": "may come to school tired.",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 210,
+    "para": false
+   },
+   {
+    "text": "So what would you do? Would you want a job at 14, or would you",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 225,
+    "para": true
+   },
+   {
+    "text": "like to wait?",
+    "bold": [
+     1,
+     1,
+     0
+    ],
+    "n": 228,
+    "para": false
+   }
+  ]
+ },
+ {
+  "sub": 5,
+  "title": "Dating",
+  "lines": [
+   {
+    "text": "Some kids in junior high say they have a boyfriend or a girlfriend.",
+    "bold": [
+     1,
+     0,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0
+    ],
+    "n": 13,
+    "para": true
+   },
+   {
+    "text": "For many of them, it is not like it is for grown people. They may text a",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 30,
+    "para": false
+   },
+   {
+    "text": "lot after school. At school, they may sit with each other at lunch. They",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 44,
+    "para": false
+   },
+   {
+    "text": "may walk to class with each other.",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 51,
+    "para": false
+   },
+   {
+    "text": "Some families say this is fine. They just want the kids to be safe and",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 66,
+    "para": true
+   },
+   {
+    "text": "to get good grades. They say it is a way to learn how to be kind to the",
+    "bold": [
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 84,
+    "para": false
+   },
+   {
+    "text": "people you like. They say you can learn what you want in a friend.",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 98,
+    "para": false
+   },
+   {
+    "text": "Other families say you are too young. They want you to wait. Some",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 111,
+    "para": true
+   },
+   {
+    "text": "families want you to wait until high school. Some want you to wait until",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    "n": 125,
+    "para": false
+   },
+   {
+    "text": "you are done with school. They say school has to come first.",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 137,
+    "para": false
+   },
+   {
+    "text": "Some kids do not want to date at all, and that is fine, too. They",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 152,
+    "para": true
+   },
+   {
+    "text": "would like to be with their friends. Or they would like to work on a sport",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 168,
+    "para": false
+   },
+   {
+    "text": "or on school.",
+    "bold": [
+     1,
+     1,
+     1
+    ],
+    "n": 171,
+    "para": false
+   },
+   {
+    "text": "There is no one right way. Each family has its own rules about",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    "n": 184,
+    "para": true
+   },
+   {
+    "text": "dating. Those rules can be very different. What does your family say? If",
+    "bold": [
+     0,
+     0,
+     0,
+     1,
+     1,
+     0,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 197,
+    "para": false
+   },
+   {
+    "text": "you could pick, when do you think is the right time to start to date? Why",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     0,
+     0
+    ],
+    "n": 213,
+    "para": false
+   },
+   {
+    "text": "do you think so?",
+    "bold": [
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 217,
+    "para": false
+   }
+  ]
+ },
+ {
+  "sub": 6,
+  "title": "Homework",
+  "lines": [
+   {
+    "text": "Many teachers give homework. Homework is school work that you",
+    "bold": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 10,
+    "para": true
+   },
+   {
+    "text": "do at home. You may have to read, write, or do math at home. Some",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 25,
+    "para": false
+   },
+   {
+    "text": "kids have a lot of homework. Some kids have none at all.",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 37,
+    "para": false
+   },
+   {
+    "text": "Some people say homework is good for you. It helps you learn",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0
+    ],
+    "n": 49,
+    "para": true
+   },
+   {
+    "text": "more. It helps you get ready for a test. If you did not get it in class, you",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 67,
+    "para": false
+   },
+   {
+    "text": "can work on it at home. Then you can ask about it the next day.",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 82,
+    "para": false
+   },
+   {
+    "text": "Other people say it is too much. Kids are at school for most of the",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 97,
+    "para": true
+   },
+   {
+    "text": "day. Then they come home tired. They want time to be with their",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 110,
+    "para": false
+   },
+   {
+    "text": "family and friends. Some kids have a job, or they have to help at home.",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 125,
+    "para": false
+   },
+   {
+    "text": "Some kids have no one at home who can help them.",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 136,
+    "para": false
+   },
+   {
+    "text": "So some schools do not give homework now. Other schools give a",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     0,
+     0,
+     1
+    ],
+    "n": 148,
+    "para": true
+   },
+   {
+    "text": "little each night. Some people who study homework say about one hour",
+    "bold": [
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 160,
+    "para": false
+   },
+   {
+    "text": "a night is fine for kids in junior high. That is about the time of one show",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 177,
+    "para": false
+   },
+   {
+    "text": "on your phone.",
+    "bold": [
+     1,
+     1,
+     1
+    ],
+    "n": 180,
+    "para": false
+   },
+   {
+    "text": "What do you think? Is homework good for you, or is it too much?",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    "n": 194,
+    "para": true
+   },
+   {
+    "text": "Should there be homework at all?",
+    "bold": [
+     0,
+     1,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 200,
+    "para": false
+   }
+  ]
+ },
+ {
+  "sub": 7,
+  "title": "A Shorter School Day",
+  "lines": [
+   {
+    "text": "What if school was just four hours a day? You could come in the",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 14,
+    "para": true
+   },
+   {
+    "text": "morning and go home at lunch. Would you learn more, or would you",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 27,
+    "para": false
+   },
+   {
+    "text": "learn less?",
+    "bold": [
+     0,
+     0
+    ],
+    "n": 29,
+    "para": false
+   },
+   {
+    "text": "Some people think a short day could be good. They say that kids",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 42,
+    "para": true
+   },
+   {
+    "text": "would not be so tired. When kids are not tired, they can think better.",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    "n": 56,
+    "para": false
+   },
+   {
+    "text": "Then they could have time after school for a job, a sport, or their family",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 71,
+    "para": false
+   },
+   {
+    "text": "and friends. Some schools in Arizona now have school for just four days",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     0
+    ],
+    "n": 84,
+    "para": false
+   },
+   {
+    "text": "a week. On the other day, kids can rest, or they can get help.",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 98,
+    "para": false
+   },
+   {
+    "text": "Other people say kids need more time in school, not less. There is a",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 112,
+    "para": true
+   },
+   {
+    "text": "lot to learn. It takes time to learn to read and write well. It takes time to",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 129,
+    "para": false
+   },
+   {
+    "text": "learn math. If the day was shorter, kids would have less time with their",
+    "bold": [
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 143,
+    "para": false
+   },
+   {
+    "text": "teachers. That is not good for them. Some kids get their best food of",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 157,
+    "para": false
+   },
+   {
+    "text": "the day at school, too. And some parents would have no one to be with",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 172,
+    "para": false
+   },
+   {
+    "text": "their kids in the afternoon.",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     0
+    ],
+    "n": 177,
+    "para": false
+   },
+   {
+    "text": "So what do you think? If school was shorter, would you work",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 189,
+    "para": true
+   },
+   {
+    "text": "harder? Or would you have a harder time to learn all you need to",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 203,
+    "para": false
+   },
+   {
+    "text": "know?",
+    "bold": [
+     1
+    ],
+    "n": 204,
+    "para": false
+   }
+  ]
+ },
+ {
+  "sub": 8,
+  "title": "Who Chooses?",
+  "lines": [
+   {
+    "text": "When people get married, who picks who they will marry? It is not",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 13,
+    "para": true
+   },
+   {
+    "text": "the same for all people.",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 18,
+    "para": false
+   },
+   {
+    "text": "In some families around the world, the parents help pick. They help",
+    "bold": [
+     1,
+     1,
+     0,
+     0,
+     1,
+     0,
+     1,
+     0,
+     0,
+     1,
+     1,
+     0
+    ],
+    "n": 30,
+    "para": true
+   },
+   {
+    "text": "pick who their child will marry. The parents look for a good family. They",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 44,
+    "para": false
+   },
+   {
+    "text": "look for a man or a woman who will be kind. Then the two people meet.",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 60,
+    "para": false
+   },
+   {
+    "text": "In a lot of these families, the two people can say yes or no. Many of",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 76,
+    "para": false
+   },
+   {
+    "text": "them say the love came after.",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 82,
+    "para": false
+   },
+   {
+    "text": "In other families, people pick who they want to marry on their own.",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 95,
+    "para": true
+   },
+   {
+    "text": "They may meet at school. They may meet at work. They may date for",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 109,
+    "para": false
+   },
+   {
+    "text": "a long time. Then they ask their family what they think.",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 120,
+    "para": false
+   },
+   {
+    "text": "Some people say your family knows you best. They have been with",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 132,
+    "para": true
+   },
+   {
+    "text": "you all your life. They know what you need. Other people say it is your",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 147,
+    "para": false
+   },
+   {
+    "text": "life, so it has to be your choice. They say you are the one who will live",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 164,
+    "para": false
+   },
+   {
+    "text": "with him or her.",
+    "bold": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 168,
+    "para": false
+   },
+   {
+    "text": "Both ways can work. When you are older, who do you think should",
+    "bold": [
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    "n": 181,
+    "para": true
+   },
+   {
+    "text": "pick? Would you want help from your family? Or would you like to pick",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 195,
+    "para": false
+   },
+   {
+    "text": "on your own?",
+    "bold": [
+     1,
+     1,
+     1
+    ],
+    "n": 198,
+    "para": false
+   }
+  ]
+ },
+ {
+  "sub": 9,
+  "title": "Friends Can Change You",
+  "lines": [
+   {
+    "text": "Have you ever heard that you are like the people you hang out",
+    "bold": [
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 13,
+    "para": true
+   },
+   {
+    "text": "with? Your friends can change you more than you think.",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 23,
+    "para": false
+   },
+   {
+    "text": "If your friends work hard in school, you may want to work hard, too.",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    "n": 37,
+    "para": true
+   },
+   {
+    "text": "You want to be like them. If your friends are kind to other people, you",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 52,
+    "para": false
+   },
+   {
+    "text": "may start to be kind, too. But it can go the other way. If your friends get",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 69,
+    "para": false
+   },
+   {
+    "text": "in trouble, you may get in trouble with them.",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 78,
+    "para": false
+   },
+   {
+    "text": "One study looked at what teens do when their friends are with",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 90,
+    "para": true
+   },
+   {
+    "text": "them. When the teens were by themselves, most of them made safe",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 102,
+    "para": false
+   },
+   {
+    "text": "choices. But when their friends were there to see, they took more risks.",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0
+    ],
+    "n": 115,
+    "para": false
+   },
+   {
+    "text": "They did it even when they knew better. They wanted their friends to",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 128,
+    "para": false
+   },
+   {
+    "text": "like them.",
+    "bold": [
+     1,
+     1
+    ],
+    "n": 130,
+    "para": false
+   },
+   {
+    "text": "That is why some people say you should pick your friends with",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 142,
+    "para": true
+   },
+   {
+    "text": "care. They say you should find friends who make you better. They say",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1
+    ],
+    "n": 155,
+    "para": false
+   },
+   {
+    "text": "good friends will not ask you to do something that could hurt you.",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 168,
+    "para": false
+   },
+   {
+    "text": "Other people say you can be friends with all kinds of people. They",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 181,
+    "para": true
+   },
+   {
+    "text": "say that you can still make your own choices, and you do not have to",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 196,
+    "para": false
+   },
+   {
+    "text": "do everything your friends do. You can be the one who makes them",
+    "bold": [
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "n": 209,
+    "para": false
+   },
+   {
+    "text": "better.",
+    "bold": [
+     0
+    ],
+    "n": 210,
+    "para": false
+   },
+   {
+    "text": "So look at your friends. Who are they? Are you more like them",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 223,
+    "para": true
+   },
+   {
+    "text": "now? Who do you want to be like?",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 231,
+    "para": false
+   }
+  ]
+ },
+ {
+  "sub": 10,
+  "title": "If You Do Nothing",
+  "lines": [
+   {
+    "text": "In many schools, kids move on to the next grade. They move on",
+    "bold": [
+     1,
+     1,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     0,
+     1
+    ],
+    "n": 13,
+    "para": true
+   },
+   {
+    "text": "even if they do not pass their classes. So some kids think that school",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1
+    ],
+    "n": 27,
+    "para": false
+   },
+   {
+    "text": "work does not count. They think, \"Why should I do it? I will go on to the",
+    "bold": [
+     1,
+     0,
+     1,
+     0,
+     1,
+     0,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 44,
+    "para": false
+   },
+   {
+    "text": "next grade anyway.\"",
+    "bold": [
+     0,
+     0,
+     0
+    ],
+    "n": 47,
+    "para": false
+   },
+   {
+    "text": "But what if you do nothing all year? When you get to the next",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 61,
+    "para": true
+   },
+   {
+    "text": "grade, the work is harder. Each year, your teachers think you know",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1
+    ],
+    "n": 73,
+    "para": false
+   },
+   {
+    "text": "what you learned the year before. Math, reading, and writing all build",
+    "bold": [
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     0,
+     1,
+     0
+    ],
+    "n": 85,
+    "para": false
+   },
+   {
+    "text": "on what came first. If you did not learn it, you may not know how to do",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 102,
+    "para": false
+   },
+   {
+    "text": "the new work.",
+    "bold": [
+     1,
+     1,
+     1
+    ],
+    "n": 105,
+    "para": false
+   },
+   {
+    "text": "This is a serious problem for a lot of students. When they fall behind,",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     0
+    ],
+    "n": 119,
+    "para": true
+   },
+   {
+    "text": "it gets harder and harder to catch up. After a while, some of them stop",
+    "bold": [
+     1,
+     0,
+     0,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 134,
+    "para": false
+   },
+   {
+    "text": "trying. Some of them even leave school before they finish.",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 144,
+    "para": false
+   },
+   {
+    "text": "It is not too late to change direction. If you start now, you can still",
+    "bold": [
+     1,
+     1,
+     1,
+     0,
+     0,
+     1,
+     0,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 159,
+    "para": true
+   },
+   {
+    "text": "catch up, but you have to want it. You can ask your teacher for help.",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     0
+    ],
+    "n": 174,
+    "para": false
+   },
+   {
+    "text": "You can come in before or after school, or you can work with a friend",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0
+    ],
+    "n": 189,
+    "para": false
+   },
+   {
+    "text": "who gets it.",
+    "bold": [
+     1,
+     0,
+     1
+    ],
+    "n": 192,
+    "para": false
+   },
+   {
+    "text": "The learning you lose does not come back on its own, so you have",
+    "bold": [
+     1,
+     0,
+     1,
+     0,
+     0,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 206,
+    "para": true
+   },
+   {
+    "text": "to go out and get it. So what will you do this year? Is it worth it to do",
+    "bold": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 225,
+    "para": false
+   },
+   {
+    "text": "nothing?",
+    "bold": [
+     0
+    ],
+    "n": 226,
+    "para": false
+   }
+  ]
+ }
+]

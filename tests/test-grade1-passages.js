@@ -8,8 +8,8 @@ function ok(c,m){ if(c){ pass++; } else { fail++; console.log("FAIL: "+m); } }
 function boot(url){
   return new JSDOM(html,{url:url,runScripts:"dangerously",pretendToBeVisual:true,beforeParse:function(w){ w.scrollTo=function(){}; w.HTMLElement.prototype.scrollIntoView=function(){}; }});
 }
-var COUNTS={0:55,1:46,2:52,3:44,4:57,5:55,6:54,7:58,8:59,9:60,10:57};
-var TITLES={0:"Should School Start Later?",1:"Water",2:"Your Phone",3:"Schools Are Not All the Same",4:"Homework",5:"Jobs",6:"Dating",7:"Who Chooses?",8:"A Shorter School Day",9:"Friends Can Change You",10:"If You Do Nothing"};
+var COUNTS={0:204,1:225,2:199,3:207,4:228,5:217,6:200,7:204,8:198,9:231,10:226}; /* v3 PDF, locked */
+var TITLES={0:"Water",1:"Should School Start Later?",2:"Schools Are Not All the Same",3:"Your Phone",4:"Jobs",5:"Dating",6:"Homework",7:"A Shorter School Day",8:"Who Chooses?",9:"Friends Can Change You",10:"If You Do Nothing"};
 
 ok(/<\/script>\s*<\/body>\s*<\/html>\s*$/.test(src),"file ends with </script></body></html>");
 ok(src.indexOf("=>")===-1 || true,"(arrow check below)");
@@ -30,7 +30,8 @@ for(i=0;i<ps.length;i++){
   var box=w.document.getElementById("flu-text");
   ok(box.innerHTML.indexOf("*")===-1 && w.document.getElementById("flu-text-wrap").textContent.indexOf("*")===-1,"no asterisks on screen "+i);
   ok(box.querySelectorAll("strong").length>0,"bold words present "+i);
-  ok(box.textContent.replace(/\s+/g," ").replace(/^ | $/g,"")===p.paragraphs.join(" "),"screen text matches "+i);
+  var gts=box.querySelectorAll(".gt"), plainScreen=[]; for(var q=0;q<gts.length;q++){ plainScreen.push(gts[q].textContent); }
+  ok(plainScreen.join(" ")===p.paragraphs.join(" "),"screen text matches "+i);
   ok(w.document.getElementById("flu-title").textContent===TITLES[i],"screen title "+i);
   ok(w.document.getElementById("flu-level").textContent===p.label,"screen label "+i);
   w.fluPassage=p; w.go("fluencyRetell");
@@ -41,7 +42,7 @@ ok(w.fluNextPassage("FIRST",9).sub===10 && w.fluNextPassage("FIRST",1).sub===2,"
 /* spot-check bold: 1.0 starts with a bold Many, and "teens" is not bold */
 w.fluPassage=w.findPassage("FIRST",0); w.go("fluencyPassage");
 var t=w.document.getElementById("flu-text").innerHTML;
-ok(t.indexOf("<strong>Many</strong> teens <strong>go</strong>")>-1,"1.0 bold pattern");
+ok(t.indexOf("<strong>You</strong> need <strong>water</strong> <strong>to</strong> live.")>-1,"1.0 bold pattern: You need water to live");
 /* placement: leveling up from K lands on 1.0 */
 ok(w.LEVELS.indexOf("FIRST")===2 && w.findPassage("FIRST",0).label==="1.0","FIRST level, sub 0 = 1.0");
 ok(Array.isArray(w.ARCHIVE_SEPT_GRADE1),"ARCHIVE_SEPT_GRADE1 exists");

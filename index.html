@@ -307,6 +307,21 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .flu-text-wrap{overflow:hidden}
 .flu-passage{ font-size:1.3rem; line-height:1.45; max-width:40em; margin:6px 0; }
 .flu-passage p{ margin:0 0 8px; }
+/* Level 1 (Grade 1) passages: FIXED lines like the printed v3 PDF -- a line never re-wraps, so the
+   running word count at its right edge always matches the words on that line. Atkinson Hyperlegible
+   Next for the text (First 100 words bold), Montserrat 800 for the title, Level 1 teal for the counts.
+   fluFitPassageText() picks the font size so the longest line fits; if the screen is still too narrow
+   the box scrolls sideways instead of re-wrapping. */
+.flu-text-wrap.l1{overflow-x:auto}
+.flu-passage.lines{max-width:none;font-family:"Atkinson Hyperlegible Next","Atkinson Hyperlegible","Segoe UI",Arial,sans-serif;font-weight:400;line-height:1.5}
+.flu-passage.lines .gl{display:flex;align-items:stretch;white-space:nowrap}
+.flu-passage.lines .gl.first .gt,.flu-passage.lines .gl.first .gn{padding-top:.4em}
+.flu-passage.lines .gl.first:first-child .gt,.flu-passage.lines .gl.first:first-child .gn{padding-top:0}
+.flu-passage.lines .gt{flex:1 1 auto}
+.flu-passage.lines .gl.first .gt{padding-left:2em}
+.flu-passage.lines .gn{flex:0 0 auto;min-width:3.4em;box-sizing:border-box;text-align:right;padding-left:.9em;border-left:1px solid #0F766E;color:#0F766E;font-size:.7em;display:flex;align-items:center;justify-content:flex-end;font-variant-numeric:tabular-nums}
+.flu-passage.lines strong{font-weight:800}
+#flu-title.l1{font-family:"Montserrat","Segoe UI",Arial,sans-serif;font-weight:800}
 .flu-timer-row{ display:flex; align-items:center; gap:12px; margin:6px 0; }
 .flu-timer{ font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; }
 /* Countdown ring around the pulsing Record square for every fluency read
@@ -4819,7 +4834,7 @@ function tImportPick(input){
    ============================================================ */
 var LEVELS=["PK","K","FIRST","SECOND","THIRD","FOURTH","FIFTH","SIXTH","SEVENTH","EIGHTH"];
 function fluSplitSentences(text){
-  var m=text.match(/[^.!?]+[.!?]+/g);
+  var m=text.match(/[^.!?]+[.!?]+["']*/g);
   return m || [text];
 }
 /* On-screen label. Grade 1 (level "FIRST") shows "1.0" ... "1.10"; the
@@ -4848,6 +4863,24 @@ function buildPassage(level,sub,title,markedText,frames){
   return { level:level, sub:sub, id:level+"_"+sub, label:fluLabel(level,sub), title:title,
            grade:(level==="FIRST"?1:null), paragraphs:paras, markup:markedParas, frames:frames, sentenceCounts:rows, totalWords:cum };
 }
+/* Level 1 passages are shown in FIXED lines exactly like the printed v3 PDF, each with the running
+   word count through that line (plain word count: words separated by spaces). paraLines = array of
+   paragraphs, each an array of line strings (** marks a First 100 word). The stored text is derived
+   from the lines, so the lines and the text can never disagree; p.lines[last].n === p.totalWords. */
+function buildLinesPassage(level,sub,title,paraLines,frames){
+  var texts=[], rows=[], cum=0, i, j, plain, p;
+  for(i=0;i<paraLines.length;i++){ texts.push(paraLines[i].join(" ")); }
+  p=buildPassage(level,sub,title,texts.join(" | "),frames);
+  for(i=0;i<paraLines.length;i++){
+    for(j=0;j<paraLines[i].length;j++){
+      plain=paraLines[i][j].replace(/\*\*/g,"");
+      cum+=plain.split(/\s+/).length;
+      rows.push({markup:paraLines[i][j], n:cum, first:(j===0)});
+    }
+  }
+  p.lines=rows;
+  return p;
+}
 var PASSAGES=[
   buildPassage("PK",0,"Phones at School",
     "My phone is in my bag. It is on. It buzzes. Who sent a text? My phone is black and red. I like it a lot. I can play a game on it. I can call my mom on it. I can see my friends on it. | But at school, my phone has to stay in my bag. That is the rule. Many schools have a rule like this now. | Some kids do not like the rule. They want to get the phone out. They want to see who sent a text. Some kids like the rule. They say it is good to look up and talk. They say it is good to look at the teacher. A phone can help you. A phone can get in the way, too. | So what do you think? Must a phone stay in the bag all day? Can it come out at lunch? I think it can come out at lunch. You can think what you want. What would you do?",
@@ -4864,39 +4897,349 @@ var PASSAGES=[
   buildPassage("PK",4,"The Check at the Door",
     "At some schools, there is a check at the door. You walk in a line. You put your bag down. A man or a lady looks in the bag. Then you walk past a big gray box. | The box can tell if you have metal on you. If it beeps, you have to stop. Then they check you one more time. | Why do some schools do this? They want to keep all the kids safe. They do not want kids to bring in stuff that can hurt people. | Some kids say the check makes them feel safe. Some kids say it takes too long. They have to get up at six. They have to wait in line out in the hot sun. | So what do you think? Is a check at the door a good thing? Do you want one at your school? Tell me why or why not.",
     ["This is about ___.", "Some kids say ___.", "I think a check at the door is good / bad because ___."]),
-  /* ----- Grade 1: 11 passages, 1.0 (placement) then 1.1 - 1.10 ----- */
-  buildPassage("FIRST",0,"Should School Start Later?",
-    "**Many** teens **go** **to** bed late. **But** **school** starts early, **so** **they** **come** **to** **class** **tired**. Doctors **say** teens need **about** nine hours **of** sleep. **Many** doctors **want** **school** **for** teens **to** start **at** 8:30 **or** later. **But** **that** **can** **be** hard **for** **families** **who** **work** early. **What** **time** **do** **you** **want** **school** **to** start?",
+  /* ----- Grade 1 (Level 1): 11 passages, v3 order. 1.0 Water (placement), then 1.1 - 1.10 -----
+     Text, line breaks and bold (First 100) words are copied from
+     TALL_Grade-1-Fluency-Passages_2026-11-11_v3.pdf -- the one locked source. One string = one
+     printed line; one inner array = one paragraph. Never re-wrap or edit a word here. */
+  buildLinesPassage("FIRST",0,"Water",[
+    [
+      "**You** need **water** **to** live. **You** **can** **go** **a** **long** **time** **with** **no** food. **But**",
+      "**you** **can** **go** just **a** few days **with** **no** **water**."
+    ],
+    [
+      "**Did** **you** **know** **that** **your** body **is** **more** **than** half **water**? **A** baby **has**",
+      "**more** **water** **than** **you** **do**. **Your** heart **and** **your** brain **have** **a** **lot** **of** **water**",
+      "**in** **them**, too. **That** **is** **a** **lot** **of** **water**!"
+    ],
+    [
+      "**Water** **has** **many** jobs **in** **your** body. **It** helps **your** food move through",
+      "**you**. **It** helps keep **you** cool. **When** **it** **is** hot, **you** sweat. **When** **the** sweat",
+      "dries **on** **your** skin, **you** cool off. **But** **each** **time** **you** sweat, **you** lose **some**",
+      "**water**."
+    ],
+    [
+      "**If** **you** **do** **not** **have** **water**, **your** body **will** tell **you**. **It** **can** **be** hard **to**",
+      "think. **Your** head **may** hurt. **You** **may** feel **tired**. **So** **you** need **to** drink",
+      "**water** **all** **day**."
+    ],
+    [
+      "**Here** **in** Arizona, **it** gets **so** hot. **In** **the** summer, **it** **can** **be** **more** **than**",
+      "110. **On** **a** hot **day**, **you** need **more** **water** **than** **on** **a** cool **day**. **Do** **not** wait",
+      "**to** feel sick. **Have** **a** drink **before** **you** **go** **out**."
+    ],
+    [
+      "**Look** **at** **your** **water** **bottle** **now**. **Is** **there** **water** **in** **it**? **Did** **you** drink **it**",
+      "**all**? **If** **not**, take **a** drink **now**."
+    ]
+  ],
     GRADE1_FRAMES),
-  buildPassage("FIRST",1,"Water",
-    "**We** need **water** **to** live. **Your** body **is** **more** **than** half **water**. **When** **it** **is** hot, **you** sweat **and** lose **water**. **That** **is** why **you** need **to** drink **water** **each** **day**. **Look** **at** **your** **water** **bottle**. **Did** **you** drink **it** **all**? **If** **not**, drink **some** **now**.",
+  buildLinesPassage("FIRST",1,"Should School Start Later?",[
+    [
+      "**Many** teens **go** **to** bed late. **It** **is** **not** just **for** fun. **When** **you** **get** **to** **be** **a**",
+      "teen, **your** body clock **is** **not** **the** same. **You** **may** **not** **be** **tired** **at** ten **at**",
+      "night. **That** **is** **how** **your** body works **now**. **It** **is** **not** **your** fault."
+    ],
+    [
+      "**But** **school** starts early. **Some** kids **get** **up** **at** six **to** **get** **on** **the** bus.",
+      "**Then** **they** **come** **to** **class** **tired**. **It** **is** hard **to** learn **when** **you** **are** **tired**. **It**",
+      "**is** hard **to** **like** **your** **day**, too."
+    ],
+    [
+      "Doctors **say** teens need **about** nine hours **of** sleep **each** night. **More**",
+      "**than** half **of** **the** kids **in** junior high **do** **not** **get** **that**. **So** **what** **do** **some**",
+      "doctors **want**? **They** **want** **school** **for** teens **to** start **at** 8:30 **or** later. **Some**",
+      "schools **have** tried **it**. **The** kids **got** **more** sleep. **They** **were** **not** late **to**",
+      "**class** as **many** times."
+    ],
+    [
+      "**But** **a** later start **is** **not** good **for** **each** **family**. **Some** moms **and** dads",
+      "**have** **to** **be** **at** **work** early. **They** **want** **their** kids **at** **school** **before** **they** **go**.",
+      "**If** **school** starts later, **it** **will** **end** later, too. **Then** **you** **have** less **time** **for** **a**",
+      "**game**, **for** **a** job, **or** **for** **your** **work** **at** **home**."
+    ],
+    [
+      "**There** **is** **no** **one** **way** **that** **is** **the** **best** **for** **all** **of** **us**. **So** **what** **do** **you**",
+      "think? **When** **would** **you** **like** **school** **to** start?"
+    ]
+  ],
     GRADE1_FRAMES),
-  buildPassage("FIRST",2,"Your Phone",
-    "**Many** **people** **have** **a** **phone**. **You** **can** **use** **it** **to** **call**, **text**, **and** **look** **up** **words**. **You** **can** also **use** **it** **to** take pictures. **Some** **people** **look** **at** **their** **phone** **for** **more** **than** five hours **a** **day**. **That** **is** **a** **long** **time**! **What** **would** **you** **do** **with** **no** **phone** **for** **one** **day**?",
+  buildLinesPassage("FIRST",2,"Schools Are Not All the Same",[
+    [
+      "**Not** **all** schools **are** **the** same. Kids **go** **to** **school** **in** **many** ways. **Here**",
+      "**are** three **of** **them**."
+    ],
+    [
+      "**In** Mexico, **many** kids wear **a** uniform **to** **school**. **Each** **school** picks its",
+      "**own** colors. **Some** kids **have** **the** name **of** **their** **school** **on** **their** shirt.",
+      "**Many** schools **in** Mexico **have** **two** times **of** **day**. **Some** kids **come** **in** **the**",
+      "morning. **Then** **a** **new** group **of** kids comes **after** lunch. **That** **way**, **more**",
+      "kids **can** **use** **the** same **school**."
+    ],
+    [
+      "**In** Japan, kids help clean **their** **school**. **Each** **day**, **they** sweep **the**",
+      "floor. **They** clean **the** desks **and** **the** halls. **The** kids **do** **a** **lot** **of** **the** **work**.",
+      "**At** lunch, kids **get** **the** food **for** **their** **class**. **They** **say** **this** helps **them**",
+      "**work** as **a** **team**."
+    ],
+    [
+      "**Here** **in** Arizona, kids **go** **from** **class** **to** **class**. **When** **the** bell rings,",
+      "**they** **get** **up** **and** walk **to** **the** next room. **They** **may** **have** **a** **new** teacher",
+      "**for** **each** **class**. **At** **some** schools, kids **can** wear **what** **they** **want**. **At**",
+      "**other** schools, **they** **have** **to** wear **a** uniform."
+    ],
+    [
+      "**Each** **school** **has** its **own** **way**. **Which** **way** **do** **you** **like** **the** **best**?",
+      "**Would** **you** **want** **to** clean **your** **school**? **Would** **you** **want** **to** wear **a**",
+      "uniform?"
+    ]
+  ],
     GRADE1_FRAMES),
-  buildPassage("FIRST",3,"Schools Are Not All the Same",
-    "**Not** **all** **schools** **are** **the** same. **In** Mexico, **many** kids wear **a** uniform. **In** Japan, kids help clean **their** **school** **each** **day**. **Here**, kids **go** **from** **class** **to** **class** **when** **the** bell rings. **Each** **school** **has** **its** **own** **way**. **Which** **way** **do** **you** **like**?",
+  buildLinesPassage("FIRST",3,"Your Phone",[
+    [
+      "Most kids **have** **a** **phone** **by** **the** **time** **they** **are** 11. **A** **phone** **can** **do** **a**",
+      "**lot**. **You** **can** call **and** **text** **your** **family** **and** **friends**. **You** **can** **look** **up**",
+      "**words**. **You** **can** take pictures. **You** **can** play **games**, too."
+    ],
+    [
+      "**But** **a** **phone** **can** take **up** **a** **lot** **of** **time**. **Some** **people** **looked** **at** **how**",
+      "kids **use** **their** phones. **They** found **that** teens **use** phones **and** **other**",
+      "screens **about** eight hours **a** **day** **for** fun. **That** **is** **more** **time** **than** **one**",
+      "whole **day** **of** **school**!"
+    ],
+    [
+      "**Many** teens **say** **it** **is** too much. **Some** **say** **they** **look** **at** **their** **phone**",
+      "**at** night, **so** **they** **do** **not** sleep. **Some** **say** **they** **want** **to** put **it** **down**, **but** **it**",
+      "**is** hard."
+    ],
+    [
+      "**In** 2025, Arizona **made** **a** **new** law. **Now** **each** **school** **has** **to** **have**",
+      "rules **about** phones. **Each** **school** **can** **make** its **own** rules. **In** **many**",
+      "schools, **your** **phone** **has** **to** stay **in** **your** bag **in** **class**. **But** **if** **there** **is** **a** big",
+      "problem, **you** **can** still **use** **your** **phone** **to** call **home**."
+    ],
+    [
+      "**Some** kids **like** **the** **new** rules. **They** **say** **they** talk **with** **their** **friends**",
+      "**more**. **Other** kids **do** **not** **like** **the** rules. **They** **want** **their** phones back.",
+      "**What** **would** **you** **do** **with** **no** **phone** **for** **one** whole **day**?"
+    ]
+  ],
     GRADE1_FRAMES),
-  buildPassage("FIRST",4,"Homework",
-    "**Many** teachers give homework. Homework **is** **school** **work** **you** **do** **at** **home**. **Some** **people** **say** **it** helps **you** learn **more**. **It** **can** help **you** **get** **ready** **for** **a** test. **Other** **people** **say** kids **are** **tired** **after** **school**. **They** **want** **time** **for** **family**, **friends**, **and** **work**. **Some** **schools** give **no** homework **at** **all**. Should **there** **be** any homework?",
+  buildLinesPassage("FIRST",4,"Jobs",[
+    [
+      "**Some** kids **want** **to** **get** **a** job. **A** job **is** **a** **way** **to** **make** **your** **own**",
+      "money, **and** **then** **you** **can** **use** **it** **to** **get** **the** things **you** **want**."
+    ],
+    [
+      "**Did** **you** **know** **that** **you** **can** start **some** jobs **at** 14? **But** **there** **are**",
+      "rules, **so** **you** **can** **not** **work** **all** **the** **time**. **On** **a** **school** **day**, **you** **can** **work**",
+      "**for** just three hours. **You** **can** **not** **work** late **at** night. **You** **can** **not** **do**",
+      "dangerous **work** **that** **could** hurt **you**. **These** rules **are** **there** **to** keep kids",
+      "safe **and** **in** **school**."
+    ],
+    [
+      "**At** 14, **you** **could** **work** **at** **a** store. **You** **could** **work** **at** **a** place **that** sells",
+      "food, **or** **you** **could** help **at** **a** **park** **in** **the** summer. **Some** kids **work** **for**",
+      "**their** **family**, too. Others babysit **or** clean yards **for** neighbors."
+    ],
+    [
+      "**A** job **can** **be** good **for** **you**. **You** **can** **make** money, **and** **you** **can**",
+      "learn **a** **lot**. **You** **can** **find** **out** **what** **you** **like** **to** **do**, **and** **you** **can** meet **new**",
+      "**people**. **You** **can** learn **to** **get** **to** **work** **on** **time**, every **time**."
+    ],
+    [
+      "**But** **a** job **can** **be** hard, too. **It** **can** take **time** **away** **from** **school**. **It** **can**",
+      "take **time** **away** **from** **your** **friends** **and** **family**. **If** **you** **work** **at** night, **you**",
+      "**may** **come** **to** **school** **tired**."
+    ],
+    [
+      "**So** **what** **would** **you** **do**? **Would** **you** **want** **a** job **at** 14, **or** **would** **you**",
+      "**like** **to** wait?"
+    ]
+  ],
     GRADE1_FRAMES),
-  buildPassage("FIRST",5,"Jobs",
-    "**Some** kids **want** **a** job. **The** law **says** **you** **can** start **some** jobs **at** 14. **But** **you** **can** only **work** three hours **on** **a** **school** **day**. **A** job **can** help **you** **make** money, **and** **you** **can** learn **a** **lot**. **But** **work** **can** take **time** **from** **school** **and** **friends**. **Would** **you** **want** **a** job **at** 14?",
+  buildLinesPassage("FIRST",5,"Dating",[
+    [
+      "**Some** kids **in** junior high **say** **they** **have** **a** boyfriend **or** **a** girlfriend.",
+      "**For** **many** **of** **them**, **it** **is** **not** **like** **it** **is** **for** grown **people**. **They** **may** **text** **a**",
+      "**lot** **after** **school**. **At** **school**, **they** **may** **sit** **with** **each** **other** **at** lunch. **They**",
+      "**may** walk **to** **class** **with** **each** **other**."
+    ],
+    [
+      "**Some** families **say** **this** **is** **fine**. **They** just **want** **the** kids **to** **be** safe **and**",
+      "**to** **get** good grades. **They** **say** **it** **is** **a** **way** **to** learn **how** **to** **be** kind **to** **the**",
+      "**people** **you** **like**. **They** **say** **you** **can** learn **what** **you** **want** **in** **a** friend."
+    ],
+    [
+      "**Other** families **say** **you** **are** too young. **They** **want** **you** **to** wait. **Some**",
+      "families **want** **you** **to** wait until high **school**. **Some** **want** **you** **to** wait until",
+      "**you** **are** done **with** **school**. **They** **say** **school** **has** **to** **come** **first**."
+    ],
+    [
+      "**Some** kids **do** **not** **want** **to** date **at** **all**, **and** **that** **is** **fine**, too. **They**",
+      "**would** **like** **to** **be** **with** **their** **friends**. **Or** **they** **would** **like** **to** **work** **on** **a** sport",
+      "**or** **on** **school**."
+    ],
+    [
+      "**There** **is** **no** **one** right **way**. **Each** **family** **has** its **own** rules **about**",
+      "dating. Those rules **can** **be** very different. **What** does **your** **family** **say**? **If**",
+      "**you** **could** **pick**, **when** **do** **you** think **is** **the** right **time** **to** start **to** date? Why",
+      "**do** **you** think **so**?"
+    ]
+  ],
     GRADE1_FRAMES),
-  buildPassage("FIRST",6,"Dating",
-    "**Some** kids **in** seventh grade **have** **a** boyfriend **or** **a** girlfriend. **Some** **families** **say** **that** **is** **fine**. **Other** **families** **say** **you** **are** too young, **so** **you** **have** **to** wait. **Some** kids **want** **to** date, **but** **some** **do** **not**. **There** **is** **no** **one** **right** **way**. **When** **do** **you** think **is** **the** **right** **time** **to** date?",
+  buildLinesPassage("FIRST",6,"Homework",[
+    [
+      "**Many** teachers give homework. Homework **is** **school** **work** **that** **you**",
+      "**do** **at** **home**. **You** **may** **have** **to** read, **write**, **or** **do** math **at** **home**. **Some**",
+      "kids **have** **a** **lot** **of** homework. **Some** kids **have** none **at** **all**."
+    ],
+    [
+      "**Some** **people** **say** homework **is** good **for** **you**. **It** helps **you** learn",
+      "**more**. **It** helps **you** **get** **ready** **for** **a** test. **If** **you** **did** **not** **get** **it** **in** **class**, **you**",
+      "**can** **work** **on** **it** **at** **home**. **Then** **you** **can** ask **about** **it** **the** next **day**."
+    ],
+    [
+      "**Other** **people** **say** **it** **is** too much. Kids **are** **at** **school** **for** most **of** **the**",
+      "**day**. **Then** **they** **come** **home** **tired**. **They** **want** **time** **to** **be** **with** **their**",
+      "**family** **and** **friends**. **Some** kids **have** **a** job, **or** **they** **have** **to** help **at** **home**.",
+      "**Some** kids **have** **no** **one** **at** **home** **who** **can** help **them**."
+    ],
+    [
+      "**So** **some** schools **do** **not** give homework **now**. **Other** schools give **a**",
+      "little **each** night. **Some** **people** **who** study homework **say** **about** **one** hour",
+      "**a** night **is** **fine** **for** kids **in** junior high. **That** **is** **about** **the** **time** **of** **one** show",
+      "**on** **your** **phone**."
+    ],
+    [
+      "**What** **do** **you** think? **Is** homework good **for** **you**, **or** **is** **it** too much?",
+      "Should **there** **be** homework **at** **all**?"
+    ]
+  ],
     GRADE1_FRAMES),
-  buildPassage("FIRST",7,"Who Chooses?",
-    "**In** **some** **families**, parents help choose **who** **their** child **will** marry. **They** **want** **to** **make** **a** good **pick** **for** **the** **family**. **In** **other** **families**, **people** choose **who** **they** **want**. **When** **you** **are** older, **who** **will** **you** date **or** marry? **Some** **people** **say** **your** **family** **knows** **you** **best**. **Other** **people** **say** **it** **is** **your** choice. **What** **do** **you** think?",
+  buildLinesPassage("FIRST",7,"A Shorter School Day",[
+    [
+      "**What** **if** **school** **was** just four hours **a** **day**? **You** **could** **come** **in** **the**",
+      "morning **and** **go** **home** **at** lunch. **Would** **you** learn **more**, **or** **would** **you**",
+      "learn less?"
+    ],
+    [
+      "**Some** **people** think **a** short **day** **could** **be** good. **They** **say** **that** kids",
+      "**would** **not** **be** **so** **tired**. **When** kids **are** **not** **tired**, **they** **can** think better.",
+      "**Then** **they** **could** **have** **time** **after** **school** **for** **a** job, **a** sport, **or** **their** **family**",
+      "**and** **friends**. **Some** schools **in** Arizona **now** **have** **school** **for** just four days",
+      "**a** week. **On** **the** **other** **day**, kids **can** rest, **or** **they** **can** **get** help."
+    ],
+    [
+      "**Other** **people** **say** kids need **more** **time** **in** **school**, **not** less. **There** **is** **a**",
+      "**lot** **to** learn. **It** takes **time** **to** learn **to** read **and** **write** well. **It** takes **time** **to**",
+      "learn math. **If** **the** **day** **was** shorter, kids **would** **have** less **time** **with** **their**",
+      "teachers. **That** **is** **not** good **for** **them**. **Some** kids **get** **their** **best** food **of**",
+      "**the** **day** **at** **school**, too. **And** **some** parents **would** **have** **no** **one** **to** **be** **with**",
+      "**their** kids **in** **the** afternoon."
+    ],
+    [
+      "**So** **what** **do** **you** think? **If** **school** **was** shorter, **would** **you** **work**",
+      "harder? **Or** **would** **you** **have** **a** harder **time** **to** learn **all** **you** need **to**",
+      "**know**?"
+    ]
+  ],
     GRADE1_FRAMES),
-  buildPassage("FIRST",8,"A Shorter School Day",
-    "**What** **if** **school** **was** only four hours **a** **day**? **Some** **people** **say** kids **would** **want** **to** learn **more**. **They** **would** **not** **be** **so** **tired**. **Then** **they** **could** **have** **time** **for** **a** job, **a** sport, **or** **their** **family**. **Other** **people** **say** kids **would** **have** less **time** **to** learn **to** read **and** **write**. **If** **school** **was** shorter, **would** **you** **work** harder?",
+  buildLinesPassage("FIRST",8,"Who Chooses?",[
+    [
+      "**When** **people** **get** married, **who** picks **who** **they** **will** marry? **It** **is** **not**",
+      "**the** same **for** **all** **people**."
+    ],
+    [
+      "**In** **some** families around **the** world, **the** parents help **pick**. **They** help",
+      "**pick** **who** **their** child **will** marry. **The** parents **look** **for** **a** good **family**. **They**",
+      "**look** **for** **a** man **or** **a** woman **who** **will** **be** kind. **Then** **the** **two** **people** meet.",
+      "**In** **a** **lot** **of** **these** families, **the** **two** **people** **can** **say** yes **or** **no**. **Many** **of**",
+      "**them** **say** **the** love **came** **after**."
+    ],
+    [
+      "**In** **other** families, **people** **pick** **who** **they** **want** **to** marry **on** **their** **own**.",
+      "**They** **may** meet **at** **school**. **They** **may** meet **at** **work**. **They** **may** date **for**",
+      "**a** **long** **time**. **Then** **they** ask **their** **family** **what** **they** think."
+    ],
+    [
+      "**Some** **people** **say** **your** **family** knows **you** **best**. **They** **have** **been** **with**",
+      "**you** **all** **your** life. **They** **know** **what** **you** need. **Other** **people** **say** **it** **is** **your**",
+      "life, **so** **it** **has** **to** **be** **your** choice. **They** **say** **you** **are** **the** **one** **who** **will** live",
+      "**with** **him** **or** **her**."
+    ],
+    [
+      "Both ways **can** **work**. **When** **you** **are** older, **who** **do** **you** think should",
+      "**pick**? **Would** **you** **want** help **from** **your** **family**? **Or** **would** **you** **like** **to** **pick**",
+      "**on** **your** **own**?"
+    ]
+  ],
     GRADE1_FRAMES),
-  buildPassage("FIRST",9,"Friends Can Change You",
-    "**Your** **friends** **can** change **you**. **If** **your** **friends** **work** hard, **you** **may** **want** **to** **work** hard, too. **If** **your** **friends** **get** **in** trouble, **you** **may** **get** **in** trouble, too. **Some** **people** **say** **you** should **pick** **friends** **who** **make** **you** better. **Other** **people** **say** **you** **can** still **be** **friends** **with** **all** kinds **of** **people**. **Who** **do** **you** **want** **to** **be** **like**?",
+  buildLinesPassage("FIRST",9,"Friends Can Change You",[
+    [
+      "**Have** **you** ever heard **that** **you** **are** **like** **the** **people** **you** hang **out**",
+      "**with**? **Your** **friends** **can** change **you** **more** **than** **you** think."
+    ],
+    [
+      "**If** **your** **friends** **work** hard **in** **school**, **you** **may** **want** **to** **work** hard, too.",
+      "**You** **want** **to** **be** **like** **them**. **If** **your** **friends** **are** kind **to** **other** **people**, **you**",
+      "**may** start **to** **be** kind, too. **But** **it** **can** **go** **the** **other** **way**. **If** **your** **friends** **get**",
+      "**in** trouble, **you** **may** **get** **in** trouble **with** **them**."
+    ],
+    [
+      "**One** study **looked** **at** **what** teens **do** **when** **their** **friends** **are** **with**",
+      "**them**. **When** **the** teens **were** **by** themselves, most **of** **them** **made** safe",
+      "choices. **But** **when** **their** **friends** **were** **there** **to** **see**, **they** took **more** risks.",
+      "**They** **did** **it** even **when** **they** knew better. **They** wanted **their** **friends** **to**",
+      "**like** **them**."
+    ],
+    [
+      "**That** **is** why **some** **people** **say** **you** should **pick** **your** **friends** **with**",
+      "care. **They** **say** **you** should **find** **friends** **who** **make** **you** better. **They** **say**",
+      "good **friends** **will** **not** ask **you** **to** **do** something **that** **could** hurt **you**."
+    ],
+    [
+      "**Other** **people** **say** **you** **can** **be** **friends** **with** **all** kinds **of** **people**. **They**",
+      "**say** **that** **you** **can** still **make** **your** **own** choices, **and** **you** **do** **not** **have** **to**",
+      "**do** everything **your** **friends** **do**. **You** **can** **be** **the** **one** **who** makes **them**",
+      "better."
+    ],
+    [
+      "**So** **look** **at** **your** **friends**. **Who** **are** **they**? **Are** **you** **more** **like** **them**",
+      "**now**? **Who** **do** **you** **want** **to** **be** **like**?"
+    ]
+  ],
     GRADE1_FRAMES),
-  buildPassage("FIRST",10,"If You Do Nothing",
-    "**In** **many** **schools**, kids move **on** **to** **the** next grade even **if** **they** fail. **So** **some** kids think **school** **work** **does** **not** count. **But** **what** **if** **you** **do** nothing **all** **year**? Next **year**, **the** **work** **is** harder. **You** **may** **not** **know** **how** **to** **do** **it**. **The** learning **you** lose **does** **not** **come** back. **Is** **it** **worth** **it**?",
+  buildLinesPassage("FIRST",10,"If You Do Nothing",[
+    [
+      "**In** **many** schools, kids move **on** **to** **the** next grade. **They** move **on**",
+      "even **if** **they** **do** **not** pass **their** classes. **So** **some** kids think **that** **school**",
+      "**work** does **not** count. **They** think, \"Why should **I** **do** **it**? **I** **will** **go** **on** **to** **the**",
+      "next grade anyway.\""
+    ],
+    [
+      "**But** **what** **if** **you** **do** nothing **all** **year**? **When** **you** **get** **to** **the** next",
+      "grade, **the** **work** **is** harder. **Each** **year**, **your** teachers think **you** **know**",
+      "**what** **you** learned **the** **year** **before**. Math, reading, **and** writing **all** build",
+      "**on** **what** **came** **first**. **If** **you** **did** **not** learn **it**, **you** **may** **not** **know** **how** **to** **do**",
+      "**the** **new** **work**."
+    ],
+    [
+      "**This** **is** **a** serious problem **for** **a** **lot** **of** students. **When** **they** fall behind,",
+      "**it** gets harder **and** harder **to** catch **up**. **After** **a** while, **some** **of** **them** stop",
+      "trying. **Some** **of** **them** even leave **school** **before** **they** finish."
+    ],
+    [
+      "**It** **is** **not** too late **to** change direction. **If** **you** start **now**, **you** **can** still",
+      "catch **up**, **but** **you** **have** **to** **want** **it**. **You** **can** ask **your** teacher **for** help.",
+      "**You** **can** **come** **in** **before** **or** **after** **school**, **or** **you** **can** **work** **with** **a** friend",
+      "**who** gets **it**."
+    ],
+    [
+      "**The** learning **you** lose does **not** **come** back **on** its **own**, **so** **you** **have**",
+      "**to** **go** **out** **and** **get** **it**. **So** **what** **will** **you** **do** **this** **year**? **Is** **it** **worth** **it** **to** **do**",
+      "nothing?"
+    ]
+  ],
     GRADE1_FRAMES)
 ];
 /* The old September Grade 1 passages. Kept for the record, never shown to
@@ -5038,6 +5381,30 @@ function fluFlashTimesUp(btnId,then){
    doesn't fit at 18px, only the passage box itself scrolls (never the
    whole page). No-ops in an environment with no real layout (e.g. this
    file's own jsdom tests), since there's nothing to measure there. */
+/* Level 1 passage screens use two more Google fonts (Atkinson Hyperlegible Next, Montserrat). They are
+   requested only when a Level 1 passage first opens, not at app start. If they do not load, the CSS
+   fallbacks (Segoe UI / Arial / sans-serif) show instead. */
+var FLU_L1_FONTS=false;
+function fluLoadL1Fonts(){
+  if(FLU_L1_FONTS){ return; }
+  FLU_L1_FONTS=true;
+  try{
+    var l=document.createElement("link");
+    l.rel="stylesheet";
+    l.href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;700;800&family=Montserrat:wght@800&display=swap";
+    l.onload=function(){ fluFitPassageText(); };
+    document.head.appendChild(l);
+  }catch(e){}
+}
+/* Fixed-line markup for a Level 1 passage: one row per printed line + its running word count. */
+function fluLinesHTML(p){
+  var html="", i, r;
+  for(i=0;i<p.lines.length;i++){
+    r=p.lines[i];
+    html+='<div class="gl'+(r.first?' first':'')+'"><span class="gt">'+fluMarkup(r.markup)+'</span><span class="gn">'+r.n+'</span></div>';
+  }
+  return html;
+}
 function fluFitPassageText(){
   var wrap=document.getElementById("flu-text-wrap"), el=document.getElementById("flu-text");
   if(!wrap || !el){ return; }
@@ -5049,11 +5416,21 @@ function fluFitPassageText(){
   if(avail<70){ avail=70; }
   var size=23; /* the passage's normal ~1.3rem size, in px */
   el.style.fontSize=size+"px";
-  var guard=0;
-  while(el.scrollHeight>avail && size>18 && guard<20){ size--; el.style.fontSize=size+"px"; guard++; }
+  var guard=0, floor=18;
+  if(el.className.indexOf("lines")>-1){
+    /* fixed lines never re-wrap: shrink until the longest line fits the width (not below 13px), then scroll sideways */
+    while(el.scrollWidth>wrap.clientWidth+1 && size>13 && guard<30){ size--; el.style.fontSize=size+"px"; guard++; }
+    if(size<floor){ floor=size; }
+    guard=0;
+  }
+  while(el.scrollHeight>avail && size>floor && guard<20){ size--; el.style.fontSize=size+"px"; guard++; }
   wrap.style.maxHeight=avail+"px";
   wrap.style.overflowY=(el.scrollHeight>avail)?"auto":"visible";
 }
+window.addEventListener("resize", function(){
+  var sc=document.getElementById("fluencyPassage");
+  if(sc && sc.className.indexOf("active")>-1){ fluFitPassageText(); }
+});
 function fluEnter(){
   if(!fluPassage){ fluPassage=findPassage(LEVELS[0],0); }
   fluBlob=null; fluClearTimer(); fluTimerLeft=60; fluPendingSubmit=false; fluAutoStopped=false; fluReadNum=1;
@@ -5061,8 +5438,16 @@ function fluEnter(){
   var p=fluPassage, i;
   document.getElementById("flu-level").textContent=p.label;
   document.getElementById("flu-title").textContent=p.title;
-  var html=""; for(i=0;i<p.paragraphs.length;i++){ html+="<p>"+fluMarkup((p.markup?p.markup[i]:p.paragraphs[i]).replace(/^\s+|\s+$/g,""))+"</p>"; }
-  document.getElementById("flu-text").innerHTML=html;
+  var html="", textEl=document.getElementById("flu-text"), wrapEl=document.getElementById("flu-text-wrap"), titleEl=document.getElementById("flu-title");
+  if(p.lines){
+    html=fluLinesHTML(p);
+    textEl.className="flu-passage lines"; wrapEl.className="flu-text-wrap l1"; titleEl.className="scr-title l1";
+    fluLoadL1Fonts();
+  } else {
+    for(i=0;i<p.paragraphs.length;i++){ html+="<p>"+fluMarkup((p.markup?p.markup[i]:p.paragraphs[i]).replace(/^\s+|\s+$/g,""))+"</p>"; }
+    textEl.className="flu-passage"; wrapEl.className="flu-text-wrap"; titleEl.className="scr-title";
+  }
+  textEl.innerHTML=html;
   document.getElementById("flu-timer").textContent=fluFmtTime(60);
   fluRingSet(100);
   var ring=document.getElementById("flu-timer-ring"); if(ring){ ring.style.display="flex"; }
