@@ -56,10 +56,11 @@ ok(w.document.querySelectorAll('a[href*="downloads/"]').length===0,"student page
 /* teacher */
 var t1=boot("https://localhost/?teacher"); var d=t1.window.document;
 var links=d.querySelectorAll("#teacher-downloads a[download]");
-ok(links.length===1,"teacher page: 1 download link (the v3 PDF link is down until the v4 PDF is ready)");
+ok(links.length===2,"teacher page: 2 download links");
 var hrefs=[]; for(i=0;i<links.length;i++){ hrefs.push(links[i].getAttribute("href")); }
-ok(hrefs[0]==="downloads/Reading-Foundations-Extra-Vocabulary-Marker-Style.pptx","pptx href");
-ok(!/\.pdf/i.test(hrefs.join(" ")) && !fs.existsSync("./downloads/TALL_Grade-1-Fluency-Passages_2026-11-11_v3.pdf") && !fs.existsSync("./downloads/Reading-Foundations-Grade-1-Passages.pdf"),"no Grade 1 passages PDF linked or served");
+ok(hrefs[0]==="downloads/TALL_Grade-1-Fluency-Passages_2026-11-14_v4.pdf","pdf href = the v4 PDF");
+ok(hrefs[1]==="downloads/Reading-Foundations-Extra-Vocabulary-Marker-Style.pptx","pptx href");
+ok(!fs.existsSync("./downloads/TALL_Grade-1-Fluency-Passages_2026-11-11_v3.pdf") && !fs.existsSync("./downloads/Reading-Foundations-Grade-1-Passages.pdf"),"retired v3 and Nov 4 PDFs are not served");
 for(i=0;i<hrefs.length;i++){ ok(fs.existsSync("./"+hrefs[i]) && fs.statSync("./"+hrefs[i]).size>1000,"file exists: "+hrefs[i]); }
 ok(d.querySelector("#teacher-doors").contains(d.getElementById("teacher-downloads")),"inside teacher area");
 /* maroon + scoping */

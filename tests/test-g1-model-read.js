@@ -18,8 +18,8 @@ LIST.forEach(function(x,i){
 ok(fs.readdirSync('./audio/TALL-G1').filter(function(f){ return /\.webm$/.test(f); }).length===11,"no stray files in audio/TALL-G1");
 ok(man.base===BASE+"audio/TALL-G1/","public base URL");
 /* ---- page ---- */
-function boot(){
-  return new JSDOM(html,{url:BASE,runScripts:"dangerously",pretendToBeVisual:true,beforeParse:function(w){
+function boot(url){
+  return new JSDOM(html,{url:url||(BASE+"?teacher"),runScripts:"dangerously",pretendToBeVisual:true,beforeParse:function(w){
     w.scrollTo=function(){}; w.HTMLElement.prototype.scrollIntoView=function(){};
     w.__auds=[];
     w.Audio=function(src){ var a={src:src,paused:true,onended:null,onerror:null,play:function(){ a.paused=false; return Promise.resolve(); },pause:function(){ a.paused=true; }}; w.__auds.push(a); return a; };
@@ -73,6 +73,12 @@ ok(doc.getElementById("flu-model-lbl").textContent==="Not recorded yet." && doc.
 /* PK passages: no button */
 w.fluPassage=w.findPassage("PK",0); w.go("fluencyPassage");
 ok(doc.getElementById("flu-model-wrap").style.display==="none","PK passages show no model-read button");
+/* HOLD: students (no ?teacher) never get the model read -- hidden, and the function refuses */
+var st=boot(BASE), sd=st.document;
+st.fluPassage=st.passagesForLevel("FIRST")[0]; st.go("fluencyPassage");
+ok(sd.getElementById("flu-model-wrap").style.display==="none","student view: no model-read button");
+try{ st.fluModelToggle(); }catch(e){}
+ok(st.__auds.length===0,"student view: fluModelToggle() plays nothing");
 /* rules */
 ok(!/speechSynthesis|SpeechSynthesisUtterance/.test(src),"no text-to-speech in the app");
 ok(/<\/script>\s*<\/body>\s*<\/html>\s*$/.test(src),"index.html ends with </script></body></html>");

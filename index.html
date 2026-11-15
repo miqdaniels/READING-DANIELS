@@ -4907,8 +4907,8 @@ var PASSAGES=[
     ["This is about ___.", "Some kids say ___.", "I think a check at the door is good / bad because ___."]),
   /* ----- Grade 1 (Level 1): 11 passages, v3 order. 1.0 Water (placement), then 1.1 - 1.10 -----
      Text, line breaks and bold (First 100) words are copied from
-     TALL_Grade-1-Fluency-Passages_2026-11-11_v3.pdf (locked source) PLUS Mick's approved changes since:
-     1.4 "can not" -> "cannot" (225 words) and 1.8 replaced by "Your Brain Can Change" (207 words). One string = one
+     TALL_Grade-1-Fluency-Passages_2026-11-14_v4.pdf (the locked source; v4 includes
+     1.4 "cannot" = 225 words and 1.8 "Your Brain Can Change" = 207 words). One string = one
      printed line; one inner array = one paragraph. Never re-wrap or edit a word here. */
   buildLinesPassage("FIRST",0,"Water",[
     [
@@ -5040,8 +5040,8 @@ var PASSAGES=[
     ],
     [
       "**Did** **you** **know** **that** **you** **can** start **some** jobs **at** 14? **But** **there** **are**",
-      "rules, **so** **you** **cannot** **work** **all** **the** **time**. **On** **a** **school** **day**, **you** **can** **work**",
-      "**for** just three hours. **You** **cannot** **work** late **at** night. **You** **cannot** **do**",
+      "rules, **so** **you** cannot **work** **all** **the** **time**. **On** **a** **school** **day**, **you** **can** **work**",
+      "**for** just three hours. **You** cannot **work** late **at** night. **You** cannot **do**",
       "dangerous **work** **that** **could** hurt **you**. **These** rules **are** **there** **to** keep kids",
       "safe **and** **in** **school**."
     ],
@@ -5168,11 +5168,11 @@ var PASSAGES=[
     ],
     [
       "**The** teen brain **is** good **at** **this**. **It** **is** **ready** **to** learn **new** things, **and** **it**",
-      "**will** **get** better **and** better until **you** **are** **in** **your** 20s."
+      "**will** **get** better **and** better until **you** **are** **in** **your** **20s**."
     ],
     [
       "Scientists **did** **a** study **with** **a** group **of** women **in** India. **They** **were**",
-      "**about** 30 years old, **and** **a** **lot** **of** **them** **could** **not** read **one** word. **For** six",
+      "**about** **30** years old, **and** **a** **lot** **of** **them** **could** **not** read **one** word. **For** six",
       "months, **they** worked **on** **their** reading. **At** **the** **end**, **they** **could** read **like** **a**",
       "**first** grader. **Then** **the** scientists **looked** **at** **their** brains. **Their** brains had",
       "changed!"
@@ -5435,12 +5435,15 @@ function fluModelPaint(){
   var wrap=document.getElementById("flu-model-wrap"), btn=document.getElementById("flu-model-btn");
   if(!wrap){ return; }
   fluModelSetPlaying(false);
-  if(!fluPassage || !fluPassage.lines){ wrap.style.display="none"; return; }
+  /* HOLD (Mick, 2026-11-15): a student must never hear the model read before or during a cold read.
+     Until the teacher-unlock flow is built, the button exists in teacher view only. */
+  if(!fluPassage || !fluPassage.lines || !isTeacherMode()){ wrap.style.display="none"; return; }
   wrap.style.display="inline-flex";
   if(fluModelPath(fluPassage)){ if(btn){ btn.disabled=false; } } else { fluModelMissing(); }
 }
 function fluModelToggle(){
   var path=fluModelPath(fluPassage), a, pr;
+  if(!isTeacherMode()){ return; }
   if(fluModelPlaying){ stopAllAudio(); return; }
   if(!path){ fluModelMissing(); return; }
   stopAllAudio();
@@ -12048,7 +12051,8 @@ function applyTeacherDoors(){
   var td=document.getElementById("teacher-downloads");
   if(td){
     td.innerHTML = isTeacherMode()
-      ? '<p><a class="btn" style="display:inline-block;text-decoration:none" href="downloads/Reading-Foundations-Extra-Vocabulary-Marker-Style.pptx" download>Grade 1 Extra Vocabulary slideshow (PowerPoint, passages 1.1 to 1.3 for now)</a></p>'
+      ? '<p><a class="btn" style="display:inline-block;text-decoration:none" href="downloads/TALL_Grade-1-Fluency-Passages_2026-11-14_v4.pdf" download>Grade 1 Passages (printable PDF)</a></p>'
+        +'<p><a class="btn" style="display:inline-block;text-decoration:none" href="downloads/Reading-Foundations-Extra-Vocabulary-Marker-Style.pptx" download>Grade 1 Extra Vocabulary slideshow (PowerPoint, passages 1.1 to 1.3 for now)</a></p>'
       : "";
   }
 }

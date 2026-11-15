@@ -1415,7 +1415,7 @@
      0,
      1,
      1,
-     1,
+     0,
      1,
      1,
      1,
@@ -1439,13 +1439,13 @@
      0,
      0,
      1,
-     1,
-     1,
      0,
      1,
      0,
      1,
+     0,
      1,
+     0,
      1
     ],
     "n": 71,
@@ -1696,8 +1696,7 @@
     "n": 225,
     "para": false
    }
-  ],
-  "approvedChange": "2026-11-15 Mick approved: \"can not\" -> \"cannot\" (3 times); 228 -> 225 words. Differs from the PDF on purpose."
+  ]
  },
  {
   "sub": 5,
@@ -2877,7 +2876,7 @@
      1,
      1,
      1,
-     0
+     1
     ],
     "n": 120,
     "para": false
@@ -2906,7 +2905,7 @@
     "text": "about 30 years old, and a lot of them could not read one word. For six",
     "bold": [
      1,
-     0,
+     1,
      0,
      0,
      1,
@@ -3018,8 +3017,7 @@
     "n": 207,
     "para": false
    }
-  ],
-  "approvedChange": "2026-11-15 Mick approved: old 1.8 \"Who Chooses?\" RETIRED; replaced by \"Your Brain Can Change\" (207 words). Not in the v3 PDF. Bold = words in the 100 Daily Phrases; line breaks = greedy fill with the PDF font metrics (506 pt limit)."
+  ]
  },
  {
   "sub": 9,

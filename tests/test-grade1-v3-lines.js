@@ -1,10 +1,10 @@
-// Level 1 (Grade 1) fluency passages = the locked v3 PDF: order, text, fixed lines, running counts, fonts, teal.
-// Ground truth: tests/fixtures/grade1-v3-from-pdf.json, read directly from
-// TALL_Grade-1-Fluency-Passages_2026-11-11_v3.pdf (text, bold words, printed running numbers, paragraph starts).
+// Level 1 (Grade 1) fluency passages = the locked v4 PDF: order, text, fixed lines, running counts, fonts, teal.
+// Ground truth: tests/fixtures/grade1-v4-from-pdf.json, read directly from
+// TALL_Grade-1-Fluency-Passages_2026-11-14_v4.pdf (text, bold words, printed running numbers, paragraph starts).
 var fs=require('fs'), JSDOM=require('jsdom').JSDOM;
 var src=fs.readFileSync('./index.html','utf8');
 var html=src.replace('<script src="clips.js" defer></script>','');
-var FX=JSON.parse(fs.readFileSync('./tests/fixtures/grade1-v3-from-pdf.json','utf8'));
+var FX=JSON.parse(fs.readFileSync('./tests/fixtures/grade1-v4-from-pdf.json','utf8'));
 var TOTALS=[204,225,199,207,225,217,200,204,207,231,226];
 var pass=0, fail=0; function ok(c,m){ if(c){ pass++; } else { fail++; console.log("FAIL: "+m); } }
 var w=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/",runScripts:"dangerously",pretendToBeVisual:true,beforeParse:function(win){ win.scrollTo=function(){}; win.HTMLElement.prototype.scrollIntoView=function(){}; }}).window;
@@ -14,7 +14,7 @@ var ps=w.passagesForLevel("FIRST"), i, j;
 ok(ps.length===11,"11 passages");
 for(i=0;i<11;i++){
   var p=ps[i], f=FX[i], tag="1."+i+" "+f.title+": ";
-  ok(p.sub===i && p.title===f.title && p.label==="1."+i,tag+"order/title/label match v3");
+  ok(p.sub===i && p.title===f.title && p.label==="1."+i,tag+"order/title/label match v4");
   ok(p.lines && p.lines.length===f.lines.length,tag+"same number of printed lines ("+f.lines.length+")");
   var cum=0, textOk=true, numOk=true, boldOk=true, paraOk=true, plainAll=[];
   for(j=0;j<f.lines.length;j++){
@@ -61,11 +61,6 @@ var p8=ps[8];
 ok(p8.title==="Your Brain Can Change" && p8.label==="1.8" && p8.sub===8,"1.8 is Your Brain Can Change");
 ok(p8.paragraphs.length===5 && p8.paragraphs.join(" | ")===NEW18.join(" | "),"1.8 text is exactly the approved 5 paragraphs, not one word different");
 ok(p8.totalWords===207 && p8.lines[p8.lines.length-1].n===207,"1.8 last number = 207");
-var phr=require('../recordings-list.js').filter(function(q){ return q.level===1; }), vocab={};
-phr.forEach(function(q){ q.text.split(" ").forEach(function(t){ vocab[t.toLowerCase().replace(/[^a-z0-9']/g,"")]=1; }); });
-var boldOk=true, nBold=0;
-p8.lines.forEach(function(r){ r.markup.split(" ").forEach(function(t){ var isB=t.indexOf("**")>-1, inV=!!vocab[t.replace(/\*\*/g,"").toLowerCase().replace(/[^a-z0-9']/g,"")]; if(isB!==inV) boldOk=false; if(isB) nBold++; }); });
-ok(boldOk && nBold>100,"1.8 bold = exactly the words in The First 100 Daily Phrases, same rule as the other passages ("+nBold+" bold)");
 ok(src.indexOf("Who Chooses")===-1,"old 1.8 'Who Chooses?' is gone from the app");
 ok(fs.readFileSync('./tall-list.js','utf8').indexOf("Who Chooses")===-1,"old 1.8 is gone from the recording studio list");
 ok(p8.lines.map(function(r){ return r.markup.replace(/\*\*/g,"").split(" ").length; }).join(",")==="14,16,1,14,12,16,18,2,16,11,13,16,14,12,1,16,15","1.8 fixed line lengths (words per line)");

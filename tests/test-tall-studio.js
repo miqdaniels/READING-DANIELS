@@ -63,9 +63,9 @@ const order="Water|Should School Start Later?|Schools Are Not All the Same|Your 
 psg.forEach((p,i)=>{
   const n=(i<10?"0":"")+i;
   ck(p.id==="PSG_1_"+n,"passage id "+i);
-  ck(p.title===order[i] && p.label==="1."+i+" "+order[i],"v3 order "+i+" "+p.title);
-  // words, lines and counts must equal the locked v3 PDF (fixture read straight from the PDF)
-  const fx=JSON.parse(fs.readFileSync('./tests/fixtures/grade1-v3-from-pdf.json','utf8'))[i];
+  ck(p.title===order[i] && p.label==="1."+i+" "+order[i],"v4 order "+i+" "+p.title);
+  // words, lines and counts must equal the locked v4 PDF (fixture read straight from the PDF)
+  const fx=JSON.parse(fs.readFileSync('./tests/fixtures/grade1-v4-from-pdf.json','utf8'))[i];
   ck(fx.title===p.title,"fixture title "+p.title);
   ck(p.rows.length===fx.lines.length && p.rows.every((r,j)=>r.t===fx.lines[j].text && r.n===fx.lines[j].n && !!r.p===!!fx.lines[j].para),"lines, running numbers and paragraph starts identical to the PDF for "+p.title);
   ck(p.rows[p.rows.length-1].n===p.words,"last number = word count for "+p.title);
@@ -169,7 +169,7 @@ async function readZip(blob,w){
   w.tsGo("ts-pick"); click(w,"ts-set-1");
   ck(txt(w,"ts-count")==="1 of 11" && txt(w,"ts-pid")==="PSG_1_00","passages start at PSG_1_00");
   const ps=w.document.getElementById("ts-passage");
-  ck(!!ps && /^1\.0 Water/.test(ps.textContent) && ps.textContent.indexOf("You need water to live.")>-1,"full v3 passage on screen");
+  ck(!!ps && /^1\.0 Water/.test(ps.textContent) && ps.textContent.indexOf("You need water to live.")>-1,"full v4 passage on screen");
   const rowsEl=w.document.querySelectorAll("#ts-passage .gl");
   ck(rowsEl.length===17 && rowsEl[0].querySelector(".gn").textContent==="15" && rowsEl[16].querySelector(".gn").textContent==="204","studio shows fixed lines with running counts 15 ... 204");
   ck(rowsEl[0].querySelector(".gt").textContent==="You need water to live. You can go a long time with no food. But" && rowsEl[0].querySelectorAll("strong").length>0,"line 1 identical to the PDF, First 100 words bold");
