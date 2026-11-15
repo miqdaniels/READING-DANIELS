@@ -1,0 +1,844 @@
+{
+ "title": "TALL Word Lists — Foundations / Level 1",
+ "version": "seed: Groups 1-2 only (11 patterns), approved Nov 14 2026. Replace with TALL_Word-Lists_Level-1_v1.json",
+ "copyright": "(c) 2026 Miquela Daniels, AI Academy LLC, TALL Teen Academy for Literacy & Language. Proprietary.",
+ "groups": [
+  {
+   "id": "g1",
+   "title": "Short Vowels",
+   "patterns": [
+    {
+     "id": "short-a",
+     "title": "Short a",
+     "spelling": "a",
+     "build": [
+      {
+       "w": "at",
+       "first100": true
+      },
+      {
+       "w": "sat",
+       "first100": true
+      },
+      {
+       "w": "sad"
+      },
+      {
+       "w": "mad"
+      },
+      {
+       "w": "map"
+      },
+      {
+       "w": "cap"
+      },
+      {
+       "w": "can",
+       "first100": true
+      },
+      {
+       "w": "van"
+      },
+      {
+       "w": "fan"
+      },
+      {
+       "w": "tan"
+      }
+     ],
+     "read": [
+      {
+       "w": "has",
+       "first100": true
+      },
+      {
+       "w": "at",
+       "first100": true
+      },
+      {
+       "w": "can",
+       "first100": true
+      },
+      {
+       "w": "sat",
+       "first100": true
+      },
+      {
+       "w": "bag"
+      },
+      {
+       "w": "jam"
+      },
+      {
+       "w": "hat"
+      },
+      {
+       "w": "pan"
+      },
+      {
+       "w": "dad"
+      },
+      {
+       "w": "ran"
+      }
+     ]
+    },
+    {
+     "id": "short-i",
+     "title": "Short i",
+     "spelling": "i",
+     "build": [
+      {
+       "w": "it",
+       "first100": true
+      },
+      {
+       "w": "sit",
+       "first100": true
+      },
+      {
+       "w": "sip"
+      },
+      {
+       "w": "lip"
+      },
+      {
+       "w": "lid"
+      },
+      {
+       "w": "did",
+       "first100": true
+      },
+      {
+       "w": "dig"
+      },
+      {
+       "w": "big"
+      },
+      {
+       "w": "bin"
+      },
+      {
+       "w": "win"
+      }
+     ],
+     "read": [
+      {
+       "w": "in",
+       "first100": true
+      },
+      {
+       "w": "if",
+       "first100": true
+      },
+      {
+       "w": "is",
+       "first100": true
+      },
+      {
+       "w": "him",
+       "first100": true
+      },
+      {
+       "w": "his",
+       "first100": true
+      },
+      {
+       "w": "kid"
+      },
+      {
+       "w": "zip"
+      },
+      {
+       "w": "fit"
+      },
+      {
+       "w": "cap"
+      },
+      {
+       "w": "ran"
+      }
+     ]
+    },
+    {
+     "id": "short-o",
+     "title": "Short o",
+     "spelling": "o",
+     "build": [
+      {
+       "w": "mom",
+       "first100": true
+      },
+      {
+       "w": "mop"
+      },
+      {
+       "w": "top"
+      },
+      {
+       "w": "hop"
+      },
+      {
+       "w": "hot"
+      },
+      {
+       "w": "not",
+       "first100": true
+      },
+      {
+       "w": "got",
+       "first100": true
+      },
+      {
+       "w": "lot",
+       "first100": true
+      },
+      {
+       "w": "log"
+      },
+      {
+       "w": "dog"
+      }
+     ],
+     "read": [
+      {
+       "w": "on",
+       "first100": true
+      },
+      {
+       "w": "got",
+       "first100": true
+      },
+      {
+       "w": "lot",
+       "first100": true
+      },
+      {
+       "w": "job"
+      },
+      {
+       "w": "box"
+      },
+      {
+       "w": "top"
+      },
+      {
+       "w": "nod"
+      },
+      {
+       "w": "sit",
+       "first100": true
+      },
+      {
+       "w": "big"
+      },
+      {
+       "w": "map"
+      }
+     ]
+    },
+    {
+     "id": "short-u",
+     "title": "Short u",
+     "spelling": "u",
+     "build": [
+      {
+       "w": "up",
+       "first100": true
+      },
+      {
+       "w": "us",
+       "first100": true
+      },
+      {
+       "w": "bus"
+      },
+      {
+       "w": "but",
+       "first100": true
+      },
+      {
+       "w": "cut"
+      },
+      {
+       "w": "hut"
+      },
+      {
+       "w": "hug"
+      },
+      {
+       "w": "bug"
+      },
+      {
+       "w": "rug"
+      },
+      {
+       "w": "run"
+      }
+     ],
+     "read": [
+      {
+       "w": "up",
+       "first100": true
+      },
+      {
+       "w": "us",
+       "first100": true
+      },
+      {
+       "w": "but",
+       "first100": true
+      },
+      {
+       "w": "sun"
+      },
+      {
+       "w": "fun"
+      },
+      {
+       "w": "gum"
+      },
+      {
+       "w": "cup"
+      },
+      {
+       "w": "job"
+      },
+      {
+       "w": "lot",
+       "first100": true
+      },
+      {
+       "w": "kid"
+      }
+     ]
+    },
+    {
+     "id": "short-e",
+     "title": "Short e",
+     "spelling": "e",
+     "build": [
+      {
+       "w": "get",
+       "first100": true
+      },
+      {
+       "w": "net"
+      },
+      {
+       "w": "pet"
+      },
+      {
+       "w": "pen"
+      },
+      {
+       "w": "ten"
+      },
+      {
+       "w": "men"
+      },
+      {
+       "w": "met"
+      },
+      {
+       "w": "set"
+      },
+      {
+       "w": "wet"
+      },
+      {
+       "w": "web"
+      }
+     ],
+     "read": [
+      {
+       "w": "get",
+       "first100": true
+      },
+      {
+       "w": "yes"
+      },
+      {
+       "w": "red"
+      },
+      {
+       "w": "leg"
+      },
+      {
+       "w": "bed"
+      },
+      {
+       "w": "pen"
+      },
+      {
+       "w": "pin"
+      },
+      {
+       "w": "ten"
+      },
+      {
+       "w": "tin"
+      },
+      {
+       "w": "set"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g2",
+   "title": "Digraphs",
+   "patterns": [
+    {
+     "id": "th",
+     "title": "th",
+     "spelling": "th",
+     "build": [
+      {
+       "w": "this",
+       "first100": true
+      },
+      {
+       "w": "thin"
+      },
+      {
+       "w": "than",
+       "first100": true
+      },
+      {
+       "w": "that",
+       "first100": true
+      },
+      {
+       "w": "hat"
+      },
+      {
+       "w": "bat"
+      },
+      {
+       "w": "bath"
+      },
+      {
+       "w": "path"
+      },
+      {
+       "w": "math"
+      },
+      {
+       "w": "moth"
+      }
+     ],
+     "read": [
+      {
+       "w": "then",
+       "first100": true
+      },
+      {
+       "w": "them",
+       "first100": true
+      },
+      {
+       "w": "with",
+       "first100": true
+      },
+      {
+       "w": "than",
+       "first100": true
+      },
+      {
+       "w": "thin"
+      },
+      {
+       "w": "path"
+      },
+      {
+       "w": "math"
+      },
+      {
+       "w": "bus"
+      },
+      {
+       "w": "red"
+      },
+      {
+       "w": "got",
+       "first100": true
+      }
+     ]
+    },
+    {
+     "id": "sh",
+     "title": "sh",
+     "spelling": "sh",
+     "build": [
+      {
+       "w": "shut"
+      },
+      {
+       "w": "shot"
+      },
+      {
+       "w": "shop"
+      },
+      {
+       "w": "ship"
+      },
+      {
+       "w": "hip"
+      },
+      {
+       "w": "dip"
+      },
+      {
+       "w": "dish"
+      },
+      {
+       "w": "fish"
+      },
+      {
+       "w": "wish"
+      },
+      {
+       "w": "with",
+       "first100": true
+      }
+     ],
+     "read": [
+      {
+       "w": "shop"
+      },
+      {
+       "w": "cash"
+      },
+      {
+       "w": "rush"
+      },
+      {
+       "w": "shed"
+      },
+      {
+       "w": "dish"
+      },
+      {
+       "w": "that",
+       "first100": true
+      },
+      {
+       "w": "them",
+       "first100": true
+      },
+      {
+       "w": "this",
+       "first100": true
+      },
+      {
+       "w": "job"
+      },
+      {
+       "w": "yes"
+      }
+     ]
+    },
+    {
+     "id": "ch",
+     "title": "ch",
+     "spelling": "ch",
+     "build": [
+      {
+       "w": "chin"
+      },
+      {
+       "w": "chip"
+      },
+      {
+       "w": "chop"
+      },
+      {
+       "w": "chap"
+      },
+      {
+       "w": "chat"
+      },
+      {
+       "w": "that",
+       "first100": true
+      },
+      {
+       "w": "than",
+       "first100": true
+      },
+      {
+       "w": "can",
+       "first100": true
+      },
+      {
+       "w": "cash"
+      },
+      {
+       "w": "mash"
+      }
+     ],
+     "read": [
+      {
+       "w": "which",
+       "first100": true
+      },
+      {
+       "w": "much"
+      },
+      {
+       "w": "such"
+      },
+      {
+       "w": "rich"
+      },
+      {
+       "w": "chat"
+      },
+      {
+       "w": "chip"
+      },
+      {
+       "w": "cash"
+      },
+      {
+       "w": "fish"
+      },
+      {
+       "w": "them",
+       "first100": true
+      },
+      {
+       "w": "bus"
+      }
+     ]
+    },
+    {
+     "id": "wh",
+     "title": "wh",
+     "spelling": "wh",
+     "build": [
+      {
+       "w": "which",
+       "first100": true
+      },
+      {
+       "w": "whiz"
+      },
+      {
+       "w": "whim"
+      },
+      {
+       "w": "whip"
+      },
+      {
+       "w": "ship"
+      },
+      {
+       "w": "shin"
+      },
+      {
+       "w": "thin"
+      },
+      {
+       "w": "then",
+       "first100": true
+      },
+      {
+       "w": "when",
+       "first100": true
+      },
+      {
+       "w": "wet"
+      }
+     ],
+     "read": [
+      {
+       "w": "when",
+       "first100": true
+      },
+      {
+       "w": "which",
+       "first100": true
+      },
+      {
+       "w": "whip"
+      },
+      {
+       "w": "whiz"
+      },
+      {
+       "w": "whim"
+      },
+      {
+       "w": "whack"
+      },
+      {
+       "w": "wham"
+      },
+      {
+       "w": "whiff"
+      },
+      {
+       "w": "what",
+       "first100": true,
+       "heart": true,
+       "tricky": "a"
+      },
+      {
+       "w": "wet"
+      }
+     ]
+    },
+    {
+     "id": "ck",
+     "title": "ck",
+     "spelling": "ck",
+     "build": [
+      {
+       "w": "back"
+      },
+      {
+       "w": "pack"
+      },
+      {
+       "w": "pick",
+       "first100": true
+      },
+      {
+       "w": "kick"
+      },
+      {
+       "w": "sick"
+      },
+      {
+       "w": "sock"
+      },
+      {
+       "w": "rock"
+      },
+      {
+       "w": "lock"
+      },
+      {
+       "w": "luck"
+      },
+      {
+       "w": "duck"
+      }
+     ],
+     "read": [
+      {
+       "w": "pick",
+       "first100": true
+      },
+      {
+       "w": "back"
+      },
+      {
+       "w": "neck"
+      },
+      {
+       "w": "deck"
+      },
+      {
+       "w": "check"
+      },
+      {
+       "w": "which",
+       "first100": true
+      },
+      {
+       "w": "them",
+       "first100": true
+      },
+      {
+       "w": "shop"
+      },
+      {
+       "w": "job"
+      },
+      {
+       "w": "yes"
+      }
+     ]
+    },
+    {
+     "id": "ng",
+     "title": "ng",
+     "spelling": "ng",
+     "build": [
+      {
+       "w": "long",
+       "first100": true
+      },
+      {
+       "w": "song"
+      },
+      {
+       "w": "sing"
+      },
+      {
+       "w": "ring"
+      },
+      {
+       "w": "rang"
+      },
+      {
+       "w": "hang"
+      },
+      {
+       "w": "hung"
+      },
+      {
+       "w": "lung"
+      },
+      {
+       "w": "sung"
+      },
+      {
+       "w": "sang"
+      }
+     ],
+     "read": [
+      {
+       "w": "long",
+       "first100": true
+      },
+      {
+       "w": "thing"
+      },
+      {
+       "w": "king"
+      },
+      {
+       "w": "wing"
+      },
+      {
+       "w": "bang"
+      },
+      {
+       "w": "back"
+      },
+      {
+       "w": "chip"
+      },
+      {
+       "w": "with",
+       "first100": true
+      },
+      {
+       "w": "this",
+       "first100": true
+      },
+      {
+       "w": "sun"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "heartSets": []
+}
