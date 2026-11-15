@@ -5,53 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>TALL Sounds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;700;800&amp;family=Montserrat:wght@700;800&amp;display=swap">
+<link rel="stylesheet" href="tall-theme.css">
 <!-- (c) 2026 Miquela Daniels, AI Academy LLC. Reading Foundations. Proprietary -- do not copy or distribute.
-     Student page: the 44 TALL sounds. Reads tall-list.js (spellings, types, words) and tall-audio.js (the
+     Student page: the 44 TALL sounds (Foundations GREEN; fonts Montserrat + Atkinson Hyperlegible Next). Reads tall-list.js (spellings, types, words) and tall-audio.js (the
      final cleaned recordings in Mick's own voice). No text-to-speech, no scoring, nothing is stored.
      ES5 only. Screens are string ids: "tsd-grid", "tsd-card". -->
 <style>
-@font-face{font-family:"Poppins";font-weight:400;font-style:normal;font-display:swap;src:url("assets/fonts/poppins/poppins-latin-400-normal.woff2") format("woff2")}
-@font-face{font-family:"Poppins";font-weight:600;font-style:normal;font-display:swap;src:url("assets/fonts/poppins/poppins-latin-600-normal.woff2") format("woff2")}
-@font-face{font-family:"Poppins";font-weight:700;font-style:normal;font-display:swap;src:url("assets/fonts/poppins/poppins-latin-700-normal.woff2") format("woff2")}
-:root{--teal:#0F766E;--teal-dark:#0B5A54;--teal-tint:#E6F4F2;--paper:#F6F8F8;--panel:#FFFFFF;--line:#D5DEDD;--ink:#16302E;--gray:#5F6B6A}
+:root{--accent:var(--tall-green,#298646);--accent-dark:var(--tall-green-dark,#1E6B36);--accent-tint:var(--tall-green-tint,#E8F4EC);--paper:#F6F8F7;--panel:#FFFFFF;--line:#D5DED8;--ink:#16302A;--gray:#5F6B66}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{background:var(--paper);color:var(--ink);font-family:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:17px;line-height:1.5}
-header{background:var(--teal);color:#fff}
+body{background:var(--paper);color:var(--ink);font-family:var(--tall-font-body,"Atkinson Hyperlegible Next","Segoe UI",Arial,sans-serif);font-weight:400;font-size:17px;line-height:1.5}
+header{background:var(--accent);color:#fff}
 .hwrap{max-width:1000px;margin:0 auto;padding:14px 16px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-header h1{margin:0;font-size:22px;font-weight:700;letter-spacing:.01em}
-header .sub{font-size:14px;font-weight:400;opacity:.9}
+header h1{margin:0;font-family:var(--tall-font-head,"Montserrat","Segoe UI",Arial,sans-serif);font-size:22px;font-weight:800;letter-spacing:.01em}
+header .sub{font-size:15px;font-weight:400;opacity:.95}
 .wrap{max-width:1000px;margin:0 auto;padding:18px 16px 56px}
 .screen{display:none}
 .screen.active{display:block}
-.intro{margin:0 0 14px;color:var(--gray);font-size:15px}
+.intro{margin:0 0 14px;color:var(--gray);font-size:16px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:12px}
 .tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:96px;padding:12px 8px;background:var(--panel);border:1px solid var(--line);border-radius:12px;font:inherit;color:var(--ink);cursor:pointer;text-align:center}
-.tile:hover{border-color:var(--teal);background:var(--teal-tint)}
-.tile .sp{font-size:24px;font-weight:700;line-height:1.2;color:var(--teal);overflow-wrap:anywhere}
-.tile .nm{font-size:13px;color:var(--gray);font-weight:400}
-:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.tile:hover{border-color:var(--accent);background:var(--accent-tint)}
+.tile .sp{font-family:var(--tall-font-body,"Atkinson Hyperlegible Next","Segoe UI",Arial,sans-serif);font-size:24px;font-weight:800;line-height:1.2;color:var(--accent);overflow-wrap:anywhere}
+.tile .nm{font-family:var(--tall-font-head,"Montserrat","Segoe UI",Arial,sans-serif);font-size:12px;color:var(--gray);font-weight:700}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .topbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .topbar .pos{margin-left:auto;color:var(--gray);font-size:15px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 18px;border:1.5px solid var(--teal);background:var(--panel);color:var(--teal);font:inherit;font-weight:600;font-size:16px;border-radius:10px;cursor:pointer}
-.btn:hover{background:var(--teal-tint)}
-.btn.primary{background:var(--teal);color:#fff}
-.btn.primary:hover{background:var(--teal-dark)}
-.btn.playing{box-shadow:0 0 0 3px rgba(15,118,110,.28)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 18px;border:1.5px solid var(--accent);background:var(--panel);color:var(--accent);font-family:var(--tall-font-body,"Atkinson Hyperlegible Next","Segoe UI",Arial,sans-serif);font-weight:700;font-size:17px;border-radius:10px;cursor:pointer}
+.btn:hover{background:var(--accent-tint)}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.primary:hover{background:var(--accent-dark)}
+.btn.playing{box-shadow:0 0 0 3px rgba(41,134,70,.30)}
 .btn[disabled]{opacity:.45;cursor:default;background:var(--panel);color:var(--gray);border-color:var(--line)}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px 18px 22px;text-align:center}
-.spell{font-size:clamp(44px,11vw,96px);font-weight:700;line-height:1.25;color:var(--teal);margin:0;overflow-wrap:anywhere}
-.stype{margin:2px 0 0;font-size:15px;color:var(--gray);font-weight:400}
-.sname{margin:2px 0 0;font-size:15px;color:var(--gray)}
+.spell{font-family:var(--tall-font-body,"Atkinson Hyperlegible Next","Segoe UI",Arial,sans-serif);font-size:clamp(44px,11vw,96px);font-weight:800;line-height:1.25;color:var(--accent);margin:0;overflow-wrap:anywhere}
+.stype{margin:2px 0 0;font-size:16px;color:var(--gray);font-weight:400}
+.sname{margin:8px 0 0;font-family:var(--tall-font-head,"Montserrat","Segoe UI",Arial,sans-serif);font-size:clamp(20px,4vw,26px);font-weight:800;color:var(--ink)}
 .hear{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:22px 0 4px}
-.word{font-size:clamp(30px,7vw,52px);font-weight:600;margin:20px 0 0}
-.unrec{display:block;min-height:1.5em;margin-top:6px;font-size:14px;color:var(--gray)}
+.word{font-family:var(--tall-font-body,"Atkinson Hyperlegible Next","Segoe UI",Arial,sans-serif);font-size:clamp(32px,7vw,56px);font-weight:800;margin:20px 0 0}
+.unrec{display:block;min-height:1.5em;margin-top:6px;font-size:15px;color:var(--gray);font-weight:400}
 .extras{margin:22px auto 0;max-width:520px;text-align:left;border-top:1px solid var(--line);padding-top:14px}
-.extras h2{margin:0 0 6px;font-size:14px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.06em}
+.extras h2{margin:0 0 6px;font-family:var(--tall-font-head,"Montserrat","Segoe UI",Arial,sans-serif);font-size:13px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em}
 .erow{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
 .erow:last-child{border-bottom:0}
-.erow .ew{font-size:24px;font-weight:600;flex:1 1 auto}
-.erow .es{font-weight:400;color:var(--gray);font-size:18px;margin-left:6px}
+.erow .ew{font-size:26px;font-weight:700;flex:1 1 auto}
+.erow .es{font-weight:400;color:var(--gray);font-size:19px;margin-left:6px}
 .erow .unrec{margin:0 0 0 8px}
 .navrow{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
 footer{max-width:1000px;margin:0 auto;padding:0 16px 28px;font-size:12px;color:var(--gray)}
@@ -80,7 +81,7 @@ footer{max-width:1000px;margin:0 auto;padding:0 16px 28px;font-size:12px;color:v
     <div class="card">
       <h2 class="spell" id="tsd-spell"></h2>
       <p class="stype" id="tsd-type"></p>
-      <p class="sname" id="tsd-name"></p>
+      <h2 class="sname" id="tsd-name"></h2>
       <div class="hear">
         <button class="btn primary" id="tsd-play-s" onclick="tsdPlayId(tsdCur().sId, 'tsd-play-s', 'tsd-msg-s')">Hear the sound</button>
         <button class="btn primary" id="tsd-play-w" onclick="tsdPlayId(tsdCur().wId, 'tsd-play-w', 'tsd-msg-w')">Hear the word</button>
@@ -119,6 +120,7 @@ var TSD_SOUNDS = (function(){
 var TSD = { idx:0, audio:null, playingBtn:null };
 
 function tsdEsc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function tsdTitle(s){ s = String(s); return s.charAt(0).toUpperCase() + s.slice(1); }
 function tsdSpelling(s){ return String(s).split(", ").join(" / "); }
 function tsdCur(){ return TSD_SOUNDS[TSD.idx]; }
 function tsdEl(id){ return document.getElementById(id); }
@@ -134,7 +136,7 @@ function tsdPaintGrid(){
   for(i=0;i<TSD_SOUNDS.length;i++){
     s = TSD_SOUNDS[i];
     h += '<button class="tile" id="tsd-tile-'+s.n+'" onclick="tsdOpen('+i+')">'
-       + '<span class="sp">'+tsdEsc(tsdSpelling(s.spell))+'</span><span class="nm">'+tsdEsc(s.name)+'</span></button>';
+       + '<span class="sp">'+tsdEsc(tsdSpelling(s.spell))+'</span><span class="nm">'+tsdEsc(tsdTitle(s.name))+'</span></button>';
   }
   tsdEl("tsd-tiles").innerHTML = h;
 }
@@ -159,7 +161,7 @@ function tsdPaintCard(){
   var s = tsdCur(), h = "", i, e;
   tsdEl("tsd-spell").textContent = tsdSpelling(s.spell);
   tsdEl("tsd-type").textContent = s.tags.join(" · ");
-  tsdEl("tsd-name").textContent = s.name;
+  tsdEl("tsd-name").textContent = tsdTitle(s.name);
   tsdEl("tsd-pos").textContent = (TSD.idx+1) + " of " + TSD_SOUNDS.length;
   tsdEl("tsd-word").textContent = s.word;
   tsdSetClipState("tsd-play-s", "tsd-msg-s", s.sId);

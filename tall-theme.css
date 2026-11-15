@@ -1,0 +1,13 @@
+/* TALL design tokens (c) 2026 Miquela Daniels, AI Academy LLC. Proprietary.
+   Use on every TALL page.
+   GREEN  = Foundations: letters and the 44 sounds.
+   TEAL   = Level 1: passages, quizzes, phrases.
+   HEAD   = titles, headings, header bars (Montserrat 800; 700 for small labels).
+   BODY   = everything students read (Atkinson Hyperlegible Next; 700-800 big, 400 small).
+   Each page loads the fonts itself from Google Fonts; the fallbacks keep it readable if they do not load. */
+:root{
+  --tall-green:#298646;--tall-green-dark:#1E6B36;--tall-green-tint:#E8F4EC;
+  --tall-teal:#0F766E;--tall-teal-dark:#0B5A54;--tall-teal-tint:#E6F4F2;
+  --tall-font-head:"Montserrat","Segoe UI",Arial,sans-serif;
+  --tall-font-body:"Atkinson Hyperlegible Next","Atkinson Hyperlegible","Segoe UI",Arial,sans-serif;
+}
