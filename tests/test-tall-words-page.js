@@ -102,7 +102,11 @@ key(w,"Backspace"); ok(!w.B.boxes[0],"Backspace clears the last filled box");
   ok(w.B.boxes[0] && w.B.boxes[0].g==="m","dragging tile 'm' onto box 1 places it");
   ok(!w.document.querySelector(".ghost"),"the drag ghost is removed");
 })();
-click(w,"tw-build-box-0"); build(w,"tw-build","map"); click(w,"tw-build-next");
+click(w,"tw-build-box-0"); build(w,"tw-build","map");
+/* after the word is built: tap a box = hear that sound; tap the word = hear the word */
+ok(w.B.done===true,"map is built");
+(function(){ var n0=w.__played.length; click(w,"tw-build-box-1"); ok(w.__played.length>n0 && /a/.test(txt(w,"tw-build-say")) && w.B.boxes[1],"built word: tapping a box plays its sound and keeps the tile"); var n1=w.__played.length; click(w,"tw-build-box-0"); ok(w.__played.length>=n1 && w.B.boxes[0] && w.B.done===true,"built word: tapping box 1 plays m, does not clear it"); click(w,"tw-build-word"); ok(/Not recorded yet|./.test(txt(w,"tw-build-note")) && !!$(w,"tw-build-word").getAttribute("onclick"),"the word itself is tappable (Hear the word)"); })();
+click(w,"tw-build-next");
 ["cap","can","van","fan","tan"].forEach(function(x){ ok(new RegExp(x).test(txt(w,"tw-build-word")),"chain word "+x); build(w,"tw-build",x); if(x==="tan"){ ok(txt(w,"tw-build-next")==="Finish","last word: Finish"); } click(w,"tw-build-next"); });
 ok(active(w)==="tw-result" && /Build finished/.test(txt(w,"tw-result-title")),"Build finished");
 var pg=JSON.parse(w.localStorage.getItem("rf_tw_progress"))["stu_gomezmiriam_p1"].patterns["short a"];

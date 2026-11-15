@@ -124,14 +124,14 @@ footer{max-width:1000px;margin:0 auto;padding:0 16px 26px;font-size:12px;color:v
 
   <section id="tw-build" class="screen">
     <div class="row"><button class="btn" onclick="twBackToPattern()">&larr; Back</button><span class="mini" id="tw-build-count"></span></div>
-    <div class="big" id="tw-build-word"></div>
+    <div class="big" id="tw-build-word" role="button" tabindex="0" title="Tap the word to hear it" onclick="twHearCurrent()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();twHearCurrent();}" style="cursor:pointer"></div>
     <div class="center"><button class="btn primary" id="tw-build-hear" onclick="twHearCurrent()">Hear the word</button></div>
     <div class="boxes" id="tw-build-boxes"></div>
     <div class="say" id="tw-build-say"></div>
     <div class="bank" id="tw-build-bank"></div>
     <p class="note" id="tw-build-note"></p>
     <div class="center"><button class="btn primary" id="tw-build-next" onclick="twBuildNext()" style="display:none">Next word &rarr;</button></div>
-    <p class="mini center">Tap a tile to hear it, then tap a box. Or drag it. Keys: &larr; &rarr; pick a tile, 1&ndash;9 place it, Backspace clears, H hears the word, N is next.</p>
+    <p class="mini center">Tap a tile to hear it, then tap a box. Or drag it. When the word is built, tap the word or any box to hear it. Keys: &larr; &rarr; pick a tile, 1&ndash;9 place it, Backspace clears, H hears the word, N is next.</p>
   </section>
 
   <section id="tw-read" class="screen">
@@ -375,7 +375,7 @@ function twTileClick(i){
 }
 /* place the armed tile; clicking a filled box with nothing armed clears it */
 function twBoxClick(i){
-  if(B.done){ return; }
+  if(B.done){ var bt = B.boxes[i], bp = bt ? tilePath(bt) : null; if(bt){ if(bp){ playPath(bp); } setSay(bt.g + " \u2014 " + bt.say); } return; }
   if(B.armed){ twPlace(i, B.armed); }
   else if(B.boxes[i]){ B.boxes[i] = null; B.marks = null; boardRender(); setNote(""); }
 }
