@@ -1,844 +1,6168 @@
 {
- "title": "TALL Word Lists — Foundations / Level 1",
- "version": "seed: Groups 1-2 only (11 patterns), approved Nov 14 2026. Replace with TALL_Word-Lists_Level-1_v1.json",
- "copyright": "(c) 2026 Miquela Daniels, AI Academy LLC, TALL Teen Academy for Literacy & Language. Proprietary.",
- "groups": [
+ "version": "v3",
+ "note": "v2: 6 odd words swapped; academic words woven into Read lists (academic flag). * = First 100. heart = heart word. | v3 (2026-11-15): th and wh chains fixed so every step changes exactly one sound and one tile; whiz and whack removed.",
+ "patterns": [
   {
-   "id": "g1",
-   "title": "Short Vowels",
-   "patterns": [
+   "group": "G1",
+   "groupTitle": "Short Vowels",
+   "id": "short a",
+   "title": "Short a",
+   "build": [
     {
-     "id": "short-a",
-     "title": "Short a",
-     "spelling": "a",
-     "build": [
-      {
-       "w": "at",
-       "first100": true
-      },
-      {
-       "w": "sat",
-       "first100": true
-      },
-      {
-       "w": "sad"
-      },
-      {
-       "w": "mad"
-      },
-      {
-       "w": "map"
-      },
-      {
-       "w": "cap"
-      },
-      {
-       "w": "can",
-       "first100": true
-      },
-      {
-       "w": "van"
-      },
-      {
-       "w": "fan"
-      },
-      {
-       "w": "tan"
-      }
-     ],
-     "read": [
-      {
-       "w": "has",
-       "first100": true
-      },
-      {
-       "w": "at",
-       "first100": true
-      },
-      {
-       "w": "can",
-       "first100": true
-      },
-      {
-       "w": "sat",
-       "first100": true
-      },
-      {
-       "w": "bag"
-      },
-      {
-       "w": "jam"
-      },
-      {
-       "w": "hat"
-      },
-      {
-       "w": "pan"
-      },
-      {
-       "w": "dad"
-      },
-      {
-       "w": "ran"
-      }
-     ]
+     "w": "at",
+     "first100": true,
+     "heart": false,
+     "academic": false
     },
     {
-     "id": "short-i",
-     "title": "Short i",
-     "spelling": "i",
-     "build": [
-      {
-       "w": "it",
-       "first100": true
-      },
-      {
-       "w": "sit",
-       "first100": true
-      },
-      {
-       "w": "sip"
-      },
-      {
-       "w": "lip"
-      },
-      {
-       "w": "lid"
-      },
-      {
-       "w": "did",
-       "first100": true
-      },
-      {
-       "w": "dig"
-      },
-      {
-       "w": "big"
-      },
-      {
-       "w": "bin"
-      },
-      {
-       "w": "win"
-      }
-     ],
-     "read": [
-      {
-       "w": "in",
-       "first100": true
-      },
-      {
-       "w": "if",
-       "first100": true
-      },
-      {
-       "w": "is",
-       "first100": true
-      },
-      {
-       "w": "him",
-       "first100": true
-      },
-      {
-       "w": "his",
-       "first100": true
-      },
-      {
-       "w": "kid"
-      },
-      {
-       "w": "zip"
-      },
-      {
-       "w": "fit"
-      },
-      {
-       "w": "cap"
-      },
-      {
-       "w": "ran"
-      }
-     ]
+     "w": "sat",
+     "first100": true,
+     "heart": false,
+     "academic": false
     },
     {
-     "id": "short-o",
-     "title": "Short o",
-     "spelling": "o",
-     "build": [
-      {
-       "w": "mom",
-       "first100": true
-      },
-      {
-       "w": "mop"
-      },
-      {
-       "w": "top"
-      },
-      {
-       "w": "hop"
-      },
-      {
-       "w": "hot"
-      },
-      {
-       "w": "not",
-       "first100": true
-      },
-      {
-       "w": "got",
-       "first100": true
-      },
-      {
-       "w": "lot",
-       "first100": true
-      },
-      {
-       "w": "log"
-      },
-      {
-       "w": "dog"
-      }
-     ],
-     "read": [
-      {
-       "w": "on",
-       "first100": true
-      },
-      {
-       "w": "got",
-       "first100": true
-      },
-      {
-       "w": "lot",
-       "first100": true
-      },
-      {
-       "w": "job"
-      },
-      {
-       "w": "box"
-      },
-      {
-       "w": "top"
-      },
-      {
-       "w": "nod"
-      },
-      {
-       "w": "sit",
-       "first100": true
-      },
-      {
-       "w": "big"
-      },
-      {
-       "w": "map"
-      }
-     ]
+     "w": "sad",
+     "first100": false,
+     "heart": false,
+     "academic": false
     },
     {
-     "id": "short-u",
-     "title": "Short u",
-     "spelling": "u",
-     "build": [
-      {
-       "w": "up",
-       "first100": true
-      },
-      {
-       "w": "us",
-       "first100": true
-      },
-      {
-       "w": "bus"
-      },
-      {
-       "w": "but",
-       "first100": true
-      },
-      {
-       "w": "cut"
-      },
-      {
-       "w": "hut"
-      },
-      {
-       "w": "hug"
-      },
-      {
-       "w": "bug"
-      },
-      {
-       "w": "rug"
-      },
-      {
-       "w": "run"
-      }
-     ],
-     "read": [
-      {
-       "w": "up",
-       "first100": true
-      },
-      {
-       "w": "us",
-       "first100": true
-      },
-      {
-       "w": "but",
-       "first100": true
-      },
-      {
-       "w": "sun"
-      },
-      {
-       "w": "fun"
-      },
-      {
-       "w": "gum"
-      },
-      {
-       "w": "cup"
-      },
-      {
-       "w": "job"
-      },
-      {
-       "w": "lot",
-       "first100": true
-      },
-      {
-       "w": "kid"
-      }
-     ]
+     "w": "mad",
+     "first100": false,
+     "heart": false,
+     "academic": false
     },
     {
-     "id": "short-e",
-     "title": "Short e",
-     "spelling": "e",
-     "build": [
-      {
-       "w": "get",
-       "first100": true
-      },
-      {
-       "w": "net"
-      },
-      {
-       "w": "pet"
-      },
-      {
-       "w": "pen"
-      },
-      {
-       "w": "ten"
-      },
-      {
-       "w": "men"
-      },
-      {
-       "w": "met"
-      },
-      {
-       "w": "set"
-      },
-      {
-       "w": "wet"
-      },
-      {
-       "w": "web"
-      }
-     ],
-     "read": [
-      {
-       "w": "get",
-       "first100": true
-      },
-      {
-       "w": "yes"
-      },
-      {
-       "w": "red"
-      },
-      {
-       "w": "leg"
-      },
-      {
-       "w": "bed"
-      },
-      {
-       "w": "pen"
-      },
-      {
-       "w": "pin"
-      },
-      {
-       "w": "ten"
-      },
-      {
-       "w": "tin"
-      },
-      {
-       "w": "set"
-      }
-     ]
+     "w": "map",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "cap",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "can",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "van",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fan",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tan",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "has",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "at",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "can",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sat",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bag",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "gap",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "hat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "lab",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "dad",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "ran",
+     "first100": false,
+     "heart": false,
+     "academic": false
     }
    ]
   },
   {
-   "id": "g2",
-   "title": "Digraphs",
-   "patterns": [
+   "group": "G1",
+   "groupTitle": "Short Vowels",
+   "id": "short i",
+   "title": "Short i",
+   "build": [
     {
-     "id": "th",
-     "title": "th",
-     "spelling": "th",
-     "build": [
-      {
-       "w": "this",
-       "first100": true
-      },
-      {
-       "w": "thin"
-      },
-      {
-       "w": "than",
-       "first100": true
-      },
-      {
-       "w": "that",
-       "first100": true
-      },
-      {
-       "w": "hat"
-      },
-      {
-       "w": "bat"
-      },
-      {
-       "w": "bath"
-      },
-      {
-       "w": "path"
-      },
-      {
-       "w": "math"
-      },
-      {
-       "w": "moth"
-      }
-     ],
-     "read": [
-      {
-       "w": "then",
-       "first100": true
-      },
-      {
-       "w": "them",
-       "first100": true
-      },
-      {
-       "w": "with",
-       "first100": true
-      },
-      {
-       "w": "than",
-       "first100": true
-      },
-      {
-       "w": "thin"
-      },
-      {
-       "w": "path"
-      },
-      {
-       "w": "math"
-      },
-      {
-       "w": "bus"
-      },
-      {
-       "w": "red"
-      },
-      {
-       "w": "got",
-       "first100": true
-      }
-     ]
+     "w": "it",
+     "first100": true,
+     "heart": false,
+     "academic": false
     },
     {
-     "id": "sh",
-     "title": "sh",
-     "spelling": "sh",
-     "build": [
-      {
-       "w": "shut"
-      },
-      {
-       "w": "shot"
-      },
-      {
-       "w": "shop"
-      },
-      {
-       "w": "ship"
-      },
-      {
-       "w": "hip"
-      },
-      {
-       "w": "dip"
-      },
-      {
-       "w": "dish"
-      },
-      {
-       "w": "fish"
-      },
-      {
-       "w": "wish"
-      },
-      {
-       "w": "with",
-       "first100": true
-      }
-     ],
-     "read": [
-      {
-       "w": "shop"
-      },
-      {
-       "w": "cash"
-      },
-      {
-       "w": "rush"
-      },
-      {
-       "w": "shed"
-      },
-      {
-       "w": "dish"
-      },
-      {
-       "w": "that",
-       "first100": true
-      },
-      {
-       "w": "them",
-       "first100": true
-      },
-      {
-       "w": "this",
-       "first100": true
-      },
-      {
-       "w": "job"
-      },
-      {
-       "w": "yes"
-      }
-     ]
+     "w": "sit",
+     "first100": true,
+     "heart": false,
+     "academic": false
     },
     {
-     "id": "ch",
-     "title": "ch",
-     "spelling": "ch",
-     "build": [
-      {
-       "w": "chin"
-      },
-      {
-       "w": "chip"
-      },
-      {
-       "w": "chop"
-      },
-      {
-       "w": "chap"
-      },
-      {
-       "w": "chat"
-      },
-      {
-       "w": "that",
-       "first100": true
-      },
-      {
-       "w": "than",
-       "first100": true
-      },
-      {
-       "w": "can",
-       "first100": true
-      },
-      {
-       "w": "cash"
-      },
-      {
-       "w": "mash"
-      }
-     ],
-     "read": [
-      {
-       "w": "which",
-       "first100": true
-      },
-      {
-       "w": "much"
-      },
-      {
-       "w": "such"
-      },
-      {
-       "w": "rich"
-      },
-      {
-       "w": "chat"
-      },
-      {
-       "w": "chip"
-      },
-      {
-       "w": "cash"
-      },
-      {
-       "w": "fish"
-      },
-      {
-       "w": "them",
-       "first100": true
-      },
-      {
-       "w": "bus"
-      }
-     ]
+     "w": "sip",
+     "first100": false,
+     "heart": false,
+     "academic": false
     },
     {
-     "id": "wh",
-     "title": "wh",
-     "spelling": "wh",
-     "build": [
-      {
-       "w": "which",
-       "first100": true
-      },
-      {
-       "w": "whiz"
-      },
-      {
-       "w": "whim"
-      },
-      {
-       "w": "whip"
-      },
-      {
-       "w": "ship"
-      },
-      {
-       "w": "shin"
-      },
-      {
-       "w": "thin"
-      },
-      {
-       "w": "then",
-       "first100": true
-      },
-      {
-       "w": "when",
-       "first100": true
-      },
-      {
-       "w": "wet"
-      }
-     ],
-     "read": [
-      {
-       "w": "when",
-       "first100": true
-      },
-      {
-       "w": "which",
-       "first100": true
-      },
-      {
-       "w": "whip"
-      },
-      {
-       "w": "whiz"
-      },
-      {
-       "w": "whim"
-      },
-      {
-       "w": "whack"
-      },
-      {
-       "w": "wham"
-      },
-      {
-       "w": "whiff"
-      },
-      {
-       "w": "what",
-       "first100": true,
-       "heart": true,
-       "tricky": "a"
-      },
-      {
-       "w": "wet"
-      }
-     ]
+     "w": "lip",
+     "first100": false,
+     "heart": false,
+     "academic": false
     },
     {
-     "id": "ck",
-     "title": "ck",
-     "spelling": "ck",
-     "build": [
-      {
-       "w": "back"
-      },
-      {
-       "w": "pack"
-      },
-      {
-       "w": "pick",
-       "first100": true
-      },
-      {
-       "w": "kick"
-      },
-      {
-       "w": "sick"
-      },
-      {
-       "w": "sock"
-      },
-      {
-       "w": "rock"
-      },
-      {
-       "w": "lock"
-      },
-      {
-       "w": "luck"
-      },
-      {
-       "w": "duck"
-      }
-     ],
-     "read": [
-      {
-       "w": "pick",
-       "first100": true
-      },
-      {
-       "w": "back"
-      },
-      {
-       "w": "neck"
-      },
-      {
-       "w": "deck"
-      },
-      {
-       "w": "check"
-      },
-      {
-       "w": "which",
-       "first100": true
-      },
-      {
-       "w": "them",
-       "first100": true
-      },
-      {
-       "w": "shop"
-      },
-      {
-       "w": "job"
-      },
-      {
-       "w": "yes"
-      }
-     ]
+     "w": "lid",
+     "first100": false,
+     "heart": false,
+     "academic": false
     },
     {
-     "id": "ng",
-     "title": "ng",
-     "spelling": "ng",
-     "build": [
-      {
-       "w": "long",
-       "first100": true
-      },
-      {
-       "w": "song"
-      },
-      {
-       "w": "sing"
-      },
-      {
-       "w": "ring"
-      },
-      {
-       "w": "rang"
-      },
-      {
-       "w": "hang"
-      },
-      {
-       "w": "hung"
-      },
-      {
-       "w": "lung"
-      },
-      {
-       "w": "sung"
-      },
-      {
-       "w": "sang"
-      }
-     ],
-     "read": [
-      {
-       "w": "long",
-       "first100": true
-      },
-      {
-       "w": "thing"
-      },
-      {
-       "w": "king"
-      },
-      {
-       "w": "wing"
-      },
-      {
-       "w": "bang"
-      },
-      {
-       "w": "back"
-      },
-      {
-       "w": "chip"
-      },
-      {
-       "w": "with",
-       "first100": true
-      },
-      {
-       "w": "this",
-       "first100": true
-      },
-      {
-       "w": "sun"
-      }
-     ]
+     "w": "did",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "dig",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "big",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "win",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "in",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "if",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "is",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "him",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "his",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "kid",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "zip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fit",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "mix",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "fix",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    }
+   ]
+  },
+  {
+   "group": "G1",
+   "groupTitle": "Short Vowels",
+   "id": "short o",
+   "title": "Short o",
+   "build": [
+    {
+     "w": "mom",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "mop",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "top",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hop",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hot",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "not",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "got",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "lot",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "log",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "dog",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "on",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "got",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "lot",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "job",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "box",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "top",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "nod",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sit",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "big",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "map",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    }
+   ]
+  },
+  {
+   "group": "G1",
+   "groupTitle": "Short Vowels",
+   "id": "short u",
+   "title": "Short u",
+   "build": [
+    {
+     "w": "up",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "us",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bus",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "but",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cut",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hut",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hug",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bug",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "rug",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "run",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "up",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "us",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "but",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sun",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fun",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sum",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "cup",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "job",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "lot",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "kid",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G1",
+   "groupTitle": "Short Vowels",
+   "id": "short e",
+   "title": "Short e",
+   "build": [
+    {
+     "w": "get",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "net",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pet",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pen",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "ten",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "men",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "met",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "set",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "wet",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "web",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "get",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "yes",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "red",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "leg",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bed",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pen",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "ten",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "set",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    }
+   ]
+  },
+  {
+   "group": "G2",
+   "groupTitle": "Digraphs",
+   "id": "th",
+   "title": "th",
+   "build": [
+    {
+     "w": "them",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "then",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "than",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "that",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bath",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "path",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "math",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "moth",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "this",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "then",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "with",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "them",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "thin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "path",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "math",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "bus",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "red",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "got",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G2",
+   "groupTitle": "Digraphs",
+   "id": "sh",
+   "title": "sh",
+   "build": [
+    {
+     "w": "shut",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "shot",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "shop",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "ship",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "dip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "dish",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fish",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "wish",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "with",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "shop",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cash",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "rush",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "shed",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "dish",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "that",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "them",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "this",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "job",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "yes",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G2",
+   "groupTitle": "Digraphs",
+   "id": "ch",
+   "title": "ch",
+   "build": [
+    {
+     "w": "chin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chop",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chap",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "that",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "than",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "can",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cash",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "mash",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "which",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "much",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "such",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "rich",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cash",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fish",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "them",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bus",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G2",
+   "groupTitle": "Digraphs",
+   "id": "wh",
+   "title": "wh",
+   "build": [
+    {
+     "w": "men",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "when",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "then",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "ten",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "whip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "which",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "rich",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "when",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "which",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "whip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "what",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    },
+    {
+     "w": "why",
+     "first100": false,
+     "heart": true,
+     "academic": true
+    },
+    {
+     "w": "with",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "then",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "wet",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "shop",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G2",
+   "groupTitle": "Digraphs",
+   "id": "ck",
+   "title": "ck",
+   "build": [
+    {
+     "w": "back",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pack",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pick",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "kick",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sick",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sock",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "rock",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "lock",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "luck",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "duck",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "pick",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "back",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "neck",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "deck",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "check",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "which",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "them",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "shop",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "job",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "yes",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G2",
+   "groupTitle": "Digraphs",
+   "id": "ng",
+   "title": "ng",
+   "build": [
+    {
+     "w": "long",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "song",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sing",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "ring",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "rang",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hang",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hung",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "lung",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sung",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sang",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "long",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "thing",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "king",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "wing",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bang",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "back",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "with",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "this",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sun",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G3",
+   "groupTitle": "Blends",
+   "id": "s-blends",
+   "title": "s-blends (st, sp, sk, sl, sn, sm, sw)",
+   "build": [
+    {
+     "w": "snap",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "slap",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "slip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "skip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "skin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "spin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "spit",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "spot",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "slot",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sloth",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "best",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "text",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "stop",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "step",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "swim",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "snack",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "spell",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "skill",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "chip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "long",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G3",
+   "groupTitle": "Blends",
+   "id": "l-blends",
+   "title": "l-blends (bl, cl, fl, gl, pl, sl)",
+   "build": [
+    {
+     "w": "black",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "block",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "clock",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "click",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "flick",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "flip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "slip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "clip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "clap",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "class",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    }
+   ],
+   "read": [
+    {
+     "w": "class",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "plan",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "glad",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "flag",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "plus",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "blush",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "flash",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "glass",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "snap",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "then",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    }
+   ]
+  },
+  {
+   "group": "G3",
+   "groupTitle": "Blends",
+   "id": "r-blends",
+   "title": "r-blends (br, cr, dr, fr, gr, pr, tr)",
+   "build": [
+    {
+     "w": "drop",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "drip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "trip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "trap",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "trash",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "crash",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cram",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "crab",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "grab",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "grad",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "from",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    },
+    {
+     "w": "friends",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    },
+    {
+     "w": "brush",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "dress",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "press",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "grill",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "truck",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fresh",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "flag",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "shop",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G3",
+   "groupTitle": "Blends",
+   "id": "end-blends",
+   "title": "Ending blends (nd, nt, st, mp, lk, ft, sk)",
+   "build": [
+    {
+     "w": "hand",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "band",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bend",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "send",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "end",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "and",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "ant",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pant",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "past",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "fast",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "went",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "best",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "text",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "hand",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "and",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "jump",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fact",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "list",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "desk",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "will",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G3",
+   "groupTitle": "Blends",
+   "id": "3-blends",
+   "title": "3-letter blends (str, scr, spr, spl, thr, shr)",
+   "build": [
+    {
+     "w": "scrap",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "strap",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "strip",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "string",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "strong",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "strung",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "struck",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "truck",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "trick",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "track",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "split",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "splash",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "spring",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sprint",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "scrub",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "shrug",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "thrill",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "strum",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hand",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "best",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G3",
+   "groupTitle": "Blends",
+   "id": "tch",
+   "title": "tch (after a short vowel)",
+   "build": [
+    {
+     "w": "batch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "match",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "catch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "patch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pitch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "itch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "ditch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "witch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "switch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "stitch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "match",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "catch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fetch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sketch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "clutch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "scratch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "stretch",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "which",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "much",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "rich",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G4",
+   "groupTitle": "Silent e",
+   "id": "a_e",
+   "title": "a_e (long a)",
+   "build": [
+    {
+     "w": "came",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "game",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "gate",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "late",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "lake",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "make",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "made",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fade",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fake",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bake",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "made",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "make",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "came",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "game",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "name",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "same",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "state",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "grade",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hate",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G4",
+   "groupTitle": "Silent e",
+   "id": "i_e",
+   "title": "i_e (long i)",
+   "build": [
+    {
+     "w": "time",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tide",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "ride",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "side",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "site",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bite",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bike",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "like",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "line",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "fine",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "like",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "time",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fine",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "write",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "white",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "while",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "smile",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "size",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "bit",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bite",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G4",
+   "groupTitle": "Silent e",
+   "id": "o_e",
+   "title": "o_e (long o)",
+   "build": [
+    {
+     "w": "pole",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hole",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "home",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hope",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "rope",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "rode",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "code",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "cone",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bone",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "phone",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "home",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "phone",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "those",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "close",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "code",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "broke",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "smoke",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "drove",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "not",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "note",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    }
+   ]
+  },
+  {
+   "group": "G4",
+   "groupTitle": "Silent e",
+   "id": "u_e",
+   "title": "u_e (long u: cute, rule)",
+   "build": [
+    {
+     "w": "tune",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tube",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cube",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cute",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "mute",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "mule",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "rule",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "rude",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "dude",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "dune",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "use",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "huge",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "rule",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "cute",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "flute",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "mute",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tube",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cut",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cute",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "us",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G4",
+   "groupTitle": "Silent e",
+   "id": "e_e",
+   "title": "e_e + silent e review",
+   "build": [
+    {
+     "w": "these",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "those",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hose",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hole",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "mole",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "mile",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "mine",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "mane",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cane",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cone",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "these",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "theme",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "scene",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "made",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "time",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "home",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "use",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "write",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "phone",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "white",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G5",
+   "groupTitle": "Open Syllables",
+   "id": "open",
+   "title": "Open syllables (he, go, my: the vowel says its name)",
+   "build": [
+    {
+     "w": "he",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "she",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "shy",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "my",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "me",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "we",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "be",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "by",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "why",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "hi",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "go",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "so",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "no",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "I",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "try",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cry",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fly",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "why",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "she",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "my",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G6",
+   "groupTitle": "Vowel Teams",
+   "id": "ee",
+   "title": "ee (long e)",
+   "build": [
+    {
+     "w": "see",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "seed",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "feed",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "feet",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "meet",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sheet",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sheep",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "keep",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "deep",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "jeep",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "see",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "been",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    },
+    {
+     "w": "keep",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tree",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "free",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "green",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "week",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "speed",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "three",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "need",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    }
+   ]
+  },
+  {
+   "group": "G6",
+   "groupTitle": "Vowel Teams",
+   "id": "ea",
+   "title": "ea (long e)",
+   "build": [
+    {
+     "w": "team",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "teach",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "reach",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "read",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "bead",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "beat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "heat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "seat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "seal",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "meal",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "each",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "team",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "eat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "clean",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "dream",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "speak",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "beach",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "teach",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "mean",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "ready",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G6",
+   "groupTitle": "Vowel Teams",
+   "id": "ey",
+   "title": "ey (long e) + long e review",
+   "build": [
+    {
+     "w": "key",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "keep",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "peep",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "peek",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "peel",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "feel",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "feet",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "heat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "seat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "seal",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "keys",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "key",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "money",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "honey",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "monkey",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hockey",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "turkey",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "valley",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "jersey",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "donkey",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G6",
+   "groupTitle": "Vowel Teams",
+   "id": "ay",
+   "title": "ay (long a)",
+   "build": [
+    {
+     "w": "day",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "say",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "way",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "may",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pay",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "play",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pray",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tray",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "stray",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "spray",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "day",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "way",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "may",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "say",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "away",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "today",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "okay",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "gray",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tray",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "spray",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G6",
+   "groupTitle": "Vowel Teams",
+   "id": "ai",
+   "title": "ai (long a)",
+   "build": [
+    {
+     "w": "rain",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "train",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "trail",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tail",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "mail",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "main",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "pain",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "paint",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "faint",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "saint",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "rain",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "wait",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "paid",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "train",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "brain",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chain",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "claim",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "main",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "day",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "made",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G6",
+   "groupTitle": "Vowel Teams",
+   "id": "oa",
+   "title": "oa (long o)",
+   "build": [
+    {
+     "w": "roast",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "toast",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "coast",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "boast",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "boat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "coat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "goat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "goal",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "coal",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "coach",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "boat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "road",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "coach",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "soap",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "float",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "throat",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "toast",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "goal",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "home",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "go",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G6",
+   "groupTitle": "Vowel Teams",
+   "id": "ow-long",
+   "title": "ow (long o)",
+   "build": [
+    {
+     "w": "own",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "shown",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "show",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "low",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "slow",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "flow",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "flown",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "blown",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "blow",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "glow",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "own",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "know",
+     "first100": true,
+     "heart": true,
+     "academic": true
+    },
+    {
+     "w": "snow",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "grow",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "throw",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "show",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "yellow",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "window",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "go",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "home",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G6",
+   "groupTitle": "Vowel Teams",
+   "id": "igh",
+   "title": "igh (long i)",
+   "build": [
+    {
+     "w": "high",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "sigh",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sight",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "light",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "night",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fight",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "might",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "right",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "bright",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fright",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "night",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "light",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "right",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "high",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "might",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bright",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tight",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "flight",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "my",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "time",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G6",
+   "groupTitle": "Vowel Teams",
+   "id": "oo-long",
+   "title": "oo (long: food)",
+   "build": [
+    {
+     "w": "school",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cool",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pool",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tool",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "too",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tooth",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "booth",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "boot",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "shoot",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "root",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "school",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "food",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "moon",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "proof",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "soon",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "spoon",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tooth",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "who",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    },
+    {
+     "w": "two",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    },
+    {
+     "w": "new",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    }
+   ]
+  },
+  {
+   "group": "G6",
+   "groupTitle": "Vowel Teams",
+   "id": "oo-short",
+   "title": "oo (short: look)",
+   "build": [
+    {
+     "w": "shook",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "took",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "look",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "book",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cook",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hook",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hood",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "good",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "wood",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "wool",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "look",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "looked",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "good",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "book",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "foot",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "stood",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "would",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    },
+    {
+     "w": "could",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    },
+    {
+     "w": "school",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "food",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G6",
+   "groupTitle": "Vowel Teams",
+   "id": "ew",
+   "title": "ew (long u: new)",
+   "build": [
+    {
+     "w": "new",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "few",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "flew",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "blew",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "brew",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "crew",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "grew",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "drew",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "dew",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "knew",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "new",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "few",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "grew",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "threw",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chew",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "news",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "crew",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "stew",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "school",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "use",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G7",
+   "groupTitle": "R-Controlled",
+   "id": "ar",
+   "title": "ar",
+   "build": [
+    {
+     "w": "car",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "far",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "farm",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "harm",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hard",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "card",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cart",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "part",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "park",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bark",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "car",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "far",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "park",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "start",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "smart",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chart",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "star",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "art",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "part",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "are",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G7",
+   "groupTitle": "R-Controlled",
+   "id": "or",
+   "title": "or, ore",
+   "build": [
+    {
+     "w": "for",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fork",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cork",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "corn",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "born",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "torn",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tore",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sore",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "more",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "or",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "for",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "more",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "or",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "short",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "sport",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "form",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "sort",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "score",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "before",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "door",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G7",
+   "groupTitle": "R-Controlled",
+   "id": "er",
+   "title": "er, ir, ur",
+   "build": [
+    {
+     "w": "fern",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "firm",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "term",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "turn",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "burn",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bird",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "third",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "nerd",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "herd",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "her",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "her",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "turn",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "first",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "girl",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "shirt",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hurt",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "church",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "term",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "work",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    },
+    {
+     "w": "words",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G7",
+   "groupTitle": "R-Controlled",
+   "id": "air",
+   "title": "air, are, ere, eir",
+   "build": [
+    {
+     "w": "hair",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fair",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pair",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chair",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "share",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "care",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "dare",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bare",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "where",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "there",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "there",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "where",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "their",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hair",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "chair",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "stairs",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "care",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "share",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "scared",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "square",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G7",
+   "groupTitle": "R-Controlled",
+   "id": "ear",
+   "title": "ear, ere",
+   "build": [
+    {
+     "w": "ear",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hear",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "near",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "year",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fear",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "gear",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "dear",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tear",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cheer",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "here",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "here",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "year",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hear",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "near",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "clear",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "beard",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fear",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cheer",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "deer",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "gear",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G8",
+   "groupTitle": "Endings",
+   "id": "s-es",
+   "title": "-s and -es",
+   "build": [
+    {
+     "w": "bag",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bags",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bugs",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hugs",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "huts",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "nuts",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "nets",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pets",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "pots",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "spots",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "games",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "words",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "keys",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "friends",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    },
+    {
+     "w": "texts",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "boxes",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "wishes",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "dishes",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "classes",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "lot",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G8",
+   "groupTitle": "Endings",
+   "id": "ed",
+   "title": "-ed (says /t/, /d/, or /ed/)",
+   "build": [
+    {
+     "w": "look",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "looked",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "call",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "called",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "text",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "texted",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "jump",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "jumped",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "play",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "played",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "looked",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "called",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tired",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "jumped",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "played",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "wanted",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "needed",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "stopped",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "turned",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "texted",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G8",
+   "groupTitle": "Endings",
+   "id": "ing",
+   "title": "-ing",
+   "build": [
+    {
+     "w": "jump",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "jumping",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "play",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "playing",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "text",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "texting",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "read",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "reading",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "sleep",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sleeping",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "going",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "doing",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "playing",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "texting",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "reading",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "eating",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "singing",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "thinking",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "writing",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "shopping",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G9",
+   "groupTitle": "Two-Part Words",
+   "id": "two-part",
+   "title": "Two-part words (2 syllables)",
+   "build": [
+    {
+     "w": "after",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "over",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "number",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "into",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "away",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "before",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bottle",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "office",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "sunset",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "napkin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "family",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "ready",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "about",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "people",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    },
+    {
+     "w": "water",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    },
+    {
+     "w": "other",
+     "first100": true,
+     "heart": true,
+     "academic": false
+    },
+    {
+     "w": "topic",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "problem",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "detail",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "reason",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    }
+   ]
+  },
+  {
+   "group": "G10",
+   "groupTitle": "Level 2 Sounds",
+   "id": "ou-ow",
+   "title": "ou, ow (out, how)",
+   "build": [
+    {
+     "w": "how",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "now",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cow",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "wow",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "bow",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "brow",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "brown",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "down",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "town",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "gown",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "out",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "about",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "loud",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "house",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "mouth",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "found",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "shout",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "cloud",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "how",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "down",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G10",
+   "groupTitle": "Level 2 Sounds",
+   "id": "aw-all",
+   "title": "aw, all (saw, all)",
+   "build": [
+    {
+     "w": "all",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "ball",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "call",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "fall",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "hall",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "tall",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "wall",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "mall",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "small",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "stall",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "saw",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "draw",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "law",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "jaw",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "claw",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "straw",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "lawn",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "all",
+     "first100": true,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "called",
+     "first100": true,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "talk",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ]
+  },
+  {
+   "group": "G10",
+   "groupTitle": "Level 2 Sounds",
+   "id": "oi-oy",
+   "title": "oi, oy (coin, boy)",
+   "build": [
+    {
+     "w": "boy",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "toy",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "joy",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "join",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "coin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "coil",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "boil",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "oil",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "foil",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "soil",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    }
+   ],
+   "read": [
+    {
+     "w": "boy",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "coin",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "point",
+     "first100": false,
+     "heart": false,
+     "academic": true
+    },
+    {
+     "w": "voice",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "noise",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "choice",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "enjoy",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "annoy",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "toys",
+     "first100": false,
+     "heart": false,
+     "academic": false
+    },
+    {
+     "w": "oil",
+     "first100": false,
+     "heart": false,
+     "academic": false
     }
    ]
   }
  ],
- "heartSets": []
+ "heartWords": [
+  {
+   "set": 1,
+   "words": [
+    {
+     "w": "the",
+     "first100": true
+    },
+    {
+     "w": "a",
+     "first100": true
+    },
+    {
+     "w": "of",
+     "first100": true
+    },
+    {
+     "w": "to",
+     "first100": true
+    },
+    {
+     "w": "do",
+     "first100": true
+    },
+    {
+     "w": "you",
+     "first100": true
+    },
+    {
+     "w": "your",
+     "first100": true
+    },
+    {
+     "w": "was",
+     "first100": true
+    },
+    {
+     "w": "said",
+     "first100": true
+    },
+    {
+     "w": "are",
+     "first100": true
+    }
+   ]
+  },
+  {
+   "set": 2,
+   "words": [
+    {
+     "w": "were",
+     "first100": true
+    },
+    {
+     "w": "they",
+     "first100": true
+    },
+    {
+     "w": "one",
+     "first100": true
+    },
+    {
+     "w": "two",
+     "first100": true
+    },
+    {
+     "w": "come",
+     "first100": true
+    },
+    {
+     "w": "some",
+     "first100": true
+    },
+    {
+     "w": "what",
+     "first100": true
+    },
+    {
+     "w": "who",
+     "first100": true
+    },
+    {
+     "w": "could",
+     "first100": true
+    },
+    {
+     "w": "would",
+     "first100": true
+    }
+   ]
+  },
+  {
+   "set": 3,
+   "words": [
+    {
+     "w": "been",
+     "first100": true
+    },
+    {
+     "w": "friends",
+     "first100": true
+    },
+    {
+     "w": "people",
+     "first100": true
+    },
+    {
+     "w": "want",
+     "first100": true
+    },
+    {
+     "w": "water",
+     "first100": true
+    },
+    {
+     "w": "front",
+     "first100": true
+    },
+    {
+     "w": "many",
+     "first100": true
+    },
+    {
+     "w": "from",
+     "first100": true
+    },
+    {
+     "w": "have",
+     "first100": true
+    },
+    {
+     "w": "other",
+     "first100": true
+    }
+   ]
+  },
+  {
+   "set": 4,
+   "words": [
+    {
+     "w": "work",
+     "first100": true
+    },
+    {
+     "w": "worth",
+     "first100": true
+    },
+    {
+     "w": "words",
+     "first100": true
+    },
+    {
+     "w": "door",
+     "first100": true
+    },
+    {
+     "w": "find",
+     "first100": true
+    },
+    {
+     "w": "does",
+     "first100": false
+    },
+    {
+     "w": "says",
+     "first100": false
+    },
+    {
+     "w": "give",
+     "first100": false
+    },
+    {
+     "w": "again",
+     "first100": false
+    },
+    {
+     "w": "any",
+     "first100": false
+    }
+   ]
+  }
+ ]
 }

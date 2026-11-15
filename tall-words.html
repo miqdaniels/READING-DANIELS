@@ -180,7 +180,7 @@ footer{max-width:1000px;margin:0 auto;padding:0 16px 26px;font-size:12px;color:v
 <script src="tall-roster.js"></script>
 <script>
 /* ============================== state ============================== */
-var S = { lists: null, flat: [], student: null, prog: {}, cur: null, mode: "", lastGame: null };
+var S = { lists: null, flat: [], known: {}, student: null, prog: {}, cur: null, mode: "", lastGame: null };
 var AUDIO = null;                       /* the one clip that is playing */
 var SOUND_ON = true;
 function el(id){ return document.getElementById(id); }
@@ -231,7 +231,7 @@ function isUnlocked(i){
 /* ============================== boot ============================== */
 function twBoot(raw){
   var data = TW.normalizeLists(raw);
-  S.lists = data; S.flat = TW.flatPatterns(data);
+  S.lists = data; S.flat = TW.flatPatterns(data); S.known = TW.knownSet(data);
   if(!S.flat.length && !data.heart.length){ el("tw-load-msg").textContent = "No word lists found."; return; }
   var saved = null;
   try{ saved = JSON.parse(store().getItem("rf_tw_student") || "null"); }catch(e){}
@@ -293,7 +293,7 @@ function twGoHome(){
       pg = progPat(p.id).pp; locked = !isUnlocked(f);
       status = locked ? "Locked. Finish the Build in the pattern before it." :
         ((pg.buildDone ? "Build ✓ " : "") + (Object.keys(pg.read).length >= p.read.length && p.read.length ? "Read ✓ " : "") + (pg.dictTotal ? "Dictation " + pg.dictRight + "/" + pg.dictTotal : ""));
-      h += '<button class="pcard'+(locked?' locked':'')+'" id="tw-pat-'+esc(p.id)+'" '+(locked?'aria-disabled="true"':'')+' onclick="twOpenPattern('+f+')"><span class="t">'+esc(p.title)+'</span><span class="s">'+esc(p.spelling ? "spelling: " + p.spelling : "")+'</span><span class="s">'+esc(status || "Not started")+'</span></button>';
+      h += '<button class="pcard'+(locked?' locked':'')+'" id="tw-pat-'+esc(TW.slug(p.id))+'" ' +(locked?'aria-disabled="true"':'')+' onclick="twOpenPattern('+f+')"><span class="t">'+esc(p.title)+'</span><span class="s">'+esc(p.spelling ? "spelling: " + p.spelling : "")+'</span><span class="s">'+esc(status || "Not started")+'</span></button>';
     }
     h += '</div>';
   }
@@ -301,7 +301,7 @@ function twGoHome(){
   h = "";
   if(S.lists.heart.length){
     h += '<h3>Heart words</h3><div class="grid">';
-    for(i=0;i<S.lists.heart.length;i++){ h += '<button class="pcard" id="tw-heart-'+esc(S.lists.heart[i].id)+'" onclick="twOpenHeart('+i+')"><span class="t">'+esc(S.lists.heart[i].title)+'</span><span class="s">'+S.lists.heart[i].words.length+' words</span></button>'; }
+    for(i=0;i<S.lists.heart.length;i++){ h += '<button class="pcard" id="tw-heart-'+esc(TW.slug(S.lists.heart[i].id))+'" onclick="twOpenHeart('+i+')"><span class="t">'+esc(S.lists.heart[i].title)+'</span><span class="s">'+S.lists.heart[i].words.length+' words</span></button>'; }
     h += '</div>';
   }
   el("tw-heart-sets").innerHTML = h;
@@ -332,7 +332,7 @@ function twOpenPattern(f){
   go("tw-pattern");
 }
 function twBackToPattern(){ if(S.cur){ twOpenPattern(S.cur.index); } else { twGoHome(); } }   /* heart-word lists have no pattern: Back goes home */
-function patOpts(){ return { endings: TW.isEndingsPattern(S.cur.pattern) }; }
+function patOpts(){ return { endings: TW.isEndingsPattern(S.cur.pattern), known: S.known }; }
 function patTilesFor(w){ return TW.tilesFor(w, patOpts()); }
 
 /* the tile bank for a pattern: every tile used by the pattern's words, vowels first */

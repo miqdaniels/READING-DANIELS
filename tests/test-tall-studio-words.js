@@ -41,8 +41,10 @@ async function readZip(blob,w){
   ck(w.TS_ITEMS.filter(x=>x.id.indexOf("SND_")===0).length===111 && w.TS_ITEMS.filter(x=>x.id.indexOf("PSG_")===0).length===11,"sound and passage ids untouched");
   /* grouped by pattern, in teaching order */
   const sets=w.tsSets().filter(s=>s.indexOf("Words:")===0);
-  ck(sets.length>=11 && sets[0]==="Words: Short Vowels > Short a" && sets[sets.length-1].indexOf("Words: Digraphs > ")===0,"word sets are grouped by pattern, in teaching order");
-  ck(w.tsItemsIn("Words: Short Vowels > Short a").length===TW.uniqueWords(L).filter(x=>x.setId==="short-a").length,"a pattern's set holds the words that first appear in it");
+  const expectedSets=[]; uw.forEach(x=>{ const t="Words: "+x.groupTitle+" > "+x.setTitle; if(expectedSets.indexOf(t)<0) expectedSets.push(t); });
+  ck(sets.length>=40 && JSON.stringify(sets)===JSON.stringify(expectedSets) && sets[0]==="Words: Short Vowels > Short a","word sets are grouped by pattern, in teaching order ("+sets.length+" sets)");
+  ck(sets.indexOf("Words: Level 2 Sounds > oi-oy")>-1 || sets.some(s=>/Level 2 Sounds/.test(s)),"the last groups (Level 2 Sounds) are there too");
+  ck(w.tsItemsIn("Words: Short Vowels > Short a").length===uw.filter(x=>x.setId==="short a").length,"a pattern's set holds the words that first appear in it");
   /* pick screen */
   ck(active(w)==="ts-pick" && $(w,"ts-words-card").style.display==="block" && txt(w,"ts-words-count")==="Words: 0 of "+words.length+" recorded","pick screen shows 'Words: 0 of N recorded'");
   ck(w.document.querySelectorAll("#ts-sets button").length===2+sets.length,"set buttons: sounds + passages + one per word pattern");

@@ -54,7 +54,9 @@ var w2=make({storage:snap(w)}); ok(active(w2)==="tw-home" && /Miriam G\./.test(t
 
 /* ---- 2. picker: group > pattern; locks ---- */
 var heads=[].map.call(w.document.querySelectorAll("#tw-groups h3"),function(h){ return h.textContent; });
-ok(heads.join("|")==="Short Vowels|Digraphs" && w.document.querySelectorAll("#tw-groups .pcard").length===11,"Group > pattern: 2 groups, 11 pattern cards");
+ok(heads.join("|")==="Short Vowels|Digraphs|Blends|Silent e|Open Syllables|Vowel Teams|R-Controlled|Endings|Two-Part Words|Level 2 Sounds" && w.document.querySelectorAll("#tw-groups .pcard").length===46,"Group > pattern: 10 groups, 46 pattern cards");
+ok(w.document.querySelectorAll("#tw-heart-sets .pcard").length===4,"4 heart-word sets are listed");
+ok(["tw-pat-short-a","tw-pat-a-e","tw-pat-ow-long","tw-pat-oo-short","tw-pat-s-blends","tw-pat-two-part","tw-pat-oi-oy"].every(function(id){ return !!$(w,id); }),"pattern ids with spaces become clean DOM ids (short a -> tw-pat-short-a)");
 ok(!w.document.querySelector("#tw-pat-short-a").className.match(/locked/) && /locked/.test($(w,"tw-pat-short-i").className),"first pattern open, the next is locked");
 click(w,"tw-pat-short-i"); ok(active(w)==="tw-home","a locked pattern does not open");
 click(w,"tw-pat-short-a"); ok(active(w)==="tw-pattern" && txt(w,"tw-pat-title")==="Short a","open Short a");
@@ -103,7 +105,7 @@ key(w,"Backspace"); ok(!w.B.boxes[0],"Backspace clears the last filled box");
 click(w,"tw-build-box-0"); build(w,"tw-build","map"); click(w,"tw-build-next");
 ["cap","can","van","fan","tan"].forEach(function(x){ ok(new RegExp(x).test(txt(w,"tw-build-word")),"chain word "+x); build(w,"tw-build",x); if(x==="tan"){ ok(txt(w,"tw-build-next")==="Finish","last word: Finish"); } click(w,"tw-build-next"); });
 ok(active(w)==="tw-result" && /Build finished/.test(txt(w,"tw-result-title")),"Build finished");
-var pg=JSON.parse(w.localStorage.getItem("rf_tw_progress"))["stu_gomezmiriam_p1"].patterns["short-a"];
+var pg=JSON.parse(w.localStorage.getItem("rf_tw_progress"))["stu_gomezmiriam_p1"].patterns["short a"];
 ok(pg.buildDone===true,"progress saved for this student: Build done");
 /* next pattern unlocks; progress survives a refresh */
 var w3=make({storage:snap(w)});
@@ -140,7 +142,7 @@ ok(d.document.querySelectorAll("#tw-dict-boxes .box.right").length>=1 && d.docum
 ok(new RegExp("The word is "+dw).test(txt(d,"tw-dict-note")),"a wrong word shows the answer after Check");
 click(d,"tw-dict-next"); dw=d.B.words[1].w; build(d,"tw-dict",dw); click(d,"tw-dict-check");
 ok(/Right\./.test(txt(d,"tw-dict-note")) && d.document.querySelectorAll("#tw-dict-boxes .box.right").length===TW.tilesFor(dw).length,"all boxes right -> 'Right.'");
-var dp=JSON.parse(d.localStorage.getItem("rf_tw_progress"))["stu_gomezmiriam_p1"].patterns["short-a"];
+var dp=JSON.parse(d.localStorage.getItem("rf_tw_progress"))["stu_gomezmiriam_p1"].patterns["short a"];
 ok(dp.dictTotal===2 && dp.dictRight===1,"dictation progress saved (1 of 2 right)");
 
 /* ---- 6. GAMES need the teacher's word audio ---- */
@@ -154,7 +156,7 @@ g.G.start-=4200; click(g,"tw-time-btn"); ok(active(g)==="tw-result" && /4\.\d se
 ok(/does not score your reading/.test(txt(g,"tw-result-body")),"result says reading is not scored");
 click(g,"tw-result-again"); click(g,"tw-time-btn"); g.G.start-=9000; click(g,"tw-time-btn");
 ok(/Personal best: 4\.\d seconds/.test(txt(g,"tw-result-body")),"a slower second try keeps the personal best");
-ok(JSON.parse(g.localStorage.getItem("rf_tw_progress"))["stu_gomezmiriam_p1"].patterns["short-a"].games.time.plays===2,"Beat Your Time plays saved");
+ok(JSON.parse(g.localStorage.getItem("rf_tw_progress"))["stu_gomezmiriam_p1"].patterns["short a"].games.time.plays===2,"Beat Your Time plays saved");
 
 /* ---- 7. WORD BLASTER ---- */
 var b=make({storage:snap(w)}); recAll(b); click(b,"tw-pat-short-a"); click(b,"tw-game-blaster");
@@ -186,7 +188,7 @@ ok(b.G.opts.filter(function(o){ return o.right; })[0].state==="miss" && /The wor
 /* finish the round */
 cnt=0; while(!b.G.over && cnt++<4000){ var rr=b.G.opts.filter(function(o){ return o.right && o.state==="live"; })[0]; if(rr && !b.G.bolt && b.G.pause===0){ b.G.shipX=rr.x; key(b," "); } b.gStep(0.05); }
 ok(active(b)==="tw-result" && /Word Blaster/.test(txt(b,"tw-result-title")) && /words right/.test(txt(b,"tw-result-body")),"the round ends after 10 words with a result");
-var bp=JSON.parse(b.localStorage.getItem("rf_tw_progress"))["stu_gomezmiriam_p1"].patterns["short-a"].games.blaster;
+var bp=JSON.parse(b.localStorage.getItem("rf_tw_progress"))["stu_gomezmiriam_p1"].patterns["short a"].games.blaster;
 ok(bp.plays===1 && bp.best>0 && bp.bestStreak>=1,"score, streak and personal best saved");
 /* a round has 3-5 words at the right moments */
 var b2=make({storage:snap(w)}); recAll(b2); click(b2,"tw-pat-short-a"); click(b2,"tw-game-blaster"); b2.G.streak=6; b2.G.q=1; b2.gNext();
@@ -222,7 +224,7 @@ click(m,"tw-card-"+C.map(function(c,k){ return k; }).filter(function(k){ return 
 m.gMemStep(1); ok(C[oth].state==="down" && C[bad].state==="down","mismatched cards flip back");
 var guard=0; while(!m.G.over && guard++<40){ var wd=C.map(function(c,k){ return k; }).filter(function(k){ return C[k].state==="down" && C[k].type==="word"; })[0]; var sd=C.map(function(c,k){ return k; }).filter(function(k){ return C[k].state==="down" && C[k].type==="sound" && C[k].w===C[wd].w; })[0]; click(m,"tw-card-"+wd); click(m,"tw-card-"+sd); }
 ok(active(m)==="tw-result" && /6 pairs in \d+ moves/.test(txt(m,"tw-result-body")),"finishing all pairs shows moves and time");
-ok(JSON.parse(m.localStorage.getItem("rf_tw_progress"))["stu_gomezmiriam_p1"].patterns["short-a"].games.memory.bestMoves["6"]>=6,"personal best (fewest moves) saved per pair count");
+ok(JSON.parse(m.localStorage.getItem("rf_tw_progress"))["stu_gomezmiriam_p1"].patterns["short a"].games.memory.bestMoves["6"]>=6,"personal best (fewest moves) saved per pair count");
 var mk=make({storage:snap(w)}); recAll(mk); click(mk,"tw-pat-short-a"); click(mk,"tw-game-memory"); click(mk,"tw-pairs-8"); key(mk,"ArrowRight"); key(mk,"ArrowDown"); ok(mk.G.focus>0,"Memory: arrow keys move between cards");
 
 /* ---- 10. teacher view: every pattern and game open ---- */

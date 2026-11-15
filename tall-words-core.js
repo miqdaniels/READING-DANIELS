@@ -42,16 +42,25 @@ var TW = (function(){
     var out = { title: String((raw && raw.title) || "TALL Word Lists"), groups: [], heart: [] }, gs, g, i, j, ps, hs, h, G;
     raw = raw || {};
     gs = raw.groups || raw.Groups || [];
-    if(!gs.length && (raw.patterns || raw.Patterns)){ gs = [{ id:"g1", title:"Patterns", patterns: raw.patterns || raw.Patterns }]; }
+    if(!gs.length && (raw.patterns || raw.Patterns)){
+      /* flat list: each pattern names its own group ("group":"G1","groupTitle":"Short Vowels") -> groups in order of first appearance */
+      var flatPs = raw.patterns || raw.Patterns, byId = {}, k2, fp, gid;
+      for(k2=0;k2<flatPs.length;k2++){
+        fp = flatPs[k2]; gid = String(fp.group || fp.groupId || "g1");
+        if(!byId[gid]){ byId[gid] = { id: gid, title: String(fp.groupTitle || fp.group_title || fp.group || "Patterns"), patterns: [] }; gs.push(byId[gid]); }
+        byId[gid].patterns.push(fp);
+      }
+    }
     for(i=0;i<gs.length;i++){
       g = gs[i]; ps = g.patterns || g.Patterns || []; G = { id: String(g.id || ("g" + (i+1))), title: String(g.title || g.name || ("Group " + (i+1))), patterns: [] };
-      for(j=0;j<ps.length;j++){ G.patterns.push(normPattern(ps[j], i, j)); }
+      for(j=0;j<ps.length;j++){ G.patterns.push(normPattern(ps[j], i, j)); G.patterns[j].groupTitle = G.title; }
       out.groups.push(G);
     }
     hs = raw.heartSets || raw.heart_sets || raw.heart || raw.heartWords || [];
     for(i=0;i<hs.length;i++){
       h = hs[i]; if(h && !h.words && h.list){ h.words = h.list; }
-      out.heart.push({ id: String(h.id || ("heart-" + (i+1))), title: String(h.title || h.name || ("Heart words " + (i+1))), words: normList(h.words).map(function(w){ w.heart = true; return w; }) });
+      var hn = (h.set !== undefined && h.set !== null) ? h.set : (i + 1);
+      out.heart.push({ id: String(h.id || ("heart-" + hn)), title: String(h.title || h.name || ("Heart words " + hn)), words: normList(h.words).map(function(w){ w.heart = true; return w; }) });
     }
     return out;
   }
@@ -82,25 +91,31 @@ var TW = (function(){
   /* ---------------- the tile splitter ----------------
      ONE TILE PER SOUND. Digraphs/trigraphs = one tile; x (/ks/) = one tile; silent e = split tile (a_e ...);
      vowel teams + r-controlled = one tile; doubled consonants = one tile; endings (-s -es -ed -ing) = one tile. */
-  var TRI = ["tch", "dge", "igh", "air", "ear", "eir"];
+  var TRI = ["tch", "dge", "igh", "air", "ear", "eir", "eer"];
   var TRI_END = ["ere", "ore", "are", "ire", "ure"];           /* r-controlled + e, only at the END of a word */
-  var TWO = ["th","sh","ch","wh","ck","ng","ph","qu","ee","ea","ey","ay","ai","oa","ow","oo","ew","oi","oy","ou","aw","ar","or","er","ir","ur"];
+  var TWO = ["th","sh","ch","wh","ck","ng","ph","qu","kn","wr","ee","ea","ey","ay","ai","oa","ow","oo","ew","oi","oy","ou","aw","ar","or","er","ir","ur"];
   var NOT_DOUBLE = { a:1, e:1, i:1, o:1, u:1 };
   /* words that do not follow the patterns (heart words) -- letters only, no sound tiles */
   var IRREGULAR = {};
   ("the a of to do who you your are were was said says what where's have give live love come some done gone none one once only any many been does goes could would should " +
-   "they their's from put pull full push bush two eye eyes friend people because again against says sure sugar water want watch want's other another mother brother " +
+   "they their's from put pull full push bush two eye eyes friend people because again against says sure sugar water other another mother brother " +
    "heart height whose whole whom").split(/\s+/).forEach(function(w){ IRREGULAR[w] = 1; });
   /* the one "put/full" group is /oo/ short; keep them irregular-free where the data lists them as taught */
   var SHORT_OO = { book:1, look:1, good:1, foot:1, wood:1, cook:1, took:1, hook:1, stood:1, wool:1, hood:1, shook:1, brook:1, crook:1, put:1, pull:1, full:1, push:1, bush:1 };
-  var LONG_O_OW = { snow:1, grow:1, show:1, know:1, low:1, slow:1, own:1, blow:1, flow:1, yellow:1, window:1, below:1, row:1, throw:1, bowl:1, glow:1, crow:1, blown:1, shown:1, grown:1, known:1, thrown:1 };
+  var LONG_O_OW = { snow:1, grow:1, show:1, know:1, low:1, slow:1, own:1, blow:1, flow:1, yellow:1, window:1, below:1, row:1, throw:1, bowl:1, glow:1, crow:1, blown:1, shown:1, grown:1, known:1, thrown:1, flown:1, mow:1, tow:1 };
   var SHORT_E_EA = { head:1, bread:1, dead:1, breath:1, ready:1, heavy:1, weather:1, sweat:1, instead:1, health:1, spread:1, thread:1, tread:1, meant:1 };
-  var EAR_AIR = { bear:1, wear:1, pear:1, swear:1, tear:1 };
+  var EAR_AIR = { bear:1, wear:1, pear:1, swear:1 };
   var EAR_ER = { learn:1, early:1, earth:1, heard:1, search:1, earn:1, pearl:1 };
   var ERE_AIR = { there:1, where:1 };
   var HARD_G = { get:1, give:1, gift:1, girl:1, begin:1, together:1, target:1, gear:1, geese:1, anger:1, finger:1, hunger:1, tiger:1 };
   var VOICED_TH = { "this":1, that:1, than:1, then:1, them:1, "with":1, these:1, those:1, there:1, their:1, they:1, the:1, "other":1, mother:1, brother:1, father:1, "weather":1, "together":1, "bathe":1, "breathe":1, "smooth":1 };
-  var Z_S = { is:1, has:1, his:1, as:1, these:1, those:1, does:1, easy:1, music:1, busy:1, "please":1, "because":1, "was":1, "his's":1 };
+  var Z_S = { is:1, has:1, his:1, as:1, these:1, those:1, does:1, easy:1, music:1, busy:1, "please":1, "because":1, "was":1, hose:1, noise:1, reason:1, jersey:1, rose:1, nose:1, choose:1, cheese:1 };
+  /* a final s after a vowel or a voiced sound is /z/ (toys, keys, news, hugs); these end in /s/ anyway */
+  var S_FINAL = { bus:1, "this":1, us:1, yes:1, plus:1, gas:1, focus:1, bonus:1, virus:1, chorus:1, campus:1, circus:1 };
+  var CH_K = { school:1, chorus:1, echo:1, ache:1, stomach:1, mechanic:1, chaos:1, character:1 };       /* ch = /k/ */
+  var WA_O = { want:1, wash:1, watch:1, swan:1, wand:1, wasp:1, squad:1, wallet:1, swamp:1 };          /* a after w = short o */
+  var WOR_ER = { word:1, words:1, work:1, world:1, worm:1, worth:1, worse:1, worry:1 };               /* or after w = /er/ */
+  var OVERRIDE = { tired:["t", "ire", "d"] };                                                         /* spellings the splitter cannot see */
   var U_E_OO = { rule:1, june:1, flute:1, prune:1, ruler:1, "rude":1, "tune":0 };
   var OPEN_LONG = { he:"e", me:"e", we:"e", be:"e", she:"e", "he's":"e", go:"o", no:"o", so:"o", hi:"i", my:"y", by:"y", why:"y", fly:"y", try:"y", cry:"y", dry:"y", sky:"y", spy:"y", shy:"y" };
 
@@ -121,19 +136,21 @@ var TW = (function(){
       rest = w.slice(i, lim);
       if(silent && i === silent.vi){ tiles.push({ g: silent.v + "_e", k: "split", v: silent.v }); i++; continue; }
       /* "all" (ball, call, small) */
-      if(rest === "all" && i > 0 && !isV(w.charAt(i-1))){ tiles.push({ g: "all", k: "team" }); i += 3; continue; }
+      if(rest === "all" && (i === 0 || !isV(w.charAt(i-1)))){ tiles.push({ g: "all", k: "team" }); i += 3; continue; }
       /* r-controlled + e at the end of the word (here, more, care) */
       found = null;
-      for(k=0;k<TRI_END.length;k++){ if(rest === TRI_END[k]){ found = TRI_END[k]; break; } }
+      for(k=0;k<TRI_END.length;k++){ if(rest === TRI_END[k] || rest === TRI_END[k] + "d" || rest === TRI_END[k] + "s"){ found = TRI_END[k]; break; } }
       if(found){ tiles.push({ g: found, k: "r" }); i += 3; continue; }
+      /* "alk" = the /aw/ sound (talk, walk, chalk): one tile "al" */
+      if(startsWith(rest, 0, "alk")){ tiles.push({ g: "al", k: "team" }); i += 2; continue; }
       found = null;
       for(k=0;k<TRI.length;k++){ if(startsWith(rest, 0, TRI[k])){ found = TRI[k]; break; } }
-      if(found){ tiles.push({ g: found, k: /^(air|ear|eir)$/.test(found) ? "r" : (found === "igh" ? "team" : "cons") }); i += found.length; continue; }
+      if(found){ tiles.push({ g: found, k: /^(air|ear|eir|eer)$/.test(found) ? "r" : (found === "igh" ? "team" : "cons") }); i += found.length; continue; }
       found = null;
       for(k=0;k<TWO.length;k++){ if(startsWith(rest, 0, TWO[k])){ found = TWO[k]; break; } }
       if(found){
         /* "ar/or/er/ir/ur" only when not followed by another vowel-making pattern we do not handle; keep simple */
-        tiles.push({ g: found, k: (/^(th|sh|ch|wh|ck|ng|ph|qu)$/.test(found) ? "cons" : (/^(ar|or|er|ir|ur)$/.test(found) ? "r" : "team")) }); i += 2; continue;
+        tiles.push({ g: found, k: (/^(th|sh|ch|wh|ck|ng|ph|qu|kn|wr)$/.test(found) ? "cons" : (/^(ar|or|er|ir|ur)$/.test(found) ? "r" : "team")) }); i += 2; continue;
       }
       c = rest.charAt(0);
       if(!isV(c) && c === rest.charAt(1) && c !== "c"){ tiles.push({ g: c + c, k: "dbl" }); i += 2; continue; }
@@ -146,31 +163,47 @@ var TW = (function(){
   }
 
   /* endings: only for words in an "endings" pattern (opts.endings) -- otherwise 'is', 'bed', 'sing' would be split wrongly */
+  function hasVowelLetter(w){ return /[aeiou]/.test(w); }
+  /* base word is another word in the lists (looked <- look, stopped <- stop, called <- call) */
+  function baseKnown(base, known){ if(!known){ return false; } return !!(known[base] || (/(.)\1$/.test(base) && known[base.slice(0, -1)]) || known[base + "e"]); }
+  function findSuffix(w, opts){
+    var base;
+    if(opts.endings){
+      if(/ing$/.test(w) && w.length > 4){ return "ing"; }
+      if(/ed$/.test(w) && w.length > 3){ return "ed"; }
+      if(/(x|s|z|sh|ch)es$/.test(w) && w.length > 4){ return "es"; }
+      if(/s$/.test(w) && !/ss$/.test(w) && w.length > 2){ return "s"; }
+      return "";
+    }
+    /* outside an Endings pattern only a real inflection is cut: -ing after a base with a vowel; -ed after t/d or a known base */
+    if(/ing$/.test(w) && w.length >= 5){ base = w.slice(0, -3); if((base.length >= 3 && hasVowelLetter(base)) || (base.length === 2 && opts.known && opts.known[base])){ return "ing"; } }
+    if(/ed$/.test(w) && w.length > 4){ base = w.slice(0, -2); if(base.length >= 3 && hasVowelLetter(base) && (/[td]ed$/.test(w) || baseKnown(base, opts.known))){ return "ed"; } }
+    return "";
+  }
   function splitWord(word, opts){
-    var w = wordKey(word), tiles, base, suf = "", tag;
+    var w = wordKey(word), tiles, base, suf, i, ov;
     opts = opts || {};
     if(!w){ return []; }
-    if(IRREGULAR[w] && !opts.force){ return w.split("").map(function(c){ return { g: c, k: "irr" }; }); }
-    if(opts.endings){
-      if(/ing$/.test(w) && w.length > 4){ suf = "ing"; }
-      else if(/ed$/.test(w) && w.length > 3){ suf = "ed"; }
-      else if(/(x|s|z|sh|ch)es$/.test(w) && w.length > 4){ suf = "es"; }
-      else if(/s$/.test(w) && !/ss$/.test(w) && w.length > 2){ suf = "s"; }
-    }
+    if(OVERRIDE[w]){ ov = OVERRIDE[w]; tiles = []; for(i=0;i<ov.length;i++){ tiles.push({ g: ov[i], k: ov[i].length > 1 ? "r" : "c" }); } tiles.baseWord = w; return tiles; }
+    if(IRREGULAR[w] && !opts.force){ tiles = w.split("").map(function(c){ return { g: c, k: "irr" }; }); tiles.baseWord = w; return tiles; }
+    suf = findSuffix(w, opts);
     base = suf ? w.slice(0, w.length - suf.length) : w;
-    tiles = splitBase(base);
+    if(suf && IRREGULAR[base]){ tiles = base.split("").map(function(c){ return { g: c, k: "irr" }; }); }
+    else { tiles = splitBase(base); }
     if(suf){ tiles.push({ g: suf, k: "end" }); }
+    tiles.baseWord = base;       /* the sounds of a word with an ending come from its BASE word (going <- go) */
     return tiles;
   }
   function tilesText(tiles){ var o = [], i; for(i=0;i<tiles.length;i++){ o.push(tiles[i].g); } return o.join(" "); }
   /* put a split tile back: [c][a_e][k] -> "cake" */
   function tilesToWord(tiles){
-    var s = "", i, t, e = false;
+    var s = "", i, t, e = false, placed = false;
     for(i=0;i<tiles.length;i++){
       t = tiles[i];
+      if(t.k === "end" && e && !placed){ s += "e"; placed = true; }
       if(t.k === "split"){ s += t.g.charAt(0); e = true; } else { s += t.g; }
     }
-    return e ? s + "e" : s;
+    return (e && !placed) ? s + "e" : s;
   }
 
   /* ---------------- tile -> sound clip (SND_xx_S) ----------------
@@ -181,17 +214,22 @@ var TW = (function(){
   var VOICELESS_END = { SND_01:1, SND_05:1, SND_07:1, SND_09:1, SND_11:1, SND_13:1, SND_15:1, SND_03:1 };
 
   function soundForTile(tiles, idx, word){
-    var t = tiles[idx], g = t.g, w = wordKey(word), pv, snd = null, say = "", open, nxt = tiles[idx+1], nx = nxt ? (nxt.k === "split" ? nxt.v : nxt.g) : "";
+    var t = tiles[idx], g = t.g, w = wordKey(t.k === "end" ? word : (tiles.baseWord || word)), pv, snd = null, say = "", open, nxt = tiles[idx+1], nx = nxt ? (nxt.k === "split" ? nxt.v : nxt.g) : "";
         switch(g){
       case "th": snd = VOICED_TH[w] ? "SND_10" : "SND_09"; break;
       case "sh": snd = "SND_13"; break;
-      case "ch": case "tch": snd = "SND_15"; break;
+      case "ch": snd = CH_K[w] ? "SND_05" : "SND_15"; break;
+      case "tch": snd = "SND_15"; break;
+      case "eer": snd = "SND_41"; break;
+      case "al": snd = "SND_42"; break;
       case "dge": snd = "SND_16"; break;
       case "wh": snd = "SND_22"; break;
       case "ck": snd = "SND_05"; break;
       case "ng": snd = "SND_19"; break;
       case "ph": snd = "SND_07"; break;
       case "qu": say = "/kw/"; break;
+      case "kn": snd = "SND_18"; break;
+      case "wr": snd = "SND_21"; break;
       case "x": say = "/ks/"; break;
       case "a_e": snd = "SND_30"; break;
       case "e_e": snd = "SND_31"; break;
@@ -209,8 +247,9 @@ var TW = (function(){
       case "ew": snd = "SND_35"; break;
       case "aw": case "all": snd = "SND_42"; break;
       case "oi": case "oy": snd = "SND_44"; break;
-      case "ar": snd = "SND_37"; break;
-      case "or": case "ore": snd = "SND_38"; break;
+      case "ar": snd = (idx > 0 && tiles[idx-1].g === "w") ? "SND_38" : "SND_37"; break;
+      case "or": snd = WOR_ER[w] ? "SND_39" : "SND_38"; break;
+      case "ore": snd = "SND_38"; break;
       case "er": case "ir": case "ur": snd = "SND_39"; break;
       case "air": case "eir": case "are": snd = "SND_40"; break;
       case "ere": snd = ERE_AIR[w] ? "SND_40" : "SND_41"; break;
@@ -218,7 +257,13 @@ var TW = (function(){
       case "ire": say = "/ire/"; break;
       case "ure": say = "/ure/"; break;
       case "s": case "es": case "ed": case "ing":
-        if(t.k !== "end"){ snd = (g === "s") ? (Z_S[w] ? "SND_12" : "SND_11") : null; break; }
+        if(t.k !== "end"){
+          if(g !== "s"){ snd = null; break; }
+          if(Z_S[w]){ snd = "SND_12"; break; }
+          pv = idx > 0 ? soundForTile(tiles, idx - 1, word).snd : null;
+          snd = (idx === tiles.length - 1 && pv && !VOICELESS_END[pv] && !S_FINAL[w]) ? "SND_12" : "SND_11";
+          break;
+        }
         pv = idx > 0 ? soundForTile(tiles, idx - 1, word).snd : null;
         if(g === "s"){ snd = (pv && VOICELESS_END[pv]) ? "SND_11" : "SND_12"; }
         else if(g === "ed"){ var pg = tiles[idx-1] ? tiles[idx-1].g : ""; if(pg === "t" || pg === "d"){ say = "/id/"; } else { snd = (pv && VOICELESS_END[pv] && pv !== "SND_03") ? "SND_03" : "SND_04"; } }
@@ -230,8 +275,9 @@ var TW = (function(){
         if(t.k === "irr"){ snd = null; say = ""; break; }
         if(t.k === "dbl"){ g = g.charAt(0); }
         if(t.k === "nasal"){ snd = "SND_19"; break; }
-        if(g === "c"){ snd = /^[eiy]/.test(nx) ? "SND_11" : "SND_05"; break; }
-        if(g === "g"){ snd = (!HARD_G[w] && /^[eiy]/.test(nx)) ? "SND_16" : "SND_06"; break; }
+        var silentSoft = idx === tiles.length - 1 && idx > 0 && tiles[idx-1].k === "split" && /e$/.test(w);   /* office, face, huge, page */
+        if(g === "c"){ snd = (/^[eiy]/.test(nx) || silentSoft) ? "SND_11" : "SND_05"; break; }
+        if(g === "g"){ snd = (!HARD_G[w] && (/^[eiy]/.test(nx) || silentSoft)) ? "SND_16" : "SND_06"; break; }
         if(g === "s"){ snd = Z_S[w] ? "SND_12" : "SND_11"; break; }
         if(g === "y"){
           /* start of a word = consonant y; at the end: long i in a one-vowel-less word (my, why), long e after a vowel (happy) */
@@ -244,6 +290,7 @@ var TW = (function(){
         if(isV(g)){
           open = OPEN_LONG[w];
           if(open && ((g === "e" && open === "e") || (g === "o" && open === "o") || (g === "i" && open === "i"))){ snd = { e:"SND_31", o:"SND_33", i:"SND_32" }[open]; break; }
+          if(g === "a" && WA_O[w] && idx > 0 && (tiles[idx-1].g === "w" || tiles[idx-1].g === "qu")){ snd = "SND_28"; break; }
           snd = { a:"SND_25", e:"SND_26", i:"SND_27", o:"SND_28", u: (SHORT_OO[w] ? "SND_36" : "SND_29") }[g];
           break;
         }
@@ -324,7 +371,28 @@ var TW = (function(){
     for(i=0;i<pool.length;i++){ if(neighbors(pool[i].w, pool, opts).length >= 2){ out.push(pool[i]); } }
     return out;
   }
-  function isEndingsPattern(p){ return /ending|inflect|suffix/i.test((p.id || "") + " " + (p.title || "")); }
+  /* every word in the lists (build + read + heart), as a lookup: lets the splitter see that "looked" is look + ed */
+  function knownSet(lists){
+    var k = {}, i, j, g, ps, p, h, add;
+    add = function(a){ var x; for(x=0;x<a.length;x++){ if(a[x].w){ k[wordKey(a[x].w)] = 1; } } };
+    for(i=0;i<lists.groups.length;i++){ ps = lists.groups[i].patterns; for(j=0;j<ps.length;j++){ p = ps[j]; add(p.build); add(p.read); } }
+    for(i=0;i<lists.heart.length;i++){ add(lists.heart[i].words); }
+    return k;
+  }
+  /* the Build rule: from one word to the next, exactly ONE tile is swapped, added or removed */
+  function oneStep(a, b){
+    var s, l, i, j, ok;
+    if(a.length === b.length){ return diffCount(a, b) === 1; }
+    if(Math.abs(a.length - b.length) !== 1){ return false; }
+    s = a.length < b.length ? a : b; l = a.length < b.length ? b : a;
+    for(i=0;i<l.length;i++){
+      ok = true;
+      for(j=0;j<s.length;j++){ if(s[j].g !== l[j < i ? j : j + 1].g){ ok = false; break; } }
+      if(ok){ return true; }
+    }
+    return false;
+  }
+  function isEndingsPattern(p){ return /ending|inflect|suffix/i.test((p.id || "") + " " + (p.title || "") + " " + (p.groupTitle || "")); }
 
   /* ---------------- progress (per student, localStorage) ---------------- */
   var PROG_KEY = "rf_tw_progress";
@@ -337,7 +405,7 @@ var TW = (function(){
     wordKey: wordKey, wordId: wordId, slug: slug, normalizeLists: normalizeLists, flatPatterns: flatPatterns, uniqueWords: uniqueWords,
     splitWord: splitWord, tilesFor: tilesFor, tilesText: tilesText, tilesToWord: tilesToWord, soundForTile: soundForTile,
     changedIndex: changedIndex, diffCount: diffCount, patternPool: patternPool, neighbors: neighbors, pickDistractors: pickDistractors,
-    gameTargets: gameTargets, isEndingsPattern: isEndingsPattern, SAY: SAY, IRREGULAR: IRREGULAR,
+    gameTargets: gameTargets, isEndingsPattern: isEndingsPattern, knownSet: knownSet, oneStep: oneStep, SAY: SAY, IRREGULAR: IRREGULAR,
     progLoad: progLoad, progSave: progSave, progStudent: progStudent, progPattern: progPattern, PROG_KEY: PROG_KEY
   };
 })();

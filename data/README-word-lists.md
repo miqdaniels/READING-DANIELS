@@ -15,12 +15,12 @@ word = "sat" | "sat*" (star = First 100 Daily Phrases word) |
 The loader also accepts `word`/`text` for `w`, `star` for `first100`, capitalised keys (`Groups`, `Build`, `Read`) and a flat `patterns` list.
 Pattern ids must be unique (progress is saved by pattern id). The `ending`/`inflect`/`suffix` words in a pattern id or title turn on ending tiles (-s -es -ed -ing).
 
-**Currently a SEED:** Groups 1-2 only (11 patterns), word for word from the lists approved Nov 14, 2026.
-Replace with `TALL_Word-Lists_Level-1_v1.json` (46 patterns, 11 groups, 4 heart sets) when it is added.
+**Currently:** `TALL_Word-Lists_Level-1_v3.json` (Nov 15, 2026): 46 patterns in 10 groups + 4 heart-word sets, installed byte-for-byte.
+Its shape: `{version, note, patterns:[{group:"G1", groupTitle:"Short Vowels", id:"short a", title, build:[...], read:[...]}], heartWords:[{set:1, words:[...]}]}`
+with each word `{w, first100, heart, academic}`. To update the lists, replace this file; nothing else needs to change.
 
 Things the tests check on every word: it splits into tiles that rebuild the word, every tile is on the approved tile list, every tile's
-SND_xx_S clip exists, each Build word changes ONE sound from the one before (known exceptions are listed in `tests/test-tall-words-core.js`),
-10 Build + 10 Read per pattern.
+SND_xx_S clip exists, 10 Build + 10 Read per pattern. **The Build rule is checked strictly in `tests/test-tall-word-chains.js` with NO exceptions list**: from one word to the next exactly one tile is swapped, added or removed. Any step that breaks it is listed (grouped by cause) and fails that test. Words are never changed by Claude.
 
 Word audio: Miquela's own recordings only (never text-to-speech). Put cleaned `WRD_<word>.webm` clips in `audio/TALL-W/`, then run
 `node tools/build-word-audio-map.js` to refresh `tall-word-audio.js`. Until a word is there the app says "Not recorded yet."
