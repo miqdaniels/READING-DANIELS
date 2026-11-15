@@ -125,6 +125,12 @@ footer{max-width:980px;margin:0 auto;padding:0 16px 30px;font-size:12px;color:va
       <div class="grid" id="ts-exports"></div>
       <p class="note" id="ts-pick-note"></p>
     </div>
+    <div class="card" id="ts-words-card" style="display:none">
+      <h2>Words (Word Builder)</h2>
+      <p class="mini">Every word in the Word Builder lists, once each, grouped by pattern. Record in big batches; each word is its own clip (WRD_&hellip;).</p>
+      <p class="note" id="ts-words-count"></p>
+      <div class="grid"><button class="btn" id="ts-export-words" onclick="tsExportAllWords()">Export all words (ZIP)</button></div>
+    </div>
     <p class="mini"><a href="index.html?teacher">Back to Teacher Dashboard</a></p>
   </section>
 
@@ -160,6 +166,7 @@ footer{max-width:980px;margin:0 auto;padding:0 16px 30px;font-size:12px;color:va
 <footer>&copy; 2026 Miquela Daniels &middot; AI Academy LLC &middot; Reading Foundations &middot; Proprietary &mdash; do not copy or distribute</footer>
 
 <script src="tall-list.js"></script>
+<script src="tall-words-core.js"></script>
 <script>
 /* ================= data ================= */
 var TS_ITEMS = (window.TALL_LIST || []);
@@ -240,15 +247,22 @@ function tsPaintPick(){
     items=tsItemsIn(sets[i]); n=tsCountDone(items);
     h+='<button class="btn setbtn" id="ts-set-'+i+'" onclick="tsPickSet('+i+')">'+tsEsc(sets[i])
       +'<small>'+(n===items.length?'&#10003; ':'')+n+' of '+items.length+' recorded</small></button>';
-    e+='<button class="btn" id="ts-export-'+i+'" onclick="tsExportSetIdx('+i+')">Export '+tsEsc(sets[i])+' (ZIP)</button>';
+    if(items[0] && items[0].kind !== "wordclip"){ e+='<button class="btn" id="ts-export-'+i+'" onclick="tsExportSetIdx('+i+')">Export '+tsEsc(sets[i])+' (ZIP)</button>'; }
   }
   document.getElementById("ts-sets").innerHTML=h;
   document.getElementById("ts-exports").innerHTML=e;
+  tsPaintWords();
   w=document.getElementById("ts-memwarn");
   if(TSStore.isMemory()){
     w.style.display="block"; w.className="card warn";
     w.innerHTML="<strong>Heads up:</strong> this browser is not letting the page save to its storage, so recordings only last until you close this tab. Export often.";
   } else { w.style.display="none"; }
+}
+function tsPaintWords(){
+  var ws = TS_ITEMS.filter(function(x){ return x.kind === "wordclip"; }), card = document.getElementById("ts-words-card");
+  if(!card){ return; }
+  card.style.display = ws.length ? "block" : "none";
+  document.getElementById("ts-words-count").textContent = "Words: " + tsCountDone(ws) + " of " + ws.length + " recorded";
 }
 function tsPickSet(i){
   TS.set=tsSets()[i]; TS.idx=0;
@@ -269,8 +283,19 @@ function tsFirstUnrecorded(){
 }
 /* escape first, then turn **word** into bold (First 100 words), exactly like the student screen */
 function tsMark(raw){ return tsEsc(raw).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/\*/g,""); }
+function tsWordShow(c){
+  var t = c.w, h, i = -1, m, tr = c.tricky || "";
+  h = tsEsc(t);
+  if(c.heart){
+    if(tr){ i = t.toLowerCase().indexOf(tr.toLowerCase()); }
+    if(i < 0){ m = t.match(/[aeiou]+/i); if(m){ tr = m[0]; i = m.index; } }
+    if(i > -1){ h = tsEsc(t.slice(0, i)) + "<u>" + tsEsc(t.slice(i, i + tr.length)) + "</u>" + tsEsc(t.slice(i + tr.length)); }
+  }
+  return '<div class="sayit" id="ts-say">Say the WORD</div><div class="big" id="ts-word">' + h + (c.heart ? ' <small title="Heart word">\u2665</small>' : "") + (c.first100 ? ' <small title="First 100 Daily Phrases word">\u2605</small>' : "") + '</div><div class="tip" id="ts-wordset">' + tsEsc(c.setTitle || "") + '</div>';
+}
 function tsShowHtml(c){
   var h="", i;
+  if(c.kind==="wordclip"){ return tsWordShow(c); }
   if(c.kind==="passage"){
     h='<div class="passage" id="ts-passage"><h3 class="ptitle">'+tsEsc(c.label)+'</h3><div class="pw">'+c.words+' words</div>';
     if(c.rows){
@@ -521,8 +546,14 @@ function tsBlobBytes(blob){
     var fr=new FileReader(); fr.onload=function(){ res(new Uint8Array(fr.result)); }; fr.onerror=rej; fr.readAsArrayBuffer(blob);
   });
 }
-function tsExportItems(set, noteId){
-  var items=tsItemsIn(set), have=[], i, manifest=[], zipName=TS_ZIPS[set];
+function tsZipName(set){
+  if(TS_ZIPS[set]){ return TS_ZIPS[set]; }
+  return "TALL_Words_" + String(set).toLowerCase().replace(/^words:\s*/, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "_recordings_v1.zip";
+}
+function tsExportItems(set, noteId){ return tsExportList(tsItemsIn(set), tsZipName(set), noteId, set); }
+function tsExportAllWords(){ return tsExportList(TS_ITEMS.filter(function(x){ return x.kind === "wordclip"; }), "TALL_Words_all_recordings_v1.zip", "ts-pick-note", "TALL Words (all)"); }
+function tsExportList(items, zipName, noteId, set){
+  var have=[], i, manifest=[];
   for(i=0;i<items.length;i++){ if(TS.takes[items[i].id]){ have.push(items[i]); } }
   var note=document.getElementById(noteId);
   if(!have.length){ note.textContent="Nothing recorded in this set yet."; return Promise.resolve(null); }
@@ -541,6 +572,7 @@ function tsExportItems(set, noteId){
       var fname=it.id+"."+tsExt(t.mime);
       files.push({name:fname, data:bytes});
       manifest.push({id:it.id, label:it.label, file:fname, types:(it.tags||[])});
+      if(it.kind === "wordclip"){ manifest[manifest.length-1].word = it.w; manifest[manifest.length-1].pattern = it.setTitle; }
       k++; return nextOne();
     });
   }
@@ -555,10 +587,38 @@ function tsExportSet(){ return tsExportItems(TS.set, "ts-note"); }
 function tsExportSetIdx(i){ return tsExportItems(tsSets()[i], "ts-pick-note"); }
 
 /* ================= boot ================= */
+/* Word Builder words: every unique word in data/tall-word-lists.json, once each, as WRD_ ids grouped by pattern.
+   Reads the same data file as the student page, so updating the list updates the studio. Fails quietly (no words). */
+function tsLoadWords(){
+  return new Promise(function(res){
+    var raw = window.TW_DATA_RAW, xhr;
+    function build(r){
+      var L, uw, out = [], i;
+      try{ L = TW.normalizeLists(r); uw = TW.uniqueWords(L); }catch(e){ res([]); return; }
+      for(i=0;i<uw.length;i++){
+        out.push({ id: uw[i].id, set: "Words: " + uw[i].groupTitle + " > " + uw[i].setTitle, setTitle: uw[i].groupTitle + " > " + uw[i].setTitle, kind: "wordclip",
+                   label: uw[i].w + " \u2013 word", w: uw[i].w, first100: uw[i].first100, heart: uw[i].heart, tricky: uw[i].tricky, say: "Say the WORD" });
+      }
+      res(out);
+    }
+    if(typeof TW === "undefined"){ res([]); return; }
+    if(raw){ build(raw); return; }
+    try{
+      xhr = new XMLHttpRequest(); xhr.open("GET", "data/tall-word-lists.json", true);
+      xhr.onreadystatechange = function(){ if(xhr.readyState !== 4){ return; } if(xhr.status === 200){ try{ build(JSON.parse(xhr.responseText)); }catch(e){ res([]); } } else { res([]); } };
+      xhr.send();
+    }catch(e){ res([]); }
+  });
+}
 function tsBoot(){
   if(!tsIsTeacher()){ tsGo("ts-locked"); return Promise.resolve(); }
   return TSStore.all().then(function(list){
     var i; for(i=0;i<list.length;i++){ if(list[i] && list[i].id){ TS.takes[list[i].id]=list[i]; } }
+    return tsLoadWords();
+  }).then(function(words){
+    var have = {}, i;
+    for(i=0;i<TS_ITEMS.length;i++){ have[TS_ITEMS[i].id] = 1; }
+    for(i=0;i<words.length;i++){ if(!have[words[i].id]){ TS_ITEMS.push(words[i]); } }
     tsGo("ts-pick");
   });
 }

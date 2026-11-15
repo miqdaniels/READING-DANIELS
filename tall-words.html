@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>TALL Word Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;700;800&amp;family=Montserrat:wght@700;800&amp;display=swap">
+<link rel="stylesheet" href="tall-theme.css">
+<!-- (c) 2026 Miquela Daniels, AI Academy LLC. Reading Foundations / TALL. Proprietary -- do not copy or distribute.
+     Student page: Word Builder (slider), Read, Dictation and four word games, for every pattern in data/tall-word-lists.json.
+     Every sound and every word is Miquela's OWN recorded voice (tall-audio.js, tall-word-audio.js). NO text-to-speech, ever.
+     Nothing here scores a student's reading. Progress is saved per student in localStorage.
+     ES5 only. Screens are string ids: tw-load, tw-who, tw-home, tw-pattern, tw-build, tw-read, tw-dict, tw-game, tw-result. -->
+<style>
+:root{--accent:var(--tall-green,#298646);--accent-dark:var(--tall-green-dark,#1E6B36);--accent-tint:var(--tall-green-tint,#E8F4EC);--paper:#F6F8F7;--panel:#FFFFFF;--line:#D5DED8;--ink:#16302A;--gray:#5F6B66;--warn:#B45309;--warn-tint:#FDF1E3}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--tall-font-body,"Atkinson Hyperlegible Next","Segoe UI",Arial,sans-serif);font-weight:400;font-size:17px;line-height:1.5}
+header{background:var(--accent);color:#fff}
+.hwrap{max-width:1000px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header h1{margin:0;font-family:var(--tall-font-head,"Montserrat","Segoe UI",Arial,sans-serif);font-size:22px;font-weight:800}
+header .who{margin-left:auto;font-size:15px}
+header .who a{color:#fff;text-decoration:underline;cursor:pointer;margin-left:8px}
+.wrap{max-width:1000px;margin:0 auto;padding:16px 16px 56px}
+.screen{display:none}.screen.active{display:block}
+h2{font-family:var(--tall-font-head,"Montserrat","Segoe UI",Arial,sans-serif);font-weight:800;font-size:22px;margin:4px 0 10px}
+h3{font-family:var(--tall-font-head,"Montserrat","Segoe UI",Arial,sans-serif);font-weight:700;font-size:15px;margin:14px 0 6px;color:var(--gray);text-transform:uppercase;letter-spacing:.05em}
+.mini{font-size:14px;color:var(--gray)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:9px 18px;border:1.5px solid var(--accent);background:var(--panel);color:var(--accent);font-family:inherit;font-weight:700;font-size:16px;border-radius:10px;cursor:pointer}
+.btn:hover{background:var(--accent-tint)}
+.btn.primary{background:var(--accent);color:#fff}.btn.primary:hover{background:var(--accent-dark)}
+.btn[disabled],.btn.off{opacity:.55;cursor:default;background:var(--panel);color:var(--gray);border-color:var(--line)}
+.btn.sel{background:var(--accent-tint);box-shadow:inset 0 0 0 2px var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.pcard{display:flex;flex-direction:column;gap:4px;text-align:left;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font:inherit;color:var(--ink);cursor:pointer;min-height:92px}
+.pcard:hover{border-color:var(--accent);background:var(--accent-tint)}
+.pcard.locked{opacity:.55;cursor:default}.pcard.locked:hover{background:var(--panel);border-color:var(--line)}
+.pcard .t{font-family:var(--tall-font-head,"Montserrat",Arial,sans-serif);font-weight:800;font-size:20px;color:var(--accent)}
+.pcard .s{font-size:14px;color:var(--gray)}
+.big{font-size:clamp(40px,10vw,84px);font-weight:800;line-height:1.15;text-align:center;margin:8px 0;color:var(--ink)}
+.star{font-size:.38em;color:var(--accent);vertical-align:super;margin-left:3px}
+.heart{font-size:.38em;vertical-align:super;margin-left:3px;color:var(--accent)}
+.center{text-align:center}
+.boxes{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:14px 0}
+.box{min-width:78px;height:84px;padding:0 8px;border:3px dashed var(--line);border-radius:12px;background:var(--panel);font-family:inherit;font-weight:800;font-size:38px;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative}
+.box.changed{border-color:var(--accent);border-style:solid;background:var(--accent-tint)}
+.box.filled{border-style:solid;border-color:var(--ink)}
+.box.right{border-color:var(--accent);border-style:solid;background:var(--accent-tint)}
+.box.wrong{border-color:var(--warn);border-style:solid;background:var(--warn-tint)}
+.box .tag{position:absolute;bottom:-20px;left:0;right:0;font-size:12px;font-weight:700;color:var(--accent)}
+.bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:26px 0 8px}
+.tile{min-width:58px;height:58px;padding:0 12px;border:2px solid var(--accent);border-radius:10px;background:var(--panel);color:var(--accent);font-family:inherit;font-weight:800;font-size:26px;cursor:grab;touch-action:none}
+.tile:hover{background:var(--accent-tint)}
+.tile.armed{background:var(--accent);color:#fff}
+.ghost{position:fixed;pointer-events:none;z-index:50;opacity:.9}
+.say{min-height:1.6em;text-align:center;color:var(--gray);font-size:15px}
+.note{min-height:1.5em;text-align:center;font-weight:700;color:var(--ink)}
+.note.good{color:var(--accent)}.note.bad{color:var(--warn)}
+.wordgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.wbtn{min-height:92px;border:1.5px solid var(--accent);border-radius:12px;background:var(--panel);font-family:inherit;font-weight:800;font-size:36px;color:var(--ink);cursor:pointer;position:relative;padding:6px}
+.wbtn:hover{background:var(--accent-tint)}
+.wbtn .nr{display:block;font-size:12px;font-weight:700;color:var(--gray);min-height:1.2em}
+.wbtn u{text-decoration-thickness:3px;text-underline-offset:5px;text-decoration-color:var(--accent)}
+.field{position:relative;width:100%;max-width:760px;height:430px;margin:8px auto;background:#0F2A1C;border-radius:12px;overflow:hidden;touch-action:none;user-select:none}
+.fall{position:absolute;transform:translateX(-50%);min-width:84px;padding:6px 14px;border-radius:10px;background:#fff;color:var(--ink);font-weight:800;font-size:26px;text-align:center;border:3px solid #fff}
+.fall.focus{border-color:var(--accent)}
+.fall.bubble{border-radius:999px;min-width:96px;padding:14px 18px;background:rgba(255,255,255,.92)}
+.fall.hit{background:var(--accent);color:#fff}.fall.miss{background:var(--warn-tint);border-color:var(--warn)}
+.ship{position:absolute;bottom:6px;width:0;height:0;margin-left:-22px;border-left:22px solid transparent;border-right:22px solid transparent;border-bottom:38px solid #fff}
+.bolt{position:absolute;width:6px;height:22px;margin-left:-3px;background:#7CF5A0;border-radius:3px}
+.hud{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-weight:800;margin:6px 0}
+.hud span{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:4px 12px}
+.cards{display:grid;gap:10px;max-width:760px;margin:10px auto}
+.mcard{min-height:92px;border:2px solid var(--accent);border-radius:12px;background:var(--accent);color:#fff;font-family:inherit;font-weight:800;font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.mcard.up{background:var(--panel);color:var(--ink)}
+.mcard.done{background:var(--accent-tint);color:var(--ink);border-style:dashed;cursor:default}
+.timer{font-size:clamp(40px,9vw,72px);font-weight:800;text-align:center;font-variant-numeric:tabular-nums}
+footer{max-width:1000px;margin:0 auto;padding:0 16px 26px;font-size:12px;color:var(--gray)}
+@media(max-width:620px){.grid{grid-template-columns:1fr 1fr}.box{min-width:64px;height:72px;font-size:30px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hwrap">
+    <h1>Word Builder</h1>
+    <span class="who" id="tw-who-label"></span>
+  </div>
+</header>
+<div class="wrap">
+
+  <section id="tw-load" class="screen active"><p id="tw-load-msg">Loading the word lists…</p></section>
+
+  <section id="tw-who" class="screen">
+    <h2>Who is working?</h2>
+    <div class="row" id="tw-classes" style="margin-bottom:12px"></div>
+    <div class="grid" id="tw-students"></div>
+    <p class="row" id="tw-teacher-row" style="margin-top:14px"></p>
+  </section>
+
+  <section id="tw-home" class="screen">
+    <h2>Pick a pattern</h2>
+    <p class="mini" id="tw-home-note"></p>
+    <div id="tw-groups"></div>
+    <div id="tw-heart-sets"></div>
+    <p class="row" id="tw-home-teacher" style="margin-top:10px"></p>
+  </section>
+
+  <section id="tw-pattern" class="screen">
+    <p><button class="btn" onclick="twGoHome()">&larr; All patterns</button></p>
+    <h2 id="tw-pat-title"></h2>
+    <p class="mini" id="tw-pat-sub"></p>
+    <h3>Practice</h3>
+    <div class="row" id="tw-modes"></div>
+    <h3>Games</h3>
+    <div class="row" id="tw-games"></div>
+    <p class="note" id="tw-pat-note"></p>
+  </section>
+
+  <section id="tw-build" class="screen">
+    <div class="row"><button class="btn" onclick="twBackToPattern()">&larr; Back</button><span class="mini" id="tw-build-count"></span></div>
+    <div class="big" id="tw-build-word"></div>
+    <div class="center"><button class="btn primary" id="tw-build-hear" onclick="twHearCurrent()">Hear the word</button></div>
+    <div class="boxes" id="tw-build-boxes"></div>
+    <div class="say" id="tw-build-say"></div>
+    <div class="bank" id="tw-build-bank"></div>
+    <p class="note" id="tw-build-note"></p>
+    <div class="center"><button class="btn primary" id="tw-build-next" onclick="twBuildNext()" style="display:none">Next word &rarr;</button></div>
+    <p class="mini center">Tap a tile to hear it, then tap a box. Or drag it. Keys: &larr; &rarr; pick a tile, 1&ndash;9 place it, Backspace clears, H hears the word, N is next.</p>
+  </section>
+
+  <section id="tw-read" class="screen">
+    <div class="row"><button class="btn" onclick="twBackToPattern()">&larr; Back</button></div>
+    <h2 id="tw-read-title"></h2>
+    <p class="mini" id="tw-read-sub"></p>
+    <div class="wordgrid" id="tw-read-grid"></div>
+  </section>
+
+  <section id="tw-dict" class="screen">
+    <div class="row"><button class="btn" onclick="twBackToPattern()">&larr; Back</button><span class="mini" id="tw-dict-count"></span></div>
+    <h2>Dictation</h2>
+    <div class="center"><button class="btn primary" id="tw-dict-hear" onclick="twHearCurrent()">Hear the word</button></div>
+    <div class="boxes" id="tw-dict-boxes"></div>
+    <div class="say" id="tw-dict-say"></div>
+    <div class="bank" id="tw-dict-bank"></div>
+    <p class="note" id="tw-dict-note"></p>
+    <div class="center row" style="justify-content:center">
+      <button class="btn primary" id="tw-dict-check" onclick="twDictCheck()">Check</button>
+      <button class="btn" id="tw-dict-next" onclick="twDictNext()" style="display:none">Next word &rarr;</button>
+    </div>
+  </section>
+
+  <section id="tw-game" class="screen">
+    <div class="row"><button class="btn" onclick="twGameLeave()">&larr; Back</button>
+      <button class="btn" id="tw-game-sound" onclick="twToggleSound()">Sound: on</button>
+      <button class="btn" id="tw-game-hear" onclick="twHearCurrent()">Hear the word</button></div>
+    <h2 id="tw-game-title"></h2>
+    <div class="hud" id="tw-game-hud" aria-live="polite"></div>
+    <div id="tw-game-body"></div>
+    <p class="note" id="tw-game-note"></p>
+    <p class="mini center" id="tw-game-help"></p>
+  </section>
+
+  <section id="tw-result" class="screen">
+    <h2 id="tw-result-title"></h2>
+    <div class="card" id="tw-result-body"></div>
+    <div class="row"><button class="btn primary" id="tw-result-again" onclick="twPlayAgain()">Play again</button><button class="btn" onclick="twBackToPattern()">Back to the pattern</button></div>
+  </section>
+</div>
+<footer>&copy; 2026 Miquela Daniels &middot; AI Academy LLC &middot; Reading Foundations / TALL&trade; &middot; Proprietary &mdash; do not copy or distribute</footer>
+
+<script src="tall-words-core.js"></script>
+<script src="tall-audio.js"></script>
+<script src="tall-word-audio.js"></script>
+<script src="tall-roster.js"></script>
+<script>
+/* ============================== state ============================== */
+var S = { lists: null, flat: [], student: null, prog: {}, cur: null, mode: "", lastGame: null };
+var AUDIO = null;                       /* the one clip that is playing */
+var SOUND_ON = true;
+function el(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function isTeacher(){ try{ return (window.location.search||"").toLowerCase().indexOf("teacher")>-1; }catch(e){ return false; } }
+function shuffle(a){ var i, j, t; a = a.slice(); for(i=a.length-1;i>0;i--){ j = Math.floor(Math.random()*(i+1)); t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function store(){ try{ return window.localStorage; }catch(e){ return { getItem:function(){ return null; }, setItem:function(){} }; } }
+
+/* ============================== screens ============================== */
+function go(id){
+  var s = document.querySelectorAll(".screen"), i;
+  for(i=0;i<s.length;i++){ s[i].className = (s[i].id === id) ? "screen active" : "screen"; }
+  stopAudio(); gStopLoop();
+  try{ window.scrollTo(0,0); }catch(e){}
+}
+
+/* ============================== audio: Miquela's recorded clips only ============================== */
+function stopAudio(){ if(AUDIO){ try{ AUDIO.pause(); }catch(e){} AUDIO.onended = null; AUDIO.onerror = null; AUDIO = null; } }
+function wordPath(w){ return (window.TALL_WORD_AUDIO && window.TALL_WORD_AUDIO[TW.wordId(w)]) || ""; }
+function hasWord(w){ return !!wordPath(w); }
+function tilePath(tile){ return (tile && tile.clip && window.TALL_AUDIO && window.TALL_AUDIO[tile.clip]) || ""; }
+/* play a clip; cb(false) if there is nothing to play or it will not load */
+function playPath(path, cb){
+  var a, p;
+  stopAudio();
+  if(!path){ if(cb){ cb(false); } return false; }
+  a = new Audio(path); AUDIO = a;
+  a.onerror = function(){ if(AUDIO === a){ AUDIO = null; } if(cb){ cb(false); } };
+  p = a.play();
+  if(p && p.then){ p.then(null, function(){ if(a.onerror){ a.onerror(); } }); }
+  return true;
+}
+
+/* ============================== progress (per student) ============================== */
+function sid(){ return S.student ? S.student.id : "teacher"; }
+function progAll(){ return TW.progLoad(store()); }
+function progGet(){ var all = progAll(), st = TW.progStudent(all, sid()); return { all: all, st: st }; }
+function progPat(pid){ var g = progGet(), pp = TW.progPattern(g.st, pid); return { all: g.all, st: g.st, pp: pp }; }
+function progWrite(g){ TW.progSave(store(), g.all); }
+function isUnlocked(i){
+  var g;
+  if(isTeacher() || i === 0){ return true; }
+  g = progGet();
+  if(g.st.unlockAll){ return true; }
+  return !!(g.st.patterns[S.flat[i-1].pattern.id] && g.st.patterns[S.flat[i-1].pattern.id].buildDone);
+}
+
+/* ============================== boot ============================== */
+function twBoot(raw){
+  var data = TW.normalizeLists(raw);
+  S.lists = data; S.flat = TW.flatPatterns(data);
+  if(!S.flat.length && !data.heart.length){ el("tw-load-msg").textContent = "No word lists found."; return; }
+  var saved = null;
+  try{ saved = JSON.parse(store().getItem("rf_tw_student") || "null"); }catch(e){}
+  if(isTeacher() && !saved){ S.student = null; twGoHome(); return; }
+  if(saved){ S.student = saved; twGoHome(); return; }
+  twShowWho();
+}
+function twLoad(){
+  var raw = window.TW_DATA_RAW, xhr;
+  if(raw){ twBoot(raw); return; }
+  try{
+    xhr = new XMLHttpRequest();
+    xhr.open("GET", "data/tall-word-lists.json", true);
+    xhr.onreadystatechange = function(){
+      if(xhr.readyState !== 4){ return; }
+      if(xhr.status === 200 || (xhr.status === 0 && xhr.responseText)){
+        try{ twBoot(JSON.parse(xhr.responseText)); }catch(e){ el("tw-load-msg").textContent = "The word lists could not be read."; }
+      } else { el("tw-load-msg").textContent = "The word lists could not be loaded. Try again."; }
+    };
+    xhr.send();
+  }catch(e){ el("tw-load-msg").textContent = "The word lists could not be loaded."; }
+}
+
+/* ============================== who is working ============================== */
+var WHO_CLASS = 0;
+function twShowWho(){
+  var cl = window.TALL_ROSTER || [], h = "", i;
+  for(i=0;i<cl.length;i++){ h += '<button class="btn'+(i===WHO_CLASS?' sel':'')+'" onclick="twPickClass('+i+')">'+esc(cl[i].label)+'</button>'; }
+  el("tw-classes").innerHTML = h;
+  h = ""; var st = cl[WHO_CLASS] ? cl[WHO_CLASS].students : [];
+  for(i=0;i<st.length;i++){ h += '<button class="btn" id="tw-stu-'+esc(st[i].id)+'" onclick="twPickStudent('+WHO_CLASS+','+i+')">'+esc(st[i].name)+'</button>'; }
+  el("tw-students").innerHTML = h;
+  el("tw-teacher-row").innerHTML = isTeacher() ? '<button class="btn" onclick="twTeacherNoStudent()">Teacher view (no student)</button>' : "";
+  el("tw-who-label").innerHTML = "";
+  go("tw-who");
+}
+function twPickClass(i){ WHO_CLASS = i; twShowWho(); }
+function twPickStudent(ci, si){
+  var s = window.TALL_ROSTER[ci].students[si];
+  S.student = { id: s.id, name: s.name };
+  try{ store().setItem("rf_tw_student", JSON.stringify(S.student)); }catch(e){}
+  twGoHome();
+}
+function twTeacherNoStudent(){ S.student = null; try{ store().removeItem("rf_tw_student"); }catch(e){} twGoHome(); }
+function twChangeStudent(){ try{ store().removeItem("rf_tw_student"); }catch(e){} S.student = null; twShowWho(); }
+function whoLabel(){
+  var h = S.student ? esc(S.student.name) : "Teacher view";
+  el("tw-who-label").innerHTML = h + ' <a onclick="twChangeStudent()">Change</a>';
+}
+
+/* ============================== home: group > pattern ============================== */
+function twGoHome(){
+  var h = "", i, j, g, p, f, pg, k = 0, st, status, locked, note;
+  whoLabel();
+  for(i=0;i<S.lists.groups.length;i++){
+    g = S.lists.groups[i]; h += '<h3>'+esc(g.title)+'</h3><div class="grid">';
+    for(j=0;j<g.patterns.length;j++){
+      p = g.patterns[j]; f = k; k++;
+      pg = progPat(p.id).pp; locked = !isUnlocked(f);
+      status = locked ? "Locked. Finish the Build in the pattern before it." :
+        ((pg.buildDone ? "Build ✓ " : "") + (Object.keys(pg.read).length >= p.read.length && p.read.length ? "Read ✓ " : "") + (pg.dictTotal ? "Dictation " + pg.dictRight + "/" + pg.dictTotal : ""));
+      h += '<button class="pcard'+(locked?' locked':'')+'" id="tw-pat-'+esc(p.id)+'" '+(locked?'aria-disabled="true"':'')+' onclick="twOpenPattern('+f+')"><span class="t">'+esc(p.title)+'</span><span class="s">'+esc(p.spelling ? "spelling: " + p.spelling : "")+'</span><span class="s">'+esc(status || "Not started")+'</span></button>';
+    }
+    h += '</div>';
+  }
+  el("tw-groups").innerHTML = h;
+  h = "";
+  if(S.lists.heart.length){
+    h += '<h3>Heart words</h3><div class="grid">';
+    for(i=0;i<S.lists.heart.length;i++){ h += '<button class="pcard" id="tw-heart-'+esc(S.lists.heart[i].id)+'" onclick="twOpenHeart('+i+')"><span class="t">'+esc(S.lists.heart[i].title)+'</span><span class="s">'+S.lists.heart[i].words.length+' words</span></button>'; }
+    h += '</div>';
+  }
+  el("tw-heart-sets").innerHTML = h;
+  note = isTeacher() ? "Teacher view: every pattern and game is open." : "Finish the Build in a pattern to open the next one.";
+  el("tw-home-note").textContent = note;
+  el("tw-home-teacher").innerHTML = (isTeacher() && S.student) ? '<button class="btn" id="tw-unlock-all" onclick="twToggleUnlockAll()">'+(progGet().st.unlockAll ? "Lock patterns again for " : "Open every pattern for ")+esc(S.student.name)+'</button>' : "";
+  go("tw-home");
+}
+function twToggleUnlockAll(){ var g = progGet(); g.st.unlockAll = !g.st.unlockAll; progWrite(g); twGoHome(); }
+
+/* ============================== pattern page ============================== */
+var NEED_AUDIO = { blaster: 1, bubble: 1, memory: 1 };
+var GAMES = [ ["blaster","Word Blaster"], ["bubble","Bubble Pop"], ["memory","Memory Match"], ["time","Beat Your Time"] ];
+function twOpenPattern(f){
+  var fp = S.flat[f], h = "", i, p;
+  if(!fp){ return; }
+  if(!isUnlocked(f)){ return; }
+  S.cur = fp; p = fp.pattern;
+  el("tw-pat-title").textContent = p.title;
+  el("tw-pat-sub").textContent = fp.group.title + (p.spelling ? " · spelling: " + p.spelling : "");
+  el("tw-modes").innerHTML =
+    '<button class="btn primary" id="tw-mode-build" onclick="twStartBuild()">Build</button>'+
+    '<button class="btn primary" id="tw-mode-read" onclick="twStartRead()">Read</button>'+
+    '<button class="btn primary" id="tw-mode-dict" onclick="twStartDict()">Dictation</button>';
+  for(i=0;i<GAMES.length;i++){ h += '<button class="btn" id="tw-game-'+GAMES[i][0]+'" onclick="twStartGame(\''+GAMES[i][0]+'\')">'+GAMES[i][1]+'</button>'; }
+  el("tw-games").innerHTML = h;
+  el("tw-pat-note").textContent = "";
+  go("tw-pattern");
+}
+function twBackToPattern(){ if(S.cur){ twOpenPattern(S.cur.index); } else { twGoHome(); } }   /* heart-word lists have no pattern: Back goes home */
+function patOpts(){ return { endings: TW.isEndingsPattern(S.cur.pattern) }; }
+function patTilesFor(w){ return TW.tilesFor(w, patOpts()); }
+
+/* the tile bank for a pattern: every tile used by the pattern's words, vowels first */
+function bankFor(words){
+  var seen = {}, out = [], i, j, t;
+  for(i=0;i<words.length;i++){ t = patTilesFor(words[i].w || words[i]); for(j=0;j<t.length;j++){ if(!seen[t[j].g]){ seen[t[j].g] = 1; out.push(t[j]); } } }
+  out.sort(function(a,b){ var av = /^[aeiou]|_e|^(ee|ea|ey|ay|ai|oa|ow|oo|ew|oi|oy|ou|aw|all|igh|ar|or|ore|er|ir|ur|air|are|ere|eir|ear)$/.test(a.g) ? 0 : 1, bv = /^[aeiou]|_e|^(ee|ea|ey|ay|ai|oa|ow|oo|ew|oi|oy|ou|aw|all|igh|ar|or|ore|er|ir|ur|air|are|ere|eir|ear)$/.test(b.g) ? 0 : 1; return av - bv; });
+  return out;
+}
+
+/* ============================== tile boards (shared by Build + Dictation) ============================== */
+var B = null;      /* { kind, words:[], idx, tiles:[target tiles], boxes:[tileObj|null], armed:null|tile, changed:-1, bank:[], done, right, total } */
+function boardHTML(prefix){
+  var h = "", i, b = B;
+  for(i=0;i<b.tiles.length;i++){
+    h += '<button class="box'+(b.boxes[i]?' filled':'')+(b.marks && b.marks[i] ? ' '+b.marks[i] : '')+(b.changed===i && !b.marks ? ' changed':'')+'" id="'+prefix+'-box-'+i+'" onclick="twBoxClick('+i+')" aria-label="Box '+(i+1)+'">'+(b.boxes[i] ? esc(b.boxes[i].g) : "")+(b.changed===i && b.kind==="build" ? '<span class="tag">changes</span>' : '')+'</button>';
+  }
+  return h;
+}
+function bankHTML(prefix){
+  var h = "", i, t;
+  for(i=0;i<B.bank.length;i++){
+    t = B.bank[i];
+    h += '<button class="tile'+(B.armed && B.armed.g===t.g ? ' armed':'')+'" id="'+prefix+'-tile-'+i+'" data-i="'+i+'" onclick="twTileClick('+i+')" onpointerdown="twTileDown(event,'+i+')">'+esc(t.g)+'</button>';
+  }
+  return h;
+}
+function boardRender(){
+  var p = B.kind === "build" ? "tw-build" : "tw-dict";
+  el(p + "-boxes").innerHTML = boardHTML(p);
+  el(p + "-bank").innerHTML = bankHTML(p);
+}
+function setSay(t){ var e = el(B.kind === "build" ? "tw-build-say" : "tw-dict-say"); if(e){ e.textContent = t || ""; } }
+function twTileClick(i){
+  var t = B.bank[i], path = tilePath(t);
+  B.armed = t;
+  if(path){ playPath(path); setSay(t.g + " — " + t.say); }
+  else { stopAudio(); setSay(t.g + (t.say ? " — " + t.say + " (no single sound clip for this tile)" : " — no sound clip for this tile")); }
+  boardRender();
+}
+/* place the armed tile; clicking a filled box with nothing armed clears it */
+function twBoxClick(i){
+  if(B.done){ return; }
+  if(B.armed){ twPlace(i, B.armed); }
+  else if(B.boxes[i]){ B.boxes[i] = null; B.marks = null; boardRender(); setNote(""); }
+}
+function twPlace(i, tile){
+  if(B.done || i < 0 || i >= B.boxes.length){ return; }
+  B.boxes[i] = tile; B.marks = null; B.armed = null;
+  boardRender();
+  if(B.kind === "build"){ buildCheckIfFull(); }
+}
+function setNote(t, cls){ var e = el(B.kind === "build" ? "tw-build-note" : "tw-dict-note"); if(e){ e.textContent = t || ""; e.className = "note" + (cls ? " " + cls : ""); } }
+/* ---- drag: pointer events (mouse + touch). Dropping on a box places the tile. ---- */
+var DRAG = null;
+function twTileDown(ev, i){
+  if(ev && ev.button > 0){ return; }
+  DRAG = { i: i, x: ev.clientX, y: ev.clientY, moved: false, ghost: null };
+  document.addEventListener("pointermove", dragMove);
+  document.addEventListener("pointerup", dragUp);
+}
+function dragMove(ev){
+  if(!DRAG){ return; }
+  if(!DRAG.moved && Math.abs(ev.clientX - DRAG.x) + Math.abs(ev.clientY - DRAG.y) > 8){
+    DRAG.moved = true;
+    DRAG.ghost = document.createElement("div"); DRAG.ghost.className = "tile ghost"; DRAG.ghost.textContent = B.bank[DRAG.i].g; document.body.appendChild(DRAG.ghost);
+  }
+  if(DRAG.ghost){ DRAG.ghost.style.left = (ev.clientX - 29) + "px"; DRAG.ghost.style.top = (ev.clientY - 29) + "px"; }
+}
+function dragUp(ev){
+  var d = DRAG, target, m;
+  document.removeEventListener("pointermove", dragMove); document.removeEventListener("pointerup", dragUp);
+  DRAG = null;
+  if(!d || !d.moved){ return; }
+  if(d.ghost && d.ghost.parentNode){ d.ghost.parentNode.removeChild(d.ghost); }
+  target = document.elementFromPoint ? document.elementFromPoint(ev.clientX, ev.clientY) : null;
+  while(target && !(target.className && String(target.className).indexOf("box") > -1 && target.id)){ target = target.parentNode; }
+  if(target){ m = target.id.match(/-box-(\d+)$/); if(m){ B.armed = null; twPlace(parseInt(m[1],10), B.bank[d.i]); } }
+}
+/* keyboard shortcuts on the two boards */
+document.addEventListener("keydown", function(e){
+  var act = document.querySelector(".screen.active"), k = e.key, n;
+  if(!act){ return; }
+  var tag = (e.target && e.target.tagName || "").toLowerCase();
+  if(tag === "input" || tag === "textarea"){ return; }
+  if(act.id === "tw-build" || act.id === "tw-dict"){
+    if(!B){ return; }
+    if(k === "ArrowRight" || k === "ArrowLeft"){
+      n = B.armed ? indexOfBank(B.armed) : -1; n = (k === "ArrowRight") ? (n + 1) % B.bank.length : (n <= 0 ? B.bank.length - 1 : n - 1);
+      e.preventDefault(); twTileClick(n);
+    } else if(/^[1-9]$/.test(k)){ if(B.armed && !B.done){ e.preventDefault(); twPlace(parseInt(k,10) - 1, B.armed); } }
+    else if(k === "Backspace"){ e.preventDefault(); n = B.boxes.length - 1; while(n >= 0 && !B.boxes[n]){ n--; } if(n >= 0 && !B.done){ B.boxes[n] = null; B.marks = null; boardRender(); setNote(""); } }
+    else if(k === "h" || k === "H"){ twHearCurrent(); }
+    else if((k === "n" || k === "N") && act.id === "tw-build"){ if(el("tw-build-next").style.display !== "none"){ twBuildNext(); } }
+    else if(k === "Enter" && act.id === "tw-dict"){ if(e.target && e.target.tagName === "BUTTON"){ return; } twDictCheck(); }
+  } else if(act.id === "tw-game" && G){ gKey(e); }
+});
+function indexOfBank(t){ var i; for(i=0;i<B.bank.length;i++){ if(B.bank[i].g === t.g){ return i; } } return -1; }
+function twHearCurrent(){
+  var w = (act("tw-game") && G) ? G.heard : (B ? B.words[B.idx] : null), path, id = act("tw-game") ? "tw-game-note" : (B && B.kind === "build" ? "tw-build-note" : "tw-dict-note");
+  if(!w){ return; }
+  w = w.w || w; path = wordPath(w);
+  if(!path){ if(el(id)){ el(id).textContent = "Not recorded yet."; } return; }
+  if(!SOUND_ON && act("tw-game")){ return; }
+  playPath(path, function(ok){ if(!ok && el(id)){ el(id).textContent = "Not recorded yet."; } });
+}
+function act(id){ var e = el(id); return !!e && e.className.indexOf("active") > -1; }
+
+/* ============================== MODE 1: BUILD ============================== */
+function twStartBuild(){
+  var p = S.cur.pattern, words = p.build.filter(function(w){ return !w.heart; });
+  if(!words.length){ el("tw-pat-note").textContent = "There is no Build chain for this pattern yet."; return; }
+  B = { kind: "build", words: words, idx: 0, tiles: [], boxes: [], armed: null, changed: -1, bank: bankFor(words), done: false, marks: null };
+  go("tw-build"); buildShow();
+}
+function buildShow(){
+  var w = B.words[B.idx], prev = B.idx > 0 ? patTilesFor(B.words[B.idx-1].w) : null;
+  B.tiles = patTilesFor(w.w); B.boxes = []; var i; for(i=0;i<B.tiles.length;i++){ B.boxes.push(null); }
+  B.armed = null; B.done = false; B.marks = null;
+  B.changed = prev ? TW.changedIndex(prev, B.tiles) : -1;
+  el("tw-build-count").textContent = "Word " + (B.idx + 1) + " of " + B.words.length;
+  el("tw-build-word").innerHTML = esc(w.w) + (w.first100 ? '<span class="star" title="First 100 Daily Phrases word">★</span>' : "");
+  var hb = el("tw-build-hear"); hb.textContent = hasWord(w.w) ? "Hear the word" : "Not recorded yet."; hb.className = hasWord(w.w) ? "btn primary" : "btn off";
+  el("tw-build-next").style.display = "none"; setNote(""); setSay(B.changed > -1 ? "The highlighted box is the sound that changes." : "");
+  boardRender();
+  if(hasWord(w.w)){ playPath(wordPath(w.w)); }
+}
+function buildCheckIfFull(){
+  var i, wrong = 0, marks = [];
+  for(i=0;i<B.boxes.length;i++){ if(!B.boxes[i]){ return; } }
+  for(i=0;i<B.tiles.length;i++){ if(B.boxes[i].g === B.tiles[i].g){ marks.push("right"); } else { marks.push("wrong"); wrong++; } }
+  B.marks = marks; boardRender();
+  if(wrong){ setNote(wrong === 1 ? "One box is not right. Tap it to clear it." : wrong + " boxes are not right. Tap a box to clear it.", "bad"); }
+  else { B.done = true; setNote("That is the word.", "good"); el("tw-build-next").style.display = "inline-flex"; el("tw-build-next").textContent = (B.idx === B.words.length - 1) ? "Finish" : "Next word →"; }
+}
+function twBuildNext(){
+  var g;
+  if(!B.done){ return; }
+  if(B.idx < B.words.length - 1){
+    B.idx++; g = progPat(S.cur.pattern.id); if(B.idx > g.pp.buildIdx){ g.pp.buildIdx = B.idx; progWrite(g); } buildShow(); return;
+  }
+  g = progPat(S.cur.pattern.id); g.pp.buildDone = true; g.pp.buildIdx = B.words.length; progWrite(g);
+  el("tw-result-title").textContent = "Build finished";
+  el("tw-result-body").innerHTML = "<p>You built all " + B.words.length + " words in <b>" + esc(S.cur.pattern.title) + "</b>.</p>" + (nextPatternHint());
+  S.lastGame = "build"; el("tw-result-again").style.display = "none"; go("tw-result");
+}
+function nextPatternHint(){
+  var n = S.flat[S.cur.index + 1];
+  return n ? "<p class=\"mini\">The next pattern, <b>" + esc(n.pattern.title) + "</b>, is open now.</p>" : "";
+}
+
+/* ============================== MODE 2: READ ============================== */
+function readWordHTML(w){
+  var txt = esc(w.w), t;
+  if(w.heart){
+    t = w.tricky ? String(w.tricky) : ""; var i = t ? w.w.toLowerCase().indexOf(t.toLowerCase()) : -1;
+    if(i < 0){ var m = w.w.match(/[aeiou]+/i); if(m){ t = m[0]; i = m.index; } }
+    if(i > -1){ txt = esc(w.w.slice(0,i)) + "<u>" + esc(w.w.slice(i, i + t.length)) + "</u>" + esc(w.w.slice(i + t.length)); }
+    txt += '<span class="heart" title="Heart word">♥</span>';
+  }
+  if(w.first100){ txt += '<span class="star" title="First 100 Daily Phrases word">★</span>'; }
+  return txt;
+}
+function renderReadGrid(words, label){
+  var h = "", i;
+  for(i=0;i<words.length;i++){ h += '<button class="wbtn" id="tw-rw-'+i+'" onclick="twReadTap('+i+')">'+readWordHTML(words[i])+'<span class="nr" id="tw-rnr-'+i+'"></span></button>'; }
+  el("tw-read-grid").innerHTML = h;
+  B = { kind: "read", words: words, idx: 0 };
+}
+function twStartRead(){
+  var p = S.cur.pattern;
+  el("tw-read-title").textContent = p.title + ": Read";
+  el("tw-read-sub").textContent = "Tap a word to hear it. ★ = a First 100 word.";
+  renderReadGrid(p.read, p.title); go("tw-read");
+}
+function twOpenHeart(i){
+  var hs = S.lists.heart[i]; S.cur = null;
+  el("tw-read-title").textContent = hs.title;
+  el("tw-read-sub").textContent = "Heart words: the underlined part is the tricky part. Tap a word to hear it.";
+  renderReadGrid(hs.words, hs.title); go("tw-read");
+}
+function twReadTap(i){
+  var w = B.words[i], path = wordPath(w.w), nr = el("tw-rnr-" + i), g;
+  if(S.cur && !w.heart){ g = progPat(S.cur.pattern.id); g.pp.read[TW.wordKey(w.w)] = 1; progWrite(g); }
+  if(!path){ nr.textContent = "Not recorded yet."; return; }
+  nr.textContent = ""; playPath(path, function(ok){ if(!ok){ nr.textContent = "Not recorded yet."; } });
+}
+
+/* ============================== MODE 3: DICTATION ============================== */
+function twStartDict(){
+  var p = S.cur.pattern, seen = {}, pool = [], i, rec, skipped;
+  for(i=0;i<p.build.length + p.read.length;i++){ var w = i < p.build.length ? p.build[i] : p.read[i - p.build.length]; if(w.heart || seen[TW.wordKey(w.w)]){ continue; } seen[TW.wordKey(w.w)] = 1; pool.push(w); }
+  rec = pool.filter(function(w){ return hasWord(w.w); });
+  if(!rec.length){ el("tw-pat-note").textContent = "Your teacher hasn't recorded these words yet."; return; }
+  skipped = pool.length - rec.length;
+  rec = shuffle(rec).slice(0, 10);
+  B = { kind: "dict", words: rec, idx: 0, tiles: [], boxes: [], armed: null, bank: bankFor(pool), done: false, marks: null, right: 0, total: 0, skipped: skipped };
+  go("tw-dict"); dictShow();
+  if(skipped){ el("tw-dict-note").textContent = skipped + " word" + (skipped === 1 ? "" : "s") + " skipped: not recorded yet."; }
+}
+function dictShow(){
+  var w = B.words[B.idx], i;
+  B.tiles = patTilesFor(w.w); B.boxes = []; for(i=0;i<B.tiles.length;i++){ B.boxes.push(null); }
+  B.armed = null; B.done = false; B.marks = null;
+  el("tw-dict-count").textContent = "Word " + (B.idx + 1) + " of " + B.words.length;
+  el("tw-dict-next").style.display = "none"; el("tw-dict-check").style.display = "inline-flex";
+  var keep = B.skipped && B.idx === 0 ? el("tw-dict-note").textContent : ""; setNote(keep); setSay("");
+  boardRender(); playPath(wordPath(w.w));
+}
+function twDictCheck(){
+  var i, wrong = 0, empty = 0, marks = [];
+  if(B.done){ return; }
+  for(i=0;i<B.boxes.length;i++){ if(!B.boxes[i]){ empty++; } }
+  if(empty){ setNote("Fill every box first.", "bad"); return; }
+  for(i=0;i<B.tiles.length;i++){ if(B.boxes[i].g === B.tiles[i].g){ marks.push("right"); } else { marks.push("wrong"); wrong++; } }
+  B.marks = marks; B.done = true; B.total++; if(!wrong){ B.right++; }
+  boardRender();
+  setNote(wrong ? "Not quite. The word is " + B.words[B.idx].w + "." : "Right.", wrong ? "bad" : "good");
+  el("tw-dict-check").style.display = "none"; el("tw-dict-next").style.display = "inline-flex";
+  el("tw-dict-next").textContent = (B.idx === B.words.length - 1) ? "Finish" : "Next word →";
+  var g = progPat(S.cur.pattern.id); g.pp.dictTotal += 1; if(!wrong){ g.pp.dictRight += 1; } progWrite(g);
+}
+function twDictNext(){
+  if(!B.done){ return; }
+  if(B.idx < B.words.length - 1){ B.idx++; dictShow(); return; }
+  el("tw-result-title").textContent = "Dictation finished";
+  el("tw-result-body").innerHTML = "<p><b>" + B.right + " of " + B.total + "</b> words spelled right.</p>" + (B.skipped ? "<p class=\"mini\">" + B.skipped + " word(s) were skipped because they are not recorded yet.</p>" : "") + "<p class=\"mini\">This is spelling practice. Nothing is graded.</p>";
+  S.lastGame = "dict"; el("tw-result-again").style.display = "inline-flex"; go("tw-result");
+}
+
+/* ============================== GAMES ============================== */
+var G = null;                 /* current game state */
+var FH = 420, LAND = 360;     /* field height, landing line */
+var LOOP = null, LAST = 0;
+function twToggleSound(){ SOUND_ON = !SOUND_ON; el("tw-game-sound").textContent = "Sound: " + (SOUND_ON ? "on" : "off"); if(!SOUND_ON){ stopAudio(); } }
+function twPlayAgain(){ if(S.lastGame === "dict"){ twStartDict(); } else if(S.lastGame){ twStartGame(S.lastGame); } }
+function twGameLeave(){ G = null; gStopLoop(); twBackToPattern(); }
+function gStopLoop(){ if(LOOP){ try{ window.cancelAnimationFrame(LOOP); }catch(e){} LOOP = null; } }
+function gStartLoop(){
+  gStopLoop();
+  if(window.__TW_NO_LOOP || !window.requestAnimationFrame){ return; }
+  LAST = 0;
+  var tick = function(ts){ if(!G || G.over){ LOOP = null; return; } if(LAST){ gStep(Math.min(0.05, (ts - LAST) / 1000)); } LAST = ts; LOOP = window.requestAnimationFrame(tick); };
+  LOOP = window.requestAnimationFrame(tick);
+}
+function gTargets(){
+  var p = S.cur.pattern, o = patOpts(), t = TW.gameTargets(p, o);
+  return t;
+}
+function twStartGame(kind){
+  var p = S.cur.pattern, targets, rec, words, i, q;
+  S.lastGame = kind; el("tw-pat-note").textContent = "";
+  if(kind === "time"){ return gStartTime(); }
+  targets = gTargets();
+  rec = targets.filter(function(w){ return hasWord(w.w); });
+  if(!rec.length){ el("tw-pat-note").textContent = targets.length ? "Your teacher hasn't recorded these words yet." : "This pattern has no words this game can use yet."; return; }
+  if(kind === "memory"){ return gMemoryPick(); }
+  /* Bubble Pop shows 4-5 bubbles: prefer words that have at least 3 one-sound neighbours (Blaster needs 2) */
+  var pool0 = TW.patternPool(p), minNb = kind === "bubble" ? 3 : 2, enough = rec.filter(function(w){ return TW.neighbors(w.w, pool0, patOpts()).length >= minNb; });
+  if(enough.length){ rec = enough; }
+  rec = shuffle(rec); words = [];
+  for(i=0;i<10;i++){ words.push(rec[i % rec.length]); }
+  G = { kind: kind, words: words, q: 0, total: 10, score: 0, streak: 0, bestStreak: 0, right: 0, wrong: 0, time: 0, over: false,
+        opts: [], shipX: 0.5, bolt: null, pause: 0, heard: null, focus: 0, vy: kind === "blaster" ? 56 : 62, few: rec.length < 10 ? rec.length : 0, feedback: "" };
+  el("tw-game-title").textContent = (kind === "blaster" ? "Word Blaster" : "Bubble Pop");
+  el("tw-game-hear").style.display = "inline-flex"; el("tw-game-note").textContent = "";
+  el("tw-game-body").innerHTML = '<div class="field" id="tw-field" tabindex="0" aria-label="Game field"></div>';
+  var f = el("tw-field");
+  f.addEventListener("pointermove", gPointerMove); f.addEventListener("pointerdown", gPointerDown);
+  el("tw-game-help").textContent = kind === "blaster" ? "Listen to the word. Move with the arrow keys (or your mouse / finger). Space or a tap fires. R hears the word again." : "Listen to the word. Pop the bubble with the same word: tap it, or use the arrow keys + Enter, or the number keys. R hears the word again.";
+  go("tw-game"); gNext(); gStartLoop();
+}
+function gNext(){
+  var o, n, w, ds, i, lanes, pool;
+  if(G.q >= G.total){ return gEnd(); }
+  w = G.words[G.q]; pool = TW.patternPool(S.cur.pattern);
+  n = G.kind === "blaster" ? 3 + Math.min(2, Math.floor(G.streak / 3)) : 4 + (G.streak >= 4 ? 1 : 0);
+  ds = TW.pickDistractors(w.w, pool, n, Math.random, patOpts());
+  G.opts = [{ w: w.w, right: true }]; for(i=0;i<ds.length;i++){ G.opts.push({ w: ds[i].w, right: false }); }
+  lanes = shuffle(G.opts.map(function(x, k){ return k; }));
+  for(i=0;i<G.opts.length;i++){ G.opts[i].x = (lanes[i] + 0.5) / G.opts.length; G.opts[i].y = G.kind === "blaster" ? 0 : FH - 20; G.opts[i].state = "live"; }
+  G.opts.sort(function(a, b){ return a.x - b.x; });
+  G.focus = 0; G.bolt = null; G.pause = 0; G.heard = w; G.feedback = "";
+  gRender();
+  if(SOUND_ON && hasWord(w.w)){ playPath(wordPath(w.w)); }
+}
+function gSpeed(){ return G.vy * (1 + 0.12 * Math.min(G.streak, 8)); }
+function gResolve(opt, hitRight){
+  if(hitRight){
+    G.right++; G.streak++; if(G.streak > G.bestStreak){ G.bestStreak = G.streak; } G.score += 10 + Math.min(G.streak - 1, 5) * 2;
+    opt.state = "hit"; G.feedback = "Right: " + opt.w; G.pause = 0.7;
+  } else {
+    G.wrong++; G.streak = 0; opt.state = "miss"; G.feedback = opt.w + " is not the word. Listen again.";
+  }
+  gRender();
+}
+function gStep(dt){
+  var i, o, sp, b, hitIdx, live;
+  if(!G || G.over || G.kind === "memory" || G.kind === "time"){ return; }
+  G.time += dt;
+  if(G.pause > 0){ G.pause -= dt; if(G.pause <= 0){ G.pause = 0; G.q++; gNext(); } return; }
+  sp = gSpeed();
+  for(i=0;i<G.opts.length;i++){
+    o = G.opts[i]; if(o.state !== "live"){ continue; }
+    if(G.kind === "blaster"){ o.y += sp * dt; if(o.y >= LAND){ gLanded(o); if(G.pause > 0 || G.over){ break; } } }
+    else { o.y -= sp * dt; if(o.y <= 20){ gLanded(o); if(G.pause > 0 || G.over){ break; } } }
+  }
+  if(G.kind === "blaster" && G.bolt){
+    b = G.bolt; b.y -= 520 * dt; hitIdx = -1;
+    for(i=0;i<G.opts.length;i++){ o = G.opts[i]; if(o.state === "live" && Math.abs(o.x - b.x) < 0.1 && b.y <= o.y + 36 && b.y >= o.y - 8){ hitIdx = i; break; } }
+    if(hitIdx > -1){ G.bolt = null; gResolve(G.opts[hitIdx], G.opts[hitIdx].right); }
+    else if(b.y < 0){ G.bolt = null; }
+  }
+  gRender();
+}
+/* a word reached the landing line (Blaster) / the top (Bubble) */
+function gLanded(o){
+  if(o.right){ G.streak = 0; G.wrong++; o.state = "miss"; G.feedback = "The word was " + o.w + "."; G.pause = 0.9; gRender(); }
+  else { o.state = "gone"; }
+}
+function gRender(){
+  var f = el("tw-field"), h = "", i, o, st, hud;
+  if(!G){ return; }
+  hud = '<span>Word ' + Math.min(G.q + 1, G.total) + ' of ' + G.total + '</span><span>Score ' + G.score + '</span><span>Streak ' + G.streak + '</span>';
+  var pr = gBest(G.kind); if(pr){ hud += '<span>Best ' + pr.best + '</span>'; }
+  el("tw-game-hud").innerHTML = hud;
+  el("tw-game-note").textContent = G.feedback || "";
+  if(!f || G.kind === "memory" || G.kind === "time"){ return; }
+  for(i=0;i<G.opts.length;i++){
+    o = G.opts[i]; if(o.state === "gone"){ continue; }
+    h += '<div class="fall' + (G.kind === "bubble" ? ' bubble' : '') + (o.state === "hit" ? ' hit' : (o.state === "miss" ? ' miss' : '')) + (G.kind === "bubble" && i === G.focus && o.state === "live" ? ' focus' : '') + '" id="tw-opt-' + i + '" data-i="' + i + '" style="left:' + (o.x * 100) + '%;top:' + Math.round(o.y) + 'px">' + esc(o.w) + '</div>';
+  }
+  if(G.kind === "blaster"){
+    if(G.bolt){ h += '<div class="bolt" style="left:' + (G.bolt.x * 100) + '%;top:' + Math.round(G.bolt.y) + 'px"></div>'; }
+    h += '<div class="ship" id="tw-ship" style="left:' + (G.shipX * 100) + '%"></div>';
+  }
+  f.innerHTML = h;
+}
+function gFire(){
+  if(!G || G.over || G.kind !== "blaster" || G.pause > 0 || G.bolt){ return; }
+  G.bolt = { x: G.shipX, y: FH - 50 };
+}
+function gMoveShip(d){ if(G && G.kind === "blaster"){ G.shipX = Math.max(0.05, Math.min(0.95, G.shipX + d)); gRender(); } }
+function gPointerX(ev){ var f = el("tw-field"), r = f.getBoundingClientRect(), w = r.width || 760; return Math.max(0.05, Math.min(0.95, (ev.clientX - r.left) / w)); }
+function gPointerMove(ev){ if(G && G.kind === "blaster" && !G.over){ G.shipX = gPointerX(ev); } }
+function gPointerDown(ev){
+  var t = ev.target, i;
+  if(!G || G.over){ return; }
+  if(G.kind === "bubble"){
+    while(t && !(t.getAttribute && t.getAttribute("data-i") !== null)){ t = t.parentNode; }
+    if(t){ gPop(parseInt(t.getAttribute("data-i"), 10)); }
+  } else { G.shipX = gPointerX(ev); gFire(); }
+}
+function gPop(i){
+  var o;
+  if(!G || G.over || G.kind !== "bubble" || G.pause > 0){ return; }
+  o = G.opts[i]; if(!o || o.state !== "live"){ return; }
+  gResolve(o, o.right);
+}
+function gKey(e){
+  var k = e.key, i, n;
+  if(G.kind === "blaster"){
+    if(k === "ArrowLeft"){ e.preventDefault(); gMoveShip(-0.06); }
+    else if(k === "ArrowRight"){ e.preventDefault(); gMoveShip(0.06); }
+    else if(k === " " || k === "Spacebar"){ e.preventDefault(); gFire(); }
+    else if(k === "r" || k === "R"){ twHearCurrent(); }
+  } else if(G.kind === "bubble"){
+    if(k === "ArrowLeft" || k === "ArrowRight"){
+      e.preventDefault(); n = G.focus; for(i=0;i<G.opts.length;i++){ n = (n + (k === "ArrowRight" ? 1 : -1) + G.opts.length) % G.opts.length; if(G.opts[n].state === "live"){ break; } } G.focus = n; gRender();
+    } else if(k === "Enter" || k === " "){ e.preventDefault(); gPop(G.focus); }
+    else if(/^[1-9]$/.test(k)){ e.preventDefault(); gPop(parseInt(k, 10) - 1); }
+    else if(k === "r" || k === "R"){ twHearCurrent(); }
+  } else if(G.kind === "memory"){ gMemoryKey(e); }
+  else if(G.kind === "time"){ if(k === " " || k === "Enter"){ if(e.target && e.target.tagName === "BUTTON"){ return; } e.preventDefault(); gTimeToggle(); } }
+}
+function gBest(kind){ var g = progPat(S.cur.pattern.id); return g.pp.games[kind] || null; }
+function gSaveBest(kind, score, extra){
+  var g = progPat(S.cur.pattern.id), cur = g.pp.games[kind] || { best: 0, bestStreak: 0, plays: 0 }, newBest = score > cur.best, k;
+  cur.plays += 1; if(score > cur.best){ cur.best = score; } if(extra && extra.streak > cur.bestStreak){ cur.bestStreak = extra.streak; }
+  g.pp.games[kind] = cur; progWrite(g); return newBest;
+}
+function gEnd(){
+  var nb, acc, total;
+  G.over = true; gStopLoop();
+  nb = gSaveBest(G.kind, G.score, { streak: G.bestStreak });
+  total = G.right + G.wrong;
+  el("tw-result-title").textContent = G.kind === "blaster" ? "Word Blaster" : "Bubble Pop";
+  el("tw-result-body").innerHTML = "<p><b>Score " + G.score + "</b> &middot; best streak " + G.bestStreak + " &middot; " + G.right + " of " + G.total + " words right</p>" +
+    "<p>" + (nb ? "A new personal best." : "Personal best: " + (gBest(G.kind) ? gBest(G.kind).best : G.score)) + "</p>" +
+    (G.few ? "<p class=\"mini\">Only " + G.few + " word(s) are recorded so far, so some words came back.</p>" : "");
+  el("tw-result-again").style.display = "inline-flex"; go("tw-result");
+}
+
+/* ---- Memory Match: written word + a sound card that plays Miquela's voice ---- */
+function gMemoryPick(){
+  var h = '<p class="center">How many pairs?</p><div class="row" style="justify-content:center">', n, opts = [6, 8, 10];
+  for(n=0;n<opts.length;n++){ h += '<button class="btn primary" id="tw-pairs-' + opts[n] + '" onclick="gMemoryStart(' + opts[n] + ')">' + opts[n] + ' pairs</button>'; }
+  h += '</div>';
+  G = { kind: "memory", over: true };
+  el("tw-game-title").textContent = "Memory Match"; el("tw-game-hud").innerHTML = ""; el("tw-game-body").innerHTML = h; el("tw-game-note").textContent = "";
+  el("tw-game-help").textContent = "Match each written word with the sound card that says it."; el("tw-game-hear").style.display = "none";
+  go("tw-game");
+}
+function gMemoryStart(pairs){
+  var pool = TW.patternPool(S.cur.pattern).filter(function(w){ return hasWord(w.w); }), chosen, cards = [], i, few = 0;
+  pool = shuffle(pool);
+  if(pool.length < pairs){ few = pool.length; pairs = pool.length; }
+  if(pairs < 2){ el("tw-game-note").textContent = "Your teacher hasn't recorded enough of these words yet."; return; }
+  chosen = pool.slice(0, pairs);
+  for(i=0;i<chosen.length;i++){ cards.push({ w: chosen[i].w, type: "word", state: "down" }); cards.push({ w: chosen[i].w, type: "sound", state: "down" }); }
+  cards = shuffle(cards);
+  G = { kind: "memory", cards: cards, pairs: pairs, matched: 0, moves: 0, flipped: [], lock: 0, focus: 0, time: 0, over: false, few: few, score: 0, streak: 0, bestStreak: 0, heard: null, cols: pairs <= 6 ? 4 : 5 };
+  gMemoryRender(); gStartMemLoop();
+}
+function gStartMemLoop(){
+  gStopLoop(); if(window.__TW_NO_LOOP || !window.requestAnimationFrame){ return; }
+  LAST = 0; var tick = function(ts){ if(!G || G.over || G.kind !== "memory"){ LOOP = null; return; } if(LAST){ gMemStep(Math.min(0.05, (ts - LAST) / 1000)); } LAST = ts; LOOP = window.requestAnimationFrame(tick); };
+  LOOP = window.requestAnimationFrame(tick);
+}
+function gMemStep(dt){
+  if(!G || G.kind !== "memory" || G.over){ return; }
+  G.time += dt;
+  if(G.lock > 0){ G.lock -= dt; if(G.lock <= 0){ G.lock = 0; gMemoryFlipBack(); } }
+  el("tw-game-hud").innerHTML = '<span>Moves ' + G.moves + '</span><span>Matched ' + G.matched + ' of ' + G.pairs + '</span><span>Streak ' + G.streak + '</span><span>' + Math.floor(G.time) + ' s</span>';
+}
+function gMemoryRender(){
+  var h = '<div class="cards" style="grid-template-columns:repeat(' + G.cols + ',1fr)">', i, c, label;
+  for(i=0;i<G.cards.length;i++){
+    c = G.cards[i];
+    label = c.state === "down" ? "?" : (c.type === "word" ? esc(c.w) : "🔊");
+    h += '<button class="mcard ' + (c.state === "up" ? "up" : (c.state === "done" ? "done" : "")) + '" id="tw-card-' + i + '" data-i="' + i + '" onclick="gMemoryFlip(' + i + ')" aria-label="' + (c.state === "down" ? "Card " + (i + 1) : (c.type === "word" ? c.w : "sound card")) + '">' + label + '</button>';
+  }
+  el("tw-game-body").innerHTML = h + '</div>';
+  el("tw-game-hud").innerHTML = '<span>Moves ' + G.moves + '</span><span>Matched ' + G.matched + ' of ' + G.pairs + '</span><span>Streak ' + G.streak + '</span><span>' + Math.floor(G.time) + ' s</span>';
+  if(G.few){ el("tw-game-note").textContent = "Only " + G.few + " pairs are recorded so far."; }
+}
+function gMemoryFlip(i){
+  var c = G.cards[i], a, b;
+  if(!G || G.kind !== "memory" || G.over || G.lock > 0 || c.state !== "down" || G.flipped.length >= 2){ return; }
+  c.state = "up"; G.flipped.push(i);
+  if(c.type === "sound" && SOUND_ON){ playPath(wordPath(c.w)); }
+  if(G.flipped.length === 2){
+    G.moves++; a = G.cards[G.flipped[0]]; b = G.cards[G.flipped[1]];
+    if(a.w === b.w && a.type !== b.type){
+      a.state = b.state = "done"; G.matched++; G.streak++; if(G.streak > G.bestStreak){ G.bestStreak = G.streak; } G.flipped = [];
+      if(G.matched === G.pairs){ gMemoryRender(); return gMemoryEnd(); }
+    } else { G.streak = 0; G.lock = 0.9; }
+  }
+  gMemoryRender();
+}
+function gMemoryFlipBack(){ var i; for(i=0;i<G.flipped.length;i++){ G.cards[G.flipped[i]].state = "down"; } G.flipped = []; gMemoryRender(); }
+function gMemoryKey(e){
+  var k = e.key, n, cols;
+  if(!G.cards || G.over){ return; }
+  n = G.focus; cols = G.cols;
+  if(k === "ArrowRight"){ n = Math.min(G.cards.length - 1, n + 1); } else if(k === "ArrowLeft"){ n = Math.max(0, n - 1); }
+  else if(k === "ArrowDown"){ n = Math.min(G.cards.length - 1, n + cols); } else if(k === "ArrowUp"){ n = Math.max(0, n - cols); }
+  else if(k === "Enter" || k === " "){ e.preventDefault(); gMemoryFlip(G.focus); return; }
+  else { return; }
+  e.preventDefault(); G.focus = n; var b = el("tw-card-" + n); if(b){ b.focus(); }
+}
+function gMemoryEnd(){
+  var g = progPat(S.cur.pattern.id), cur = g.pp.games.memory || { best: 0, bestStreak: 0, plays: 0, bestMoves: {} }, prev, nb;
+  G.over = true; gStopLoop();
+  if(!cur.bestMoves){ cur.bestMoves = {}; }
+  prev = cur.bestMoves[G.pairs]; nb = !prev || G.moves < prev; if(nb){ cur.bestMoves[G.pairs] = G.moves; }
+  cur.plays += 1; if(G.bestStreak > cur.bestStreak){ cur.bestStreak = G.bestStreak; } g.pp.games.memory = cur; progWrite(g);
+  el("tw-result-title").textContent = "Memory Match";
+  el("tw-result-body").innerHTML = "<p><b>" + G.pairs + " pairs in " + G.moves + " moves</b> &middot; " + Math.floor(G.time) + " seconds &middot; best streak " + G.bestStreak + "</p><p>" + (nb ? "A new personal best." : "Personal best for " + G.pairs + " pairs: " + cur.bestMoves[G.pairs] + " moves.") + "</p>";
+  el("tw-result-again").style.display = "inline-flex"; go("tw-result");
+}
+
+/* ---- Beat Your Time: read the 10 words out loud, tap Done. Practice only -- the app does NOT score the reading. ---- */
+function gStartTime(){
+  var p = S.cur.pattern, words = p.read.slice(0, 10), h = "", i;
+  G = { kind: "time", over: false, running: false, start: 0, elapsed: 0, words: words };
+  for(i=0;i<words.length;i++){ h += '<div class="wbtn" style="cursor:default">' + readWordHTML(words[i]) + '</div>'; }
+  el("tw-game-title").textContent = "Beat Your Time"; el("tw-game-hear").style.display = "none"; el("tw-game-note").textContent = "";
+  el("tw-game-hud").innerHTML = "";
+  el("tw-game-body").innerHTML = '<div class="timer" id="tw-timer">0.0 s</div><div class="center row" style="justify-content:center;margin:8px 0"><button class="btn primary" id="tw-time-btn" onclick="gTimeToggle()">Start</button></div><div class="wordgrid">' + h + '</div>';
+  el("tw-game-help").textContent = "Read all 10 words out loud, then tap Done. This is practice: the app does not check your reading.";
+  go("tw-game");
+}
+function gTimeToggle(){
+  var ms, g, cur, nb, now = new Date().getTime();
+  if(!G || G.kind !== "time" || G.over){ return; }
+  if(!G.running){
+    G.running = true; G.start = now; el("tw-time-btn").textContent = "Done";
+    if(!window.__TW_NO_LOOP){ G.timer = window.setInterval(function(){ if(G && G.running){ el("tw-timer").textContent = ((new Date().getTime() - G.start) / 1000).toFixed(1) + " s"; } }, 100); }
+    return;
+  }
+  ms = now - G.start; G.running = false; G.over = true; if(G.timer){ window.clearInterval(G.timer); }
+  g = progPat(S.cur.pattern.id); cur = g.pp.games.time || { best: 0, plays: 0 };
+  nb = !cur.best || ms < cur.best; if(nb){ cur.best = ms; } cur.plays += 1; g.pp.games.time = cur; progWrite(g);
+  el("tw-result-title").textContent = "Beat Your Time";
+  el("tw-result-body").innerHTML = "<p><b>" + (ms / 1000).toFixed(1) + " seconds</b></p><p>" + (nb ? "A new personal best." : "Personal best: " + (cur.best / 1000).toFixed(1) + " seconds.") + "</p><p class=\"mini\">This is practice. The app does not score your reading.</p>";
+  el("tw-result-again").style.display = "inline-flex"; go("tw-result");
+}
+
+twLoad();
+</script></body></html>
