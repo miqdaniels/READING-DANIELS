@@ -321,6 +321,8 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .flu-passage.lines .gl.first .gt{padding-left:2em}
 .flu-passage.lines .gn{flex:0 0 auto;min-width:3.4em;box-sizing:border-box;text-align:right;padding-left:.9em;border-left:1px solid #0F766E;color:#0F766E;font-size:.7em;display:flex;align-items:center;justify-content:flex-end;font-variant-numeric:tabular-nums}
 .flu-passage.lines strong{font-weight:800}
+.flu-pwords{margin:6px 0 8px;padding:7px 12px;border:1px solid #0F766E;border-radius:6px;text-align:center;font-family:"Atkinson Hyperlegible Next","Atkinson Hyperlegible","Segoe UI",Arial,sans-serif;font-size:15px;line-height:1.4;color:var(--ink)}
+.flu-pwords b{font-weight:700;color:#0F766E;margin-right:.35em}
 #flu-title.l1{font-family:"Montserrat","Segoe UI",Arial,sans-serif;font-weight:800}
 .flu-timer-row{ display:flex; align-items:center; gap:12px; margin:6px 0; }
 .flu-timer{ font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; }
@@ -2520,6 +2522,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
         <span class="dir-listen-icon ear-ico"></span><span class="dir-listen-label">Listen</span>
       </button>
     </div>
+    <div class="flu-pwords" id="flu-pwords" style="display:none"></div>
     <div class="flu-text-wrap" id="flu-text-wrap"><div class="flu-passage" id="flu-text"></div></div>
     <p class="mini-note">Tap Allow when asked.</p>
 
@@ -4899,7 +4902,8 @@ var PASSAGES=[
     ["This is about ___.", "Some kids say ___.", "I think a check at the door is good / bad because ___."]),
   /* ----- Grade 1 (Level 1): 11 passages, v3 order. 1.0 Water (placement), then 1.1 - 1.10 -----
      Text, line breaks and bold (First 100) words are copied from
-     TALL_Grade-1-Fluency-Passages_2026-11-11_v3.pdf -- the one locked source. One string = one
+     TALL_Grade-1-Fluency-Passages_2026-11-11_v3.pdf (locked source) PLUS Mick's approved changes since:
+     1.4 "can not" -> "cannot" (225 words) and 1.8 replaced by "Your Brain Can Change" (207 words). One string = one
      printed line; one inner array = one paragraph. Never re-wrap or edit a word here. */
   buildLinesPassage("FIRST",0,"Water",[
     [
@@ -5242,6 +5246,22 @@ var PASSAGES=[
   ],
     GRADE1_FRAMES)
 ];
+/* "Passage Words" box shown above each Level 1 passage (like the printed PDF): words to pre-teach.
+   Keyed by the passage's whole-number sub. Edit here only; the screen just joins them with " · ". */
+var G1_PASSAGE_WORDS={
+  0:["brain","heart","sweat","summer","Arizona"],
+  1:["body","doctors","early","junior high"],
+  2:["Mexico","Japan","uniform","sweep","teacher"],
+  3:["pictures","screens","law","rules","problem"],
+  4:["money","rules","dangerous","neighbors","babysit"],
+  5:["boyfriend","girlfriend","dating","grades","different"],
+  6:["homework","teachers","junior high"],
+  7:["morning","afternoon","shorter","teachers","Arizona"],
+  8:["brain","practice","scientists","India","stronger"],
+  9:["study","choices","trouble","something","themselves"],
+  10:["serious","direction","behind","finish","learning"]
+};
+(function(){ var i; for(i=0;i<PASSAGES.length;i++){ if(PASSAGES[i].level==="FIRST" && G1_PASSAGE_WORDS[PASSAGES[i].sub]){ PASSAGES[i].passageWords=G1_PASSAGE_WORDS[PASSAGES[i].sub]; } } })();
 /* The old September Grade 1 passages. Kept for the record, never shown to
    students: nothing reads this array. (The repo held no September Grade 1
    passages when this set was added, so it starts empty.) */
@@ -5448,6 +5468,13 @@ function fluEnter(){
     textEl.className="flu-passage"; wrapEl.className="flu-text-wrap"; titleEl.className="scr-title";
   }
   textEl.innerHTML=html;
+  var pwEl=document.getElementById("flu-pwords");
+  if(pwEl){
+    if(p.passageWords && p.passageWords.length){
+      pwEl.innerHTML="<b>Passage Words:</b>"+escapeHtml(p.passageWords.join(" \u00B7 "));
+      pwEl.style.display="block";
+    } else { pwEl.innerHTML=""; pwEl.style.display="none"; }
+  }
   document.getElementById("flu-timer").textContent=fluFmtTime(60);
   fluRingSet(100);
   var ring=document.getElementById("flu-timer-ring"); if(ring){ ring.style.display="flex"; }
@@ -11967,8 +11994,7 @@ function applyTeacherDoors(){
   var td=document.getElementById("teacher-downloads");
   if(td){
     td.innerHTML = isTeacherMode()
-      ? '<p><a class="btn" style="display:inline-block;text-decoration:none" href="downloads/TALL_Grade-1-Fluency-Passages_2026-11-11_v3.pdf" download>Grade 1 Passages (printable PDF)</a></p>'
-        +'<p><a class="btn" style="display:inline-block;text-decoration:none" href="downloads/Reading-Foundations-Extra-Vocabulary-Marker-Style.pptx" download>Grade 1 Extra Vocabulary slideshow (PowerPoint, passages 1.1 to 1.3 for now)</a></p>'
+      ? '<p><a class="btn" style="display:inline-block;text-decoration:none" href="downloads/Reading-Foundations-Extra-Vocabulary-Marker-Style.pptx" download>Grade 1 Extra Vocabulary slideshow (PowerPoint, passages 1.1 to 1.3 for now)</a></p>'
       : "";
   }
 }

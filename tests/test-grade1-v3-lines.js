@@ -69,6 +69,25 @@ ok(boldOk && nBold>100,"1.8 bold = exactly the words in The First 100 Daily Phra
 ok(src.indexOf("Who Chooses")===-1,"old 1.8 'Who Chooses?' is gone from the app");
 ok(fs.readFileSync('./tall-list.js','utf8').indexOf("Who Chooses")===-1,"old 1.8 is gone from the recording studio list");
 ok(p8.lines.map(function(r){ return r.markup.replace(/\*\*/g,"").split(" ").length; }).join(",")==="14,16,1,14,12,16,18,2,16,11,13,16,14,12,1,16,15","1.8 fixed line lengths (words per line)");
+
+/* ---- Passage Words box (student view, like the PDF) ---- */
+var PW={0:"brain \u00B7 heart \u00B7 sweat \u00B7 summer \u00B7 Arizona",1:"body \u00B7 doctors \u00B7 early \u00B7 junior high",2:"Mexico \u00B7 Japan \u00B7 uniform \u00B7 sweep \u00B7 teacher",3:"pictures \u00B7 screens \u00B7 law \u00B7 rules \u00B7 problem",4:"money \u00B7 rules \u00B7 dangerous \u00B7 neighbors \u00B7 babysit",5:"boyfriend \u00B7 girlfriend \u00B7 dating \u00B7 grades \u00B7 different",6:"homework \u00B7 teachers \u00B7 junior high",7:"morning \u00B7 afternoon \u00B7 shorter \u00B7 teachers \u00B7 Arizona",8:"brain \u00B7 practice \u00B7 scientists \u00B7 India \u00B7 stronger",9:"study \u00B7 choices \u00B7 trouble \u00B7 something \u00B7 themselves",10:"serious \u00B7 direction \u00B7 behind \u00B7 finish \u00B7 learning"};
+for(i=0;i<11;i++){
+  w.fluPassage=ps[i]; w.go("fluencyPassage");
+  var box=doc.getElementById("flu-pwords");
+  ok(box.style.display==="block" && box.textContent==="Passage Words:"+PW[i],"1."+i+" Passage Words box: "+PW[i]);
+  ok(box.nextElementSibling===doc.getElementById("flu-text-wrap"),"1."+i+" box sits directly above the passage");
+  ok(box.querySelector("b").textContent==="Passage Words:","1."+i+" box starts with the label Passage Words:");
+}
+ok(/\.flu-pwords\{[^}]*border:1px solid #0F766E/.test(src),"Passage Words box: thin teal outline");
+w.fluPassage=w.findPassage("PK",0); w.go("fluencyPassage");
+ok(doc.getElementById("flu-pwords").style.display==="none" && doc.getElementById("flu-pwords").textContent==="","PK passages show no Passage Words box");
+/* ---- 1.4 Jobs: cannot x3, 225 words ---- */
+var jobs=ps[4], jt=jobs.paragraphs.join(" ");
+ok((jt.match(/\bcannot\b/g)||[]).length===3 && !/can not/.test(jt),"1.4 says cannot exactly 3 times, never 'can not'");
+ok(jobs.totalWords===225 && jobs.lines[jobs.lines.length-1].n===225,"1.4 ends at 225");
+/* ---- 1.8: age. stays alone on its own line (matches the PDF's style) ---- */
+ok(ps[8].lines[2].markup==="age." && ps[8].lines[2].n===31,"1.8: 'age.' on its own line, count 31");
 /* CSS + fonts + color */
 ok(/\.flu-passage\.lines \.gl\{[^}]*white-space:nowrap/.test(src),"lines never wrap (nowrap)");
 ok(/\.flu-passage\.lines \.gn\{[^}]*border-left:1px solid #0F766E;color:#0F766E/.test(src),"counts: small teal #0F766E with a thin teal line");
