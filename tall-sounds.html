@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>TALL Sounds</title>
+<!-- (c) 2026 Miquela Daniels, AI Academy LLC. Reading Foundations. Proprietary -- do not copy or distribute.
+     Student page: the 44 TALL sounds. Reads tall-list.js (spellings, types, words) and tall-audio.js (the
+     final cleaned recordings in Mick's own voice). No text-to-speech, no scoring, nothing is stored.
+     ES5 only. Screens are string ids: "tsd-grid", "tsd-card". -->
+<style>
+@font-face{font-family:"Poppins";font-weight:400;font-style:normal;font-display:swap;src:url("assets/fonts/poppins/poppins-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Poppins";font-weight:600;font-style:normal;font-display:swap;src:url("assets/fonts/poppins/poppins-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Poppins";font-weight:700;font-style:normal;font-display:swap;src:url("assets/fonts/poppins/poppins-latin-700-normal.woff2") format("woff2")}
+:root{--teal:#0F766E;--teal-dark:#0B5A54;--teal-tint:#E6F4F2;--paper:#F6F8F8;--panel:#FFFFFF;--line:#D5DEDD;--ink:#16302E;--gray:#5F6B6A}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"Poppins",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:17px;line-height:1.5}
+header{background:var(--teal);color:#fff}
+.hwrap{max-width:1000px;margin:0 auto;padding:14px 16px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+header h1{margin:0;font-size:22px;font-weight:700;letter-spacing:.01em}
+header .sub{font-size:14px;font-weight:400;opacity:.9}
+.wrap{max-width:1000px;margin:0 auto;padding:18px 16px 56px}
+.screen{display:none}
+.screen.active{display:block}
+.intro{margin:0 0 14px;color:var(--gray);font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:12px}
+.tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:96px;padding:12px 8px;background:var(--panel);border:1px solid var(--line);border-radius:12px;font:inherit;color:var(--ink);cursor:pointer;text-align:center}
+.tile:hover{border-color:var(--teal);background:var(--teal-tint)}
+.tile .sp{font-size:24px;font-weight:700;line-height:1.2;color:var(--teal);overflow-wrap:anywhere}
+.tile .nm{font-size:13px;color:var(--gray);font-weight:400}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.topbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.topbar .pos{margin-left:auto;color:var(--gray);font-size:15px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 18px;border:1.5px solid var(--teal);background:var(--panel);color:var(--teal);font:inherit;font-weight:600;font-size:16px;border-radius:10px;cursor:pointer}
+.btn:hover{background:var(--teal-tint)}
+.btn.primary{background:var(--teal);color:#fff}
+.btn.primary:hover{background:var(--teal-dark)}
+.btn.playing{box-shadow:0 0 0 3px rgba(15,118,110,.28)}
+.btn[disabled]{opacity:.45;cursor:default;background:var(--panel);color:var(--gray);border-color:var(--line)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px 18px 22px;text-align:center}
+.spell{font-size:clamp(44px,11vw,96px);font-weight:700;line-height:1.25;color:var(--teal);margin:0;overflow-wrap:anywhere}
+.stype{margin:2px 0 0;font-size:15px;color:var(--gray);font-weight:400}
+.sname{margin:2px 0 0;font-size:15px;color:var(--gray)}
+.hear{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:22px 0 4px}
+.word{font-size:clamp(30px,7vw,52px);font-weight:600;margin:20px 0 0}
+.unrec{display:block;min-height:1.5em;margin-top:6px;font-size:14px;color:var(--gray)}
+.extras{margin:22px auto 0;max-width:520px;text-align:left;border-top:1px solid var(--line);padding-top:14px}
+.extras h2{margin:0 0 6px;font-size:14px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.06em}
+.erow{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.erow:last-child{border-bottom:0}
+.erow .ew{font-size:24px;font-weight:600;flex:1 1 auto}
+.erow .es{font-weight:400;color:var(--gray);font-size:18px;margin-left:6px}
+.erow .unrec{margin:0 0 0 8px}
+.navrow{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
+footer{max-width:1000px;margin:0 auto;padding:0 16px 28px;font-size:12px;color:var(--gray)}
+@media(max-width:620px){.grid{grid-template-columns:repeat(2,1fr)}.tile .sp{font-size:21px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hwrap">
+    <h1>TALL Sounds</h1>
+    <span class="sub">Tap a sound. Listen. Say it back.</span>
+  </div>
+</header>
+<div class="wrap">
+
+  <section id="tsd-grid" class="screen">
+    <p class="intro">44 sounds. Tap one to hear it.</p>
+    <div class="grid" id="tsd-tiles"></div>
+  </section>
+
+  <section id="tsd-card" class="screen">
+    <div class="topbar">
+      <button class="btn" id="tsd-all" onclick="tsdShowGrid()">&larr; All sounds</button>
+      <span class="pos" id="tsd-pos"></span>
+    </div>
+    <div class="card">
+      <h2 class="spell" id="tsd-spell"></h2>
+      <p class="stype" id="tsd-type"></p>
+      <p class="sname" id="tsd-name"></p>
+      <div class="hear">
+        <button class="btn primary" id="tsd-play-s" onclick="tsdPlayId(tsdCur().sId, 'tsd-play-s', 'tsd-msg-s')">Hear the sound</button>
+        <button class="btn primary" id="tsd-play-w" onclick="tsdPlayId(tsdCur().wId, 'tsd-play-w', 'tsd-msg-w')">Hear the word</button>
+      </div>
+      <span class="unrec" id="tsd-msg-s"></span>
+      <div class="word" id="tsd-word"></div>
+      <span class="unrec" id="tsd-msg-w"></span>
+      <div class="extras" id="tsd-extras"></div>
+    </div>
+    <div class="navrow">
+      <button class="btn" id="tsd-prev" onclick="tsdStep(-1)">&larr; Previous</button>
+      <button class="btn" id="tsd-next" onclick="tsdStep(1)">Next &rarr;</button>
+    </div>
+  </section>
+</div>
+<footer>&copy; 2026 Miquela Daniels &middot; AI Academy LLC &middot; Reading Foundations &middot; Proprietary &mdash; do not copy or distribute</footer>
+
+<script src="tall-list.js"></script>
+<script src="tall-audio.js"></script>
+<script>
+/* ================= data: one entry per sound, in SND_01..SND_44 order ================= */
+var TSD_SOUNDS = (function(){
+  var list = window.TALL_LIST || [], out = [], by = {}, i, x, n, s;
+  for(i=0;i<list.length;i++){
+    x = list[i];
+    if(x.set !== "TALL Sounds"){ continue; }
+    n = x.id.slice(0,6);                       /* SND_01 */
+    if(!by[n]){ by[n] = { n:n, spell:"", name:"", tags:[], sId:n+"_S", wId:n+"_W", word:"", extras:[] }; out.push(by[n]); }
+    s = by[n];
+    if(x.id === n+"_S"){ s.spell = x.spell; s.name = x.sound; s.tags = x.tags || []; }
+    else if(x.id === n+"_W"){ s.word = x.key; }
+    else { s.extras.push({ id:x.id, word:x.key, spell:x.spell }); }
+  }
+  return out;
+})();
+var TSD = { idx:0, audio:null, playingBtn:null };
+
+function tsdEsc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function tsdSpelling(s){ return String(s).split(", ").join(" / "); }
+function tsdCur(){ return TSD_SOUNDS[TSD.idx]; }
+function tsdEl(id){ return document.getElementById(id); }
+
+/* ================= screens ================= */
+function tsdGo(id){
+  var s = document.querySelectorAll(".screen"), i;
+  for(i=0;i<s.length;i++){ s[i].className = (s[i].id === id) ? "screen active" : "screen"; }
+  tsdStopAudio();
+}
+function tsdPaintGrid(){
+  var h = "", i, s;
+  for(i=0;i<TSD_SOUNDS.length;i++){
+    s = TSD_SOUNDS[i];
+    h += '<button class="tile" id="tsd-tile-'+s.n+'" onclick="tsdOpen('+i+')">'
+       + '<span class="sp">'+tsdEsc(tsdSpelling(s.spell))+'</span><span class="nm">'+tsdEsc(s.name)+'</span></button>';
+  }
+  tsdEl("tsd-tiles").innerHTML = h;
+}
+function tsdShowGrid(){ tsdGo("tsd-grid"); try{ window.scrollTo(0,0); }catch(e){} }
+function tsdOpen(i){
+  if(i < 0 || i >= TSD_SOUNDS.length){ return; }
+  TSD.idx = i;
+  tsdGo("tsd-card");
+  tsdPaintCard();
+  try{ window.scrollTo(0,0); }catch(e){}
+}
+function tsdStep(d){ var n = TSD.idx + d; if(n < 0 || n >= TSD_SOUNDS.length){ return; } tsdOpen(n); }
+
+/* a clip is "recorded" when tall-audio.js has a file for it */
+function tsdHasClip(id){ return !!(window.TALL_AUDIO && window.TALL_AUDIO[id]); }
+function tsdSetClipState(btnId, msgId, id){
+  var ok = tsdHasClip(id);
+  tsdEl(btnId).disabled = !ok;
+  tsdEl(msgId).textContent = ok ? "" : "Not recorded yet.";
+}
+function tsdPaintCard(){
+  var s = tsdCur(), h = "", i, e;
+  tsdEl("tsd-spell").textContent = tsdSpelling(s.spell);
+  tsdEl("tsd-type").textContent = s.tags.join(" · ");
+  tsdEl("tsd-name").textContent = s.name;
+  tsdEl("tsd-pos").textContent = (TSD.idx+1) + " of " + TSD_SOUNDS.length;
+  tsdEl("tsd-word").textContent = s.word;
+  tsdSetClipState("tsd-play-s", "tsd-msg-s", s.sId);
+  tsdSetClipState("tsd-play-w", "tsd-msg-w", s.wId);
+  tsdEl("tsd-play-s").className = "btn primary";
+  tsdEl("tsd-play-w").className = "btn primary";
+  if(s.extras.length){
+    h = "<h2>More words with this sound</h2>";
+    for(i=0;i<s.extras.length;i++){
+      e = s.extras[i];
+      h += '<div class="erow"><span class="ew">'+tsdEsc(e.word)+'<span class="es">('+tsdEsc(e.spell)+')</span></span>'
+         + '<button class="btn" id="tsd-play-'+e.id+'" onclick="tsdPlayId(\''+e.id+'\', \'tsd-play-'+e.id+'\', \'tsd-msg-'+e.id+'\')">Hear it</button>'
+         + '<span class="unrec" id="tsd-msg-'+e.id+'"></span></div>';
+    }
+  }
+  tsdEl("tsd-extras").innerHTML = h;
+  tsdEl("tsd-extras").style.display = h ? "block" : "none";
+  for(i=0;i<s.extras.length;i++){ tsdSetClipState("tsd-play-"+s.extras[i].id, "tsd-msg-"+s.extras[i].id, s.extras[i].id); }
+  tsdEl("tsd-prev").disabled = (TSD.idx === 0);
+  tsdEl("tsd-next").disabled = (TSD.idx === TSD_SOUNDS.length - 1);
+}
+
+/* ================= audio: only the teacher's recorded clips, never speech synthesis ================= */
+function tsdStopAudio(){
+  var a = TSD.audio;
+  TSD.audio = null;
+  if(a){ a.onended = null; a.onerror = null; try{ a.pause(); }catch(e){} }
+  if(TSD.playingBtn){ TSD.playingBtn.className = TSD.playingBtn.className.replace(/\s*playing/g, ""); TSD.playingBtn = null; }
+}
+function tsdPlayId(id, btnId, msgId){
+  var path = window.TALL_AUDIO && window.TALL_AUDIO[id], btn = tsdEl(btnId), msg = tsdEl(msgId), a, p;
+  tsdStopAudio();
+  if(!path){ msg.textContent = "Not recorded yet."; btn.disabled = true; return; }
+  msg.textContent = "";
+  a = new Audio(path);
+  TSD.audio = a; TSD.playingBtn = btn;
+  btn.className = btn.className.replace(/\s*playing/g, "") + " playing";
+  a.onended = function(){ if(TSD.audio === a){ tsdStopAudio(); } };
+  a.onerror = function(){
+    if(TSD.audio === a){ tsdStopAudio(); }
+    msg.textContent = "Not recorded yet."; btn.disabled = true;
+  };
+  p = a.play();
+  if(p && p.then){ p.then(null, function(){ if(TSD.audio === a && a.onerror){ a.onerror(); } }); }
+}
+
+/* ================= keyboard: left/right arrows move between sounds ================= */
+document.addEventListener("keydown", function(e){
+  var card = tsdEl("tsd-card");
+  if(!card || card.className.indexOf("active") === -1){ return; }
+  if(e.key === "ArrowRight" || e.keyCode === 39){ tsdStep(1); }
+  else if(e.key === "ArrowLeft" || e.keyCode === 37){ tsdStep(-1); }
+});
+
+/* ================= boot ================= */
+tsdPaintGrid();
+tsdGo("tsd-grid");
+</script></body></html>
