@@ -19,7 +19,7 @@ LIST.forEach(function(x,i){
   if(fs.existsSync(f)){ var b=fs.readFileSync(f).slice(28,32); ok(!(b[0]===0x1a&&b[1]===0x45&&b[2]===0xdf&&b[3]===0xa3),"file is ciphertext, not plain webm "+x.id); }
   ok(m.id===x.id && m.label===x.label && m.enc===man.base+x.id+".enc","manifest "+x.id);
 });
-ok(fs.readdirSync('./audio/TALL-G1').every(function(f){ return /\.enc$/.test(f); }) && fs.readdirSync('./audio/TALL-G1').length===11,"audio/TALL-G1 holds ONLY the 11 locked files (no plain .webm to link to)");
+ok(fs.readdirSync('./audio/TALL-G1').every(function(f){ return /\.enc$/.test(f); }) && fs.readdirSync('./audio/TALL-G1').length===12,"audio/TALL-G1 holds ONLY locked .enc files: the 11 clips + pin-check.enc (no plain .webm to link to)");
 ok(!/\.webm/.test(src.slice(src.indexOf("Level 1 MODEL READ"),src.indexOf("Level 1 passage screens use two more Google fonts"))),"app code never references a plain clip");
 ok(src.split('"rf_g1_unlock"').length===3,"unlock storage is only touched by g1mAll / g1mSaveUnlock");
 ok(!/speechSynthesis|SpeechSynthesisUtterance/.test(src),"no text-to-speech");

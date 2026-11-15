@@ -325,6 +325,8 @@ footer.mini a{color:var(--accent);cursor:pointer;text-decoration:none;touch-acti
 .flu-unlock{margin:2px 0 6px;font-size:14px;color:var(--ink-soft)}
 .flu-unlock input{font:inherit;font-size:15px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;width:11em;margin:0 6px 0 0}
 .flu-unlock .mini-btn{margin-right:6px}
+.flu-reset-link{font-size:12px;color:var(--ink-soft);text-decoration:underline;cursor:pointer;opacity:.8}
+.flu-reset{margin-top:6px}
 .flu-pwords b{font-weight:700;color:#0F766E;margin-right:.35em}
 #flu-title.l1{font-family:"Montserrat","Segoe UI",Arial,sans-serif;font-weight:800}
 .flu-timer-row{ display:flex; align-items:center; gap:12px; margin:6px 0; }
@@ -2559,6 +2561,15 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
         <button class="flu-sq-btn flu-sq-save" id="flu-save" onclick="fluSubmit()" disabled><span class="icon-glyph">&#11015;</span><span class="icon-label">Save</span></button>
       </div>
       <p class="state-line none" id="flu-state"></p>
+      <div class="flu-unlock flu-reset" id="flu-reset" style="display:none">
+        <a class="flu-reset-link" id="flu-reset-open" onclick="g1rOpen()">Teacher reset</a>
+        <span id="flu-reset-form" style="display:none">
+          <input type="password" id="flu-reset-pin" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Teacher PIN" onkeydown="if(event.key==='Enter'||event.keyCode===13){ g1rSubmit(); }">
+          <button class="mini-btn" id="flu-reset-go" onclick="g1rSubmit()">Reset</button>
+          <button class="mini-btn" onclick="g1rClose()">Cancel</button>
+        </span>
+        <span class="mini-note" id="flu-reset-msg"></span>
+      </div>
       <div class="icon-row" id="flu-save-row" style="margin-top:8px">
         <button class="flu-sq-btn flu-sq-redo" id="flu-redo" onclick="fluRedo()" style="display:none"><span class="icon-glyph">&#128260;</span><span class="icon-label">Redo</span></button>
       </div>
@@ -2605,6 +2616,7 @@ html[data-mode="dark"] #dataMgmt .clean-header{background:color-mix(in srgb,var(
     <div class="seg" id="flut-class" style="margin:10px 0;flex-wrap:wrap"></div>
     <div class="grid" id="flut-roster" style="margin-bottom:14px"></div>
     <div id="flut-body"></div>
+    <div id="flut-resets" style="margin-top:18px"></div>
     <button class="btn" onclick="go('s-home')" style="margin-top:14px">Back to start</button>
     </div>
   </section>
@@ -5345,7 +5357,8 @@ var FluencyStore=(function(){
   }
   function put(id,blob){ return open().then(function(db){ return new Promise(function(res,rej){ var tx=db.transaction(ST,"readwrite"); tx.objectStore(ST).put(blob,id); tx.oncomplete=function(){res(true);}; tx.onerror=function(){rej(tx.error);}; }); }); }
   function get(id){ return open().then(function(db){ return new Promise(function(res){ var tx=db.transaction(ST,"readonly"); var r=tx.objectStore(ST).get(id); r.onsuccess=function(){ res(r.result||null); }; r.onerror=function(){ res(null); }; }); }, function(){ return null; }); }
-  return { put:put, get:get };
+  function del(id){ return open().then(function(db){ return new Promise(function(res){ var tx=db.transaction(ST,"readwrite"); tx.objectStore(ST).delete(id); tx.oncomplete=function(){ res(true); }; tx.onerror=function(){ res(false); }; }); }); }
+  return { put:put, get:get, del:del };
 })();
 
 /* ---------- Fluency attempts (localStorage): metadata + teacher-entered scores ---------- */
@@ -5357,9 +5370,29 @@ var FluAttempts=(function(){
   function update(id,patch){ var l=all(), i, k; for(i=0;i<l.length;i++){ if(l[i].id===id){ for(k in patch){ if(patch.hasOwnProperty(k)){ l[i][k]=patch[k]; } } break; } } save(l); }
   function get(id){ var l=all(), i; for(i=0;i<l.length;i++){ if(l[i].id===id){ return l[i]; } } return null; }
   function forStudent(sid){ var l=all(), out=[], i; for(i=0;i<l.length;i++){ if(l[i].studentId===sid){ out.push(l[i]); } } out.sort(function(a,b){ return a.date<b.date?1:(a.date>b.date?-1:0); }); return out; }
-  return { all:all, add:add, update:update, get:get, forStudent:forStudent };
+  function remove(id){ var l=all(), out=[], i, gone=null; for(i=0;i<l.length;i++){ if(l[i].id===id){ gone=l[i]; } else { out.push(l[i]); } } save(out); return gone; }
+  return { all:all, add:add, update:update, get:get, forStudent:forStudent, remove:remove };
 })();
 function fluUid(){ return "flu"+new Date().getTime()+"_"+Math.floor(Math.random()*100000); }
+/* ---------- Teacher cold-read reset ----------
+   FluRetry: after a reset, the student's NEXT cold read must be THIS passage again (opening a cold read
+   normally moves them on to the next passage). One marker per student; cleared the moment the new
+   cold read is saved, so it is exactly ONE new cold read. FluResets: the log of every reset. */
+var FluRetry=(function(){
+  var KEY="rf_fluency_retry";
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):{}; }catch(e){ return {}; } }
+  function save(o){ try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(o)); }catch(e){} }
+  function get(id){ return all()[id] || null; }
+  function set(id,level,sub){ var o=all(); o[id]={level:level,sub:sub}; save(o); }
+  function clear(id){ var o=all(); if(o[id]){ delete o[id]; save(o); } }
+  return { get:get, set:set, clear:clear };
+})();
+var FluResets=(function(){
+  var KEY="rf_fluency_resets";
+  function all(){ try{ var r=window.localStorage.getItem(vasK(KEY)); return r?JSON.parse(r):[]; }catch(e){ return []; } }
+  function add(rec){ var l=all(); l.push(rec); try{ window.localStorage.setItem(vasK(KEY),JSON.stringify(l)); }catch(e){} return rec; }
+  return { all:all, add:add };
+})();
 function fluFmtTime(s){ var m=Math.floor(s/60), sec=s%60; return m+":"+(sec<10?"0":"")+sec; }
 /* student_HourHour_PassageLABEL_Kind_date.webm -- reuses the same
    first-name + ordinal-class-hour + date convention as Check 1's file name */
@@ -5378,6 +5411,14 @@ function fluOpen(){
   if(!READER){ go("s-pick"); return; }
   var cyc=FluCycle.get(READER.id);
   fluDay=cyc.day;
+  var retry=FluRetry.get(READER.id);
+  if(fluDay!==2 && retry && findPassage(retry.level,retry.sub)){
+    /* the teacher reset this student's cold read: same passage again (FluPlace was already moved on) */
+    fluPassage=findPassage(retry.level,retry.sub);
+    FluCycle.set(READER.id,fluDay,retry.level,retry.sub);
+    go("fluencyPassage");
+    return;
+  }
   if(fluDay===2 && cyc.cycleLevel){
     /* Day 2 always reuses the exact passage Day 1 just used */
     fluPassage=findPassage(cyc.cycleLevel,cyc.cycleSub) || findPassage(LEVELS[0],0);
@@ -5575,6 +5616,79 @@ function fluModelToggle(){
   g1mBusy=true;
   g1mFetch(sub).then(function(bytes){ return g1mOpenWithKey(bytes,g1mFromB64(k)); }).then(function(audio){ g1mBusy=false; g1mPlayBytes(audio); },function(){ g1mBusy=false; fluModelMissing(); });
 }
+/* ===== Teacher cold-read reset (PIN-protected) =====
+   A small "Teacher reset" link on every COLD-READ screen (Day 1 / Day 3). The teacher types the PIN
+   (checked against the tiny locked file audio/TALL-G1/pin-check.enc, shared 3-tries-then-wait slow-down).
+   The bad cold read is discarded (an in-progress recording, an unsaved take, or a saved attempt), the
+   reset is logged, and the student gets ONE new cold read of the SAME passage. A reset NEVER touches
+   the model-read unlock. */
+var g1rCancelled=false, g1rBusy=false;
+function g1rMsg(t){ var m=document.getElementById("flu-reset-msg"); if(m){ m.textContent=t||""; } }
+function g1rClose(){
+  var f=document.getElementById("flu-reset-form"), o=document.getElementById("flu-reset-open"), i=document.getElementById("flu-reset-pin");
+  if(f){ f.style.display="none"; } if(o){ o.style.display="inline"; } if(i){ i.value=""; } g1rMsg("");
+}
+function g1rOpen(){
+  var f=document.getElementById("flu-reset-form"), o=document.getElementById("flu-reset-open"), i=document.getElementById("flu-reset-pin");
+  if(f){ f.style.display="inline"; } if(o){ o.style.display="none"; } if(i){ i.value=""; try{ i.focus(); }catch(e){} } g1rMsg("");
+}
+/* only on cold-read screens, only for a real student */
+function g1rPaint(){
+  var box=document.getElementById("flu-reset"); if(!box){ return; }
+  g1rClose();
+  box.style.display=(fluDay!==2 && READER && fluPassage)?"block":"none";
+}
+function g1mVerifyPin(pin){
+  return window.fetch("audio/TALL-G1/pin-check.enc").then(function(r){
+    if(!r || !r.ok){ throw new Error("missing"); }
+    return r.arrayBuffer();
+  }).then(function(buf){
+    var bytes=new Uint8Array(buf);
+    return g1mDeriveKey(pin,bytes.subarray(0,16)).then(function(key){
+      return g1mOpenWithKey(bytes,key).then(function(){ return true; },function(){ throw new Error("wrong"); });
+    });
+  });
+}
+function g1rSubmit(){
+  var inp=document.getElementById("flu-reset-pin"), pin=inp?inp.value:"", wait=g1mWait();
+  if(g1rBusy){ return; }
+  if(!g1mSubtle()){ g1rMsg("This browser cannot check the PIN."); return; }
+  if(wait>0){ g1rMsg("Too many tries. Wait "+wait+" seconds."); return; }
+  if(g1mNorm(pin).length<1){ g1rMsg("Type the teacher PIN."); return; }
+  g1rBusy=true; g1rMsg("Checking…");
+  g1mVerifyPin(pin).then(function(){ g1rBusy=false; g1mClearFails(); if(inp){ inp.value=""; } g1rDo(); },function(e){
+    g1rBusy=false;
+    if(e && e.message==="missing"){ g1rMsg("Could not check the PIN. Try again."); return; }
+    var secs=g1mNoteWrong(); if(inp){ inp.value=""; }
+    g1rMsg(secs ? "That PIN did not work. Wait "+secs+" seconds." : "That PIN did not work.");
+  });
+}
+function g1rDo(){
+  var p=fluPassage, day=fluDay, stage="none", attId=fluAttemptId, att=null;
+  if(!READER || !p || day===2){ return; }
+  if(recording && activeCtx==="flu"){ stage="recording"; }
+  else if(attId && FluAttempts.get(attId)){ stage="saved"; }
+  else if(fluBlob){ stage="unsaved"; }
+  /* 1. discard the bad cold read */
+  if(stage==="recording"){ g1rCancelled=true; fluClearTimer(); fluAutoStopped=false; stopRec(); }
+  fluBlob=null; fluPendingSubmit=false; fluAutoStopped=false;
+  if(stage==="saved"){
+    att=FluAttempts.remove(attId);
+    try{ FluencyStore.del(attId+"_passage").then(null,function(){}); }catch(e){}
+    try{ FluencyStore.del(attId+"_retell").then(null,function(){}); }catch(e){}
+  }
+  fluAttemptId=null;
+  /* 2. log it */
+  FluResets.add({ at:new Date().toISOString(), date:azDateStr(), studentId:READER.id, studentName:READER.name,
+    passageId:p.id, label:p.label, title:p.title, day:day, stage:stage, attemptId:(att?att.id:null) });
+  /* 3. exactly ONE new cold read of this same passage (even if the student leaves and comes back) */
+  FluRetry.set(READER.id,p.level,p.sub);
+  FluCycle.set(READER.id,day,p.level,p.sub);
+  /* 4. fresh cold-read screen, same passage. The model-read unlock is NOT touched. */
+  go("fluencyPassage");
+  var s=document.getElementById("flu-state");
+  if(s){ s.className="state-line none"; s.textContent="Your teacher reset this read. Read the passage again."; }
+}
 /* Level 1 passage screens use two more Google fonts (Atkinson Hyperlegible Next, Montserrat). They are
    requested only when a Level 1 passage first opens, not at app start. If they do not load, the CSS
    fallbacks (Segoe UI / Arial / sans-serif) show instead. */
@@ -5673,6 +5787,7 @@ function fluEnter(){
   var st=document.getElementById("flu-state"); if(st){ st.className="state-line none"; st.textContent=""; }
   dirPaintButton("dir_fluency");
   fluModelPaint();
+  g1rPaint();
   fluFitPassageText();
 }
 /* Shared by Day 1/3 (one take) and Day 2 (after all 3 reads): reveal
@@ -5704,6 +5819,7 @@ function fluToggleRec(){
   activeCtx="flu"; st.className="state-line none"; st.textContent="Starting the microphone…";
   startRec(function(blob){
     fluClearTimer();
+    if(g1rCancelled){ g1rCancelled=false; fluBlob=null; return; }
     fluBlob=blob;
     if(fluAutoStopped){ fluFlashTimesUp("flu-done",fluShowReview); } else { fluShowReview(); }
   },function(){
@@ -5830,6 +5946,7 @@ function fluAssignmentId(tag){
 function fluFinishSubmit(){
   fluClearTimer();
   var id=fluUid(), p=fluPassage, blob=fluBlob, day=fluDay;
+  if(day!==2 && READER){ FluRetry.clear(READER.id); } /* the one new cold read after a teacher reset is now used */
   var fname=rfStandardFileName(fluAssignmentId(fluDayTag(day)));
   FluencyStore.put(id+"_passage", blob).then(function(){
     fluAttemptId=id;
@@ -5980,8 +6097,18 @@ function retFinishToMenu(){
 
 /* ---------- Fluency: teacher review ---------- */
 var FLUTCLS=0, FLUTSTU=null;
+function flutPaintResets(){
+  var box=document.getElementById("flut-resets"); if(!box){ return; }
+  var l=FluResets.all(), i, h="";
+  if(!l.length){ box.innerHTML=""; return; }
+  h='<p class="step-eyebrow">Cold-read resets (this device)</p><table style="width:100%;border-collapse:collapse;font-size:14px">';
+  for(i=l.length-1;i>=0;i--){
+    h+='<tr><td style="padding:3px 8px 3px 0;white-space:nowrap">'+escapeHtml(l[i].date||"")+'</td><td style="padding:3px 8px 3px 0">'+escapeHtml(l[i].studentName||"")+'</td><td style="padding:3px 8px 3px 0">'+escapeHtml(l[i].label||"")+" "+escapeHtml(l[i].title||"")+'</td><td style="padding:3px 0;color:var(--ink-soft)">'+escapeHtml(l[i].stage==="saved"?"saved read discarded":(l[i].stage==="unsaved"?"unsaved take discarded":(l[i].stage==="recording"?"recording discarded":"nothing to discard")))+"</td></tr>";
+  }
+  box.innerHTML=h+"</table>";
+}
 function flutEnter(){
-  FLUTCLS=0; FLUTSTU=null; flutPaintClasses(); flutPaintRoster();
+  FLUTCLS=0; FLUTSTU=null; flutPaintClasses(); flutPaintRoster(); flutPaintResets();
   var b=document.getElementById("flut-body"); if(b){ b.innerHTML=""; }
   var n=document.getElementById("flut-sync-note");
   if(n){
