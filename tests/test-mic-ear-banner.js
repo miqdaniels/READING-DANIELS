@@ -33,7 +33,7 @@ ok(/\.rec-status:not\(\.paused\) \.rec-status-dot\{border-color:#c0392b;animatio
 ok(html.indexOf("&#128266;")===-1,"no old speaker emoji anywhere");
 var ls=d.querySelectorAll(".dir-listen-btn"); bad=0;
 for(i=0;i<ls.length;i++){ if(!ls[i].querySelector(".ear-ico")){ bad++; } }
-ok(ls.length===18 && bad===0,"all 18 Listen buttons have the Muted ear icon");
+ok(ls.length===19 && bad===0,"all 19 Listen buttons have the Muted ear icon (18 directions + the Level 1 model-read button)");
 var ear=w.getComputedStyle(d.querySelector("#dl-dir_vocab .ear-ico"));
 ok(ear.backgroundColor!=="rgb(46, 158, 79)","ear circle is no longer green (got "+ear.backgroundColor+")");
 ok(/\.ear-ico\{[^}]*border:2px solid var\(--ink-soft\)[^}]*background-color:transparent/.test(html),"ear circle is a thin ink-soft outline with a transparent fill, not a solid color");
