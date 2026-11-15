@@ -2690,107 +2690,65 @@
  },
  {
   "sub": 8,
-  "title": "Who Chooses?",
+  "title": "Your Brain Can Change",
   "lines": [
    {
-    "text": "When people get married, who picks who they will marry? It is not",
+    "text": "Some people say that if you did not learn to read when you were",
     "bold": [
      1,
      1,
      1,
-     0,
+     1,
+     1,
+     1,
+     1,
      1,
      0,
-     1,
-     1,
      1,
      0,
      1,
      1,
      1
     ],
-    "n": 13,
+    "n": 14,
     "para": true
    },
    {
-    "text": "the same for all people.",
+    "text": "little, it is too late. But that is not true. Your brain can change at any",
     "bold": [
-     1,
      0,
-     1,
-     1,
-     1
-    ],
-    "n": 18,
-    "para": false
-   },
-   {
-    "text": "In some families around the world, the parents help pick. They help",
-    "bold": [
      1,
      1,
      0,
      0,
      1,
+     1,
+     1,
+     1,
      0,
      1,
      0,
-     0,
      1,
+     0,
      1,
      0
     ],
     "n": 30,
-    "para": true
-   },
-   {
-    "text": "pick who their child will marry. The parents look for a good family. They",
-    "bold": [
-     1,
-     1,
-     1,
-     0,
-     1,
-     0,
-     1,
-     0,
-     1,
-     1,
-     1,
-     0,
-     1,
-     1
-    ],
-    "n": 44,
     "para": false
    },
    {
-    "text": "look for a man or a woman who will be kind. Then the two people meet.",
+    "text": "age.",
     "bold": [
-     1,
-     1,
-     1,
-     0,
-     1,
-     1,
-     0,
-     1,
-     1,
-     1,
-     0,
-     1,
-     1,
-     1,
-     1,
      0
     ],
-    "n": 60,
+    "n": 31,
     "para": false
    },
    {
-    "text": "In a lot of these families, the two people can say yes or no. Many of",
+    "text": "Your brain has a lot of paths in it. When you learn something new,",
     "bold": [
      1,
+     0,
      1,
      1,
      1,
@@ -2800,78 +2758,120 @@
      1,
      1,
      1,
-     1,
      0,
-     1,
-     1,
-     1,
+     0,
      1
     ],
-    "n": 76,
-    "para": false
-   },
-   {
-    "text": "them say the love came after.",
-    "bold": [
-     1,
-     1,
-     1,
-     0,
-     1,
-     1
-    ],
-    "n": 82,
-    "para": false
-   },
-   {
-    "text": "In other families, people pick who they want to marry on their own.",
-    "bold": [
-     1,
-     1,
-     0,
-     1,
-     1,
-     1,
-     1,
-     1,
-     1,
-     0,
-     1,
-     1,
-     1
-    ],
-    "n": 95,
+    "n": 45,
     "para": true
    },
    {
-    "text": "They may meet at school. They may meet at work. They may date for",
+    "text": "your brain makes a new path. When you practice, the path gets",
     "bold": [
      1,
+     0,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     0,
+     0
+    ],
+    "n": 57,
+    "para": false
+   },
+   {
+    "text": "stronger. The more you do it, the easier it gets. That is why it can be",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1
+    ],
+    "n": 73,
+    "para": false
+   },
+   {
+    "text": "hard the first time you do it. Then one day, you do it, and it is no work",
+    "bold": [
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "n": 91,
+    "para": false
+   },
+   {
+    "text": "at all.",
+    "bold": [
+     1,
+     1
+    ],
+    "n": 93,
+    "para": false
+   },
+   {
+    "text": "The teen brain is good at this. It is ready to learn new things, and it",
+    "bold": [
+     1,
+     0,
+     0,
      1,
      0,
      1,
      1,
      1,
      1,
-     0,
-     1,
-     1,
      1,
      1,
      0,
+     1,
+     0,
+     1,
      1
     ],
     "n": 109,
-    "para": false
+    "para": true
    },
    {
-    "text": "a long time. Then they ask their family what they think.",
+    "text": "will get better and better until you are in your 20s.",
     "bold": [
      1,
      1,
+     0,
      1,
-     1,
-     1,
+     0,
      0,
      1,
      1,
@@ -2883,56 +2883,31 @@
     "para": false
    },
    {
-    "text": "Some people say your family knows you best. They have been with",
+    "text": "Scientists did a study with a group of women in India. They were",
     "bold": [
-     1,
-     1,
-     1,
+     0,
      1,
      1,
      0,
      1,
      1,
+     0,
      1,
+     0,
      1,
+     0,
      1,
      1
     ],
-    "n": 132,
+    "n": 133,
     "para": true
    },
    {
-    "text": "you all your life. They know what you need. Other people say it is your",
+    "text": "about 30 years old, and a lot of them could not read one word. For six",
     "bold": [
      1,
-     1,
-     1,
      0,
-     1,
-     1,
-     1,
-     1,
      0,
-     1,
-     1,
-     1,
-     1,
-     1,
-     1
-    ],
-    "n": 147,
-    "para": false
-   },
-   {
-    "text": "life, so it has to be your choice. They say you are the one who will live",
-    "bold": [
-     0,
-     1,
-     1,
-     1,
-     1,
-     1,
-     1,
      0,
      1,
      1,
@@ -2941,47 +2916,72 @@
      1,
      1,
      1,
+     0,
+     1,
+     0,
      1,
      0
     ],
-    "n": 164,
+    "n": 149,
     "para": false
    },
    {
-    "text": "with him or her.",
+    "text": "months, they worked on their reading. At the end, they could read like a",
     "bold": [
+     0,
+     1,
+     0,
      1,
      1,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
      1,
      1
     ],
-    "n": 168,
+    "n": 163,
     "para": false
    },
    {
-    "text": "Both ways can work. When you are older, who do you think should",
+    "text": "first grader. Then the scientists looked at their brains. Their brains had",
     "bold": [
+     1,
      0,
-     0,
-     1,
-     1,
-     1,
      1,
      1,
      0,
      1,
      1,
+     1,
+     0,
      1,
      0,
      0
     ],
-    "n": 181,
-    "para": true
+    "n": 175,
+    "para": false
    },
    {
-    "text": "pick? Would you want help from your family? Or would you like to pick",
+    "text": "changed!",
+    "bold": [
+     0
+    ],
+    "n": 176,
+    "para": false
+   },
+   {
+    "text": "So it is not too late for you. Your brain is ready when you are. What",
     "bold": [
      1,
+     1,
+     1,
+     1,
+     0,
+     0,
      1,
      1,
      1,
@@ -2991,25 +2991,35 @@
      1,
      1,
      1,
-     1,
-     1,
-     1,
      1
     ],
-    "n": 195,
-    "para": false
+    "n": 192,
+    "para": true
    },
    {
-    "text": "on your own?",
+    "text": "do you want to get good at? How many days will you work at it?",
     "bold": [
      1,
      1,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     0,
+     1,
+     1,
+     1,
+     1,
      1
     ],
-    "n": 198,
+    "n": 207,
     "para": false
    }
-  ]
+  ],
+  "approvedChange": "2026-11-15 Mick approved: old 1.8 \"Who Chooses?\" RETIRED; replaced by \"Your Brain Can Change\" (207 words). Not in the v3 PDF. Bold = words in the 100 Daily Phrases; line breaks = greedy fill with the PDF font metrics (506 pt limit)."
  },
  {
   "sub": 9,

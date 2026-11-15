@@ -5,7 +5,7 @@ var fs=require('fs'), JSDOM=require('jsdom').JSDOM;
 var src=fs.readFileSync('./index.html','utf8');
 var html=src.replace('<script src="clips.js" defer></script>','');
 var FX=JSON.parse(fs.readFileSync('./tests/fixtures/grade1-v3-from-pdf.json','utf8'));
-var TOTALS=[204,225,199,207,225,217,200,204,198,231,226];
+var TOTALS=[204,225,199,207,225,217,200,204,207,231,226];
 var pass=0, fail=0; function ok(c,m){ if(c){ pass++; } else { fail++; console.log("FAIL: "+m); } }
 var w=new JSDOM(html,{url:"https://miqdaniels.github.io/READING-DANIELS/",runScripts:"dangerously",pretendToBeVisual:true,beforeParse:function(win){ win.scrollTo=function(){}; win.HTMLElement.prototype.scrollIntoView=function(){}; }}).window;
 var doc=w.document;
@@ -50,6 +50,25 @@ for(i=0;i<11;i++){
   ok(doc.getElementById("flu-text").className==="flu-passage lines" && doc.getElementById("flu-title").className==="scr-title l1",tag+"Level 1 classes on text and title");
   ok(doc.getElementById("flu-text").innerHTML.indexOf("*")===-1,tag+"no asterisks");
 }
+
+/* ---- 1.8 REPLACED (approved 2026-11-15): "Your Brain Can Change", 207 words ---- */
+var NEW18=["Some people say that if you did not learn to read when you were little, it is too late. But that is not true. Your brain can change at any age.",
+"Your brain has a lot of paths in it. When you learn something new, your brain makes a new path. When you practice, the path gets stronger. The more you do it, the easier it gets. That is why it can be hard the first time you do it. Then one day, you do it, and it is no work at all.",
+"The teen brain is good at this. It is ready to learn new things, and it will get better and better until you are in your 20s.",
+"Scientists did a study with a group of women in India. They were about 30 years old, and a lot of them could not read one word. For six months, they worked on their reading. At the end, they could read like a first grader. Then the scientists looked at their brains. Their brains had changed!",
+"So it is not too late for you. Your brain is ready when you are. What do you want to get good at? How many days will you work at it?"];
+var p8=ps[8];
+ok(p8.title==="Your Brain Can Change" && p8.label==="1.8" && p8.sub===8,"1.8 is Your Brain Can Change");
+ok(p8.paragraphs.length===5 && p8.paragraphs.join(" | ")===NEW18.join(" | "),"1.8 text is exactly the approved 5 paragraphs, not one word different");
+ok(p8.totalWords===207 && p8.lines[p8.lines.length-1].n===207,"1.8 last number = 207");
+var phr=require('../recordings-list.js').filter(function(q){ return q.level===1; }), vocab={};
+phr.forEach(function(q){ q.text.split(" ").forEach(function(t){ vocab[t.toLowerCase().replace(/[^a-z0-9']/g,"")]=1; }); });
+var boldOk=true, nBold=0;
+p8.lines.forEach(function(r){ r.markup.split(" ").forEach(function(t){ var isB=t.indexOf("**")>-1, inV=!!vocab[t.replace(/\*\*/g,"").toLowerCase().replace(/[^a-z0-9']/g,"")]; if(isB!==inV) boldOk=false; if(isB) nBold++; }); });
+ok(boldOk && nBold>100,"1.8 bold = exactly the words in The First 100 Daily Phrases, same rule as the other passages ("+nBold+" bold)");
+ok(src.indexOf("Who Chooses")===-1,"old 1.8 'Who Chooses?' is gone from the app");
+ok(fs.readFileSync('./tall-list.js','utf8').indexOf("Who Chooses")===-1,"old 1.8 is gone from the recording studio list");
+ok(p8.lines.map(function(r){ return r.markup.replace(/\*\*/g,"").split(" ").length; }).join(",")==="14,16,1,14,12,16,18,2,16,11,13,16,14,12,1,16,15","1.8 fixed line lengths (words per line)");
 /* CSS + fonts + color */
 ok(/\.flu-passage\.lines \.gl\{[^}]*white-space:nowrap/.test(src),"lines never wrap (nowrap)");
 ok(/\.flu-passage\.lines \.gn\{[^}]*border-left:1px solid #0F766E;color:#0F766E/.test(src),"counts: small teal #0F766E with a thin teal line");

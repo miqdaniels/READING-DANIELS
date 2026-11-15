@@ -59,7 +59,7 @@ ck(has("SND_01_S","Stop") && has("SND_07_S","Fricative") && has("SND_15_S","Affr
 ck(sounds.every(x=>x.tags && x.tags.length),"every sound clip has a type label");
 ck(sounds.every(x=>x.sound&&x.spell&&x.key&&x.tip&&x.say&&x.label),"every sound clip has sound, spellings, key word, tip");
 ck(sounds.every(x=>x.sound&&x.spell&&x.key&&x.tip&&x.say&&x.label),"every sound clip has sound, spellings, key word, tip");
-const order="Water|Should School Start Later?|Schools Are Not All the Same|Your Phone|Jobs|Dating|Homework|A Shorter School Day|Who Chooses?|Friends Can Change You|If You Do Nothing".split("|");
+const order="Water|Should School Start Later?|Schools Are Not All the Same|Your Phone|Jobs|Dating|Homework|A Shorter School Day|Your Brain Can Change|Friends Can Change You|If You Do Nothing".split("|");
 psg.forEach((p,i)=>{
   const n=(i<10?"0":"")+i;
   ck(p.id==="PSG_1_"+n,"passage id "+i);
