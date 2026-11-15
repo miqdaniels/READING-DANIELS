@@ -102,6 +102,8 @@ key(w,"Backspace"); ok(!w.B.boxes[0],"Backspace clears the last filled box");
   ok(w.B.boxes[0] && w.B.boxes[0].g==="m","dragging tile 'm' onto box 1 places it");
   ok(!w.document.querySelector(".ghost"),"the drag ghost is removed");
 })();
+/* the bank is shuffled differently for each word, and the word's own tiles never lead the bank in order */
+(function(){ var seenOrders={}, k, n=0, front=0; for(k=0;k<12;k++){ w.buildShow(); var o=w.B.bank.map(function(t){return t.g}).join(","); seenOrders[o]=1; var tg=w.B.tiles.map(function(t){return t.g}); var ok2=false, q; for(q=0;q<tg.length;q++){ if(w.B.bank[q].g!==tg[q]){ ok2=true; } } if(ok2){ front++; } } ok(Object.keys(seenOrders).length>=6,"the tile bank is reshuffled every time ("+Object.keys(seenOrders).length+" different orders in 12 shows)"); ok(front===12,"the word's tiles are never lined up at the front of the bank in order"); })();
 click(w,"tw-build-box-0"); build(w,"tw-build","map");
 /* after the word is built: tap a box = hear that sound; tap the word = hear the word */
 ok(w.B.done===true,"map is built");

@@ -343,6 +343,18 @@ function bankFor(words){
   return out;
 }
 
+/* a fresh random order of the tile bank for EVERY word (so kids hunt through all the tiles and cannot memorize positions);
+   the word's own tiles are never allowed to sit at the front of the bank in their natural order */
+function shuffleBank(){
+  var n = B.bank.length, tries = 0, i, j, tmp, bad, g = {};
+  for(i=0;i<B.tiles.length;i++){ g[B.tiles[i].g] = 1; }
+  do {
+    for(i=n-1;i>0;i--){ j = Math.floor(Math.random() * (i + 1)); tmp = B.bank[i]; B.bank[i] = B.bank[j]; B.bank[j] = tmp; }
+    bad = false;
+    if(n > B.tiles.length + 1){ bad = true; for(i=0;i<B.tiles.length;i++){ if(!g[B.bank[i].g]){ bad = false; } } }
+    tries++;
+  } while(bad && tries < 20);
+}
 /* ============================== tile boards (shared by Build + Dictation) ============================== */
 var B = null;      /* { kind, words:[], idx, tiles:[target tiles], boxes:[tileObj|null], armed:null|tile, changed:-1, bank:[], done, right, total } */
 function boardHTML(prefix){
@@ -451,7 +463,7 @@ function twStartBuild(){
 function buildShow(){
   var w = B.words[B.idx], prev = B.idx > 0 ? patTilesFor(B.words[B.idx-1].w) : null;
   B.tiles = patTilesFor(w.w); B.boxes = []; var i; for(i=0;i<B.tiles.length;i++){ B.boxes.push(null); }
-  B.armed = null; B.done = false; B.marks = null;
+  B.armed = null; B.done = false; B.marks = null; shuffleBank();
   B.changed = prev ? TW.changedIndex(prev, B.tiles) : -1;
   el("tw-build-count").textContent = "Word " + (B.idx + 1) + " of " + B.words.length;
   el("tw-build-word").innerHTML = esc(w.w) + (w.first100 ? '<span class="star" title="First 100 Daily Phrases word">★</span>' : "");
@@ -536,7 +548,7 @@ function twStartDict(){
 function dictShow(){
   var w = B.words[B.idx], i;
   B.tiles = patTilesFor(w.w); B.boxes = []; for(i=0;i<B.tiles.length;i++){ B.boxes.push(null); }
-  B.armed = null; B.done = false; B.marks = null;
+  B.armed = null; B.done = false; B.marks = null; shuffleBank();
   el("tw-dict-count").textContent = "Word " + (B.idx + 1) + " of " + B.words.length;
   el("tw-dict-next").style.display = "none"; el("tw-dict-check").style.display = "inline-flex";
   var keep = B.skipped && B.idx === 0 ? el("tw-dict-note").textContent : ""; setNote(keep); setSay("");
