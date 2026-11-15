@@ -58,7 +58,7 @@ var t1=boot("https://localhost/?teacher"); var d=t1.window.document;
 var links=d.querySelectorAll("#teacher-downloads a[download]");
 ok(links.length===2,"teacher page: 2 download links");
 var hrefs=[]; for(i=0;i<links.length;i++){ hrefs.push(links[i].getAttribute("href")); }
-ok(hrefs[0]==="downloads/Reading-Foundations-Grade-1-Passages.pdf","pdf href");
+ok(hrefs[0]==="downloads/TALL_Grade-1-Fluency-Passages_2026-11-11_v3.pdf","pdf href");
 ok(hrefs[1]==="downloads/Reading-Foundations-Extra-Vocabulary-Marker-Style.pptx","pptx href");
 for(i=0;i<hrefs.length;i++){ ok(fs.existsSync("./"+hrefs[i]) && fs.statSync("./"+hrefs[i]).size>1000,"file exists: "+hrefs[i]); }
 ok(d.querySelector("#teacher-doors").contains(d.getElementById("teacher-downloads")),"inside teacher area");
