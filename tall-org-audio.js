@@ -1,5 +1,5 @@
 /* TALL organizer audio (c) 2026 Miquela Daniels, AI Academy LLC. Maps ORG_ ids -> Miquela's recorded clips (her own voice, NEVER text-to-speech).
-   ids: ORG_<passage>_<who|what|when|where|why|how> for an answer (passage 1.1 -> 1_01), ORG_<passage>_s1..s4 for an order sentence (s1 = first in the passage).
+   ids: ORG_<passage>_<nn> (passage 1.1 -> 1_01): nn = 01..k the answers in box order (Who..How, gray boxes skipped), then k+1..k+4 the order sentences in passage order. See data/tall-org-clips.json.
    Until a clip is here the app says "Not recorded yet." ES5. */
 var TALL_ORG_AUDIO = {
 };

@@ -35,7 +35,7 @@ async function readZip(blob,w){
   const words=w.TS_ITEMS.filter(x=>x.kind==="wordclip");
   ck(words.length===uw.length && words.length>100,"every unique word is an item ("+words.length+")");
   const ids={}; let dup=false; w.TS_ITEMS.forEach(x=>{ if(ids[x.id]) dup=true; ids[x.id]=1; }); ck(!dup,"no duplicate ids (words included)");
-  ck(words.every(x=>/^WRD_[a-z]+$/.test(x.id)) && words.every(x=>x.id===TW.wordId(x.w)),"ids are WRD_<word>");
+  ck(words.every(x=>/^WRD_[A-Za-z-]+$/.test(x.id)) && words.every(x=>x.id===TW.wordId(x.w)),"ids are WRD_<word>");
   const distinct={}; words.forEach(x=>distinct[x.w.toLowerCase()]=1); ck(Object.keys(distinct).length===words.length,"one clip per distinct word (no word twice)");
   ck(w.TS_ITEMS.filter(x=>x.kind!=="wordclip").length===122,"the 99 sound/passage clips are all still there (122 total, unchanged)");
   ck(w.TS_ITEMS.filter(x=>x.id.indexOf("SND_")===0).length===111 && w.TS_ITEMS.filter(x=>x.id.indexOf("PSG_")===0).length===11,"sound and passage ids untouched");

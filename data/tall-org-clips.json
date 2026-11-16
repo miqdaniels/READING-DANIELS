@@ -1,0 +1,801 @@
+{
+ "note": "ORG_ clips are cut from Miquela's passage read-alouds (PSG_1_00-10) by matching this text to the audio. NOT cut yet. Until then the organizer cards show text only.",
+ "items": [
+  {
+   "clip": "ORG_1_00_01",
+   "passage": "1.0",
+   "kind": "answer",
+   "box": "What",
+   "text": "You need water to live.",
+   "source": "PSG_1_00"
+  },
+  {
+   "clip": "ORG_1_00_02",
+   "passage": "1.0",
+   "kind": "answer",
+   "box": "When",
+   "text": "before you go out",
+   "source": "PSG_1_00"
+  },
+  {
+   "clip": "ORG_1_00_03",
+   "passage": "1.0",
+   "kind": "answer",
+   "box": "Where",
+   "text": "Here in Arizona",
+   "source": "PSG_1_00"
+  },
+  {
+   "clip": "ORG_1_00_04",
+   "passage": "1.0",
+   "kind": "answer",
+   "box": "Why",
+   "text": "It helps keep you cool.",
+   "source": "PSG_1_00"
+  },
+  {
+   "clip": "ORG_1_00_05",
+   "passage": "1.0",
+   "kind": "answer",
+   "box": "How",
+   "text": "Your head may hurt.",
+   "source": "PSG_1_00"
+  },
+  {
+   "clip": "ORG_1_00_06",
+   "passage": "1.0",
+   "kind": "order",
+   "text": "When it is hot, you sweat.",
+   "source": "PSG_1_00"
+  },
+  {
+   "clip": "ORG_1_00_07",
+   "passage": "1.0",
+   "kind": "order",
+   "text": "When the sweat dries on your skin, you cool off.",
+   "source": "PSG_1_00"
+  },
+  {
+   "clip": "ORG_1_00_08",
+   "passage": "1.0",
+   "kind": "order",
+   "text": "But each time you sweat, you lose some water.",
+   "source": "PSG_1_00"
+  },
+  {
+   "clip": "ORG_1_00_09",
+   "passage": "1.0",
+   "kind": "order",
+   "text": "So you need to drink water all day.",
+   "source": "PSG_1_00"
+  },
+  {
+   "clip": "ORG_1_01_01",
+   "passage": "1.1",
+   "kind": "answer",
+   "box": "Who",
+   "text": "Many teens",
+   "source": "PSG_1_01"
+  },
+  {
+   "clip": "ORG_1_01_02",
+   "passage": "1.1",
+   "kind": "answer",
+   "box": "What",
+   "text": "They want school for teens to start at 8:30 or later.",
+   "source": "PSG_1_01"
+  },
+  {
+   "clip": "ORG_1_01_03",
+   "passage": "1.1",
+   "kind": "answer",
+   "box": "When",
+   "text": "at six",
+   "source": "PSG_1_01"
+  },
+  {
+   "clip": "ORG_1_01_04",
+   "passage": "1.1",
+   "kind": "answer",
+   "box": "Why",
+   "text": "your body clock is not the same",
+   "source": "PSG_1_01"
+  },
+  {
+   "clip": "ORG_1_01_05",
+   "passage": "1.1",
+   "kind": "answer",
+   "box": "How",
+   "text": "about nine hours of sleep each night",
+   "source": "PSG_1_01"
+  },
+  {
+   "clip": "ORG_1_01_06",
+   "passage": "1.1",
+   "kind": "order",
+   "text": "Many teens go to bed late.",
+   "source": "PSG_1_01"
+  },
+  {
+   "clip": "ORG_1_01_07",
+   "passage": "1.1",
+   "kind": "order",
+   "text": "But school starts early.",
+   "source": "PSG_1_01"
+  },
+  {
+   "clip": "ORG_1_01_08",
+   "passage": "1.1",
+   "kind": "order",
+   "text": "Doctors say teens need about nine hours of sleep each night.",
+   "source": "PSG_1_01"
+  },
+  {
+   "clip": "ORG_1_01_09",
+   "passage": "1.1",
+   "kind": "order",
+   "text": "But a later start is not good for each family.",
+   "source": "PSG_1_01"
+  },
+  {
+   "clip": "ORG_1_02_01",
+   "passage": "1.2",
+   "kind": "answer",
+   "box": "Who",
+   "text": "a new teacher",
+   "source": "PSG_1_02"
+  },
+  {
+   "clip": "ORG_1_02_02",
+   "passage": "1.2",
+   "kind": "answer",
+   "box": "What",
+   "text": "a uniform",
+   "source": "PSG_1_02"
+  },
+  {
+   "clip": "ORG_1_02_03",
+   "passage": "1.2",
+   "kind": "answer",
+   "box": "When",
+   "text": "after lunch",
+   "source": "PSG_1_02"
+  },
+  {
+   "clip": "ORG_1_02_04",
+   "passage": "1.2",
+   "kind": "answer",
+   "box": "Where",
+   "text": "In Japan",
+   "source": "PSG_1_02"
+  },
+  {
+   "clip": "ORG_1_02_05",
+   "passage": "1.2",
+   "kind": "answer",
+   "box": "Why",
+   "text": "this helps them work as a team",
+   "source": "PSG_1_02"
+  },
+  {
+   "clip": "ORG_1_02_06",
+   "passage": "1.2",
+   "kind": "answer",
+   "box": "How",
+   "text": "they get up and walk to the next room",
+   "source": "PSG_1_02"
+  },
+  {
+   "clip": "ORG_1_02_07",
+   "passage": "1.2",
+   "kind": "order",
+   "text": "In Mexico, many kids wear a uniform to school.",
+   "source": "PSG_1_02"
+  },
+  {
+   "clip": "ORG_1_02_08",
+   "passage": "1.2",
+   "kind": "order",
+   "text": "In Japan, kids help clean their school.",
+   "source": "PSG_1_02"
+  },
+  {
+   "clip": "ORG_1_02_09",
+   "passage": "1.2",
+   "kind": "order",
+   "text": "Here in Arizona, kids go from class to class.",
+   "source": "PSG_1_02"
+  },
+  {
+   "clip": "ORG_1_02_10",
+   "passage": "1.2",
+   "kind": "order",
+   "text": "Each school has its own way.",
+   "source": "PSG_1_02"
+  },
+  {
+   "clip": "ORG_1_03_01",
+   "passage": "1.3",
+   "kind": "answer",
+   "box": "Who",
+   "text": "Most kids",
+   "source": "PSG_1_03"
+  },
+  {
+   "clip": "ORG_1_03_02",
+   "passage": "1.3",
+   "kind": "answer",
+   "box": "What",
+   "text": "a new law",
+   "source": "PSG_1_03"
+  },
+  {
+   "clip": "ORG_1_03_03",
+   "passage": "1.3",
+   "kind": "answer",
+   "box": "When",
+   "text": "In 2025",
+   "source": "PSG_1_03"
+  },
+  {
+   "clip": "ORG_1_03_04",
+   "passage": "1.3",
+   "kind": "answer",
+   "box": "Where",
+   "text": "in your bag in class",
+   "source": "PSG_1_03"
+  },
+  {
+   "clip": "ORG_1_03_05",
+   "passage": "1.3",
+   "kind": "answer",
+   "box": "Why",
+   "text": "they look at their phone at night",
+   "source": "PSG_1_03"
+  },
+  {
+   "clip": "ORG_1_03_06",
+   "passage": "1.3",
+   "kind": "answer",
+   "box": "How",
+   "text": "about eight hours a day",
+   "source": "PSG_1_03"
+  },
+  {
+   "clip": "ORG_1_03_07",
+   "passage": "1.3",
+   "kind": "order",
+   "text": "A phone can do a lot.",
+   "source": "PSG_1_03"
+  },
+  {
+   "clip": "ORG_1_03_08",
+   "passage": "1.3",
+   "kind": "order",
+   "text": "But a phone can take up a lot of time.",
+   "source": "PSG_1_03"
+  },
+  {
+   "clip": "ORG_1_03_09",
+   "passage": "1.3",
+   "kind": "order",
+   "text": "In 2025, Arizona made a new law.",
+   "source": "PSG_1_03"
+  },
+  {
+   "clip": "ORG_1_03_10",
+   "passage": "1.3",
+   "kind": "order",
+   "text": "Some kids like the new rules.",
+   "source": "PSG_1_03"
+  },
+  {
+   "clip": "ORG_1_04_01",
+   "passage": "1.4",
+   "kind": "answer",
+   "box": "Who",
+   "text": "Some kids",
+   "source": "PSG_1_04"
+  },
+  {
+   "clip": "ORG_1_04_02",
+   "passage": "1.4",
+   "kind": "answer",
+   "box": "What",
+   "text": "a way to make your own money",
+   "source": "PSG_1_04"
+  },
+  {
+   "clip": "ORG_1_04_03",
+   "passage": "1.4",
+   "kind": "answer",
+   "box": "When",
+   "text": "at 14",
+   "source": "PSG_1_04"
+  },
+  {
+   "clip": "ORG_1_04_04",
+   "passage": "1.4",
+   "kind": "answer",
+   "box": "Where",
+   "text": "at a store",
+   "source": "PSG_1_04"
+  },
+  {
+   "clip": "ORG_1_04_05",
+   "passage": "1.4",
+   "kind": "answer",
+   "box": "Why",
+   "text": "to keep kids safe and in school",
+   "source": "PSG_1_04"
+  },
+  {
+   "clip": "ORG_1_04_06",
+   "passage": "1.4",
+   "kind": "answer",
+   "box": "How",
+   "text": "just three hours",
+   "source": "PSG_1_04"
+  },
+  {
+   "clip": "ORG_1_04_07",
+   "passage": "1.4",
+   "kind": "order",
+   "text": "Some kids want to get a job.",
+   "source": "PSG_1_04"
+  },
+  {
+   "clip": "ORG_1_04_08",
+   "passage": "1.4",
+   "kind": "order",
+   "text": "But there are rules, so you cannot work all the time.",
+   "source": "PSG_1_04"
+  },
+  {
+   "clip": "ORG_1_04_09",
+   "passage": "1.4",
+   "kind": "order",
+   "text": "At 14, you could work at a store.",
+   "source": "PSG_1_04"
+  },
+  {
+   "clip": "ORG_1_04_10",
+   "passage": "1.4",
+   "kind": "order",
+   "text": "But a job can be hard, too.",
+   "source": "PSG_1_04"
+  },
+  {
+   "clip": "ORG_1_05_01",
+   "passage": "1.5",
+   "kind": "answer",
+   "box": "Who",
+   "text": "Some kids in junior high",
+   "source": "PSG_1_05"
+  },
+  {
+   "clip": "ORG_1_05_02",
+   "passage": "1.5",
+   "kind": "answer",
+   "box": "What",
+   "text": "They may text a lot",
+   "source": "PSG_1_05"
+  },
+  {
+   "clip": "ORG_1_05_03",
+   "passage": "1.5",
+   "kind": "answer",
+   "box": "When",
+   "text": "until high school",
+   "source": "PSG_1_05"
+  },
+  {
+   "clip": "ORG_1_05_04",
+   "passage": "1.5",
+   "kind": "answer",
+   "box": "Where",
+   "text": "At school",
+   "source": "PSG_1_05"
+  },
+  {
+   "clip": "ORG_1_05_05",
+   "passage": "1.5",
+   "kind": "answer",
+   "box": "Why",
+   "text": "school has to come first",
+   "source": "PSG_1_05"
+  },
+  {
+   "clip": "ORG_1_05_06",
+   "passage": "1.5",
+   "kind": "answer",
+   "box": "How",
+   "text": "a way to learn how to be kind to the people you like",
+   "source": "PSG_1_05"
+  },
+  {
+   "clip": "ORG_1_05_07",
+   "passage": "1.5",
+   "kind": "order",
+   "text": "Some kids in junior high say they have a boyfriend or a girlfriend.",
+   "source": "PSG_1_05"
+  },
+  {
+   "clip": "ORG_1_05_08",
+   "passage": "1.5",
+   "kind": "order",
+   "text": "Some families say this is fine.",
+   "source": "PSG_1_05"
+  },
+  {
+   "clip": "ORG_1_05_09",
+   "passage": "1.5",
+   "kind": "order",
+   "text": "Other families say you are too young.",
+   "source": "PSG_1_05"
+  },
+  {
+   "clip": "ORG_1_05_10",
+   "passage": "1.5",
+   "kind": "order",
+   "text": "Some kids do not want to date at all, and that is fine, too.",
+   "source": "PSG_1_05"
+  },
+  {
+   "clip": "ORG_1_06_01",
+   "passage": "1.6",
+   "kind": "answer",
+   "box": "Who",
+   "text": "Many teachers",
+   "source": "PSG_1_06"
+  },
+  {
+   "clip": "ORG_1_06_02",
+   "passage": "1.6",
+   "kind": "answer",
+   "box": "What",
+   "text": "school work that you do at home",
+   "source": "PSG_1_06"
+  },
+  {
+   "clip": "ORG_1_06_03",
+   "passage": "1.6",
+   "kind": "answer",
+   "box": "When",
+   "text": "the next day",
+   "source": "PSG_1_06"
+  },
+  {
+   "clip": "ORG_1_06_04",
+   "passage": "1.6",
+   "kind": "answer",
+   "box": "Why",
+   "text": "It helps you get ready for a test.",
+   "source": "PSG_1_06"
+  },
+  {
+   "clip": "ORG_1_06_05",
+   "passage": "1.6",
+   "kind": "answer",
+   "box": "How",
+   "text": "about one hour a night",
+   "source": "PSG_1_06"
+  },
+  {
+   "clip": "ORG_1_06_06",
+   "passage": "1.6",
+   "kind": "order",
+   "text": "Many teachers give homework.",
+   "source": "PSG_1_06"
+  },
+  {
+   "clip": "ORG_1_06_07",
+   "passage": "1.6",
+   "kind": "order",
+   "text": "Some people say homework is good for you.",
+   "source": "PSG_1_06"
+  },
+  {
+   "clip": "ORG_1_06_08",
+   "passage": "1.6",
+   "kind": "order",
+   "text": "Other people say it is too much.",
+   "source": "PSG_1_06"
+  },
+  {
+   "clip": "ORG_1_06_09",
+   "passage": "1.6",
+   "kind": "order",
+   "text": "So some schools do not give homework now.",
+   "source": "PSG_1_06"
+  },
+  {
+   "clip": "ORG_1_07_01",
+   "passage": "1.7",
+   "kind": "answer",
+   "box": "Who",
+   "text": "some parents",
+   "source": "PSG_1_07"
+  },
+  {
+   "clip": "ORG_1_07_02",
+   "passage": "1.7",
+   "kind": "answer",
+   "box": "What",
+   "text": "their best food of the day",
+   "source": "PSG_1_07"
+  },
+  {
+   "clip": "ORG_1_07_03",
+   "passage": "1.7",
+   "kind": "answer",
+   "box": "When",
+   "text": "at lunch",
+   "source": "PSG_1_07"
+  },
+  {
+   "clip": "ORG_1_07_04",
+   "passage": "1.7",
+   "kind": "answer",
+   "box": "Where",
+   "text": "in Arizona",
+   "source": "PSG_1_07"
+  },
+  {
+   "clip": "ORG_1_07_05",
+   "passage": "1.7",
+   "kind": "answer",
+   "box": "Why",
+   "text": "kids would not be so tired",
+   "source": "PSG_1_07"
+  },
+  {
+   "clip": "ORG_1_07_06",
+   "passage": "1.7",
+   "kind": "answer",
+   "box": "How",
+   "text": "less time with their teachers",
+   "source": "PSG_1_07"
+  },
+  {
+   "clip": "ORG_1_07_07",
+   "passage": "1.7",
+   "kind": "order",
+   "text": "What if school was just four hours a day?",
+   "source": "PSG_1_07"
+  },
+  {
+   "clip": "ORG_1_07_08",
+   "passage": "1.7",
+   "kind": "order",
+   "text": "Some people think a short day could be good.",
+   "source": "PSG_1_07"
+  },
+  {
+   "clip": "ORG_1_07_09",
+   "passage": "1.7",
+   "kind": "order",
+   "text": "Other people say kids need more time in school, not less.",
+   "source": "PSG_1_07"
+  },
+  {
+   "clip": "ORG_1_07_10",
+   "passage": "1.7",
+   "kind": "order",
+   "text": "So what do you think?",
+   "source": "PSG_1_07"
+  },
+  {
+   "clip": "ORG_1_08_01",
+   "passage": "1.8",
+   "kind": "answer",
+   "box": "Who",
+   "text": "Scientists",
+   "source": "PSG_1_08"
+  },
+  {
+   "clip": "ORG_1_08_02",
+   "passage": "1.8",
+   "kind": "answer",
+   "box": "What",
+   "text": "Your brain",
+   "source": "PSG_1_08"
+  },
+  {
+   "clip": "ORG_1_08_03",
+   "passage": "1.8",
+   "kind": "answer",
+   "box": "When",
+   "text": "until you are in your 20s",
+   "source": "PSG_1_08"
+  },
+  {
+   "clip": "ORG_1_08_04",
+   "passage": "1.8",
+   "kind": "answer",
+   "box": "Where",
+   "text": "in India",
+   "source": "PSG_1_08"
+  },
+  {
+   "clip": "ORG_1_08_05",
+   "passage": "1.8",
+   "kind": "answer",
+   "box": "Why",
+   "text": "When you practice, the path gets stronger.",
+   "source": "PSG_1_08"
+  },
+  {
+   "clip": "ORG_1_08_06",
+   "passage": "1.8",
+   "kind": "answer",
+   "box": "How",
+   "text": "your brain makes a new path",
+   "source": "PSG_1_08"
+  },
+  {
+   "clip": "ORG_1_08_07",
+   "passage": "1.8",
+   "kind": "order",
+   "text": "Scientists did a study with a group of women in India.",
+   "source": "PSG_1_08"
+  },
+  {
+   "clip": "ORG_1_08_08",
+   "passage": "1.8",
+   "kind": "order",
+   "text": "For six months, they worked on their reading.",
+   "source": "PSG_1_08"
+  },
+  {
+   "clip": "ORG_1_08_09",
+   "passage": "1.8",
+   "kind": "order",
+   "text": "At the end, they could read like a first grader.",
+   "source": "PSG_1_08"
+  },
+  {
+   "clip": "ORG_1_08_10",
+   "passage": "1.8",
+   "kind": "order",
+   "text": "Then the scientists looked at their brains.",
+   "source": "PSG_1_08"
+  },
+  {
+   "clip": "ORG_1_09_01",
+   "passage": "1.9",
+   "kind": "answer",
+   "box": "Who",
+   "text": "Your friends",
+   "source": "PSG_1_09"
+  },
+  {
+   "clip": "ORG_1_09_02",
+   "passage": "1.9",
+   "kind": "answer",
+   "box": "What",
+   "text": "what teens do when their friends are with them",
+   "source": "PSG_1_09"
+  },
+  {
+   "clip": "ORG_1_09_03",
+   "passage": "1.9",
+   "kind": "answer",
+   "box": "When",
+   "text": "when their friends were there to see",
+   "source": "PSG_1_09"
+  },
+  {
+   "clip": "ORG_1_09_04",
+   "passage": "1.9",
+   "kind": "answer",
+   "box": "Why",
+   "text": "They wanted their friends to like them.",
+   "source": "PSG_1_09"
+  },
+  {
+   "clip": "ORG_1_09_05",
+   "passage": "1.9",
+   "kind": "answer",
+   "box": "How",
+   "text": "with care",
+   "source": "PSG_1_09"
+  },
+  {
+   "clip": "ORG_1_09_06",
+   "passage": "1.9",
+   "kind": "order",
+   "text": "If your friends work hard in school, you may want to work hard, too.",
+   "source": "PSG_1_09"
+  },
+  {
+   "clip": "ORG_1_09_07",
+   "passage": "1.9",
+   "kind": "order",
+   "text": "But it can go the other way.",
+   "source": "PSG_1_09"
+  },
+  {
+   "clip": "ORG_1_09_08",
+   "passage": "1.9",
+   "kind": "order",
+   "text": "One study looked at what teens do when their friends are with them.",
+   "source": "PSG_1_09"
+  },
+  {
+   "clip": "ORG_1_09_09",
+   "passage": "1.9",
+   "kind": "order",
+   "text": "That is why some people say you should pick your friends with care.",
+   "source": "PSG_1_09"
+  },
+  {
+   "clip": "ORG_1_10_01",
+   "passage": "1.10",
+   "kind": "answer",
+   "box": "Who",
+   "text": "a lot of students",
+   "source": "PSG_1_10"
+  },
+  {
+   "clip": "ORG_1_10_02",
+   "passage": "1.10",
+   "kind": "answer",
+   "box": "What",
+   "text": "the work is harder",
+   "source": "PSG_1_10"
+  },
+  {
+   "clip": "ORG_1_10_03",
+   "passage": "1.10",
+   "kind": "answer",
+   "box": "When",
+   "text": "before or after school",
+   "source": "PSG_1_10"
+  },
+  {
+   "clip": "ORG_1_10_04",
+   "passage": "1.10",
+   "kind": "answer",
+   "box": "Why",
+   "text": "They move on even if they do not pass their classes.",
+   "source": "PSG_1_10"
+  },
+  {
+   "clip": "ORG_1_10_05",
+   "passage": "1.10",
+   "kind": "answer",
+   "box": "How",
+   "text": "You can ask your teacher for help.",
+   "source": "PSG_1_10"
+  },
+  {
+   "clip": "ORG_1_10_06",
+   "passage": "1.10",
+   "kind": "order",
+   "text": "But what if you do nothing all year?",
+   "source": "PSG_1_10"
+  },
+  {
+   "clip": "ORG_1_10_07",
+   "passage": "1.10",
+   "kind": "order",
+   "text": "When you get to the next grade, the work is harder.",
+   "source": "PSG_1_10"
+  },
+  {
+   "clip": "ORG_1_10_08",
+   "passage": "1.10",
+   "kind": "order",
+   "text": "When they fall behind, it gets harder and harder to catch up.",
+   "source": "PSG_1_10"
+  },
+  {
+   "clip": "ORG_1_10_09",
+   "passage": "1.10",
+   "kind": "order",
+   "text": "After a while, some of them stop trying.",
+   "source": "PSG_1_10"
+  }
+ ]
+}

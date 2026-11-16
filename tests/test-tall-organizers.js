@@ -73,9 +73,9 @@ w.ogToOrder(); (function(){ var a=0,b=1; var before=w.O.order.slice(); w.documen
 w.SUPPRESS=false; click(w,"og-order-check"); w.O.order=[0,1,2,3]; click(w,"og-order-check"); click(w,"og-order-next");
 ok(active(w)==="og-done" && /1-Minute Talk/.test(w.document.querySelector("#og-done h2").textContent) && w.document.querySelectorAll("#og-talk .obox").length===6 && /You need water to live/.test($(w,"og-talk").textContent) && /does not tell us who/.test($(w,"og-talk").textContent),"1-Minute Talk screen shows the filled 5W+H, Who gray");
 /* every passage opens; counts of gray boxes match null q; clip ids; a clip plays when it exists */
-var wa=make('{"ORG_1_01_who":"audio/x.mp3","ORG_1_01_s1":"audio/y.mp3"}');
-click(wa,"og-p-1"); ok(w.orgId({id:"1.10"},"how")==="ORG_1_10_how" && w.orgId({id:"1.0"},"s2")==="ORG_1_00_s2" && w.orgId({id:"1.1"},"who")==="ORG_1_01_who","clip ids ORG_<passage>_<who..how|s1..s4>");
-click(wa,"og-card-who"); ok(wa.__played.length===1 && /x\.mp3/.test(wa.__played[0]),"a recorded answer plays on tap");
+var wa=make('{"ORG_1_01_01":"audio/x.mp3","ORG_1_01_06":"audio/y.mp3"}');
+click(wa,"og-p-1"); ok(w.orgId({id:"1.10"},5)==="ORG_1_10_05" && w.orgId({id:"1.0"},7)==="ORG_1_00_07" && w.orgId({id:"1.1"},1)==="ORG_1_01_01","clip ids ORG_<passage>_<nn>");
+click(wa,"og-card-who"); /* Who = answer 01 of passage 1.1 */ ok(wa.__played.length===1 && /x\.mp3/.test(wa.__played[0]),"a recorded answer plays on tap");
 raw.passages.forEach(function(p,ix){ var w2=make(); w2.document.getElementById("og-p-"+ix).dispatchEvent(new w2.MouseEvent("click",{bubbles:true})); var nulls=p.boxes.filter(function(b){return !b.q}).length; ok(w2.document.querySelectorAll(".obox.gray").length===nulls && w2.document.querySelectorAll("#og-cards .acard").length===6-nulls,"passage "+p.id+": "+nulls+" gray box(es), "+(6-nulls)+" cards"); });
 /* teacher tile */
 var idx=fs.readFileSync('./index.html','utf8'); ok(/id="tile-tall-organizers"[^>]*tall-organizers\.html/.test(idx),"teacher dashboard has an Organizers tile");

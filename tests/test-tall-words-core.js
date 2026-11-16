@@ -153,7 +153,7 @@ ok(TW.pickDistractors("cats",[{w:"cats"},{w:"cat"},{w:"cat"},{w:"cab"},{w:"cap"}
 /* ---- 7. WRD_ ids: unique, one per word (patterns + heart sets) ---- */
 var uw=TW.uniqueWords(L), ids={}, dup=false;
 uw.forEach(function(w){ if(ids[w.id]){ dup=true; } ids[w.id]=1; });
-ok(!dup && uw.length>0 && uw.every(function(w){ return /^WRD_[a-z]+$/.test(w.id); }),"WRD_ ids are unique");
+ok(!dup && uw.length>0 && uw.every(function(w){ return /^WRD_[A-Za-z-]+$/.test(w.id); }),"WRD_ ids are unique");
 var distinct={}; flat.forEach(function(f){ f.pattern.build.concat(f.pattern.read).forEach(function(w){ distinct[TW.wordKey(w.w)]=1; }); }); L.heart.forEach(function(h){ h.words.forEach(function(w){ distinct[TW.wordKey(w.w)]=1; }); });
 ok(uw.length===Object.keys(distinct).length,"one WRD_ id for every distinct word, build + read + heart ("+uw.length+")");
 ok(TW.wordId("Sat")==="WRD_sat" && uw.some(function(w){ return w.id==="WRD_what" && w.heart; }),"WRD_sat; 'what' stays a heart word");

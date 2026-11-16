@@ -113,7 +113,9 @@ function el(id){ return document.getElementById(id); }
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 function go(id){ var s = document.querySelectorAll(".screen"), i; for(i=0;i<s.length;i++){ s[i].className = "screen" + (s[i].id === id ? " active" : ""); } try{ window.scrollTo(0,0); }catch(e){} }
 function shuffle(a){ var i, j, t; for(i=a.length-1;i>0;i--){ j = Math.floor(Math.random()*(i+1)); t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
-function orgId(p, tail){ return "ORG_" + String(p.id).replace(".", "_").replace(/^(\d+_)(\d)$/, "$10$2") + "_" + tail; }
+function orgId(p, n){ return "ORG_" + String(p.id).replace(".", "_").replace(/^(\d+_)(\d)$/, "$10$2") + "_" + (n < 10 ? "0" : "") + n; }
+/* n = 1..k for the answers in box order (Who..How, gray boxes skipped), then k+1..k+4 for the order sentences in passage order */
+function answerCount(p){ var k, n = 0; for(k=0;k<p.boxes.length;k++){ if(p.boxes[k].q){ n++; } } return n; }
 function clipPath(id){ return (window.TALL_ORG_AUDIO && window.TALL_ORG_AUDIO[id]) || ""; }
 function stopAudio(){ if(AUDIO){ try{ AUDIO.pause(); }catch(e){} AUDIO = null; } }
 function playClip(id, nrEl){
@@ -150,7 +152,7 @@ function ogBackToPick(){ ogShowPick(); }
 function ogOpen(i){
   var p = DATA.passages[i], b, k;
   P = p; M = { cards: [], placed: {}, sel: null, need: 0 };
-  for(k=0;k<p.boxes.length;k++){ b = p.boxes[k]; if(b.q){ M.cards.push({ w: b.w, text: b.a, id: orgId(p, b.w.toLowerCase()) }); M.need++; } }
+  for(k=0;k<p.boxes.length;k++){ b = p.boxes[k]; if(b.q){ M.need++; M.cards.push({ w: b.w, text: b.a, id: orgId(p, M.need) }); } }
   shuffle(M.cards);
   el("og-match-title").textContent = p.id + " " + p.title;
   el("og-match-next").style.display = "none"; el("og-match-note").textContent = ""; el("og-match-note").className = "note";
@@ -216,7 +218,7 @@ function ogSlotClick(i){
   if(SUPPRESS){ SUPPRESS = false; return; }
   if(O.done){ return; }
   if(O.sel === -1){
-    O.sel = i; O.marks = null; orderRender(); playClip(orgId(P, "s" + (O.order[i] + 1)), el("og-onr-" + i)); return;
+    O.sel = i; O.marks = null; orderRender(); playClip(orgId(P, answerCount(P) + O.order[i] + 1), el("og-onr-" + i)); return;
   }
   if(O.sel === i){ O.sel = -1; orderRender(); return; }
   orderMove(O.sel, i);

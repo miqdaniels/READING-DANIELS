@@ -1,0 +1,5 @@
+Batch A rebuilt: 723 words (PDF had 706). Total clips: 830
+ADDED (36): jock, jockey, monkeys, donkeys, roof, core, bid, hid, hen, fare, scare, stare, looks, books, booked, cooked, hooked, hooks, cooks, paying, saying, staying, stay, straying, never, ever, cover, hover, rover, river, liver, diver, driver, drown, toil, joint
+REMOVED (19): peep, peek, peel, feel, torn, sore, fern, firm, burn, nerd, tear, jumping, sleep, sleeping, sunset, napkin, wow, toy, joy
+Skipped duplicates: none
+{"A G1":81,"A G2":65,"A G3":100,"A G4":69,"A G5":16,"A G6":168,"A G7":77,"A G8":46,"A G9":20,"A G10":53,"A G11":28,"B":43,"C":17,"D":27,"E":20}

@@ -199,7 +199,7 @@ function go(id){
 
 /* ============================== audio: Miquela's recorded clips only ============================== */
 function stopAudio(){ if(AUDIO){ try{ AUDIO.pause(); }catch(e){} AUDIO.onended = null; AUDIO.onerror = null; AUDIO = null; } }
-function wordPath(w){ return (window.TALL_WORD_AUDIO && window.TALL_WORD_AUDIO[TW.wordId(w)]) || ""; }
+function wordPath(w){ return TW.wordClip(w); }
 function hasWord(w){ return !!wordPath(w); }
 function tilePath(tile){ return (tile && tile.clip && window.TALL_AUDIO && window.TALL_AUDIO[tile.clip]) || ""; }
 /* play a clip; cb(false) if there is nothing to play or it will not load */

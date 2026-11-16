@@ -14,7 +14,9 @@ var TW = (function(){
   /* ---------------- ids ---------------- */
   function slug(s){ return String(s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,""); }
   function wordKey(w){ return String(w||"").toLowerCase().replace(/[^a-z]/g,""); }
-  function wordId(w){ return "WRD_" + wordKey(w); }
+  function wordId(w){ var s = String(w||"").replace(/^\s+|\s+$/g,""); if(s === "I"){ return "WRD_I"; } return "WRD_" + s.toLowerCase().replace(/\s+/g,"-").replace(/[^a-z-]/g,""); }
+  /* THE one lookup for a word's recorded clip (Word Builder, games, Read lists, Dictation, Flash-Write, passage + academic words). "" = not recorded yet. */
+  function wordClip(w, map){ map = map || (typeof window !== "undefined" ? window.TALL_WORD_AUDIO : null); return (map && map[wordId(w)]) || ""; }
 
   /* ---------------- data loader ---------------- */
   function normWord(x){
@@ -402,7 +404,7 @@ var TW = (function(){
   function progPattern(st, pid){ if(!st.patterns[pid]){ st.patterns[pid] = { buildDone: false, buildIdx: 0, read: {}, dictRight: 0, dictTotal: 0, games: {} }; } return st.patterns[pid]; }
 
   return {
-    wordKey: wordKey, wordId: wordId, slug: slug, normalizeLists: normalizeLists, flatPatterns: flatPatterns, uniqueWords: uniqueWords,
+    wordKey: wordKey, wordId: wordId, wordClip: wordClip, slug: slug, normalizeLists: normalizeLists, flatPatterns: flatPatterns, uniqueWords: uniqueWords,
     splitWord: splitWord, tilesFor: tilesFor, tilesText: tilesText, tilesToWord: tilesToWord, soundForTile: soundForTile,
     changedIndex: changedIndex, diffCount: diffCount, patternPool: patternPool, neighbors: neighbors, pickDistractors: pickDistractors,
     gameTargets: gameTargets, isEndingsPattern: isEndingsPattern, knownSet: knownSet, oneStep: oneStep, SAY: SAY, IRREGULAR: IRREGULAR,
