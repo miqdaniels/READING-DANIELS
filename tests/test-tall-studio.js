@@ -76,8 +76,8 @@ psg.forEach((p,i)=>{
 });
 
 // ---------- harness ----------
-function make(url){
-  const page=html.replace('<script src="tall-list.js"></script>','<script>'+listSrc+'</script>');
+function make(url,withAudio){
+  const page=html.replace('<script src="tall-list.js"></script>','<script>'+listSrc+'</script>').replace('<script src="tall-audio.js"></script>',withAudio?'<script>'+fs.readFileSync('./tall-audio.js','utf8')+'</script>':'');
   const dom=new JSDOM(page,{url:url,runScripts:"dangerously",pretendToBeVisual:true,
     beforeParse(w){
       w.__gum=0; w.__played=[]; w.__downloads=[]; w.__takeN=0;
@@ -186,6 +186,19 @@ async function readZip(blob,w){
   z=await readZip(d.blob,w);
   ck(Object.keys(z).sort().join(",")==="PSG_1_00.webm,manifest.json","passage ZIP contents");
   ck(JSON.parse(z["manifest.json"]).items[0].label==="1.0 Water","passage manifest label");
+
+  // ----- cleaned files in tall-audio.js count as recorded (no browser takes at all) -----
+  w=make("https://miqdaniels.github.io/READING-DANIELS/tall-studio.html?teacher",true);
+  await w.tsReady; await tick(); w.TS_STOP_TAIL_MS=0;
+  ck(Object.keys(w.TS.takes).length===0,"no takes saved in this browser");
+  ck(/111 of 113/.test(txt(w,"ts-set-0")),"TALL Sounds shows 111 of 113 recorded from the cleaned files");
+  click(w,"ts-set-0");
+  ck(w.document.getElementById("ts-filter").checked && txt(w,"ts-pid")==="SND_45_S" && txt(w,"ts-count")==="112 of 113","TALL Sounds opens on SND_45_S with the cleaned clips skipped");
+  const only=[].slice.call(w.document.querySelectorAll("#ts-list li")).map(function(l){ return l.querySelector(".pid").textContent; });
+  ck(only.join(",")==="SND_45_S,SND_45_W","only SND_45_S and SND_45_W show");
+  ck(Object.keys(w.TS.takes).length===0,"looking at the list changed nothing in storage");
+  click(w,"ts-export-0"); await tick(); ck(/Nothing recorded/.test(txt(w,"ts-pick-note")),"a cleaned file is not a take: nothing to export");
+  w.tsGo("ts-pick"); click(w,"ts-set-1"); ck(!w.document.getElementById("ts-filter").checked || w.TS.filter===true,"passages set still opens");
 
   // ----- schwa (SND_45): opens at only the two new clips, exports its own ZIP -----
   w=make("https://miqdaniels.github.io/READING-DANIELS/tall-studio.html?teacher");

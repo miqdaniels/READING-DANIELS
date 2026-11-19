@@ -166,6 +166,7 @@ footer{max-width:980px;margin:0 auto;padding:0 16px 30px;font-size:12px;color:va
 <footer>&copy; 2026 Miquela Daniels &middot; AI Academy LLC &middot; Reading Foundations &middot; Proprietary &mdash; do not copy or distribute</footer>
 
 <script src="tall-list.js"></script>
+<script src="tall-audio.js"></script>
 <script src="tall-words-core.js"></script>
 <script>
 /* ================= data ================= */
@@ -182,7 +183,9 @@ function tsSets(){
   return out;
 }
 function tsItemsIn(set){ var out=[], i; for(i=0;i<TS_ITEMS.length;i++){ if(TS_ITEMS[i].set===set){ out.push(TS_ITEMS[i]); } } return out; }
-function tsCountDone(items){ var n=0, i; for(i=0;i<items.length;i++){ if(TS.takes[items[i].id]){ n++; } } return n; }
+/* A clip counts as recorded when a take is saved in this browser OR its cleaned file is listed in tall-audio.js. Read-only: nothing in storage is changed. */
+function tsDone(id){ return !!TS.takes[id] || !!(window.TALL_AUDIO && window.TALL_AUDIO[id]); }
+function tsCountDone(items){ var n=0, i; for(i=0;i<items.length;i++){ if(tsDone(items[i].id)){ n++; } } return n; }
 function tsCur(){ return tsItemsIn(TS.set)[TS.idx]; }
 function tsEsc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
@@ -276,12 +279,12 @@ function tsPickSet(i){
 /* ================= record screen ================= */
 function tsVisibleIdx(){
   var it=tsItemsIn(TS.set), out=[], i;
-  for(i=0;i<it.length;i++){ if(!TS.filter || !TS.takes[it[i].id] || i===TS.idx){ out.push(i); } }
+  for(i=0;i<it.length;i++){ if(!TS.filter || !tsDone(it[i].id) || i===TS.idx){ out.push(i); } }
   return out;
 }
 function tsFirstUnrecorded(){
   var it=tsItemsIn(TS.set), i;
-  for(i=0;i<it.length;i++){ if(!TS.takes[it[i].id]){ return i; } }
+  for(i=0;i<it.length;i++){ if(!tsDone(it[i].id)){ return i; } }
   return -1;
 }
 /* escape first, then turn **word** into bold (First 100 words), exactly like the student screen */
@@ -327,7 +330,7 @@ function tsPaintRecord(){
   document.getElementById("ts-setcount").textContent=tsCountDone(it)+" of "+it.length+" recorded in this set";
   document.getElementById("ts-count").textContent=(TS.idx+1)+" of "+it.length;
   document.getElementById("ts-pid").textContent=cur.id;
-  document.getElementById("ts-donetag").innerHTML= has ? "&#10003; recorded" : "";
+  document.getElementById("ts-donetag").innerHTML= tsDone(cur.id) ? "&#10003; recorded" : "";
   document.getElementById("ts-show").innerHTML=tsShowHtml(cur);
   document.getElementById("ts-listen").disabled = !has || TS.recording;
   document.getElementById("ts-rerecord").disabled = !has || TS.recording;
@@ -337,7 +340,7 @@ function tsPaintRecord(){
   for(i=0;i<vis.length;i++){
     var x=it[vis[i]];
     h+='<li><button id="ts-row-'+x.id+'" class="'+(vis[i]===TS.idx?'cur':'')+'" onclick="tsJump('+vis[i]+')">'
-      +'<span class="chk">'+(TS.takes[x.id]?'&#10003;':'')+'</span><span class="pid">'+x.id+'</span><span>'+tsEsc(x.label)+'</span></button></li>';
+      +'<span class="chk">'+(tsDone(x.id)?'&#10003;':'')+'</span><span class="pid">'+x.id+'</span><span>'+tsEsc(x.label)+'</span></button></li>';
   }
   if(!vis.length){ h='<li class="mini">Every clip in this set is recorded.</li>'; }
   document.getElementById("ts-list").innerHTML=h;
@@ -347,7 +350,7 @@ function tsPaintRecord(){
 function tsStep(dir){
   var it=tsItemsIn(TS.set), i=TS.idx+dir;
   while(i>=0 && i<it.length){
-    if(!TS.filter || !TS.takes[it[i].id]){ return i; }
+    if(!TS.filter || !tsDone(it[i].id)){ return i; }
     i+=dir;
   }
   return -1;
