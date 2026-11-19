@@ -2,20 +2,18 @@
 const fs=require('fs'); const {JSDOM}=require('jsdom');
 let pass=0,fail=0; function ck(c,m){ if(c){pass++;} else {fail++; console.log("FAIL:",m);} }
 const ALL=require('../tall-list.js').filter(x=>x.set==="TALL Sounds");
-// SND_45 (schwa) is recorded after the app ships; until its cleaned files are added it is "Not recorded yet." (no map entry, no file)
-const LIST=ALL.filter(x=>x.id.indexOf("SND_45")!==0);
+const LIST=ALL;
 const AUD=require('../tall-audio.js'), man=JSON.parse(fs.readFileSync('./audio/tall-sounds-manifest.json','utf8'));
 const src=fs.readFileSync('./tall-audio.js','utf8');
-ck(LIST.length===111 && ALL.length===113,"111 recorded sound clips + 2 schwa clips in the list");
-ALL.filter(x=>x.id.indexOf("SND_45")===0).forEach(x=>{ const has=fs.existsSync("./audio/TALL/"+x.id+".webm"); ck(has===!!AUD[x.id] && (!has || AUD[x.id]==="audio/TALL/"+x.id+".webm"),"schwa "+x.id+": map entry exists exactly when the cleaned file does, same path pattern"); });
-ck(Object.keys(AUD).length===111 && man.items.length===111,"111 audio entries and 111 manifest items");
+ck(LIST.length===113,"113 sound clips in the list (44 sounds + extras + schwa)");
+ck(Object.keys(AUD).length===113 && man.items.length===113,"113 audio entries and 113 manifest items");
 LIST.forEach(x=>{
   const f='./audio/TALL/'+x.id+'.webm';
   ck(AUD[x.id]==="audio/TALL/"+x.id+".webm","lookup "+x.id);
   ck(fs.existsSync(f) && fs.statSync(f).size>2000,"file exists "+x.id);
   if(fs.existsSync(f)){ const b=fs.readFileSync(f).slice(0,4); ck(b[0]===0x1a&&b[1]===0x45&&b[2]===0xdf&&b[3]===0xa3,"webm header "+x.id); }
 });
-ck(fs.readdirSync('./audio/TALL').filter(f=>/\.webm$/.test(f)).length===111,"no stray files in audio/TALL");
+ck(fs.readdirSync('./audio/TALL').filter(f=>/\.webm$/.test(f)).length===113,"no stray files in audio/TALL");
 ck(man.items.every((m,i)=>m.id===LIST[i].id && m.webm===man.base+m.id+".webm" && m.label===LIST[i].label),"manifest ids, labels, URLs match the list in order");
 ck(man.base==="https://miqdaniels.github.io/READING-DANIELS/audio/TALL/","public base URL");
 // ES5 only, no TTS

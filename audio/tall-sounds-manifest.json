@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15",
+  "updated": "2026-11-19",
   "note": "Final cleaned TALL Sounds takes (v4): mono Opus .webm. One file per clip id; ids never change.",
   "base": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/",
   "items": [
@@ -936,6 +936,24 @@
         "Diphthong"
       ],
       "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_44_W2.webm"
+    },
+    {
+      "id": "SND_45_S",
+      "label": "/ə/ – sound only",
+      "types": [
+        "Schwa",
+        "Unstressed vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_45_S.webm"
+    },
+    {
+      "id": "SND_45_W",
+      "label": "sofa – key word (/ə/)",
+      "types": [
+        "Schwa",
+        "Unstressed vowel"
+      ],
+      "webm": "https://miqdaniels.github.io/READING-DANIELS/audio/TALL/SND_45_W.webm"
     }
   ]
 }

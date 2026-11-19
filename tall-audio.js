@@ -112,7 +112,9 @@ var TALL_AUDIO = {
   "SND_43_W2": "audio/TALL/SND_43_W2.webm",
   "SND_44_S": "audio/TALL/SND_44_S.webm",
   "SND_44_W": "audio/TALL/SND_44_W.webm",
-  "SND_44_W2": "audio/TALL/SND_44_W2.webm"
+  "SND_44_W2": "audio/TALL/SND_44_W2.webm",
+  "SND_45_S": "audio/TALL/SND_45_S.webm",
+  "SND_45_W": "audio/TALL/SND_45_W.webm"
 };
 if(typeof window!=="undefined"){ window.TALL_AUDIO = TALL_AUDIO; }
 if(typeof module!=="undefined" && module.exports){ module.exports = TALL_AUDIO; }

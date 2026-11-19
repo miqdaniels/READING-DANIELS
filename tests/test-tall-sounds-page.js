@@ -113,11 +113,12 @@ for(let i=1;i<=44;i++){
 ck(bad===0,"all 44 recorded cards: _S, _W and every extra play the right clip id");
 
 // ---------- schwa (SND_45): not recorded yet -> says so; once the cleaned files are added to the map it plays like every other sound ----------
-let sw=make(); click(sw,"tsd-tile-SND_45");
+const noSchwa=audSrc.replace(/\s*"SND_45_[SW]": "[^"]+",?/g,"").replace(/,(\s*)};/,"$1};");
+let sw=make({audioSrc:noSchwa}); click(sw,"tsd-tile-SND_45");
 ck(txt(sw,"tsd-word")==="sofa" && /a \/ e \/ o \/ u/.test(txt(sw,"tsd-spell")) && txt(sw,"tsd-pos")==="45 of 45","schwa card: sofa, a / e / o / u, 45 of 45");
 ck($(sw,"tsd-play-s").disabled===true && txt(sw,"tsd-msg-s")==="Not recorded yet." && $(sw,"tsd-play-w").disabled===true && txt(sw,"tsd-msg-w")==="Not recorded yet.","schwa not recorded -> 'Not recorded yet.' on both clips");
 click(sw,"tsd-play-s"); ck(sw.__played.length===0,"missing schwa clip plays nothing");
-const withSchwa=audSrc.replace(/\n};/,',\n  "SND_45_S": "audio/TALL/SND_45_S.webm",\n  "SND_45_W": "audio/TALL/SND_45_W.webm"\n};');
+const withSchwa=audSrc;
 sw=make({audioSrc:withSchwa}); click(sw,"tsd-tile-SND_45"); click(sw,"tsd-play-s"); click(sw,"tsd-play-w");
 ck(sw.__played[0]===clipUrl("SND_45_S") && sw.__played[1]===clipUrl("SND_45_W") && txt(sw,"tsd-msg-s")==="","once SND_45 files are in the map, both clips play from audio/TALL/ like the others");
 
