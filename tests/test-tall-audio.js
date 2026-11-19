@@ -1,10 +1,13 @@
 // Final cleaned TALL Sounds audio (v4): every id has a real file, ids unchanged, manifest + lookup agree.
 const fs=require('fs'); const {JSDOM}=require('jsdom');
 let pass=0,fail=0; function ck(c,m){ if(c){pass++;} else {fail++; console.log("FAIL:",m);} }
-const LIST=require('../tall-list.js').filter(x=>x.set==="TALL Sounds");
+const ALL=require('../tall-list.js').filter(x=>x.set==="TALL Sounds");
+// SND_45 (schwa) is recorded after the app ships; until its cleaned files are added it is "Not recorded yet." (no map entry, no file)
+const LIST=ALL.filter(x=>x.id.indexOf("SND_45")!==0);
 const AUD=require('../tall-audio.js'), man=JSON.parse(fs.readFileSync('./audio/tall-sounds-manifest.json','utf8'));
 const src=fs.readFileSync('./tall-audio.js','utf8');
-ck(LIST.length===111,"111 sound clips in the list");
+ck(LIST.length===111 && ALL.length===113,"111 recorded sound clips + 2 schwa clips in the list");
+ALL.filter(x=>x.id.indexOf("SND_45")===0).forEach(x=>{ const has=fs.existsSync("./audio/TALL/"+x.id+".webm"); ck(has===!!AUD[x.id] && (!has || AUD[x.id]==="audio/TALL/"+x.id+".webm"),"schwa "+x.id+": map entry exists exactly when the cleaned file does, same path pattern"); });
 ck(Object.keys(AUD).length===111 && man.items.length===111,"111 audio entries and 111 manifest items");
 LIST.forEach(x=>{
   const f='./audio/TALL/'+x.id+'.webm';

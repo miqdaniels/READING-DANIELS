@@ -1,4 +1,4 @@
-// tall-sounds.html: the student "TALL Sounds" page (grid of 44, card view, play buttons, extras, missing clips).
+// tall-sounds.html: the student "TALL Sounds" page (grid of 45, card view, play buttons, extras, missing clips).
 const fs=require('fs'); const {JSDOM}=require('jsdom');
 const html=fs.readFileSync('./tall-sounds.html','utf8');
 const listSrc=fs.readFileSync('./tall-list.js','utf8'), audSrc=fs.readFileSync('./tall-audio.js','utf8');
@@ -55,9 +55,9 @@ const clipUrl=id=>BASE+"audio/TALL/"+id+".webm";
 let w=make();
 ck(active(w)==="tsd-grid","opens on the grid");
 const tiles=[].slice.call(w.document.querySelectorAll("#tsd-tiles .tile"));
-ck(tiles.length===44,"44 sound cards");
+ck(tiles.length===45,"45 sound cards");
 const sounds=LIST.filter(x=>/^SND_\d\d_S$/.test(x.id));
-ck(sounds.length===44 && tiles.every((t,i)=>t.id==="tsd-tile-"+sounds[i].id.slice(0,6)),"cards in SND_01..SND_44 order");
+ck(sounds.length===45 && tiles.every((t,i)=>t.id==="tsd-tile-"+sounds[i].id.slice(0,6)),"cards in SND_01..SND_45 order");
 ck(tiles[0].textContent.indexOf("p")>-1 && /\/p\//.test(tiles[0].textContent),"card 1 shows p and /p/");
 ck(/Long a/.test(tiles[29].textContent) && /Short a/.test(tiles[24].textContent),"sound names start with a capital: Long a");
 ck(/a_e \/ ai \/ ay/.test(tiles[29].textContent),"long a card shows a_e / ai / ay");
@@ -69,7 +69,7 @@ click(w,"tsd-tile-SND_30");
 ck(active(w)==="tsd-card","tap a card opens it");
 ck(txt(w,"tsd-spell")==="a_e / ai / ay","spellings big: a_e / ai / ay");
 ck(txt(w,"tsd-type")==="Long vowel · Silent e (a_e) · Vowel team (ai, ay)","sound type shown small and gray");
-ck(txt(w,"tsd-word")==="made" && txt(w,"tsd-pos")==="30 of 44","key word in text + position");
+ck(txt(w,"tsd-word")==="made" && txt(w,"tsd-pos")==="30 of 45","key word in text + position");
 ck(txt(w,"tsd-name")==="Long a","heading reads Long a");
 click(w,"tsd-play-s"); ck(w.__played[0]===clipUrl("SND_30_S"),"Hear the sound loads SND_30_S");
 click(w,"tsd-play-w"); ck(w.__played[1]===clipUrl("SND_30_W"),"Hear the word loads SND_30_W");
@@ -91,11 +91,11 @@ ck(txt(w,"tsd-word")==="pen" && /Stop/.test(txt(w,"tsd-type")),"p: word pen, typ
 
 // ---------- previous / next ----------
 ck($(w,"tsd-prev").disabled===true && $(w,"tsd-next").disabled===false,"Previous disabled on the first sound");
-click(w,"tsd-next"); ck(txt(w,"tsd-pos")==="2 of 44" && txt(w,"tsd-word")==="bag","Next -> /b/ bag");
-click(w,"tsd-prev"); ck(txt(w,"tsd-pos")==="1 of 44","Previous -> back to /p/");
-key(w,"ArrowRight",39); ck(txt(w,"tsd-pos")==="2 of 44","right arrow = next");
-key(w,"ArrowLeft",37); ck(txt(w,"tsd-pos")==="1 of 44","left arrow = previous");
-click(w,"tsd-all"); click(w,"tsd-tile-SND_44");
+click(w,"tsd-next"); ck(txt(w,"tsd-pos")==="2 of 45" && txt(w,"tsd-word")==="bag","Next -> /b/ bag");
+click(w,"tsd-prev"); ck(txt(w,"tsd-pos")==="1 of 45","Previous -> back to /p/");
+key(w,"ArrowRight",39); ck(txt(w,"tsd-pos")==="2 of 45","right arrow = next");
+key(w,"ArrowLeft",37); ck(txt(w,"tsd-pos")==="1 of 45","left arrow = previous");
+click(w,"tsd-all"); click(w,"tsd-tile-SND_45");
 ck($(w,"tsd-next").disabled===true && $(w,"tsd-prev").disabled===false,"Next disabled on the last sound");
 
 // ---------- every one of the 44 cards: right S and W clip ----------
@@ -110,7 +110,16 @@ for(let i=1;i<=44;i++){
   exs.forEach(e=>{ click(w,"tsd-play-"+e.id); if(w.__played[w.__played.length-1]!==clipUrl(e.id)) bad++; });
   if(w.document.querySelectorAll("#tsd-extras .erow").length!==exs.length) bad++;
 }
-ck(bad===0,"all 44 cards: _S, _W and every extra play the right clip id");
+ck(bad===0,"all 44 recorded cards: _S, _W and every extra play the right clip id");
+
+// ---------- schwa (SND_45): not recorded yet -> says so; once the cleaned files are added to the map it plays like every other sound ----------
+let sw=make(); click(sw,"tsd-tile-SND_45");
+ck(txt(sw,"tsd-word")==="sofa" && /a \/ e \/ o \/ u/.test(txt(sw,"tsd-spell")) && txt(sw,"tsd-pos")==="45 of 45","schwa card: sofa, a / e / o / u, 45 of 45");
+ck($(sw,"tsd-play-s").disabled===true && txt(sw,"tsd-msg-s")==="Not recorded yet." && $(sw,"tsd-play-w").disabled===true && txt(sw,"tsd-msg-w")==="Not recorded yet.","schwa not recorded -> 'Not recorded yet.' on both clips");
+click(sw,"tsd-play-s"); ck(sw.__played.length===0,"missing schwa clip plays nothing");
+const withSchwa=audSrc.replace(/\n};/,',\n  "SND_45_S": "audio/TALL/SND_45_S.webm",\n  "SND_45_W": "audio/TALL/SND_45_W.webm"\n};');
+sw=make({audioSrc:withSchwa}); click(sw,"tsd-tile-SND_45"); click(sw,"tsd-play-s"); click(sw,"tsd-play-w");
+ck(sw.__played[0]===clipUrl("SND_45_S") && sw.__played[1]===clipUrl("SND_45_W") && txt(sw,"tsd-msg-s")==="","once SND_45 files are in the map, both clips play from audio/TALL/ like the others");
 
 // ---------- missing clips: say so, never speak ----------
 const trimmed=audSrc.replace(/\s*"SND_05_S": "[^"]+",?\n/,"\n").replace(/\s*"SND_30_W2": "[^"]+",?\n/,"\n");

@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;700;800&amp;family=Montserrat:wght@700;800&amp;display=swap">
 <link rel="stylesheet" href="tall-theme.css">
 <!-- (c) 2026 Miquela Daniels, AI Academy LLC. Reading Foundations. Proprietary -- do not copy or distribute.
-     Student page: the 44 TALL sounds (Foundations GREEN; fonts Montserrat + Atkinson Hyperlegible Next). Reads tall-list.js (spellings, types, words) and tall-audio.js (the
+     Student page: the 45 TALL sounds (Foundations GREEN; fonts Montserrat + Atkinson Hyperlegible Next). Reads tall-list.js (spellings, types, words) and tall-audio.js (the
      final cleaned recordings in Mick's own voice). No text-to-speech, no scoring, nothing is stored.
      ES5 only. Screens are string ids: "tsd-grid", "tsd-card". -->
 <style>
@@ -69,7 +69,7 @@ footer{max-width:1000px;margin:0 auto;padding:0 16px 28px;font-size:12px;color:v
 <div class="wrap">
 
   <section id="tsd-grid" class="screen">
-    <p class="intro">44 sounds. Tap one to hear it.</p>
+    <p class="intro">45 sounds. Tap one to hear it.</p>
     <div class="grid" id="tsd-tiles"></div>
   </section>
 
@@ -102,7 +102,7 @@ footer{max-width:1000px;margin:0 auto;padding:0 16px 28px;font-size:12px;color:v
 <script src="tall-list.js"></script>
 <script src="tall-audio.js"></script>
 <script>
-/* ================= data: one entry per sound, in SND_01..SND_44 order ================= */
+/* ================= data: one entry per sound, in SND_01..SND_45 order ================= */
 var TSD_SOUNDS = (function(){
   var list = window.TALL_LIST || [], out = [], by = {}, i, x, n, s;
   for(i=0;i<list.length;i++){

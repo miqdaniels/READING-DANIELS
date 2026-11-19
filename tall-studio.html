@@ -250,6 +250,7 @@ function tsPaintPick(){
     if(items[0] && items[0].kind !== "wordclip"){ e+='<button class="btn" id="ts-export-'+i+'" onclick="tsExportSetIdx('+i+')">Export '+tsEsc(sets[i])+' (ZIP)</button>'; }
   }
   document.getElementById("ts-sets").innerHTML=h;
+  if(TS_ITEMS.some(function(x){ return x.id==="SND_45_S"; })){ e+='<button class="btn" id="ts-export-schwa" onclick="tsExportSchwa()">Export schwa SND_45 (ZIP)</button>'; }
   document.getElementById("ts-exports").innerHTML=e;
   tsPaintWords();
   w=document.getElementById("ts-memwarn");
@@ -266,6 +267,8 @@ function tsPaintWords(){
 }
 function tsPickSet(i){
   TS.set=tsSets()[i]; TS.idx=0;
+  /* "Skip anything already recorded" is on whenever the set already has takes (so TALL Sounds opens at only the new clips) */
+  if(tsCountDone(tsItemsIn(TS.set))>0){ TS.filter=true; }
   if(TS.filter){ var f=tsFirstUnrecorded(); if(f>-1){ TS.idx=f; } }
   tsGo("ts-record");
 }
@@ -551,6 +554,8 @@ function tsZipName(set){
   return "TALL_Words_" + String(set).toLowerCase().replace(/^words:\s*/, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "_recordings_v1.zip";
 }
 function tsExportItems(set, noteId){ return tsExportList(tsItemsIn(set), tsZipName(set), noteId, set); }
+function tsDateStamp(){ var d=new Date(), m=d.getMonth()+1, dd=d.getDate(); return d.getFullYear()+"-"+(m<10?"0":"")+m+"-"+(dd<10?"0":"")+dd; }
+function tsExportSchwa(){ return tsExportList(TS_ITEMS.filter(function(x){ return x.id==="SND_45_S" || x.id==="SND_45_W"; }), "TALL_SND_45_recordings_"+tsDateStamp()+"_v1.zip", "ts-pick-note", "TALL Sounds"); }
 function tsExportAllWords(){ return tsExportList(TS_ITEMS.filter(function(x){ return x.kind === "wordclip"; }), "TALL_Words_all_recordings_v1.zip", "ts-pick-note", "TALL Words (all)"); }
 function tsExportList(items, zipName, noteId, set){
   var have=[], i, manifest=[];
@@ -572,6 +577,7 @@ function tsExportList(items, zipName, noteId, set){
       var fname=it.id+"."+tsExt(t.mime);
       files.push({name:fname, data:bytes});
       manifest.push({id:it.id, label:it.label, file:fname, types:(it.tags||[])});
+      if(it.kind === "sound" || (it.kind === "word" && /^SND_/.test(it.id))){ manifest[manifest.length-1].clip = it.id; manifest[manifest.length-1].sound = it.sound; manifest[manifest.length-1].word = it.key; manifest[manifest.length-1].batch = "TALL Sounds"; }
       if(it.kind === "wordclip"){ manifest[manifest.length-1].word = it.w; manifest[manifest.length-1].pattern = it.setTitle; }
       k++; return nextOne();
     });

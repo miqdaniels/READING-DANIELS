@@ -37,8 +37,8 @@ async function readZip(blob,w){
   const ids={}; let dup=false; w.TS_ITEMS.forEach(x=>{ if(ids[x.id]) dup=true; ids[x.id]=1; }); ck(!dup,"no duplicate ids (words included)");
   ck(words.every(x=>/^WRD_[A-Za-z-]+$/.test(x.id)) && words.every(x=>x.id===TW.wordId(x.w)),"ids are WRD_<word>");
   const distinct={}; words.forEach(x=>distinct[x.w.toLowerCase()]=1); ck(Object.keys(distinct).length===words.length,"one clip per distinct word (no word twice)");
-  ck(w.TS_ITEMS.filter(x=>x.kind!=="wordclip").length===122,"the 99 sound/passage clips are all still there (122 total, unchanged)");
-  ck(w.TS_ITEMS.filter(x=>x.id.indexOf("SND_")===0).length===111 && w.TS_ITEMS.filter(x=>x.id.indexOf("PSG_")===0).length===11,"sound and passage ids untouched");
+  ck(w.TS_ITEMS.filter(x=>x.kind!=="wordclip").length===124,"all sound and passage clips are still there (124: 113 sound incl. schwa + 11 passages)");
+  ck(w.TS_ITEMS.filter(x=>x.id.indexOf("SND_")===0).length===113 && w.TS_ITEMS.filter(x=>x.id.indexOf("PSG_")===0).length===11,"sound and passage ids untouched");
   /* grouped by pattern, in teaching order */
   const sets=w.tsSets().filter(s=>s.indexOf("Words:")===0);
   const expectedSets=[]; uw.forEach(x=>{ const t="Words: "+x.groupTitle+" > "+x.setTitle; if(expectedSets.indexOf(t)<0) expectedSets.push(t); });
@@ -48,7 +48,7 @@ async function readZip(blob,w){
   /* pick screen */
   ck(active(w)==="ts-pick" && $(w,"ts-words-card").style.display==="block" && txt(w,"ts-words-count")==="Words: 0 of "+words.length+" recorded","pick screen shows 'Words: 0 of N recorded'");
   ck(w.document.querySelectorAll("#ts-sets button").length===2+sets.length,"set buttons: sounds + passages + one per word pattern");
-  ck(w.document.querySelectorAll("#ts-exports button").length===2,"no separate export button for each word pattern (one Export-all-words button instead)");
+  ck(w.document.querySelectorAll("#ts-exports button").length===3,"no separate export button for each word pattern (set exports + schwa export; one Export-all-words button elsewhere)");
   /* open a word set: big word, star, heart */
   click(w,"ts-set-"+w.tsSets().indexOf("Words: Short Vowels > Short a"));
   ck(txt(w,"ts-pid")===words[0].id && txt(w,"ts-word").indexOf(words[0].w)===0 && /Say the WORD/.test(txt(w,"ts-say")) && /Short Vowels > Short a/.test(txt(w,"ts-wordset")),"record screen: the word BIG, 'Say the WORD', and its pattern");

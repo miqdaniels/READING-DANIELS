@@ -1,8 +1,8 @@
-// Builds tall-list.js. Sounds come from the table Mick approved (SND_01-44).
+// Builds tall-list.js. Sounds come from the table Mick approved (SND_01-45).
 // Passages come from index.html's PASSAGES (Grade 1 = v3 PDF order, 1.0 Water first).
 var fs=require('fs');
 var src=fs.readFileSync(__dirname+'/../index.html','utf8');
-var T={stop:"Short and crisp. No ‘uh’ after it.",hold:"Hold the sound about 2 seconds.",vowel:"Say it clearly, about 1 second.",quick:"Quick and light.",breath:"Just a breath of air."};
+var T={stop:"Short and crisp. No ‘uh’ after it.",hold:"Hold the sound about 2 seconds.",vowel:"Say it clearly, about 1 second.",quick:"Quick and light.",breath:"Just a breath of air.",schwa:"Quick, lazy \u2018uh.\u2019 Mouth relaxed. Don\u2019t hold it."};
 var S=[
 ["/p/","p","pen","stop"],["/b/","b","bag","stop"],["/t/","t","ten","stop"],["/d/","d","dog","stop"],["/k/","c, k, ck","cap","stop"],["/g/","g","gum","stop"],
 ["/f/","f, ph","fan","hold"],["/v/","v","van","hold"],["/th/ (quiet)","th","thin","hold"],["/th/ (voiced)","th","that","hold"],["/s/","s, c","sit","hold"],["/z/","z, s","zip","hold"],
@@ -11,7 +11,7 @@ var S=[
 ["short a","a","at","vowel"],["short e","e","egg","vowel"],["short i","i","it","vowel"],["short o","o","on","vowel"],["short u","u","up","vowel"],
 ["long a","a_e, ai, ay","made","vowel"],["long e","ee, ea, e","team","vowel"],["long i","i_e, igh, y","time","vowel"],["long o","o_e, oa, o","home","vowel"],["long u","u_e","use","vowel"],
 ["long oo","oo","food","vowel"],["short oo","oo","look","vowel"],["/ar/","ar","car","vowel"],["/or/","or","fork","vowel"],["/er/","er, ir, ur","her","vowel"],
-["/air/","air, ere, eir","hair","vowel"],["/ear/","ear, ere","ear","vowel"],["/aw/","aw, a(ll)","saw","vowel"],["/ow/","ou, ow","out","vowel"],["/oi/","oy, oi","boy","vowel"]];
+["/air/","air, ere, eir","hair","vowel"],["/ear/","ear, ere","ear","vowel"],["/aw/","aw, a(ll)","saw","vowel"],["/ow/","ou, ow","out","vowel"],["/oi/","oy, oi","boy","vowel"],["/\u0259/","a, e, o, u","sofa","schwa"]];
 
 // Sound-type labels shown small and gray (teachers, not kids). Index = sound number - 1.
 var TAGS=[
@@ -22,7 +22,8 @@ var TAGS=[
 ["Short vowel"],["Short vowel"],["Short vowel"],["Short vowel"],["Short vowel"],
 ["Long vowel","Silent e (a_e)","Vowel team (ai, ay)"],["Long vowel","Vowel team (ee, ea)"],["Long vowel","Silent e (i_e)","Vowel team (igh)"],["Long vowel","Silent e (o_e)","Vowel team (oa)"],["Long vowel","Silent e (u_e)"],
 ["Vowel team (oo)"],["Vowel team (oo)"],["R-controlled"],["R-controlled"],["R-controlled"],
-["R-controlled"],["R-controlled"],["Other vowel"],["Diphthong"],["Diphthong"]];
+["R-controlled"],["R-controlled"],["Other vowel"],["Diphthong"],["Diphthong"],
+["Schwa","Unstressed vowel"]];
 // Extra key words (clips SND_xx_W2, SND_xx_W3): one word per additional spelling.
 var EXTRA={
  5:[["kid","k",["Stop"]],["duck","ck",["Stop","Digraph (ck)"]]],

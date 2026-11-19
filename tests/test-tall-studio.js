@@ -27,10 +27,12 @@ ck(index.indexOf("tall-studio.html?teacher")>-1,"tile opens the studio in teache
 // ---------- data ----------
 const LIST=require('../tall-list.js');
 const sounds=LIST.filter(x=>x.set==="TALL Sounds"), psg=LIST.filter(x=>x.kind==="passage");
-ck(sounds.length===111 && psg.length===11 && LIST.length===122,"88 original + 23 extra sound clips, + 11 passage clips");
+ck(sounds.length===113 && psg.length===11 && LIST.length===124,"90 original + 23 extra sound clips (incl. schwa), + 11 passage clips");
 const ids={}; let dup=false; LIST.forEach(x=>{ if(ids[x.id]) dup=true; ids[x.id]=1; }); ck(!dup,"ids unique");
-for(let i=1;i<=44;i++){ const n=(i<10?"0":"")+i; ck(ids["SND_"+n+"_S"] && ids["SND_"+n+"_W"],"SND_"+n+" has _S and _W"); }
+for(let i=1;i<=45;i++){ const n=(i<10?"0":"")+i; ck(ids["SND_"+n+"_S"] && ids["SND_"+n+"_W"],"SND_"+n+" has _S and _W"); }
 const by={}; LIST.forEach(x=>by[x.id]=x);
+ck(by.SND_45_S.sound==="/\u0259/" && by.SND_45_S.spell==="a, e, o, u" && by.SND_45_W.key==="sofa" && by.SND_45_S.tip==="Quick, lazy \u2018uh.\u2019 Mouth relaxed. Don\u2019t hold it." && by.SND_45_S.tags.indexOf("Schwa")>-1,"SND_45 schwa / sofa / note");
+ck(!ids.SND_45_W2 && by.SND_44_W.key==="boy" && by.SND_01_S.sound==="/p/","schwa has exactly two clips; 01-44 unchanged");
 ck(by.SND_01_S.sound==="/p/" && by.SND_01_W.key==="pen" && by.SND_01_S.tip==="Short and crisp. No ‘uh’ after it.","SND_01 p/pen/stop");
 ck(by.SND_05_S.spell==="c, k, ck","SND_05 spellings");
 ck(by.SND_09_S.sound==="/th/ (quiet)" && by.SND_10_S.sound==="/th/ (voiced)","two th sounds");
@@ -120,15 +122,15 @@ async function readZip(blob,w){
   await w.tsReady; await tick();
   w.TS_STOP_TAIL_MS=0;
   ck(active(w)==="ts-pick","?teacher -> pick screen");
-  ck(txt(w,"ts-progress")==="0 of 122 recorded","progress 0 of 122");
+  ck(txt(w,"ts-progress")==="0 of 124 recorded","progress 0 of 122");
   ck(w.document.querySelectorAll("#ts-sets button").length===2,"two set buttons");
-  ck(/111/.test(txt(w,"ts-set-0")) && /11/.test(txt(w,"ts-set-1")),"set buttons show 111 and 11");
+  ck(/113/.test(txt(w,"ts-set-0")) && /11/.test(txt(w,"ts-set-1")),"set buttons show 113 and 11");
   click(w,"ts-export-0"); await tick();
   ck(/Nothing recorded/.test(txt(w,"ts-pick-note")) && !w.__downloads.length,"export with nothing says so");
 
   // ----- Sounds -----
   click(w,"ts-set-0"); ck(active(w)==="ts-record","opens record screen");
-  ck(txt(w,"ts-count")==="1 of 111" && txt(w,"ts-pid")==="SND_01_S","starts at SND_01_S");
+  ck(txt(w,"ts-count")==="1 of 113" && txt(w,"ts-pid")==="SND_01_S","starts at SND_01_S");
   ck(txt(w,"ts-sound")==="/p/" && /p$/.test(txt(w,"ts-spell")) && /pen/.test(txt(w,"ts-key")),"big sound, spellings, key word on screen");
   ck(txt(w,"ts-say")==="Say the SOUND only" && /Short and crisp/.test(txt(w,"ts-tip")),"says SOUND only + tip");
   ck(txt(w,"ts-type")==="Stop","type label shown on screen (Stop)");
@@ -143,7 +145,7 @@ async function readZip(blob,w){
   ck(w.__mrOpts.audioBitsPerSecond>=128000 && /opus/.test(w.__mrOpts.mimeType),"records Opus at 128 kbps or higher");
   ck(w.__gum===1 && /rec/.test(w.document.getElementById("ts-mic").className),"one mic request, mic red");
   click(w,"ts-mic"); await tick(); await tick();
-  ck(w.__played.length===1 && txt(w,"ts-progress")==="1 of 111 recorded","take saved and played back");
+  ck(w.__played.length===1 && txt(w,"ts-progress")==="1 of 113 recorded","take saved and played back");
   endPlayback(w); await tick();
   ck(txt(w,"ts-pid")==="SND_01_W" && txt(w,"ts-say")==="Say the KEY WORD" && /pen/.test(txt(w,"ts-key")),"advances to SND_01_W (key word)");
   key(w," ",32); await tick(); await tick(); key(w," ",32); await tick(); await tick();
@@ -153,7 +155,7 @@ async function readZip(blob,w){
   key(w,"ArrowLeft",37); ck(txt(w,"ts-pid")==="SND_01_W","left arrow = back");
   click(w,"ts-listen"); ck(w.__played.length===3,"Listen replays");
   click(w,"ts-rerecord"); await tick(); await tick(); click(w,"ts-mic"); await tick(); await tick();
-  ck(txt(w,"ts-progress")==="2 of 111 recorded","re-record replaces, count stays 2");
+  ck(txt(w,"ts-progress")==="2 of 113 recorded","re-record replaces, count stays 2");
   click(w,"ts-export-set"); await tick(); await tick(); await tick();
   let d=w.__downloads[w.__downloads.length-1];
   ck(d && d.name==="TALL_Sounds_recordings_v1.zip","Sounds ZIP name");
@@ -184,6 +186,27 @@ async function readZip(blob,w){
   z=await readZip(d.blob,w);
   ck(Object.keys(z).sort().join(",")==="PSG_1_00.webm,manifest.json","passage ZIP contents");
   ck(JSON.parse(z["manifest.json"]).items[0].label==="1.0 Water","passage manifest label");
+
+  // ----- schwa (SND_45): opens at only the two new clips, exports its own ZIP -----
+  w=make("https://miqdaniels.github.io/READING-DANIELS/tall-studio.html?teacher");
+  await w.tsReady; await tick(); w.TS_STOP_TAIL_MS=0;
+  ck(!!w.document.getElementById("ts-export-schwa"),"schwa export button on the pick screen");
+  w.TS_ITEMS.forEach(function(x){ if(/^SND_/.test(x.id) && x.id.indexOf("SND_45")!==0){ w.TS.takes[x.id]={id:x.id,blob:new w.Blob(["x"],{type:"audio/webm"}),mime:"audio/webm"}; } });
+  w.tsGo("ts-pick"); click(w,"ts-set-0");
+  ck(w.document.getElementById("ts-filter").checked && txt(w,"ts-pid")==="SND_45_S","TALL Sounds opens on SND_45_S with already-recorded skipped");
+  ck(txt(w,"ts-sound")==="\u0259" || txt(w,"ts-sound")==="/\u0259/","big sound is the schwa");
+  ck(/a, e, o, u/.test(txt(w,"ts-spell")) && /sofa/.test(txt(w,"ts-key")) && txt(w,"ts-tip")==="Tip: Quick, lazy \u2018uh.\u2019 Mouth relaxed. Don\u2019t hold it.","spellings, key word and note on screen");
+  const vis=[].slice.call(w.document.querySelectorAll("#ts-list li")).map(function(l){ return l.textContent; }).join("|");
+  ck(/SND_45_S/.test(vis) && /SND_45_W/.test(vis) && !/SND_44_W/.test(vis),"list shows only SND_45_S and SND_45_W");
+  w.TS.takes.SND_45_S={id:"SND_45_S",blob:new w.Blob(["a"],{type:"audio/webm"}),mime:"audio/webm"};
+  w.TS.takes.SND_45_W={id:"SND_45_W",blob:new w.Blob(["b"],{type:"audio/webm"}),mime:"audio/webm"};
+  w.tsGo("ts-pick"); click(w,"ts-export-schwa"); await tick(); await tick(); await tick();
+  d=w.__downloads[w.__downloads.length-1];
+  ck(d && /^TALL_SND_45_recordings_\d{4}-\d{2}-\d{2}_v1\.zip$/.test(d.name),"schwa ZIP name has the date");
+  z=await readZip(d.blob,w);
+  ck(Object.keys(z).sort().join(",")==="SND_45_S.webm,SND_45_W.webm,manifest.json","schwa ZIP = two WebMs + manifest");
+  const m45=JSON.parse(z["manifest.json"]).items;
+  ck(m45[0].clip==="SND_45_S" && m45[0].sound==="/\u0259/" && m45[0].word==="sofa" && m45[0].batch==="TALL Sounds" && m45[1].clip==="SND_45_W","manifest has clip, sound, word, batch");
 
   // ----- recordings survive reload; phrase DB untouched -----
   ck(typeof w.indexedDB==="undefined" || true,"(storage checked below)");
