@@ -167,6 +167,7 @@ footer{max-width:980px;margin:0 auto;padding:0 16px 30px;font-size:12px;color:va
 
 <script src="tall-list.js"></script>
 <script src="tall-audio.js"></script>
+<script src="tall-g1-audio.js"></script>
 <script src="tall-words-core.js"></script>
 <script>
 /* ================= data ================= */
@@ -184,7 +185,7 @@ function tsSets(){
 }
 function tsItemsIn(set){ var out=[], i; for(i=0;i<TS_ITEMS.length;i++){ if(TS_ITEMS[i].set===set){ out.push(TS_ITEMS[i]); } } return out; }
 /* A clip counts as recorded when a take is saved in this browser OR its cleaned file is listed in tall-audio.js. Read-only: nothing in storage is changed. */
-function tsDone(id){ return !!TS.takes[id] || !!(window.TALL_AUDIO && window.TALL_AUDIO[id]); }
+function tsDone(id){ return !!TS.takes[id] || !!(window.TALL_AUDIO && window.TALL_AUDIO[id]) || !!(window.TALL_G1_DONE && window.TALL_G1_DONE[id]); }
 function tsCountDone(items){ var n=0, i; for(i=0;i<items.length;i++){ if(tsDone(items[i].id)){ n++; } } return n; }
 function tsCur(){ return tsItemsIn(TS.set)[TS.idx]; }
 function tsEsc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }

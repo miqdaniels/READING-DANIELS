@@ -77,7 +77,7 @@ psg.forEach((p,i)=>{
 
 // ---------- harness ----------
 function make(url,withAudio){
-  const page=html.replace('<script src="tall-list.js"></script>','<script>'+listSrc+'</script>').replace('<script src="tall-audio.js"></script>',withAudio?'<script>'+(typeof withAudio==='string'?withAudio:fs.readFileSync('./tall-audio.js','utf8'))+'</script>':'');
+  const page=html.replace('<script src="tall-list.js"></script>','<script>'+listSrc+'</script>').replace('<script src="tall-audio.js"></script>',withAudio?'<script>'+(typeof withAudio==='string'?withAudio:fs.readFileSync('./tall-audio.js','utf8'))+'</script>':'').replace('<script src="tall-g1-audio.js"></script>',withAudio?'<script>'+fs.readFileSync('./tall-g1-audio.js','utf8')+'</script>':'');
   const dom=new JSDOM(page,{url:url,runScripts:"dangerously",pretendToBeVisual:true,
     beforeParse(w){
       w.__gum=0; w.__played=[]; w.__downloads=[]; w.__takeN=0;
@@ -204,6 +204,13 @@ async function readZip(blob,w){
   w=make("https://miqdaniels.github.io/READING-DANIELS/tall-studio.html?teacher",true);
   await w.tsReady; await tick();
   ck(/113 of 113/.test(txt(w,"ts-set-0")),"real tall-audio.js: TALL Sounds is 113 of 113 recorded");
+
+  // Grade 1 passages already recorded (locked files in audio/TALL-G1) count as recorded
+  const G1=require('../tall-g1-audio.js'), g1man=JSON.parse(fs.readFileSync('./audio/tall-g1-passages-manifest.json','utf8'));
+  ck(Object.keys(G1).length===11 && g1man.items.every(function(i){ return G1[i.id]==="audio/TALL-G1/"+i.id+".enc" && fs.existsSync("./"+G1[i.id]); }),"tall-g1-audio.js lists the 11 passages, each with its locked file");
+  w=make("https://miqdaniels.github.io/READING-DANIELS/tall-studio.html?teacher",true);
+  await w.tsReady; await tick();
+  ck(/11 of 11/.test(txt(w,"ts-set-1")) && Object.keys(w.TS.takes).length===0,"Grade 1 passages show 11 of 11 recorded with no takes in the browser");
 
   // ----- schwa (SND_45): opens at only the two new clips, exports its own ZIP -----
   w=make("https://miqdaniels.github.io/READING-DANIELS/tall-studio.html?teacher");
